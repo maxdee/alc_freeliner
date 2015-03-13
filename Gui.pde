@@ -68,6 +68,7 @@
 
     canvas = createGraphics(width, height);
     canvas.smooth(0);
+    canvas.textFont(font);
     
     grid = createGraphics(width, height);
     grid.smooth(0);
@@ -100,7 +101,7 @@
     canvas.beginDraw();
     canvas.clear();
     canvas.textFont(font);
-    //canvas.textSize(15);
+    canvas.textSize(15);
     canvas.textMode(CENTER);
     if (mouse.useGrid()){
       if(mouse.getGridSize() != gridSize) generateGrid(mouse.getGridSize());

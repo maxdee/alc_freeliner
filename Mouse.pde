@@ -47,7 +47,7 @@ class Mouse{
   boolean invertMouse;
   boolean grid;
   int lineLenght = 50;
-  int gridSize = 20;
+  int gridSize = 128;
 
   //mouse crosshair stuff
   PVector position;
@@ -210,16 +210,10 @@ class Mouse{
  */  
   public PVector snapMouse(PVector _pos){
     PVector snap_ = groupManager.snap(_pos);
-    if(snap_.x != 0 || snap_.y != 0){
-      snapped = true;
-      return snap_;
-    }
-    else {
-      snapped = false;
-      return _pos;
-    }
+    if(snap_ == _pos) snapped = false;
+    else snapped = true;
+    return snap_;
   }
-
 
 
 /**

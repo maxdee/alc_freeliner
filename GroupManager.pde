@@ -45,6 +45,7 @@ class GroupManager{
  */
   public GroupManager(){
   	groups = new ArrayList();
+    snappedList = new ArrayList();
   	groupCount = 0;
     selectedIndex = -1;
     lastSelectedIndex = -1;
@@ -91,7 +92,7 @@ class GroupManager{
 
   public PVector snap(PVector _pos){
     PVector snap = new PVector(0, 0);
-    snappedList = new ArrayList();
+    snappedList.clear();
     snappedIndex = -1;
     for (int i = 0; i < groupCount; i++) {
       snap = groups.get(i).snapVerts(_pos); // snapVerts does not find anything it returns 0s
@@ -102,10 +103,8 @@ class GroupManager{
         //break; 
       }
     }
-
-    if (snappedList.size()>0) return snap.get();
-    else return _pos.get();
-    
+    if (snappedIndex != -1) return snappedList.get(0);
+    else return _pos;
   }
 
   public void nudger(Boolean axis, int dir, boolean _shift){//, PVector _pos) {
@@ -121,8 +120,8 @@ class GroupManager{
           _vert.add(ndg);
         }
       }
-      else getSelectedGroup().nudgePoint(ndg);
     }
+    else if(isFocused()) getSelectedGroup().nudgePoint(ndg);
     // else if (isFocused() && snappedIndex == selectedIndex) {
     //   getSelectedGroup().nudgeSnapped(ndg, _pos); 
     // } 
