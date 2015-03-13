@@ -62,6 +62,7 @@ class Renderer {
   int iterationMode;
   int shpMode;
   int rotationMode;
+  int reverseMode;
 
   int polka;
   int probability;
@@ -119,6 +120,7 @@ class Renderer {
     iterationMode = 0;
     shpMode = 0;
     rotationMode = 0;
+    reverseMode = 0;
 
     polka = 5;
     probability = 100;
@@ -184,8 +186,22 @@ class Renderer {
 
     style.setIncrement(increment);
     brush.setIncrement(increment);
+    reverseThings();
   }
 
+  private void reverseThings(){
+    switch(reverseMode){
+      case 0:
+        invertLerp = false;
+        break;
+      case 1:
+        invertLerp = true;
+        break;
+      default :
+        invertLerp = maybe(reverseMode);
+        break;  
+    }
+  }
 
   public void launch() {
     launchit = true;
@@ -734,9 +750,9 @@ class Renderer {
     return enableDeco;
   }
 
-  public boolean toggleInvertLerp(){
-    invertLerp = !invertLerp;
-    return invertLerp;
+  public int setReverseMode(int _v){
+    reverseMode = numTweaker(_v, reverseMode);
+    return reverseMode;
   }
 
   public boolean toggleInternal(){
