@@ -79,6 +79,10 @@ class RendererManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   
+  public void trigger(char _c){
+    renderers.get(charIndex(_c)).trigger();
+  }
+
   public void focusAll() {
     renderList.clear();
     for (int i = 0; i < rendererCount; i++) {

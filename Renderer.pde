@@ -91,7 +91,6 @@ class Renderer {
     init();
   }
 
-
 /**
  * Initialises variables and childs
  */
@@ -203,11 +202,14 @@ class Renderer {
     }
   }
 
-  public void launch() {
-    launchit = true;
-    if(internalClock){
-      clk.reset();
-    }
+  // public void launch() {
+  //   launchit = true;
+  //   if(internalClock){
+  //     clk.reset();
+  //   }
+  // }
+  public void trigger(){
+    
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

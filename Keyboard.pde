@@ -91,6 +91,8 @@ class Keyboard{
   boolean ctrled;
   boolean alted;
 
+  // more keycodes
+  final int CAPS_LOCK = 20;
   // flags
   boolean enterText;
   boolean gotInputFlag;
@@ -137,7 +139,7 @@ class Keyboard{
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
     processKeyCodes(kc); // TAB SHIFT and friends
     if (enterText) {
-      if (k==10) returnWord();
+      if (k==ENTER) returnWord();
       else if (k!=65535) wordMaker(k);
       println(wordMaker);
       gui.setValueGiven(wordMaker);
@@ -145,7 +147,7 @@ class Keyboard{
     else {
       if (k >= 48 && k <= 57) numMaker(k);
       else if (k>=65 && k <= 90) processCAPS(k);
-      else if (k==10) returnNumber();
+      else if (k==ENTER) returnNumber();
       else if (ctrled || alted) modCommands(int(k));
       else{
         setEditKey(k);
@@ -181,12 +183,16 @@ class Keyboard{
 
   public void processCAPS(char c) {
     //renderers.get(charIndex(c)).launch();
-    if (groupManager.isFocused()) groupManager.getSelectedGroup().toggleRender(c);
-    else {
-      rendererManager.getList().toggle(c);
-      gui.setRenderString(rendererManager.renderList.getString());
+    if(shifted){
+      if (groupManager.isFocused()) groupManager.getSelectedGroup().toggleRender(c);
+      else {
+        rendererManager.getList().toggle(c);
+        gui.setRenderString(rendererManager.renderList.getString());
+      }
     }
-    //else triggerGroups(c);
+    else {
+      rendererManager.trigger(c);
+    }
   }
 
   private void unSelectThings(){
