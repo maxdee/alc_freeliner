@@ -62,9 +62,7 @@ class Mouse{
  * @param Keyboard dependency injection
  */
 
-  public Mouse(GroupManager _gm, Keyboard _kb){
-    groupManager = _gm;
-    keyboard = _kb;
+  public Mouse(){
 
     // init vectors
   	position = new PVector(0, 0);
@@ -81,6 +79,10 @@ class Mouse{
     invertMouse = false;
   }
 
+  public void inject(GroupManager _gm, Keyboard _kb){
+    groupManager = _gm;
+    keyboard = _kb;
+  }
 
 /**
  * Handles mouse button press. Buttons are
@@ -114,13 +116,14 @@ class Mouse{
  * @param int X axis (mouseX)
  * @param int Y axis (mouseY)
  */
-  public void move(int x, int y) {  
-    mousePos.set(x, y);
+  public void move(int _x, int _y) {  
+    mousePos.set(_x, _y);
     if (mouseEnabled) { 
-      if(invertMouse) x = abs(width - x); 
+      if(invertMouse) _x = abs(width - _x); 
       if (grid) position = gridMouse(mousePos, gridSize);
       else if (fixedLength) position = constrainMouse(mousePos, previousPosition, lineLenght);
       else if (keyboard.isCtrled()) position = featherMouse(mousePos, mouseOrigin, 0.2);
+
       else if (snapping) position = snapMouse(mousePos);
       else position = mousePos.get();
     }
@@ -180,6 +183,7 @@ class Mouse{
  * @return PVector constrained to length and possibly angle
  */  
   public PVector constrainMouse(PVector _pos, PVector _prev, int _len){
+    
     float ang = PVector.sub(_prev, _pos).heading()+PI;
     if (fixedAngle) ang = radians(int(degrees(ang)/30)*30);
     return new PVector((cos(ang)*_len)+_prev.x, (sin(ang)*_len)+_prev.y, 0);

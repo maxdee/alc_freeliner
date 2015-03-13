@@ -58,12 +58,13 @@ class  FreeLiner {
     //oscP5 = new OscP5(this, 3333);
     rendererManager =  new RendererManager();
     groupManager = new GroupManager();
-    mouse = new Mouse(groupManager, keyboard);
-    keyboard = new Keyboard(groupManager, rendererManager, gui, mouse);
-    
-    
-    gui = new Gui(groupManager, mouse);
+    mouse = new Mouse();
+    keyboard = new Keyboard();
+    gui = new Gui();
 
+    mouse.inject(groupManager, keyboard);
+    keyboard.inject(groupManager, rendererManager, gui, mouse);
+    gui.inject(groupManager, mouse);
   }
 
   public void update() {
@@ -72,7 +73,7 @@ class  FreeLiner {
     image(rendererManager.getCanvas(), 0, 0);
     
     if(gui.doDraw()){
-      gui.update(mouse.getPosition(), mouse.isSnapped());
+      gui.update();
       image(gui.getCanvas(), 0, 0);
     }
     keyboard.resetInputFlag();

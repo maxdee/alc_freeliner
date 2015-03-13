@@ -104,19 +104,15 @@ class Keyboard{
   String wordMaker = " ";
 
 
-
-
 /**
  * Constructor, receives references to the groupManager and rendererManager instances for operational logic
  * inits default values
  * @param GroupManager dependency injection
  * @param RenderManager dependency injection
  */
-  public Keyboard(GroupManager _gm, RendererManager _rm, Gui _gui, Mouse _m){
-  	groupManager = _gm;
-    rendererManager = _rm;
-    gui = _gui;
-    mouse = _m;
+  public Keyboard(){
+
+
     shifted = false;
     ctrled = false;
     alted = false;
@@ -124,6 +120,12 @@ class Keyboard{
     gotInputFlag = false;
   }
 
+  public void inject(GroupManager _gm, RendererManager _rm, Gui _gui, Mouse _m){
+    groupManager = _gm;
+    rendererManager = _rm;
+    gui = _gui;
+    mouse = _m;
+  }
 /**
  * receive and key and keycode from papplet.keyPressed();
  *

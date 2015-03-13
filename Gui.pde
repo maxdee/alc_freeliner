@@ -64,9 +64,8 @@
  * Constructor
  * @param GroupManager dependency injection
  */
-  public Gui(GroupManager _gm, Mouse _m){
-    groupManager = _gm;
-    mouse = _m;
+  public Gui(){
+
     canvas = createGraphics(width, height);
     canvas.smooth(0);
     
@@ -84,6 +83,11 @@
     timeStarted[2] = second();
   }
 
+  public void inject(GroupManager _gm, Mouse _m){
+    groupManager = _gm;
+    mouse = _m;
+  }
+
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -92,7 +96,7 @@
   ////////////////////////////////////////////////////////////////////////////////////
 
   //gui bits
-  private void update(PVector _pos, boolean _snap) {
+  private void update() {
     canvas.beginDraw();
     canvas.clear();
     canvas.textFont(font);
@@ -102,28 +106,26 @@
       if(mouse.getGridSize() != gridSize) generateGrid(mouse.getGridSize());
       canvas.image(grid,0,0); // was without canvas before
     }
-    if(viewPosition) putcrosshair(_pos, _snap);
-
+    if(viewPosition) putcrosshair(mouse.getPosition(), mouse.isSnapped());
     if(viewLines || viewTags){
       for (SegmentGroup sg : groupManager.getGroups()) {
         canvas.fill(200);
-        groupGui(sg);
+        sg.showLines(canvas); 
+        sg.showTag(canvas);
       }
     }
-    if(groupManager.getSelectedGroup() == null){
+    SegmentGroup sg = groupManager.getSelectedGroup();
+    if(sg != null){
       canvas.fill(255);
-      groupGui(groupManager.getSelectedGroup());
-      if (viewPosition) groupManager.getSelectedGroup().previewLine(canvas, _pos);
+      sg.showLines(canvas); 
+      sg.showTag(canvas);
+      if (viewPosition) sg.previewLine(canvas, mouse.getPosition());
     }
-    infoWritter(canvas);   
+    infoWritter(canvas);
     canvas.endDraw();
   }
 
 
-  private void groupGui(SegmentGroup _sg){
-    if (viewLines) _sg.showLines(canvas); 
-    if (viewTags) _sg.showTag(canvas);
-  }
 
   private void infoWritter(PGraphics pg) {
     if(updateFlag){
@@ -153,7 +155,7 @@
     boolean lns = viewLines;
     viewLines = true;
     viewTags = true;
-    update(new PVector(0,0), false);
+    update();
     canvas.save("reference.jpg");
     viewTags = tgs;
     viewLines = lns;
@@ -235,11 +237,12 @@
 
 
   public boolean doDraw(){
-    if (guiTimer < 0 || mouse.useGrid()) {
-      guiTimer--;
-      return true;
-    }
-    else return false;
+    // if (guiTimer < 0 || mouse.useGrid()) {
+    //   guiTimer--;
+    //   return true;
+    // }
+    //else 
+    return true;//false;
   }
 
   public PGraphics getCanvas(){

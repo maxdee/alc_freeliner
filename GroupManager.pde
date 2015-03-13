@@ -92,7 +92,7 @@ class GroupManager{
   public PVector snap(PVector _pos){
     PVector snap = new PVector(0, 0);
     snappedList = new ArrayList();
-
+    snappedIndex = -1;
     for (int i = 0; i < groupCount; i++) {
       snap = groups.get(i).snapVerts(_pos); // snapVerts does not find anything it returns 0s
       if (snap.x != 0 && snap.y != 0){
@@ -163,8 +163,9 @@ class GroupManager{
   }
 
   public SegmentGroup getSelectedGroup(){
+    
     if(snappedIndex != -1 && selectedIndex == -1) return groups.get(snappedIndex);
-    else if(selectedIndex != -1 && selectedIndex < groupCount) return groups.get(selectedIndex);
+    else if(selectedIndex != -1 && selectedIndex <= groupCount) return groups.get(selectedIndex);
     else return null;
   }
 
