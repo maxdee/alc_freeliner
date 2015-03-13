@@ -148,10 +148,9 @@ class Keyboard{
       else if (k==10) returnNumber();
       else if (ctrled || alted) modCommands(int(k));
       else{
-        if(k != '-' && k != '=') setEditKey(k);
+        setEditKey(k);
         distributor(k, -3, true);
       }
-      gui.setKeyString(getKeyString(k));
     }
   }
 
@@ -318,7 +317,7 @@ class Keyboard{
       else used = false;
     }
     
-    if(vg) gui.setValueGiven(valueGiven_);
+    if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
     return used;
   }
 
@@ -329,7 +328,7 @@ class Keyboard{
     else if(k == 's') valueGiven_ = str(_sg.setScaler(n));
     else if(k == '.') valueGiven_ = str(_sg.setSnapVal(n));
     else used = false;
-    if(vg) gui.setValueGiven(valueGiven_);
+    if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
     return used;
   }
 
@@ -366,7 +365,7 @@ class Keyboard{
         else used = false;
       }
       
-      if(vg) gui.setValueGiven(valueGiven_);
+      if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
     }
     return used;
   }
@@ -421,10 +420,10 @@ class Keyboard{
     gotInputFlag = false;
   }
 
-  public void setEditKey(char k) {
-    if (keyIsMapped(k)) {
-      gui.setKeyString(getKeyString(k));
-      editKey = k;
+  public void setEditKey(char _k) {
+    if (keyIsMapped(_k) && _k != '-' && _k != '=') {
+      gui.setKeyString(getKeyString(_k));
+      editKey = _k;
       numberMaker = "0";
       gui.setValueGiven("_");
     }
