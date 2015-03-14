@@ -35,10 +35,12 @@ PFont introFont;
 boolean ballPit = false;//true;
 //boolean fullscreen = true;
 boolean fullscreen = false;
+int xres = 1400;
+int yres = 900;
 
 void setup() {
 
-  if(!fullscreen) size(1024, 768, P2D);
+  if(!fullscreen) size(xres, yres, P2D);
   else size(displayWidth, displayHeight, P2D);
   //frame.setBackground(new java.awt.Color(0, 0, 0));
   

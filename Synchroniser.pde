@@ -62,23 +62,23 @@ class Synchroniser{
 
 
   public void update() {
-    increment = intervalTimer.addF(float(millis()-lastRender))/tempo;
-    lastRender = millis();
-    lerper += increment;
-    if(lerper > 1.0){
-      lerper = 0;
-      cycleCount++;
-      println("bomp " + renderTime);
-    }
-
-
-    // if (millis()-lastTime > tempo) {
+    // increment = intervalTimer.addF(float(millis()-lastRender))/tempo;
+    // lastRender = millis();
+    // lerper += increment;
+    // if(lerper > 1.0){
+    //   lerper = 0;
     //   cycleCount++;
-    //   lastTime = millis();
+    //   println("bomp " + renderTime);
     // }
+
+
+    if (millis()-lastTime > tempo) {
+      cycleCount++;
+      lastTime = millis();
+    }
     for (int i = 0; i < clocksCnt; i++) {
-      //clocks.get(i).update(cycleCount);
-      clocks.get(i).setLerper(lerper);
+      clocks.get(i).update(cycleCount);
+      //clocks.get(i).setLerper(lerper);
     }
   }
 
