@@ -89,6 +89,9 @@ class Clock {
   public void setDiv(int d){
     if(d > 0) division = d;
   }
+  public void setLerper(float _l){
+    lerper = _l;
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

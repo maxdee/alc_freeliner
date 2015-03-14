@@ -24,19 +24,32 @@
 
 
 class Synchroniser{
-	  Clock clk;
+	Clock clk;
   ArrayList<Clock> clocks;
   int clocksCnt = 17;
-  //tap tempo stuff
-  int clkIncrement = 0;
-  int tempo = 1500;
+
+
+
+  // millis to render one frame
+  int renderTime = 0;
+  int lastRender = 0;
+  
+  // tapTempo
   int lastTap = 0;
   int lastTime = 0;
   FloatSmoother tapTimer;
+  int tempo = 1500;
+
+  FloatSmoother intervalTimer;
+  float increment = 0.1;
+  float lerper = 0;
+  // every time we fold over
+  int cycleCount = 0;
 
 	public Synchroniser(){
 		initClocks();
     tapTimer = new FloatSmoother(5, 350);
+    intervalTimer = new FloatSmoother(5, 34);
 	}
 
 	private void initClocks() {
@@ -46,13 +59,26 @@ class Synchroniser{
     }
   }
 
+
+
   public void update() {
-    if (millis()-lastTime > tempo) {
-      clkIncrement++;
-      lastTime = millis();
+    increment = intervalTimer.addF(float(millis()-lastRender))/tempo;
+    lastRender = millis();
+    lerper += increment;
+    if(lerper > 1.0){
+      lerper = 0;
+      cycleCount++;
+      println("bomp " + renderTime);
     }
+
+
+    // if (millis()-lastTime > tempo) {
+    //   cycleCount++;
+    //   lastTime = millis();
+    // }
     for (int i = 0; i < clocksCnt; i++) {
-      clocks.get(i).update(clkIncrement);
+      //clocks.get(i).update(cycleCount);
+      clocks.get(i).setLerper(lerper);
     }
   }
 
@@ -61,7 +87,7 @@ class Synchroniser{
     int elapsed = millis()-lastTap;
     lastTap = millis();
     if (elapsed> 100 && elapsed < 3000) {
-      tempo = int(tapTimer.addF(elapsed))/2;
+      tempo = int(tapTimer.addF(elapsed));///2;
     }
   }
 
@@ -77,5 +103,4 @@ class Synchroniser{
     if(t==-2) lastTime -= 100;
     else if(t==-1) lastTime += 100;
   }
-
 }
