@@ -807,6 +807,7 @@ class Renderer {
 
   public int setdivider(int _v) {
     divider = numTweaker(_v, divider);
+    divider %= 17;
     clk.setDiv(divider);
     return divider;
   }

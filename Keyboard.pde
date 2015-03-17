@@ -113,8 +113,6 @@ class Keyboard{
  * @param RenderManager dependency injection
  */
   public Keyboard(){
-
-
     shifted = false;
     ctrled = false;
     alted = false;
