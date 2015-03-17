@@ -21,4 +21,4 @@ Have a renderer in focus, hit '|' to enable text input and enter a renderer, lik
 
 
 ###### Create a custom brush
-Make a new group, set its center. Unselect it and select a renderer then hit control D and set shape mode to 5. Control D sets the last selected group as the shape for the slected renderer.
+Make a new group, set its center. Unselect it and select a renderer then hit control D and set shape mode to 4. Control D sets the last selected group as the shape for the slected renderer.
