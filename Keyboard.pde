@@ -49,7 +49,7 @@ class Keyboard{
     "g    grid/size", 
     "h    lerpMode",
     "i    iterations", 
-    "j    invertLerp",
+    "j    reverseMode",
     "k    internalClock",
     "l    loop mode",
     "n    newItem", 
@@ -91,6 +91,8 @@ class Keyboard{
   boolean ctrled;
   boolean alted;
 
+  // more keycodes
+  final int CAPS_LOCK = 20;
   // flags
   boolean enterText;
   boolean gotInputFlag;
@@ -111,8 +113,6 @@ class Keyboard{
  * @param RenderManager dependency injection
  */
   public Keyboard(){
-
-
     shifted = false;
     ctrled = false;
     alted = false;
@@ -137,7 +137,7 @@ class Keyboard{
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
     processKeyCodes(kc); // TAB SHIFT and friends
     if (enterText) {
-      if (k==10) returnWord();
+      if (k==ENTER) returnWord();
       else if (k!=65535) wordMaker(k);
       println(wordMaker);
       gui.setValueGiven(wordMaker);
@@ -145,13 +145,12 @@ class Keyboard{
     else {
       if (k >= 48 && k <= 57) numMaker(k);
       else if (k>=65 && k <= 90) processCAPS(k);
-      else if (k==10) returnNumber();
+      else if (k==ENTER) returnNumber();
       else if (ctrled || alted) modCommands(int(k));
       else{
-        if(k != '-' && k != '=') setEditKey(k);
+        setEditKey(k);
         distributor(k, -3, true);
       }
-      gui.setKeyString(getKeyString(k));
     }
   }
 
@@ -182,12 +181,16 @@ class Keyboard{
 
   public void processCAPS(char c) {
     //renderers.get(charIndex(c)).launch();
-    if (groupManager.isFocused()) groupManager.getSelectedGroup().toggleRender(c);
-    else {
-      rendererManager.getList().toggle(c);
-      gui.setRenderString(rendererManager.renderList.getString());
+    if(shifted){
+      if (groupManager.isFocused()) groupManager.getSelectedGroup().toggleRender(c);
+      else {
+        rendererManager.getList().toggle(c);
+        gui.setRenderString(rendererManager.renderList.getString());
+      }
     }
-    //else triggerGroups(c);
+    else {
+      rendererManager.trigger(c);
+    }
   }
 
   private void unSelectThings(){
@@ -195,6 +198,7 @@ class Keyboard{
     else {
       rendererManager.unSelect();
       groupManager.unSelect();
+      gui.setRenderString(" ");//rendererManager.renderList.getString());
     }
   }
 
@@ -318,7 +322,7 @@ class Keyboard{
       else used = false;
     }
     
-    if(vg) gui.setValueGiven(valueGiven_);
+    if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
     return used;
   }
 
@@ -329,7 +333,7 @@ class Keyboard{
     else if(k == 's') valueGiven_ = str(_sg.setScaler(n));
     else if(k == '.') valueGiven_ = str(_sg.setSnapVal(n));
     else used = false;
-    if(vg) gui.setValueGiven(valueGiven_);
+    if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
     return used;
   }
 
@@ -342,7 +346,6 @@ class Keyboard{
       if(n == -3){
         if (k == 'l') valueGiven_ = str(_renderer.toggleLoop());
         else if (k == 'k') valueGiven_ = str(_renderer.toggleInternal());
-        else if (k == 'j') valueGiven_ = str(_renderer.toggleInvertLerp());
         else if (int(k) == 518) _renderer.init();
         else if (int(k) == 504) rendererManager.setCustomShape(groupManager.getLastSelectedGroup());
         else used = false;
@@ -353,6 +356,7 @@ class Keyboard{
         else if (k == 'r') valueGiven_ = str(_renderer.setPolka(n));
         else if (k == 'x') valueGiven_ = str(_renderer.setdivider(n));
         else if (k == 'i') valueGiven_ = str(_renderer.setIterationMode(n));
+        else if (k == 'j') valueGiven_ = str(_renderer.setReverseMode(n));
         else if (k == 'b') valueGiven_ = str(_renderer.setRenderMode(n));
         else if (k == 'p') valueGiven_ = str(_renderer.setProbability(n));
         else if (k == 'h') valueGiven_ = str(_renderer.setLerpMode(n)); 
@@ -366,7 +370,7 @@ class Keyboard{
         else used = false;
       }
       
-      if(vg) gui.setValueGiven(valueGiven_);
+      if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
     }
     return used;
   }
@@ -421,10 +425,10 @@ class Keyboard{
     gotInputFlag = false;
   }
 
-  public void setEditKey(char k) {
-    if (keyIsMapped(k)) {
-      gui.setKeyString(getKeyString(k));
-      editKey = k;
+  public void setEditKey(char _k) {
+    if (keyIsMapped(_k) && _k != '-' && _k != '=') {
+      gui.setKeyString(getKeyString(_k));
+      editKey = _k;
       numberMaker = "0";
       gui.setValueGiven("_");
     }

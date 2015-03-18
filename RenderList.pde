@@ -92,7 +92,7 @@ class RenderList{
  * @return string
  */
   public final String getString(){
-  	String s = "";
+  	String s = " ";
   	if(tagsCount > 0){
       for(int i = 0; i < tagsCount; i++){
         s+= tags.get(i).get();

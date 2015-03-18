@@ -47,7 +47,7 @@ class Mouse{
   boolean invertMouse;
   boolean grid;
   int lineLenght = 50;
-  int gridSize = 128;
+  int gridSize = 64;
 
   //mouse crosshair stuff
   PVector position;

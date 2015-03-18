@@ -129,7 +129,7 @@
 
 
   private void infoWritter(PGraphics pg) {
-    if(updateFlag){
+    //if(updateFlag){
       String rn = " ";
       if (groupManager.isFocused()) rn += groupManager.getSelectedGroup().getRenderList().getString();
       else rn += renderString; //renderList.getString();
@@ -141,7 +141,7 @@
       groupManager.getIndex(0).setWord("[FPS "+frameRate+"]", 3);
       groupManager.getIndex(0).setWord("[Run "+getTimeRunning()+"]", 4);
       updateFlag = false;
-    }
+    //}
     groupManager.getIndex(0).showText(pg);
 
   }
@@ -235,15 +235,12 @@
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-
-
   public boolean doDraw(){
-    // if (guiTimer < 0 || mouse.useGrid()) {
-    //   guiTimer--;
-    //   return true;
-    // }
-    //else 
-    return true;//false;
+    if (guiTimer > 0 || mouse.useGrid()) {
+      guiTimer--;
+      return true;
+    }
+    else return false;
   }
 
   public PGraphics getCanvas(){
