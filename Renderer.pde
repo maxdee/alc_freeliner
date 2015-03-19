@@ -857,6 +857,7 @@ class Renderer {
   }
 
   public void setCustomShape(PShape _p){
+    println("derp");
     brush.setCustomShape(_p);
   }
 }

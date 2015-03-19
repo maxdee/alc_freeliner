@@ -107,10 +107,7 @@ class Keyboard{
 
 
 /**
- * Constructor, receives references to the groupManager and rendererManager instances for operational logic
- * inits default values
- * @param GroupManager dependency injection
- * @param RenderManager dependency injection
+ * Constructor inits default values
  */
   public Keyboard(){
     shifted = false;
@@ -120,12 +117,22 @@ class Keyboard{
     gotInputFlag = false;
   }
 
+/**
+ * Dependency injection
+ * Receives references to the groupManager, rendererManager, GUI and mouse.
+ *
+ * @param GroupManager reference
+ * @param RenderManager reference
+ * @param Gui reference
+ * @param Mouse reference
+ */
   public void inject(GroupManager _gm, RendererManager _rm, Gui _gui, Mouse _m){
     groupManager = _gm;
     rendererManager = _rm;
     gui = _gui;
     mouse = _m;
   }
+
 /**
  * receive and key and keycode from papplet.keyPressed();
  *
@@ -173,14 +180,28 @@ class Keyboard{
     else if (kc==TAB) groupManager.tabThrough(shifted);
   }
 
+/**
+ * Process key release, mostly affcting coded keys
+ *
+ * @param char the key
+ * @param int the keyCode
+ */
   public void processRelease(char k, int kc) {
     if (kc==16) shifted = false;
-    if (kc==17) ctrled = false;
-    if (kc==18) alted = false;
+    else if (kc==17) ctrled = false;
+    else if (kc==18) alted = false;
   }
 
+
+/**
+ * Process capital letters. A trick is applied here, different actions happen if caps-lock is on or shift is pressed.
+ * <p>
+ * When shift is used it will toggle the renderer from a segment group or from the list.
+ * When caps lock is used, it triggers the renderer. This way you can mash your keyboard with capslock on to perform.
+ *
+ * @param char the capital key to process
+ */
   public void processCAPS(char c) {
-    //renderers.get(charIndex(c)).launch();
     if(shifted){
       if (groupManager.isFocused()) groupManager.getSelectedGroup().toggleRender(c);
       else {
@@ -193,8 +214,12 @@ class Keyboard{
     }
   }
 
+
+/**
+ * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
+ */
   private void unSelectThings(){
-    if(!groupManager.isFocused() && rendererManager.renderList.getFirst() == '_') gui.hide();
+    if(!groupManager.isFocused() && !rendererManager.isFocused()) gui.hide();
     else {
       rendererManager.unSelect();
       groupManager.unSelect();
@@ -211,6 +236,11 @@ class Keyboard{
   ////////////////////////////////////////////////////////////////////////////////////
 
   //for some reason if you are holding ctrl or alt you get other keycodes
+/**
+ * Process a key differently if ctrl or alt is pressed.
+ *
+ * @param int ascii value of the key
+ */
   public void modCommands(int k){
     if(ctrled || alted) println(k);
     if (ctrled && k == 1) focusAll(); // a
@@ -219,6 +249,11 @@ class Keyboard{
     else if(ctrled && k == 4) distributor(char(504), -3, false);  // set custom shape
   }
 
+/**
+ * Checks if the key is mapped by checking the keyMap to see if is defined there.
+ *
+ * @param char the key
+ */
   boolean keyIsMapped(char k) {
     for (int i = 0; i < keyMap.length; i++) {
       if (keyMap[i].charAt(0)==k) return true;
@@ -226,16 +261,25 @@ class Keyboard{
     return false;
   }
 
+/**
+ * Gets the string associated to the key from the keyMap
+ *
+ * @param char the key
+ */
   String getKeyString(char k) {
-    for (int i = 0; i <keyMap.length;i++) {
+    for (int i = 0; i < keyMap.length; i++) {
       if (keyMap[i].charAt(0)==k) return keyMap[i];
     }
     return "not mapped?";
   }
 
+/**
+ * CTRL-a selects all renderers as always. 
+ */
   private void focusAll(){
     groupManager.unSelect();
     rendererManager.focusAll();
+    gui.setRenderString("*all*");
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -251,20 +295,20 @@ class Keyboard{
   //if not then pass it to the first decorator of the item.
   //if no item has focus, pass it to the slected renderers.
 
-  public void distributor(char k, int n, boolean vg){
-    if (!localDispatch(k, n, vg)){
+  public void distributor(char _k, int _n, boolean _vg){
+    if (!localDispatch(_k, _n, _vg)){
       if (groupManager.isFocused()){
-        if(!segmentGroupDispatch(groupManager.getSelectedGroup(), k, n, vg)){ // check if mapped to a segmentGroup
+        if(!segmentGroupDispatch(groupManager.getSelectedGroup(), _k, _n, _vg)){ // check if mapped to a segmentGroup
           char d = groupManager.getSelectedGroup().getRenderList().getFirst();
           //println(d+"  "+getSelectedGroup());
-          decoratorDispatch(rendererManager.getRenderer(d), k, n, vg);
+          decoratorDispatch(rendererManager.getRenderer(d), _k, _n, _vg);
         }
       }
       else { 
         ArrayList<Renderer> selected_ = rendererManager.getSelected();
         for (int i = 0; i < selected_.size(); i++) {
           //if(renderList.has(renderers.get(i).getID())){
-            decoratorDispatch(selected_.get(i), k, n, vg);
+            decoratorDispatch(selected_.get(i), _k, _n, _vg);
           //}
         }
       }    
@@ -284,95 +328,95 @@ class Keyboard{
   // int n, -3 is no number, -2 is decrease one, -1 is increase one and > 0 is value to set.
   // boolean vg is weather or not to update the value given. (osc?)
 
-  public boolean localDispatch(char k, int n, boolean vg) {
-    boolean used = true;
-    String valueGiven_ = "_";
-    if(n == -3){
-      if (k == 'n'){
+  public boolean localDispatch(char _k, int _n, boolean _vg) {
+    boolean used_ = true;
+    String valueGiven_ = null;
+    if(_n == -3){
+      if (_k == 'n'){
         groupManager.newItem(); 
         gui.updateReference();
       }
       //more ergonomic?
-      // else if (k == 'a') nudger(true, -1); //right
-      // else if (k == 'd') nudger(true, 1); //left
-      // else if (k == 's') nudger(false, 1); //down 
-      // else if (k == 'w') nudger(false, -1); //up
+      // else if (_k == 'a') nudger(true, -1); //right
+      // else if (_k == 'd') nudger(true, 1); //left
+      // else if (_k == 's') nudger(false, 1); //down 
+      // else if (_k == 'w') nudger(false, -1); //up
 
-      else if (k == 't') rendererManager.sync.tap(); 
-      else if (k == 'g') valueGiven_ = str(mouse.toggleGrid());  
-      else if (k == 'y') valueGiven_ = str(rendererManager.toggleTrails());
-      else if (k == ',') valueGiven_ = str(gui.toggleViewTags());
-      else if (k == '.') valueGiven_ = str(mouse.toggleSnapping());
-      else if (k == '/') valueGiven_ = str(gui.toggleViewLines()); 
-      else if (k == ';') valueGiven_ = str(gui.toggleViewPosition());
-      else if (k == '|') valueGiven_ = str(toggleEnterText()); 
-      else if (k == '-') distributor(editKey, -2, vg); //decrease value
-      else if (k == '=') distributor(editKey, -1, vg); //increase value
-      else if (k == ']') valueGiven_ = str(mouse.toggleFixedLength());
-      else if (k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
-      else if (k == '!') valueGiven_ = str(rendererManager.toggleLooping());
-      else if (k == 'm') mouse.press(3);  // 
-      else used = false;
+      else if (_k == 't') rendererManager.sync.tap(); 
+      else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());  
+      else if (_k == 'y') valueGiven_ = str(rendererManager.toggleTrails());
+      else if (_k == ',') valueGiven_ = str(gui.toggleViewTags());
+      else if (_k == '.') valueGiven_ = str(mouse.toggleSnapping());
+      else if (_k == '/') valueGiven_ = str(gui.toggleViewLines()); 
+      else if (_k == ';') valueGiven_ = str(gui.toggleViewPosition());
+      else if (_k == '|') valueGiven_ = str(toggleEnterText()); 
+      else if (_k == '-') distributor(editKey, -2, _vg); //decrease value
+      else if (_k == '=') distributor(editKey, -1, _vg); //increase value
+      else if (_k == ']') valueGiven_ = str(mouse.toggleFixedLength());
+      else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
+      else if (_k == '!') valueGiven_ = str(rendererManager.toggleLooping());
+      else if (_k == 'm') mouse.press(3);  // 
+      else used_ = false;
     }
     else {
-      if (editKey == 'g') valueGiven_ = str(mouse.setGridSize(n));
-      else if (editKey == 't') rendererManager.sync.nudgeTime(n);
-      else if (editKey == 'y') valueGiven_ = str(rendererManager.setTrails(n));
-      else if (editKey == ']') valueGiven_ = str(mouse.setLineLenght(n));
-      else used = false;
+      if (editKey == 'g') valueGiven_ = str(mouse.setGridSize(_n));
+      else if (editKey == 't') rendererManager.sync.nudgeTime(_n);
+      else if (editKey == 'y') valueGiven_ = str(rendererManager.setTrails(_n));
+      else if (editKey == ']') valueGiven_ = str(mouse.setLineLenght(_n));
+      else used_ = false;
     }
     
-    if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
-    return used;
+    if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
+    return used_;
   }
 
-  public boolean segmentGroupDispatch(SegmentGroup _sg, char k, int n, boolean vg) {
-    boolean used = true;
-    String valueGiven_ = "_";
-    if(k == 'c') valueGiven_ = str(_sg.toggleCenterPutting());
-    else if(k == 's') valueGiven_ = str(_sg.setScaler(n));
-    else if(k == '.') valueGiven_ = str(_sg.setSnapVal(n));
-    else used = false;
-    if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
-    return used;
+  public boolean segmentGroupDispatch(SegmentGroup _sg, char _k, int _n, boolean _vg) {
+    boolean used_ = true;
+    String valueGiven_ = null;
+    if(_k == 'c') valueGiven_ = str(_sg.toggleCenterPutting());
+    else if(_k == 's') valueGiven_ = str(_sg.setScaler(_n));
+    else if(_k == '.') valueGiven_ = str(_sg.setSnapVal(_n));
+    else used_ = false;
+    if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
+    return used_;
   }
 
-  public boolean decoratorDispatch(Renderer _renderer, char k, int n, boolean vg) {
-    //println(_renderer.getID()+" "+k+" ("+int(k)+") "+n);
-    boolean used = true;
+  public boolean decoratorDispatch(Renderer _renderer, char _k, int _n, boolean _vg) {
+    //println(_renderer.getID()+" "+_k+" ("+int(_k)+") "+n);
+    boolean used_ = true;
     
     if(_renderer != null){
-      String valueGiven_ = "_";
-      if(n == -3){
-        if (k == 'l') valueGiven_ = str(_renderer.toggleLoop());
-        else if (k == 'k') valueGiven_ = str(_renderer.toggleInternal());
-        else if (int(k) == 518) _renderer.init();
-        else if (int(k) == 504) rendererManager.setCustomShape(groupManager.getLastSelectedGroup());
-        else used = false;
+      String valueGiven_ = null;
+      if(_n == -3){
+        if (_k == 'l') valueGiven_ = str(_renderer.toggleLoop());
+        else if (_k == 'k') valueGiven_ = str(_renderer.toggleInternal());
+        else if (int(_k) == 518) _renderer.init();
+        else if (int(_k) == 504) rendererManager.setCustomShape(groupManager.getLastSelectedGroup());
+        else used_ = false;
       }
       else {
-        if (k == 'a') valueGiven_ = str(_renderer.setAniMode(n));
-        else if (k == 'f') valueGiven_ = str(_renderer.setFillMode(n));
-        else if (k == 'r') valueGiven_ = str(_renderer.setPolka(n));
-        else if (k == 'x') valueGiven_ = str(_renderer.setdivider(n));
-        else if (k == 'i') valueGiven_ = str(_renderer.setIterationMode(n));
-        else if (k == 'j') valueGiven_ = str(_renderer.setReverseMode(n));
-        else if (k == 'b') valueGiven_ = str(_renderer.setRenderMode(n));
-        else if (k == 'p') valueGiven_ = str(_renderer.setProbability(n));
-        else if (k == 'h') valueGiven_ = str(_renderer.setLerpMode(n)); 
-        else if (k == 'u') valueGiven_ = str(_renderer.setTempo(n));
-        else if (k == 's') valueGiven_ = str(_renderer.setSize(n));   
-        else if (k == 'q') valueGiven_ = str(_renderer.setStrokeMode(n));
-        else if (k == 'w') valueGiven_ = str(_renderer.setStrokeWeight(n)); 
-        else if (k == 'd') valueGiven_ = str(_renderer.setShapeMode(n));
-        else if (k == 'v') valueGiven_ = str(_renderer.setSegmentMode(n));
-        else if (k == 'o') valueGiven_ = str(_renderer.setRotation(n));  
-        else used = false;
+        if (_k == 'a') valueGiven_ = str(_renderer.setAniMode(_n));
+        else if (_k == 'f') valueGiven_ = str(_renderer.setFillMode(_n));
+        else if (_k == 'r') valueGiven_ = str(_renderer.setPolka(_n));
+        else if (_k == 'x') valueGiven_ = str(_renderer.setdivider(_n));
+        else if (_k == 'i') valueGiven_ = str(_renderer.setIterationMode(_n));
+        else if (_k == 'j') valueGiven_ = str(_renderer.setReverseMode(_n));
+        else if (_k == 'b') valueGiven_ = str(_renderer.setRenderMode(_n));
+        else if (_k == 'p') valueGiven_ = str(_renderer.setProbability(_n));
+        else if (_k == 'h') valueGiven_ = str(_renderer.setLerpMode(_n)); 
+        else if (_k == 'u') valueGiven_ = str(_renderer.setTempo(_n));
+        else if (_k == 's') valueGiven_ = str(_renderer.setSize(_n));   
+        else if (_k == 'q') valueGiven_ = str(_renderer.setStrokeMode(_n));
+        else if (_k == 'w') valueGiven_ = str(_renderer.setStrokeWeight(_n)); 
+        else if (_k == 'd') valueGiven_ = str(_renderer.setShapeMode(_n));
+        else if (_k == 'v') valueGiven_ = str(_renderer.setSegmentMode(_n));
+        else if (_k == 'o') valueGiven_ = str(_renderer.setRotation(_n));  
+        else used_ = false;
       }
       
-      if(vg && valueGiven_ != "_") gui.setValueGiven(valueGiven_);
+      if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
     }
-    return used;
+    return used_;
   }
 
 
@@ -384,9 +428,9 @@ class Keyboard{
   ////////////////////////////////////////////////////////////////////////////////////
 
 
-  private void wordMaker(char c) {
-    if(wordMaker.charAt(0) == ' ') wordMaker = str(c);
-    else wordMaker = wordMaker+c;
+  private void wordMaker(char _k) {
+    if(wordMaker.charAt(0) == ' ') wordMaker = str(_k);
+    else wordMaker = wordMaker + _k;
   }
 
   private void returnWord() {
@@ -399,9 +443,9 @@ class Keyboard{
 
 
   // type in values of stuff
-  private void numMaker(char num) {
-    if(numberMaker.charAt(0)==' ') numberMaker = str(num);
-    else numberMaker = numberMaker+num;
+  private void numMaker(char _k) {
+    if(numberMaker.charAt(0)==' ') numberMaker = str(_k);
+    else numberMaker = numberMaker + _k;
     gui.setValueGiven(numberMaker);
   }
 

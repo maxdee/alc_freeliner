@@ -108,7 +108,7 @@ class Stylist {
       case 11:
         return shiftedColor();
       case 12:
-        return color(0);//pallet[increment%7];
+        return color(#FFE203);//pallet[increment%7];
       case 13:
         return color(0);//pallet[c-20];
       case 14:

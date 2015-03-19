@@ -107,7 +107,7 @@ class GroupManager{
     else return _pos;
   }
 
-  public void nudger(Boolean axis, int dir, boolean _shift){//, PVector _pos) {
+  public void nudger(Boolean axis, int dir, boolean _shift){
     PVector ndg = new PVector(0, 0);
     if (axis && _shift) ndg.set(10*dir, 0);
     else if (!axis && _shift) ndg.set(0, 10*dir);
@@ -115,11 +115,12 @@ class GroupManager{
     else if (!axis && !_shift) ndg.set(0, 1*dir);
 
     if(snappedList.size()>0){
-      if(!isFocused()){
+      //if(!isFocused()){
         for(PVector _vert : snappedList){
+          println(_vert);
           _vert.add(ndg);
         }
-      }
+      //}
     }
     else if(isFocused()) getSelectedGroup().nudgePoint(ndg);
     // else if (isFocused() && snappedIndex == selectedIndex) {

@@ -35,8 +35,8 @@ PFont introFont;
 boolean ballPit = false;//true;
 //boolean fullscreen = true;
 boolean fullscreen = false;
-int xres = 1400;
-int yres = 900;
+int xres = 1024;
+int yres = 768;
 
 void setup() {
 

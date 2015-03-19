@@ -202,6 +202,10 @@ class RendererManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  public boolean isFocused(){
+    return renderList.getFirst() != '_';
+  }
+
   public Renderer getRenderer(char _c){
     if(isAdeco(_c)) return renderers.get(charIndex(_c));
     else return null;
