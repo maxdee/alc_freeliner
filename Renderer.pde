@@ -275,6 +275,7 @@ class Renderer {
     float pold = 1.0/polka;
     for (int i = 0; i < polka; i++) {
       lerper = (pold*i)+lerpol;
+      style.setIteration(i);
       doDeco();
     }
   }

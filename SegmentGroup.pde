@@ -72,7 +72,7 @@ class SegmentGroup {
   public void init(){
     segments = new ArrayList();
     renderList = new RenderList();
-    placeA = new PVector(0, 0, 0);
+    placeA = new PVector(-10, -10, -10);
     center = new PVector(-10, -10, -10);
     firstPoint = true;
     centered = false;

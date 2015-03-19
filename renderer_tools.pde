@@ -10,6 +10,7 @@ class Stylist {
   int strokeWidth;
   int alphaValue; // maybe get implemented.
   int increment;
+  int iteration;
   int randomer;
   float fluct; // fluctuating value
 
@@ -113,6 +114,8 @@ class Stylist {
         return color(0);//pallet[c-20];
       case 14:
         return color(0);
+      case 15:
+        return colorizer(2+(iteration+increment)%4);
     }
     return color(255,0,255);
   }
@@ -151,6 +154,10 @@ class Stylist {
   ////////////////////////////////////////////////////////////////////////////////////  
   public void setIncrement(int _i){
     increment = _i;
+  }
+
+  public void setIteration(int _i){
+    iteration = _i;
   }
 
   public void setRandomer(int _i){
