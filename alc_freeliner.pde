@@ -54,6 +54,7 @@ void setup() {
   fl = new FreeLiner();
   delay(1000);
   //loadTest();
+  //traceShape(loadShape("texture_1.svg"));
 }
 
 
@@ -107,6 +108,39 @@ void mouseMoved() {
 void mouseWheel(MouseEvent event) {
   fl.mouse.wheeled(event.getCount());
 }
+
+
+
+
+
+
+// void traceShape(PShape _shape){
+//   PShape buff = createShape();
+//   PVector pos;
+//   for(int i = _shape.getVertexCount()-1; i >= 0; i--){
+//     fl.keyboard.processKey('n', keyCode);
+
+//       pos = _shape.getVertex(i);
+//       println("child : "+i+"  vertx : "+i+"  position : "+pos);
+//       fl.mouse.move((int)pos.x, (int)pos.y);
+//       fl.mouse.press(LEFT);
+    
+//   }
+// }
+
+
+//   // for(int i = _shape.getChildCount()-1; i >= 0; i--){
+//   //   //buff = _shape.getChild(i);
+//   //   fl.keyboard.processKey('n', keyCode);
+//   //   println(_shape.getChildCount());
+//   //   for(int j = buff.getVertexCount()-1; j >= 0; j--){
+//   //     pos = buff.getVertex(j);
+//   //     println("child : "+i+"  vertx : "+j+"  position : "+pos);
+//   //     fl.mouse.move((int)pos.x, (int)pos.y);
+//   //     fl.mouse.press(LEFT);
+//   //   }
+//   // }
+
 
 
 

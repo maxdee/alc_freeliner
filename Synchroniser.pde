@@ -24,11 +24,6 @@
 
 
 class Synchroniser{
-	Clock clk;
-  ArrayList<Clock> clocks;
-  int clocksCnt = 17;
-
-
 
   // millis to render one frame
   int renderTime = 0;
@@ -40,47 +35,40 @@ class Synchroniser{
   FloatSmoother tapTimer;
   int tempo = 1500;
 
+
   FloatSmoother intervalTimer;
-  float increment = 0.1;
+  float renderIncrement = 0.1;
   float lerper = 0;
-  // every time we fold over
   int cycleCount = 0;
 
 	public Synchroniser(){
-		initClocks();
     tapTimer = new FloatSmoother(5, 350);
     intervalTimer = new FloatSmoother(5, 34);
 	}
 
-	private void initClocks() {
-    clocks =  new ArrayList();
-    for (int i = 0; i < clocksCnt; i++) {
-      clocks.add(new Clock(i+2));
-    }
-  }
-
-
-
   public void update() {
-    // increment = intervalTimer.addF(float(millis()-lastRender))/tempo;
-    // lastRender = millis();
-    // lerper += increment;
-    // if(lerper > 1.0){
-    //   lerper = 0;
-    //   cycleCount++;
-    //   println("bomp " + renderTime);
-    // }
+    // calculate how much to increment
+    renderIncrement = intervalTimer.addF(float(millis()-lastRender))/tempo;
+    lastRender = millis();
+    lerper += renderIncrement;
 
-
-    if (millis()-lastTime > tempo) {
+    if(lerper > 1.0){
+      lerper = 0;
       cycleCount++;
-      lastTime = millis();
-    }
-    for (int i = 0; i < clocksCnt; i++) {
-      clocks.get(i).update(cycleCount);
-      //clocks.get(i).setLerper(lerper);
+      //println("bomp " + cycleCount);
     }
   }
+
+  public float getLerp(int _div){
+    int cyc_ = (cycleCount%_div);
+    float lrp_ = (1.0/_div)*cyc_;
+    // if(_div != 1) println();
+    return (lerper/_div) + lrp_; 
+  }
+  public int getCycle(int _div){
+    return cycleCount%_div;
+  }
+
 
   //tap the tempo
   public void tap() {
@@ -91,16 +79,18 @@ class Synchroniser{
     }
   }
 
-  public void setAllClockSpeeds(int s) {
-    for (int i = 0; i < clocksCnt; i++) {
-      clocks.get(i).setTempo(s);
-    }
-  }
-
   //adjust tempo by +- 100 millis
   public void nudgeTime(int t){
     println(lastTime);
     if(t==-2) lastTime -= 100;
     else if(t==-1) lastTime += 100;
+  }
+
+  /////////////////////// cruft
+
+  public void setAllClockSpeeds(int s) {
+    // for (int i = 0; i < clocksCnt; i++) {
+    //   clocks.get(i).setTempo(s);
+    // }
   }
 }

@@ -33,13 +33,12 @@
  */
 
 class Renderer {
-	
+	LerpManager lerpManager;
   // a capital letter to represent the decorator
   final char ID;
   Stylist style;
   Brush brush;
 
-  Clock clk;
   SegmentGroup group;
   ArrayList<Segment> segments;
   int segCount;
@@ -68,7 +67,7 @@ class Renderer {
   int probability;
 
   int divider;
-  int increment;
+  int cycle;
   int randomer; // should be in verts? or group
   int largeRan;
 
@@ -87,6 +86,7 @@ class Renderer {
  * @param  identification char
  */
   public Renderer(char _id){
+
   	ID = _id;
     init();
   }
@@ -95,10 +95,11 @@ class Renderer {
  * Initialises variables and childs
  */
   public void init(){
+    lerpManager = new LerpManager();
+
     style = new Stylist();
     brush = new Brush();
     segments = new ArrayList();
-    clk = new Clock(2);
     letter = ID;
     
     center = new PVector(0,0);
@@ -124,8 +125,8 @@ class Renderer {
     polka = 5;
     probability = 100;
 
-    divider = 2;
-    increment = 0;
+    divider = 1;
+    cycle = 0;
     randomer = 0;
     largeRan = 0;
   }
@@ -136,44 +137,44 @@ class Renderer {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Pass the data needed to draw animations.
- * @param  PGraphics instance
- * @param  SegmentGroup
- */
-  public void passData(PGraphics pg, SegmentGroup m) { // bro, do we even update now?
-    canvas = pg; 
-    group = m;
+
+  public void passCanvas(PGraphics _pg){
+    canvas = _pg;
+  }
+
+  public void passSegmentGroup(SegmentGroup _sg){
+    group = _sg;
+    updateGroupData();
+  }
+
+  public void passCycle( int _i){
+    if(cycle != _i) {
+      cycle = _i;
+      cycleThings();
+      updateGroupFlag = true;
+    }
+  }
+
+  public void passLerper(float _f) {
+    lerper = lerpStyle(_f);
+  }
+
+  public void updateGroupData(){
     segments = group.getSegments();
     segCount = segments.size();
     setScale(group.getScaler());
-
     if(updateGroupFlag) group.newRan();
 
     largeRan = int(group.getRan()*((float(ID)/200)+1));
     randomer = largeRan%100; // was 20
     brush.setRandomer(randomer);
     style.setRandomer(randomer);
-    //println("group : "+group.getID()+"  Decor : "+ID+ "  randomer : "+randomer);
-  }
- 
-  private void clockWorks(float lrp, int inc){
-    if(internalClock){
-      clk.internal();
-      inc = clk.getIncrement();
-      lrp = clk.getLerper();
-    }
 
-    lerper = lerpStyle(lrp); 
     updateGroupFlag = false;
-    if(inc != increment) {
-      increment = inc;
-      incrementThings();
-      updateGroupFlag = true;
-    }
+
   }
 
-  private void incrementThings(){
+  private void cycleThings(){
     //println("group : "+group.getID()+"  Decor : "+ID+ "  randomer : "+randomer);
  
     if(!looper && launchit){
@@ -183,8 +184,8 @@ class Renderer {
     else if(!looper) enableDeco = false;
     else enableDeco = true;
 
-    style.setIncrement(increment);
-    brush.setIncrement(increment);
+    style.setIncrement(cycle);
+    brush.setIncrement(cycle);
     reverseThings();
   }
 
@@ -202,12 +203,7 @@ class Renderer {
     }
   }
 
-  // public void launch() {
-  //   launchit = true;
-  //   if(internalClock){
-  //     clk.reset();
-  //   }
-  // }
+
   public void trigger(){
     
   }
@@ -238,7 +234,7 @@ class Renderer {
 
   //there is a slight glitch here
   private float backAndForth(float l){
-    if(increment % 2 == 0) return -l+1;
+    if(cycle % 2 == 0) return -l+1;
     else return l;
   }
 
@@ -358,16 +354,16 @@ class Renderer {
 
   //one vert at a time
   private void sequentialSegments() {
-    int v = increment%segCount;
+    int v = cycle%segCount;
     renderSegment(segments.get(v));
   }
 
 
   // private void vertChase(){
-  //   int v = increment%segCount;
+  //   int v = cycle%segCount;
   //   renderSegment(segments.get(v));
-  //   if(millis() % 200 == 1) increment++;
-  //   println(increment);
+  //   if(millis() % 200 == 1) cycle++;
+  //   println(cycle);
   // }
 
   private void alternateLerp() {
@@ -739,15 +735,6 @@ class Renderer {
     return probability;
   }
 
-  public int setIncrement(int i){
-    increment = i;
-    return increment;
-  }
-
-  public void setLerp(float f) {
-    lerper = f;
-  }
-
   public boolean enableDeco(boolean b) {
     enableDeco = b;
     return enableDeco;
@@ -775,6 +762,7 @@ class Renderer {
   public void setLooper(boolean _b){
     looper = _b;
   }
+
   public int setAniMode(int _v) {
     aniMode = numTweaker(_v, aniMode);
     return aniMode;
@@ -808,14 +796,15 @@ class Renderer {
 
   public int setdivider(int _v) {
     divider = numTweaker(_v, divider);
-    divider %= 17;
-    clk.setDiv(divider);
+    //divider %= 17;
+    //clk.setDiv(divider);
     return divider;
   }
 
   public int setTempo(int n){
-    clk.setTempo(numTweaker(n, clk.getTempo()));
-    return clk.getTempo();
+    // clk.setTempo(numTweaker(n, clk.getTempo()));
+    // return clk.getTempo();
+    return 0;
   }
 
   public int setRotation(int _v){

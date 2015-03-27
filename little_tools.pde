@@ -164,3 +164,52 @@ PShape cloneShape(PShape _source, float _scale, PVector _center){
   shp.endShape();
   return shp;
 }
+
+
+
+///////////////////////
+
+class LerpManager {
+  float lerper;
+  float renderIncrement;
+  float divider;
+  int cycle;
+  boolean loop;
+
+  FloatList lerps;
+
+  public LerpManager(){
+    lerps = new FloatList();
+    loop = true;
+  }
+
+  public void update(float _lrp, int _cyc){
+
+    if(lerps.size() > 0){
+      for(int i = 0; i < lerps.size(); i++){
+        lerps.add(i, renderIncrement);
+        if(lerps.get(i)>1){
+          lerps.remove(i);
+          if(loop) lerps.append(0);
+        }
+      }
+    }
+
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    Actions
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+
+  public void newLerp(){
+    lerps.append(0);
+  }
+
+  public FloatList getLerps(){
+    if(lerps.size() > 0) return lerps;
+    else return null;
+  }
+}
