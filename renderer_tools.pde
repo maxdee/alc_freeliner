@@ -298,6 +298,9 @@ class Brush {
     return scaledSize;
   }
 
+  public int getSize(){
+    return sizer;
+  }
   public int getHalfSize(){
     return halfSize;
   }

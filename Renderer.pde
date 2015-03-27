@@ -482,6 +482,9 @@ class Renderer {
       case 4:
         liner(_v.getRegA(), _v.getRegB());
         break;
+      case 5:
+        dashes(_v);
+        break;
     }
   }
 
@@ -522,33 +525,33 @@ class Renderer {
   }
 
 
-  //BETA
-  private void worms(Segment _v) {
-    // if( lerper <= 1){
-    //   canvas.stroke(colorizer(strokeMode));
-    //   canvas.strokeWeight(strokeW);
-    //   //vert to vert lines...
-    //   PVector tmpA = new PVector(0,0,0);
-    //   PVector tmpB = new PVector(0,0,0);
-    //   for (int i = 0; i<segCount; i++) {
-    //     tmpA = segments.get(i).getRegPos(lerper);
-    //     if(lerper < 0.5){
-    //       tmpB = segments.get(i).getRegA(); 
-    //       vecLine(canvas, tmpA, tmpB);
-    //     }
-    //     else if(lerper >= 0.25 && lerper < 0.75){
-    //       tmpB = segments.get(i).getRegPos(lerper - 0.25);
-    //       vecLine(canvas, tmpA, tmpB);
-    //     }
-    //     else if(lerper >= 0.75){
-    //       tmpB = segments.get(i).getRegB(); 
-    //       vecLine(canvas, tmpA, tmpB);
-    //     }
-    //   }
-    // }
+  private void dashes(Segment _v){
+    float dashSize = constrain(float(brush.getSize())/40, 0, 0.5);
+    println(dashSize);
+    PVector p1 = null;
+    PVector p2 = null;
+    
+    if(lerper < dashSize){
+      p1 = _v.getRegPos(constrain(1+lerper-dashSize, 0, 1));
+      p2 = _v.getRegPos(constrain(lerper+dashSize, 0, 1));
+      liner(p1,p2);
+    }
+    else if(lerper > 1-dashSize){
+      p1 = _v.getRegPos(constrain(lerper-dashSize, 0, 1));
+      p2 = _v.getRegPos(constrain((lerper-1)+dashSize, 0, 1));
+      liner(p1,p2);
+    }
+    else {
+      p1 = _v.getRegPos(constrain(lerper-dashSize, 0, 1));
+      p2 = _v.getRegPos(constrain(lerper+dashSize, 0, 1));
+      liner(_v.getRegA(), p1);
+      liner(_v.getRegB(), p2);
+    }
   }
 
-
+  private float invert(float _f){
+    return (_f*-1)+1;
+  }
 
 
 
