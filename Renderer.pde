@@ -346,6 +346,9 @@ class Renderer {
       case 5:
         segmentsToRender = group.getBranch(cycle);
         break;
+      case 6:
+        segmentsToRender = group.getBranch(int(lerper*group.treeBranches.size()));
+        break;
     }
 
     if(seg != null) renderSegment(seg);
@@ -475,6 +478,9 @@ class Renderer {
         break;
       case 3:
         strobeLine(_v);
+        break;
+      case 4:
+        liner(_v.getRegA(), _v.getRegB());
         break;
     }
   }

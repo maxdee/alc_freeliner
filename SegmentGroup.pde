@@ -254,7 +254,6 @@ class SegmentGroup {
       if(next.size() > 0) treeBranches.add(next);
       else keepSearching = false;
     }
-    println(treeBranches.size());
   }
 
 
@@ -296,9 +295,6 @@ class SegmentGroup {
     return segments.get(_index % segCount);
   }
   
-
-
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Input
@@ -434,10 +430,6 @@ class SegmentGroup {
   public final float getScaler(){
     return sizeScaler;
   }
-
-
-
-
 
 }
 
