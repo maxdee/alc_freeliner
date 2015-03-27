@@ -62,11 +62,11 @@ class Synchroniser{
   public float getLerp(int _div){
     int cyc_ = (cycleCount%_div);
     float lrp_ = (1.0/_div)*cyc_;
-    // if(_div != 1) println();
     return (lerper/_div) + lrp_; 
   }
+  
   public int getCycle(int _div){
-    return cycleCount%_div;
+    return int(cycleCount/_div);
   }
 
 

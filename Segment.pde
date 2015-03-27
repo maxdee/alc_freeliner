@@ -38,6 +38,7 @@ class Segment {
   
   Segment neighbA;
   Segment neighbB;
+  ArrayList<Segment> nextSegments;
 
   PVector center;
   
@@ -53,6 +54,8 @@ class Segment {
   String werd;
 
   public Segment(PVector pA, PVector pB) {
+    nextSegments = new ArrayList();
+
     pointA = pA.get();
     pointB = pB.get();
     center = new PVector(0, 0, 0);
@@ -121,6 +124,18 @@ class Segment {
   public void setNeighbors(Segment a, Segment b){
     neighbA = a;
     neighbB = b;
+  }
+
+  public void addNextNeighbor(Segment _s){
+    nextSegments.add(_s);
+  }
+
+  public void clearNeighbors(){
+    nextSegments.clear();
+  }
+
+  public ArrayList<Segment> getRealNeighbors(){
+    return nextSegments;
   }
 
   private void findOffset() {

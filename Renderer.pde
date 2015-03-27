@@ -41,6 +41,7 @@ class Renderer {
 
   SegmentGroup group;
   ArrayList<Segment> segments;
+  ArrayList<Segment> treeStyle;
   int segCount;
   
   boolean enableDeco;
@@ -100,6 +101,7 @@ class Renderer {
     style = new Stylist();
     brush = new Brush();
     segments = new ArrayList();
+    treeStyle = new ArrayList();
     letter = ID;
     
     center = new PVector(0,0);
@@ -164,15 +166,17 @@ class Renderer {
     segCount = segments.size();
     setScale(group.getScaler());
     if(updateGroupFlag) group.newRan();
-
     largeRan = int(group.getRan()*((float(ID)/200)+1));
     randomer = largeRan%100; // was 20
     brush.setRandomer(randomer);
     style.setRandomer(randomer);
 
+
     updateGroupFlag = false;
 
   }
+
+
 
   private void cycleThings(){
     //println("group : "+group.getID()+"  Decor : "+ID+ "  randomer : "+randomer);
@@ -319,61 +323,46 @@ class Renderer {
   ///////     Select and decorates segments
   ///////
   //////////////////////////////////////////////////////////////////////////////////// 
-
+  
   private void vertPicker(){
+    ArrayList<Segment> segmentsToRender = null;
+    Segment seg = null;
     switch (segmentMode){
       case 0:
-        allSegments();
+        segmentsToRender = group.getSegments();
         break;
       case 1:
-        sequentialSegments();
+        seg = group.getSegment(cycle);
         break;
       case 2:
-        alternateLerp();
+        //alternateLerp();
         break;
       case 3:
-        //vertChase();
+        seg = group.getSegment(int(lerper*group.getCount()));
         break;
       case 4:
-        randomSegment();
+        seg = group.getSegment((int)random(1000));
+        break;
+      case 5:
+        segmentsToRender = group.getBranch(cycle);
         break;
     }
-  }
 
-  //Segment render style
-  public void allSegments() {
-    for (int i = 0; i < segCount; i++) {
-      renderSegment(segments.get(i));
+    if(seg != null) renderSegment(seg);
+    else if(segmentsToRender != null){
+      for(Segment sg : segmentsToRender)
+        renderSegment(sg);
     }
   }
 
-  public void randomSegment() {
-    int i = largeRan % segCount;
-    if (lerper <= 1) renderSegment(segments.get(i));
-  }
-
-  //one vert at a time
-  private void sequentialSegments() {
-    int v = cycle%segCount;
-    renderSegment(segments.get(v));
-  }
-
-
-  // private void vertChase(){
-  //   int v = cycle%segCount;
-  //   renderSegment(segments.get(v));
-  //   if(millis() % 200 == 1) cycle++;
-  //   println(cycle);
+  // private void alternateLerp() {
+  //   boolean bkp = invertLerp;
+  //   for (int i = 0; i < segCount; i++) {
+  //     renderSegment(segments.get(i));
+  //     invertLerp = !invertLerp;
+  //   }
+  //   invertLerp = bkp;
   // }
-
-  private void alternateLerp() {
-    boolean bkp = invertLerp;
-    for (int i = 0; i < segCount; i++) {
-      renderSegment(segments.get(i));
-      invertLerp = !invertLerp;
-    }
-    invertLerp = bkp;
-  }
 
   // then go back to render modes to distribute further
   private void renderSegment(Segment _v){

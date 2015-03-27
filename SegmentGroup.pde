@@ -41,6 +41,7 @@ class SegmentGroup {
   PShape itemShape;
 
   ArrayList<Segment> segments;
+  ArrayList<ArrayList<Segment>> treeBranches; 
   int segCount = 0;
   RenderList renderList;
   PVector center;
@@ -71,6 +72,7 @@ class SegmentGroup {
  */
   public void init(){
     segments = new ArrayList();
+    treeBranches = new ArrayList();
     renderList = new RenderList();
     placeA = new PVector(-10, -10, -10);
     center = new PVector(-10, -10, -10);
@@ -99,6 +101,7 @@ class SegmentGroup {
     placeA = p.get();
     seperated = false;
     setNeighbors();
+    findRealNeighbors();
     generateShape();
   }
 
@@ -236,6 +239,56 @@ class SegmentGroup {
     itemShape.endShape(CLOSE);//CLOSE dosent work...
   }
 
+  private void findRealNeighbors(){
+    treeBranches = new ArrayList();
+    treeBranches.add(new ArrayList());
+    // find first segments, layer 1
+    for(Segment seg : segments){
+      if(segments.get(0).getRegA().dist(seg.getRegA()) < 0.001)
+        treeBranches.get(0).add(seg);
+    }
+    boolean keepSearching = true;
+    int ind = 0;
+    while(keepSearching){
+      ArrayList<Segment> next = getNext(treeBranches.get(ind++));
+      if(next.size() > 0) treeBranches.add(next);
+      else keepSearching = false;
+    }
+    println(treeBranches.size());
+  }
+
+
+  private ArrayList<Segment> getNext(ArrayList<Segment> _segs){
+    ArrayList<Segment> nextSegs = new ArrayList();
+    for(Segment seg : _segs){
+      for(Segment next : segments){
+        if(seg.getRegB().dist(next.getRegA()) < 0.001) nextSegs.add(next);
+      }
+    } 
+    return nextSegs;
+  }
+
+  public ArrayList<Segment> getBranch(int _i){
+    return treeBranches.get(_i%treeBranches.size());
+  }
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Segment access
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  // deprecate
+  public final ArrayList getSegments() {
+    return segments;
+  }
+
+  // Segment accessors
+  public Segment getSegment(int _index){
+    return segments.get(_index % segCount);
+  }
+  
+
+
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Input
@@ -344,6 +397,10 @@ class SegmentGroup {
     return ID;
   }
 
+  public int getCount(){
+    return segCount;
+  }
+
   public final int getRan(){
     return randomNum;
   }
@@ -368,15 +425,7 @@ class SegmentGroup {
     return sizeScaler;
   }
 
-  // Segment accessors
-  public Segment getSegment(int _index){
-    return segments.get(_index % segCount);
-  }
-  
-  // deprecate
-  public final ArrayList getSegments() {
-    return segments;
-  }
+
 
 
 
