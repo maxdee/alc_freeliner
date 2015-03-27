@@ -260,9 +260,19 @@ class SegmentGroup {
 
   private ArrayList<Segment> getNext(ArrayList<Segment> _segs){
     ArrayList<Segment> nextSegs = new ArrayList();
+    boolean duplicate = false;
     for(Segment seg : _segs){
       for(Segment next : segments){
-        if(seg.getRegB().dist(next.getRegA()) < 0.001) nextSegs.add(next);
+        if(seg.getRegB().dist(next.getRegA()) < 0.001){
+          // check duplicates
+          duplicate = false;
+          for(ArrayList<Segment> br : treeBranches){
+            for(Segment se : br){
+              if(next == se) duplicate = true;
+            }
+          }
+          if(!duplicate) nextSegs.add(next);
+        } 
       }
     } 
     return nextSegs;
