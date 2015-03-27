@@ -356,6 +356,8 @@ class Keyboard{
       else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
       else if (_k == '!') valueGiven_ = str(rendererManager.toggleLooping());
       else if (_k == 'm') mouse.press(3);  // 
+      else if (_k == '@') groupManager.saveVertices();
+      else if (_k == '#') groupManager.loadVertices();
       else used_ = false;
     }
     else {

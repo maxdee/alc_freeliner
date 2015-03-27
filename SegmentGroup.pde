@@ -41,6 +41,7 @@ class SegmentGroup {
   PShape itemShape;
 
   ArrayList<Segment> segments;
+
   ArrayList<ArrayList<Segment>> treeBranches; 
   int segCount = 0;
   RenderList renderList;

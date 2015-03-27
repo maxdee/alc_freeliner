@@ -129,6 +129,46 @@ class GroupManager{
   }
 
 
+  //
+  public void saveVertices(){
+    ArrayList<PVector> pnts = new ArrayList();
+    for(SegmentGroup grp : groups){
+      ArrayList<Segment> segs = grp.getSegments(); 
+      for(Segment seg : segs){
+        println(seg.getRegA());
+        pnts.add(seg.getRegA());
+        pnts.add(seg.getRegB());
+      }
+    }
+
+    XML vertices = new XML("vertices");
+    //toSave.removeChild(toSave.getChild("vertices"));
+    for(PVector pnt : pnts){
+      XML vertx = vertices.addChild("vertex");
+      vertx.setFloat("x", pnt.x);
+      vertx.setFloat("y", pnt.y);
+    }
+    saveXML(vertices, "data/vertices.xml");
+  }
+
+  public void loadVertices(){
+    XML file;
+    try {
+      file = loadXML("data/vertices.xml");
+    }
+    catch (Exception e){
+      println("No vertices.xml");
+      return;
+    }
+    XML[] vertices = file.getChildren("vertex");
+    newItem();
+    PVector pos = new PVector(0,0);
+    for(XML vert : vertices){
+      pos.set(vert.getFloat("x"), vert.getFloat("y"));
+      getSelectedGroup().mouseInput(LEFT, pos);
+    }
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Modifiers
