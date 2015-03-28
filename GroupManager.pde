@@ -33,6 +33,7 @@ class GroupManager{
   int selectedIndex;
   int lastSelectedIndex;
   int snappedIndex;
+  int SNAP_DIST = 10;
   // list of PVectors that are snapped
   ArrayList<PVector> snappedList;
 
@@ -94,16 +95,26 @@ class GroupManager{
     PVector snap = new PVector(0, 0);
     snappedList.clear();
     snappedIndex = -1;
+    ArrayList<Segment> segs;
     for (int i = 0; i < groupCount; i++) {
-      snap = groups.get(i).snapVerts(_pos); // snapVerts does not find anything it returns 0s
-      if (snap.x != 0 && snap.y != 0){
-        snappedIndex = i;
-        snappedList.add(snap);
-        if(!isFocused()) lastSelectedIndex = i;
-        //break; 
+      segs = groups.get(i).getSegments();
+      for(Segment seg : segs){
+        if(_pos.dist(seg.getRegA()) < SNAP_DIST){
+          snappedList.add(seg.getRegA());
+          snap = seg.getRegA();
+          snappedIndex = i;
+          println("haha");
+        }
+        else if(_pos.dist(seg.getRegB()) < SNAP_DIST){
+          snappedList.add(seg.getRegB());
+          snap = seg.getRegB();
+          snappedIndex = i;
+          println("hbhb");
+        }
+        if(!isFocused()) lastSelectedIndex = i; 
       }
     }
-    if (snappedIndex != -1) return snappedList.get(0);
+    if (snappedIndex != -1) return snap;// snappedList.get(0);
     else return _pos;
   }
 
@@ -113,14 +124,12 @@ class GroupManager{
     else if (!axis && _shift) ndg.set(0, 10*dir);
     else if (axis && !_shift) ndg.set(1*dir, 0);
     else if (!axis && !_shift) ndg.set(0, 1*dir);
-
+    //println("-------"+snappedList);
     if(snappedList.size()>0){
-      //if(!isFocused()){
-        for(PVector _vert : snappedList){
-          println(_vert);
-          _vert.add(ndg);
-        }
-      //}
+      for(PVector _vert : snappedList){
+        // println(_vert);
+        _vert.add(ndg);
+      }
     }
     else if(isFocused()) getSelectedGroup().nudgePoint(ndg);
     // else if (isFocused() && snappedIndex == selectedIndex) {
@@ -140,12 +149,10 @@ class GroupManager{
     for(SegmentGroup grp : groups){
       ArrayList<Segment> segs = grp.getSegments(); 
       for(Segment seg : segs){
-        println(seg.getRegA());
-        pnts.add(seg.getRegA());
-        pnts.add(seg.getRegB());
+        if(!isDuplicate(pnts, seg.getRegA())) pnts.add(seg.getRegA());
+        if(!isDuplicate(pnts, seg.getRegB())) pnts.add(seg.getRegB());
       }
     }
-
     XML vertices = new XML("vertices");
     //toSave.removeChild(toSave.getChild("vertices"));
     for(PVector pnt : pnts){
@@ -154,6 +161,13 @@ class GroupManager{
       vertx.setFloat("y", pnt.y);
     }
     saveXML(vertices, "data/vertices.xml");
+  }
+
+  private boolean isDuplicate(ArrayList<PVector> _pnts, PVector _pv){
+    for(PVector pnt : _pnts){
+      if(pnt.dist(_pv) < 0.001) return true;
+    }
+    return false;
   }
 
   public void loadVertices(){
@@ -188,6 +202,11 @@ class GroupManager{
   public int setSelectedGroupIndex(int _i) {
     selectedIndex = _i % groupCount;
     return selectedIndex;
+  }
+
+  public int setSnapDist(int _i){
+    SNAP_DIST = numTweaker(_i, SNAP_DIST);
+    return SNAP_DIST;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

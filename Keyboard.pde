@@ -67,7 +67,7 @@ class Keyboard{
     ",    showTags", 
     "/    showLines",
     ";    showCrosshair",
-    ".    snapping",
+    ".    snap/Dist",
     "|    enterText",
     "m    breakLine",
     "]    fixedLenght",
@@ -365,6 +365,7 @@ class Keyboard{
       else if (editKey == 't') rendererManager.sync.nudgeTime(_n);
       else if (editKey == 'y') valueGiven_ = str(rendererManager.setTrails(_n));
       else if (editKey == ']') valueGiven_ = str(mouse.setLineLenght(_n));
+      else if (editKey == '.') valueGiven_ = str(groupManager.setSnapDist(_n));
       else used_ = false;
     }
     
