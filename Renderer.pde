@@ -238,7 +238,8 @@ class Renderer {
 
   //there is a slight glitch here
   private float backAndForth(float l){
-    if(cycle % 2 == 0) return -l+1;
+    // println(cycle % 2+" "+l);
+    if(cycle % 2 == 0) return constrain(-l+1, 0, 1);
     else return l;
   }
 

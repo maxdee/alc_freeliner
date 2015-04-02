@@ -67,6 +67,7 @@ class Synchroniser{
   }
 
   public int getCycle(int _div){
+    if(_div <1) _div = 1;
     return int(cycleCount/_div);
   }
 

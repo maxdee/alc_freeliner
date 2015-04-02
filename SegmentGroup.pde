@@ -343,7 +343,7 @@ class SegmentGroup {
     g.noStroke();
     g.fill(255);
     g.text(str(ID), pos.x - (16+int(ID>9)*6), pos.y+6);
-    g.text(renderList.getString(), pos.x + 6, pos.y+6);
+    g.text(renderList.getTags(), pos.x + 6, pos.y+6);
     g.noFill();
     g.stroke(255);
     g.strokeWeight(1);
@@ -362,8 +362,8 @@ class SegmentGroup {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void toggleRender(char c) {
-    renderList.toggle(c);
+  public void toggleRender(Renderer _r) {
+    renderList.toggle(_r);
   }
 
   public void setWord(String w, int v) {

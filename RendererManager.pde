@@ -97,9 +97,9 @@ class RendererManager{
 
 
   void renderGroup(SegmentGroup _sg){
-    RenderList rList = _sg.getRenderList();
-    for (Renderer r_ : renderers) {
-      if (rList.has(r_.getID())) {
+    ArrayList<Renderer> rList = _sg.getRenderList().getAll();
+    if(rList != null){
+      for (Renderer r_ : rList) {
         r_.passCanvas(canvas);
         r_.passSegmentGroup(_sg);
         r_.iterator();
@@ -133,16 +133,14 @@ class RendererManager{
 
   public void focusAll() {
     renderList.clear();
-    for (int i = 0; i < N_RENDERERS; i++) {
-      renderList.toggle(renderers.get(i).getID());
+    for (Renderer r_ : renderers) {
+      renderList.toggle(r_);
     }
   }
 
   // set a decorator's shape
   private void setCustomShape(SegmentGroup _sg){
-    //println("CustomShape with item : "+ n);
-    char c_ = renderList.getFirst();
-    Renderer r_ = getRenderer(c_);
+    Renderer r_ = renderList.getIndex(0);
     if(r_ != null) r_.setCustomShape(cloneShape(_sg.getShape(), 1.0, _sg.getCenter()));
   }
 
@@ -174,6 +172,14 @@ class RendererManager{
     renderList.clear();
   }
 
+  public void toggle(char _c){
+    renderList.toggle(getRenderer(_c));
+  }
+
+  // public void toggle(Renderer _rn){
+  //   renderList.toggle(_rn);
+  // }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Accessors
@@ -181,7 +187,7 @@ class RendererManager{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public boolean isFocused(){
-    return renderList.getFirst() != '_';
+    return renderList.getIndex(0) != null;
   }
 
   public Renderer getRenderer(char _c){
@@ -189,17 +195,11 @@ class RendererManager{
     else return null;
   }
 
-  public ArrayList<Renderer> getSelected(){
-    ArrayList<Renderer> selected_ = new ArrayList();
-    for (int i = 0; i < N_RENDERERS; i++) {
-      if(renderList.has(renderers.get(i).getID())){
-      selected_.add(renderers.get(i));
-      }
-    }
-    return selected_;
-  }
+  // public ArrayList<Renderer> getSelected(){
+  //   return renderList.getAll();
+  // }
   
-  public RenderList getList(){
+  public RenderList getRenderList(){
     return renderList;
   }
 

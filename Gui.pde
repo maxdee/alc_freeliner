@@ -68,7 +68,6 @@
 
     canvas = createGraphics(width, height);
     canvas.smooth(0);
-    canvas.textFont(font);
     
     grid = createGraphics(width, height);
     grid.smooth(0);
@@ -107,12 +106,12 @@
       if(mouse.getGridSize() != gridSize) generateGrid(mouse.getGridSize());
       canvas.image(grid,0,0); // was without canvas before
     }
-    if(viewPosition) putcrosshair(mouse.getPosition(), mouse.isSnapped());
+    putcrosshair(mouse.getPosition(), mouse.isSnapped());
     if(viewLines || viewTags){
       for (SegmentGroup sg : groupManager.getGroups()) {
         canvas.fill(200);
-        sg.showLines(canvas); 
-        sg.showTag(canvas);
+        if(viewTags) sg.showLines(canvas); 
+        if(viewLines) sg.showTag(canvas);
       }
     }
     SegmentGroup sg = groupManager.getSelectedGroup();
@@ -130,13 +129,14 @@
 
   private void infoWritter(PGraphics pg) {
     //if(updateFlag){
-      String rn = " ";
-      if (groupManager.isFocused()) rn += groupManager.getSelectedGroup().getRenderList().getString();
-      else rn += renderString; //renderList.getString();
-      if(rn.length()>20) rn = "*ALL*";
+      String tags = " ";
+      RenderList rl = groupManager.getRenderList();
+      if (rl != null) tags += rl.getTags();
+      else tags += renderString; //renderList.getString();
+      if(tags.length()>20) tags = "*ALL*";
 
       groupManager.getIndex(0).setWord("[Item: "+groupManager.getSelectedIndex()+"]", 0);
-      groupManager.getIndex(0).setWord("[Rndr: "+rn+"]", 1);
+      groupManager.getIndex(0).setWord("[Rndr: "+tags+"]", 1);
       groupManager.getIndex(0).setWord("["+keyString+": "+valueGiven+"]", 2);
       groupManager.getIndex(0).setWord("[FPS "+frameRate+"]", 3);
       groupManager.getIndex(0).setWord("[Run "+getTimeRunning()+"]", 4);
@@ -189,7 +189,7 @@
 
   private void putcrosshair(PVector _pos, boolean _snap){
     if(_snap) crosshair.setStroke(color(0,200,0));
-    else crosshair.setStroke(color(255));
+    else crosshair.setStroke(255);
     crosshair.setStrokeWeight(3);
     canvas.pushMatrix();
     canvas.translate(_pos.x, _pos.y);

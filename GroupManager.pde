@@ -79,13 +79,13 @@ class GroupManager{
   }
 
   //add an other renderer to all groups who have the first renderer.
-  public void groupAddRenderer(String _nr, char _rn){
-    if(groupCount > 0){
-      for (int i = groupCount-1; i>=0; i--) {
-        if(groups.get(i).getRenderList().has(_rn)){
-          char k = _nr.charAt(0);
-          if(k >= 65 && k <= 90) groups.get(i).toggleRender(k);
-        }
+  public void groupAddRenderer(Renderer _toAdd, Renderer _toMatch){
+    if(groups.size() > 0 && _toAdd != null && _toMatch != null){
+      for (SegmentGroup sg : groups) {
+        ArrayList<Renderer> rl = sg.getRenderList().getAll();
+        if(rl != null)
+          if(rl.contains(_toMatch))         
+            sg.toggleRender(_toAdd);
       }
     }
   }
@@ -102,14 +102,11 @@ class GroupManager{
         if(_pos.dist(seg.getRegA()) < SNAP_DIST){
           snappedList.add(seg.getRegA());
           snap = seg.getRegA();
-          snappedIndex = i;
-          println("haha");
-        }
+          snappedIndex = i;        }
         else if(_pos.dist(seg.getRegB()) < SNAP_DIST){
           snappedList.add(seg.getRegB());
           snap = seg.getRegB();
           snappedIndex = i;
-          println("hbhb");
         }
         if(!isFocused()) lastSelectedIndex = i; 
       }
@@ -209,11 +206,21 @@ class GroupManager{
     return SNAP_DIST;
   }
 
+  // public void toggle(Renderer _rn){
+  //   renderList.toggle(_rn);
+  // }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+  public RenderList getRenderList(){
+    SegmentGroup sg = getSelectedGroup();
+    if(sg != null) return sg.getRenderList();
+    else return null;
+  }
 
   boolean isFocused(){
     if(snappedIndex != -1 || selectedIndex != -1) return true;
@@ -225,7 +232,6 @@ class GroupManager{
   }
 
   public SegmentGroup getSelectedGroup(){
-    
     if(snappedIndex != -1 && selectedIndex == -1) return groups.get(snappedIndex);
     else if(selectedIndex != -1 && selectedIndex <= groupCount) return groups.get(selectedIndex);
     else return null;
@@ -249,4 +255,5 @@ class GroupManager{
     if (isFocused()) return getSelectedGroup().getLastPoint();
     else return new PVector(width/2, height/2, 0);
   }
+
 }

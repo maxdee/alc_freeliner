@@ -201,16 +201,15 @@ class Keyboard{
  *
  * @param char the capital key to process
  */
-  public void processCAPS(char c) {
+  public void processCAPS(char _c) {
     if(shifted){
-      if (groupManager.isFocused()) groupManager.getSelectedGroup().toggleRender(c);
-      else {
-        rendererManager.getList().toggle(c);
-        gui.setRenderString(rendererManager.renderList.getString());
-      }
+      RenderList rl = groupManager.getRenderList();
+      if(rl == null) rl = rendererManager.getRenderList();
+      rl.toggle(rendererManager.getRenderer(_c));
+      gui.setRenderString(rl.getTags());
     }
     else {
-      rendererManager.trigger(c);
+      rendererManager.trigger(_c);
     }
   }
 
@@ -297,20 +296,17 @@ class Keyboard{
 
   public void distributor(char _k, int _n, boolean _vg){
     if (!localDispatch(_k, _n, _vg)){
-      if (groupManager.isFocused()){
-        if(!segmentGroupDispatch(groupManager.getSelectedGroup(), _k, _n, _vg)){ // check if mapped to a segmentGroup
-          char d = groupManager.getSelectedGroup().getRenderList().getFirst();
-          //println(d+"  "+getSelectedGroup());
-          decoratorDispatch(rendererManager.getRenderer(d), _k, _n, _vg);
-        }
+      SegmentGroup sg = groupManager.getSelectedGroup();
+      RenderList rl = null;
+      if(sg != null){
+        if(!segmentGroupDispatch(sg, _k, _n, _vg)) rl = sg.getRenderList();
       }
-      else { 
-        ArrayList<Renderer> selected_ = rendererManager.getSelected();
-        for (int i = 0; i < selected_.size(); i++) {
-          //if(renderList.has(renderers.get(i).getID())){
-            decoratorDispatch(selected_.get(i), _k, _n, _vg);
-          //}
-        }
+      else rl = rendererManager.getRenderList();
+      if(rl != null){
+        ArrayList<Renderer> rndrs = rl.getAll();
+        if(rndrs != null)
+          for(Renderer rn : rndrs)
+            rendererDispatch(rn, _k, _n, _vg);
       }    
     } 
   }
@@ -384,7 +380,7 @@ class Keyboard{
     return used_;
   }
 
-  public boolean decoratorDispatch(Renderer _renderer, char _k, int _n, boolean _vg) {
+  public boolean rendererDispatch(Renderer _renderer, char _k, int _n, boolean _vg) {
     //println(_renderer.getID()+" "+_k+" ("+int(_k)+") "+n);
     boolean used_ = true;
     
@@ -439,7 +435,11 @@ class Keyboard{
   private void returnWord() {
     SegmentGroup _sg = groupManager.getSelectedGroup();
     if (_sg != null) _sg.setWord(wordMaker, -1);
-    else groupManager.groupAddRenderer(wordMaker, rendererManager.getList().getFirst());
+    else if(wordMaker.length() > 0) {
+      Renderer _toadd = rendererManager.getRenderer(wordMaker.charAt(0));
+      Renderer _tomatch = rendererManager.getRenderList().getIndex(0);
+      groupManager.groupAddRenderer(_toadd, _tomatch);
+    }
     wordMaker = " ";
     enterText = false;
   }

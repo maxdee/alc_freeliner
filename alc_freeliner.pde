@@ -57,7 +57,6 @@ void setup() {
   //traceShape(loadShape("texture_1.svg"));
 }
 
-
 // lets processing know if we want it fullscreen
 boolean sketchFullScreen() {
   return fullscreen;
