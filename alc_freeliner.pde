@@ -33,11 +33,11 @@ PFont font;
 PFont introFont;
 
 boolean ballPit = false;//true;
-//boolean fullscreen = true;
-boolean fullscreen = false;
+boolean fullscreen = true;
+//boolean fullscreen = false;
 int xres = 1024;
 int yres = 768;
-
+boolean liquid = false;
 void setup() {
 
   if(!fullscreen) size(xres, yres, P2D);

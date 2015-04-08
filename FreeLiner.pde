@@ -54,6 +54,7 @@ class  FreeLiner {
     background(0);
     rendererManager.update(groupManager.getGroups());
     image(rendererManager.getCanvas(), 0, 0);
+
     
     if(gui.doDraw()){
       gui.update();

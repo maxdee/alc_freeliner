@@ -59,7 +59,6 @@
 
   boolean updateFlag = false;
 
-
 /**
  * Constructor
  * @param GroupManager dependency injection
@@ -193,7 +192,10 @@
     crosshair.setStrokeWeight(3);
     canvas.pushMatrix();
     canvas.translate(_pos.x, _pos.y);
-    if(width > 1026 && _pos.x > width/2) canvas.rotate(QUARTER_PI);
+    if(width > 1026 && _pos.x > width/2) {
+      canvas.rotate(QUARTER_PI);
+      if(liquid) crosshair.setStroke(0);
+    }
     canvas.shape(crosshair);
     canvas.popMatrix();
   }

@@ -83,7 +83,10 @@ class RendererManager{
     canvas.beginDraw();
     if(trails) alphaBG(canvas);
     else canvas.clear();
-
+    if(liquid){
+      fill(255);
+      rect(1024,0,1024,768);
+    }
     for (Renderer r_ : renderers) {
       r_.passLerper(sync.getLerp(r_.getDivider()));
       r_.passCycle(sync.getCycle(r_.getDivider()));
