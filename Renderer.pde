@@ -576,13 +576,13 @@ class Renderer {
   }
 
   public void writer(Segment vert) {
-    String werd = vert.getWord();
+    String werd = vert.getText();
     int l = werd.length();
     PVector pos = new PVector(0,0,0);
     //setBrushes();
     canvas.textFont(font);
     canvas.textSize(brush.getScaledSize());
-    char[] carr = vert.getWord().toCharArray();
+    char[] carr = vert.getText().toCharArray();
     for(int i = 0; i < l; i++){
       pos = vert.getRegPos(-((float)i/(l+1) + 1.0/(l+1))+1); //optimise!!
       canvas.pushMatrix();

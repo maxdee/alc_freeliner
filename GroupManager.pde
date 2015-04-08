@@ -128,7 +128,7 @@ class GroupManager{
         _vert.add(ndg);
       }
     }
-    else if(isFocused()) getSelectedGroup().nudgePoint(ndg);
+    else if(isFocused()) getSelectedGroup().nudgeLastPoint(ndg);
     // else if (isFocused() && snappedIndex == selectedIndex) {
     //   getSelectedGroup().nudgeSnapped(ndg, _pos); 
     // } 
@@ -242,7 +242,7 @@ class GroupManager{
     else return null;
   }
 
-  public SegmentGroup getIndex(int _i){
+  public SegmentGroup getGroup(int _i){
     if(_i >= 0 && _i < groupCount) return groups.get(_i);
     else return null;
   }

@@ -23,9 +23,12 @@
  */
 
 
-
-// a group of two points.
-
+/**
+ * A segment consist of two vertices with special other data as a offset line.
+ * <p>
+ * 
+ *
+ */
 class Segment {
   PVector pointA;
   PVector pointB;
@@ -36,6 +39,7 @@ class Segment {
   PVector offA;
   PVector offB;
   
+  // previous and or next segments, needed to create offset line
   Segment neighbA;
   Segment neighbB;
 
@@ -44,12 +48,12 @@ class Segment {
   int sizer;
   
   float angle;
-  float anglePI;
+  //float anglePI;
   boolean centered;
 
   float ranFloat;
 
-  String werd;
+  String segmentText;
 
   public Segment(PVector pA, PVector pB) {
 
@@ -62,48 +66,13 @@ class Segment {
     sizer = 1;
     centered = false;
     updateAngle();
-    werd = "freeliner!";
+    segmentText = "freeliner!";
   }
 
   public void updateAngle(){
     angle = atan2(pointA.y-pointB.y, pointA.x-pointB.x);
-    anglePI = angle + PI;
+    //anglePI = angle + PI;
   }
-
-  //for teh gui
-  public void drawLine(PGraphics g) {
-    g.stroke(170);
-    g.strokeWeight(1);
-    vecLine(g, pointA, pointB);
-    if(centered) vecLine(g, offA, offB);
-    g.stroke(200);
-    g.strokeWeight(3);
-    g.point(pointA.x, pointA.y);
-    g.point(pointB.x, pointB.y);
-  }
-
-  public void simpleText(PGraphics pg, int s){
-    int l = werd.length();
-    PVector pos = new PVector(0,0,0);
-    pg.pushStyle();
-    pg.fill(255);
-    pg.noStroke();
-    pg.textFont(font);
-    pg.textSize(s);
-    char[] carr = werd.toCharArray();
-    for(int i = 0; i < l; i++){
-      pos = getRegPos(-((float)i/(l+1) + 1.0/(l+1))+1);
-      pg.pushMatrix();
-      pg.translate(pos.x, pos.y);
-      pg.rotate(angle);
-      pg.translate(0,5);
-      pg.text(carr[i], 0, 0);
-      pg.popMatrix();
-    }
-    pg.popStyle();
-  }
-
-
 
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +125,7 @@ class Segment {
   }
 
   public void setWord(String w){
-    werd = w;
+    segmentText = w;
   }
 
 
@@ -165,6 +134,10 @@ class Segment {
   ///////     Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+  // public final int getSize(){
+  //   return sizer;
+  // }
 
   public final PVector getPos(float l) {
     if (centered) return getOffPos(l);
@@ -223,7 +196,7 @@ class Segment {
   }
 
   public final float getAngle(boolean inv) {
-    if(inv) return anglePI;
+    if(inv) return angle+PI;
     return angle;
   }
 
@@ -239,8 +212,8 @@ class Segment {
     return center;
   }
 
-  public final String getWord(){
-    return werd;
+  public final String getText(){
+    return segmentText;
   }
 }
 

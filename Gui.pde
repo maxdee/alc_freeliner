@@ -35,6 +35,8 @@
 
   // depends on a group manager
   GroupManager groupManager;
+  // SegmentGroup used to display information, aka group 0
+  SegmentGroup guiSegments;
   Mouse mouse;
   PGraphics grid;
   PGraphics canvas;
@@ -84,6 +86,7 @@
 
   public void inject(GroupManager _gm, Mouse _m){
     groupManager = _gm;
+    guiSegments = groupManager.getGroup(0);
     mouse = _m;
   }
 
@@ -94,7 +97,9 @@
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  //gui bits
+/**
+ * blalalalal
+ */
   private void update() {
     canvas.beginDraw();
     canvas.clear();
@@ -108,25 +113,25 @@
     putcrosshair(mouse.getPosition(), mouse.isSnapped());
     if(viewLines || viewTags){
       for (SegmentGroup sg : groupManager.getGroups()) {
-        canvas.fill(200);
-        if(viewTags) sg.showLines(canvas); 
-        if(viewLines) sg.showTag(canvas);
+        groupGui(sg);
       }
     }
     SegmentGroup sg = groupManager.getSelectedGroup();
     if(sg != null){
       canvas.fill(255);
-      sg.showLines(canvas); 
-      sg.showTag(canvas);
-      if (viewPosition) sg.previewLine(canvas, mouse.getPosition());
+      showTag(sg); 
+      showGroupLines(sg);
+      if (viewPosition) previewLine(sg);
     }
-    infoWritter(canvas);
+    infoWritter();
     canvas.endDraw();
   }
 
-
-
-  private void infoWritter(PGraphics pg) {
+/**
+ * This formats the information to display and assigns it to the segements of the gui group.
+ * @return String of time since session started
+ */
+  private void infoWritter() {
     //if(updateFlag){
       String tags = " ";
       RenderList rl = groupManager.getRenderList();
@@ -134,22 +139,34 @@
       else tags += renderString; //renderList.getString();
       if(tags.length()>20) tags = "*ALL*";
 
-      groupManager.getIndex(0).setWord("[Item: "+groupManager.getSelectedIndex()+"]", 0);
-      groupManager.getIndex(0).setWord("[Rndr: "+tags+"]", 1);
-      groupManager.getIndex(0).setWord("["+keyString+": "+valueGiven+"]", 2);
-      groupManager.getIndex(0).setWord("[FPS "+frameRate+"]", 3);
-      groupManager.getIndex(0).setWord("[Run "+getTimeRunning()+"]", 4);
+      guiSegments.setWord("[Item: "+groupManager.getSelectedIndex()+"]", 0);
+      guiSegments.setWord("[Rndr: "+tags+"]", 1);
+      guiSegments.setWord("["+keyString+": "+valueGiven+"]", 2);
+      guiSegments.setWord("[FPS "+frameRate+"]", 3);
+      guiSegments.setWord("[Run "+getTimeRunning()+"]", 4);
       updateFlag = false;
     //}
-    groupManager.getIndex(0).showText(pg);
+    ArrayList<Segment> segs = guiSegments.getSegments(); 
+    int sz = int(guiSegments.getScaler()*10);
+    if(segs != null)
+      for(Segment seg : segs)
+        simpleText(seg, sz);
 
   }
 
+/**
+ * The idea is to see how long your mapping jams having been going on for.
+ * @return String of time since session started
+ */
   private String getTimeRunning(){
     return str(hour()-timeStarted[0])+':'+str(minute()-timeStarted[1])+':'+str(second()-timeStarted[2]); 
   }
 
-  // makes a screenshot with all lines and itemNumbers/renderers.
+/**
+ * Makes a screenshot with all lines and itemNumbers/renderers. 
+ * This is helpfull to have a reference as to what is what when rocking out.
+ * Gets called everytime a new group is create.
+ */
   private void updateReference() {
     boolean tgs = viewTags;
     boolean lns = viewLines;
@@ -161,7 +178,10 @@
     viewLines = lns;
   }
 
-
+/**
+ * Generate a PGraphics with the grid.
+ * @param int resolution
+ */
   private void generateGrid(int _sz){
     gridSize = _sz;
     PShape grd;
@@ -185,14 +205,21 @@
   }
   
 
-
+/**
+ * Display the cursor. 
+ * If it is snapped we display it green.
+ * If it seems like we are using a matrox dual head, rotates the cursor to show which projector you are on.
+ * @param PVector cursor coordinates
+ * @param boolean isSnapped
+ */
   private void putcrosshair(PVector _pos, boolean _snap){
     if(_snap) crosshair.setStroke(color(0,200,0));
     else crosshair.setStroke(255);
     crosshair.setStrokeWeight(3);
     canvas.pushMatrix();
     canvas.translate(_pos.x, _pos.y);
-    if(width > 1026 && _pos.x > width/2) {
+    // if dual projectors
+    if(width > 2000 && _pos.x > width/2) {
       canvas.rotate(QUARTER_PI);
       if(liquid) crosshair.setStroke(0);
     }
@@ -200,6 +227,9 @@
     canvas.popMatrix();
   }
 
+/**
+ * Create the pshape for the cursor.
+ */
   private void makecrosshair(){
     int out = 20;
     int in = 3;
@@ -218,6 +248,95 @@
     crosshair.vertex(-in, in);
     crosshair.endShape();
   }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Group gui rendering
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  private void groupGui(SegmentGroup _sg){
+    canvas.fill(200);
+    if(viewTags) showTag(_sg); 
+    if(viewLines) showGroupLines(_sg);
+  } 
+
+/**
+ * This shows a line between the last point and the cursor.
+ * @param 
+ * @param 
+ */
+  private void previewLine(SegmentGroup _sg) {
+    PVector pos = _sg.getSegmentStart();
+    if (pos.x > 0) {
+      canvas.stroke(255);
+      canvas.strokeWeight(3);
+      vecLine(canvas, pos, mouse.getPosition());
+    }
+  }
+
+  public void showGroupLines(SegmentGroup _sg) {
+    ArrayList<Segment> segs =  _sg.getSegments();
+    if(segs != null)
+      for (Segment seg : segs)
+        showSegmentLines(seg);
+  }
+
+  public void showTag(SegmentGroup _sg) {
+    PVector pos = _sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart(); 
+    canvas.noStroke();
+    canvas.fill(255);
+    int id = _sg.getID();
+    canvas.text(str(id), pos.x - (16+int(id>9)*6), pos.y+6);
+    canvas.text(_sg.getRenderList().getTags(), pos.x + 6, pos.y+6);
+    canvas.noFill();
+    canvas.stroke(255);
+    canvas.strokeWeight(1);
+    canvas.ellipse(pos.x, pos.y, 10, 10);
+  }
+
+/**
+ * Display the lines of a SegmentGroup, with nice little dots on corners.
+ * If it is centered it also shows the path offset.
+ * @param Segment segment to draw
+ */
+  public void showSegmentLines(Segment _s) {
+    canvas.stroke(170);
+    canvas.strokeWeight(1);
+    vecLine(canvas, _s.getRegA(), _s.getRegB());
+    if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
+    canvas.stroke(200);
+    canvas.strokeWeight(3);
+    canvas.point(_s.getRegA().x, _s.getRegA().y);
+    canvas.point(_s.getRegB().x, _s.getRegB().y);
+  }
+
+
+/**
+ * Display the text of a segment.
+ * @param Segment
+ */
+  public void simpleText(Segment _s, int _size){
+    String txt = _s.getText();
+    int l = txt.length();
+    PVector pos = new PVector(0,0);
+    canvas.pushStyle();
+    canvas.fill(255);
+    canvas.noStroke();
+    canvas.textFont(font);
+    canvas.textSize(_size);
+    char[] carr = txt.toCharArray();
+    for(int i = 0; i < l; i++){
+      pos = _s.getRegPos(-((float)i/(l+1) + 1.0/(l+1))+1);
+      canvas.pushMatrix();
+      canvas.translate(pos.x, pos.y);
+      canvas.rotate(_s.getAngle(false));
+      canvas.translate(0,5);
+      canvas.text(carr[i], 0, 0);
+      canvas.popMatrix();
+    }
+    canvas.popStyle();
+  }
+
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -254,7 +373,6 @@
   ///////     Modifiers
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
 
 
   public void setKeyString(String _s){

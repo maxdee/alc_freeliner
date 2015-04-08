@@ -46,7 +46,7 @@ class SegmentGroup {
   int segCount = 0;
   RenderList renderList;
   PVector center;
-  PVector placeA;
+  PVector segmentStart;
   boolean firstPoint;
   boolean seperated;
 
@@ -75,7 +75,7 @@ class SegmentGroup {
     segments = new ArrayList();
     treeBranches = new ArrayList();
     renderList = new RenderList();
-    placeA = new PVector(-10, -10, -10);
+    segmentStart = new PVector(-10, -10, -10);
     center = new PVector(-10, -10, -10);
     firstPoint = true;
     centered = false;
@@ -92,14 +92,14 @@ class SegmentGroup {
 
   private void startSegment(PVector p) {
     if(firstPoint) center = p.get();
-    placeA = p.get();
+    segmentStart = p.get();
     firstPoint = false;
   }
 
   private void endSegment(PVector p) {
-    segments.add(new Segment(placeA, p));
+    segments.add(new Segment(segmentStart, p));
     segCount++;
-    placeA = p.get();
+    segmentStart = p.get();
     seperated = false;
     setNeighbors();
     findRealNeighbors();
@@ -108,11 +108,11 @@ class SegmentGroup {
 
   private void breakSegment(PVector p) {
     seperated = true;
-    placeA = p.get();
+    segmentStart = p.get();
   }
 
-  private void nudgePoint(PVector p) {
-    PVector np = placeA.get();
+  private void nudgeLastPoint(PVector p) {
+    PVector np = segmentStart.get();
     if (!centerPutting) {
       np.add(p);
       if (segCount == 0 || seperated) breakSegment(np);
@@ -130,31 +130,15 @@ class SegmentGroup {
     setNeighbors();
   }
 
-  // needs to deal better with two points that are close together
-  public void nudgeSnapped(PVector p, PVector m) {
-    boolean nud = false;
-    if (segCount>0) {
-      for (int i = 0; i<segCount; i++) {
-        if (m.dist(segments.get(i).getRegA()) < 0.001 ) segments.get(i).getRegA().add(p);
-        if (m.dist(segments.get(i).getRegB()) < 0.001 ) segments.get(i).getRegB().add(p);
-      }
-      if (checkProx(m, center)) {
-        center.add(p);
-        placeCenter(center);
-      }
-      generateShape();
-      setNeighbors();
-    }
-  }
 
   private void undoSegment() {
     if (segCount > 0) {
-      float dst = placeA.dist(segments.get(segCount-1).pointB.get());
+      float dst = segmentStart.dist(segments.get(segCount-1).pointB.get());
       if(dst > 0.001){
-        placeA = segments.get(segCount-1).pointB.get();
+        segmentStart = segments.get(segCount-1).pointB.get();
       }
       else {
-        placeA = segments.get(segCount-1).pointA.get();
+        segmentStart = segments.get(segCount-1).pointA.get();
         segments.remove(segCount-1);
         segCount--;
       }
@@ -318,43 +302,6 @@ class SegmentGroup {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void showLines(PGraphics g) {
-    for (int i = 0; i<segCount; i++) {
-      segments.get(i).drawLine(g);
-    }
-    // if(segCount!=0){
-    //   itemShape.setFill(false);
-    //   itemShape.setStroke(100);
-    //   //itemShape.set
-    //   g.shape(itemShape);
-    // }
-  }
-
-  private void previewLine(PGraphics g, PVector c) {
-    if (!firstPoint) {
-      g.stroke(255);
-      g.strokeWeight(3);
-      g.line(placeA.x, placeA.y, c.x, c.y);
-    }
-  }
-
-  public void showTag(PGraphics g) {
-    PVector pos = centered ? center : placeA; 
-    g.noStroke();
-    g.fill(255);
-    g.text(str(ID), pos.x - (16+int(ID>9)*6), pos.y+6);
-    g.text(renderList.getTags(), pos.x + 6, pos.y+6);
-    g.noFill();
-    g.stroke(255);
-    g.strokeWeight(1);
-    g.ellipse(pos.x, pos.y, 10, 10);
-  }
-
-  private void showText(PGraphics pg){
-    for (int i = 0; i<segCount; i++) {
-      segments.get(i).simpleText(g, int(sizeScaler*10));
-    }
-  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -417,6 +364,16 @@ class SegmentGroup {
 
   public final PVector getCenter(){
     return center;
+  }
+
+  // other stuff
+  public final boolean isCentered(){
+    return centered;
+  }
+
+
+  public final PVector getSegmentStart(){
+    return segmentStart;
   }
 
   public final RenderList getRenderList() {

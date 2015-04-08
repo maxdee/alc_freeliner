@@ -32,20 +32,27 @@ FreeLiner fl;
 PFont font;
 PFont introFont;
 
+// for the glitch gallery ballpit
 boolean ballPit = false;//true;
-boolean fullscreen = true;
-//boolean fullscreen = false;
+
+// for the liquid crystal table
+boolean liquid = false;
+
+// set if the sketch is fullscreen by default
+//boolean fullscreen = true;
+boolean fullscreen = false;
+
+// default window size if not fullscreen
 int xres = 1024;
 int yres = 768;
-boolean liquid = false;
-void setup() {
 
+void setup() {
   if(!fullscreen) size(xres, yres, P2D);
   else size(displayWidth, displayHeight, P2D);
   //frame.setBackground(new java.awt.Color(0, 0, 0));
   
   frameRate(30); //is this helpfull?
-  textureMode(NORMAL);
+  //textureMode(NORMAL);
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");
   
