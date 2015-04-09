@@ -25,9 +25,6 @@
 
 /**
  * A segment consist of two vertices with special other data as a offset line.
- * <p>
- * 
- *
  */
 class Segment {
   PVector pointA;

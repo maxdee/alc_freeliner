@@ -51,6 +51,7 @@ class RendererManager{
   public RendererManager(){
     sync = new Synchroniser();
   	renderList = new RenderList();
+
     canvas = createGraphics(width, height);
     canvas.smooth(0);
     canvas.ellipseMode(CENTER);
@@ -87,10 +88,13 @@ class RendererManager{
       fill(255);
       rect(1024,0,1024,768);
     }
+
+    // update the clocks
     for (Renderer r_ : renderers) {
-      r_.passLerper(sync.getLerp(r_.getDivider()));
-      r_.passCycle(sync.getCycle(r_.getDivider()));
+      r_.setTime(sync.getLerp(r_.getDivider()), sync.getPeriod(r_.getDivider()));
+      r_.passCanvas(canvas);
     }
+
     for(SegmentGroup sg : _sgarray){
       renderGroup(sg);
     }
@@ -103,14 +107,10 @@ class RendererManager{
     ArrayList<Renderer> rList = _sg.getRenderList().getAll();
     if(rList != null){
       for (Renderer r_ : rList) {
-        r_.passCanvas(canvas);
-        r_.passSegmentGroup(_sg);
-        r_.iterator();
+        r_.renderGroup(_sg);
       }
     }
   }
-
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Effects
@@ -131,7 +131,7 @@ class RendererManager{
   
   public void trigger(char _c){
     Renderer r_ = getRenderer(_c);
-    if(r_ != null) r_.trigger();
+    if(r_ != null) r_.trigger(1);
   }
 
   public void focusAll() {

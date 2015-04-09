@@ -39,6 +39,8 @@ class Renderer {
   Stylist style;
   Brush brush;
 
+  ArrayList<RenderEvent> renderEvents;
+
   SegmentGroup group;
   ArrayList<Segment> segments;
   ArrayList<Segment> treeStyle;
@@ -53,6 +55,12 @@ class Renderer {
   boolean fillit;
 
   float lerper;
+  float timeFloat;
+  int period;
+  int beatCount;
+  int divider;
+  
+
   float vertAngle;
 
   int aniMode;
@@ -67,9 +75,8 @@ class Renderer {
   int polka;
   int probability;
 
-  int divider;
-  int cycle;
-  int randomer; // should be in verts? or group
+
+  int eventRandomNum; // should be in verts? or group
   int largeRan;
 
   PGraphics canvas; // do image effects such as tint and shit.
@@ -87,7 +94,6 @@ class Renderer {
  * @param  identification char
  */
   public Renderer(char _id){
-
   	ID = _id;
     init();
   }
@@ -102,6 +108,7 @@ class Renderer {
     brush = new Brush();
     segments = new ArrayList();
     treeStyle = new ArrayList();
+    renderEvents = new ArrayList();
     letter = ID;
     
     center = new PVector(0,0);
@@ -128,8 +135,9 @@ class Renderer {
     probability = 100;
 
     divider = 1;
-    cycle = 0;
-    randomer = 0;
+    period = 0;
+    beatCount = 0;
+    eventRandomNum = 0;
     largeRan = 0;
   }
 
@@ -139,60 +147,72 @@ class Renderer {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-
+  // first pass data
   public void passCanvas(PGraphics _pg){
     canvas = _pg;
   }
 
-  public void passSegmentGroup(SegmentGroup _sg){
+  public void setTime(float _tf, int _p){
+    timeFloat = _tf;
+    period = _p;
+  }
+
+  // Then render groups
+  public void renderGroup(SegmentGroup _sg){
     group = _sg;
-    updateGroupData();
-  }
-
-  public void passCycle( int _i){
-    if(cycle != _i) {
-      cycle = _i;
-      cycleThings();
-      updateGroupFlag = true;
-    }
-  }
-
-  public void passLerper(float _f) {
-    lerper = lerpStyle(_f);
-  }
-
-  public void updateGroupData(){
+    // set segments to render
     segments = group.getSegments();
     segCount = segments.size();
+    // set brush scale
     setScale(group.getScaler());
-    if(updateGroupFlag) group.newRan();
-    largeRan = int(group.getRan()*((float(ID)/200)+1));
-    randomer = largeRan%100; // was 20
-    brush.setRandomer(randomer);
-    style.setRandomer(randomer);
+    
+    int id = _sg.getID();
+    // if trigger all trigger it.
+    if(renderEvents.size() == 0 && looper) trigger(id);
+    if(renderEvents.size() > 0){
+      ArrayList<RenderEvent> toRemove = new ArrayList();
+      boolean has = false;
+      for(RenderEvent rev : renderEvents){
+        if(rev.getID() == id){
+          has = true;
+          if(processRenderEvent(rev)) toRemove.add(rev);
+        }
+      }
+      if(!has) trigger(id);
+      for(RenderEvent rev : toRemove)
+        renderEvents.remove(rev);
+    }
+  }
 
+  public void trigger(int _id){
+    renderEvents.add(new RenderEvent(_id));
+    // trigger modes allGroups, sequential!!
+  }
 
+  public boolean processRenderEvent(RenderEvent _rev){
+    // if we need to update.
+    // if(updateGroupFlag){
+    //   group.newRan();
+    //   grd.init(lerper);
+    // }
+    eventRandomNum = _rev.getRandomNum();
+    largeRan = _rev.getLargeRan();
+    brush.setRandomer(eventRandomNum);
+    style.setRandomer(eventRandomNum);
+    beatCount = _rev.getBeatCount();
+    style.setIncrement(beatCount);
+    brush.setIncrement(beatCount);
+    
     updateGroupFlag = false;
 
+    float lrp = _rev.getLerp(timeFloat);
+    if(lrp < 1) iterator(lrp);
+    else if(lrp >= 1.0 && looper) _rev.init(timeFloat); // use >=
+    else return true;
+    return false;
   }
 
-
-
-  private void cycleThings(){
-    //println("group : "+group.getID()+"  Decor : "+ID+ "  randomer : "+randomer);
- 
-    if(!looper && launchit){
-      enableDeco = true;
-      launchit = false;
-    }
-    else if(!looper) enableDeco = false;
-    else enableDeco = true;
-
-    style.setIncrement(cycle);
-    brush.setIncrement(cycle);
-    reverseThings();
-  }
-
+// needs to get called...
   private void reverseThings(){
     switch(reverseMode){
       case 0:
@@ -207,10 +227,6 @@ class Renderer {
     }
   }
 
-
-  public void trigger(){
-    
-  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -238,8 +254,8 @@ class Renderer {
 
   //there is a slight glitch here
   private float backAndForth(float l){
-    // println(cycle % 2+" "+l);
-    if(cycle % 2 == 0) return constrain(-l+1, 0, 1);
+    // println(period % 2+" "+l);
+    if(beatCount % 2 == 0) return constrain(-l+1, 0, 1);
     else return l;
   }
 
@@ -249,9 +265,9 @@ class Renderer {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  private void iterator(){
-    float origLerp = lerper;
-    if( segCount > 0 && enableDeco && randomer < probability){
+  private void iterator(float _lrp){
+    lerper = lerpStyle(_lrp);
+    if( segCount > 0 && enableDeco && eventRandomNum < probability){
       switch (iterationMode){
         case 0:
           doDeco();  
@@ -267,7 +283,6 @@ class Renderer {
           break;
       }
     }
-    lerper = origLerp;
   }
 
   private void manyThings() {
@@ -308,7 +323,7 @@ class Renderer {
     style.apply(canvas);
     if(rotationMode != 0) rotater = lerper*TWO_PI*rotationMode;
     else rotater = 0;
-    if (lerper <= 1 && lerper >= 0){// && segCount > 0 && enableDeco && randomer < probability){
+    if (lerper <= 1 && lerper >= 0){// && segCount > 0 && enableDeco && eventRandomNum < probability){
       if(segments.get(0).isCentered()){
         center = segments.get(0).getCenter().get();
         centered = true;
@@ -333,7 +348,7 @@ class Renderer {
         segmentsToRender = group.getSegments();
         break;
       case 1:
-        seg = group.getSegment(cycle);
+        seg = group.getSegment(beatCount);
         break;
       case 2:
         //alternateLerp();
@@ -345,7 +360,7 @@ class Renderer {
         seg = group.getSegment((int)random(1000));
         break;
       case 5:
-        segmentsToRender = group.getBranch(cycle);
+        segmentsToRender = group.getBranch(beatCount);
         break;
       case 6:
         segmentsToRender = group.getBranch(int(lerper*group.treeBranches.size()));
@@ -525,10 +540,10 @@ class Renderer {
     if(maybe(polka)) liner(_v.getRegA(), _v.getRegB());
   }
 
-
+  // fill the gaps with black?
   private void dashes(Segment _v){
     float dashSize = constrain(float(brush.getSize())/40, 0, 0.5);
-    println(dashSize);
+    // println(dashSize);
     PVector p1 = null;
     PVector p2 = null;
     

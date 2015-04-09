@@ -24,9 +24,58 @@
 
 
 // the data structure shared between a SegmentGroup and Renderer
-class GroupRender {
-	Renderer renderer;
-	SegmentGroup segmentGroup;
+class RenderEvent {
+	int groupId;
+
+	int randomNum;
+	int largeRandom;
+
+	int beatCount;
+	float timeStamp;
+
+	boolean direction;
 	
-	public GroupRender(){}
+	public RenderEvent(int _id){
+		groupId = _id;
+		beatCount = -1;
+		//println("newgrd "+_id);
+	}
+
+	public void init(float _ts){
+		timeStamp = _ts;
+		//println(timeStamp);
+		beatCount++;
+		setRandomNum((int)random(100));
+    setLargeRan((int)random(10000));
+	}
+
+	public float getLerp(float _lrp){
+		if(_lrp > timeStamp) return _lrp - timeStamp;
+		else return (_lrp+1)-timeStamp; // _lrp < timestamp
+	}
+
+	public void setRandomNum(int _rn){
+ 		randomNum = _rn;
+ 	}
+
+ 	public void setLargeRan(int _lr){
+ 		largeRandom = _lr;
+ 	}
+
+	public int getID(){
+		return groupId;
+	}
+
+	public int getBeatCount(){
+		return beatCount;
+	}
+
+ 	public int getLargeRan(){
+ 		return largeRandom;
+ 	}
+
+
+	public int getRandomNum(){
+		return randomNum;
+	}
 }

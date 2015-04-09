@@ -69,6 +69,10 @@ PVector vecLerp(PVector a, PVector b, float l){
   return new PVector(lerp(a.x, b.x, l), lerp(a.y, b.y, l), 0);
 }
 
+void vecLine(PGraphics p, PVector a, PVector b){
+  p.line(a.x,a.y,b.x,b.y);
+}
+
 PVector angleMove(PVector p, float a, float s){
   PVector out = new PVector(cos(a)*s, sin(a)*s, 0);
   out.add(p);
@@ -77,14 +81,12 @@ PVector angleMove(PVector p, float a, float s){
 
 PVector vectorMirror(PVector p){
   float newX = 0;
-  if(p.x<width/2) newX = width-p.x;
+  if(p.x < width/2) newX = width-p.x;
   else newX = -(p.x-width/2)+width/2;
   return new PVector(newX, p.y, p.z);
 }
 
-void vecLine(PGraphics p, PVector a, PVector b){
-  p.line(a.x,a.y,b.x,b.y);
-}
+
 
 //4 am victory
 // find angle with generic size? then offer offset by andgle and size?

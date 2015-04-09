@@ -329,7 +329,7 @@ class Keyboard{
     String valueGiven_ = null;
     if(_n == -3){
       if (_k == 'n'){
-        groupManager.newItem(); 
+        groupManager.newGroup(); 
         gui.updateReference();
       }
       //more ergonomic?

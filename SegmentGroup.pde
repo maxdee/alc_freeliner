@@ -23,7 +23,6 @@
  */
 
 
-
 /**
  * SegmentGroup is an arrayList of Segment with one center point
  * <p>
@@ -37,7 +36,6 @@ class SegmentGroup {
   final int ID;
   float sizeScaler = 1.0;
   int sizer = 10;
-  int randomNum = 0;
   PShape itemShape;
 
   ArrayList<Segment> segments;
@@ -90,12 +88,21 @@ class SegmentGroup {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * Start a new segment from a coordinate
+ * @param PVector starting coordinate
+ */
   private void startSegment(PVector p) {
     if(firstPoint) center = p.get();
     segmentStart = p.get();
     firstPoint = false;
   }
 
+/**
+ * Make a segment by placing the second point.
+ * A few things are updated such as the neighbors and shape.
+ * @param PVector ending coordinate
+ */
   private void endSegment(PVector p) {
     segments.add(new Segment(segmentStart, p));
     segCount++;
@@ -106,12 +113,22 @@ class SegmentGroup {
     generateShape();
   }
 
+/**
+ * Start a new segment somewhere else than the current segmentStart
+ * A few things are updated such as the neighbors and shape.
+ * @param PVector ending coordinate
+ */
   private void breakSegment(PVector p) {
     seperated = true;
     segmentStart = p.get();
   }
 
-  private void nudgeLastPoint(PVector p) {
+
+/**
+ * Nudge the segmentStart.
+ * @param PVector ending coordinate
+ */
+  private void nudgeSegmentStart(PVector p) {
     PVector np = segmentStart.get();
     if (!centerPutting) {
       np.add(p);
@@ -164,25 +181,6 @@ class SegmentGroup {
     }
     centerPutting = false;
   }
-
-
-  public PVector snapVerts(PVector m) {
-    if (segCount>0) {
-      if (checkProx(m, center)) return center;
-      for (int i = 0; i<segCount; i++) {
-        if (checkProx(m, segments.get(i).getRegA())) return segments.get(i).getRegA();
-        if (checkProx(m, segments.get(i).getRegB())) return segments.get(i).getRegB();
-      }
-    }
-    return new PVector(0, 0, 0);
-  }
-
-  boolean checkProx(PVector g, PVector f) {
-    //abs(g.x-f.x) < snapVal && abs(g.y-f.y) < snapVal
-    if (g.dist(f) < snapVal) return true;
-    else return false;
-  } 
-
 
   private void setNeighbors() {
     int v1 = 0;
@@ -295,14 +293,6 @@ class SegmentGroup {
     else if (mb == 3) breakSegment(c);
   }
 
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     GUI
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Modifiers
@@ -319,7 +309,6 @@ class SegmentGroup {
   } 
 
   public void newRan(){
-    randomNum = (int)random(1000);
     for (int i = 0; i < segCount; i++) {
       segments.get(i).newRan();
     }
@@ -355,9 +344,7 @@ class SegmentGroup {
     return segCount;
   }
 
-  public final int getRan(){
-    return randomNum;
-  }
+
   public final PShape getShape(){
     return itemShape;
   }
@@ -381,7 +368,7 @@ class SegmentGroup {
   }
 
   public final PVector getLastPoint() {
-    if (segCount>0)  return segments.get(segCount-1).getRegA();
+    if (segCount>0)  return segmentStart.get();// segments.get(segCount-1).getRegA();
     else return new PVector(0, 0, 0);
   }
 

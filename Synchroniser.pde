@@ -39,7 +39,7 @@ class Synchroniser{
   FloatSmoother intervalTimer;
   float renderIncrement = 0.1;
   float lerper = 0;
-  int cycleCount = 0;
+  int periodCount = 0;
 
 	public Synchroniser(){
     tapTimer = new FloatSmoother(5, 350);
@@ -54,21 +54,21 @@ class Synchroniser{
 
     if(lerper > 1.0){
       lerper = 0;
-      cycleCount++;
-      //println("bomp " + cycleCount);
+      periodCount++;
+      //println("bomp " + periodCount);
     }
   }
 
   public float getLerp(int _div){
     if(_div < 1) _div = 1;
-    int cyc_ = (cycleCount%_div);
+    int cyc_ = (periodCount%_div);
     float lrp_ = (1.0/_div)*cyc_;
     return (lerper/_div) + lrp_; 
   }
 
-  public int getCycle(int _div){
+  public int getPeriod(int _div){
     if(_div <1) _div = 1;
-    return int(cycleCount/_div);
+    return int(periodCount/_div);
   }
 
 

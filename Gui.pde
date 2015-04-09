@@ -147,7 +147,7 @@
       updateFlag = false;
     //}
     ArrayList<Segment> segs = guiSegments.getSegments(); 
-    int sz = int(guiSegments.getScaler()*10);
+    int sz = int(guiSegments.getScaler()*20);
     if(segs != null)
       for(Segment seg : segs)
         simpleText(seg, sz);

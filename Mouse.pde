@@ -96,7 +96,7 @@ class Mouse{
       groupManager.getSelectedGroup().mouseInput(mb, position);
       if (mb == MIDDLE && fixedLength) previousPosition = mousePos.get();
     }
-    else if (mb == FOURTH_BUTTON) groupManager.newItem();
+    else if (mb == FOURTH_BUTTON) groupManager.newGroup();
   }
 
 /**

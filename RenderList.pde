@@ -32,6 +32,7 @@
  * @see Renderer
  */
 class RenderList {
+  // renderer references
   ArrayList<Renderer> renderers;
   String tags = "";
 
