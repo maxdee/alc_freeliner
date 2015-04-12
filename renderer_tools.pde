@@ -37,7 +37,7 @@ class Stylist {
     fillMode = 1;
     strokeWidth = 3;
     fluct = 0.0;
-    //alphaValue = 255;
+    alphaValue = 255;
   }
 
 
@@ -87,17 +87,17 @@ class Stylist {
       case 0:
         return color(0);
       case 1:
-        return color(255, 255, 255);//, alphaValue);
+        return color(255, 255, 255, alphaValue);
       case 2:
-        return color(255, 0, 0);//, alphaValue);
+        return color(255, 0, 0, alphaValue);
       case 3:
-        return color(0, 255, 0);//, alphaValue);
+        return color(0, 255, 0, alphaValue);
       case 4:
-        return color(0, 0, 255);//, alphaValue);
+        return color(0, 0, 255, alphaValue);
       case 5:
         return color(random(255));
       case 6:
-        return color(random(255), random(255), random(255));//, alphaValue);
+        return color(random(255), random(255), random(255), alphaValue);
       case 7:
         return colorShift();
       case 8:
@@ -345,3 +345,29 @@ class Brush {
   }
 }
 
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     iterations
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+// abstract class Iteration {
+//   // ideal polkaCount would be static.
+//   abstract FloatList get(float _f, int _polka);
+// }
+
+
+// class Polka extends Iteration {
+//   public FloatList get(float _f, int _polka){
+//     float ll = 0;
+//     float lerpol = _f/_polka;
+//     float pold = 1.0/_polka;
+//     for (int i = 0; i < _polka; i++) {
+//       lerper = (pold*i)+lerpol;
+//       style.setIteration(i);
+//       doDeco();
+//     }
+//     return _f
+//   }
+// }

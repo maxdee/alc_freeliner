@@ -33,7 +33,6 @@
  */
 
 class Renderer {
-	LerpManager lerpManager;
   // a capital letter to represent the decorator
   final char ID;
   Stylist style;
@@ -102,7 +101,6 @@ class Renderer {
  * Initialises variables and childs
  */
   public void init(){
-    lerpManager = new LerpManager();
 
     style = new Stylist();
     brush = new Brush();
@@ -206,9 +204,10 @@ class Renderer {
     updateGroupFlag = false;
 
     float lrp = _rev.getLerp(timeFloat);
-    if(lrp < 1) iterator(lrp);
-    else if(lrp >= 1.0 && looper) _rev.init(timeFloat); // use >=
-    else return true;
+    //if(lrp > 1) lrp = 1;
+    if(lrp >= 1.0 && looper) _rev.init(timeFloat);
+    else if( lrp >= 1.0 && !looper) return true;
+    iterator(lrp);
     return false;
   }
 

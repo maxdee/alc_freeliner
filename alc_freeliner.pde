@@ -36,7 +36,7 @@ PFont introFont;
 boolean ballPit = false;//true;
 
 // for the liquid crystal table
-boolean liquid = false;
+boolean liquid = false;//true;//
 
 // set if the sketch is fullscreen by default
 //boolean fullscreen = true;

@@ -51,8 +51,6 @@
   int gridSize = 30;
   int guiTimeout = 1000;
   int guiTimer = 1000;
-  //display elapsed time!
-  int[] timeStarted = new int[3];
 
   //ui strings
   String keyString = "derp";
@@ -79,9 +77,6 @@
     viewLines = false;
     viewTags = false;
     viewPosition = true;
-    timeStarted[0] = hour();
-    timeStarted[1] = minute();
-    timeStarted[2] = second();
   }
 
   public void inject(GroupManager _gm, Mouse _m){
@@ -142,8 +137,8 @@
       guiSegments.setWord("[Item: "+groupManager.getSelectedIndex()+"]", 0);
       guiSegments.setWord("[Rndr: "+tags+"]", 1);
       guiSegments.setWord("["+keyString+": "+valueGiven+"]", 2);
-      guiSegments.setWord("[FPS "+frameRate+"]", 3);
-      guiSegments.setWord("[Run "+getTimeRunning()+"]", 4);
+      guiSegments.setWord("["+getTimeRunning()+"]", 3);
+      guiSegments.setWord("[FPS "+(int)frameRate+"]", 4);
       updateFlag = false;
     //}
     ArrayList<Segment> segs = guiSegments.getSegments(); 
@@ -159,7 +154,13 @@
  * @return String of time since session started
  */
   private String getTimeRunning(){
-    return str(hour()-timeStarted[0])+':'+str(minute()-timeStarted[1])+':'+str(second()-timeStarted[2]); 
+    int millis = millis();
+    int h = millis/3600000;
+    millis %= 3600000;
+    int m = millis/60000;
+    millis %= 60000;
+    int s = millis/1000;
+    return h+":"+m+":"+s;
   }
 
 /**

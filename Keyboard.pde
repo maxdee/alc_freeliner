@@ -45,6 +45,7 @@ class Keyboard{
     "b    renderMode", 
     "c    placeCenter", 
     "d    setShape", 
+    "e    setAlpha",
     "f    setFill",
     "g    grid/size", 
     "h    lerpMode",
@@ -396,6 +397,7 @@ class Keyboard{
       else {
         if (_k == 'a') valueGiven_ = str(_renderer.setAniMode(_n));
         else if (_k == 'f') valueGiven_ = str(_renderer.setFillMode(_n));
+        else if (_k == 'e') valueGiven_ = str(_renderer.setAlpha(_n));
         else if (_k == 'r') valueGiven_ = str(_renderer.setPolka(_n));
         else if (_k == 'x') valueGiven_ = str(_renderer.setdivider(_n));
         else if (_k == 'i') valueGiven_ = str(_renderer.setIterationMode(_n));
