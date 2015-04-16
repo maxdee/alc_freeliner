@@ -2,6 +2,18 @@
 # alcFreeliner #
 Live ephemeral mapping software.
 
+
+### Philosophy ###
+
+alcFreeliner must:
+- Be operable via mouse and keyboard. For other control methods (midi controlers) go with OSC.
+- Cross platform.
+- Content Free, aside from fonts I guess.
+- Remain lightweight for old hardware.
+- Focus on improvisation.
+
+
+
 ## How to freeLine ##
 
 Point a projector at stuff, run the processing sketch. Navigate the space with your cursor, left click to add vertices, right click to remove them, and middle click to set their starting point.
