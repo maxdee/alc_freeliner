@@ -38,6 +38,7 @@
  * ctrl-r   reset decorator
  * ctrl-d   customShape
  */
+ 
 class Keyboard{
   //provides strings to show what is happening.
   final String keyMap[] = {
@@ -48,8 +49,8 @@ class Keyboard{
     "e    setAlpha",
     "f    setFill",
     "g    grid/size", 
-    "h    lerpMode",
-    "i    iterations", 
+    "h    easingMode",
+    "i    repetitonMode", 
     "j    reverseMode",
     "k    internalClock",
     "l    loop mode",
@@ -57,7 +58,7 @@ class Keyboard{
     "o    rotation",
     "p    probability",
     "q    setStroke", 
-    "r    polka", 
+    "r    repetitionCount", 
     "s    setSize", 
     "t    tap", 
     "u    setSpeed",
@@ -83,7 +84,8 @@ class Keyboard{
 
   // dependecy injection
   GroupManager groupManager;
-  RendererManager rendererManager;
+  EventManager eventManager;
+  EventRenderer eventRenderer;
   Gui gui;
   Mouse mouse;
 
@@ -120,16 +122,18 @@ class Keyboard{
 
 /**
  * Dependency injection
- * Receives references to the groupManager, rendererManager, GUI and mouse.
+ * Receives references to the groupManager, eventManager, GUI and mouse.
  *
  * @param GroupManager reference
- * @param RenderManager reference
+ * @param EventManager reference
+ * @param EventRenderer reference
  * @param Gui reference
  * @param Mouse reference
  */
-  public void inject(GroupManager _gm, RendererManager _rm, Gui _gui, Mouse _m){
+  public void inject(GroupManager _gm, EventManager _em, EventRenderer _er, Gui _gui, Mouse _m){
     groupManager = _gm;
-    rendererManager = _rm;
+    eventManager = _em;
+    eventRenderer = _er;
     gui = _gui;
     mouse = _m;
   }
@@ -204,13 +208,13 @@ class Keyboard{
  */
   public void processCAPS(char _c) {
     if(shifted){
-      RenderList rl = groupManager.getRenderList();
-      if(rl == null) rl = rendererManager.getRenderList();
-      rl.toggle(rendererManager.getRenderer(_c));
-      gui.setRenderString(rl.getTags());
+      TemplateList tl = groupManager.getTemplateList();
+      if(tl == null) tl = eventManager.getTemplateList();
+      tl.toggle(eventManager.getTemplate(_c));
+      gui.setTemplateString(tl.getTags());
     }
     else {
-      rendererManager.trigger(_c);
+      eventManager.trigger(_c);
     }
   }
 
@@ -219,15 +223,13 @@ class Keyboard{
  * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
  */
   private void unSelectThings(){
-    if(!groupManager.isFocused() && !rendererManager.isFocused()) gui.hide();
+    if(!groupManager.isFocused() && !eventManager.isFocused()) gui.hide();
     else {
-      rendererManager.unSelect();
+      eventManager.unSelect();
       groupManager.unSelect();
-      gui.setRenderString(" ");//rendererManager.renderList.getString());
+      gui.setTemplateString(" ");//eventManager.renderList.getString());
     }
   }
-
-
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -278,8 +280,8 @@ class Keyboard{
  */
   private void focusAll(){
     groupManager.unSelect();
-    rendererManager.focusAll();
-    gui.setRenderString("*all*");
+    eventManager.focusAll();
+    gui.setTemplateString("*all*");
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -298,16 +300,16 @@ class Keyboard{
   public void distributor(char _k, int _n, boolean _vg){
     if (!localDispatch(_k, _n, _vg)){
       SegmentGroup sg = groupManager.getSelectedGroup();
-      RenderList rl = null;
+      TemplateList tl = null;
       if(sg != null){
-        if(!segmentGroupDispatch(sg, _k, _n, _vg)) rl = sg.getRenderList();
+        if(!segmentGroupDispatch(sg, _k, _n, _vg)) tl = sg.getTemplateList();
       }
-      else rl = rendererManager.getRenderList();
-      if(rl != null){
-        ArrayList<Renderer> rndrs = rl.getAll();
-        if(rndrs != null)
-          for(Renderer rn : rndrs)
-            rendererDispatch(rn, _k, _n, _vg);
+      else tl = eventManager.getTemplateList();
+      if(tl != null){
+        ArrayList<TemplateEvent> templates = tl.getAll();
+        if(templates != null)
+          for(TemplateEvent te : templates)
+            rendererDispatch(te, _k, _n, _vg);
       }    
     } 
   }
@@ -339,9 +341,9 @@ class Keyboard{
       // else if (_k == 's') nudger(false, 1); //down 
       // else if (_k == 'w') nudger(false, -1); //up
 
-      else if (_k == 't') rendererManager.sync.tap(); 
+      else if (_k == 't') eventManager.sync.tap(); 
       else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());  
-      else if (_k == 'y') valueGiven_ = str(rendererManager.toggleTrails());
+      else if (_k == 'y') valueGiven_ = str(eventRenderer.toggleTrails());
       else if (_k == ',') valueGiven_ = str(gui.toggleViewTags());
       else if (_k == '.') valueGiven_ = str(mouse.toggleSnapping());
       else if (_k == '/') valueGiven_ = str(gui.toggleViewLines()); 
@@ -351,7 +353,7 @@ class Keyboard{
       else if (_k == '=') distributor(editKey, -1, _vg); //increase value
       else if (_k == ']') valueGiven_ = str(mouse.toggleFixedLength());
       else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
-      else if (_k == '!') valueGiven_ = str(rendererManager.toggleLooping());
+      else if (_k == '!') valueGiven_ = str(eventManager.toggleLooping());
       else if (_k == 'm') mouse.press(3);  // 
       else if (_k == '@') groupManager.saveVertices();
       else if (_k == '#') groupManager.loadVertices();
@@ -359,8 +361,8 @@ class Keyboard{
     }
     else {
       if (editKey == 'g') valueGiven_ = str(mouse.setGridSize(_n));
-      else if (editKey == 't') rendererManager.sync.nudgeTime(_n);
-      else if (editKey == 'y') valueGiven_ = str(rendererManager.setTrails(_n));
+      else if (editKey == 't') eventManager.sync.nudgeTime(_n);
+      else if (editKey == 'y') valueGiven_ = str(eventRenderer.setTrails(_n));
       else if (editKey == ']') valueGiven_ = str(mouse.setLineLenght(_n));
       else if (editKey == '.') valueGiven_ = str(groupManager.setSnapDist(_n));
       else used_ = false;
@@ -374,44 +376,43 @@ class Keyboard{
     boolean used_ = true;
     String valueGiven_ = null;
     if(_k == 'c') valueGiven_ = str(_sg.toggleCenterPutting());
-    else if(_k == 's') valueGiven_ = str(_sg.setScaler(_n));
+    else if(_k == 's') valueGiven_ = str(_sg.setBrushScaler(_n));
     else if(_k == '.') valueGiven_ = str(_sg.setSnapVal(_n));
     else used_ = false;
     if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
     return used_;
   }
 
-  public boolean rendererDispatch(Renderer _renderer, char _k, int _n, boolean _vg) {
-    //println(_renderer.getID()+" "+_k+" ("+int(_k)+") "+n);
+  public boolean rendererDispatch(TemplateEvent _template, char _k, int _n, boolean _vg) {
+    //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
     boolean used_ = true;
     
-    if(_renderer != null){
+    if(_template != null){
       String valueGiven_ = null;
       if(_n == -3){
-        if (_k == 'l') valueGiven_ = str(_renderer.toggleLoop());
-        else if (_k == 'k') valueGiven_ = str(_renderer.toggleInternal());
-        else if (int(_k) == 518) _renderer.init();
-        else if (int(_k) == 504) rendererManager.setCustomShape(groupManager.getLastSelectedGroup());
+        if (_k == 'l') return false;//valueGiven_ = str(_template.toggleLoop());
+        else if (_k == 'k') return false;//valueGiven_ = str(_template.toggleInternal());
+        else if (int(_k) == 518) _template.reset();
+        else if (int(_k) == 504) eventManager.setCustomShape(groupManager.getLastSelectedGroup());
         else used_ = false;
       }
       else {
-        if (_k == 'a') valueGiven_ = str(_renderer.setAniMode(_n));
-        else if (_k == 'f') valueGiven_ = str(_renderer.setFillMode(_n));
-        else if (_k == 'e') valueGiven_ = str(_renderer.setAlpha(_n));
-        else if (_k == 'r') valueGiven_ = str(_renderer.setPolka(_n));
-        else if (_k == 'x') valueGiven_ = str(_renderer.setdivider(_n));
-        else if (_k == 'i') valueGiven_ = str(_renderer.setIterationMode(_n));
-        else if (_k == 'j') valueGiven_ = str(_renderer.setReverseMode(_n));
-        else if (_k == 'b') valueGiven_ = str(_renderer.setRenderMode(_n));
-        else if (_k == 'p') valueGiven_ = str(_renderer.setProbability(_n));
-        else if (_k == 'h') valueGiven_ = str(_renderer.setLerpMode(_n)); 
-        else if (_k == 'u') valueGiven_ = str(_renderer.setTempo(_n));
-        else if (_k == 's') valueGiven_ = str(_renderer.setSize(_n));   
-        else if (_k == 'q') valueGiven_ = str(_renderer.setStrokeMode(_n));
-        else if (_k == 'w') valueGiven_ = str(_renderer.setStrokeWeight(_n)); 
-        else if (_k == 'd') valueGiven_ = str(_renderer.setShapeMode(_n));
-        else if (_k == 'v') valueGiven_ = str(_renderer.setSegmentMode(_n));
-        else if (_k == 'o') valueGiven_ = str(_renderer.setRotation(_n));  
+        if (_k == 'a') valueGiven_ = str(_template.setAnimationMode(_n));
+        else if (_k == 'f') valueGiven_ = str(_template.setFillMode(_n));
+        else if (_k == 'e') valueGiven_ = str(_template.setAlpha(_n));
+        else if (_k == 'r') valueGiven_ = str(_template.setRepetitionCount(_n));
+        else if (_k == 'x') valueGiven_ = str(_template.setBeatDivider(_n));
+        else if (_k == 'i') valueGiven_ = str(_template.setRepetitionMode(_n));
+        else if (_k == 'j') valueGiven_ = str(_template.setReverseMode(_n));
+        else if (_k == 'b') valueGiven_ = str(_template.setRenderMode(_n));
+        else if (_k == 'p') valueGiven_ = str(_template.setProbability(_n));
+        else if (_k == 'h') valueGiven_ = str(_template.setEasingMode(_n)); 
+        else if (_k == 's') valueGiven_ = str(_template.setBrushSize(_n));   
+        else if (_k == 'q') valueGiven_ = str(_template.setStrokeMode(_n));
+        else if (_k == 'w') valueGiven_ = str(_template.setStrokeWidth(_n)); 
+        else if (_k == 'd') valueGiven_ = str(_template.setBrushMode(_n));
+        else if (_k == 'v') valueGiven_ = str(_template.setSegmentMode(_n));
+        else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));  
         else used_ = false;
       }
       
@@ -438,9 +439,9 @@ class Keyboard{
     SegmentGroup _sg = groupManager.getSelectedGroup();
     if (_sg != null) _sg.setWord(wordMaker, -1);
     else if(wordMaker.length() > 0) {
-      Renderer _toadd = rendererManager.getRenderer(wordMaker.charAt(0));
-      Renderer _tomatch = rendererManager.getRenderList().getIndex(0);
-      groupManager.groupAddRenderer(_toadd, _tomatch);
+      TemplateEvent _toadd = eventManager.getTemplate(wordMaker.charAt(0));
+      TemplateEvent _tomatch = eventManager.getTemplateList().getIndex(0);
+      groupManager.groupAddTemplateEvent(_toadd, _tomatch);
     }
     wordMaker = " ";
     enterText = false;

@@ -60,7 +60,7 @@ class Segment {
     newRan();
     offA = new PVector(0,0,0);
     offB = new PVector(0,0,0);
-    sizer = 1;
+    sizer = 10;
     centered = false;
     updateAngle();
     segmentText = "freeliner!";
@@ -106,23 +106,70 @@ class Segment {
 
   public void setCenter(PVector c) {
     centered = true;
-    sizer = 0;
+    //sizer = 0;
     center = c.get();
+    findOffset();
   }
 
   public void unCenter(){
     centered = false;
   }
 
-  public void setSize(int s){
-    if(s != sizer){ 
-      sizer = s;
+  public void setSize(int _s){
+    if(_s != sizer && centered){ 
+      sizer = _s;
       findOffset();
     }
   }
 
   public void setWord(String w){
     segmentText = w;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Offset by brush size
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * This is to generate new vertices in relation to brush size.
+   * @param PVector vertex to offset
+   * @param PVector previous neighboring vertex
+   * @param PVector following neighboring vertex
+   * @param PVector center of shape
+   * @param float distance to offset
+   * @return PVector offseted vertex
+   */
+  PVector inset(PVector p, PVector pA, PVector pB, PVector c, float d) {
+    float angleA = (atan2(p.y-pA.y, p.x-pA.x));
+    float angleB = (atan2(p.y-pB.y, p.x-pB.x));  
+    float A = radianAbs(angleA); 
+    float B = radianAbs(angleB); 
+    float ang = abs(A-B)/2; //the shortest angle
+
+    d = (d/2)/sin(ang);
+    if (A<B) ang = (ang+angleA);
+    else ang = (ang+angleB);
+
+    PVector outA = new PVector(cos(ang)*d, sin(ang)*d, 0);
+    PVector outB = new PVector(cos(ang+PI)*d, sin(ang+PI)*d, 0);
+    outA.add(p);
+    outB.add(p);
+
+    PVector offset;
+    if (c.dist(outA) < c.dist(outB)) return outA;
+    else  return outB;  
+  }
+
+  float radianAbs(float a) {
+    while (a<0) {
+      a+=TWO_PI;
+    }
+    while (a>TWO_PI) {
+      a-=TWO_PI;
+    } 
+    return a;
   }
 
 

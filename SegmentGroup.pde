@@ -34,7 +34,7 @@
 
 class SegmentGroup {
   final int ID;
-  float sizeScaler = 1.0;
+  float brushScaler = 1.0;
   int sizer = 10;
   PShape itemShape;
 
@@ -42,7 +42,7 @@ class SegmentGroup {
 
   ArrayList<ArrayList<Segment>> treeBranches; 
   int segCount = 0;
-  RenderList renderList;
+  TemplateList templateList;
   PVector center;
   PVector segmentStart;
   boolean firstPoint;
@@ -72,7 +72,7 @@ class SegmentGroup {
   public void init(){
     segments = new ArrayList();
     treeBranches = new ArrayList();
-    renderList = new RenderList();
+    templateList = new TemplateList();
     segmentStart = new PVector(-10, -10, -10);
     center = new PVector(-10, -10, -10);
     firstPoint = true;
@@ -269,7 +269,7 @@ class SegmentGroup {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   // deprecate
-  public final ArrayList getSegments() {
+  public final ArrayList<Segment> getSegments() {
     return segments;
   }
 
@@ -299,8 +299,8 @@ class SegmentGroup {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void toggleRender(Renderer _r) {
-    renderList.toggle(_r);
+  public void toggleTemplate(TemplateEvent _te) {
+    templateList.toggle(_te);
   }
 
   public void setWord(String w, int v) {
@@ -319,9 +319,9 @@ class SegmentGroup {
     return centerPutting;
   }
 
-  public int setScaler(int s){
+  public int setBrushScaler(int s){
     sizer = numTweaker(s, sizer); 
-    sizeScaler = sizer/10.0;
+    brushScaler = sizer/10.0;
     return sizer;
   }
 
@@ -363,8 +363,8 @@ class SegmentGroup {
     return segmentStart;
   }
 
-  public final RenderList getRenderList() {
-    return renderList;
+  public final TemplateList getTemplateList() {
+    return templateList;
   }
 
   public final PVector getLastPoint() {
@@ -372,8 +372,8 @@ class SegmentGroup {
     else return new PVector(0, 0, 0);
   }
 
-  public final float getScaler(){
-    return sizeScaler;
+  public final float getBrushScaler(){
+    return brushScaler;
   }
 
 }

@@ -86,13 +86,13 @@ class GroupManager{
  * @param renderer to add
  * @param renderer to match
  */
-  public void groupAddRenderer(Renderer _toAdd, Renderer _toMatch){
+  public void groupAddTemplateEvent(TemplateEvent _toAdd, TemplateEvent _toMatch){
     if(groups.size() > 0 && _toAdd != null && _toMatch != null){
       for (SegmentGroup sg : groups) {
-        ArrayList<Renderer> rl = sg.getRenderList().getAll();
-        if(rl != null)
-          if(rl.contains(_toMatch))         
-            sg.toggleRender(_toAdd);
+        TemplateList tl = sg.getTemplateList();
+        if(tl != null)
+          if(tl.contains(_toMatch))         
+            tl.toggle(_toAdd);
       }
     }
   }
@@ -255,7 +255,7 @@ class GroupManager{
     return snapDist;
   }
 
-  // public void toggle(Renderer _rn){
+  // public void toggle(TemplateEvent _rn){
   //   renderList.toggle(_rn);
   // }
 
@@ -269,9 +269,9 @@ class GroupManager{
  * Get renderList of the selected group, null if no group selected.
  * @return renderList
  */  
-  public RenderList getRenderList(){
+  public TemplateList getTemplateList(){
     SegmentGroup sg = getSelectedGroup();
-    if(sg != null) return sg.getRenderList();
+    if(sg != null) return sg.getTemplateList();
     else return null;
   }
 

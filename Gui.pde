@@ -129,7 +129,7 @@
   private void infoWritter() {
     //if(updateFlag){
       String tags = " ";
-      RenderList rl = groupManager.getRenderList();
+      TemplateList rl = groupManager.getTemplateList();
       if (rl != null) tags += rl.getTags();
       else tags += renderString; //renderList.getString();
       if(tags.length()>20) tags = "*ALL*";
@@ -142,7 +142,7 @@
       updateFlag = false;
     //}
     ArrayList<Segment> segs = guiSegments.getSegments(); 
-    int sz = int(guiSegments.getScaler()*20);
+    int sz = int(guiSegments.getBrushScaler()*20);
     if(segs != null)
       for(Segment seg : segs)
         simpleText(seg, sz);
@@ -220,10 +220,10 @@
     canvas.pushMatrix();
     canvas.translate(_pos.x, _pos.y);
     // if dual projectors
-    if(width > 2000 && _pos.x > width/2) {
-      canvas.rotate(QUARTER_PI);
-      if(liquid) crosshair.setStroke(0);
-    }
+    // if(width > 2000 && _pos.x > width/2) {
+    //   canvas.rotate(QUARTER_PI);
+    //   if(liquid) crosshair.setStroke(0);
+    // }
     canvas.shape(crosshair);
     canvas.popMatrix();
   }
@@ -288,7 +288,7 @@
     canvas.fill(255);
     int id = _sg.getID();
     canvas.text(str(id), pos.x - (16+int(id>9)*6), pos.y+6);
-    canvas.text(_sg.getRenderList().getTags(), pos.x + 6, pos.y+6);
+    canvas.text(_sg.getTemplateList().getTags(), pos.x + 6, pos.y+6);
     canvas.noFill();
     canvas.stroke(255);
     canvas.strokeWeight(1);
@@ -304,6 +304,7 @@
     canvas.stroke(170);
     canvas.strokeWeight(1);
     vecLine(canvas, _s.getRegA(), _s.getRegB());
+    canvas.stroke(100);
     if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
     canvas.stroke(200);
     canvas.strokeWeight(3);
@@ -386,7 +387,7 @@
     updateFlag = true;
   }  
 
-  public void setRenderString(String _s){
+  public void setTemplateString(String _s){
     renderString = _s;
     updateFlag = true;
   }

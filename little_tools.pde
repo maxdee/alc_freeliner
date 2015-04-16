@@ -23,7 +23,24 @@
  */
 
 
+/**
+ * Subclass of ArrayList that prevents out of bound errors
+ */
+class SafeList<E> extends ArrayList<E> {
+  public SafeList(){
 
+  }
+
+  public E get(int _index){
+    if(_index >= size()) _index = size()-1;
+    return super.get(_index);
+  }
+}
+
+
+/**
+ * Class to collect and average data
+ */
 class FloatSmoother {
   boolean firstValue;
   FloatList flts;
@@ -62,23 +79,61 @@ class FloatSmoother {
   }
 }
 
+/**
+ * Method to manipulate values by increment or asbolute
+ * if the new value is >= 0 it will simply return this.
+ * otherwise if its -1 or -2 it will increment or decrement the original value
+ * @param int new value
+ * @param int value to modify
+ * @return int modified value
+ */
+int numTweaker(int v, int n){
+  if(v >= 0) return v;
+  else if (v == -1) return n+1;
+  else if (v == -2 && n-1>=0) return n-1;
+  else return n;
+}
 
 
-
+/**
+ * linear interpolation between two PVectors
+ * @param PVector first vector
+ * @param PVector second vector
+ * @param float unit interval
+ * @return PVector interpolated
+ */
 PVector vecLerp(PVector a, PVector b, float l){
   return new PVector(lerp(a.x, b.x, l), lerp(a.y, b.y, l), 0);
 }
 
+/**
+ * linear interpolation between two PVectors
+ * @param PGraphics to draw on
+ * @param PVector first coordinate
+ * @param PVector second coordinate
+ */
 void vecLine(PGraphics p, PVector a, PVector b){
   p.line(a.x,a.y,b.x,b.y);
 }
 
+/**
+ * Polar to euclidean conversion
+ * @param PVector center point
+ * @param float angle
+ * @param float distance
+ * @return PVector euclidean of polar
+ */
 PVector angleMove(PVector p, float a, float s){
   PVector out = new PVector(cos(a)*s, sin(a)*s, 0);
   out.add(p);
   return out; 
 }
 
+/**
+ * Mirror PVector from the center
+ * @param PVector position to mirror along the X axis
+ * @return PVector mirrored position
+ */
 PVector vectorMirror(PVector p){
   float newX = 0;
   if(p.x < width/2) newX = width-p.x;
@@ -87,39 +142,6 @@ PVector vectorMirror(PVector p){
 }
 
 
-
-//4 am victory
-// find angle with generic size? then offer offset by andgle and size?
-PVector inset(PVector p, PVector pA, PVector pB, PVector c, float d) {
-  float angleA = (atan2(p.y-pA.y, p.x-pA.x));
-  float angleB = (atan2(p.y-pB.y, p.x-pB.x));  
-  float A = radianAbs(angleA); 
-  float B = radianAbs(angleB); 
-  float ang = abs(A-B)/2; //the shortest angle
-
-  d = (d/2)/sin(ang);
-  if (A<B) ang = (ang+angleA);
-  else ang = (ang+angleB);
-
-  PVector outA = new PVector(cos(ang)*d, sin(ang)*d, 0);
-  PVector outB = new PVector(cos(ang+PI)*d, sin(ang+PI)*d, 0);
-  outA.add(p);
-  outB.add(p);
-
-  PVector offset;
-  if (c.dist(outA) < c.dist(outB)) return outA;
-  else  return outB;  
-}
-
-float radianAbs(float a) {
-  while (a<0) {
-    a+=TWO_PI;
-  }
-  while (a>TWO_PI) {
-    a-=TWO_PI;
-  } 
-  return a;
-}
 
 float fltMod(float f) {
   if (f>1) f-=1;
@@ -134,12 +156,6 @@ static int wrap(int v, int n) {
   return v;
 }
 
-int numTweaker(int v, int n){
-  if(v >= 0) return v;
-  else if (v == -1) return n+1;
-  else if (v == -2 && n-1>=0) return n-1;
-  else return n;
-}
 
 boolean maybe(int _p){
   return random(100) < _p;

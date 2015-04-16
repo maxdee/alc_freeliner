@@ -159,7 +159,7 @@ void mouseWheel(MouseEvent event) {
 
 void loadTest(){
   execute(":1000x :100y . :800x:100y . :600x:100y . :400x:100y .");
-  execute("n, :200x:200y . :800x:200y . :800x:600y . :200x:600y . :200x:200y .");
+  execute("n, :20140x:200y . :800x:200y . :800x:600y . :200x:600y . :200x:200y .");
   execute("A, B,");
   execute("c, :500x :500y .");
   execute("+ A, q, 2, > + B, b, 4, >");

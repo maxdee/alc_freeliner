@@ -1,0 +1,257 @@
+/**
+ *
+ * ##copyright##
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General
+ * Public License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
+ * Boston, MA  02111-1307  USA
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.1
+ * @since     2014-12-01
+ */
+
+
+/**
+ * Manage all the templates
+ *
+ */
+class EventManager{
+	//selects templates to control
+  TemplateList templateList;
+  
+  //templates all the basic templates
+  ArrayList<TemplateEvent> templates;
+  final int N_TEMPLATES = 26;
+  // events to render
+  ArrayList<RenderableTemplate> eventList;
+  ArrayList<RenderableTemplate> loops;
+  // synchronise things
+  Synchroniser sync;
+
+
+  public EventManager(){
+    sync = new Synchroniser();
+  	templateList = new TemplateList();
+    loops = new ArrayList();
+    eventList = new ArrayList();
+
+  	init();
+  }
+
+  private void init() {
+    templates = new ArrayList();
+    for (int i = 0; i < N_TEMPLATES; i++) {
+      TemplateEvent te = new TemplateEvent(char(65+i));
+      templates.add(te);
+    }
+  }
+
+  // update the render events
+  void update() {
+    sync.update();
+    int beatDv = 1;
+    if(loops.size() > 0){
+      for (RenderableTemplate rt : loops) {
+        beatDv = rt.getBeatDivider();
+        rt.setTime(sync.getLerp(beatDv), sync.getPeriod(beatDv));
+      }
+    }
+    if(eventList.size() > 0){
+      for (RenderableTemplate rt : eventList) {
+        beatDv = rt.getBeatDivider();
+        rt.setTime(sync.getLerp(beatDv), sync.getPeriod(beatDv));
+      }
+    }
+  }
+
+
+
+  void launchLoops(ArrayList<SegmentGroup> _groups){
+    if(_groups.size() == 0) return;
+    ArrayList<RenderableTemplate> toKeep = new ArrayList<RenderableTemplate>();
+    // check to add new loops
+    for(SegmentGroup sg : _groups){
+      ArrayList<TemplateEvent> tmps = sg.getTemplateList().getAll();
+      if(tmps != null){
+        for(TemplateEvent te : tmps){
+          RenderableTemplate rt = getByIDandGroup(loops, te.getTemplateID(), sg);
+          if(rt != null) toKeep.add(rt);
+          else toKeep.add(eventFactory(te, sg));
+        }
+      }
+    }
+    loops = toKeep;
+  }
+
+
+  RenderableTemplate getByIDandGroup(ArrayList<RenderableTemplate> _tps, char _id, SegmentGroup _sg){
+    for(RenderableTemplate tp : _tps){
+      if(tp.getTemplateID() == _id && tp.getSegmentGroup() == _sg) return tp;
+    }
+    return null;
+  }
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     ETemplate array methods
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  
+
+  // private ArrayList<Template> getByID(ArrayList<Template> _tps, char _id){
+  //   ArrayList<RenderableTemplate> tmps = new ArrayList();
+  //   for(Template tmp : _tps){
+  //     if(tmp.getTemplateID() == _id) tmps.add(tmp);
+  //   } 
+  //   return tmp;
+  // }
+
+  // remove a template from a list by ID
+  // private void removeByID(ArrayList<Template> _tps, char _id){
+  //   ArrayList<Template> toRemove = new ArrayList();
+  //   for(Template tp : _tps){
+  //     if(tp.getTemplateID() == _id) toRemove.add(tp);
+  //   }
+  //   if(toRemove.size() > 0)
+  //     for(Template tp : toRemove)
+  //       _tps.remove(tp);
+  // }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Event Factory
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  // set size as per scalar
+  public RenderableTemplate eventFactory(TemplateEvent _te, SegmentGroup _sg){
+    println("new event");
+    return new RenderableTemplate(_te, _sg);
+  }
+
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Rendering
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  // new effects here for nuance!
+  // such as one groups renderer
+  // X number of groups
+  // left to right things
+
+  void renderGroup(SegmentGroup _sg){
+    // ArrayList<TemplateEvent> rList = _sg.getTemplateList().getAll();
+    // if(rList != null){
+    //   for (TemplateEvent r_ : rList) {
+    //     r_.renderGroup(_sg);
+    //   }
+    // }
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Actions
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  
+  public void trigger(char _c){
+    TemplateEvent r_ = getTemplate(_c);
+    // Factory!
+    //if(r_ != null) r_.trigger(1);
+  }
+
+  public void trigger(SegmentGroup _sg){
+
+  }
+
+  public void focusAll() {
+    templateList.clear();
+    for (TemplateEvent r_ : templates) {
+      templateList.toggle(r_);
+    }
+  }
+
+  // set a decorator's shape
+  private void setCustomShape(SegmentGroup _sg){
+    TemplateEvent r_ = templateList.getIndex(0);
+    if(r_ != null) r_.setShapeGroup(_sg);
+  }
+
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Mutators
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  
+  public boolean toggleLooping() {
+    // allLoop = !allLoop;
+    // for (int i = 0; i<N_TEMPLATES; i++) {
+    //   templates.get(i).setLooper(allLoop);
+    // }
+    // return allLoop;
+    return false;
+  }
+
+  public void unSelect(){
+    templateList.clear();
+  }
+
+  public void toggle(char _c){
+    templateList.toggle(getTemplate(_c));
+  }
+
+  // public void toggle(TemplateEvent _rn){
+  //   templateList.toggle(_rn);
+  // }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Accessors
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public ArrayList<RenderableTemplate> getEvents(){
+    // ArrayList<RenderableTemplate> rt = new ArrayList<RenderableTemplate>(loops);
+    // rt.add()
+    return loops;//eventList;
+  } 
+
+  public boolean isFocused(){
+    return templateList.getIndex(0) != null;
+  }
+
+  public TemplateEvent getTemplate(char _c){
+    if(_c >= 'A' && _c <= 'Z') return templates.get(int(_c)-'A');
+    else return null;
+  }
+
+  // public ArrayList<TemplateEvent> getSelected(){
+  //   return templateList.getAll();
+  // }
+  
+  public TemplateList getTemplateList(){
+    return templateList;
+  }
+
+}
