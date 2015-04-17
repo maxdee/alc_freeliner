@@ -55,6 +55,7 @@ class RenderableTemplate extends Template{
 	int segmentIndex;
 	float angleMod;
 	int colorCount;
+	float hue;
 /*
  * Variable for internal use.
  */
@@ -150,6 +151,14 @@ class RenderableTemplate extends Template{
  		angleMod = _ang;
  	}
 
+ 	public void setDirection(boolean _dir){
+ 		direction = _dir;
+ 	}
+
+
+ 	public void setHue(float _h){
+ 		hue = _h;
+ 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Accessors
@@ -216,6 +225,10 @@ class RenderableTemplate extends Template{
 
 	public final int getColorCount(){
 		return colorCount++;
+	}
+
+	public final float getHue(){
+		return hue;
 	}
 }
 

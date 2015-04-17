@@ -38,6 +38,7 @@ class PerSegment extends RenderMode{
 
     segmentPainters = new SafeList();
     segmentPainters.add(new SimpleBrush());
+    segmentPainters.add(new TwoBrush());
     segmentPainters.add(new SpiralBrush());
     segmentPainters.add(new BrushFill());
     segmentPainters.add(new FunLine());
@@ -111,6 +112,7 @@ class Geometry extends RenderMode{
 	public Geometry(){
 		groupPainters = new SafeList();
 		groupPainters.add(new Filler());
+		groupPainters.add(new FunFiller());
 	}
 
 	public void doRender(RenderableTemplate _rt){

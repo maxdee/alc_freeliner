@@ -37,7 +37,6 @@ class SafeList<E> extends ArrayList<E> {
   }
 }
 
-
 /**
  * Class to collect and average data
  */

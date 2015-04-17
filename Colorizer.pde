@@ -33,7 +33,7 @@ class Colorizer {
   	else return color(0);
   }
 
-  private color HSBtoRGB(int _h, int _s, int _b){
+  public color HSBtoRGB(float _h, float _s, float _b){
   	return java.awt.Color.HSBtoRGB(_h, _s, _b);
   }
 
@@ -52,12 +52,40 @@ class Colorizer {
  * Basic white
  */
 class White extends Colorizer {
-	public White(){
-		
-	}
+	public White(){}
 
 	public color get(RenderableTemplate _event){
 		return alphaMod(color(255),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
+	}
+}
+
+class Black extends Colorizer {
+	public Black(){}
+
+	public color get(RenderableTemplate _event){
+		return alphaMod(color(0),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
+	}
+}
+
+
+class Red extends Colorizer {
+	public Red(){}
+	public color get(RenderableTemplate _event){
+		return alphaMod(color(255,0,0),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
+	}
+}
+
+class Green extends Colorizer {
+	public Green(){}
+	public color get(RenderableTemplate _event){
+		return alphaMod(color(0,255,0),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
+	}
+}
+
+class Blue extends Colorizer {
+	public Blue(){}
+	public color get(RenderableTemplate _event){
+		return alphaMod(color(0,0,255),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
 	}
 }
 
@@ -164,7 +192,11 @@ class HSBFade extends Colorizer {
 	public HSBFade(){
 	}
 	public color get(RenderableTemplate _event){
-		color c = java.awt.Color.HSBtoRGB(float(_event.getBeatCount())/255, 1.0, 1.0);
+		float hue = _event.getHue();
+		color c = HSBtoRGB(hue, 1.0, 1.0);
+		hue+=0.001;
+		hue = fltMod(hue);
+		_event.setHue(hue);
 		return alphaMod( c,_event.getAlpha());
 	}	
 }

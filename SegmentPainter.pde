@@ -85,7 +85,7 @@ class BrushPutter extends SegmentPainter{
     applyStyle(shape_);
     canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
-    canvas.rotate(_a+HALF_PI); 
+    canvas.rotate(_a+HALF_PI+event.getAngleMod()); 
     canvas.shape(shape_);
     canvas.popMatrix();
 	}
@@ -114,6 +114,20 @@ class SpiralBrush extends BrushPutter{
 		putShape(pv, _seg.getAngle(event.getDirection()));
 	}
 }
+
+class TwoBrush extends BrushPutter{
+	public TwoBrush(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		float lrp = event.getLerp();
+		PVector pv = _seg.getPos(lrp).get();
+		putShape(pv, _seg.getAngle(false));
+		pv = _seg.getPos(-lrp+1).get();
+		putShape(pv, _seg.getAngle(true));
+	}
+}
+
 
 class BrushFill extends BrushPutter{
 	public BrushFill(){

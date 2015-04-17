@@ -171,29 +171,7 @@ class GroupManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Basic way to save all the coordinates that have been layed out.
- * Saves to a xml file.
- * May we will save entire groups and stuff soon.
- */  
-  // public void saveVertices(){
-  //   ArrayList<PVector> pnts = new ArrayList();
-  //   for(SegmentGroup grp : groups){
-  //     ArrayList<Segment> segs = grp.getSegments(); 
-  //     for(Segment seg : segs){
-  //       if(!isDuplicate(pnts, seg.getRegA())) pnts.add(seg.getRegA());
-  //       if(!isDuplicate(pnts, seg.getRegB())) pnts.add(seg.getRegB());
-  //     }
-  //   }
-  //   XML vertices = new XML("vertices");
-  //   //toSave.removeChild(toSave.getChild("vertices"));
-  //   for(PVector pnt : pnts){
-  //     XML vertx = vertices.addChild("vertex");
-  //     vertx.setFloat("x", pnt.x);
-  //     vertx.setFloat("y", pnt.y);
-  //   }
-  //   saveXML(vertices, "data/vertices.xml");
-  // }
+
 
   public void saveGroups(){
     //ArrayList<PVector> pnts = new ArrayList();
@@ -215,6 +193,9 @@ class GroupManager{
   }
 
 
+  // what a mess what a mess
+  // we cant have that we cant have that
+  // clean it up clean it up
   public void loadGroups(){
     XML file;
     try {
@@ -247,59 +228,7 @@ class GroupManager{
     }
   }
 
-  public void loadVertices(){
-    XML file;
-    try {
-      file = loadXML("data/vertices.xml");
-    }
-    catch (Exception e){
-      println("No vertices.xml");
-      return;
-    }
-    XML[] vertices = file.getChildren("vertex");
-    newGroup();
-    PVector pos = new PVector(0,0);
-    for(XML vert : vertices){
-      pos.set(vert.getFloat("x"), vert.getFloat("y"));
-      getSelectedGroup().mouseInput(LEFT, pos);
-    }
-  }
 
-
-
-// /**
-//  * Check if a coordinate has already been added to a list.
-//  * @param ArrayList<PVector> to check
-//  * @param PVector in question
-//  * @return boolean
-//  */  
-//   private boolean isDuplicate(ArrayList<PVector> _pnts, PVector _pv){
-//     for(PVector pnt : _pnts){
-//       if(pnt.dist(_pv) < 0.001) return true;
-//     }
-//     return false;
-//   }
-
-/**
- * Loads a previously generated xml file into one group to provide snapping points.
- */  
-  // public void loadVertices(){
-  //   XML file;
-  //   try {
-  //     file = loadXML("data/vertices.xml");
-  //   }
-  //   catch (Exception e){
-  //     println("No vertices.xml");
-  //     return;
-  //   }
-  //   XML[] vertices = file.getChildren("vertex");
-  //   newGroup();
-  //   PVector pos = new PVector(0,0);
-  //   for(XML vert : vertices){
-  //     pos.set(vert.getFloat("x"), vert.getFloat("y"));
-  //     getSelectedGroup().mouseInput(LEFT, pos);
-  //   }
-  // }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

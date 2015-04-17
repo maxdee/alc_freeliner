@@ -35,6 +35,7 @@ class TemplateRenderer {
     repeaters = new SafeList();
     repeaters.add(new Single());
     repeaters.add(new EvenlySpaced());
+    repeaters.add(new TwoFull());
 	}
 
 	public void update(ArrayList<RenderableTemplate> _toRender){
@@ -72,7 +73,16 @@ class TemplateRenderer {
     FloatList flts = repeaters.get(_rt.getRepetitionMode()).getFloats(_rt);
     int count = 0;
     for(float flt : flts){
-      _rt.setLerp(flt);
+
+      if(flt < 0){
+        _rt.setLerp(abs(flt));
+        _rt.setDirection(true);
+      }
+      else {
+        _rt.setLerp(abs(flt));
+        _rt.setDirection(false);
+      }
+      
       _rt.setRepetition(count);
       count++;
       tweakAngle(_rt);

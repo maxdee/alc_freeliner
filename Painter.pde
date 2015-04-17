@@ -24,6 +24,10 @@ class Painter{
 		colorizers = new SafeList();
 		colorizers.add(new White());
     colorizers.add(new White());
+    colorizers.add(new Red());
+    colorizers.add(new Green());
+    colorizers.add(new Blue());
+    colorizers.add(new Black());
 		colorizers.add(new RepetitionColor());
 		colorizers.add(new RandomPrimaryColor());
 		colorizers.add(new FlashyPrimaryColor());
