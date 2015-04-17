@@ -25,6 +25,7 @@ class TemplateRenderer {
     renderModes = new SafeList();
     renderModes.add(new PerSegment());
     renderModes.add(new Geometry());
+    renderModes.add(new WrapLine());
 
     repeaters =  new SafeList();
     repeaters.add(new Single());

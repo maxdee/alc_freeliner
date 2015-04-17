@@ -43,17 +43,64 @@ class PerSegment extends RenderMode{
 	}
 
 	public void doRender(RenderableTemplate _rt){
-		event = _rt;
+		super.doRender(_rt);
 		ArrayList<Segment> segList = segmentSelectors.get(event.getSegmentMode()).getSegments(event);
     for(Segment seg : segList)
       segmentPainters.get(event.getAnimationMode()).paintSegment(seg, event);
 	}
 }
 
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////    String Art?
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
+class WrapLine extends PerSegment{
+	
+	LineToLine painter;
+
+	public WrapLine(){
+		painter = new LineToLine();
+	}
+
+	public void doRender(RenderableTemplate _rt) {
+		//super.doRender(_rt);
+		event = _rt;
+		ArrayList<Segment> segList;
+		SegmentSelector selector = segmentSelectors.get(event.getSegmentMode()); //constrain(event.getSegmentMode(), 4, 5);
+		// need to constrain to a few segmentSelectors...
+		if(selector instanceof SegmentBranch){
+			segList = selector.getSegments(event);
+			painter.paint(segList, event);
+		}
+		else if(selector instanceof RunThroughBranches){
+			segList = selector.getSegments(event);
+			painter.paint(segList, event);
+		}
+		else {
+			ArrayList<ArrayList<Segment>> trees = event.getSegmentGroup().getBranches();
+			for(ArrayList<Segment> branch : trees){
+				painter.paint(branch, event);
+			}
+			//println("=============================");
+		}
+	}
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////    fill etc
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Parent class for all rendering that happens with all segments.
  */
-
 class Geometry extends RenderMode{
 	SafeList<GroupPainter> groupPainters;
 	public Geometry(){
@@ -66,6 +113,5 @@ class Geometry extends RenderMode{
 		groupPainters.get(event.getAnimationMode()).paintGroup(event);
 	}
 }
-
 
 

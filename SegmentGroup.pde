@@ -222,14 +222,29 @@ class SegmentGroup {
     itemShape.endShape(CLOSE);//CLOSE dosent work...
   }
 
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Segment classification
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
   private void findRealNeighbors(){
     treeBranches = new ArrayList();
-    treeBranches.add(new ArrayList());
+    ArrayList<Segment> roots = new ArrayList();
     // find first segments, layer 1
-    for(Segment seg : segments){
-      if(segments.get(0).getRegA().dist(seg.getRegA()) < 0.001)
-        treeBranches.get(0).add(seg);
+    boolean root = true;
+    for(Segment toCheck : segments){
+      root = true;
+      for(Segment seg : segments){
+        if(toCheck.getRegA().dist(seg.getRegB()) < 0.1){
+          root = false;
+        }
+      }
+      if(root) roots.add(toCheck);
     }
+    treeBranches.add(roots);
+
     boolean keepSearching = true;
     int ind = 0;
     while(keepSearching){
@@ -260,9 +275,15 @@ class SegmentGroup {
     return nextSegs;
   }
 
-  public ArrayList<Segment> getBranch(int _i){
-    return treeBranches.get(_i%treeBranches.size());
-  }
+  // private boolean isDuplicate(ArrayList<ArrayList<Segment>> _tree, Segment seg) {
+  //   for(ArrayList<Segment> br : treeBranches){
+  //     for(Segment se : br){
+  //       if(next == se) return true;
+  //     }
+  //   }
+  //   return false;
+  // }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Segment access
@@ -278,6 +299,17 @@ class SegmentGroup {
     return segments.get(_index % segCount);
   }
   
+  public ArrayList<ArrayList<Segment>> getBranches(){
+    return treeBranches; 
+  } 
+
+  public ArrayList<Segment> getBranch(int _i){
+    //println("branches "+ treeBranches.size()+" index "+_i);
+    if(treeBranches.size() == 0) return null;
+    return treeBranches.get(_i%treeBranches.size());
+  }
+
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Input

@@ -5,8 +5,7 @@ class GroupPainter extends Painter{
 	public GroupPainter(){}
 
 	public void paintGroup(RenderableTemplate _rt){
-		event = _rt;
-		canvas = event.getCanvas();
+		super.paint(_rt);
 	}
 
 }
@@ -33,3 +32,7 @@ class Filler extends GroupPainter{
 		canvas.popMatrix();
 	}
 }
+
+
+
+

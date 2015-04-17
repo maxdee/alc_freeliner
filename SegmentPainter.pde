@@ -10,8 +10,7 @@ class SegmentPainter extends Painter{
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		event = _event;
-		canvas = event.getCanvas();
+		super.paint(_event);
 	}
 }
 
@@ -46,6 +45,7 @@ class FunLine extends LinePainter {
 		vecLine(event.getCanvas(), _seg.getRegA(), _seg.getRegPos(event.getLerp()));
 	}
 }
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////
