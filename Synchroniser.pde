@@ -35,6 +35,7 @@ class Synchroniser{
   FloatSmoother tapTimer;
   int tempo = 1500;
 
+  boolean record;
 
   FloatSmoother intervalTimer;
   float renderIncrement = 0.1;
@@ -44,12 +45,15 @@ class Synchroniser{
 	public Synchroniser(){
     tapTimer = new FloatSmoother(5, 350);
     intervalTimer = new FloatSmoother(5, 34);
+    record = false;
 	}
 
   public void update() {
     // calculate how much to increment
-    renderIncrement = intervalTimer.addF(float(millis()-lastRender))/tempo;
-    lastRender = millis();
+    if(!record){
+      renderIncrement = intervalTimer.addF(float(millis()-lastRender))/tempo;
+      lastRender = millis();
+    }
     lerper += renderIncrement;
 
     if(lerper > 1.0){
@@ -90,9 +94,7 @@ class Synchroniser{
 
   /////////////////////// cruft
 
-  public void setAllClockSpeeds(int s) {
-    // for (int i = 0; i < clocksCnt; i++) {
-    //   clocks.get(i).setTempo(s);
-    // }
+  public void setRecording(boolean _r) {
+    record = _r;
   }
 }

@@ -15,19 +15,27 @@ class TemplateRenderer {
   boolean trails;
   int trailmix;
 
+  // for video recording
+  boolean record;
+  int clipCount;
+  int frameCount;
+
 	public TemplateRenderer(){
     canvas = createGraphics(width, height);
     canvas.smooth(0);
     canvas.ellipseMode(CENTER);
     trails = false;
     trailmix = 30;
+    record = false;
+    clipCount = 0;
+    frameCount = 0;
 
     renderModes = new SafeList();
     renderModes.add(new PerSegment());
     renderModes.add(new Geometry());
     renderModes.add(new WrapLine());
 
-    repeaters =  new SafeList();
+    repeaters = new SafeList();
     repeaters.add(new Single());
     repeaters.add(new EvenlySpaced());
 	}
@@ -46,9 +54,21 @@ class TemplateRenderer {
         renderTemplate(rt);
 
     canvas.endDraw();
+    if(record){
+      String fn = String.format("%06d", frameCount);
+      canvas.save("capture/clip_"+clipCount+"/frame-"+fn+".tif");
+      frameCount++;
+    }
 	}
 
-
+  public boolean toggleRecording(){
+    record = !record;
+    if(record) {
+      clipCount++;
+      frameCount = 0;
+    }
+    return record;
+  }
 
   public void renderTemplate(RenderableTemplate _rt){
     _rt.setCanvas(canvas);

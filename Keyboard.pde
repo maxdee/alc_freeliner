@@ -78,7 +78,8 @@ class Keyboard{
     "=    increaseValue",
     "@    save", 
     "#    load",
-    "!    loopAll"
+    "!    loopAll",
+    "*    record"
   };
 
 
@@ -344,6 +345,7 @@ class Keyboard{
       else if (_k == 't') templateManager.sync.tap(); 
       else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());  
       else if (_k == 'y') valueGiven_ = str(templateRenderer.toggleTrails());
+      else if (_k == '*') valueGiven_ = str(toggleRecording());
       else if (_k == ',') valueGiven_ = str(gui.toggleViewTags());
       else if (_k == '.') valueGiven_ = str(mouse.toggleSnapping());
       else if (_k == '/') valueGiven_ = str(gui.toggleViewLines()); 
@@ -422,7 +424,11 @@ class Keyboard{
   }
 
 
-
+  public boolean toggleRecording(){
+    boolean record = templateRenderer.toggleRecording();
+    templateManager.getSynchroniser().setRecording(record);
+    return record;
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Typing in stuff

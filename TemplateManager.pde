@@ -231,6 +231,10 @@ class TemplateManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  public Synchroniser getSynchroniser(){
+    return sync;
+  }
+
   public ArrayList<RenderableTemplate> getEvents(){
     // ArrayList<RenderableTemplate> rt = new ArrayList<RenderableTemplate>(loops);
     // rt.add()
