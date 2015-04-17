@@ -176,41 +176,77 @@ class GroupManager{
  * Saves to a xml file.
  * May we will save entire groups and stuff soon.
  */  
-  public void saveVertices(){
-    ArrayList<PVector> pnts = new ArrayList();
+  // public void saveVertices(){
+  //   ArrayList<PVector> pnts = new ArrayList();
+  //   for(SegmentGroup grp : groups){
+  //     ArrayList<Segment> segs = grp.getSegments(); 
+  //     for(Segment seg : segs){
+  //       if(!isDuplicate(pnts, seg.getRegA())) pnts.add(seg.getRegA());
+  //       if(!isDuplicate(pnts, seg.getRegB())) pnts.add(seg.getRegB());
+  //     }
+  //   }
+  //   XML vertices = new XML("vertices");
+  //   //toSave.removeChild(toSave.getChild("vertices"));
+  //   for(PVector pnt : pnts){
+  //     XML vertx = vertices.addChild("vertex");
+  //     vertx.setFloat("x", pnt.x);
+  //     vertx.setFloat("y", pnt.y);
+  //   }
+  //   saveXML(vertices, "data/vertices.xml");
+  // }
+
+  public void saveGroups(){
+    //ArrayList<PVector> pnts = new ArrayList();
+    XML groupData = new XML("groups");
     for(SegmentGroup grp : groups){
-      ArrayList<Segment> segs = grp.getSegments(); 
-      for(Segment seg : segs){
-        if(!isDuplicate(pnts, seg.getRegA())) pnts.add(seg.getRegA());
-        if(!isDuplicate(pnts, seg.getRegB())) pnts.add(seg.getRegB());
+      XML xgroup = groupData.addChild("group");
+      xgroup.setInt("ID", grp.getID());
+      xgroup.setFloat("centerX", grp.getCenter().x);
+      xgroup.setFloat("centerY", grp.getCenter().y);
+      for(Segment seg : grp.getSegments()){
+        XML xseg = xgroup.addChild("segment");
+        xseg.setFloat("aX",seg.getA().x);
+        xseg.setFloat("aY",seg.getA().y);
+        xseg.setFloat("bX",seg.getB().x);
+        xseg.setFloat("bY",seg.getB().y);
       }
+      saveXML(groupData, "data/groups.xml");
     }
-    XML vertices = new XML("vertices");
-    //toSave.removeChild(toSave.getChild("vertices"));
-    for(PVector pnt : pnts){
-      XML vertx = vertices.addChild("vertex");
-      vertx.setFloat("x", pnt.x);
-      vertx.setFloat("y", pnt.y);
-    }
-    saveXML(vertices, "data/vertices.xml");
   }
 
-/**
- * Check if a coordinate has already been added to a list.
- * @param ArrayList<PVector> to check
- * @param PVector in question
- * @return boolean
- */  
-  private boolean isDuplicate(ArrayList<PVector> _pnts, PVector _pv){
-    for(PVector pnt : _pnts){
-      if(pnt.dist(_pv) < 0.001) return true;
+
+  public void loadGroups(){
+    XML file;
+    try {
+      file = loadXML("data/groups.xml");
     }
-    return false;
+    catch (Exception e){
+      println("No groups.xml");
+      return;
+    }
+    XML[] groupData = file.getChildren("group");
+    PVector posA = new PVector(0,0);
+    PVector posB = new PVector(0,0);
+    boolean first = true;
+    for(XML xgroup : groupData){
+      if(first){
+        first = false;
+        continue;
+      }
+      newGroup();
+      XML[] xseg = xgroup.getChildren("segment");
+      for(XML seg : xseg){
+        posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
+        posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
+        getSelectedGroup().addSegment(posA.get(), posB.get()); 
+      }
+      getSelectedGroup().mouseInput(LEFT, posB);
+      getSelectedGroup().setNeighbors();
+      posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
+      if(abs(posA.x - getSelectedGroup().getSegment(0).getA().x) > 2) getSelectedGroup().placeCenter(posA);
+    }
   }
 
-/**
- * Loads a previously generated xml file into one group to provide snapping points.
- */  
   public void loadVertices(){
     XML file;
     try {
@@ -228,6 +264,42 @@ class GroupManager{
       getSelectedGroup().mouseInput(LEFT, pos);
     }
   }
+
+
+
+// /**
+//  * Check if a coordinate has already been added to a list.
+//  * @param ArrayList<PVector> to check
+//  * @param PVector in question
+//  * @return boolean
+//  */  
+//   private boolean isDuplicate(ArrayList<PVector> _pnts, PVector _pv){
+//     for(PVector pnt : _pnts){
+//       if(pnt.dist(_pv) < 0.001) return true;
+//     }
+//     return false;
+//   }
+
+/**
+ * Loads a previously generated xml file into one group to provide snapping points.
+ */  
+  // public void loadVertices(){
+  //   XML file;
+  //   try {
+  //     file = loadXML("data/vertices.xml");
+  //   }
+  //   catch (Exception e){
+  //     println("No vertices.xml");
+  //     return;
+  //   }
+  //   XML[] vertices = file.getChildren("vertex");
+  //   newGroup();
+  //   PVector pos = new PVector(0,0);
+  //   for(XML vert : vertices){
+  //     pos.set(vert.getFloat("x"), vert.getFloat("y"));
+  //     getSelectedGroup().mouseInput(LEFT, pos);
+  //   }
+  // }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

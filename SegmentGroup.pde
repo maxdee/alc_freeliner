@@ -115,6 +115,11 @@ class SegmentGroup {
     generateShape();
   }
 
+
+  public void addSegment(PVector _a, PVector _b){
+    segments.add(new Segment(_a, _b));
+    segCount++;
+  }
 /**
  * Start a new segment somewhere else than the current segmentStart
  * A few things are updated such as the neighbors and shape.
