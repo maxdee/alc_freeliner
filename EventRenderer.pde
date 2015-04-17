@@ -35,7 +35,6 @@ class EventRenderer {
     canvas.beginDraw();
     if(trails) alphaBG(canvas);
     else canvas.clear();
-    canvas.clear();
     if(liquid){
       fill(255);
       rect(1024,0,1024,768);
@@ -78,18 +77,6 @@ class EventRenderer {
     _pg.stroke(0, 0, 0, trailmix);
     _pg.rect(0, 0, width, height);
   }
-
-	// public color getStrokeColor(){
-	// 	color col = colorizers.get(event.getStrokeMode()).get();
-	// 	col = color(col,event.getAlpha());
-	// 	return col;
-	// }
-
-	// public color getFillColor(RenderableTemplate _rev){
-	// 	color col = colorizers.get(event.getFillMode()).get();
-	// 	col = color(col,event.getAlpha());
-	// 	return col;		
-	// }
 
   public boolean toggleTrails(){
     trails = !trails;

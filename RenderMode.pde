@@ -19,7 +19,9 @@ class RenderMode {
 }
 
 
-
+/**
+ * Parent class for all rendering that happens per segment.
+ */
 class PerSegment extends RenderMode{
 	
 	SafeList<SegmentSelector> segmentSelectors;
@@ -35,10 +37,10 @@ class PerSegment extends RenderMode{
 		segmentSelectors.add(new RunThroughBranches());
 
     segmentPainters = new SafeList();
-    segmentPainters.add(new LinePainter());
-    segmentPainters.add(new FunLine());
     segmentPainters.add(new BrushPutter());
     segmentPainters.add(new SpiralBrush());
+    segmentPainters.add(new LinePainter());
+    segmentPainters.add(new FunLine());
 	}
 
 	public void doRender(RenderableTemplate _rt){
@@ -47,13 +49,24 @@ class PerSegment extends RenderMode{
     for(Segment seg : segList)
       segmentPainters.get(event.getAnimationMode()).paintSegment(seg, event);
 	}
-
 }
+
+/**
+ * Parent class for all rendering that happens with all segments.
+ */
 
 class Geometry extends RenderMode{
-	public Geometry(){}
+	SafeList<GroupPainter> groupPainters;
+	public Geometry(){
+		groupPainters = new SafeList();
+		groupPainters.add(new Filler());
+	}
 
 	public void doRender(RenderableTemplate _rt){
-
+		event = _rt;
+		groupPainters.get(event.getAnimationMode()).paintGroup(event);
 	}
 }
+
+
+

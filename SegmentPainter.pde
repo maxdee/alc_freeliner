@@ -3,7 +3,7 @@
 class SegmentPainter extends Painter{
 	final String name = "SegmentPainter";
 	// reference to the _event being rendered
-	RenderableTemplate _event; 
+	// RenderableTemplate _event; 
 
 
 	public SegmentPainter(){
@@ -59,7 +59,7 @@ class FunLine extends LinePainter {
 class BrushPutter extends SegmentPainter{
 	final String name = "BrusPutter";
 	SafeList<Brush> brushes;
-	PGraphics canvas;
+	
 
 	public BrushPutter(){
 		loadBrushes();
@@ -79,7 +79,7 @@ class BrushPutter extends SegmentPainter{
 		event = _event;
 		canvas = event.getCanvas();
 		//println(event.getLerp());
-		_seg.setSize(event.getBrushSize());
+		_seg.setSize(event.getScaledBrushSize());
 		putShape(_seg.getPos(event.getLerp()), _seg.getAngle(event.getDirection()) + event.getAngleMod());
 	}
 

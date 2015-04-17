@@ -42,7 +42,7 @@ class Segment {
 
   PVector center;
   
-  int sizer;
+  float scaledSize;
   
   float angle;
   //float anglePI;
@@ -60,7 +60,7 @@ class Segment {
     newRan();
     offA = new PVector(0,0,0);
     offB = new PVector(0,0,0);
-    sizer = 10;
+    scaledSize = 10;
     centered = false;
     updateAngle();
     segmentText = "freeliner!";
@@ -90,8 +90,8 @@ class Segment {
   }
 
   private void findOffset() {
-    offA = inset(pointA, neighbA.getRegA(), pointB, center, sizer);
-    offB = inset(pointB, pointA, neighbB.getRegB(), center, sizer);
+    offA = inset(pointA, neighbA.getRegA(), pointB, center, scaledSize);
+    offB = inset(pointB, pointA, neighbB.getRegB(), center, scaledSize);
   }
 
   public void setPointA(PVector p){
@@ -106,7 +106,7 @@ class Segment {
 
   public void setCenter(PVector c) {
     centered = true;
-    //sizer = 0;
+    //scaledSize = 0;
     center = c.get();
     findOffset();
   }
@@ -115,9 +115,9 @@ class Segment {
     centered = false;
   }
 
-  public void setSize(int _s){
-    if(_s != sizer && centered){ 
-      sizer = _s;
+  public void setSize(float _s){
+    if(_s != scaledSize && centered){ 
+      scaledSize = _s;
       findOffset();
     }
   }
@@ -180,7 +180,7 @@ class Segment {
   ////////////////////////////////////////////////////////////////////////////////////
 
   // public final int getSize(){
-  //   return sizer;
+  //   return scaledSize;
   // }
 
   public final PVector getPos(float l) {
@@ -208,7 +208,7 @@ class Segment {
   }
 
   //get offset pos from predetermined angle
-  //add a recentOffA with a recent sizer
+  //add a recentOffA with a recent scaledSize
   public final PVector getOffA() {
     return offA;
   }

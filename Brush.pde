@@ -83,6 +83,7 @@ class SquareBrush extends Brush {
 	}
 }
 
+
 class CustomBrush extends Brush {
   PShape sourceShape;
 
@@ -109,5 +110,4 @@ class CustomBrush extends Brush {
 	public void setCustomShape(PShape _sourceShape){
     sourceShape = _sourceShape;
   }
-
 }

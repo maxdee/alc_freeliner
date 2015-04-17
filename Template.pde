@@ -69,6 +69,9 @@ class Template{
 		templateID = _tp.getTemplateID();
  	}
 
+/**
+ * Reset to default values
+ */
  	public void reset(){
  		renderMode = 0;
 		animationMode = 0;

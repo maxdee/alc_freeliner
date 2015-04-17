@@ -5,7 +5,7 @@ class Painter{
 
 	// Since we paint we need colors
 	SafeList<Colorizer> colorizers;
-
+  PGraphics canvas;
 	String name = "Painter";
 
 	RenderableTemplate event;
