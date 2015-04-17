@@ -102,8 +102,6 @@ class SimpleBrush extends BrushPutter{
 }
 
 
-
-
 class SpiralBrush extends BrushPutter{
 	final String name = "SpiralBrush";
 	public SpiralBrush(){
@@ -127,7 +125,7 @@ class BrushFill extends BrushPutter{
 		PVector center = _seg.getCenter().get();
 		float lrp = event.getLerp();
 		float ang =  _seg.getAngle(event.getDirection());
-		int count = 5;
+		int count = 5; // what should I attach this to?
 		float inter = 1.0/count;
 		PVector pos = new PVector(0,0); _seg.getPos(lrp).get();
 		float tmpLrp = 0;
