@@ -104,12 +104,14 @@ class SegmentGroup {
  * @param PVector ending coordinate
  */
   private void endSegment(PVector p) {
-    segments.add(new Segment(segmentStart, p));
+    Segment newSeg = new Segment(segmentStart, p);
+    segments.add(newSeg);
     segCount++;
     segmentStart = p.get();
     seperated = false;
     setNeighbors();
     findRealNeighbors();
+    if(centered) placeCenter(center);
     generateShape();
   }
 
@@ -160,6 +162,7 @@ class SegmentGroup {
         segCount--;
       }
       setNeighbors();
+      generateShape();
     }
   }
 
@@ -170,6 +173,7 @@ class SegmentGroup {
         segments.get(i).setCenter(center);
       }
       centered = true;
+      generateShape();
     }
     centerPutting = false;
   }

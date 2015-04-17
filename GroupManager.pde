@@ -33,7 +33,7 @@ class GroupManager{
   int selectedIndex;
   int lastSelectedIndex;
   int snappedIndex;
-  int snapDist = 10;
+  int snapDist = 15;
   // list of PVectors that are snapped
   ArrayList<PVector> snappedList;
 
@@ -154,10 +154,16 @@ class GroupManager{
       for(PVector _pv : snappedList){
         _pv.add(ndg);
       }
+      //setCenter(center);
+      reCenter();
     }
     else if(isFocused()) getSelectedGroup().nudgeSegmentStart(ndg);
   }
 
+  private void reCenter(){
+    for(SegmentGroup sg : groups)
+      sg.placeCenter(sg.getCenter());
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

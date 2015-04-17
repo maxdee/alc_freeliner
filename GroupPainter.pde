@@ -17,16 +17,17 @@ class Filler extends GroupPainter{
 	public void paintGroup(RenderableTemplate _rt){
 		super.paintGroup(_rt);
 
-		float angle = event.getRotationMode()*(event.getLerp()*TWO_PI);
+		float angle = event.getAngleMod();  //getRotationMode()*(event.getLerp()*TWO_PI);
 		canvas.pushMatrix();
 		float lorp = 1-event.getLerp();
 		lorp*=lorp;
 		PVector center = event.getSegmentGroup().getCenter();
 		PShape shpe = cloneShape(event.getSegmentGroup().getShape(),
-														 lorp, 
+														 1.0,//lorp, 
 														 center);
 		applyStyle(shpe);
 		canvas.translate(center.x, center.y);
+		canvas.scale(lorp);
 		canvas.rotate(angle);
 		canvas.shape(shpe);
 		canvas.popMatrix();
@@ -35,4 +36,4 @@ class Filler extends GroupPainter{
 
 
 
-
+// filler with moving center

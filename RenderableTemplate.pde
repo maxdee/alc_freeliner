@@ -51,8 +51,10 @@ class RenderableTemplate extends Template{
  * Fourth Tier, data can change multiple times per render
  */
 	// Which iteration we are on
-	int repetitionNum;
+	int repetition;
+	int segmentIndex;
 	float angleMod;
+	int colorCount;
 /*
  * Variable for internal use.
  */
@@ -91,7 +93,7 @@ class RenderableTemplate extends Template{
 	public void init(float _ts){
 		timeStamp = _ts;
 		//println(timeStamp);
-		beatCount++;
+		//beatCount++;
 		setrandomValue((int)random(100));
     setLargeRan((int)random(10000));
 	}
@@ -102,6 +104,11 @@ class RenderableTemplate extends Template{
 
 	public void setTime(float _lerp, int _beat){
 		unitInterval = _lerp;
+		if(beatCount != _beat){
+			beatCount = _beat;
+			randomValue = (int)random(1000);
+		}
+		colorCount = 0;
 		copy(sourceTemplate);
 		// in old render event we had  
 		//if(_lrp > timeStamp) return _lrp - timeStamp;
@@ -125,6 +132,14 @@ class RenderableTemplate extends Template{
 
 	public void setrandomValue(int _rn){
  		randomValue = _rn;
+ 	}
+
+ 	public void setRepetition(int _c){
+ 		repetition = _c;
+ 	}
+
+ 	public void setSegmentIndex(int _i){
+ 		segmentIndex = _i;
  	}
 
  	public void setLargeRan(int _lr){
@@ -187,12 +202,20 @@ class RenderableTemplate extends Template{
 /*
  * Fourth Tier accessors
  */
-	public final int getRepetitionNum(){
-		return repetitionNum;
+	public final int getRepetition(){
+		return repetition;
+	}
+
+	public final int getSegmentIndex(){
+		return segmentIndex;
 	}
 
 	public final float getScaledBrushSize(){
 		return brushSize * segmentGroup.getBrushScaler();
+	}
+
+	public final int getColorCount(){
+		return colorCount++;
 	}
 }
 

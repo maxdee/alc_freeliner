@@ -39,14 +39,19 @@ class PerSegment extends RenderMode{
     segmentPainters = new SafeList();
     segmentPainters.add(new SimpleBrush());
     segmentPainters.add(new SpiralBrush());
+    segmentPainters.add(new BrushFill());
     segmentPainters.add(new FunLine());
 	}
 
 	public void doRender(RenderableTemplate _rt){
 		super.doRender(_rt);
 		ArrayList<Segment> segList = segmentSelectors.get(event.getSegmentMode()).getSegments(event);
-    for(Segment seg : segList)
+    int index = 0;
+    for(Segment seg : segList){
+    	event.setSegmentIndex(index);
+    	index++;
       segmentPainters.get(event.getAnimationMode()).paintSegment(seg, event);
+    }
 	}
 }
 

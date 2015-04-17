@@ -2,9 +2,6 @@
 
 class TemplateRenderer {
 
-
-	RenderableTemplate event;
-
   SafeList<RenderMode> renderModes;
   SafeList<Repetition> repeaters;
 
@@ -73,18 +70,22 @@ class TemplateRenderer {
   public void renderTemplate(RenderableTemplate _rt){
     _rt.setCanvas(canvas);
     FloatList flts = repeaters.get(_rt.getRepetitionMode()).getFloats(_rt);
+    int count = 0;
     for(float flt : flts){
       _rt.setLerp(flt);
+      _rt.setRepetition(count);
+      count++;
+      tweakAngle(_rt);
       renderModes.get(_rt.getRenderMode()).doRender(_rt);
     }
   }
 
 
   // add with potential
-  public void tweakAngle(){
-    int rotMode = event.getRotationMode();
-    if(rotMode != 0) event.setAngleMod(event.getLerp()*TWO_PI*rotMode);
-    else event.setAngleMod(0);
+  public void tweakAngle(RenderableTemplate _rt){
+    int rotMode = _rt.getRotationMode();
+    if(rotMode != 0) _rt.setAngleMod(_rt.getLerp()*TWO_PI*rotMode);
+    else _rt.setAngleMod(0);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

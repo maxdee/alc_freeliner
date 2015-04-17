@@ -53,7 +53,9 @@ class Template{
  */
  	public void copy(Template _tp){
  		// copy the first tier of variables
+ 		alphaValue = _tp.getAlpha();
 		renderMode = _tp.getRenderMode();
+		segmentMode = _tp.getSegmentMode();
 		animationMode = _tp.getAnimationMode();
 		strokeMode = _tp.getStrokeMode();
 		fillMode = _tp.getFillMode();
@@ -73,6 +75,7 @@ class Template{
  * Reset to default values
  */
  	public void reset(){
+ 		alphaValue = 255;
  		renderMode = 0;
 		animationMode = 0;
 		strokeMode = 1;
@@ -83,8 +86,8 @@ class Template{
 		repetitionCount = 5;
 		easingMode = 0;
 		beatDivider = 1;
-		strokeWidth = 4;
-		brushSize = 10;
+		strokeWidth = 3;
+		brushSize = 20;
 		brushMode = 0;
  	}
 

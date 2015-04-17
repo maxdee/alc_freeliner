@@ -23,7 +23,8 @@ class Painter{
 	public void initColorizers(){
 		colorizers = new SafeList();
 		colorizers.add(new White());
-		colorizers.add(new White());
+    colorizers.add(new White());
+		colorizers.add(new RepetitionColor());
 		colorizers.add(new RandomPrimaryColor());
 		colorizers.add(new FlashyPrimaryColor());
 		colorizers.add(new FlashyGray());
