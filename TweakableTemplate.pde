@@ -2,12 +2,12 @@
 /*
  * Subclass of RenderEvent that is tweakable
  */
-class TemplateEvent extends Template {
+class TweakableTemplate extends Template {
 
 	// Not the segment group to render to, but the group to use to make a custom brush
   SegmentGroup shapeGroup;
 
-	public TemplateEvent(char _id){
+	public TweakableTemplate(char _id){
 		super(_id);
 	}
 

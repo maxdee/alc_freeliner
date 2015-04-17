@@ -24,16 +24,16 @@
 
 
 /**
- * TemplateList is a class that contains TemplateEvent references
+ * TemplateList is a class that contains TweakableTemplate references
  * <p>
- * Add and remove TemplateEvents
+ * Add and remove TweakableTemplates
  * </p>
  *
- * @see TemplateEvent
+ * @see TweakableTemplate
  */
 class TemplateList {
-  // TemplateEvent references
-  ArrayList<TemplateEvent> templateEvents;
+  // TweakableTemplate references
+  ArrayList<TweakableTemplate> templateEvents;
   String tags = "";
 
   public TemplateList(){
@@ -42,7 +42,7 @@ class TemplateList {
 
   public void updateString(){
     tags = "";
-    for(TemplateEvent _ten : templateEvents){
+    for(TweakableTemplate _ten : templateEvents){
       tags += _ten.getTemplateID();
     }
   }
@@ -54,22 +54,22 @@ class TemplateList {
     }
   }
 
-  public void toggle(TemplateEvent _te) {
+  public void toggle(TweakableTemplate _te) {
     if(_te == null) return;
     if(!templateEvents.remove(_te)) templateEvents.add(_te);
     updateString();
   }
 
-  public boolean contains(TemplateEvent _te){
+  public boolean contains(TweakableTemplate _te){
     return templateEvents.contains(_te);
   }
 
-  public ArrayList<TemplateEvent> getAll(){
+  public ArrayList<TweakableTemplate> getAll(){
     if(templateEvents.size() == 0) return null;
     else return templateEvents;
   }
 
-  public TemplateEvent getIndex(int _index){
+  public TweakableTemplate getIndex(int _index){
     if(_index < templateEvents.size()) return templateEvents.get(_index);
     else return null;
   }

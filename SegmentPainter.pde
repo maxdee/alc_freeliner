@@ -11,6 +11,7 @@ class SegmentPainter extends Painter{
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		event = _event;
+		canvas = event.getCanvas();
 	}
 }
 
@@ -20,7 +21,7 @@ class SegmentPainter extends Painter{
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-
+// base class for line painter
 class LinePainter extends SegmentPainter{
 	final String name = "LinePainter";
 
@@ -29,9 +30,8 @@ class LinePainter extends SegmentPainter{
 
 	// paint the segment in question
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		event = _event;
+		super.paintSegment(_seg, _event);
 		applyStyle(event.getCanvas());
-		vecLine(event.getCanvas(), _seg.getRegA(), _seg.getRegB());
 	}
 }
 
@@ -42,8 +42,7 @@ class FunLine extends LinePainter {
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		event = _event;
-		applyStyle(event.getCanvas());
+		super.paintSegment(_seg, _event);
 		vecLine(event.getCanvas(), _seg.getRegA(), _seg.getRegPos(event.getLerp()));
 	}
 }
@@ -76,17 +75,13 @@ class BrushPutter extends SegmentPainter{
 
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		event = _event;
-		canvas = event.getCanvas();
-		//println(event.getLerp());
+		super.paintSegment(_seg, _event);
 		_seg.setSize(event.getScaledBrushSize());
-		putShape(_seg.getPos(event.getLerp()), _seg.getAngle(event.getDirection()) + event.getAngleMod());
 	}
 
 	public void putShape(PVector _p, float _a){
 		PShape shape_; 
     shape_ = brushes.get(event.getBrushMode()).getShape(event.getScaledBrushSize());
-
     applyStyle(shape_);
     canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
@@ -96,11 +91,24 @@ class BrushPutter extends SegmentPainter{
 	}
 }
 
+class SimpleBrush extends BrushPutter{
+
+	public SimpleBrush(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		putShape(_seg.getPos(event.getLerp()), _seg.getAngle(event.getDirection()) + event.getAngleMod());
+	}
+}
+
+
+
 
 class SpiralBrush extends BrushPutter{
 	final String name = "SpiralBrush";
 	public SpiralBrush(){
 	}
+
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		PVector pv = _seg.getPos(event.getLerp()).get();

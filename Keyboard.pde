@@ -84,8 +84,8 @@ class Keyboard{
 
   // dependecy injection
   GroupManager groupManager;
-  EventManager eventManager;
-  EventRenderer eventRenderer;
+  TemplateManager templateManager;
+  TemplateRenderer templateRenderer;
   Gui gui;
   Mouse mouse;
 
@@ -122,18 +122,18 @@ class Keyboard{
 
 /**
  * Dependency injection
- * Receives references to the groupManager, eventManager, GUI and mouse.
+ * Receives references to the groupManager, templateManager, GUI and mouse.
  *
  * @param GroupManager reference
- * @param EventManager reference
- * @param EventRenderer reference
+ * @param TemplateManager reference
+ * @param TemplateRenderer reference
  * @param Gui reference
  * @param Mouse reference
  */
-  public void inject(GroupManager _gm, EventManager _em, EventRenderer _er, Gui _gui, Mouse _m){
+  public void inject(GroupManager _gm, TemplateManager _em, TemplateRenderer _er, Gui _gui, Mouse _m){
     groupManager = _gm;
-    eventManager = _em;
-    eventRenderer = _er;
+    templateManager = _em;
+    templateRenderer = _er;
     gui = _gui;
     mouse = _m;
   }
@@ -209,12 +209,12 @@ class Keyboard{
   public void processCAPS(char _c) {
     if(shifted){
       TemplateList tl = groupManager.getTemplateList();
-      if(tl == null) tl = eventManager.getTemplateList();
-      tl.toggle(eventManager.getTemplate(_c));
+      if(tl == null) tl = templateManager.getTemplateList();
+      tl.toggle(templateManager.getTemplate(_c));
       gui.setTemplateString(tl.getTags());
     }
     else {
-      eventManager.trigger(_c);
+      templateManager.trigger(_c);
     }
   }
 
@@ -223,11 +223,11 @@ class Keyboard{
  * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
  */
   private void unSelectThings(){
-    if(!groupManager.isFocused() && !eventManager.isFocused()) gui.hide();
+    if(!groupManager.isFocused() && !templateManager.isFocused()) gui.hide();
     else {
-      eventManager.unSelect();
+      templateManager.unSelect();
       groupManager.unSelect();
-      gui.setTemplateString(" ");//eventManager.renderList.getString());
+      gui.setTemplateString(" ");//templateManager.renderList.getString());
     }
   }
 
@@ -280,7 +280,7 @@ class Keyboard{
  */
   private void focusAll(){
     groupManager.unSelect();
-    eventManager.focusAll();
+    templateManager.focusAll();
     gui.setTemplateString("*all*");
   }
 
@@ -304,11 +304,11 @@ class Keyboard{
       if(sg != null){
         if(!segmentGroupDispatch(sg, _k, _n, _vg)) tl = sg.getTemplateList();
       }
-      else tl = eventManager.getTemplateList();
+      else tl = templateManager.getTemplateList();
       if(tl != null){
-        ArrayList<TemplateEvent> templates = tl.getAll();
+        ArrayList<TweakableTemplate> templates = tl.getAll();
         if(templates != null)
-          for(TemplateEvent te : templates)
+          for(TweakableTemplate te : templates)
             rendererDispatch(te, _k, _n, _vg);
       }    
     } 
@@ -341,9 +341,9 @@ class Keyboard{
       // else if (_k == 's') nudger(false, 1); //down 
       // else if (_k == 'w') nudger(false, -1); //up
 
-      else if (_k == 't') eventManager.sync.tap(); 
+      else if (_k == 't') templateManager.sync.tap(); 
       else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());  
-      else if (_k == 'y') valueGiven_ = str(eventRenderer.toggleTrails());
+      else if (_k == 'y') valueGiven_ = str(templateRenderer.toggleTrails());
       else if (_k == ',') valueGiven_ = str(gui.toggleViewTags());
       else if (_k == '.') valueGiven_ = str(mouse.toggleSnapping());
       else if (_k == '/') valueGiven_ = str(gui.toggleViewLines()); 
@@ -353,7 +353,7 @@ class Keyboard{
       else if (_k == '=') distributor(editKey, -1, _vg); //increase value
       else if (_k == ']') valueGiven_ = str(mouse.toggleFixedLength());
       else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
-      else if (_k == '!') valueGiven_ = str(eventManager.toggleLooping());
+      else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
       else if (_k == 'm') mouse.press(3);  // 
       else if (_k == '@') groupManager.saveVertices();
       else if (_k == '#') groupManager.loadVertices();
@@ -361,8 +361,8 @@ class Keyboard{
     }
     else {
       if (editKey == 'g') valueGiven_ = str(mouse.setGridSize(_n));
-      else if (editKey == 't') eventManager.sync.nudgeTime(_n);
-      else if (editKey == 'y') valueGiven_ = str(eventRenderer.setTrails(_n));
+      else if (editKey == 't') templateManager.sync.nudgeTime(_n);
+      else if (editKey == 'y') valueGiven_ = str(templateRenderer.setTrails(_n));
       else if (editKey == ']') valueGiven_ = str(mouse.setLineLenght(_n));
       else if (editKey == '.') valueGiven_ = str(groupManager.setSnapDist(_n));
       else used_ = false;
@@ -383,7 +383,7 @@ class Keyboard{
     return used_;
   }
 
-  public boolean rendererDispatch(TemplateEvent _template, char _k, int _n, boolean _vg) {
+  public boolean rendererDispatch(TweakableTemplate _template, char _k, int _n, boolean _vg) {
     //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
     boolean used_ = true;
     
@@ -393,7 +393,7 @@ class Keyboard{
         if (_k == 'l') return false;//valueGiven_ = str(_template.toggleLoop());
         else if (_k == 'k') return false;//valueGiven_ = str(_template.toggleInternal());
         else if (int(_k) == 518) _template.reset();
-        else if (int(_k) == 504) eventManager.setCustomShape(groupManager.getLastSelectedGroup());
+        else if (int(_k) == 504) templateManager.setCustomShape(groupManager.getLastSelectedGroup());
         else used_ = false;
       }
       else {
@@ -439,9 +439,9 @@ class Keyboard{
     SegmentGroup _sg = groupManager.getSelectedGroup();
     if (_sg != null) _sg.setWord(wordMaker, -1);
     else if(wordMaker.length() > 0) {
-      TemplateEvent _toadd = eventManager.getTemplate(wordMaker.charAt(0));
-      TemplateEvent _tomatch = eventManager.getTemplateList().getIndex(0);
-      groupManager.groupAddTemplateEvent(_toadd, _tomatch);
+      TweakableTemplate _toadd = templateManager.getTemplate(wordMaker.charAt(0));
+      TweakableTemplate _tomatch = templateManager.getTemplateList().getIndex(0);
+      groupManager.groupAddTemplate(_toadd, _tomatch);
     }
     wordMaker = " ";
     enterText = false;

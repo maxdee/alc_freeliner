@@ -75,7 +75,7 @@ class RenderableTemplate extends Template{
  * Constructor
  * @param SegmentGroup in question
  */
-	public RenderableTemplate(TemplateEvent _te, SegmentGroup _sg){
+	public RenderableTemplate(Template _te, SegmentGroup _sg){
 		super(_te.getTemplateID());
 		println(_te.getStrokeMode());
 		sourceTemplate = _te;

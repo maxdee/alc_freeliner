@@ -5,7 +5,8 @@ class GroupPainter extends Painter{
 	public GroupPainter(){}
 
 	public void paintGroup(RenderableTemplate _rt){
-
+		event = _rt;
+		canvas = event.getCanvas();
 	}
 
 }
@@ -15,9 +16,9 @@ class Filler extends GroupPainter{
 	public Filler(){}
 
 	public void paintGroup(RenderableTemplate _rt){
-		event = _rt;
-		canvas = event.getCanvas();
+		super.paintGroup(_rt);
 
+		float angle = event.getRotationMode()*(event.getLerp()*TWO_PI);
 		canvas.pushMatrix();
 		float lorp = 1-event.getLerp();
 		lorp*=lorp;
@@ -27,7 +28,7 @@ class Filler extends GroupPainter{
 														 center);
 		applyStyle(shpe);
 		canvas.translate(center.x, center.y);
-		canvas.rotate(event.getAngleMod());
+		canvas.rotate(angle);
 		canvas.shape(shpe);
 		canvas.popMatrix();
 	}

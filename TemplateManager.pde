@@ -27,12 +27,12 @@
  * Manage all the templates
  *
  */
-class EventManager{
+class TemplateManager{
 	//selects templates to control
   TemplateList templateList;
   
   //templates all the basic templates
-  ArrayList<TemplateEvent> templates;
+  ArrayList<TweakableTemplate> templates;
   final int N_TEMPLATES = 26;
   // events to render
   ArrayList<RenderableTemplate> eventList;
@@ -41,7 +41,7 @@ class EventManager{
   Synchroniser sync;
 
 
-  public EventManager(){
+  public TemplateManager(){
     sync = new Synchroniser();
   	templateList = new TemplateList();
     loops = new ArrayList();
@@ -53,7 +53,7 @@ class EventManager{
   private void init() {
     templates = new ArrayList();
     for (int i = 0; i < N_TEMPLATES; i++) {
-      TemplateEvent te = new TemplateEvent(char(65+i));
+      TweakableTemplate te = new TweakableTemplate(char(65+i));
       templates.add(te);
     }
   }
@@ -83,9 +83,9 @@ class EventManager{
     ArrayList<RenderableTemplate> toKeep = new ArrayList<RenderableTemplate>();
     // check to add new loops
     for(SegmentGroup sg : _groups){
-      ArrayList<TemplateEvent> tmps = sg.getTemplateList().getAll();
+      ArrayList<TweakableTemplate> tmps = sg.getTemplateList().getAll();
       if(tmps != null){
-        for(TemplateEvent te : tmps){
+        for(TweakableTemplate te : tmps){
           RenderableTemplate rt = getByIDandGroup(loops, te.getTemplateID(), sg);
           if(rt != null) toKeep.add(rt);
           else toKeep.add(eventFactory(te, sg));
@@ -138,7 +138,7 @@ class EventManager{
   ////////////////////////////////////////////////////////////////////////////////////
 
   // set size as per scalar
-  public RenderableTemplate eventFactory(TemplateEvent _te, SegmentGroup _sg){
+  public RenderableTemplate eventFactory(TweakableTemplate _te, SegmentGroup _sg){
     println("new event");
     return new RenderableTemplate(_te, _sg);
   }
@@ -158,9 +158,9 @@ class EventManager{
   // left to right things
 
   void renderGroup(SegmentGroup _sg){
-    // ArrayList<TemplateEvent> rList = _sg.getTemplateList().getAll();
+    // ArrayList<TweakableTemplate> rList = _sg.getTemplateList().getAll();
     // if(rList != null){
-    //   for (TemplateEvent r_ : rList) {
+    //   for (TweakableTemplate r_ : rList) {
     //     r_.renderGroup(_sg);
     //   }
     // }
@@ -173,7 +173,7 @@ class EventManager{
   ////////////////////////////////////////////////////////////////////////////////////
   
   public void trigger(char _c){
-    TemplateEvent r_ = getTemplate(_c);
+    TweakableTemplate r_ = getTemplate(_c);
     // Factory!
     //if(r_ != null) r_.trigger(1);
   }
@@ -184,14 +184,14 @@ class EventManager{
 
   public void focusAll() {
     templateList.clear();
-    for (TemplateEvent r_ : templates) {
+    for (TweakableTemplate r_ : templates) {
       templateList.toggle(r_);
     }
   }
 
   // set a decorator's shape
   private void setCustomShape(SegmentGroup _sg){
-    TemplateEvent r_ = templateList.getIndex(0);
+    TweakableTemplate r_ = templateList.getIndex(0);
     if(r_ != null) r_.setShapeGroup(_sg);
   }
 
@@ -221,7 +221,7 @@ class EventManager{
     templateList.toggle(getTemplate(_c));
   }
 
-  // public void toggle(TemplateEvent _rn){
+  // public void toggle(TweakableTemplate _rn){
   //   templateList.toggle(_rn);
   // }
 
@@ -241,12 +241,12 @@ class EventManager{
     return templateList.getIndex(0) != null;
   }
 
-  public TemplateEvent getTemplate(char _c){
+  public TweakableTemplate getTemplate(char _c){
     if(_c >= 'A' && _c <= 'Z') return templates.get(int(_c)-'A');
     else return null;
   }
 
-  // public ArrayList<TemplateEvent> getSelected(){
+  // public ArrayList<TweakableTemplate> getSelected(){
   //   return templateList.getAll();
   // }
   

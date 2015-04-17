@@ -33,32 +33,32 @@ class  FreeLiner {
   Keyboard keyboard;
   // managers
   GroupManager groupManager;
-  EventManager eventManager;
-  EventRenderer eventRenderer;
+  TemplateManager templateManager;
+  TemplateRenderer templateRenderer;
 
   public FreeLiner() {
 
     //network
     //oscP5 = new OscP5(this, 3333);
     groupManager = new GroupManager();
-    eventManager =  new EventManager();
-    eventRenderer = new EventRenderer();
+    templateManager =  new TemplateManager();
+    templateRenderer = new TemplateRenderer();
 
     mouse = new Mouse();
     keyboard = new Keyboard();
     gui = new Gui();
 
     mouse.inject(groupManager, keyboard);
-    keyboard.inject(groupManager, eventManager, eventRenderer, gui, mouse);
+    keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
     gui.inject(groupManager, mouse);
   }
 
   public void update() {
     background(0);
-    eventManager.update(); //
-    eventManager.launchLoops(groupManager.getGroups());
-    eventRenderer.update(eventManager.getEvents());
-    image(eventRenderer.getCanvas(), 0, 0);
+    templateManager.update(); //
+    templateManager.launchLoops(groupManager.getGroups());
+    templateRenderer.update(templateManager.getEvents());
+    image(templateRenderer.getCanvas(), 0, 0);
 
     
     

@@ -299,7 +299,7 @@ class SegmentGroup {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void toggleTemplate(TemplateEvent _te) {
+  public void toggleTemplate(TweakableTemplate _te) {
     templateList.toggle(_te);
   }
 

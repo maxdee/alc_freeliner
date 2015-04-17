@@ -37,9 +37,8 @@ class PerSegment extends RenderMode{
 		segmentSelectors.add(new RunThroughBranches());
 
     segmentPainters = new SafeList();
-    segmentPainters.add(new BrushPutter());
+    segmentPainters.add(new SimpleBrush());
     segmentPainters.add(new SpiralBrush());
-    segmentPainters.add(new LinePainter());
     segmentPainters.add(new FunLine());
 	}
 

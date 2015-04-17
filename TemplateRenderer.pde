@@ -1,6 +1,6 @@
 
 
-class EventRenderer {
+class TemplateRenderer {
 
 
 	RenderableTemplate event;
@@ -15,7 +15,7 @@ class EventRenderer {
   boolean trails;
   int trailmix;
 
-	public EventRenderer(){
+	public TemplateRenderer(){
     canvas = createGraphics(width, height);
     canvas.smooth(0);
     canvas.ellipseMode(CENTER);
