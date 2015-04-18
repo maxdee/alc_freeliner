@@ -161,8 +161,10 @@ class GroupManager{
   }
 
   private void reCenter(){
-    for(SegmentGroup sg : groups)
-      sg.placeCenter(sg.getCenter());
+    for(SegmentGroup sg : groups){
+      if(sg.isCentered()
+        ) sg.placeCenter(sg.getCenter());
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -183,10 +185,10 @@ class GroupManager{
       xgroup.setFloat("centerY", grp.getCenter().y);
       for(Segment seg : grp.getSegments()){
         XML xseg = xgroup.addChild("segment");
-        xseg.setFloat("aX",seg.getA().x);
-        xseg.setFloat("aY",seg.getA().y);
-        xseg.setFloat("bX",seg.getB().x);
-        xseg.setFloat("bY",seg.getB().y);
+        xseg.setFloat("aX",seg.getRegA().x);
+        xseg.setFloat("aY",seg.getRegA().y);
+        xseg.setFloat("bX",seg.getRegB().x);
+        xseg.setFloat("bY",seg.getRegB().y);
       }
       saveXML(groupData, "data/groups.xml");
     }

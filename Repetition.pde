@@ -12,6 +12,7 @@ class Repetition {
 		easers.add(new Square());
 		easers.add(new Sine());
 		easers.add(new RandomUnit());
+		easers.add(new Fixed());
 	}
 
 	public FloatList getFloats(RenderableTemplate _rt){

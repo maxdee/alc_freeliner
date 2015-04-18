@@ -24,7 +24,7 @@
 
 // the data structure shared between a SegmentGroup and Renderer
 class RenderableTemplate extends Template{
-
+	// 
 	Template sourceTemplate;
 
 	SegmentGroup segmentGroup;
@@ -62,7 +62,7 @@ class RenderableTemplate extends Template{
   float timeStamp;
 	
 	int groupID;
-
+	boolean doRender;
 
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
@@ -85,6 +85,7 @@ class RenderableTemplate extends Template{
 		copy(_te);
 		segmentGroup = _sg;
 		beatCount = -1;
+		doRender = true;
 	}
 
 /*
@@ -114,6 +115,10 @@ class RenderableTemplate extends Template{
 		// in old render event we had  
 		//if(_lrp > timeStamp) return _lrp - timeStamp;
 		//else return (_lrp+1)-timeStamp; // _lrp < timestamp
+	}
+
+	public void forceBrushSize(int _s){
+		brushSize = _s;
 	}
 
 	public float conditionLerp(float _lrp){
@@ -159,11 +164,19 @@ class RenderableTemplate extends Template{
  	public void setHue(float _h){
  		hue = _h;
  	}
+
+ 	public void setDoRender(boolean _b){
+ 		doRender = _b;
+ 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Accessors
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean doRender(){
+		return doRender;
+	}
 
 	public final int getGroupId(){
 		return segmentGroup.getID();

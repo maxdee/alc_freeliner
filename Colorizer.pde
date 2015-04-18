@@ -121,6 +121,7 @@ class RepetitionColor extends Colorizer {
 
 	public color get(RenderableTemplate _event){
 		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % cols.length;
+		index %= cols.length;
 		color c = cols[index];
 		return alphaMod( c,_event.getAlpha());
 	}
@@ -169,7 +170,6 @@ class FlashyRandom extends Colorizer {
 	}
 }
 
-
 /*
  * Constantly changing random color
  */
@@ -178,7 +178,9 @@ class Strobe extends Colorizer {
 	}
 
 	public color get(RenderableTemplate _event){
-		if(_event.getLerp()<0.2) return color(255);
+		// if(_event.getLerp()<0.2) return color(255);
+		// else return color(0);
+		if(maybe(20))return color(255);
 		else return color(0);
 	}
 }

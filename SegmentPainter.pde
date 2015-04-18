@@ -79,9 +79,21 @@ class BrushPutter extends SegmentPainter{
 		_seg.setSize(event.getScaledBrushSize());
 	}
 
+	// regular putShape
 	public void putShape(PVector _p, float _a){
 		PShape shape_; 
     shape_ = brushes.get(event.getBrushMode()).getShape(event.getScaledBrushSize());
+    applyStyle(shape_);
+    canvas.pushMatrix();
+    canvas.translate(_p.x, _p.y);
+    canvas.rotate(_a+HALF_PI+event.getAngleMod()); 
+    canvas.shape(shape_);
+    canvas.popMatrix();
+	}
+	// putShape with overidable size
+	public void putShape(PVector _p, float _a, float _s){
+		PShape shape_; 
+    shape_ = brushes.get(event.getBrushMode()).getShape(_s);
     applyStyle(shape_);
     canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
@@ -137,16 +149,25 @@ class BrushFill extends BrushPutter{
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		PVector center = _seg.getCenter().get();
+		// find the distance from the middle to the center
+		float dst = center.dist(_seg.getPos(0.5));
+
+		int count = constrain(event.getRepetitionCount(), 1, 20); //ceil(dst/event.getScaledBrushSize());
+		float brushSize = dst/count;
+		//event.forceBrushSize((int)brushSize);
 		float lrp = event.getLerp();
 		float ang =  _seg.getAngle(event.getDirection());
-		int count = 5; // what should I attach this to?
+		//int count = 5; // what should I attach this to?
 		float inter = 1.0/count;
 		PVector pos = new PVector(0,0); _seg.getPos(lrp).get();
 		float tmpLrp = 0;
+		
 		for(int i = 0; i < count; i++){
 			tmpLrp = (i%2 == 0) ? lrp : (lrp-1)*-1;
 			pos = vecLerp(_seg.getPos(tmpLrp).get(), center, i*inter);
-			putShape(pos, (i%2 == 0) ? ang : ang + PI);
+			putShape(pos, (i%2 == 0) ? ang : ang + PI, brushSize);
 		}		
 	}
+
+
 }

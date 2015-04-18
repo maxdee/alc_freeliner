@@ -34,6 +34,8 @@ class Template{
 	int brushSize;
 	// Which brush
 	int brushMode;
+	// maybe render
+	
 
 
 	char templateID;
@@ -90,6 +92,7 @@ class Template{
 		brushSize = 20;
 		brushMode = 0;
  	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////
 	///////

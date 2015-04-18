@@ -40,3 +40,11 @@ class RandomUnit extends Easing{
 		return random(1.0);
 	}
 }
+
+class Fixed extends Easing{
+	public Fixed(){}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		return 1.0;
+	}
+}	
