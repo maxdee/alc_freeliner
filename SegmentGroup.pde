@@ -38,9 +38,9 @@ class SegmentGroup {
   int sizer = 10;
   PShape itemShape;
 
-  ArrayList<Segment> segments;
+  SafeList<Segment> segments;
 
-  ArrayList<ArrayList<Segment>> treeBranches; 
+  SafeList<SafeList<Segment>> treeBranches; 
   int segCount = 0;
   TemplateList templateList;
   PVector center;
@@ -70,8 +70,8 @@ class SegmentGroup {
  * Initialises variables, can be used to reset a group.
  */
   public void init(){
-    segments = new ArrayList();
-    treeBranches = new ArrayList();
+    segments = new SafeList();
+    treeBranches = new SafeList();
     templateList = new TemplateList();
     segmentStart = new PVector(-10, -10, -10);
     center = new PVector(-10, -10, -10);
@@ -239,8 +239,8 @@ class SegmentGroup {
   ////////////////////////////////////////////////////////////////////////////////////
 
   private void findRealNeighbors(){
-    treeBranches = new ArrayList();
-    ArrayList<Segment> roots = new ArrayList();
+    treeBranches = new SafeList();
+    SafeList<Segment> roots = new SafeList();
     // find first segments, layer 1
     boolean root = true;
     for(Segment toCheck : segments){
@@ -257,22 +257,22 @@ class SegmentGroup {
     boolean keepSearching = true;
     int ind = 0;
     while(keepSearching){
-      ArrayList<Segment> next = getNext(treeBranches.get(ind++));
+      SafeList<Segment> next = getNext(treeBranches.get(ind++));
       if(next.size() > 0) treeBranches.add(next);
       else keepSearching = false;
     }
   }
 
 
-  private ArrayList<Segment> getNext(ArrayList<Segment> _segs){
-    ArrayList<Segment> nextSegs = new ArrayList();
+  private SafeList<Segment> getNext(SafeList<Segment> _segs){
+    SafeList<Segment> nextSegs = new SafeList();
     boolean duplicate = false;
     for(Segment seg : _segs){
       for(Segment next : segments){
         if(seg.getRegB().dist(next.getRegA()) < 0.001){
           // check duplicates
           duplicate = false;
-          for(ArrayList<Segment> br : treeBranches){
+          for(SafeList<Segment> br : treeBranches){
             for(Segment se : br){
               if(next == se) duplicate = true;
             }
@@ -284,8 +284,8 @@ class SegmentGroup {
     return nextSegs;
   }
 
-  // private boolean isDuplicate(ArrayList<ArrayList<Segment>> _tree, Segment seg) {
-  //   for(ArrayList<Segment> br : treeBranches){
+  // private boolean isDuplicate(SafeList<SafeList<Segment>> _tree, Segment seg) {
+  //   for(SafeList<Segment> br : treeBranches){
   //     for(Segment se : br){
   //       if(next == se) return true;
   //     }
@@ -299,20 +299,20 @@ class SegmentGroup {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   // deprecate
-  public final ArrayList<Segment> getSegments() {
+  public final SafeList<Segment> getSegments() {
     return segments;
   }
 
   // Segment accessors
   public Segment getSegment(int _index){
-    return segments.get(_index % segCount);
+    return segments.get(_index);
   }
   
-  public ArrayList<ArrayList<Segment>> getBranches(){
+  public SafeList<SafeList<Segment>> getBranches(){
     return treeBranches; 
   } 
 
-  public ArrayList<Segment> getBranch(int _i){
+  public SafeList<Segment> getBranch(int _i){
     //println("branches "+ treeBranches.size()+" index "+_i);
     if(treeBranches.size() == 0) return null;
     return treeBranches.get(_i%treeBranches.size());

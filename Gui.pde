@@ -24,7 +24,8 @@
 
 
 /**
- * Gui class handles anything on the PGraphics gui
+ * The gui class draws various information to a PGraphics canvas.
+ * 
  * <p>
  * All drawing happens here.
  * </p>
@@ -33,207 +34,200 @@
  */
  class Gui{
 
-  // depends on a group manager
+  // depends on a group manager and a mouse
   GroupManager groupManager;
+  Mouse mouse;
   // SegmentGroup used to display information, aka group 0
   SegmentGroup guiSegments;
-  Mouse mouse;
-  PGraphics grid;
+  
+  // canvas for all the GUI elements.
   PGraphics canvas;
+  // PShape of the crosshair cursor
   PShape crosshair;
+  final int CURSOR_SIZE = 20;
+  final int CURSOR_GAP_SIZE = 4;
+  final int CURSOR_STROKE_WIDTH = 3;
+  final color CURSOR_COLOR = color(255);
+  final color SNAPPED_CURSOR_COLOR = color(0, 200, 0);
+
 
   //gui and line placing
   boolean showGui;
   boolean viewLines;
   boolean viewTags;
-  boolean viewPosition;
-
+  boolean viewCursor;
+  // reference gridSize and grid canvas, gets updated if the mouse gridSize changes.
   int gridSize = 30;
+  PGraphics grid;
+  // for auto hiding the GUI
   int guiTimeout = 1000;
   int guiTimer = 1000;
 
   //ui strings
+  // keyString is the parameter associated with lowercase keys, i.e. "q   strokeMode", "g   gridSize".
   String keyString = "derp";
+  // value given to recently modified parameter 
   String valueGiven = "__";
+  // The TweakableTemplate tags of templates selected by the TemplateManager
   String renderString = "_";
 
-  boolean updateFlag = false;
 
-/**
- * Constructor
- * @param GroupManager dependency injection
- */
+  /**
+   * Constructor
+   * @param GroupManager dependency injection
+   */
   public Gui(){
-
+    // init canvas
     canvas = createGraphics(width, height);
     canvas.smooth(0);
-    
+    // init grid canvas
     grid = createGraphics(width, height);
     grid.smooth(0);
-
+    // make the cursor PShape
     makecrosshair();
-
+    // init options
     showGui = true;
     viewLines = false;
     viewTags = false;
-    viewPosition = true;
+    viewCursor = true;
   }
 
+
+  /**
+   * Depends on a groupManager to display all the segment groups and a mouse to draw the cursor.
+   * @param GroupManager dependency injection
+   * @param Mouse instance dependency injection
+   */
   public void inject(GroupManager _gm, Mouse _m){
     groupManager = _gm;
-    guiSegments = groupManager.getGroup(0);
     mouse = _m;
+    // set the SegmentGroup used by the GUI
+    guiSegments = groupManager.getGroup(0);
   }
 
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////     GUI
+  ///////     Main GUI parts
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * blalalalal
- */
+  /**
+   * Main update function, draws all of the GUI elements to a PGraphics
+   */
   private void update() {
+    // prep canvas
     canvas.beginDraw();
     canvas.clear();
     canvas.textFont(font);
     canvas.textSize(15);
     canvas.textMode(CENTER);
+    // draw the grid
     if (mouse.useGrid()){
+      // re-draw the grid if the size changed. 
       if(mouse.getGridSize() != gridSize) generateGrid(mouse.getGridSize());
       canvas.image(grid,0,0); // was without canvas before
     }
-    putcrosshair(mouse.getPosition(), mouse.isSnapped());
-    if(viewLines || viewTags){
-      for (SegmentGroup sg : groupManager.getGroups()) {
-        groupGui(sg);
-      }
-    }
+    // draw the cursor
+    putCrosshair(mouse.getPosition(), mouse.isSnapped());
+
+    // draw the segments of the selected group
     SegmentGroup sg = groupManager.getSelectedGroup();
     if(sg != null){
       canvas.fill(255);
       showTag(sg); 
       showGroupLines(sg);
-      if (viewPosition) previewLine(sg);
+      if (viewCursor) previewLine(sg);
     }
+    // draw other segment groups if necessary
+    if(viewLines || viewTags){
+      for (SegmentGroup seg : groupManager.getGroups()) {
+        groupGui(seg);
+      }
+    }
+    // draw on screen information with group 0
     infoWritter();
     canvas.endDraw();
   }
 
-/**
- * This formats the information to display and assigns it to the segements of the gui group.
- * @return String of time since session started
- */
+  /**
+   * This formats the information to display and assigns it to the segements of the gui group.
+   */
   private void infoWritter() {
-    //if(updateFlag){
-      String tags = " ";
-      TemplateList rl = groupManager.getTemplateList();
-      if (rl != null) tags += rl.getTags();
-      else tags += renderString; //renderList.getString();
-      if(tags.length()>20) tags = "*ALL*";
-
-      guiSegments.setWord("[Item: "+groupManager.getSelectedIndex()+"]", 0);
-      guiSegments.setWord("[Rndr: "+tags+"]", 1);
-      guiSegments.setWord("["+keyString+": "+valueGiven+"]", 2);
-      guiSegments.setWord("["+getTimeRunning()+"]", 3);
-      guiSegments.setWord("[FPS "+(int)frameRate+"]", 4);
-      updateFlag = false;
-    //}
+    // Template tags of selected by selectedGroup or templateManager selected 
+    String tags = " ";
+    TemplateList rl = groupManager.getTemplateList();
+    if (rl != null) tags += rl.getTags();
+    else tags += renderString;
+    if(tags.length()>20) tags = "*ALL*";
+    // first segment shows which group is selected
+    guiSegments.setWord("[Item: "+groupManager.getSelectedIndex()+"]", 0);
+    // second segment shows the Templates selected
+    guiSegments.setWord("[Rndr: "+tags+"]", 1);
+    // third show the parameter associated with key and values given to parameters
+    guiSegments.setWord("["+keyString+": "+valueGiven+"]", 2);
+    // display how long we have been jamming
+    guiSegments.setWord("["+getTimeRunning()+"]", 3);
+    // framerate ish
+    guiSegments.setWord("[FPS "+(int)frameRate+"]", 4);
+    // draw the information that was just set to segments of group 0
     ArrayList<Segment> segs = guiSegments.getSegments(); 
     int sz = int(guiSegments.getBrushScaler()*20);
     if(segs != null)
       for(Segment seg : segs)
         simpleText(seg, sz);
-
   }
 
-/**
- * The idea is to see how long your mapping jams having been going on for.
- * @return String of time since session started
- */
-  private String getTimeRunning(){
-    int millis = millis();
-    int h = millis/3600000;
-    millis %= 3600000;
-    int m = millis/60000;
-    millis %= 60000;
-    int s = millis/1000;
-    return h+":"+m+":"+s;
-  }
 
-/**
- * Makes a screenshot with all lines and itemNumbers/renderers. 
- * This is helpfull to have a reference as to what is what when rocking out.
- * Gets called everytime a new group is create.
- */
-  private void updateReference() {
-    boolean tgs = viewTags;
-    boolean lns = viewLines;
-    viewLines = true;
-    viewTags = true;
-    update();
-    canvas.save("reference.jpg");
-    viewTags = tgs;
-    viewLines = lns;
-  }
-
-/**
- * Generate a PGraphics with the grid.
- * @param int resolution
- */
-  private void generateGrid(int _sz){
-    gridSize = _sz;
-    PShape grd;
-    grd = createShape();
-    grd.beginShape(LINES);
-    for (int x = 0; x < width; x+=gridSize) {
-      for (int y = 0; y < height; y+=gridSize) {
-        grd.vertex(x, 0);
-        grd.vertex(x, height);
-        grd.vertex(0, y);
-        grd.vertex(width, y);
-      }
-    }
-    grd.endShape();
-    grd.setStroke(color(100, 100, 100, 10));
-    grd.setStrokeWeight(1);
-    grid.beginDraw();
-    grid.clear();
-    grid.shape(grd);
-    grid.endDraw();
-  }
   
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Cursor Parts
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Display the cursor. 
- * If it is snapped we display it green.
- * If it seems like we are using a matrox dual head, rotates the cursor to show which projector you are on.
- * @param PVector cursor coordinates
- * @param boolean isSnapped
- */
-  private void putcrosshair(PVector _pos, boolean _snap){
-    if(_snap) crosshair.setStroke(color(0,200,0));
-    else crosshair.setStroke(255);
-    crosshair.setStrokeWeight(3);
+  /**
+   * Display the cursor. 
+   * If it is snapped we display it green.
+   * If it seems like we are using a matrox dual head, rotates the cursor to show which projector you are on.
+   * @param PVector cursor coordinates
+   * @param boolean isSnapped
+   */
+  private void putCrosshair(PVector _pos, boolean _snap){
+    // if snapped, make cursor green, white otherwise
+    if(_snap) crosshair.setStroke(SNAPPED_CURSOR_COLOR);
+    else crosshair.setStroke(CURSOR_COLOR);
+    crosshair.setStrokeWeight(CURSOR_STROKE_WIDTH);
     canvas.pushMatrix();
     canvas.translate(_pos.x, _pos.y);
-    // if dual projectors
-    // if(width > 2000 && _pos.x > width/2) {
-    //   canvas.rotate(QUARTER_PI);
-    //   if(liquid) crosshair.setStroke(0);
-    // }
+    // if dual projectors rotate the cursor by 45 when on second projector
+    if(width > 2000 && _pos.x > width/2) {
+      canvas.rotate(QUARTER_PI);
+      if(liquid) crosshair.setStroke(0);
+    }
     canvas.shape(crosshair);
     canvas.popMatrix();
   }
 
-/**
- * Create the pshape for the cursor.
- */
+  /**
+   * This shows a line between the last point and the cursor.
+   * @param SegmentGroup selected
+   */
+  private void previewLine(SegmentGroup _sg) {
+    PVector pos = _sg.getSegmentStart();
+    if (pos.x > 0) {
+      canvas.stroke(255);
+      canvas.strokeWeight(3);
+      vecLine(canvas, pos, mouse.getPosition());
+    }
+  }
+
+  /**
+   * Create the PShape for the cursor.
+   */
   private void makecrosshair(){
-    int out = 20;
-    int in = 3;
+    int out = CURSOR_SIZE;
+    int in = CURSOR_GAP_SIZE;
     crosshair = createShape();
     crosshair.beginShape(LINES);
     crosshair.vertex(-out, -out);
@@ -252,29 +246,45 @@
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////     Group gui rendering
+  ///////     Segment Group drawing
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+  
+  /**
+   * Displays the segments of a SegmentGroup
+   * @param SegmentGroup to draw
+   */ 
   private void groupGui(SegmentGroup _sg){
     canvas.fill(200);
     if(viewTags) showTag(_sg); 
     if(viewLines) showGroupLines(_sg);
   } 
 
-/**
- * This shows a line between the last point and the cursor.
- * @param 
- * @param 
- */
-  private void previewLine(SegmentGroup _sg) {
-    PVector pos = _sg.getSegmentStart();
-    if (pos.x > 0) {
-      canvas.stroke(255);
-      canvas.strokeWeight(3);
-      vecLine(canvas, pos, mouse.getPosition());
-    }
+  /**
+   * Display the tag and center of a group
+   * The tag has the group ID "5" and all the associated Template tags
+   */
+  public void showTag(SegmentGroup _sg) {
+    // Get center if centered or last point made
+    PVector pos = _sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart(); 
+    canvas.noStroke();
+    canvas.fill(255);
+    // group ID and template tags
+    int id = _sg.getID();
+    String tTags = _sg.getTemplateList().getTags();
+    // display left and right of pos
+    canvas.text(str(id), pos.x - (16+int(id>9)*6), pos.y+6);
+    canvas.text(tTags, pos.x + 6, pos.y+6);
+    canvas.noFill();
+    canvas.stroke(255);
+    canvas.strokeWeight(1);
+    // ellipse showing center or last point
+    canvas.ellipse(pos.x, pos.y, 10, 10);
   }
 
+  /**
+   * Display all the segments of a group
+   */
   public void showGroupLines(SegmentGroup _sg) {
     ArrayList<Segment> segs =  _sg.getSegments();
     if(segs != null)
@@ -282,24 +292,11 @@
         showSegmentLines(seg);
   }
 
-  public void showTag(SegmentGroup _sg) {
-    PVector pos = _sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart(); 
-    canvas.noStroke();
-    canvas.fill(255);
-    int id = _sg.getID();
-    canvas.text(str(id), pos.x - (16+int(id>9)*6), pos.y+6);
-    canvas.text(_sg.getTemplateList().getTags(), pos.x + 6, pos.y+6);
-    canvas.noFill();
-    canvas.stroke(255);
-    canvas.strokeWeight(1);
-    canvas.ellipse(pos.x, pos.y, 10, 10);
-  }
-
-/**
- * Display the lines of a SegmentGroup, with nice little dots on corners.
- * If it is centered it also shows the path offset.
- * @param Segment segment to draw
- */
+  /**
+   * Display the lines of a SegmentGroup, with nice little dots on corners.
+   * If it is centered it also shows the path offset.
+   * @param Segment segment to draw
+   */
   public void showSegmentLines(Segment _s) {
     canvas.stroke(170);
     canvas.strokeWeight(1);
@@ -312,11 +309,11 @@
     canvas.point(_s.getRegB().x, _s.getRegB().y);
   }
 
-
-/**
- * Display the text of a segment.
- * @param Segment
- */
+  /**
+   * Display the text of a segment. used with guiSegmentGroup
+   * @param Segment
+   * @param int size of text
+   */
   public void simpleText(Segment _s, int _size){
     String txt = _s.getText();
     int l = txt.length();
@@ -339,15 +336,83 @@
     canvas.popStyle();
   }
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     GUI tools
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * The idea is to see how long your mapping jams having been going on for.
+   * @return String of time since session started
+   */
+  private String getTimeRunning(){
+    int millis = millis();
+    int h = millis/3600000;
+    millis %= 3600000;
+    int m = millis/60000;
+    millis %= 60000;
+    int s = millis/1000;
+    return h+":"+m+":"+s;
+  }
+
+  /**
+   * Makes a screenshot with all lines and itemNumbers/renderers. 
+   * This is helpfull to have a reference as to what is what when rocking out.
+   * Gets called everytime a new group is create.
+   */
+  private void updateReference() {
+    boolean tgs = viewTags;
+    boolean lns = viewLines;
+    viewLines = true;
+    viewTags = true;
+    update();
+    canvas.save("reference.jpg");
+    viewTags = tgs;
+    viewLines = lns;
+  }
+
+  /**
+   * Generate a PGraphics with the grid.
+   * @param int resolution
+   */
+  private void generateGrid(int _sz){
+    gridSize = _sz;
+    PShape grd;
+    grd = createShape();
+    grd.beginShape(LINES);
+    for (int x = 0; x < width; x+=gridSize) {
+      for (int y = 0; y < height; y+=gridSize) {
+        grd.vertex(x, 0);
+        grd.vertex(x, height);
+        grd.vertex(0, y);
+        grd.vertex(width, y);
+      }
+    }
+    grd.endShape();
+    grd.setStroke(color(100, 100, 100, 10));
+    grd.setStrokeWeight(1);
+    grid.beginDraw();
+    grid.clear();
+    grid.shape(grd);
+    grid.endDraw();
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Actions
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+  /**
+   * Force auto hiding of GUI
+   */
   public void hide(){
     guiTimer = -1;
   }
+
+  /**
+   * Reset the time of the GUI auto hiding
+   */
   public void resetTimeOut(){
     guiTimer = guiTimeout;
   }
@@ -358,6 +423,9 @@
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Check if GUI needs to be drawn and update the GUI timeout for auto hiding.
+   */ 
   public boolean doDraw(){
     if (guiTimer > 0 || mouse.useGrid()) {
       guiTimer--;
@@ -379,26 +447,24 @@
 
   public void setKeyString(String _s){
     keyString = _s;
-    updateFlag = true;
   }
 
   public void setValueGiven(String _s){
     valueGiven = _s;
-    updateFlag = true;
   }  
 
   public void setTemplateString(String _s){
     renderString = _s;
-    updateFlag = true;
   }
 
+  // modifiers with value return
 
   public boolean toggleViewPosition(){
-    viewPosition = !viewPosition;
-    return viewPosition;
+    viewCursor = !viewCursor;
+    return viewCursor;
   }
 
-    public boolean toggleViewTags(){
+  public boolean toggleViewTags(){
     viewTags = !viewTags;
     return viewTags;
   }

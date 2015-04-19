@@ -1,5 +1,12 @@
 
 
+/**
+ * View part
+ * The template renderer is where the rendering process begins. 
+ *
+ *
+ */
+
 class TemplateRenderer {
 
   SafeList<RenderMode> renderModes;

@@ -38,16 +38,16 @@ boolean ballPit = false;//true;
 // for the liquid crystal table
 boolean liquid = false;//true;//
 
-// set if the sketch is fullscreen by default
-//boolean fullscreen = true;
-boolean fullscreen = false;
+// set if the sketch is FULLSCREEN by default
+//boolean FULLSCREEN = true;
+final boolean FULLSCREEN = false;
 
-// default window size if not fullscreen
+// default window size if not FULLSCREEN
 int xres = 1024;
 int yres = 768;
 
 void setup() {
-  if(!fullscreen) size(xres, yres, P2D);
+  if(!FULLSCREEN) size(xres, yres, P2D);
   else size(displayWidth, displayHeight, P2D);
   //frame.setBackground(new java.awt.Color(0, 0, 0));
   
@@ -64,9 +64,9 @@ void setup() {
   //traceShape(loadShape("texture_1.svg"));
 }
 
-// lets processing know if we want it fullscreen
+// lets processing know if we want it FULLSCREEN
 boolean sketchFullScreen() {
-  return fullscreen;
+  return FULLSCREEN;
 }
 
 void splash(){

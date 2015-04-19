@@ -6,7 +6,7 @@ class SegmentSelector {
 	public SegmentSelector(){
 	}
 
-	public ArrayList<Segment> getSegments(RenderableTemplate _event){
+	public SafeList<Segment> getSegments(RenderableTemplate _event){
 		return null;
 	} 
 }
@@ -24,7 +24,7 @@ class AllSegments extends SegmentSelector {
 	public AllSegments(){
 	}
 
-	public ArrayList<Segment> getSegments(RenderableTemplate _event){
+	public SafeList<Segment> getSegments(RenderableTemplate _event){
 		return _event.getSegmentGroup().getSegments();
 	} 
 }
@@ -36,8 +36,8 @@ class SequentialSegments extends SegmentSelector{
 	public SequentialSegments(){
 	}
 
-	public ArrayList<Segment> getSegments(RenderableTemplate _event){
-		ArrayList<Segment> segs = new ArrayList();
+	public SafeList<Segment> getSegments(RenderableTemplate _event){
+		SafeList<Segment> segs = new SafeList();
 		int index = _event.getBeatCount();
 		segs.add(_event.segmentGroup.getSegment(index));
 		return segs;
@@ -51,8 +51,8 @@ class RunThroughSegments extends SegmentSelector{
 	public RunThroughSegments(){
 	}
 
-	public ArrayList<Segment> getSegments(RenderableTemplate _event){
-		ArrayList<Segment> segs = new ArrayList();
+	public SafeList<Segment> getSegments(RenderableTemplate _event){
+		SafeList<Segment> segs = new SafeList();
 		int index = int(_event.getLerp() * _event.segmentGroup.getCount());
 		segs.add(_event.segmentGroup.getSegment(index));
 		return segs;
@@ -65,8 +65,8 @@ class RunThroughSegments extends SegmentSelector{
 class RandomSegment extends SegmentSelector{
 	public RandomSegment(){
 	}
-	public ArrayList<Segment> getSegments(RenderableTemplate _event){
-		ArrayList<Segment> segs = new ArrayList();
+	public SafeList<Segment> getSegments(RenderableTemplate _event){
+		SafeList<Segment> segs = new SafeList();
 		int index = (int)random(_event.segmentGroup.getCount());
 		segs.add(_event.segmentGroup.getSegment(index));
 		return segs;
@@ -79,7 +79,7 @@ class RandomSegment extends SegmentSelector{
 class SegmentBranch extends SegmentSelector{
 	public SegmentBranch(){
 	}
-	public ArrayList<Segment> getSegments(RenderableTemplate _event){
+	public SafeList<Segment> getSegments(RenderableTemplate _event){
 		return _event.segmentGroup.getBranch(_event.getBeatCount());
 	} 
 }
@@ -90,7 +90,7 @@ class SegmentBranch extends SegmentSelector{
 class RunThroughBranches extends SegmentSelector{
 	public RunThroughBranches(){
 	}
-	public ArrayList<Segment> getSegments(RenderableTemplate _event){
+	public SafeList<Segment> getSegments(RenderableTemplate _event){
 		int index = int(_event.getLerp() * _event.segmentGroup.treeBranches.size());
 		return _event.segmentGroup.getBranch(_event.beatCount);
 	} 
@@ -103,7 +103,7 @@ class RunThroughBranches extends SegmentSelector{
 // class Random extends SegmentSelector{
 // 	public Random(){
 // 	}
-// 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
+// 	public SafeList<Segment> getSegments(RenderableTemplate _event){
 // 		int index = int(_event.getLerp() * _event.segmentGroup.treeBranches.size());
 // 		return _event.segmentGroup.getBranch(_event.beatCount);
 // 	} 

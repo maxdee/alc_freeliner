@@ -30,11 +30,12 @@ class Painter{
     colorizers.add(new Black());
 		colorizers.add(new RepetitionColor());
 		colorizers.add(new RandomPrimaryColor());
-		colorizers.add(new FlashyPrimaryColor());
-		colorizers.add(new FlashyGray());
-		colorizers.add(new FlashyRandom());
-    colorizers.add(new Strobe());
 		colorizers.add(new HSBFade());
+    colorizers.add(new FlashyPrimaryColor());
+    colorizers.add(new FlashyGray());
+    colorizers.add(new FlashyRandom());
+    colorizers.add(new Strobe());
+
 	}
 
 // apply colors to shape

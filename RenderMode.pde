@@ -46,7 +46,7 @@ class PerSegment extends RenderMode{
 
 	public void doRender(RenderableTemplate _rt){
 		super.doRender(_rt);
-		ArrayList<Segment> segList = segmentSelectors.get(event.getSegmentMode()).getSegments(event);
+		SafeList<Segment> segList = segmentSelectors.get(event.getSegmentMode()).getSegments(event);
     int index = 0;
     for(Segment seg : segList){
     	event.setSegmentIndex(index);
@@ -57,7 +57,7 @@ class PerSegment extends RenderMode{
 }
 
 
-
+//////////////   catch null segments?
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -76,7 +76,7 @@ class WrapLine extends PerSegment{
 	public void doRender(RenderableTemplate _rt) {
 		//super.doRender(_rt);
 		event = _rt;
-		ArrayList<Segment> segList;
+		SafeList<Segment> segList;
 		SegmentSelector selector = segmentSelectors.get(event.getSegmentMode()); //constrain(event.getSegmentMode(), 4, 5);
 		// need to constrain to a few segmentSelectors...
 		if(selector instanceof SegmentBranch){
@@ -88,8 +88,8 @@ class WrapLine extends PerSegment{
 			painter.paint(segList, event);
 		}
 		else {
-			ArrayList<ArrayList<Segment>> trees = event.getSegmentGroup().getBranches();
-			for(ArrayList<Segment> branch : trees){
+			SafeList<SafeList<Segment>> trees = event.getSegmentGroup().getBranches();
+			for(SafeList<Segment> branch : trees){
 				painter.paint(branch, event);
 			}
 			//println("=============================");

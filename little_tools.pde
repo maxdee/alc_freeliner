@@ -32,7 +32,8 @@ class SafeList<E> extends ArrayList<E> {
   }
 
   public E get(int _index){
-    if(_index >= size()) _index = size()-1;
+    _index = constrain(_index, 0, size()-1);
+    if(_index == -1) return null;
     return super.get(_index);
   }
 }
