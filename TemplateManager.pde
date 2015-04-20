@@ -193,21 +193,24 @@ class TemplateManager{
   private void setCustomShape(SegmentGroup _sg){
     if(_sg == null) return; 
     TweakableTemplate temp = templateList.getIndex(0);
+    PVector center = _sg.getCenter();
     PShape sourceShape = _sg.getShape();
     println("Setting customShape of "+temp.getTemplateID()+" with a shape of "+sourceShape.getVertexCount()+" vertices");
-    //if(sourceShape == null) return;
+    if(sourceShape == null) return;
     int vertexCount = sourceShape.getVertexCount();
     if(vertexCount > 0){
       // store the widest x coordinate
-      int maxX = 0;
-      float x = 0.0001;
+      float maxX = 0.0001;
+      float x = 0;
       // check how wide the shape is to scale it to the BASE_SIZE
       for(int i = 0; i < vertexCount; i++){
         x = sourceShape.getVertex(i).x;
-        if(x > maxX) maxX = int(x);
-      }
+        println(x);
+        if(x > maxX) maxX = x;
+      }      
       // return a brush scaled to the BASE_SIZE
-      temp.setCustomShape(cloneShape(sourceShape, new PointBrush().BASE_SIZE/x, _sg.getCenter()));
+      float baseSize = (float)new PointBrush().BASE_SIZE;
+      temp.setCustomShape(cloneShape(sourceShape, baseSize/maxX, center));
     }
   }
 

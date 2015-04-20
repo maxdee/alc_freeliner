@@ -56,7 +56,7 @@ class  FreeLiner {
     templateManager.update();
     templateManager.launchLoops(groupManager.getGroups());
     // render animations
-    templateRenderer.update(templateManager.getEvents());
+    templateRenderer.render(templateManager.getEvents());
     image(templateRenderer.getCanvas(), 0, 0);
     // draw gui on top
     if(gui.doDraw()){

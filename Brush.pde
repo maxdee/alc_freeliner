@@ -45,8 +45,8 @@ abstract class Brush {
   public PShape getShape(RenderableTemplate _rt){
     // only clone if the size changed
     if(abs(_rt.getScaledBrushSize() - scaledBrushSize) > 0.5){
-      scaledBrush = cloneShape(brushShape, _rt.getScaledBrushSize()/BASE_SIZE, new PVector(0,0));
       scaledBrushSize = _rt.getScaledBrushSize();
+      scaledBrush = cloneShape(brushShape, scaledBrushSize/BASE_SIZE, new PVector(0,0));
     }
   	return scaledBrush; 
   }
@@ -150,9 +150,9 @@ class CustomBrush extends Brush {
   public PShape getShape(RenderableTemplate _rt){
     
     if(abs(_rt.getScaledBrushSize() - this.scaledBrushSize) > 0.5 || scaledBrush == null){
-      println(_rt.getScaledBrushSize() - scaledBrushSize);
-      scaledBrush = cloneShape( _rt.getCustomShape(), _rt.getScaledBrushSize()/BASE_SIZE, new PVector(0,0));
+      //println(_rt.getScaledBrushSize() - scaledBrushSize);
       scaledBrushSize = _rt.getScaledBrushSize();
+      scaledBrush = cloneShape( _rt.getCustomShape(), scaledBrushSize/BASE_SIZE, new PVector(0,0));
     }
     return scaledBrush; 
   }
