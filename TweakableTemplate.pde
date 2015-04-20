@@ -4,15 +4,13 @@
  */
 class TweakableTemplate extends Template {
 
-	// Not the segment group to render to, but the group to use to make a custom brush
-  SegmentGroup shapeGroup;
 
 	public TweakableTemplate(char _id){
 		super(_id);
 	}
 
-  public void setShapeGroup(SegmentGroup _sg){
-    shapeGroup = _sg;
+  public TweakableTemplate(){
+    super();
   }
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -28,6 +26,7 @@ class TweakableTemplate extends Template {
 	///////    Tweakable mutators
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
+
 
 
 	public int setProbability(int v){

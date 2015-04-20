@@ -99,7 +99,6 @@ class Keyboard{
   final int CAPS_LOCK = 20;
   // flags
   boolean enterText;
-  boolean gotInputFlag;
 
   //setting selector
   char editKey = ' '; // dispatches number maker to various things such as size color
@@ -118,7 +117,6 @@ class Keyboard{
     ctrled = false;
     alted = false;
     enterText = false;
-    gotInputFlag = false;
   }
 
 /**
@@ -146,13 +144,12 @@ class Keyboard{
  * @param int the keyCode
  */
   public void processKey(char k, int kc) {
-    gotInputFlag = true;
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
     processKeyCodes(kc); // TAB SHIFT and friends
     if (enterText) {
       if (k==ENTER) returnWord();
       else if (k!=65535) wordMaker(k);
-      println(wordMaker);
+      println("Making word:  "+wordMaker);
       gui.setValueGiven(wordMaker);
     }
     else {
@@ -245,7 +242,7 @@ class Keyboard{
  * @param int ascii value of the key
  */
   public void modCommands(int k){
-    if(ctrled || alted) println(k);
+    if(ctrled || alted) println("mod keys "+k);
     if (ctrled && k == 1) focusAll(); // a
     else if(ctrled && k == 9) gui.setValueGiven( str(mouse.toggleInvertMouse()) );
     else if(ctrled && k == 18) distributor(char(518), -3, false); // re init()
@@ -477,10 +474,6 @@ class Keyboard{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void resetInputFlag(){
-    gotInputFlag = false;
-  }
-
   public void setEditKey(char _k) {
     if (keyIsMapped(_k) && _k != '-' && _k != '=') {
       gui.setKeyString(getKeyString(_k));
@@ -516,7 +509,4 @@ class Keyboard{
     return shifted;
   }
 
-  public boolean gotInput(){
-    return gotInputFlag;
-  }
 }

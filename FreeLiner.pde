@@ -1,72 +1,68 @@
 /**
- *
  * ##copyright##
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General
- * Public License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA  02111-1307  USA
- *
+ * See LICENSE.md
+ * 
  * @author    Maxime Damecour (http://nnvtn.ca)
  * @version   0.1
  * @since     2014-12-01
  */
 
 
+/**
+ * Main class for alc_freeliner
+ * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
+ */
 class  FreeLiner {
-
-  OscP5 oscP5;
-  //"graphical interface"
-  Gui gui;
-  // input
-  Mouse mouse;
-  Keyboard keyboard;
-  // managers
+  // model
   GroupManager groupManager;
   TemplateManager templateManager;
+  // view
   TemplateRenderer templateRenderer;
+  Gui gui;
+  // control
+  Mouse mouse;
+  Keyboard keyboard;
+
+  // OSC not in use.
+  //OscP5 oscP5;
 
   public FreeLiner() {
-
     //network
     //oscP5 = new OscP5(this, 3333);
+
+    // instantiate 
+    // model
     groupManager = new GroupManager();
     templateManager =  new TemplateManager();
+    // view
     templateRenderer = new TemplateRenderer();
-
+    gui = new Gui();
+    // control
     mouse = new Mouse();
     keyboard = new Keyboard();
-    gui = new Gui();
-
+    // inject dependence
     mouse.inject(groupManager, keyboard);
     keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
     gui.inject(groupManager, mouse);
   }
 
+
+  /**
+   * It all starts here...
+   */
   public void update() {
     background(0);
-    templateManager.update(); //
+    // update template models
+    templateManager.update();
     templateManager.launchLoops(groupManager.getGroups());
+    // render animations
     templateRenderer.update(templateManager.getEvents());
     image(templateRenderer.getCanvas(), 0, 0);
-
-    
-    
+    // draw gui on top
     if(gui.doDraw()){
       gui.update();
       image(gui.getCanvas(), 0, 0);
     }
-    keyboard.resetInputFlag();
   }
 
  
@@ -77,6 +73,6 @@ class  FreeLiner {
   ////////////////////////////////////////////////////////////////////////////////////
 
   private void printStatus() {
-    //println("selectedGroupIndex : "+groupManager.getSelectedGroup()+" editKey : "+editKey+" grid "+viewGrid+" gridSize "+gridSize);
+    //merp
   }
 }

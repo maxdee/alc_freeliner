@@ -37,9 +37,10 @@ class Template{
 	// maybe render
 	
 
+	// custom shape
+  PShape customShape;
 
 	char templateID;
-
 	public Template(){
 	}
 	
@@ -71,6 +72,7 @@ class Template{
 		brushSize = _tp.getBrushSize();
 		brushMode = _tp.getBrushMode();
 		templateID = _tp.getTemplateID();
+		customShape = _tp.getCustomShape();
  	}
 
 /**
@@ -93,6 +95,9 @@ class Template{
 		brushMode = 0;
  	}
 
+	public void setCustomShape(PShape _shp){
+    customShape = _shp;
+  }
 
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
@@ -124,7 +129,11 @@ class Template{
 	///////    Accessors
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
-	
+  
+  public PShape getCustomShape(){
+    return customShape;
+  }
+
 	public final char getTemplateID(){
 		return templateID;
 	}
@@ -132,7 +141,6 @@ class Template{
 /*
  * First tier accessors
  */
-
 	public final int getRenderMode(){
 		return renderMode;
 	}

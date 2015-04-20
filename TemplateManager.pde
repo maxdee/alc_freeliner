@@ -191,8 +191,24 @@ class TemplateManager{
 
   // set a decorator's shape
   private void setCustomShape(SegmentGroup _sg){
-    TweakableTemplate r_ = templateList.getIndex(0);
-    if(r_ != null) r_.setShapeGroup(_sg);
+    if(_sg == null) return; 
+    TweakableTemplate temp = templateList.getIndex(0);
+    PShape sourceShape = _sg.getShape();
+    println("Setting customShape of "+temp.getTemplateID()+" with a shape of "+sourceShape.getVertexCount()+" vertices");
+    //if(sourceShape == null) return;
+    int vertexCount = sourceShape.getVertexCount();
+    if(vertexCount > 0){
+      // store the widest x coordinate
+      int maxX = 0;
+      float x = 0.0001;
+      // check how wide the shape is to scale it to the BASE_SIZE
+      for(int i = 0; i < vertexCount; i++){
+        x = sourceShape.getVertex(i).x;
+        if(x > maxX) maxX = int(x);
+      }
+      // return a brush scaled to the BASE_SIZE
+      temp.setCustomShape(cloneShape(sourceShape, new PointBrush().BASE_SIZE/x, _sg.getCenter()));
+    }
   }
 
 

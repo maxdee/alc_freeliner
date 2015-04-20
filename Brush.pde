@@ -1,34 +1,71 @@
-// Basic class to make shape subclasses
-abstract class Brush {
-	final int BASE_SIZE = 20; // 20 pixel base size
-  final int HALF_SIZE = BASE_SIZE/2; 
-  PShape brushShape;
+/**
+ * ##copyright##
+ * See LICENSE.md
+ * 
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.1
+ * @since     2014-12-01
+ */
 
+/**
+ * Abstract class for brushes.
+ * Brushes are PShapes drawn along segments
+ */
+abstract class Brush {
+  // Size to generate brushes
+	final int BASE_SIZE = 20; 
+  final int HALF_SIZE = BASE_SIZE/2; 
+  // The brush
+  PShape brushShape;
+  PShape scaledBrush;
+  float scaledBrushSize;
+
+  /**
+   * Constructor, generates the shape
+   */
   Brush(){
-    brushShape = generateShape();
+    brushShape = generateBrush();
+    scaledBrush = brushShape;
+    scaledBrushSize = BASE_SIZE;
   }
 
-  // need to implement what kind of shape, 
-  //shapes have a center of 0,0 and point upwards.
-  abstract public PShape generateShape();
+  /**
+   * Needs to implement the making of the brush
+   * The PShape has a center of 0,0 and points upwards.
+   * @return PShape of the brush
+   */
+  abstract public PShape generateBrush();
 
-  public PShape getShape(float _sz){
-  	return cloneShape(brushShape, _sz/BASE_SIZE, new PVector(0,0));
+  /**
+   * Brush accessor
+   * Makes a copy of the brush scaled by scalar.
+   * @param RenderableTemplate for brush size scaling
+   * @return PShape of the brush
+   */
+  public PShape getShape(RenderableTemplate _rt){
+    // only clone if the size changed
+    if(abs(_rt.getScaledBrushSize() - scaledBrushSize) > 0.5){
+      scaledBrush = cloneShape(brushShape, _rt.getScaledBrushSize()/BASE_SIZE, new PVector(0,0));
+      scaledBrushSize = _rt.getScaledBrushSize();
+    }
+  	return scaledBrush; 
   }
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
-///////     Subclasses
+///////     Subclasses, kept in the same file because too many files.
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * A brush that is just a point.
+ */
 class PointBrush extends Brush {
   public PointBrush(){
   }
 
-	public PShape generateShape(){
+	public PShape generateBrush(){
 		PShape shp = createShape();
 		shp.beginShape(POINTS);
 		shp.vertex(0,0);
@@ -37,11 +74,14 @@ class PointBrush extends Brush {
 	}
 }
 
+/**
+ * A brush that is a perpendicular line.
+ */
 class LineBrush extends Brush {
   public LineBrush(){
     
   }
-	public PShape generateShape(){
+	public PShape generateBrush(){
 		PShape shp = createShape();
     shp.beginShape();
     shp.vertex(-HALF_SIZE, 0);
@@ -51,11 +91,14 @@ class LineBrush extends Brush {
 	}
 }
 
+/**
+ * Chevron brush >>>>
+ */
 class ChevronBrush extends Brush {
   public ChevronBrush(){
     
   }
-	public PShape generateShape(){
+	public PShape generateBrush(){
 		PShape shp = createShape();
     shp.beginShape();
     shp.vertex(-HALF_SIZE, 0);
@@ -66,11 +109,14 @@ class ChevronBrush extends Brush {
 	}
 }
 
+/**
+ * Square shaped brush
+ */
 class SquareBrush extends Brush {
   public SquareBrush(){
     
   }
-	public PShape generateShape(){
+	public PShape generateBrush(){
 		PShape shp = createShape();
     shp.beginShape();
     shp.vertex(-HALF_SIZE, 0);
@@ -83,31 +129,31 @@ class SquareBrush extends Brush {
 	}
 }
 
-
+/**
+ * Custom brush, a brush that is the segments of group.
+ */
 class CustomBrush extends Brush {
-  PShape sourceShape;
-
+  /**
+   * Constructor will generate a null shape.
+   */
   public CustomBrush(){
-    sourceShape = null;
   }
 
-  public PShape generateShape(){
-    if(sourceShape == null) return null;
-    int vertexCount = sourceShape.getVertexCount();
-    if(vertexCount > 0){
-      int maxX = 0;
-      float x = 0.0001;
-      // check how wide the shape is
-      for(int i = 0; i < vertexCount; i++){
-        x = sourceShape.getVertex(i).x;
-        if(x > maxX) maxX = int(x);
-      }
-      return cloneShape(sourceShape, BASE_SIZE/x, new PVector(0,0));
-    }
-    else return null;
+  /**
+   * Takes the sourceShape and makes the brush
+   */
+  public PShape generateBrush(){
+    scaledBrushSize = 1;
+    return null;
   }
   
-	public void setCustomShape(PShape _sourceShape){
-    sourceShape = _sourceShape;
+  public PShape getShape(RenderableTemplate _rt){
+    
+    if(abs(_rt.getScaledBrushSize() - this.scaledBrushSize) > 0.5 || scaledBrush == null){
+      println(_rt.getScaledBrushSize() - scaledBrushSize);
+      scaledBrush = cloneShape( _rt.getCustomShape(), _rt.getScaledBrushSize()/BASE_SIZE, new PVector(0,0));
+      scaledBrushSize = _rt.getScaledBrushSize();
+    }
+    return scaledBrush; 
   }
 }

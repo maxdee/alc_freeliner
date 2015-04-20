@@ -23,7 +23,7 @@
  */
 
 // the data structure shared between a SegmentGroup and Renderer
-class RenderableTemplate extends Template{
+class RenderableTemplate extends TweakableTemplate{
 	// 
 	Template sourceTemplate;
 
@@ -54,13 +54,14 @@ class RenderableTemplate extends Template{
 	int repetition;
 	int segmentIndex;
 	float angleMod;
+	float scaledBrushSize;
 	int colorCount;
 	float hue;
 /*
  * Variable for internal use.
  */
   float timeStamp;
-	
+
 	int groupID;
 	boolean doRender;
 
@@ -94,8 +95,6 @@ class RenderableTemplate extends Template{
  */
 	public void init(float _ts){
 		timeStamp = _ts;
-		//println(timeStamp);
-		//beatCount++;
 		setrandomValue((int)random(100));
     setLargeRan((int)random(10000));
 	}
@@ -112,19 +111,18 @@ class RenderableTemplate extends Template{
 		}
 		colorCount = 0;
 		copy(sourceTemplate);
-		// in old render event we had  
-		//if(_lrp > timeStamp) return _lrp - timeStamp;
-		//else return (_lrp+1)-timeStamp; // _lrp < timestamp
+		scaledBrushSize = brushSize * segmentGroup.getBrushScaler();
 	}
 
-	public void forceBrushSize(int _s){
-		brushSize = _s;
+	public void forceScaledBrushSize(float _s){
+		scaledBrushSize = _s;
 	}
 
 	public float conditionLerp(float _lrp){
 		if(_lrp > timeStamp) return _lrp - timeStamp;
 		else return (_lrp+1)-timeStamp; // _lrp < timestamp
 	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
@@ -233,7 +231,7 @@ class RenderableTemplate extends Template{
 	}
 
 	public final float getScaledBrushSize(){
-		return brushSize * segmentGroup.getBrushScaler();
+		return scaledBrushSize;
 	}
 
 	public final int getColorCount(){

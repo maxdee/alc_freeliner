@@ -40,6 +40,7 @@ class Painter{
 
 // apply colors to shape
   public void applyStyle(PShape _s){
+    
   	int fillMode = event.getFillMode();
   	int strokeMode = event.getStrokeMode();
   	int strokeWidth = event.getStrokeWeight();
