@@ -33,44 +33,44 @@
  */
 class TemplateList {
   // TweakableTemplate references
-  ArrayList<TweakableTemplate> templateEvents;
+  ArrayList<TweakableTemplate> templates;
   String tags = "";
 
   public TemplateList(){
-    templateEvents = new ArrayList();
+    templates = new ArrayList();
   }
 
   public void updateString(){
     tags = "";
-    for(TweakableTemplate _ten : templateEvents){
+    for(TweakableTemplate _ten : templates){
       tags += _ten.getTemplateID();
     }
   }
 
   public void clear(){
-    if(templateEvents.size() > 0){
-      templateEvents.clear();
+    if(templates.size() > 0){
+      templates.clear();
       tags = "";
     }
   }
 
   public void toggle(TweakableTemplate _te) {
     if(_te == null) return;
-    if(!templateEvents.remove(_te)) templateEvents.add(_te);
+    if(!templates.remove(_te)) templates.add(_te);
     updateString();
   }
 
   public boolean contains(TweakableTemplate _te){
-    return templateEvents.contains(_te);
+    return templates.contains(_te);
   }
 
   public ArrayList<TweakableTemplate> getAll(){
-    if(templateEvents.size() == 0) return null;
-    else return templateEvents;
+    if(templates.size() == 0) return null;
+    else return templates;
   }
 
   public TweakableTemplate getIndex(int _index){
-    if(_index < templateEvents.size()) return templateEvents.get(_index);
+    if(_index < templates.size()) return templates.get(_index);
     else return null;
   }
 

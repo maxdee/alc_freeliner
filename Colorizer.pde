@@ -122,6 +122,7 @@ class RepetitionColor extends Colorizer {
 	public color get(RenderableTemplate _event){
 		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % cols.length;
 		index %= cols.length;
+		if(index < 0) index = 0;
 		color c = cols[index];
 		return alphaMod( c,_event.getAlpha());
 	}

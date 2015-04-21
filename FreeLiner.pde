@@ -12,7 +12,7 @@
  * Main class for alc_freeliner
  * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
  */
-class  FreeLiner {
+class FreeLiner {
   // model
   GroupManager groupManager;
   TemplateManager templateManager;
@@ -25,6 +25,7 @@ class  FreeLiner {
 
   // OSC not in use.
   //OscP5 oscP5;
+  PImage imageBackground;
 
   public FreeLiner() {
     //network
@@ -44,6 +45,8 @@ class  FreeLiner {
     mouse.inject(groupManager, keyboard);
     keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
     gui.inject(groupManager, mouse);
+
+    
   }
 
 
@@ -51,7 +54,7 @@ class  FreeLiner {
    * It all starts here...
    */
   public void update() {
-    background(0);
+    //background(0);
     // update template models
     templateManager.update();
     templateManager.launchLoops(groupManager.getGroups());

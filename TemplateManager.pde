@@ -192,10 +192,10 @@ class TemplateManager{
   // set a decorator's shape
   private void setCustomShape(SegmentGroup _sg){
     if(_sg == null) return; 
-    TweakableTemplate temp = templateList.getIndex(0);
+    ArrayList<TweakableTemplate> temps = _sg.getTemplateList().getAll();
     PVector center = _sg.getCenter();
     PShape sourceShape = _sg.getShape();
-    println("Setting customShape of "+temp.getTemplateID()+" with a shape of "+sourceShape.getVertexCount()+" vertices");
+    //println("Setting customShape of "+temp.getTemplateID()+" with a shape of "+sourceShape.getVertexCount()+" vertices");
     if(sourceShape == null) return;
     int vertexCount = sourceShape.getVertexCount();
     if(vertexCount > 0){
@@ -205,12 +205,13 @@ class TemplateManager{
       // check how wide the shape is to scale it to the BASE_SIZE
       for(int i = 0; i < vertexCount; i++){
         x = sourceShape.getVertex(i).x;
-        println(x);
         if(x > maxX) maxX = x;
       }      
       // return a brush scaled to the BASE_SIZE
       float baseSize = (float)new PointBrush().BASE_SIZE;
-      temp.setCustomShape(cloneShape(sourceShape, baseSize/maxX, center));
+      PShape cust = cloneShape(sourceShape, baseSize/maxX, center);
+      for(TweakableTemplate temp : temps)
+        temp.setCustomShape(cust);
     }
   }
 

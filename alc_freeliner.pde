@@ -30,9 +30,26 @@ final boolean FULLSCREEN = false;
 int xres = 1024;
 int yres = 768;
 
+// add a image path to load a background image.
+final String BG_IMAGE_FILE = "data/backgroundImage.png";
+PImage backgroundImage = null;
+
 void setup() {
-  if(!FULLSCREEN) size(xres, yres, P2D);
-  else size(displayWidth, displayHeight, P2D);
+  try {
+    backgroundImage = loadImage(BG_IMAGE_FILE);
+  }
+  catch (Exception e){
+    println("No background image found");
+  }
+  if(backgroundImage == null){
+    if(!FULLSCREEN) size(xres, yres, P2D);
+    else size(displayWidth, displayHeight, P2D);
+  }
+  else {
+    size(backgroundImage.width, backgroundImage.height, P2D);
+  }
+
+  // attempting to skip anoying white screen on startup
   //frame.setBackground(new java.awt.Color(0, 0, 0));
   
   frameRate(30); //is this helpfull?
@@ -63,6 +80,8 @@ void splash(){
 }
 
 void draw() {
+  if(backgroundImage != null) image(backgroundImage,0,0);
+  else background(0);
   fl.update();
 }
   

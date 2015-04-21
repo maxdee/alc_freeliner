@@ -376,7 +376,8 @@ class Keyboard{
     String valueGiven_ = null;
     if(_k == 'c') valueGiven_ = str(_sg.toggleCenterPutting());
     else if(_k == 's') valueGiven_ = str(_sg.setBrushScaler(_n));
-    else if(_k == '.') valueGiven_ = str(_sg.setSnapVal(_n));
+    //else if(_k == '.') valueGiven_ = str(_sg.setSnapVal(_n));
+    else if (int(_k) == 504) templateManager.setCustomShape(_sg);
     else used_ = false;
     if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
     return used_;
@@ -392,7 +393,6 @@ class Keyboard{
         if (_k == 'l') return false;//valueGiven_ = str(_template.toggleLoop());
         else if (_k == 'k') return false;//valueGiven_ = str(_template.toggleInternal());
         else if (int(_k) == 518) _template.reset();
-        else if (int(_k) == 504) templateManager.setCustomShape(groupManager.getLastSelectedGroup());
         else used_ = false;
       }
       else {

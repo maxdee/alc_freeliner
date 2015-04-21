@@ -103,9 +103,9 @@ class BrushPutter extends SegmentPainter{
 	// }
 }
 
-class SimpleBrush extends BrushPutter{
+class SimpleBrusher extends BrushPutter{
 
-	public SimpleBrush(){}
+	public SimpleBrusher(){}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);

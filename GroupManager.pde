@@ -29,6 +29,9 @@
  */
 class GroupManager{
 
+  //manages groups of points
+  ArrayList<SegmentGroup> groups;
+  int groupCount = 0;
   //selects groups to control, -1 for not selected
   int selectedIndex;
   int lastSelectedIndex;
@@ -37,13 +40,10 @@ class GroupManager{
   // list of PVectors that are snapped
   ArrayList<PVector> snappedList;
 
-  //manages groups of points
-  ArrayList<SegmentGroup> groups;
-  int groupCount = 0;
 
-/**
- * Constructor, inits default values
- */
+  /**
+   * Constructor, inits default values
+   */
   public GroupManager(){
   	groups = new ArrayList();
     snappedList = new ArrayList();
@@ -96,8 +96,6 @@ class GroupManager{
       }
     }
   }
-
-
 
 /**
  * Snap puts all the PVectors that are near the position given into a arrayList.

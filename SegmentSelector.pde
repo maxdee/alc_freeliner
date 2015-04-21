@@ -97,14 +97,3 @@ class RunThroughBranches extends SegmentSelector{
 }
 
 
-// /**
-//  * Run through brnaches over lerp
-//  */
-// class Random extends SegmentSelector{
-// 	public Random(){
-// 	}
-// 	public SafeList<Segment> getSegments(RenderableTemplate _event){
-// 		int index = int(_event.getLerp() * _event.segmentGroup.treeBranches.size());
-// 		return _event.segmentGroup.getBranch(_event.beatCount);
-// 	} 
-// }
