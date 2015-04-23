@@ -70,7 +70,10 @@ class BrushPutter extends SegmentPainter{
 		brushes.add(new LineBrush());
 		brushes.add(new ChevronBrush());
 		brushes.add(new SquareBrush());
+		brushes.add(new CircleBrush());
+		brushes.add(new TriangleBrush());
 		brushes.add(new CustomBrush());
+
 	}
 
 

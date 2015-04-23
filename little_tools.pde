@@ -142,7 +142,6 @@ PVector vectorMirror(PVector p){
 }
 
 
-
 float fltMod(float f) {
   if (f>1) f-=1;
   else if (f<0) f+=1; 
@@ -170,6 +169,7 @@ boolean maybe(int _p){
  */
 
 PShape cloneShape(PShape _source, float _scale, PVector _center){
+  if(_source == null) return null;
   PShape shp = createShape();
   shp.beginShape();
   PVector tmp = new PVector(0,0);

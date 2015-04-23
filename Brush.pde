@@ -154,6 +154,42 @@ class CustomBrush extends Brush {
       scaledBrushSize = _rt.getScaledBrushSize();
       scaledBrush = cloneShape( _rt.getCustomShape(), scaledBrushSize/BASE_SIZE, new PVector(0,0));
     }
+    if(scaledBrush == null){
+      PShape empty = createShape();
+      empty.beginShape();
+      empty.endShape(CLOSE);
+      return empty;
+    }
     return scaledBrush; 
+  }
+}
+
+
+/**
+ * Circle shaped brush
+ */
+class CircleBrush extends Brush {
+  public CircleBrush(){
+    
+  }
+  public PShape generateBrush(){
+    PShape shp =  createShape(ELLIPSE, -HALF_SIZE, -HALF_SIZE, BASE_SIZE, BASE_SIZE);
+    return shp;
+  }
+}
+
+/**
+ * Triangle shaped brush
+ */
+class TriangleBrush extends Brush {
+  public TriangleBrush(){
+    
+  }
+  public PShape generateBrush(){
+    float hght = sqrt(sq(BASE_SIZE)+pow(HALF_SIZE,2));
+    PShape shp = createShape(TRIANGLE, -HALF_SIZE, 0,
+                                       HALF_SIZE, 0,
+                                       0, BASE_SIZE*pow(3, 1/3.0)/2);
+    return shp;
   }
 }
