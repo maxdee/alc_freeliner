@@ -56,19 +56,19 @@ class SegmentGroup {
 
   int snapVal = 10;
 
-/**
- * Create an new SegmentGroup
- * @param  identification interger
- */
+  /**
+   * Create an new SegmentGroup
+   * @param  identification interger
+   */
   public SegmentGroup(int _id) {
     ID = _id;
     init();
   }
 
 
-/**
- * Initialises variables, can be used to reset a group.
- */
+  /**
+   * Initialises variables, can be used to reset a group.
+   */
   public void init(){
     segments = new SafeList();
     treeBranches = new SafeList();
@@ -82,33 +82,7 @@ class SegmentGroup {
     generateShape();
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     Management, Segment creation and such
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-
-/**
- * Start a new segment from a coordinate
- * @param PVector starting coordinate
- */
-  private void startSegment(PVector p) {
-    if(firstPoint) center = p.get();
-    segmentStart = p.get();
-    firstPoint = false;
-  }
-
-/**
- * Make a segment by placing the second point.
- * A few things are updated such as the neighbors and shape.
- * @param PVector ending coordinate
- */
-  private void endSegment(PVector p) {
-    Segment newSeg = new Segment(segmentStart, p);
-    segments.add(newSeg);
-    segCount++;
-    segmentStart = p.get();
-    seperated = false;
+  public void updateGeometry(){
     setNeighbors();
     findRealNeighbors();
     if(centered) placeCenter(center);
@@ -116,27 +90,56 @@ class SegmentGroup {
   }
 
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Management, Segment creation and such
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Start a new segment from a coordinate
+   * @param PVector starting coordinate
+   */
+  private void startSegment(PVector p) {
+    if(firstPoint) center = p.get();
+    segmentStart = p.get();
+    firstPoint = false;
+  }
+
+  /**
+   * Make a segment by placing the second point.
+   * A few things are updated such as the neighbors and shape.
+   * @param PVector ending coordinate
+   */
+  private void endSegment(PVector p) {
+    addSegment(segmentStart, p);
+    segmentStart = p.get();
+    seperated = false;
+    updateGeometry();
+  }
+
   public void addSegment(PVector _a, PVector _b){
     segments.add(new Segment(_a, _b));
     segCount++;
   }
-/**
- * Start a new segment somewhere else than the current segmentStart
- * A few things are updated such as the neighbors and shape.
- * @param PVector ending coordinate
- */
+
+  /**
+   * Start a new segment somewhere else than the current segmentStart
+   * A few things are updated such as the neighbors and shape.
+   * @param PVector ending coordinate
+   */
   private void breakSegment(PVector p) {
     seperated = true;
     segmentStart = p.get();
   }
 
-
-/**
- * Nudge the segmentStart.
- * @param PVector ending coordinate
- */
+  /**
+   * Nudge the segmentStart or the center.
+   * @param PVector ending coordinate
+   */
   private void nudgeSegmentStart(PVector p) {
     PVector np = segmentStart.get();
+    // nudge the last point.
     if (!centerPutting) {
       np.add(p);
       if (segCount == 0 || seperated) breakSegment(np);
@@ -145,16 +148,20 @@ class SegmentGroup {
         endSegment(np);
       }
     } 
+    // nudge the center
     else {
       np = center.get();
       np.add(p);
       placeCenter(np);
       centerPutting = true;
+      updateGeometry();
     }
-    setNeighbors();
   }
 
-
+  /**
+   * Nudge the segmentStart.
+   * @param PVector ending coordinate
+   */
   private void undoSegment() {
     if (segCount > 0) {
       float dst = segmentStart.dist(segments.get(segCount-1).pointB.get());
@@ -166,8 +173,7 @@ class SegmentGroup {
         segments.remove(segCount-1);
         segCount--;
       }
-      setNeighbors();
-      generateShape();
+      updateGeometry();
     }
   }
 
@@ -185,9 +191,8 @@ class SegmentGroup {
 
   private void unCenter() {
     centered = false;
-    for (int i = 0; i< segCount; i++) {
-      segments.get(i).unCenter();
-    }
+    for(Segment seg : segments)
+      seg.unCenter();
     centerPutting = false;
   }
 

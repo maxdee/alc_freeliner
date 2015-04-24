@@ -24,8 +24,8 @@ boolean ballPit = false;//true;
 boolean liquid = false;//true;//
 
 // set if the sketch is FULLSCREEN by default
-//boolean FULLSCREEN = true;
-final boolean FULLSCREEN = false;
+boolean FULLSCREEN = true;
+//final boolean FULLSCREEN = false;
 
 // default window size if not FULLSCREEN
 int xres = 1024;
@@ -34,8 +34,6 @@ int yres = 768;
 // add a image path to load a background image.
 final String BG_IMAGE_FILE = "###data/backgroundImage.png";
 PImage backgroundImage = null;
-
-
 
 void setup() {
   try {

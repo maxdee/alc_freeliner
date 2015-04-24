@@ -47,16 +47,36 @@ class EvenlySpaced extends Repetition{
 	public EvenlySpaced(){}
 
 	public FloatList getFloats(RenderableTemplate _rt){
-		FloatList flts = new FloatList();
 		float lrp = easers.get(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 		int count = _rt.getRepetitionCount();
-		float amount = lrp/count;
-		float increments = 1.0/count;
-		for (int i = 0; i < count; i++)
+		return getEvenlySpaced(lrp, count);
+	}
+
+	public FloatList getEvenlySpaced(float _lrp, int _count){
+		FloatList flts = new FloatList();
+		float amount = _lrp/_count;
+		float increments = 1.0/_count;
+		for (int i = 0; i < _count; i++)
 			flts.append((increments * i) + amount);
 		return flts;
 	}
 }
+
+class EvenlySpacedWithZero extends EvenlySpaced{
+	public EvenlySpacedWithZero(){}
+	public FloatList getFloats(RenderableTemplate _rt){
+		FloatList floats = super.getFloats(_rt);
+		floats.append(0);
+		return floats;
+	}
+}
+
+
+
+
+
+
+
 
 /**
  * TwoFull

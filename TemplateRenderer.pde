@@ -51,6 +51,7 @@ class TemplateRenderer {
     repeaters = new SafeList();
     repeaters.add(new Single());
     repeaters.add(new EvenlySpaced());
+    repeaters.add(new EvenlySpacedWithZero());
     repeaters.add(new TwoFull());
 	}
 
@@ -120,7 +121,10 @@ class TemplateRenderer {
    */ 
   public void tweakAngle(RenderableTemplate _rt){
     int rotMode = _rt.getRotationMode();
-    if(rotMode != 0) _rt.setAngleMod(_rt.getLerp()*PI*rotMode);
+    if(rotMode > 0){
+      if(rotMode < 4) _rt.setAngleMod(_rt.getLerp()*PI*-rotMode);
+      else if(rotMode >= 4) _rt.setAngleMod(_rt.getLerp()*PI*(rotMode-3));
+    }
     else _rt.setAngleMod(0);
   }
 

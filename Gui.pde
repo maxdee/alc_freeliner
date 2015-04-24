@@ -155,6 +155,7 @@
    */
   private void infoWritter() {
     // Template tags of selected by selectedGroup or templateManager selected 
+    if(guiSegments.getSegments().size() == 0) return;
     String tags = " ";
     TemplateList rl = groupManager.getTemplateList();
     if (rl != null) tags += rl.getTags();
