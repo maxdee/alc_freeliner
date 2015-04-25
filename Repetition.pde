@@ -5,21 +5,27 @@
 // returns different unit intervals in relation to 
 // unit intervals that are negative means reverse.
 class Repetition {
-	SafeList<Easing> easers;
+	Easing[] easers;
+	final int EASER_COUNT = 5;
 	public Repetition(){
-		easers = new SafeList();
-		easers.add(new NoEasing());
-		easers.add(new Square());
-		easers.add(new Sine());
-		easers.add(new RandomUnit());
-		easers.add(new Fixed());
+		easers = new Easing[5];
+		easers[0] = new NoEasing();
+		easers[1] = new Square();
+		easers[2] = new Sine();
+		easers[3] = new RandomUnit();
+		easers[4] = new Fixed();
 	}
 
 	public FloatList getFloats(RenderableTemplate _rt){
 		FloatList flts = new FloatList();
-		float lrp = easers.get(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
+		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 		flts.append(lrp);
 		return flts;
+	}
+
+	public Easing getEaser(int _index){
+		if(_index >= EASER_COUNT) _index = EASER_COUNT - 1;
+		return easers[_index]; 
 	}
 }
 
@@ -34,7 +40,7 @@ class Single extends Repetition {
 
 	public FloatList getFloats(RenderableTemplate _rt){
 		FloatList flts = new FloatList();
-		float lrp = easers.get(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
+		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 		flts.append(lrp);
 		return flts;
 	}
@@ -47,7 +53,7 @@ class EvenlySpaced extends Repetition{
 	public EvenlySpaced(){}
 
 	public FloatList getFloats(RenderableTemplate _rt){
-		float lrp = easers.get(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
+		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 		int count = _rt.getRepetitionCount();
 		return getEvenlySpaced(lrp, count);
 	}
@@ -86,7 +92,7 @@ class TwoFull extends Repetition{
 
 	public FloatList getFloats(RenderableTemplate _rt){
 		FloatList flts = new FloatList();
-		float lrp = easers.get(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
+		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 
 		flts.append(lrp);
 		flts.append(lrp-1);

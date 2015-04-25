@@ -26,17 +26,17 @@
 /**
  * Subclass of ArrayList that prevents out of bound errors
  */
-class SafeList<E> extends ArrayList<E> {
-  public SafeList(){
+// class SafeList<E> extends ArrayList<E> {
+//   public SafeList(){
 
-  }
+//   }
 
-  public E get(int _index){
-    _index = constrain(_index, 0, size()-1);
-    if(_index == -1) return null;
-    return super.get(_index);
-  }
-}
+//   public E get(int _index){
+//     _index = constrain(_index, 0, size()-1);
+//     if(_index == -1) return null;
+//     return super.get(_index);
+//   }
+// }
 
 /**
  * Class to collect and average data

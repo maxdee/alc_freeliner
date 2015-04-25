@@ -9,8 +9,11 @@
 
 class TemplateRenderer {
   // rendering modes and repetition
-  SafeList<RenderMode> renderModes;
-  SafeList<Repetition> repeaters;
+  RenderMode[] renderModes;
+  final int RENDERER_COUNT = 3;
+
+  Repetition[] repeaters;
+  final int REPEATER_COUNT = 4;
 
   //graphics for rendering
   PGraphics canvas;
@@ -42,18 +45,28 @@ class TemplateRenderer {
     frameCount = 0;
 
     // add renderModes
-    renderModes = new SafeList();
-    renderModes.add(new PerSegment());
-    renderModes.add(new Geometry());
-    renderModes.add(new WrapLine());
+    renderModes = new RenderMode[RENDERER_COUNT];
+    renderModes[0] = new PerSegment();
+    renderModes[1] = new Geometry();
+    renderModes[2] = new WrapLine();
 
     // add repetitionModes
-    repeaters = new SafeList();
-    repeaters.add(new Single());
-    repeaters.add(new EvenlySpaced());
-    repeaters.add(new EvenlySpacedWithZero());
-    repeaters.add(new TwoFull());
+    repeaters = new Repetition[REPEATER_COUNT];
+    repeaters[0] = new Single();
+    repeaters[1] = new EvenlySpaced();
+    repeaters[2] = new EvenlySpacedWithZero();
+    repeaters[3] = new TwoFull();
 	}
+
+  public RenderMode getRenderer(int _index){
+    if(_index >= RENDERER_COUNT) _index = RENDERER_COUNT - 1;
+    return renderModes[_index]; 
+  }
+
+  public Repetition getRepeater(int _index){
+    if(_index >= REPEATER_COUNT) _index = RENDERER_COUNT - 1;
+    return repeaters[_index];
+  }
 
   /**
    * Render a arrayList of renderable templates.
@@ -91,7 +104,7 @@ class TemplateRenderer {
     // push canvas to template
     _rt.setCanvas(canvas);
     // get multiple unit intervals to use
-    FloatList flts = repeaters.get(_rt.getRepetitionMode()).getFloats(_rt);
+    FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
     for(float flt : flts){
       // Repition object return arrayList of unit intervals.
@@ -110,7 +123,7 @@ class TemplateRenderer {
       // modify angle modifier
       tweakAngle(_rt);
       // pass template to renderer
-      renderModes.get(_rt.getRenderMode()).doRender(_rt);
+      getRenderer(_rt.getRenderMode()).doRender(_rt);
     }
   }
 

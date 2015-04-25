@@ -57,7 +57,8 @@ class FunLine extends LinePainter {
 // base brush putter
 class BrushPutter extends SegmentPainter{
 	final String name = "BrusPutter";
-	SafeList<Brush> brushes;
+	Brush[] brushes;
+	final int BRUSH_COUNT = 7;
 	
 
 	public BrushPutter(){
@@ -65,15 +66,19 @@ class BrushPutter extends SegmentPainter{
 	}
 
 	public void loadBrushes(){
-		brushes = new SafeList();
-		brushes.add(new PointBrush());
-		brushes.add(new LineBrush());
-		brushes.add(new ChevronBrush());
-		brushes.add(new SquareBrush());
-		brushes.add(new CircleBrush());
-		brushes.add(new TriangleBrush());
-		brushes.add(new CustomBrush());
+		brushes = new Brush[BRUSH_COUNT];
+		brushes[0] = new PointBrush();
+		brushes[1] = new LineBrush();
+		brushes[2] = new ChevronBrush();
+		brushes[3] = new SquareBrush();
+		brushes[4] = new CircleBrush();
+		brushes[5] = new TriangleBrush();
+		brushes[6] = new CustomBrush();
+	}
 
+	public Brush getBrush(int _index){
+		if(_index >= BRUSH_COUNT) _index = BRUSH_COUNT - 1;
+		return brushes[_index];
 	}
 
 
@@ -85,7 +90,7 @@ class BrushPutter extends SegmentPainter{
 	// regular putShape
 	public void putShape(PVector _p, float _a){
 		PShape shape_; 
-    shape_ = brushes.get(event.getBrushMode()).getShape(event);
+    shape_ = getBrush(event.getBrushMode()).getShape(event);
     applyStyle(shape_);
     canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
@@ -96,7 +101,7 @@ class BrushPutter extends SegmentPainter{
 	// // putShape with overidable size
 	// public void putShape(PVector _p, float _a, float _s){
 	// 	PShape shape_; 
- //    shape_ = brushes.get(event.getBrushMode()).getShape(_s);
+ //    shape_ = getBrush(event.getBrushMode()).getShape(_s);
  //    applyStyle(shape_);
  //    canvas.pushMatrix();
  //    canvas.translate(_p.x, _p.y);

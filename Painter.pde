@@ -4,7 +4,9 @@
 class Painter{
 
 	// Since we paint we need colors
-	SafeList<Colorizer> colorizers;
+	Colorizer[] colorizers;
+  final int COLORIZER_COUNT = 13;
+
   PGraphics canvas;
 	String name = "Painter";
 
@@ -21,22 +23,27 @@ class Painter{
 
 	// color stuffs
 	public void initColorizers(){
-		colorizers = new SafeList();
-		colorizers.add(new White());
-    colorizers.add(new White());
-    colorizers.add(new Red());
-    colorizers.add(new Green());
-    colorizers.add(new Blue());
-    colorizers.add(new Black());
-		colorizers.add(new RepetitionColor());
-		colorizers.add(new RandomPrimaryColor());
-		colorizers.add(new HSBFade());
-    colorizers.add(new FlashyPrimaryColor());
-    colorizers.add(new FlashyGray());
-    colorizers.add(new FlashyRandom());
-    colorizers.add(new Strobe());
+		colorizers = new Colorizer[COLORIZER_COUNT];
+		colorizers[0] = new White();
+    colorizers[1] = new White();
+    colorizers[2] = new Red();
+    colorizers[3] = new Green();
+    colorizers[4] = new Blue();
+    colorizers[5] = new Black();
+		colorizers[6] = new RepetitionColor();
+		colorizers[7] = new RandomPrimaryColor();
+		colorizers[8] = new HSBFade();
+    colorizers[9] = new FlashyPrimaryColor();
+    colorizers[10] = new FlashyGray();
+    colorizers[11] = new FlashyRandom();
+    colorizers[12] = new Strobe();
 
 	}
+
+  public Colorizer getColorizer(int _index){
+    if(_index >= COLORIZER_COUNT) _index = COLORIZER_COUNT - 1;
+    return colorizers[_index];
+  }
 
 // apply colors to shape
   public void applyStyle(PShape _s){
@@ -46,11 +53,11 @@ class Painter{
   	int strokeWidth = event.getStrokeWeight();
     if (fillMode != 0){
       _s.setFill(true);
-      _s.setFill(colorizers.get(fillMode).get(event));
+      _s.setFill(getColorizer(fillMode).get(event));
     }
     else _s.setFill(false);
     if(strokeMode != 0) {
-      _s.setStroke(colorizers.get(strokeMode).get(event));
+      _s.setStroke(getColorizer(strokeMode).get(event));
       _s.setStrokeWeight(strokeWidth);
     }
     else _s.noStroke();
@@ -63,12 +70,12 @@ class Painter{
   	int strokeWidth = event.getStrokeWeight();
     
     if(fillMode != 0){
-      _g.fill(colorizers.get(fillMode).get(event));
+      _g.fill(getColorizer(fillMode).get(event));
     }
     else _g.noFill();
 
     if(strokeMode != 0) {
-      _g.stroke(colorizers.get(strokeMode).get(event));
+      _g.stroke(getColorizer(strokeMode).get(event));
       _g.strokeWeight(strokeWidth);
     }
     else _g.noStroke();
