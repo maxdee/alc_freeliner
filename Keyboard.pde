@@ -144,6 +144,7 @@ class Keyboard{
  * @param int the keyCode
  */
   public void processKey(char k, int kc) {
+    //                      vg  println(alted+"  "+ctrled+"  "+shifted);
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
     processKeyCodes(kc); // TAB SHIFT and friends
     if (enterText) {
@@ -175,10 +176,10 @@ class Keyboard{
     else if (kc == ESC) unSelectThings();
     else if (kc==CONTROL) setCtrled(true);
     else if (kc==ALT) alted = true;
-    else if (kc==UP) groupManager.nudger(false, -1, shifted);//, mouse.getPosition()); //positionUp();
-    else if (kc==DOWN) groupManager.nudger(false, 1, shifted);//, mouse.getPosition());//positionDown();
-    else if (kc==LEFT) groupManager.nudger(true, -1, shifted);//, mouse.getPosition());//positionLeft();
-    else if (kc==RIGHT) groupManager.nudger(true, 1, shifted);//, mouse.getPosition());//positionRight();
+    else if (kc==UP) groupManager.nudger(false, -1, shifted);
+    else if (kc==DOWN) groupManager.nudger(false, 1, shifted);
+    else if (kc==LEFT) groupManager.nudger(true, -1, shifted);
+    else if (kc==RIGHT) groupManager.nudger(true, 1, shifted);
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
   }
@@ -195,6 +196,11 @@ class Keyboard{
     else if (kc==18) alted = false;
   }
 
+  public void forceRelease(){
+    shifted = false;
+    ctrled = false;
+    alted = false;
+  }
 
 /**
  * Process capital letters. A trick is applied here, different actions happen if caps-lock is on or shift is pressed.
@@ -426,18 +432,29 @@ class Keyboard{
     templateManager.getSynchroniser().setRecording(record);
     return record;
   }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Typing in stuff
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-
+  /**
+   * Add a char to the text entry
+   * @param char to add
+   */
   private void wordMaker(char _k) {
     if(wordMaker.charAt(0) == ' ') wordMaker = str(_k);
     else wordMaker = wordMaker + _k;
   }
 
+
+  /**
+   * Get text typed. 
+   * If a group is selected, set the word for the most current segment placed.
+   * Else add a template to all groups with selected template.
+   * @param char to add
+   */
   private void returnWord() {
     SegmentGroup _sg = groupManager.getSelectedGroup();
     if (_sg != null) _sg.setWord(wordMaker, -1);

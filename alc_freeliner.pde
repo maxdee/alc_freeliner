@@ -12,7 +12,7 @@ import oscP5.*;
 import netP5.*;
 import java.net.InetAddress;
 
-FreeLiner fl;
+FreeLiner freeliner;
 PFont font;
 PFont introFont;
 boolean doSplash = true;
@@ -24,8 +24,8 @@ boolean ballPit = false;//true;
 boolean liquid = false;//true;//
 
 // set if the sketch is FULLSCREEN by default
-boolean FULLSCREEN = true;
-//final boolean FULLSCREEN = false;
+//boolean FULLSCREEN = true;
+final boolean FULLSCREEN = false;
 
 // default window size if not FULLSCREEN
 int xres = 1024;
@@ -62,7 +62,7 @@ void setup() {
   
   splash();
   noCursor();
-  fl = new FreeLiner();
+  freeliner = new FreeLiner();
 }
 
 // lets processing know if we want it FULLSCREEN
@@ -88,40 +88,40 @@ void draw() {
   if(backgroundImage != null) image(backgroundImage,0,0);
   else background(0);
   if(doSplash) splash();
-  fl.update();
+  freeliner.update();
 }
   
 
 // relay the inputs to the mapper
 void keyPressed() {
-  fl.keyboard.processKey(key, keyCode);
+  freeliner.getKeyboard().processKey(key, keyCode);
   if (key == 27) key = 0;       // dont let escape key, we need it :)
 }
 
 void keyReleased() {
-  fl.keyboard.processRelease(key, keyCode);
+  freeliner.getKeyboard().processRelease(key, keyCode);
 }
 
 void mousePressed(MouseEvent event) {
   doSplash = false;
-  fl.mouse.press(mouseButton);
+  freeliner.getMouse().press(mouseButton);
 }
 
 void mouseDragged() {
-  if(ballPit && mouseX < width/2) fl.mouse.drag(mouseButton, 
+  if(ballPit && mouseX < width/2) freeliner.getMouse().drag(mouseButton, 
                                               -(int((mouseY/(float)height)*(width/2.0)))+width/2,
                                               (int((mouseX/(width/2.0))*height)));
-  else fl.mouse.drag(mouseButton, mouseX, mouseY);
+  else freeliner.getMouse().drag(mouseButton, mouseX, mouseY);
 }
 
 void mouseMoved() {
-  if(ballPit && mouseX < width/2) fl.mouse.move(-(int((mouseY/(float)height)*(width/2.0)))+width/2,
+  if(ballPit && mouseX < width/2) freeliner.getMouse().move(-(int((mouseY/(float)height)*(width/2.0)))+width/2,
                                               (int((mouseX/(width/2.0))*height))); 
-  else fl.mouse.move(mouseX, mouseY);
+  else freeliner.getMouse().move(mouseX, mouseY);
 }
 
 void mouseWheel(MouseEvent event) {
-  fl.mouse.wheeled(event.getCount());
+  freeliner.getMouse().wheeled(event.getCount());
 }
 
 

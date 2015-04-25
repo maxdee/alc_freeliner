@@ -55,6 +55,9 @@ class FreeLiner {
    */
   public void update() {
     //background(0);
+
+    if(!focused) keyboard.forceRelease();
+
     // update template models
     templateManager.update();
     templateManager.launchLoops(groupManager.getGroups());
@@ -68,7 +71,15 @@ class FreeLiner {
     }
   }
 
+
+
+  public Mouse getMouse(){
+    return mouse;
+  }
  
+  public Keyboard getKeyboard(){
+    return keyboard;
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Debug
