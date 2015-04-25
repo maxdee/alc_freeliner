@@ -85,14 +85,15 @@ class SegmentBranch extends SegmentSelector{
 }
 
 /**
- * Run through brnaches over lerp
+ * Run through branches over lerp
  */
 class RunThroughBranches extends SegmentSelector{
 	public RunThroughBranches(){
 	}
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
 		int index = int(_event.getLerp() * _event.segmentGroup.treeBranches.size());
-		return _event.segmentGroup.getBranch(_event.beatCount);
+		println(index);
+		return _event.segmentGroup.getBranch(index);
 	} 
 }
 

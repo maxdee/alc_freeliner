@@ -53,7 +53,7 @@ class PerSegment extends RenderMode{
     for(Segment seg : segList){
     	event.setSegmentIndex(index);
     	index++;
-      getPainter(event.getAnimationMode()).paintSegment(seg, event);
+      if(seg != null) getPainter(event.getAnimationMode()).paintSegment(seg, event);
     }
 	}
 
@@ -68,8 +68,6 @@ class PerSegment extends RenderMode{
 	}
 }
 
-
-//////////////   catch null segments?
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
