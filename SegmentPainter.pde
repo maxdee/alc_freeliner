@@ -46,7 +46,14 @@ class FunLine extends LinePainter {
 	}
 }
 
+class Maypole extends LinePainter {
+	public Maypole(){}
 
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		vecLine(event.getCanvas(), _seg.getCenter(), _seg.getRegPos(event.getLerp()));
+	}
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

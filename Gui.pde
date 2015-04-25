@@ -58,7 +58,9 @@
   boolean viewCursor;
   // reference gridSize and grid canvas, gets updated if the mouse gridSize changes.
   int gridSize = 30;
-  PGraphics grid;
+  PShape grid;
+  final color GRID_COLOR = color(75);
+  //PGraphics grid;
   // for auto hiding the GUI
   int guiTimeout = 1000;
   int guiTimer = 1000;
@@ -77,12 +79,11 @@
    * @param GroupManager dependency injection
    */
   public Gui(){
-    // init canvas
-    canvas = createGraphics(width, height);
+    // init canvas, P2D significantly faster
+    canvas = createGraphics(width, height, P2D);
     canvas.smooth(0);
-    // init grid canvas
-    grid = createGraphics(width, height);
-    grid.smooth(0);
+    // make grid
+    generateGrid(gridSize);
     // make the cursor PShape
     makecrosshair();
     // init options
@@ -126,7 +127,7 @@
     if (mouse.useGrid()){
       // re-draw the grid if the size changed. 
       if(mouse.getGridSize() != gridSize) generateGrid(mouse.getGridSize());
-      canvas.image(grid,0,0); // was without canvas before
+      canvas.shape(grid,0,0); // was without canvas before
     }
     // draw the cursor
     putCrosshair(mouse.getPosition(), mouse.isSnapped());
@@ -302,8 +303,8 @@
     canvas.stroke(170);
     canvas.strokeWeight(1);
     vecLine(canvas, _s.getRegA(), _s.getRegB());
-    canvas.stroke(100);
-    if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
+    //canvas.stroke(100);
+    //if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
     canvas.stroke(200);
     canvas.strokeWeight(3);
     canvas.point(_s.getRegA().x, _s.getRegA().y);
@@ -379,24 +380,26 @@
    */
   private void generateGrid(int _sz){
     gridSize = _sz;
-    PShape grd;
-    grd = createShape();
-    grd.beginShape(LINES);
+    //PShape grd;
+    grid = createShape();
+    grid.beginShape(LINES);
+    grid.stroke(GRID_COLOR);
+    grid.strokeWeight(1);
     for (int x = 0; x < width; x+=gridSize) {
       for (int y = 0; y < height; y+=gridSize) {
-        grd.vertex(x, 0);
-        grd.vertex(x, height);
-        grd.vertex(0, y);
-        grd.vertex(width, y);
+        grid.vertex(x, 0);
+        grid.vertex(x, height);
+        grid.vertex(0, y);
+        grid.vertex(width, y);
       }
     }
-    grd.endShape();
-    grd.setStroke(color(100, 100, 100, 10));
-    grd.setStrokeWeight(1);
-    grid.beginDraw();
-    grid.clear();
-    grid.shape(grd);
-    grid.endDraw();
+    grid.endShape();
+    // grd.setStroke();
+    // grd.setStrokeWeight(1);
+    // grid.beginDraw();
+    // grid.clear();
+    // grid.shape(grd);
+    // grid.endDraw();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
