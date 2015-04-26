@@ -56,12 +56,12 @@ class Mouse{
   PVector previousPosition;
   PVector mouseOrigin;
 
-/**
- * Constructor, receives references to the groupManager and keyboard instances. This is for operational logic.
- * inits default values
- * @param GroupManager dependency injection
- * @param Keyboard dependency injection
- */
+  /**
+   * Constructor, receives references to the groupManager and keyboard instances. This is for operational logic.
+   * inits default values
+   * @param GroupManager dependency injection
+   * @param Keyboard dependency injection
+   */
 
   public Mouse(){
 
@@ -85,11 +85,11 @@ class Mouse{
     keyboard = _kb;
   }
 
-/**
- * Handles mouse button press. Buttons are
- *
- * @param int mouseButton
- */
+  /**
+   * Handles mouse button press. Buttons are
+   *
+   * @param int mouseButton
+   */
   public void press(int mb) { // perhaps move to GroupManager
     if (groupManager.isFocused()) {
       if (mb == LEFT || mb == MIDDLE) previousPosition = position.get();
@@ -100,23 +100,23 @@ class Mouse{
     else if (mb == FOURTH_BUTTON) groupManager.newGroup();
   }
 
-/**
- * Simulate mouse actions!
- *
- * @param int mouseButton
- * @param PVector position
- */
+  /**
+   * Simulate mouse actions!
+   *
+   * @param int mouseButton
+   * @param PVector position
+   */
   void fakeMouse(int mb, PVector p) { 
     position = p.get();
     //mousePress(mb);
   }
 
-/**
- * Handles mouse movements
- *
- * @param int X axis (mouseX)
- * @param int Y axis (mouseY)
- */
+  /**
+   * Handles mouse movements
+   *
+   * @param int X axis (mouseX)
+   * @param int Y axis (mouseY)
+   */
   public void move(int _x, int _y) {
     hasMoved = true;  
     mousePos.set(_x, _y);
@@ -125,20 +125,19 @@ class Mouse{
       if (grid) position = gridMouse(mousePos, gridSize);
       else if (fixedLength) position = constrainMouse(mousePos, previousPosition, lineLenght);
       else if (keyboard.isCtrled()) position = featherMouse(mousePos, mouseOrigin, 0.2);
-
       else if (snapping) position = snapMouse(mousePos);
       else position = mousePos.get();
     }
     //gui.resetTimeOut();
   }
 
-/**
- * Handles mouse dragging, currently works with the fixedLength mode to draw curve approximations.
- *
- * @param int mouseButton
- * @param int X axis (mouseX)
- * @param int Y axis (mouseY)
- */
+  /**
+   * Handles mouse dragging, currently works with the fixedLength mode to draw curve approximations.
+   *
+   * @param int mouseButton
+   * @param int X axis (mouseX)
+   * @param int Y axis (mouseY)
+   */
   public void drag(int b, int x, int y) {
     if (fixedLength) {
       move(x, y);
@@ -147,11 +146,11 @@ class Mouse{
   }
 
 
-/**
- * Scroll wheel input, currently unused, oooooh possibilities :)
- * 
- * @param int positive or negative value depending on direction
- */
+  /**
+   * Scroll wheel input, currently unused, oooooh possibilities :)
+   * 
+   * @param int positive or negative value depending on direction
+   */
   public void wheeled(int n) {
     //println(n);
   }
@@ -163,27 +162,27 @@ class Mouse{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Snaps to the nearest intersection of a grid
- *
- * @param PVector of mouse position
- * @param int size of grid
- * @return PVector of nearest intersection to position provided
- */  
+  /**
+   * Snaps to the nearest intersection of a grid
+   *
+   * @param PVector of mouse position
+   * @param int size of grid
+   * @return PVector of nearest intersection to position provided
+   */  
   public PVector gridMouse(PVector _pos, int _grid){
     return new PVector(round(_pos.x/_grid)*_grid, round(_pos.y/_grid)*_grid);
   }
 
-/**
- * constrain mouse to fixed length and optionaly at an angle of 60deg
- * <p>
- * This is usefull when aproximating curves, all segments will be of same length. 
- * Constraining angle allows to create fun geometry, for VJ like visuals
- *
- * @param PVector of mouse position
- * @param PVector of the previous place clicked
- * @return PVector constrained to length and possibly angle
- */  
+  /**
+   * constrain mouse to fixed length and optionaly at an angle of 60deg
+   * <p>
+   * This is usefull when aproximating curves, all segments will be of same length. 
+   * Constraining angle allows to create fun geometry, for VJ like visuals
+   *
+   * @param PVector of mouse position
+   * @param PVector of the previous place clicked
+   * @return PVector constrained to length and possibly angle
+   */  
   public PVector constrainMouse(PVector _pos, PVector _prev, int _len){
     
     float ang = PVector.sub(_prev, _pos).heading()+PI;
@@ -191,25 +190,25 @@ class Mouse{
     return new PVector((cos(ang)*_len)+_prev.x, (sin(ang)*_len)+_prev.y, 0);
   }
 
-/**
- * Feather mouse for added accuracy, happens when ctrl is held
- *
- * @param PVector of mouse position
- * @param PVector of where the mouse when ctrl was pressed.
- * @return PVector feathered from origin
- */  
+  /**
+   * Feather mouse for added accuracy, happens when ctrl is held
+   *
+   * @param PVector of mouse position
+   * @param PVector of where the mouse when ctrl was pressed.
+   * @return PVector feathered from origin
+   */  
   public PVector featherMouse(PVector _pos, PVector _origin, float _sensitivity){
     PVector fthr = PVector.mult(PVector.sub(_pos, _origin), _sensitivity);
     return PVector.add(_origin, fthr);
   }
 
 
-/**
- * Snap to other vertices! Toggles the snapped boolean
- *
- * @param PVector of mouse position
- * @return PVector of snapped location, or if it did not snap, the position provided
- */  
+  /**
+   * Snap to other vertices! Toggles the snapped boolean
+   *
+   * @param PVector of mouse position
+   * @return PVector of snapped location, or if it did not snap, the position provided
+   */  
   public PVector snapMouse(PVector _pos){
     PVector snap_ = groupManager.snap(_pos);
     if(snap_ == _pos) snapped = false;
@@ -218,10 +217,10 @@ class Mouse{
   }
 
 
-/**
- * Move the cursor around with arrow keys, to a greater amount if shift is pressed.
- *
- */  
+  /**
+   * Move the cursor around with arrow keys, to a greater amount if shift is pressed.
+   *
+   */  
   private void positionUp() {
     if (keyboard.isShifted()) position.y -= 10;
     else position.y--;

@@ -12,9 +12,10 @@ class Repetition {
 		easers[0] = new NoEasing();
 		easers[1] = new Square();
 		easers[2] = new Sine();
-		easers[3] = new RandomUnit();
-		easers[4] = new Fixed();
-		easers[5] = new BackForth();
+		easers[3] = new BackForth();
+		easers[4] = new RandomUnit();
+		easers[5] = new Fixed();
+		
 	}
 
 	public FloatList getFloats(RenderableTemplate _rt){
@@ -61,10 +62,11 @@ class EvenlySpaced extends Repetition{
 
 	public FloatList getEvenlySpaced(float _lrp, int _count){
 		FloatList flts = new FloatList();
-		float amount = _lrp/_count;
+		float dir = abs(_lrp)/_lrp;
+		float amount = abs(_lrp)/_count;
 		float increments = 1.0/_count;
 		for (int i = 0; i < _count; i++)
-			flts.append((increments * i) + amount);
+			flts.append(((increments * i) + amount)*dir);
 		return flts;
 	}
 }
@@ -78,12 +80,6 @@ class EvenlySpacedWithZero extends EvenlySpaced{
 		return floats;
 	}
 }
-
-
-
-
-
-
 
 
 /**
