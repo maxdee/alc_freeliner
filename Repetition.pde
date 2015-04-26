@@ -73,6 +73,7 @@ class EvenlySpacedWithZero extends EvenlySpaced{
 	public FloatList getFloats(RenderableTemplate _rt){
 		FloatList floats = super.getFloats(_rt);
 		floats.append(0);
+		floats.append(0.999);
 		return floats;
 	}
 }

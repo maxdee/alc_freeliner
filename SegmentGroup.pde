@@ -311,7 +311,8 @@ class SegmentGroup {
   // Segment accessors
   public Segment getSegment(int _index){
     //if(_index >= segments.size()) return null;
-    return segments.get(_index % segments.size());
+    if(segments.size() > 0 && _index >= 0) return segments.get(_index % segments.size());
+    return null;
   }
   
   public ArrayList<ArrayList<Segment>> getBranches(){

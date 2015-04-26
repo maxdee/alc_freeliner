@@ -36,16 +36,19 @@ final String BG_IMAGE_FILE = "###data/backgroundImage.png";
 PImage backgroundImage = null;
 
 void setup() {
+  // check if background image provided
   try {
     backgroundImage = loadImage(BG_IMAGE_FILE);
   }
   catch (Exception e){
     println("No background image found");
   }
+  // if no background image provided set size to default or fullscreen
   if(backgroundImage == null){
     if(!FULLSCREEN) size(xres, yres, P2D);
     else size(displayWidth, displayHeight, P2D);
   }
+  // if background image is provided set the size of the image.
   else {
     size(backgroundImage.width, backgroundImage.height, P2D);
   }

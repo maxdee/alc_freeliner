@@ -50,6 +50,7 @@
   final color CURSOR_COLOR = color(255);
   final color SNAPPED_CURSOR_COLOR = color(0, 200, 0);
 
+  final color SEGMENT_COLOR = color(170);
 
   //gui and line placing
   boolean showGui;
@@ -117,6 +118,8 @@
    * Main update function, draws all of the GUI elements to a PGraphics
    */
   private void update() {
+    if(mouse.hasMoved()) resetTimeOut();
+    if(!doDraw()) return;
     // prep canvas
     canvas.beginDraw();
     canvas.clear();
@@ -300,7 +303,7 @@
    * @param Segment segment to draw
    */
   public void showSegmentLines(Segment _s) {
-    canvas.stroke(170);
+    canvas.stroke(SEGMENT_COLOR);
     canvas.strokeWeight(1);
     vecLine(canvas, _s.getRegA(), _s.getRegB());
     //canvas.stroke(100);

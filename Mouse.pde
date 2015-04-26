@@ -46,6 +46,7 @@ class Mouse{
   boolean fixedLength;
   boolean invertMouse;
   boolean grid;
+  boolean hasMoved;
   int lineLenght = 50;
   int gridSize = 64;
 
@@ -116,7 +117,8 @@ class Mouse{
  * @param int X axis (mouseX)
  * @param int Y axis (mouseY)
  */
-  public void move(int _x, int _y) {  
+  public void move(int _x, int _y) {
+    hasMoved = true;  
     mousePos.set(_x, _y);
     if (mouseEnabled) { 
       if(invertMouse) _x = abs(width - _x); 
@@ -313,6 +315,12 @@ class Mouse{
 
   public boolean isSnapped(){
     return snapped;
+  }
+
+  public boolean hasMoved(){
+    if(!hasMoved) return false; 
+    hasMoved = false;
+    return true;
   }
 
 }
