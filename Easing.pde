@@ -7,6 +7,10 @@ class Easing {
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return _lrp;
 	}
+
+	public float invert(float _f){
+		return -_f+1.0;
+	}
 }
 
 class NoEasing extends Easing {
@@ -48,3 +52,12 @@ class Fixed extends Easing{
 		return 1.0;
 	}
 }	
+
+class BackForth extends Easing{
+	public BackForth(){}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		if(_rt.getBeatCount() % 2 == 0) return _lrp;
+		else return -invert(_lrp); 
+	}
+}

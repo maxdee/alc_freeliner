@@ -6,14 +6,15 @@
 // unit intervals that are negative means reverse.
 class Repetition {
 	Easing[] easers;
-	final int EASER_COUNT = 5;
+	final int EASER_COUNT = 6;
 	public Repetition(){
-		easers = new Easing[5];
+		easers = new Easing[EASER_COUNT];
 		easers[0] = new NoEasing();
 		easers[1] = new Square();
 		easers[2] = new Sine();
 		easers[3] = new RandomUnit();
 		easers[4] = new Fixed();
+		easers[5] = new BackForth();
 	}
 
 	public FloatList getFloats(RenderableTemplate _rt){
