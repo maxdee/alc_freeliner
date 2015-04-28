@@ -120,11 +120,12 @@ class WrapLine extends PerSegment{
  */
 class Geometry extends RenderMode{
 	GroupPainter[] groupPainters;
-	final int PAINTER_COUNT = 2;
+	final int PAINTER_COUNT = 3;
 	public Geometry(){
 		groupPainters = new GroupPainter[PAINTER_COUNT];
 		groupPainters[0] = new Filler();
 		groupPainters[1] = new FunFiller();
+		groupPainters[2] = new NoiseShape();
 	}
 
 	public void doRender(RenderableTemplate _rt){

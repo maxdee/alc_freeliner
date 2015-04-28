@@ -316,6 +316,7 @@ class Mouse{
     return snapped;
   }
 
+
   public boolean hasMoved(){
     if(!hasMoved) return false; 
     hasMoved = false;
