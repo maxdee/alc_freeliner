@@ -171,7 +171,7 @@ boolean maybe(int _p){
 PShape cloneShape(PShape _source, float _scale, PVector _center){
   if(_source == null) return null;
   PShape shp = createShape();
-  shp.beginShape();
+  shp.beginShape(_source.getKind());
   PVector tmp = new PVector(0,0);
   for(int i = 0; i < _source.getVertexCount(); i++){
     tmp = _source.getVertex(i);

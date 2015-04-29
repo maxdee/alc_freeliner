@@ -27,6 +27,10 @@ class TemplateRenderer {
   int clipCount;
   int frameCount;
 
+  // experimental
+  PShader fadefrag;
+  boolean useP2D = false;
+
   /**
    * Constructor
    *
@@ -36,6 +40,8 @@ class TemplateRenderer {
     canvas = createGraphics(width, height);
     canvas.smooth(0);
     canvas.ellipseMode(CENTER);
+
+    fadefrag = loadShader("data/fadefrag.glsl");
     // init variables
     trails = false;
     trailmix = 30;
@@ -75,8 +81,12 @@ class TemplateRenderer {
 	public void render(ArrayList<RenderableTemplate> _toRender){
     canvas.beginDraw();
     // either clear or fade the last frame.
-    if(trails) alphaBG(canvas, trailmix);
+    if(trails){
+      if(!useP2D) alphaBG(canvas, trailmix);
+      else alphaBG(canvas, trailmix);//canvas.filter(fadefrag);
+    }
     else canvas.clear();
+
     // for liquid crystal project
     if(liquid){
       fill(255);
@@ -158,6 +168,13 @@ class TemplateRenderer {
     _pg.rect(0, 0, width, height);
   }
 
+  public boolean toggleP2D(){
+    useP2D = !useP2D;
+    if(useP2D) canvas = createGraphics(width, height, P2D);
+    else canvas = createGraphics(width, height);
+    return useP2D;
+  }
+
   /**
    * Toggle the use of background with alpha value
    * @return boolean value given
@@ -174,6 +191,7 @@ class TemplateRenderer {
    */ 
   public int setTrails(int v){
     trailmix = numTweaker(v, trailmix);
+    fadefrag.set("fadeforce", float(trailmix)/255);
     return trailmix;
   }
 

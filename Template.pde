@@ -92,7 +92,7 @@ class Template{
 		beatDivider = 1;
 		strokeWidth = 3;
 		brushSize = 20;
-		brushMode = 0;
+		brushMode = 1;
  	}
 
 	public void setCustomShape(PShape _shp){

@@ -68,7 +68,7 @@ class PointBrush extends Brush {
 	public PShape generateBrush(){
 		PShape shp = createShape();
 		shp.beginShape(POINTS);
-		shp.vertex(0,0);
+    shp.vertex(0,0);
 		shp.endShape();
 		return shp;
 	}
@@ -83,7 +83,7 @@ class LineBrush extends Brush {
   }
 	public PShape generateBrush(){
 		PShape shp = createShape();
-    shp.beginShape();
+    shp.beginShape(LINES);
     shp.vertex(-HALF_SIZE, 0);
     shp.vertex(HALF_SIZE, 0);
     shp.endShape();
