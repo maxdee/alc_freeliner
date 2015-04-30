@@ -33,7 +33,6 @@ class TemplateRenderer {
 
   /**
    * Constructor
-   *
    */
 	public TemplateRenderer(){
     // init canvas
