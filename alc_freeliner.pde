@@ -11,6 +11,7 @@
 ///////   bug removing branch renderer from item...
 import oscP5.*;
 import netP5.*;
+NetAddress toPDpatch;
 
 OscP5 oscP5;
 
@@ -70,6 +71,7 @@ void setup() {
   freeliner = new FreeLiner();
 
   oscP5 = new OscP5(this,6667);
+  toPDpatch = new NetAddress("127.0.0.1",6668);
 }
 
 // lets processing know if we want it FULLSCREEN
@@ -147,4 +149,9 @@ void oscEvent(OscMessage theOscMessage) {
       freeliner.keyboard.oscDistribute(tp, kay, val);
     }  
   } 
+}
+
+OscMessage tickmsg = new OscMessage("/freeliner/tick");
+void oscTick(){
+  oscP5.send(tickmsg, toPDpatch); 
 }

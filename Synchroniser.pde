@@ -59,6 +59,7 @@ class Synchroniser{
     if(lerper > 1.0){
       lerper = 0;
       periodCount++;
+      oscTick();
       //println("bomp " + periodCount);
     }
   }
