@@ -35,6 +35,8 @@ class Template{
 	// Which brush
 	int brushMode;
 
+	int enablerMode;
+
 	// custom shape
   PShape customShape;
 
@@ -71,6 +73,7 @@ class Template{
 		brushMode = _tp.getBrushMode();
 		templateID = _tp.getTemplateID();
 		customShape = _tp.getCustomShape();
+		enablerMode = _tp.getEnablerMode();
  	}
 
 /**
@@ -91,6 +94,7 @@ class Template{
 		strokeWidth = 3;
 		brushSize = 20;
 		brushMode = 1;
+		enablerMode = 0;
  	}
 
 	public void setCustomShape(PShape _shp){
@@ -199,5 +203,7 @@ class Template{
 		return beatDivider;
 	}
 
-
+	public final int getEnablerMode(){
+		return enablerMode;
+	}
 }

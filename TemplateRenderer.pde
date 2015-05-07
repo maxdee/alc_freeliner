@@ -15,6 +15,9 @@ class TemplateRenderer {
   Repetition[] repeaters;
   final int REPEATER_COUNT = 4;
 
+  Enabler[] enablers;
+  final int ENABLER_COUNT = 9;
+
   //graphics for rendering
   PGraphics canvas;
 
@@ -61,6 +64,17 @@ class TemplateRenderer {
     repeaters[1] = new EvenlySpaced();
     repeaters[2] = new EvenlySpacedWithZero();
     repeaters[3] = new TwoFull();
+
+    enablers = new Enabler[ENABLER_COUNT];
+    enablers[0] = new Enabler();
+    enablers[1] = new RandomTimes();
+    enablers[2] = new EveryX(2);
+    enablers[3] = new EveryX(3);
+    enablers[4] = new EveryX(4);    
+    enablers[5] = new EveryX(5);
+    enablers[6] = new EveryX(6);
+    enablers[7] = new EveryX(7);
+    enablers[8] = new EveryX(8);
 	}
 
   public RenderMode getRenderer(int _index){
@@ -115,6 +129,7 @@ class TemplateRenderer {
     // get multiple unit intervals to use
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
+    if(!enablers[_rt.getEnablerMode()].enable(_rt)) return;
     for(float flt : flts){
       // Repition object return arrayList of unit intervals.
       // negative values indicates going in reverse

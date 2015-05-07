@@ -119,4 +119,11 @@ class TweakableTemplate extends Template {
     brushMode = numTweaker(_v, brushMode);
     return brushMode;
   }
+
+  public int setEnablerMode(int _v) {
+    enablerMode = numTweaker(_v, enablerMode);
+    return enablerMode;
+  }
+
+
 }
