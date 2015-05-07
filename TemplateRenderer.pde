@@ -82,7 +82,7 @@ class TemplateRenderer {
     // either clear or fade the last frame.
     if(trails){
       if(!useP2D) alphaBG(canvas, trailmix);
-      else alphaBG(canvas, trailmix);//canvas.filter(fadefrag);
+      else canvas.filter(fadefrag); //alphaBG(canvas, trailmix);//
     }
     else canvas.clear();
 

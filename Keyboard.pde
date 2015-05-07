@@ -54,6 +54,7 @@ class Keyboard{
     "j    reverseMode",
     "k    internalClock",
     "l    loop mode",
+    "m    modulator", 
     "n    newItem", 
     "o    rotation",
     "p    probability",
@@ -360,7 +361,6 @@ class Keyboard{
       else if (_k == ']') valueGiven_ = str(mouse.toggleFixedLength());
       else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
       else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
-      else if (_k == 'm') mouse.press(3);  // 
       else if (_k == '@') groupManager.saveGroups();//Vertices();
       else if (_k == '#') groupManager.loadGroups();
       else used_ = false;
@@ -419,6 +419,7 @@ class Keyboard{
         else if (_k == 'd') valueGiven_ = str(_template.setBrushMode(_n));
         else if (_k == 'v') valueGiven_ = str(_template.setSegmentMode(_n));
         else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));  
+        //else if (_k == 'm') valueGiven_ = str(_template.setModulationMode(_n));  
         else used_ = false;
       }
       

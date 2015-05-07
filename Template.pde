@@ -34,8 +34,6 @@ class Template{
 	int brushSize;
 	// Which brush
 	int brushMode;
-	// maybe render
-	
 
 	// custom shape
   PShape customShape;
@@ -200,5 +198,6 @@ class Template{
 	public final int getBeatDivider(){
 		return beatDivider;
 	}
+
 
 }

@@ -45,19 +45,16 @@ class FreeLiner {
     mouse.inject(groupManager, keyboard);
     keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
     gui.inject(groupManager, mouse);
-
     
   }
 
-
+  PShader fadefrag;
   /**
    * It all starts here...
    */
   public void update() {
     //background(0);
-
     if(!focused) keyboard.forceRelease();
-
     // update template models
     templateManager.update();
     templateManager.launchLoops(groupManager.getGroups());
