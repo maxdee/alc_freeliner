@@ -366,15 +366,16 @@
    * This is helpfull to have a reference as to what is what when rocking out.
    * Gets called everytime a new group is create.
    */
+   // disable cause too slooooow
   private void updateReference() {
-    boolean tgs = viewTags;
-    boolean lns = viewLines;
-    viewLines = true;
-    viewTags = true;
-    update();
-    canvas.save("reference.jpg");
-    viewTags = tgs;
-    viewLines = lns;
+    // boolean tgs = viewTags;
+    // boolean lns = viewLines;
+    // viewLines = true;
+    // viewTags = true;
+    // update();
+    // canvas.save("reference.jpg");
+    // viewTags = tgs;
+    // viewLines = lns;
   }
 
   /**

@@ -16,7 +16,7 @@ class TemplateRenderer {
   final int REPEATER_COUNT = 4;
 
   Enabler[] enablers;
-  final int ENABLER_COUNT = 9;
+  final int ENABLER_COUNT = 10;
 
   //graphics for rendering
   PGraphics canvas;
@@ -66,8 +66,8 @@ class TemplateRenderer {
     repeaters[3] = new TwoFull();
 
     enablers = new Enabler[ENABLER_COUNT];
-    enablers[0] = new Enabler();
-    enablers[1] = new RandomTimes();
+    enablers[0] = new Disabler();
+    enablers[1] = new Enabler();
     enablers[2] = new EveryX(2);
     enablers[3] = new EveryX(3);
     enablers[4] = new EveryX(4);    
@@ -75,6 +75,7 @@ class TemplateRenderer {
     enablers[6] = new EveryX(6);
     enablers[7] = new EveryX(7);
     enablers[8] = new EveryX(8);
+    enablers[9] = new RandomTimes();
 	}
 
   public RenderMode getRenderer(int _index){

@@ -94,7 +94,7 @@ class Template{
 		strokeWidth = 3;
 		brushSize = 20;
 		brushMode = 1;
-		enablerMode = 0;
+		enablerMode = 1;
  	}
 
 	public void setCustomShape(PShape _shp){

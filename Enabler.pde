@@ -3,11 +3,23 @@ class Enabler{
 	public Enabler(){
 
 	}
-
 	public boolean enable(RenderableTemplate _rt){
 		return true;
 	}
 }
+
+
+class Disabler extends Enabler{
+	
+	public Disabler(){
+
+	}
+	public boolean enable(RenderableTemplate _rt){
+		return false;
+	}
+}
+
+
 
 
 class RandomTimes extends Enabler{

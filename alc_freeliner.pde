@@ -9,10 +9,10 @@
 
 
 ///////   bug removing branch renderer from item...
-
 import oscP5.*;
 import netP5.*;
-import java.net.InetAddress;
+
+OscP5 oscP5;
 
 FreeLiner freeliner;
 PFont font;
@@ -26,8 +26,8 @@ boolean ballPit = false;//true;
 boolean liquid = false;//true;//
 
 // set if the sketch is FULLSCREEN by default
-boolean FULLSCREEN = true;
-//final boolean FULLSCREEN = false;
+//boolean FULLSCREEN = true;
+final boolean FULLSCREEN = false;
 
 // default window size if not FULLSCREEN
 int xres = 1024;
@@ -68,6 +68,8 @@ void setup() {
   splash();
   noCursor();
   freeliner = new FreeLiner();
+
+  oscP5 = new OscP5(this,6667);
 }
 
 // lets processing know if we want it FULLSCREEN
@@ -132,3 +134,17 @@ void mouseWheel(MouseEvent event) {
 
 
 
+void oscEvent(OscMessage theOscMessage) {
+  /* check if theOscMessage has the address pattern we are looking for. */
+  
+  if(theOscMessage.checkAddrPattern("/freeliner/tweak")==true) {
+    /* check if the typetag is the right one. */
+    if(theOscMessage.checkTypetag("ssi")) {
+      /* parse theOscMessage and extract the values from the osc message arguments. */
+      char tp = theOscMessage.get(0).stringValue().charAt(0);
+      char kay = theOscMessage.get(1).stringValue().charAt(0);
+      int val = theOscMessage.get(2).intValue();
+      freeliner.keyboard.oscDistribute(tp, kay, val);
+    }  
+  } 
+}

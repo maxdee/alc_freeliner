@@ -390,6 +390,19 @@ class Keyboard{
     return used_;
   }
 
+
+  public void oscDistribute(char _tmp, char _k, int _n){
+    TweakableTemplate _rt = templateManager.getTemplate(_tmp);
+    if(_rt != null){
+      rendererDispatch(_rt, _k, _n, false);
+    }
+  }
+
+
+
+
+
+
   public boolean rendererDispatch(TweakableTemplate _template, char _k, int _n, boolean _vg) {
     //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
     boolean used_ = true;
