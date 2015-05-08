@@ -31,8 +31,8 @@ boolean liquid = false;//true;//
 final boolean FULLSCREEN = false;
 
 // default window size if not FULLSCREEN
-int xres = 1024;
-int yres = 768;
+int xres = 1280;//1024;
+int yres = 1024;//768;
 
 // add a image path to load a background image.
 final String BG_IMAGE_FILE = "###data/backgroundImage.png";

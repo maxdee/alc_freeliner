@@ -205,10 +205,12 @@ class GroupManager{
       println("No groups.xml");
       return;
     }
+
     XML[] groupData = file.getChildren("group");
     PVector posA = new PVector(0,0);
     PVector posB = new PVector(0,0);
     boolean first = true;
+
     for(XML xgroup : groupData){
       if(first){
         first = false;
@@ -224,7 +226,8 @@ class GroupManager{
       getSelectedGroup().mouseInput(LEFT, posB);
       getSelectedGroup().setNeighbors();
       posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
-      if(abs(posA.x - getSelectedGroup().getSegment(0).getA().x) > 2) getSelectedGroup().placeCenter(posA);
+      // bug with centering
+      //if(abs(posA.x - getSelectedGroup().getSegment(0).getA().x) > 2) getSelectedGroup().placeCenter(posA);
     }
   }
 

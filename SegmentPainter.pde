@@ -46,6 +46,32 @@ class FunLine extends LinePainter {
 	}
 }
 
+class FullLine extends LinePainter {
+	final String name = "FullLine";
+
+	public FullLine(){
+	}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		vecLine(event.getCanvas(), _seg.getRegA(), _seg.getRegB());
+	}
+}
+
+class MiddleLine extends LinePainter {
+	final String name = "MiddleLine";
+
+	public MiddleLine(){
+	}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		float aa = (event.getLerp()/2)+0.5;
+		float bb = -(event.getLerp()/2)+0.5;
+		vecLine(event.getCanvas(), _seg.getRegPos(aa), _seg.getRegPos(bb));
+	}
+}
+
 class Maypole extends LinePainter {
 	public Maypole(){}
 

@@ -27,7 +27,7 @@ class PerSegment extends RenderMode{
 	SegmentSelector[] segmentSelectors;
 	final int SELECTOR_COUNT = 6;
   SegmentPainter[] segmentPainters;
-  final int PAINTER_COUNT = 6;
+  final int PAINTER_COUNT = 8;
 	
 	public PerSegment(){
 		segmentSelectors = new SegmentSelector[SELECTOR_COUNT];
@@ -44,13 +44,16 @@ class PerSegment extends RenderMode{
     segmentPainters[2] = new SpiralBrush();
     segmentPainters[3] = new BrushFill();
     segmentPainters[4] = new FunLine();
-    segmentPainters[5] = new Maypole();
+    segmentPainters[5] = new FullLine();
+    segmentPainters[6] = new MiddleLine();
+    segmentPainters[7] = new Maypole();
 	}
 
 	public void doRender(RenderableTemplate _rt){
 		super.doRender(_rt);
 		ArrayList<Segment> segList = getSelector(event.getSegmentMode()).getSegments(event);
     int index = 0;
+    if(segList == null) return;
     for(Segment seg : segList){
     	event.setSegmentIndex(index);
     	index++;
