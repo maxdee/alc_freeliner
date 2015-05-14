@@ -47,7 +47,7 @@ class Mouse{
   boolean invertMouse;
   boolean grid;
   boolean hasMoved;
-  int lineLenght = 50;
+  int lineLenght = 256;
   int gridSize = 64;
 
   //mouse crosshair stuff
@@ -95,7 +95,8 @@ class Mouse{
       groupManager.getSelectedGroup().mouseInput(mb, position);
       if (mb == LEFT || mb == MIDDLE) previousPosition = position.get();
       else if (mb == RIGHT) previousPosition = groupManager.getPreviousPosition();
-      //groupManager.getSelectedGroup().mouseInput(mb, position);
+
+      if(mb == LEFT && fixedLength) previousPosition = groupManager.getPreviousPosition();
       if (mb == MIDDLE && fixedLength) previousPosition = mousePos.get();
     }
     else if (mb == FOURTH_BUTTON) groupManager.newGroup();
