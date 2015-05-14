@@ -27,8 +27,8 @@ boolean ballPit = false;//true;
 boolean liquid = false;//true;//
 
 // set if the sketch is FULLSCREEN by default
-boolean FULLSCREEN = true;
-//final boolean FULLSCREEN = false;
+//boolean FULLSCREEN = true;
+final boolean FULLSCREEN = false;
 
 // default window size if not FULLSCREEN
 int xres = 1280;//1024;

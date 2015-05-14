@@ -416,8 +416,7 @@ class SegmentGroup {
   }
 
   public final PVector getLastPoint() {
-    if (segCount>0)  return segmentStart.get();// segments.get(segCount-1).getRegA();
-    else return new PVector(0, 0, 0);
+    return segmentStart.get();
   }
 
   public final float getBrushScaler(){
