@@ -47,8 +47,9 @@
   final int CURSOR_SIZE = 20;
   final int CURSOR_GAP_SIZE = 4;
   final int CURSOR_STROKE_WIDTH = 3;
-  final color CURSOR_COLOR = color(255);
+  final color CURSOR_COLOR = INVERTED_COLOR ? color(0) : color(255);
   final color SNAPPED_CURSOR_COLOR = color(0, 200, 0);
+  final color TEXT_COLOR = INVERTED_COLOR ? color(0) : color(255);
 
   final color SEGMENT_COLOR = color(170);
 
@@ -138,7 +139,7 @@
     // draw the segments of the selected group
     SegmentGroup sg = groupManager.getSelectedGroup();
     if(sg != null){
-      canvas.fill(255);
+      //canvas.fill(255);
       showTag(sg); 
       showGroupLines(sg);
       if (viewCursor) previewLine(sg);
@@ -208,7 +209,6 @@
     // if dual projectors rotate the cursor by 45 when on second projector
     if(width > 2000 && _pos.x > width/2) {
       canvas.rotate(QUARTER_PI);
-      if(liquid) crosshair.setStroke(0);
     }
     canvas.shape(crosshair);
     canvas.popMatrix();
@@ -221,7 +221,7 @@
   private void previewLine(SegmentGroup _sg) {
     PVector pos = _sg.getSegmentStart();
     if (pos.x > 0) {
-      canvas.stroke(255);
+      canvas.stroke(CURSOR_COLOR);
       canvas.strokeWeight(3);
       vecLine(canvas, pos, mouse.getPosition());
     }
@@ -235,6 +235,7 @@
     int in = CURSOR_GAP_SIZE;
     crosshair = createShape();
     crosshair.beginShape(LINES);
+    //if(INVERTED_COLOR) crosshair.stroke(0);
     crosshair.vertex(-out, -out);
     crosshair.vertex(-in, -in);
 
@@ -273,7 +274,7 @@
     // Get center if centered or last point made
     PVector pos = _sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart(); 
     canvas.noStroke();
-    canvas.fill(255);
+    canvas.fill(TEXT_COLOR);
     // group ID and template tags
     int id = _sg.getID();
     String tTags = _sg.getTemplateList().getTags();
@@ -281,7 +282,7 @@
     canvas.text(str(id), pos.x - (16+int(id>9)*6), pos.y+6);
     canvas.text(tTags, pos.x + 6, pos.y+6);
     canvas.noFill();
-    canvas.stroke(255);
+    canvas.stroke(TEXT_COLOR);
     canvas.strokeWeight(1);
     // ellipse showing center or last point
     canvas.ellipse(pos.x, pos.y, 10, 10);
@@ -324,7 +325,7 @@
     int l = txt.length();
     PVector pos = new PVector(0,0);
     canvas.pushStyle();
-    canvas.fill(255);
+    canvas.fill(TEXT_COLOR);
     canvas.noStroke();
     canvas.textFont(font);
     canvas.textSize(_size);

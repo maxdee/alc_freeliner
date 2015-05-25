@@ -34,6 +34,8 @@ class TemplateRenderer {
   PShader fadefrag;
   boolean useP2D = false;
 
+  final color BACKGROUND_COLOR = INVERTED_COLOR ? color(255) : color(0);
+
   /**
    * Constructor
    */
@@ -99,13 +101,12 @@ class TemplateRenderer {
       if(!useP2D) alphaBG(canvas, trailmix);
       else canvas.filter(fadefrag); //alphaBG(canvas, trailmix);//
     }
-    else canvas.clear();
-
-    // for liquid crystal project
-    if(liquid){
-      fill(255);
-      rect(1024,0,1024,768);
+    else {
+      //canvas.clear();
+      canvas.background(BACKGROUND_COLOR);
     }
+
+
     // render templates
     if(_toRender.size() > 0)
       for(RenderableTemplate rt : _toRender)
@@ -178,8 +179,8 @@ class TemplateRenderer {
    * @param int alpha value of black
    */ 
   private void alphaBG(PGraphics _pg, int _alpha) {
-    _pg.fill(0, _alpha);
-    _pg.stroke(0, _alpha);
+    _pg.fill(BACKGROUND_COLOR, _alpha);
+    _pg.stroke(BACKGROUND_COLOR, _alpha);
     _pg.rect(0, 0, width, height);
   }
 

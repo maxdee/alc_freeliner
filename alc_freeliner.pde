@@ -9,34 +9,44 @@
 
 
 ///////   bug removing branch renderer from item...
+
 import oscP5.*;
 import netP5.*;
-NetAddress toPDpatch;
 
 OscP5 oscP5;
+NetAddress toPDpatch;
+OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
 FreeLiner freeliner;
 PFont font;
 PFont introFont;
 boolean doSplash = true;
+PImage backgroundImage = null;
+
+
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////     OPTIONS!
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
+// set if the sketch is FULLSCREEN by default
+// if true, the resolution will be automaticaly set
+//final boolean FULLSCREEN = true;
+final boolean FULLSCREEN = false;
+
+// default window size if not FULLSCREEN
+int xres = 1024;
+int yres = 768;
 
 // for the glitch gallery ballpit
 boolean ballPit = false;//true;
 
-// for the liquid crystal table
-boolean liquid = false;//true;//
-
-// set if the sketch is FULLSCREEN by default
-//boolean FULLSCREEN = true;
-final boolean FULLSCREEN = false;
-
-// default window size if not FULLSCREEN
-int xres = 1280;//1024;
-int yres = 1024;//768;
+// invert colors
+boolean INVERTED_COLOR = false;
 
 // add a image path to load a background image.
 final String BG_IMAGE_FILE = "###data/backgroundImage.png";
-PImage backgroundImage = null;
 
 void setup() {
   // check if background image provided
@@ -151,7 +161,6 @@ void oscEvent(OscMessage theOscMessage) {
   } 
 }
 
-OscMessage tickmsg = new OscMessage("/freeliner/tick");
 void oscTick(){
   oscP5.send(tickmsg, toPDpatch); 
 }
