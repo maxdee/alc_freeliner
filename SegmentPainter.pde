@@ -81,6 +81,22 @@ class Maypole extends LinePainter {
 	}
 }
 
+class SegToSeg extends LinePainter{
+	public SegToSeg(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		Segment secondSeg = getNextSegment(_seg, _event.getBrushMode());
+		vecLine(event.getCanvas(), _seg.getRegPos(_event.getLerp()), secondSeg.getRegPos(_event.getLerp()));
+	}
+
+	public Segment getNextSegment(Segment _seg, int _iter){
+		Segment next = _seg.getNext();
+		if(_iter == 0) return next;
+		else return getNextSegment(next, _iter - 1);
+	}
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Subclasses
@@ -212,3 +228,5 @@ class BrushFill extends BrushPutter{
 
 
 }
+
+

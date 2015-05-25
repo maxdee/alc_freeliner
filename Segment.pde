@@ -259,5 +259,13 @@ class Segment {
   public final String getText(){
     return segmentText;
   }
+
+  public final Segment getNext(){
+    return neighbB;
+  }
+  
+  public final Segment getPrev(){
+    return neighbA;
+  }
 }
 

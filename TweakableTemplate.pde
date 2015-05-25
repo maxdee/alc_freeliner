@@ -25,7 +25,6 @@ class TweakableTemplate extends Template {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-
   public void saveToBank(){
     Template _tp = new Template();
     _tp.copy(this);

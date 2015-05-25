@@ -100,3 +100,4 @@ class NoiseShape extends GroupPainter{
 		canvas.popMatrix();
 	}
 }
+

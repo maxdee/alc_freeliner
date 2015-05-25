@@ -27,7 +27,7 @@ class PerSegment extends RenderMode{
 	SegmentSelector[] segmentSelectors;
 	final int SELECTOR_COUNT = 6;
   SegmentPainter[] segmentPainters;
-  final int PAINTER_COUNT = 8;
+  final int PAINTER_COUNT = 9;
 	
 	public PerSegment(){
 		segmentSelectors = new SegmentSelector[SELECTOR_COUNT];
@@ -47,6 +47,7 @@ class PerSegment extends RenderMode{
     segmentPainters[5] = new FullLine();
     segmentPainters[6] = new MiddleLine();
     segmentPainters[7] = new Maypole();
+    segmentPainters[8] = new SegToSeg();
 	}
 
 	public void doRender(RenderableTemplate _rt){
@@ -129,6 +130,7 @@ class Geometry extends RenderMode{
 		groupPainters[0] = new Filler();
 		groupPainters[1] = new FunFiller();
 		groupPainters[2] = new NoiseShape();
+		//groupPainters[3] = new SegToSeg();
 	}
 
 	public void doRender(RenderableTemplate _rt){
