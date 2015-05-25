@@ -4,30 +4,45 @@
  */
 class TweakableTemplate extends Template {
 
+  int bankIndex;
+  ArrayList<Template> bank;
 
 	public TweakableTemplate(char _id){
 		super(_id);
+    bank = new ArrayList();
+    bankIndex = 0;
 	}
 
   public TweakableTemplate(){
     super();
   }
 
-	////////////////////////////////////////////////////////////////////////////////////
-	///////
-	///////    Save & load xml
-	///////
-	////////////////////////////////////////////////////////////////////////////////////
 
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    Bank management
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+
+  public void saveToBank(){
+    Template _tp = new Template();
+    _tp.copy(this);
+    bank.add(_tp);
+  }
+
+  public void loadFromBank(int _index){
+    if(_index < bank.size()){
+      copy(bank.get(_index));
+    }
+  }
 
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Tweakable mutators
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
-
-
 
 	public int setProbability(int v){
     // probability = numTweaker(v, probability);
@@ -125,5 +140,11 @@ class TweakableTemplate extends Template {
     return enablerMode;
   }
 
+  public int setBankIndex(int _v){
+    bankIndex = numTweaker(_v, bankIndex);
+    if(bankIndex >= bank.size()) bankIndex = bank.size()-1;
+    loadFromBank(bankIndex);
+    return bankIndex;
+  }
 
 }

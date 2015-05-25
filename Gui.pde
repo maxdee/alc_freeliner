@@ -127,6 +127,7 @@
     canvas.textFont(font);
     canvas.textSize(15);
     canvas.textMode(CENTER);
+
     // draw the grid
     if (mouse.useGrid()){
       // re-draw the grid if the size changed. 
@@ -144,12 +145,14 @@
       showGroupLines(sg);
       if (viewCursor) previewLine(sg);
     }
+
     // draw other segment groups if necessary
     if(viewLines || viewTags){
       for (SegmentGroup seg : groupManager.getGroups()) {
         groupGui(seg);
       }
     }
+    
     // draw on screen information with group 0
     infoWritter();
     canvas.endDraw();

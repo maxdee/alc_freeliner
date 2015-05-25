@@ -34,6 +34,7 @@ class TemplateManager{
   //templates all the basic templates
   ArrayList<TweakableTemplate> templates;
   final int N_TEMPLATES = 26;
+
   // events to render
   ArrayList<RenderableTemplate> eventList;
   ArrayList<RenderableTemplate> loops;
@@ -46,7 +47,6 @@ class TemplateManager{
   	templateList = new TemplateList();
     loops = new ArrayList();
     eventList = new ArrayList();
-
   	init();
   }
 
@@ -213,6 +213,20 @@ class TemplateManager{
       for(TweakableTemplate temp : temps)
         temp.setCustomShape(cust);
     }
+  }
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Sub templates
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  
+  // template swaping system? template copying system A -> B
+
+  public void saveTemplate(Template _t){
+
   }
 
 

@@ -69,9 +69,6 @@ void setup() {
   // attempting to skip anoying white screen on startup
   //frame.setBackground(new java.awt.Color(0, 0, 0));
   
-  //is this helpfull?
-  //frameRate(30); 
-  
   //textureMode(NORMAL);
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");

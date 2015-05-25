@@ -35,7 +35,7 @@
  * CTRL + KEYS MAPPING
  * ctrl-a   selectAll
  * ctrl-i   revers mouseX
- * ctrl-r   reset decorator
+ * ctrl-r   reset template
  * ctrl-d   customShape
  */
  
@@ -77,8 +77,10 @@ class Keyboard{
     "[    fixedAngle",
     "-    decreaseValue",
     "=    increaseValue",
-    "@    save", 
-    "#    load",
+    "@    saveGroups", 
+    "#    loadGroups",
+    "$    saveTemplate",
+    "%    loadTemplate",
     "!    loopAll",
     "*    record"
   };
@@ -412,6 +414,7 @@ class Keyboard{
       if(_n == -3){
         if (_k == 'l') return false;//valueGiven_ = str(_template.toggleLoop());
         else if (_k == 'k') return false;//valueGiven_ = str(_template.toggleInternal());
+        else if (_k == '$') _template.saveToBank();
         else if (int(_k) == 518) _template.reset();
         else used_ = false;
       }
@@ -433,6 +436,7 @@ class Keyboard{
         else if (_k == 'v') valueGiven_ = str(_template.setSegmentMode(_n));
         else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));  
         else if (_k == 'u') valueGiven_ = str(_template.setEnablerMode(_n));
+        else if (_k == '%') valueGiven_ = str(_template.setBankIndex(_n));
         //else if (_k == 'm') valueGiven_ = str(_template.setModulationMode(_n));  
         else used_ = false;
       }
