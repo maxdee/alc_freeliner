@@ -10,6 +10,11 @@
 
 ///////   bug removing branch renderer from item...
 
+
+////!!!!!!! bank saving, if template was loading save back?
+//// load 0 to make a new one?
+
+
 import oscP5.*;
 import netP5.*;
 
