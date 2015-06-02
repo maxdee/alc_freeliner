@@ -102,8 +102,8 @@ class TemplateRenderer {
       else canvas.filter(fadefrag); //alphaBG(canvas, trailmix);//
     }
     else {
-      //canvas.clear();
-      canvas.background(BACKGROUND_COLOR);
+      canvas.clear();
+      //canvas.background(BACKGROUND_COLOR);
     }
 
 
