@@ -81,6 +81,20 @@ class Maypole extends LinePainter {
 	}
 }
 
+
+class Elliptic extends LinePainter {
+	public Elliptic(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		PVector pos = _seg.getRegA();
+		float sz = pos.dist(_seg.getRegPos(event.getLerp()))*2;
+		event.getCanvas().ellipse(pos.x, pos.y, sz, sz);
+	}
+}
+
+
+
 class SegToSeg extends LinePainter{
 	public SegToSeg(){}
 

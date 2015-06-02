@@ -51,7 +51,7 @@ boolean ballPit = false;//true;
 boolean INVERTED_COLOR = false;
 
 // add a image path to load a background image.
-final String BG_IMAGE_FILE = "###data/backgroundImage.png";
+final String BG_IMAGE_FILE = "data/###backgroundImage.jpg";
 
 void setup() {
   // check if background image provided
