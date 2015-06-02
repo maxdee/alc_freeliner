@@ -185,6 +185,7 @@ class Keyboard{
     else if (kc==RIGHT) groupManager.nudger(true, 1, shifted);
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
+    else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.  
   }
 
 /**

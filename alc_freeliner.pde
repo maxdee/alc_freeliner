@@ -53,6 +53,9 @@ boolean INVERTED_COLOR = false;
 // add a image path to load a background image.
 final String BG_IMAGE_FILE = "data/###backgroundImage.jpg";
 
+// are you using OSX? I do not, I use GNU/Linux
+final boolean OSX = false;
+
 void setup() {
   // check if background image provided
   try {
