@@ -42,12 +42,13 @@ class Mouse{
   boolean mouseEnabled;
   boolean snapping;
   boolean snapped;  
-  boolean fixedAngle;
-  boolean fixedLength;
+  boolean useFixedAngle;
+  boolean useFixedLength;
   boolean invertMouse;
   boolean grid;
   boolean hasMoved;
   int lineLenght = 256;
+  int lineAngle = 30;
   int gridSize = 64;
 
   //mouse crosshair stuff
@@ -75,8 +76,8 @@ class Mouse{
     mouseEnabled = true;
     snapping = true;
     snapped = false;
-    fixedLength = false;
-    fixedAngle = false;
+    useFixedLength = false;
+    useFixedAngle = false;
     invertMouse = false;
   }
 
@@ -97,8 +98,8 @@ class Mouse{
       if (mb == LEFT || mb == MIDDLE) previousPosition = position.get();
       else if (mb == RIGHT) previousPosition = groupManager.getPreviousPosition();
 
-      if(mb == LEFT && fixedLength) previousPosition = groupManager.getPreviousPosition();
-        //if (mb == MIDDLE && fixedLength) previousPosition = mousePos.get();
+      if(mb == LEFT && useFixedLength) previousPosition = groupManager.getPreviousPosition();
+        //if (mb == MIDDLE && useFixedLength) previousPosition = mousePos.get();
     }
     else if (mb == FOURTH_BUTTON) groupManager.newGroup();
     //println(previousPosition);
@@ -127,7 +128,7 @@ class Mouse{
     if (mouseEnabled) { 
       if(invertMouse) _x = abs(width - _x); 
       if (grid) position = gridMouse(mousePos, gridSize);
-      else if (fixedLength) position = constrainMouse(mousePos, previousPosition, lineLenght);
+      else if (useFixedLength) position = constrainMouse(mousePos, previousPosition, lineLenght);
       else if (keyboard.isCtrled()) position = featherMouse(mousePos, mouseOrigin, 0.2);
       else if (snapping) position = snapMouse(mousePos);
       else position = mousePos.get();
@@ -136,14 +137,14 @@ class Mouse{
   }
 
   /**
-   * Handles mouse dragging, currently works with the fixedLength mode to draw curve approximations.
+   * Handles mouse dragging, currently works with the useFixedLength mode to draw curve approximations.
    *
    * @param int mouseButton
    * @param int X axis (mouseX)
    * @param int Y axis (mouseY)
    */
   public void drag(int b, int x, int y) {
-    if (fixedLength) {
+    if (useFixedLength) {
       move(x, y);
       if (previousPosition.dist(position) < previousPosition.dist(mousePos)) press(b);
     }
@@ -190,7 +191,7 @@ class Mouse{
   public PVector constrainMouse(PVector _pos, PVector _prev, int _len){
     
     float ang = PVector.sub(_prev, _pos).heading()+PI;
-    if (fixedAngle) ang = radians(int(degrees(ang)/30)*30);
+    if (useFixedAngle) ang = radians(int(degrees(ang)/lineAngle)*lineAngle);
     return new PVector((cos(ang)*_len)+_prev.x, (sin(ang)*_len)+_prev.y, 0);
   }
 
@@ -267,24 +268,33 @@ class Mouse{
   }
 
   public boolean toggleFixedLength(){
-    fixedLength = !fixedLength;
-    return fixedLength;
+    useFixedLength = !useFixedLength;
+    return useFixedLength;
   }
 
-  public int setLineLenght(int v) {
-    lineLenght = numTweaker(v, lineLenght);
+  public boolean toggleFixedAngle(){
+    useFixedAngle = !useFixedAngle;
+    return useFixedAngle;
+  }
+
+  public int setLineLenght(int _v) {
+    lineLenght = numTweaker(_v, lineLenght);
+    if(lineLenght <= 0) lineLenght = 1;
     return lineLenght;
   }
+
+  public int setLineAngle(int _v){
+    lineAngle = numTweaker(_v, lineAngle);
+    if(lineAngle<=0) lineAngle = 1;
+    return lineAngle;
+  }
+
 
   public boolean toggleSnapping(){
     snapping = !snapping;
     return snapping;
   }
 
-  public boolean toggleFixedAngle(){
-    fixedAngle = !fixedAngle;
-    return fixedAngle;
-  }
   //Set the size of grid and generate a PImage of the grid.
   public int setGridSize(int _v) {
     if(_v >= 10 || _v==-1 || _v==-2){

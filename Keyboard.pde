@@ -373,6 +373,7 @@ class Keyboard{
       else if (editKey == 't') templateManager.sync.nudgeTime(_n);
       else if (editKey == 'y') valueGiven_ = str(templateRenderer.setTrails(_n));
       else if (editKey == ']') valueGiven_ = str(mouse.setLineLenght(_n));
+      else if (editKey == '[') valueGiven_ = str(mouse.setLineAngle(_n));
       else if (editKey == '.') valueGiven_ = str(groupManager.setSnapDist(_n));
       else used_ = false;
     }
