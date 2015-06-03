@@ -218,21 +218,23 @@ class BrushFill extends BrushPutter{
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		super.paintSegment(_seg, _event);
 		PVector center = _seg.getCenter().get();
 		// find the distance from the middle to the center
 		float dst = center.dist(_seg.getPos(0.5));
-
-		int count = constrain(event.getRepetitionCount(), 1, 20); //ceil(dst/event.getScaledBrushSize());
+		// how many things
+		int count = constrain(_event.getRepetitionCount(), 1, 20); //ceil(dst/event.getScaledBrushSize());
 		// force the brush size
-		event.forceScaledBrushSize(dst/count);
-		float lrp = event.getLerp();
-		float ang =  _seg.getAngle(event.getDirection());
+		_event.forceScaledBrushSize(dst/count);
+		float lrp = _event.getLerp();
+		float ang =  _seg.getAngle(_event.getDirection());
 		//int count = 5; // what should I attach this to?
 		float inter = 1.0/count;
 		PVector pos = new PVector(0,0); _seg.getPos(lrp).get();
 		float tmpLrp = 0;
 		
+		// calling super after due to custom brush size
+		super.paintSegment(_seg, _event);
+
 		for(int i = 0; i < count; i++){
 			tmpLrp = (i%2 == 0) ? lrp : (lrp-1)*-1;
 			pos = vecLerp(_seg.getPos(tmpLrp).get(), center, i*inter);
@@ -244,3 +246,4 @@ class BrushFill extends BrushPutter{
 }
 
 
+// center brusher
