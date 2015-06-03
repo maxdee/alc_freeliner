@@ -172,14 +172,21 @@ PShape cloneShape(PShape _source, float _scale, PVector _center){
   if(_source == null) return null;
   PShape shp = createShape();
   shp.beginShape(_source.getKind());
+  shp.strokeJoin(ROUND);
+  shp.strokeCap(ROUND);
   PVector tmp = new PVector(0,0);
+  PVector frst = new PVector(0,0);
+  PVector last = new PVector(0,0);
   for(int i = 0; i < _source.getVertexCount(); i++){
     tmp = _source.getVertex(i);
     tmp.sub(_center);
     tmp.mult(_scale);
+    if(i == 0) frst = tmp;
+    else last = tmp;
     shp.vertex(tmp.x, tmp.y);
   }
-  shp.endShape();
+  if(abs(frst.dist(last)) < 0.1) shp.endShape(CLOSE);
+  else shp.endShape();
   return shp;
 }
 

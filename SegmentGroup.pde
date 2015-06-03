@@ -212,10 +212,10 @@ class SegmentGroup {
 
   private void generateShape() {
     itemShape = createShape();
-    itemShape.beginShape();
     itemShape.textureMode(NORMAL);
-    itemShape.strokeCap(ROUND); //strokeCap(SQUARE);
+    itemShape.beginShape();
     itemShape.strokeJoin(ROUND);
+    itemShape.strokeCap(ROUND); //strokeCap(SQUARE);
     float _x = 0;
     float _y = 0;
     if(segCount!=0){

@@ -42,7 +42,7 @@ class TemplateRenderer {
 	public TemplateRenderer(){
     // init canvas
     canvas = createGraphics(width, height);
-    canvas.smooth(0);
+    canvas.smooth(1);
     canvas.ellipseMode(CENTER);
 
     fadefrag = loadShader("data/fadefrag.glsl");
@@ -67,6 +67,7 @@ class TemplateRenderer {
     repeaters[2] = new EvenlySpacedWithZero();
     repeaters[3] = new TwoFull();
 
+    // add enablers
     enablers = new Enabler[ENABLER_COUNT];
     enablers[0] = new Disabler();
     enablers[1] = new Enabler();
