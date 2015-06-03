@@ -93,11 +93,12 @@ class Mouse{
   public void press(int mb) { // perhaps move to GroupManager
     if (groupManager.isFocused()) {
       groupManager.getSelectedGroup().mouseInput(mb, position);
+
       if (mb == LEFT || mb == MIDDLE) previousPosition = position.get();
       else if (mb == RIGHT) previousPosition = groupManager.getPreviousPosition();
 
       if(mb == LEFT && fixedLength) previousPosition = groupManager.getPreviousPosition();
-      if (mb == MIDDLE && fixedLength) previousPosition = mousePos.get();
+        //if (mb == MIDDLE && fixedLength) previousPosition = mousePos.get();
     }
     else if (mb == FOURTH_BUTTON) groupManager.newGroup();
     //println(previousPosition);
