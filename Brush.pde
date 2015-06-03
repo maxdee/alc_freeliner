@@ -193,3 +193,23 @@ class TriangleBrush extends Brush {
     return shp;
   }
 }
+
+
+/**
+ * X shaped brush
+ */
+class XBrush extends Brush {
+  public XBrush(){
+    
+  }
+  public PShape generateBrush(){
+    PShape shp = createShape();
+    shp.beginShape(LINES);
+    shp.vertex(-HALF_SIZE, -HALF_SIZE);
+    shp.vertex(HALF_SIZE, HALF_SIZE);
+    shp.vertex(-HALF_SIZE, HALF_SIZE);
+    shp.vertex(HALF_SIZE, -HALF_SIZE);
+    shp.endShape();
+    return shp;
+  }
+}

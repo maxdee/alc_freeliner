@@ -320,8 +320,7 @@ class SegmentGroup {
   } 
 
   public ArrayList<Segment> getBranch(int _i){
-    //println("branches "+ treeBranches.size()+" index "+_i);
-    if(treeBranches.size() == 0) return null;
+    if(treeBranches.size() == 0 || _i < 0) return null;
     return treeBranches.get(_i%treeBranches.size());
   }
 

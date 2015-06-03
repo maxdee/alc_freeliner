@@ -121,7 +121,7 @@ class SegToSeg extends LinePainter{
 class BrushPutter extends SegmentPainter{
 	final String name = "BrusPutter";
 	Brush[] brushes;
-	final int BRUSH_COUNT = 7;
+	final int BRUSH_COUNT = 8;
 	
 
 	public BrushPutter(){
@@ -134,9 +134,10 @@ class BrushPutter extends SegmentPainter{
 		brushes[1] = new LineBrush();
 		brushes[2] = new ChevronBrush();
 		brushes[3] = new SquareBrush();
-		brushes[4] = new CircleBrush();
-		brushes[5] = new TriangleBrush();
-		brushes[6] = new CustomBrush();
+		brushes[4] = new XBrush();
+		brushes[5] = new CircleBrush();
+		brushes[6] = new TriangleBrush();
+		brushes[7] = new CustomBrush();
 	}
 
 	public Brush getBrush(int _index){
