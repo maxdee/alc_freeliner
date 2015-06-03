@@ -45,7 +45,6 @@ class FreeLiner {
     mouse.inject(groupManager, keyboard);
     keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
     gui.inject(groupManager, mouse);
-    
   }
 
   PShader fadefrag;

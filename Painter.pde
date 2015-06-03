@@ -5,11 +5,10 @@ class Painter{
 
 	// Since we paint we need colors
 	Colorizer[] colorizers;
-  final int COLORIZER_COUNT = 13;
+  final int COLORIZER_COUNT = 14;
 
   PGraphics canvas;
 	String name = "Painter";
-
 	RenderableTemplate event;
 
 	public Painter(){
@@ -24,19 +23,20 @@ class Painter{
 	// color stuffs
 	public void initColorizers(){
 		colorizers = new Colorizer[COLORIZER_COUNT];
-		colorizers[0] = new White();
-    colorizers[1] = new White();
-    colorizers[2] = new Red();
-    colorizers[3] = new Green();
-    colorizers[4] = new Blue();
-    colorizers[5] = new Black();
+		colorizers[0] = new PalletteColor(0);
+    colorizers[1] = new PalletteColor(0);
+    colorizers[2] = new PalletteColor(2);
+    colorizers[3] = new PalletteColor(3);
+    colorizers[4] = new PalletteColor(4);
+    colorizers[5] = new PalletteColor(1);
 		colorizers[6] = new RepetitionColor();
 		colorizers[7] = new RandomPrimaryColor();
 		colorizers[8] = new HSBFade();
     colorizers[9] = new FlashyPrimaryColor();
     colorizers[10] = new FlashyGray();
     colorizers[11] = new FlashyRandom();
-    colorizers[12] = new Strobe();
+    colorizers[12] = new FlashyWhiteRedBlack();
+    colorizers[13] = new Strobe();
 
 	}
 

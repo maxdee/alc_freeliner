@@ -51,41 +51,14 @@ class Colorizer {
 /*
  * Basic white
  */
-class White extends Colorizer {
-	public White(){}
-
-	public color get(RenderableTemplate _event){
-		return alphaMod(color(255),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
+class PalletteColor extends Colorizer {
+	int colorIndex;
+	public PalletteColor(int _i){
+		colorIndex = _i;
 	}
-}
-
-class Black extends Colorizer {
-	public Black(){}
 
 	public color get(RenderableTemplate _event){
-		return alphaMod(color(0),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
-	}
-}
-
-
-class Red extends Colorizer {
-	public Red(){}
-	public color get(RenderableTemplate _event){
-		return alphaMod(color(255,0,0),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
-	}
-}
-
-class Green extends Colorizer {
-	public Green(){}
-	public color get(RenderableTemplate _event){
-		return alphaMod(color(0,255,0),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
-	}
-}
-
-class Blue extends Colorizer {
-	public Blue(){}
-	public color get(RenderableTemplate _event){
-		return alphaMod(color(0,0,255),_event.getAlpha());//pallet[_event.getBeatCount() % 3];
+		return alphaMod(pallet[colorIndex] ,_event.getAlpha());//pallet[_event.getBeatCount() % 3];
 	}
 }
 
@@ -99,7 +72,7 @@ class RandomPrimaryColor extends Colorizer {
 
 	public color get(RenderableTemplate _event){
 		color c =  pallet[(_event.getRandomValue() % 3)+2];
-		return  alphaMod( c,_event.getAlpha());
+		return  alphaMod(c ,_event.getAlpha());
 	}
 }
 
@@ -124,7 +97,7 @@ class RepetitionColor extends Colorizer {
 		index %= cols.length;
 		if(index < 0) index = 0;
 		color c = cols[index];
-		return alphaMod( c,_event.getAlpha());
+		return alphaMod(c ,_event.getAlpha());
 	}
 }
 
@@ -132,14 +105,14 @@ class RepetitionColor extends Colorizer {
 /*
  * Constantly changing random primary color
  */
-class FlashyPrimaryColor extends Colorizer {
-	public FlashyPrimaryColor(){
+class FlashyWhiteRedBlack extends Colorizer {
+	public FlashyWhiteRedBlack(){
 		
 	}
 
 	public color get(RenderableTemplate _event){
 		color c = pallet[(int)random(3)];
-		return alphaMod( c,_event.getAlpha());
+		return alphaMod(c ,_event.getAlpha());
 	}
 }
 
@@ -153,7 +126,21 @@ class FlashyGray extends Colorizer {
 
 	public color get(RenderableTemplate _event){
 		color c = color(random(255));
-		return alphaMod( c,_event.getAlpha());
+		return alphaMod(c ,_event.getAlpha());
+	}
+}
+
+/*
+ * Constantly changing random primary color
+ */
+class FlashyPrimaryColor extends Colorizer {
+	public FlashyPrimaryColor(){
+		
+	}
+
+	public color get(RenderableTemplate _event){
+		color c = pallet[(int)random(3)+2];
+		return alphaMod(c ,_event.getAlpha());
 	}
 }
 
@@ -167,7 +154,7 @@ class FlashyRandom extends Colorizer {
 
 	public color get(RenderableTemplate _event){
 		color c = color(random(255),random(255),random(255));
-		return alphaMod( c,_event.getAlpha());
+		return alphaMod(c ,_event.getAlpha());
 	}
 }
 
@@ -200,7 +187,7 @@ class HSBFade extends Colorizer {
 		hue+=0.001;
 		hue = fltMod(hue);
 		_event.setHue(hue);
-		return alphaMod( c,_event.getAlpha());
+		return alphaMod(c ,_event.getAlpha());
 	}	
 }
 
