@@ -193,28 +193,33 @@ class TemplateManager{
   private void setCustomShape(SegmentGroup _sg){
     if(_sg == null) return; 
     ArrayList<TweakableTemplate> temps = _sg.getTemplateList().getAll();
-    PVector center = _sg.getCenter();
-    PShape sourceShape = _sg.getShape();
+
+    if(_sg.getShape() == null) return;
+
+    PShape sourceShape = cloneShape(_sg.getShape(), 1.0, _sg.getCenter());
     //println("Setting customShape of "+temp.getTemplateID()+" with a shape of "+sourceShape.getVertexCount()+" vertices");
-    if(sourceShape == null) return;
+    
     int vertexCount = sourceShape.getVertexCount();
     if(vertexCount > 0){
       // store the widest x coordinate
       float maxX = 0.0001;
-      float x = 0;
+      float minX = -0.0001;
+      float mx = 0;
+      float mn = 0;
       // check how wide the shape is to scale it to the BASE_SIZE
       for(int i = 0; i < vertexCount; i++){
-        x = sourceShape.getVertex(i).x;
-        if(x > maxX) maxX = x;
+        mx = sourceShape.getVertex(i).x;
+        mn = sourceShape.getVertex(i).y;
+        if(mx > maxX) maxX = mx;
+        if(mn < minX) minX = mn;
       }      
       // return a brush scaled to the BASE_SIZE
       float baseSize = (float)new PointBrush().BASE_SIZE;
-      PShape cust = cloneShape(sourceShape, baseSize/maxX, center);
+      PShape cust = cloneShape(sourceShape, baseSize/(maxX+abs(minX)), new PVector(0,0));
       for(TweakableTemplate temp : temps)
         temp.setCustomShape(cust);
     }
   }
-
 
 
   ////////////////////////////////////////////////////////////////////////////////////
