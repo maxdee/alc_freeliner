@@ -214,7 +214,9 @@ class XBrush extends Brush {
   }
 }
 
-
+/**
+ * Sprinkles
+ */
 class SprinkleBrush extends Brush {
   public SprinkleBrush(){}
   // dosent apply here...
@@ -230,8 +232,12 @@ class SprinkleBrush extends Brush {
   private PShape generateSprinkles(float _sz){
     PShape shp = createShape();
     shp.beginShape(POINTS);
+    PVector pnt;
+    PVector cent = new PVector(0,0);
+    float half = _sz/2.0;
     for(int i = 0; i < _sz*3; i++){
-      shp.vertex(random(_sz) - (_sz/2.0), random(_sz) - (_sz/2.0));
+      pnt = new PVector(random(_sz) - (half), random(_sz) - (half));
+      if(cent.dist(pnt) < half) shp.vertex(pnt.x, pnt.y);
     }
     shp.endShape();
     return shp;
