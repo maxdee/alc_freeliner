@@ -6,7 +6,7 @@
 // unit intervals that are negative means reverse.
 class Repetition {
 	Easing[] easers;
-	final int EASER_COUNT = 6;
+	final int EASER_COUNT = 9;
 	public Repetition(){
 		easers = new Easing[EASER_COUNT];
 		easers[0] = new NoEasing();
@@ -14,7 +14,10 @@ class Repetition {
 		easers[2] = new Sine();
 		easers[3] = new BackForth();
 		easers[4] = new RandomUnit();
-		easers[5] = new Fixed();
+		easers[5] = new TargetNoise();
+		easers[6] = new Fixed(1.0);
+		easers[7] = new Fixed(0.5);
+		easers[8] = new Fixed(0.0);
 		
 	}
 

@@ -27,7 +27,7 @@ class PerSegment extends RenderMode{
 	SegmentSelector[] segmentSelectors;
 	final int SELECTOR_COUNT = 6;
   SegmentPainter[] segmentPainters;
-  final int PAINTER_COUNT = 10;
+  final int PAINTER_COUNT = 11;
 	
 	public PerSegment(){
 		segmentSelectors = new SegmentSelector[SELECTOR_COUNT];
@@ -49,6 +49,7 @@ class PerSegment extends RenderMode{
     segmentPainters[7] = new Maypole();
     segmentPainters[8] = new SegToSeg();
     segmentPainters[9] = new Elliptic();
+    segmentPainters[10] = new CenterBrusher();
 	}
 
 	public void doRender(RenderableTemplate _rt){

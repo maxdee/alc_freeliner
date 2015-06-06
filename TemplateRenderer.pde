@@ -107,7 +107,6 @@ class TemplateRenderer {
       //canvas.background(BACKGROUND_COLOR);
     }
 
-
     // render templates
     if(_toRender.size() > 0)
       for(RenderableTemplate rt : _toRender)

@@ -245,6 +245,17 @@ class BrushFill extends BrushPutter{
 
 
 }
-
-
 // center brusher
+
+class CenterBrusher extends BrushPutter{
+
+	public CenterBrusher(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		PVector pA = _seg.getA();
+		PVector cent = _seg.getCenter();
+		float ang = atan2(pA.y - cent.y, pA.x - cent.x);
+		putShape(vecLerp(pA, cent, event.getLerp()),  ang+(event.getDirection() ? PI : 0) + event.getAngleMod());
+	}
+}

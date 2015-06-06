@@ -46,10 +46,13 @@ class RandomUnit extends Easing{
 }
 
 class Fixed extends Easing{
-	public Fixed(){}
+	float value;
+	public Fixed(float _f){
+		value = _f;
+	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
-		return 1.0;
+		return value;
 	}
 }	
 
@@ -59,5 +62,36 @@ class BackForth extends Easing{
 	public float ease(float _lrp, RenderableTemplate _rt){
 		if(_rt.getBeatCount() % 2 == 0) return _lrp;
 		else return -invert(_lrp); 
+	}
+}
+
+class TargetNoise extends Easing{
+	int target;
+	int position;
+	int frame;
+
+	public TargetNoise(){
+		target = 0;
+		position = 0;
+		frame = 0;
+	}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		// if new frame
+		if(frame != frameCount){
+			float ha = 10.0+(abs(sin(float(millis())/666))*5.0);
+			if(target < 0){
+				position -= ha;
+				if(position < target)
+					target = abs(target);
+				}
+			else {
+				position+=ha;
+				if(position > target)
+					target = int(-random(100)+20);
+			} 
+			target = constrain(target, -100, 100);
+		}
+		return float(position+100)/200.0; 
 	}
 }

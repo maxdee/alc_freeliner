@@ -120,7 +120,7 @@ class RenderableTemplate extends TweakableTemplate{
 
 	public float conditionLerp(float _lrp){
 		if(_lrp > timeStamp) return _lrp - timeStamp;
-		else return (_lrp+1)-timeStamp; // _lrp < timestamp
+		else return (_lrp+1) - timeStamp; // _lrp < timestamp
 	}
 
 
