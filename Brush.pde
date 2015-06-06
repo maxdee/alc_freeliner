@@ -213,3 +213,33 @@ class XBrush extends Brush {
     return shp;
   }
 }
+
+
+class SprinkleBrush extends Brush {
+  public SprinkleBrush(){}
+  // dosent apply here...
+  public PShape generateBrush(){
+    PShape shp = createShape();
+    shp.beginShape(LINES);
+    shp.vertex(-HALF_SIZE, -HALF_SIZE);
+    shp.vertex(HALF_SIZE, HALF_SIZE);
+    shp.endShape();
+    return shp;
+  }
+
+  private PShape generateSprinkles(float _sz){
+    PShape shp = createShape();
+    shp.beginShape(POINTS);
+    for(int i = 0; i < _sz*3; i++){
+      shp.vertex(random(_sz) - (_sz/2.0), random(_sz) - (_sz/2.0));
+    }
+    shp.endShape();
+    return shp;
+  }
+
+  public PShape getShape(RenderableTemplate _rt){
+    return generateSprinkles(_rt.getScaledBrushSize()); 
+  }
+}
+
+

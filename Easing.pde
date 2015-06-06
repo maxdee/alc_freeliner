@@ -79,6 +79,7 @@ class TargetNoise extends Easing{
 	public float ease(float _lrp, RenderableTemplate _rt){
 		// if new frame
 		if(frame != frameCount){
+			frame = frameCount;
 			float ha = 10.0+(abs(sin(float(millis())/666))*5.0);
 			if(target < 0){
 				position -= ha;
