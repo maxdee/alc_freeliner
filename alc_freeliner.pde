@@ -15,6 +15,7 @@
 
 import oscP5.*;
 import netP5.*;
+import processing.serial.*;
 
 OscP5 oscP5;
 NetAddress toPDpatch;
@@ -54,6 +55,9 @@ final String BG_IMAGE_FILE = "data/###backgroundImage.jpg";
 // are you using OSX? I do not, I use GNU/Linux
 final boolean OSX = false;
 
+// enable LEDsystem
+final boolean LED_MODE = true;
+
 void setup() {
   // check if background image provided
   try {
@@ -85,6 +89,11 @@ void setup() {
 
   oscP5 = new OscP5(this,6667);
   toPDpatch = new NetAddress("127.0.0.1",6668);
+
+  if(LED_MODE){
+    setupLEDS();
+    backgroundImage = drawLEDs();
+  }
 }
 
 // lets processing know if we want it FULLSCREEN
@@ -111,6 +120,7 @@ void draw() {
   else background(0);
   if(doSplash) splash();
   freeliner.update();
+  if(LED_MODE) parseImageLEDS(freeliner.templateRenderer.getCanvas());
 }
   
 
@@ -146,7 +156,11 @@ void mouseWheel(MouseEvent event) {
   freeliner.getMouse().wheeled(event.getCount());
 }
 
-
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    OSC
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
 
 void oscEvent(OscMessage theOscMessage) {
@@ -166,4 +180,108 @@ void oscEvent(OscMessage theOscMessage) {
 
 void oscTick(){
   oscP5.send(tickmsg, toPDpatch); 
+}
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    LEDs :P
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+Serial duino;
+PGraphics ledMap;
+ArrayList<WSled> wsleds;
+int ledCount = 0;
+
+void setupLEDS(){
+  //duino = new Serial(this, "/dev/ttyACM0", 9600);
+  // load led file
+  loadLEDFile();
+}
+
+void writeToLEDs(){
+  byte[] data = new byte[ledCount*3];
+  int ind;
+  for(WSled led : wsleds){
+    ind = led.index*3; 
+    data[ind] = byte((led.c & 0xFF0000) >> 16);
+    data[ind+1] = byte((led.c & 0x00FF00) >> 8);
+    data[ind+2] = byte((led.c & 0x0000FF));
+  }
+  //duino.write(data);
+}
+
+void loadLEDFile(){
+  wsleds = new ArrayList();
+  XML file = loadXML("data/ledmap.xml");
+  XML[] leds = file.getChildren("led");
+  ledCount = leds.length;
+  for(XML ledData : leds){
+    addLEDs(ledData.getInt("from"),
+            ledData.getInt("to"),
+            ledData.getFloat("aX"),
+            ledData.getFloat("aY"),
+            ledData.getFloat("bX"),
+            ledData.getFloat("bY"));
+  } 
+}
+
+void addLEDs(int from, int to, float x1, float y1, float x2, float y2){
+  int ledCnt = abs(from-to);
+  float gap = 1.0/ledCnt;
+  int ind;
+  int x;
+  int y;
+  for(int i = 0; i <= ledCnt; i++){
+    ind = int(lerp(from, to, i*gap));
+    x = int(lerp(x1, x2, i*gap));
+    y = int(lerp(y1, y2, i*gap));
+    wsleds.add(new WSled(ind, x, y));
+  }
+}
+
+void parseImageLEDS(PGraphics _pg){
+  _pg.loadPixels();
+  for(WSled led : wsleds){
+    led.setColor(_pg.pixels[led.x + (led.y*width)]);
+  }
+  strokeWeight(6);
+  for(int i = 0; i< wsleds.size(); i++){
+    stroke(wsleds.get(i).c);
+    point((i*8)+10, 10);
+  }
+}
+
+int pxl(int x, int y){
+  return x + (y*x);
+}
+
+PGraphics drawLEDs(){
+  PGraphics pg = createGraphics(width, height);
+  pg.beginDraw();
+  pg.background(0);
+  pg.stroke(255);
+  pg.strokeWeight(2);
+  for(WSled led : wsleds){
+    pg.point(led.x, led.y);
+    pg.text(str(led.index), led.x, led.y);
+  }
+  pg.endDraw();
+  return pg;
+}
+
+class WSled{
+  int index;
+  int x;
+  int y;
+  color c;
+  public WSled(int _i, int _x, int _y){
+    index = _i;
+    x = _x;
+    y = _y;
+  }
+  public void setColor(color _c){
+    c = _c;
+  }
 }
