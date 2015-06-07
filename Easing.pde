@@ -65,6 +65,14 @@ class BackForth extends Easing{
 	}
 }
 
+class ReverseLerp extends Easing{
+	public ReverseLerp(){}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		return -invert(_lrp); 
+	}
+}
+
 class TargetNoise extends Easing{
 	int target;
 	int position;

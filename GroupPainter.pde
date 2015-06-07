@@ -22,12 +22,12 @@ class Filler extends GroupPainter{
 		lorp*=lorp;
 		PVector center = event.getSegmentGroup().getCenter();
 		PShape shpe = cloneShape(event.getSegmentGroup().getShape(),
-														 1.0,//lorp, 
+														 lorp,//1.0, 
 														 center);
 		canvas.pushMatrix();
 		applyStyle(shpe);
 		canvas.translate(center.x, center.y);
-		canvas.scale(lorp);
+		//canvas.scale(lorp);
 		canvas.rotate(angle);
 		canvas.shape(shpe);
 		canvas.popMatrix();
