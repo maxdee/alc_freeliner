@@ -76,6 +76,10 @@ class FreeLiner {
   public Keyboard getKeyboard(){
     return keyboard;
   }
+
+  public PGraphics getCanvas(){
+    return templateRenderer.getCanvas();
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Debug

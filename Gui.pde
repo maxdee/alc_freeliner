@@ -53,6 +53,8 @@
 
   final color SEGMENT_COLOR = color(170);
 
+  PShape arrow;
+
   //gui and line placing
   boolean showGui;
   boolean viewLines;
@@ -88,6 +90,7 @@
     generateGrid(gridSize);
     // make the cursor PShape
     makecrosshair();
+    makeArrow();
     // init options
     showGui = true;
     viewLines = false;
@@ -253,6 +256,21 @@
     crosshair.endShape();
   }
 
+  /**
+   * Create the PShape for the arrows that point the direction of segments
+   */
+  private void makeArrow(){
+    int sz = 5;
+    arrow = createShape();
+    arrow.beginShape(LINES);
+    arrow.stroke(SEGMENT_COLOR);
+    arrow.vertex(sz, -sz);
+    arrow.vertex(0,0);
+    arrow.vertex(0,0);
+    arrow.vertex(sz,sz);
+    arrow.endShape();
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Segment Group drawing
@@ -307,15 +325,22 @@
    * @param Segment segment to draw
    */
   public void showSegmentLines(Segment _s) {
-    canvas.stroke(SEGMENT_COLOR);
+    if(groupManager.getSnappedSegment() == _s) canvas.stroke(SNAPPED_CURSOR_COLOR);
+    else canvas.stroke(SEGMENT_COLOR);
     canvas.strokeWeight(1);
     vecLine(canvas, _s.getRegA(), _s.getRegB());
     //canvas.stroke(100);
     //if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
     canvas.stroke(200);
-    canvas.strokeWeight(3);
+    canvas.strokeWeight(4);
     canvas.point(_s.getRegA().x, _s.getRegA().y);
     canvas.point(_s.getRegB().x, _s.getRegB().y);
+    PVector midpoint = _s.getMidPoint();
+    canvas.pushMatrix();
+    canvas.translate(midpoint.x, midpoint.y);
+    canvas.rotate(_s.getAngle(false));
+    canvas.shape(arrow);
+    canvas.popMatrix();
   }
 
   /**

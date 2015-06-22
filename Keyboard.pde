@@ -31,6 +31,7 @@
  * CTRL feather mouse + (ctrl)...
  * UP DOWN LEFT RIGHT move snapped or previous point, SHIFT for faster
  * TAB tab through segmentGroups, SHIFT to reverse
+ * DELETE remove selected segment
  * <p>
  * CTRL + KEYS MAPPING
  * ctrl-a   selectAll
@@ -185,6 +186,7 @@ class Keyboard{
     else if (kc==RIGHT) groupManager.nudger(true, 1, shifted);
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
+    else if (kc==DELETE) groupManager.deleteSegment();
     else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.  
   }
 

@@ -27,19 +27,21 @@
  * A segment consist of two vertices with special other data as a offset line.
  */
 class Segment {
+  // these are the main coordinates of the start and end of a segment
   PVector pointA;
   PVector pointB;
-
-  PVector ranA;
-  PVector ranB;
-  
+  // these are the coordinates of the offset of the brush size
   PVector offA;
   PVector offB;
+  // these are alternative positions for pointA and pointB
+  PVector ranA;
+  PVector ranB;
   
   // previous and or next segments, needed to create offset line
   Segment neighbA;
   Segment neighbB;
 
+  // center position of the segment
   PVector center;
   
   float scaledSize;
@@ -254,6 +256,10 @@ class Segment {
 
   public final PVector getCenter() {
     return center;
+  }
+
+  public final PVector getMidPoint() {
+    return vecLerp(pointA, pointB, 0.5);
   }
 
   public final String getText(){

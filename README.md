@@ -29,9 +29,16 @@ The first few clicks puts down a special set of lines, they will display importa
 Now hit 'n' to create a newItem and click around to place some lines. If you have made a closed shape, you can place a center. Now hit 'A' to add renderer A.
 
 
-###### Text Entry
-'|' pipe begins a text entry and return key returns the text. This has a few use.
+###### Tweaking Parameters
+Most lowercase keys are linked with a parameter. For example `q` is for colorMode. Once you press `q` you can change the colorMode by pressing `-` or `=` (aka `+`) or by typing in a number and pressing `enter`. Some parameters are simple toggles. For example `g` enables and diables the grid, but you can also alter the grid size by tweaking the value. The `.` works in a similar fashion where you can enable/disable snapping and adjust the snapping distance.
 
+
+###### Snapping
+The cursor can snap to various stuff. If
+
+
+###### Text Entry
+`|` pipe begins a text entry and return key returns the text. This has a few uses.
 
 ###### Toggle a renderer to groups with a renderer
 Essentialy adds a other renderer of your choice to any group who has the first renderer on the list.
@@ -46,3 +53,5 @@ The `@` character saves your current segment groups, with the exception of group
 
 ###### Make Videos
 The `*` character begins and stops a frame saving process. These `.tiff` images are saved in batches `capture/clip_N`. You can use Processing's movie maker tool to turn these into a video file. I recommend clearing `capture/` after making some clips. 
+
+

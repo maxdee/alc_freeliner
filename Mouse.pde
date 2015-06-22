@@ -126,11 +126,11 @@ class Mouse{
     hasMoved = true;  
     mousePos.set(_x, _y);
     if (mouseEnabled) { 
-      if(invertMouse) _x = abs(width - _x); 
+      if(invertMouse) mousePos.set(abs(width - _x), mousePos.y); 
       if (grid) position = gridMouse(mousePos, gridSize);
       else if (useFixedLength) position = constrainMouse(mousePos, previousPosition, lineLenght);
       else if (keyboard.isCtrled()) position = featherMouse(mousePos, mouseOrigin, 0.2);
-      else if (snapping) position = snapMouse(mousePos);
+      else if (snapping) position = snapMouse(mousePos); 
       else position = mousePos.get();
     }
     //gui.resetTimeOut();
@@ -143,10 +143,10 @@ class Mouse{
    * @param int X axis (mouseX)
    * @param int Y axis (mouseY)
    */
-  public void drag(int b, int x, int y) {
+  public void drag(int _b, int _x, int _y) {
     if (useFixedLength) {
-      move(x, y);
-      if (previousPosition.dist(position) < previousPosition.dist(mousePos)) press(b);
+      move(_x, _y);
+      if (previousPosition.dist(position) < previousPosition.dist(mousePos)) press(_b);
     }
   }
 
@@ -156,7 +156,7 @@ class Mouse{
    * 
    * @param int positive or negative value depending on direction
    */
-  public void wheeled(int n) {
+  public void wheeled(int _n) {
     //println(n);
   }
 
@@ -327,6 +327,7 @@ class Mouse{
   }
 
   public boolean isSnapped(){
+    if(!snapping) return false;
     return snapped;
   }
 

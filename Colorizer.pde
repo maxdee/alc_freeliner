@@ -9,9 +9,10 @@ class Colorizer {
                     color(255,0,0),
                     color(0,255,0),
                     color(0,0,255),
+
                     color(0,255,255),
                     color(255,255,0),
-                    color(255,22,255),
+                    color(0,100,0),
                     color(100,3,255),
                     color(255,0,255),
                   };

@@ -39,7 +39,7 @@ class GroupManager{
   int snapDist = 15;
   // list of PVectors that are snapped
   ArrayList<PVector> snappedList;
-
+  Segment snappedSegment;
 
   /**
    * Constructor, inits default values
@@ -51,6 +51,7 @@ class GroupManager{
     selectedIndex = -1;
     lastSelectedIndex = -1;
     snappedIndex = -1;
+    snappedSegment = null;
     newGroup();
   }
 
@@ -108,6 +109,7 @@ class GroupManager{
     PVector snap = new PVector(0, 0);
     snappedList.clear();
     snappedIndex = -1;
+    snappedSegment = null;
     ArrayList<Segment> segs;
     for (int i = 0; i < groupCount; i++) {
       segs = groups.get(i).getSegments();
@@ -125,6 +127,11 @@ class GroupManager{
         else if(_pos.dist(seg.getRegB()) < snapDist){
           snappedList.add(seg.getRegB());
           snap = seg.getRegB();
+          snappedIndex = i;
+        }
+        else if (_pos.dist(seg.getMidPoint()) < snapDist){
+          snappedSegment = seg;
+          snap = seg.getMidPoint();
           snappedIndex = i;
         }
       }
@@ -165,9 +172,17 @@ class GroupManager{
     }
   }
 
+  private void deleteSegment(){
+    if(snappedSegment == null || getSelectedGroup() == null) return;
+    getSelectedGroup().deleteSegment(snappedSegment);
+    snappedSegment = null;
+    snappedIndex = -1;
+  }
+
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////     Save and load prototypes
+  ///////     Save and load
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
@@ -226,8 +241,8 @@ class GroupManager{
       getSelectedGroup().mouseInput(LEFT, posB);
       getSelectedGroup().setNeighbors();
       posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
-      // bug with centering
-      //if(abs(posA.x - getSelectedGroup().getSegment(0).getA().x) > 2) getSelectedGroup().placeCenter(posA);
+      // bug with centering? seems ok...
+      if(abs(posA.x - getSelectedGroup().getSegment(0).getA().x) > 2) getSelectedGroup().placeCenter(posA);
     }
   }
 
@@ -338,6 +353,16 @@ class GroupManager{
   public ArrayList<SegmentGroup> getGroups(){
     return groups;
   }
+
+/**
+ * Get the snappedSegment
+ * @return Segment
+ */
+  public Segment getSnappedSegment(){
+    return snappedSegment;
+  }
+
+
 
 /**
  * Get the last point of a group

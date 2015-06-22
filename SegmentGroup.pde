@@ -123,6 +123,13 @@ class SegmentGroup {
     segCount++;
   }
 
+  public void deleteSegment(Segment _seg){
+    if(segments.remove(_seg)){
+      segCount--;
+      updateGeometry();  
+    }
+  }
+
   /**
    * Start a new segment somewhere else than the current segmentStart
    * A few things are updated such as the neighbors and shape.
