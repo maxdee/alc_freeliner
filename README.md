@@ -1,7 +1,15 @@
 
 # alcFreeliner #
-Live ephemeral mapping software.
 
+Also know as a!LcFreeliner. This software is feature-full geometric animation software built for live projection mapping. Development started in fall 2013.
+
+It is made with Processing. It is licensed as GNU Lesser General Public License. A official release will occur once I have solidified the new architecture developed during this semester.
+
+Using a computer mouse cursor the user can create geometric forms composed of line segments. These can be created in groups, also known as segmentGroup. To facilitate this task the software has features such as centering, snapping, nudging, fixed length segments, fixed angles, grids, and mouse sensitivity adjustment.
+
+Templates hold data related to how a segmentGroup will be rendered. There is 26 TweakableTemplates, one per uppercase letter. The parameters are configurable via keys like ‘s’ for size, they can be set by typing a new numerical value or pressing ‘-‘ and ‘+’ (actually ‘-‘ and ‘=’).
+
+Each segmentGroup can have multiple templates. The templateManager then combines segmentGroups with their templates to create RenderableTemplates which then get rendered . 
 
 ### Philosophy ###
 
@@ -12,13 +20,11 @@ alcFreeliner must:
 - Remain lightweight for old hardware.
 - Focus on improvisation.
 
-
-
 ## How to freeLine ##
 
 Point a projector at stuff, run the processing sketch. Navigate the space with your cursor, left click to add vertices, right click to remove them, and middle click to set their starting point.
 
-The first few clicks puts down a special set of lines, they will display important info. The first three will display important info to make sense of this madness. Try to place them out of the way on a even surface so the text is legible. This is [group : 0] and thats all it does for now.
+The first few clicks puts down a special set of lines, they will display important info. The first three will display important info to make sense of this madness. Try to place them out of the way on a even surface so the text is legible. This is `[group : 0]` and thats all it does for now.
 
 Now hit 'n' to create a newItem and click around to place some lines. If you have made a closed shape, you can place a center. Now hit 'A' to add renderer A.
 
@@ -33,4 +39,10 @@ Have a renderer in focus, hit '|' to enable text input and enter a renderer, lik
 
 
 ###### Create a custom brush
-Make a new group, set its center. Unselect it and select a renderer then hit control D and set shape mode to 4. Control D sets the last selected group as the shape for the slected renderer.
+Make a new segment group, set its center. Add a rendering template (shift + a-z) then hit (ctrl + d). That template will now have a custom brush corresponding to that segment group. You can then remove that template from the group and or remove all the segments of the group.
+
+###### Save Geometry
+The `@` character saves your current segment groups, with the exception of group 0. The `#` character will load whatever is in `data/groups.xml`. Its a good idea to make a copy of this file because accidently hitting `@` will overwrite the file.
+
+###### Make Videos
+The `*` character begins and stops a frame saving process. These `.tiff` images are saved in batches `capture/clip_N`. You can use Processing's movie maker tool to turn these into a video file. I recommend clearing `capture/` after making some clips. 
