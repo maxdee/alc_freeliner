@@ -123,6 +123,10 @@ class SegmentGroup {
     segCount++;
   }
 
+  /**
+   * Remove a specific segment.
+   * @param Segment to remove
+   */
   public void deleteSegment(Segment _seg){
     if(segments.remove(_seg)){
       segCount--;

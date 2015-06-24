@@ -481,7 +481,7 @@ class Keyboard{
    */
   private void returnWord() {
     SegmentGroup _sg = groupManager.getSelectedGroup();
-    if (_sg != null) _sg.setWord(wordMaker, -1);
+    if (groupManager.getSnappedSegment() != null) groupManager.getSnappedSegment().setWord(wordMaker);
     else if(wordMaker.length() > 0) {
       TweakableTemplate _toadd = templateManager.getTemplate(wordMaker.charAt(0));
       TweakableTemplate _tomatch = templateManager.getTemplateList().getIndex(0);
