@@ -412,14 +412,14 @@ class SegmentGroup {
   }
 
   public final PVector getCenter(){
-    return center;
+    if(centered) return center;
+    else return segmentStart;
   }
 
   // other stuff
   public final boolean isCentered(){
     return centered;
   }
-
 
   public final PVector getSegmentStart(){
     return segmentStart;

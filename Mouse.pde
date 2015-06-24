@@ -93,10 +93,10 @@ class Mouse{
    */
   public void press(int mb) { // perhaps move to GroupManager
     if (groupManager.isFocused()) {
-      groupManager.getSelectedGroup().mouseInput(mb, position);
+      if(!(mb == LEFT && snapped && keyboard.isCtrled())) groupManager.getSelectedGroup().mouseInput(mb, position);
 
       if (mb == LEFT || mb == MIDDLE) previousPosition = position.get();
-      else if (mb == RIGHT) previousPosition = groupManager.getPreviousPosition();
+      else if (mb == RIGHT && !snapped) previousPosition = groupManager.getPreviousPosition();
 
       if(mb == LEFT && useFixedLength) previousPosition = groupManager.getPreviousPosition();
         //if (mb == MIDDLE && useFixedLength) previousPosition = mousePos.get();
@@ -147,6 +147,10 @@ class Mouse{
     if (useFixedLength) {
       move(_x, _y);
       if (previousPosition.dist(position) < previousPosition.dist(mousePos)) press(_b);
+    }
+    else if(snapped && _b == LEFT) {
+      move(_x, _y);
+      groupManager.drag(position);
     }
   }
 

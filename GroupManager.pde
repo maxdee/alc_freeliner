@@ -170,10 +170,20 @@ class GroupManager{
     else if(isFocused()) getSelectedGroup().nudgeSegmentStart(ndg);
   }
 
+  public void drag(PVector _pos){
+    if(snappedList.size()>0){
+      for(PVector _pv : snappedList){
+        _pv.set(_pos);
+      }
+      //setCenter(center);
+      reCenter();
+    }
+  }
+
   private void reCenter(){
     for(SegmentGroup sg : groups){
-      if(sg.isCentered()
-        ) sg.placeCenter(sg.getCenter());
+      if(sg.isCentered()) sg.placeCenter(sg.getCenter());
+      //else sg.placeCenter(sg.getSegmentStart());
     }
   }
 
