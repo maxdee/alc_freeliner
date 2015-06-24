@@ -48,17 +48,20 @@ class TemplateList {
   }
 
   public void clear(){
-    if(templates.size() > 0){
+    if(!templates.isEmpty()){
       templates.clear();
       tags = "";
     }
   }
 
   public void copy(TemplateList _tl){
+    if(_tl == this) return;
     clear();
-    if(_tl != null)
+    if(_tl == null) return;
+    if(_tl.getAll() == null) return;
+    if(!_tl.getAll().isEmpty())
       for(TweakableTemplate tt : _tl.getAll())
-        templates.add(tt);
+        toggle(tt);
   }
 
   public void toggle(TweakableTemplate _te) {
