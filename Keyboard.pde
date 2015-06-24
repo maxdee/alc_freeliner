@@ -222,7 +222,7 @@ class Keyboard{
       if(tl == null) tl = templateManager.getTemplateList();
       tl.toggle(templateManager.getTemplate(_c));
       gui.setTemplateString(tl.getTags());
-      groupManager.setReferenceGroupTemplates(tl);
+      groupManager.setReferenceGroupTemplateList(tl);
     }
     else {
       templateManager.trigger(_c);
@@ -239,7 +239,7 @@ class Keyboard{
       templateManager.unSelect();
       groupManager.unSelect();
       gui.setTemplateString(" ");//templateManager.renderList.getString());
-      groupManager.setReferenceGroupTemplates(null);
+      groupManager.setReferenceGroupTemplateList(null);
     }
   }
 

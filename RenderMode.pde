@@ -6,16 +6,11 @@
  */
 class RenderMode {
 
-	RenderableTemplate event;
-
 	public RenderMode(){
 
 	}
 
-	public void doRender(RenderableTemplate _rt){
-		event = _rt;
-	}
-
+	public void doRender(RenderableTemplate _rt){}
 }
 
 
@@ -26,9 +21,10 @@ class PerSegment extends RenderMode{
 	
 	SegmentSelector[] segmentSelectors;
 	final int SELECTOR_COUNT = 6;
-  SegmentPainter[] segmentPainters;
-  final int PAINTER_COUNT = 11;
-	
+
+	SegmentPainter[] segmentPainters;
+	final int PAINTER_COUNT = 1;
+
 	public PerSegment(){
 		segmentSelectors = new SegmentSelector[SELECTOR_COUNT];
 		segmentSelectors[0] = new AllSegments();
@@ -37,30 +33,19 @@ class PerSegment extends RenderMode{
 		segmentSelectors[3] = new RandomSegment();
 		segmentSelectors[4] = new SegmentBranch();
 		segmentSelectors[5] = new RunThroughBranches();
-
-    segmentPainters = new SegmentPainter[PAINTER_COUNT];
+		// place holder for painter
+		segmentPainters = new SegmentPainter[PAINTER_COUNT];
     segmentPainters[0] = new SimpleBrusher();
-    segmentPainters[1] = new TwoBrush();
-    segmentPainters[2] = new SpiralBrush();
-    segmentPainters[3] = new BrushFill();
-    segmentPainters[4] = new FunLine();
-    segmentPainters[5] = new FullLine();
-    segmentPainters[6] = new MiddleLine();
-    segmentPainters[7] = new Maypole();
-    segmentPainters[8] = new SegToSeg();
-    segmentPainters[9] = new Elliptic();
-    segmentPainters[10] = new CenterBrusher();
 	}
 
-	public void doRender(RenderableTemplate _rt){
-		super.doRender(_rt);
-		ArrayList<Segment> segList = getSelector(event.getSegmentMode()).getSegments(event);
+	public void doRender(RenderableTemplate _event){
+		ArrayList<Segment> segList = getSelector(_event.getSegmentMode()).getSegments(_event);
     int index = 0;
     if(segList == null) return;
     for(Segment seg : segList){
-    	event.setSegmentIndex(index);
+    	_event.setSegmentIndex(index);
     	index++;
-      if(seg != null) getPainter(event.getAnimationMode()).paintSegment(seg, event);
+      if(seg != null) getPainter(_event.getAnimationMode()).paintSegment(seg, _event);
     }
 	}
 
@@ -74,6 +59,67 @@ class PerSegment extends RenderMode{
 		return segmentPainters[_index];
 	}
 }
+
+// Place brushes on segments
+class BrushSegment extends PerSegment{
+	SegmentPainter[] segmentPainters;
+  final int PAINTER_COUNT = 6;
+
+  public BrushSegment(){
+  	super();
+  	segmentPainters = new SegmentPainter[PAINTER_COUNT];
+    segmentPainters[0] = new SimpleBrusher();
+    segmentPainters[1] = new TwoBrush();
+    segmentPainters[2] = new SpiralBrush();
+    segmentPainters[3] = new BrushFill();
+    segmentPainters[4] = new CenterBrusher();
+    segmentPainters[5] = new CircularBrusher();
+  }
+	public SegmentPainter getPainter(int _index){
+		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		return segmentPainters[_index];
+	}
+}
+
+// Make lines on segments
+class LineSegment extends PerSegment{
+	SegmentPainter[] segmentPainters;
+	final int PAINTER_COUNT = 5;
+
+	public LineSegment(){
+		super();
+		segmentPainters = new SegmentPainter[PAINTER_COUNT];
+    segmentPainters[0] = new FunLine();
+    segmentPainters[1] = new FullLine();
+    segmentPainters[2] = new MiddleLine();
+    segmentPainters[3] = new Maypole();
+    segmentPainters[4] = new SegToSeg();
+	}
+	public SegmentPainter getPainter(int _index){
+		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		return segmentPainters[_index];
+	}
+}
+
+// Make circles on segments
+class CircularSegment extends PerSegment{
+	SegmentPainter[] segmentPainters;
+	final int PAINTER_COUNT = 2;
+
+	public CircularSegment(){
+		super();
+		segmentPainters = new SegmentPainter[PAINTER_COUNT];
+		segmentPainters[0] = new Elliptic();
+    segmentPainters[1] = new RadarPainter();
+	}
+		public SegmentPainter getPainter(int _index){
+		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		return segmentPainters[_index];
+	}
+}
+
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -90,24 +136,22 @@ class WrapLine extends PerSegment{
 		painter = new LineToLine();
 	}
 
-	public void doRender(RenderableTemplate _rt) {
-		//super.doRender(_rt);
-		event = _rt;
+	public void doRender(RenderableTemplate _event) {
 		ArrayList<Segment> segList;
-		SegmentSelector selector = getSelector(event.getSegmentMode()); //constrain(event.getSegmentMode(), 4, 5);
+		SegmentSelector selector = getSelector(_event.getSegmentMode()); //constrain(_event.getSegmentMode(), 4, 5);
 		// need to constrain to a few segmentSelectors...
 		if(selector instanceof SegmentBranch){
-			segList = selector.getSegments(event);
-			painter.paint(segList, event);
+			segList = selector.getSegments(_event);
+			painter.paint(segList, _event);
 		}
 		else if(selector instanceof RunThroughBranches){
-			segList = selector.getSegments(event);
-			painter.paint(segList, event);
+			segList = selector.getSegments(_event);
+			painter.paint(segList, _event);
 		}
 		else {
-			ArrayList<ArrayList<Segment>> trees = event.getSegmentGroup().getBranches();
+			ArrayList<ArrayList<Segment>> trees = _event.getSegmentGroup().getBranches();
 			for(ArrayList<Segment> branch : trees){
-				painter.paint(branch, event);
+				painter.paint(branch, _event);
 			}
 			//println("=============================");
 		}
@@ -135,9 +179,9 @@ class Geometry extends RenderMode{
 		//groupPainters[3] = new SegToSeg();
 	}
 
-	public void doRender(RenderableTemplate _rt){
-		event = _rt;
-		getPainter(event.getAnimationMode()).paintGroup(event);
+	public void doRender(RenderableTemplate _event){
+
+		getPainter(_event.getAnimationMode()).paintGroup(_event);
 	}
 
 	public GroupPainter getPainter(int _index){

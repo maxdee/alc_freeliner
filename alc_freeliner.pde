@@ -37,8 +37,8 @@ OscMessage tickmsg = new OscMessage("/freeliner/tick");
 final boolean FULLSCREEN = false;
 
 // default window size if not FULLSCREEN
-int xres = 1300;//1024;
-int yres = 700;//768;
+int xres = 1024;
+int yres = 768;
 
 // for the glitch gallery ballpit
 boolean ballPit = false;//true;

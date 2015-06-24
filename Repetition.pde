@@ -65,7 +65,9 @@ class EvenlySpaced extends Repetition{
 
 	public FloatList getEvenlySpaced(float _lrp, int _count){
 		FloatList flts = new FloatList();
-		float dir = abs(_lrp)/_lrp;
+		float dir;
+		if(_lrp != 0.0) dir = abs(_lrp)/_lrp;
+		else dir = 1.0;
 		float amount = abs(_lrp)/_count;
 		float increments = 1.0/_count;
 		for (int i = 0; i < _count; i++)

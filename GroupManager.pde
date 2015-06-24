@@ -194,7 +194,6 @@ class GroupManager{
 
 
   public void saveGroups(){
-    //ArrayList<PVector> pnts = new ArrayList();
     XML groupData = new XML("groups");
     for(SegmentGroup grp : groups){
       XML xgroup = groupData.addChild("group");
@@ -229,11 +228,11 @@ class GroupManager{
     XML[] groupData = file.getChildren("group");
     PVector posA = new PVector(0,0);
     PVector posB = new PVector(0,0);
-    boolean first = true;
+    int skip = 2;
 
     for(XML xgroup : groupData){
-      if(first){
-        first = false;
+      if(skip > 0){
+        skip--;
         continue;
       }
       newGroup();
@@ -290,7 +289,7 @@ class GroupManager{
   // }
 
 
-  public void setReferenceGroupTemplates(TemplateList _tl){
+  public void setReferenceGroupTemplateList(TemplateList _tl){
     groups.get(1).setTemplateList(_tl);
   }
 

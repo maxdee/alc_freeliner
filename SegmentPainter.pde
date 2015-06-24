@@ -93,6 +93,19 @@ class Elliptic extends LinePainter {
 	}
 }
 
+class RadarPainter extends LinePainter {
+	public RadarPainter(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		float dist = _seg.getLength();
+		float ang = (_event.getLerp()*TAU)+_seg.getAngle(true);
+		PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
+		pos.add(_seg.getRegA());
+		vecLine(_event.getCanvas(), _seg.getRegA(), pos);
+	}
+}
+
 
 
 class SegToSeg extends LinePainter{
@@ -258,5 +271,19 @@ class CenterBrusher extends BrushPutter{
 		PVector cent = _seg.getCenter();
 		float ang = atan2(pA.y - cent.y, pA.x - cent.x);
 		putShape(vecLerp(pA, cent, event.getLerp()),  ang+(event.getDirection() ? PI : 0) + event.getAngleMod());
+	}
+}
+
+class CircularBrusher extends BrushPutter{
+
+	public CircularBrusher(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		float dist = _seg.getLength()-(_event.getScaledBrushSize()/2.0);
+		float ang = (_event.getLerp()*TAU)+_seg.getAngle(true);
+		PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
+		pos.add(_seg.getRegA());
+		putShape(pos, _seg.getAngle(!event.getDirection()) + event.getAngleMod() + ang + HALF_PI);
 	}
 }
