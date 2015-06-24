@@ -71,16 +71,12 @@ FreeLEDing freeLED;
 void setup() {
   setupGraphics();
   noCursor();
-  // attempting to skip anoying white screen on startup
-  //frame.setBackground(new java.awt.Color(0, 0, 0));
-  
-  //textureMode(NORMAL);
+
   // load fonts
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");
   
   splash();
-  
   freeliner = new FreeLiner();
 
   // osc setup
@@ -88,8 +84,16 @@ void setup() {
   toPDpatch = new NetAddress("127.0.0.1",6668);
 
   if(LED_MODE) setupLEDs();
+
+  // cruft
+  // attempting to skip anoying white screen on startup
+  //frame.setBackground(new java.awt.Color(0, 0, 0));
+  //textureMode(NORMAL);
 }
 
+/**
+ * Setup the canvas, load a background image if provided
+ */
 void setupGraphics(){
   // check if background image provided
   try {

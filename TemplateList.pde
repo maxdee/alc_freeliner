@@ -54,6 +54,13 @@ class TemplateList {
     }
   }
 
+  public void copy(TemplateList _tl){
+    clear();
+    if(_tl != null)
+      for(TweakableTemplate tt : _tl.getAll())
+        templates.add(tt);
+  }
+
   public void toggle(TweakableTemplate _te) {
     if(_te == null) return;
     if(!templates.remove(_te)) templates.add(_te);

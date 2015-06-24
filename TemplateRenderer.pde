@@ -1,5 +1,3 @@
-
-
 /**
  * View part
  * The template renderer is where the rendering process begins. 

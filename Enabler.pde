@@ -47,7 +47,6 @@ class SweepingEnabler extends Enabler{
 	final float DIST = 200.0;//float(width)/4.0; 
 	public SweepingEnabler(){
 		super();
-
 	}
 	public boolean enable(RenderableTemplate _rt){
 		float pos = _rt.getSegmentGroup().getCenter().x + DIST/2.0;

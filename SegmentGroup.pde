@@ -388,6 +388,10 @@ class SegmentGroup {
     return snapVal;
   }
 
+  public void setTemplateList(TemplateList _tl){
+    templateList.copy(_tl);
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Accessors

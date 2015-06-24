@@ -124,6 +124,7 @@
   private void update() {
     if(mouse.hasMoved()) resetTimeOut();
     if(!doDraw()) return;
+
     // prep canvas
     canvas.beginDraw();
     canvas.clear();
@@ -395,7 +396,7 @@
    * This is helpfull to have a reference as to what is what when rocking out.
    * Gets called everytime a new group is create.
    */
-   // disable cause too slooooow
+   // disable cause too slooooow?
   private void updateReference() {
     // boolean tgs = viewTags;
     // boolean lns = viewLines;
@@ -427,12 +428,6 @@
       }
     }
     grid.endShape();
-    // grd.setStroke();
-    // grd.setStrokeWeight(1);
-    // grid.beginDraw();
-    // grid.clear();
-    // grid.shape(grd);
-    // grid.endDraw();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

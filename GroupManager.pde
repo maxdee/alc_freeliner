@@ -52,7 +52,12 @@ class GroupManager{
     lastSelectedIndex = -1;
     snappedIndex = -1;
     snappedSegment = null;
+    // first group for gui text
     newGroup();
+    // second group for reference group
+    newGroup();
+    // reselect group 0 to begin
+    selectedIndex = 0;
   }
 
 
@@ -283,6 +288,11 @@ class GroupManager{
   // public void toggle(TemplateEvent _rn){
   //   renderList.toggle(_rn);
   // }
+
+
+  public void setReferenceGroupTemplates(TemplateList _tl){
+    groups.get(1).setTemplateList(_tl);
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
