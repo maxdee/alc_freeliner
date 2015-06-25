@@ -107,7 +107,8 @@ class RenderableTemplate extends TweakableTemplate{
 		unitInterval = _lerp;
 		if(beatCount != _beat){
 			beatCount = _beat;
-			randomValue = (int)random(1000);
+			setrandomValue((int)random(100));
+	    setLargeRan((int)random(10000));
 		}
 		colorCount = 0;
 		copy(sourceTemplate);
@@ -197,6 +198,10 @@ class RenderableTemplate extends TweakableTemplate{
 
  	public final int getRandomValue(){
  		return randomValue;
+ 	}
+
+ 	public final int getLargeRandomValue(){
+ 		return largeRandom;
  	}
 
  	public final boolean getDirection(){

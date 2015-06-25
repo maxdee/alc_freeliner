@@ -188,6 +188,10 @@ class SegmentGroup {
     }
   }
 
+  /**
+   * Set the center point
+   * @param PVector center coordinate
+   */
   private void placeCenter(PVector c) {
     center = c.get();
     if (segCount>0) {
@@ -200,6 +204,10 @@ class SegmentGroup {
     centerPutting = false;
   }
 
+  /**
+   * Uncenter
+   * @param PVector center coordinate
+   */
   private void unCenter() {
     centered = false;
     for(Segment seg : segments)
@@ -207,6 +215,9 @@ class SegmentGroup {
     centerPutting = false;
   }
 
+  /**
+   * Set each segments direct neighbors
+   */
   private void setNeighbors() {
     int v1 = 0;
     int v2 = 0;
@@ -254,7 +265,11 @@ class SegmentGroup {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Generate a 2D segment ArrayList starting from the first segment
+   */
   private void findRealNeighbors(){
+    if(segments.size() < 1) return;
     treeBranches = new ArrayList();
     ArrayList<Segment> roots = new ArrayList();
     // find first segments, layer 1
@@ -268,6 +283,7 @@ class SegmentGroup {
       }
       if(root) roots.add(toCheck);
     }
+    if(roots.size() == 0) roots.add(segments.get(0));
     treeBranches.add(roots);
 
     boolean keepSearching = true;
@@ -277,6 +293,7 @@ class SegmentGroup {
       if(next.size() > 0) treeBranches.add(next);
       else keepSearching = false;
     }
+    sortSegments();
   }
 
 
@@ -300,14 +317,14 @@ class SegmentGroup {
     return nextSegs;
   }
 
-  // private boolean isDuplicate(ArrayList<ArrayList<Segment>> _tree, Segment seg) {
-  //   for(ArrayList<Segment> br : treeBranches){
-  //     for(Segment se : br){
-  //       if(next == se) return true;
-  //     }
-  //   }
-  //   return false;
-  // }
+  // segments need to be sorted if a segments gets deleted and remplaced by 2 or more new segments.
+  // might be a bug around first segment...
+  private void sortSegments(){
+    segments.clear();
+    for(ArrayList<Segment> brnch : treeBranches)
+      for(Segment seg : brnch)
+        segments.add(seg);
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

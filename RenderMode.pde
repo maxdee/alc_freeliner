@@ -20,7 +20,7 @@ class RenderMode {
 class PerSegment extends RenderMode{
 	
 	SegmentSelector[] segmentSelectors;
-	final int SELECTOR_COUNT = 6;
+	final int SELECTOR_COUNT = 7;
 
 	SegmentPainter[] segmentPainters;
 	final int PAINTER_COUNT = 1;
@@ -31,8 +31,9 @@ class PerSegment extends RenderMode{
 		segmentSelectors[1] = new SequentialSegments();
 		segmentSelectors[2] = new RunThroughSegments();
 		segmentSelectors[3] = new RandomSegment();
-		segmentSelectors[4] = new SegmentBranch();
-		segmentSelectors[5] = new RunThroughBranches();
+		segmentSelectors[4] = new FastRandomSegment();
+		segmentSelectors[5] = new SegmentBranch();
+		segmentSelectors[6] = new RunThroughBranches();
 		// place holder for painter
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
     segmentPainters[0] = new SimpleBrusher();
@@ -176,7 +177,6 @@ class Geometry extends RenderMode{
 		groupPainters[0] = new Filler();
 		groupPainters[1] = new FunFiller();
 		groupPainters[2] = new NoiseShape();
-		//groupPainters[3] = new SegToSeg();
 	}
 
 	public void doRender(RenderableTemplate _event){
