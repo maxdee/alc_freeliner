@@ -13,6 +13,10 @@
 import oscP5.*;
 import netP5.*;
 
+
+import java.awt.Frame;
+import java.awt.BorderLayout;
+
 FreeLiner freeliner;
 PFont font;
 PFont introFont;
@@ -68,9 +72,14 @@ FreeLEDing freeLED;
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
+ControlFrame cf;
+
 void setup() {
   setupGraphics();
   noCursor();
+
+  cf = addControlFrame("freelinerGUI", 400, 200);
+
 
   // load fonts
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
@@ -144,6 +153,9 @@ void draw() {
   if(doSplash) splash();
   freeliner.update();
   if(LED_MODE) updateLEDs();
+
+  cf.setGraphics(freeliner.gui.sideCanvas);
+  cf.draw();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -232,4 +244,60 @@ void updateLEDs(){
   freeLED.output();
   // draw the LED map
   image(freeLED.getMap(),0,0);
+}
+
+
+
+
+
+
+
+// simple class to have a second window!
+
+class ControlFrame extends PApplet{
+  int w, h;
+  PGraphics canvas;
+  Object parent;
+  private ControlFrame() {
+  }
+ 
+  public ControlFrame(Object theParent, int theWidth, int theHeight) {
+    parent = theParent;
+    w = theWidth;
+    h = theHeight;
+  }
+  
+  public void setup() {
+    size(w, h);
+    canvas = createGraphics(w,h);
+    canvas.beginDraw();
+    canvas.background(0);
+    canvas.endDraw();
+  }
+ 
+  public void draw() {
+    this.image(canvas, 0, 0);
+    //this.text("liquid-projo", width/2, height/2+70);
+  }
+  public void setGraphics(PGraphics _pg){
+    println(_pg);
+    canvas.beginDraw();
+    canvas.background(0);
+    canvas.image(_pg,0,0);
+    canvas.endDraw();
+  }
+}
+
+
+ControlFrame addControlFrame(String theName, int theWidth, int theHeight) {
+  Frame f = new Frame(theName);
+  ControlFrame p = new ControlFrame(this, theWidth, theHeight);
+  f.add(p);
+  p.init();
+  f.setTitle(theName);
+  f.setSize(p.w, p.h);
+  f.setLocation(900, 100);
+  f.setResizable(false);
+  f.setVisible(true);
+  return p;
 }

@@ -54,7 +54,7 @@ class SegmentGroup {
   boolean launchit = false;
   boolean incremented = false;
 
-  int snapVal = 10;
+  // int snapVal = 10;
 
   /**
    * Create an new SegmentGroup
@@ -400,10 +400,10 @@ class SegmentGroup {
     return sizer;
   }
 
-  public int setSnapVal(int s){
-    snapVal = numTweaker(s, snapVal); 
-    return snapVal;
-  }
+  // public int setSnapVal(int s){
+  //   snapVal = numTweaker(s, snapVal); 
+  //   return snapVal;
+  // }
 
   public void setTemplateList(TemplateList _tl){
     templateList.copy(_tl);

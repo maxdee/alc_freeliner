@@ -8,7 +8,7 @@
 class TemplateRenderer {
   // rendering modes and repetition
   RenderMode[] renderModes;
-  final int RENDERER_COUNT = 5;
+  final int RENDERER_COUNT = 4;
 
   Repetition[] repeaters;
   final int REPEATER_COUNT = 4;
@@ -58,7 +58,7 @@ class TemplateRenderer {
     renderModes[1] = new LineSegment();
     renderModes[2] = new CircularSegment();
     renderModes[3] = new Geometry();
-    renderModes[4] = new WrapLine();
+    //renderModes[4] = new WrapLine();
 
     // add repetitionModes
     repeaters = new Repetition[REPEATER_COUNT];
@@ -73,14 +73,15 @@ class TemplateRenderer {
     enablers[1] = new Enabler();
     enablers[2] = new SweepingEnabler();
     enablers[3] = new SwoopingEnabler();
-    enablers[4] = new EveryX(2);
-    enablers[5] = new EveryX(3);
-    enablers[6] = new EveryX(4);    
-    enablers[7] = new EveryX(5);
-    enablers[8] = new EveryX(6);
-    enablers[9] = new EveryX(7);
-    enablers[10] = new EveryX(8);
-    enablers[11] = new RandomTimes();
+    enablers[4] = new RandomEnabler();
+    enablers[5] = new EveryX(2);
+    enablers[6] = new EveryX(3);
+    enablers[7] = new EveryX(4);    
+    enablers[8] = new EveryX(5);
+    enablers[9] = new EveryX(6);
+    enablers[10] = new EveryX(7);
+    enablers[11] = new EveryX(8);
+    
 	}
 
   public RenderMode getRenderer(int _index){

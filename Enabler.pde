@@ -22,8 +22,8 @@ class Disabler extends Enabler{
 
 
 
-class RandomTimes extends Enabler{
-	public RandomTimes(){}
+class RandomEnabler extends Enabler{
+	public RandomEnabler(){}
 	public boolean enable(RenderableTemplate _rt){
 		if(_rt.getRandomValue()%6 == 1) return true;
 		else return false;

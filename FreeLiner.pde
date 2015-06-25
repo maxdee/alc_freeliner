@@ -18,7 +18,7 @@ class FreeLiner {
   TemplateManager templateManager;
   // view
   TemplateRenderer templateRenderer;
-  Gui gui;
+  SideScreenGui gui;
   // control
   Mouse mouse;
   Keyboard keyboard;
@@ -37,7 +37,7 @@ class FreeLiner {
     templateManager =  new TemplateManager();
     // view
     templateRenderer = new TemplateRenderer();
-    gui = new Gui();
+    gui = new SideScreenGui();
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();
