@@ -35,6 +35,7 @@
  * <p>
  * CTRL + KEYS MAPPING
  * ctrl-a   selectAll
+ * ctrl-c   clone A -> B
  * ctrl-i   revers mouseX
  * ctrl-r   reset template
  * ctrl-d   customShape
@@ -86,6 +87,13 @@ class Keyboard{
     "*    record"
   };
 
+  final String ctrlKeyMap[] = {
+    "ctrl-a   selectAll",
+    "ctrl-c   clone",
+    "ctrl-d   customShape",
+    "ctrl-i   reverseX",
+    "ctrl-r   resetTemplate"
+  };
 
   // dependecy injection
   GroupManager groupManager;
@@ -258,6 +266,7 @@ class Keyboard{
   public void modCommands(int k){
     if(ctrled || alted) println("mod keys "+k);
     if (ctrled && k == 1) focusAll(); // a
+    else if(ctrled && k == 3) templateManager.copyPaste();
     else if(ctrled && k == 9) gui.setValueGiven( str(mouse.toggleInvertMouse()) );
     else if(ctrled && k == 18) distributor(char(518), -3, false); // re init()
     else if(ctrled && k == 4) distributor(char(504), -3, false);  // set custom shape

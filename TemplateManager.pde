@@ -222,6 +222,12 @@ class TemplateManager{
   }
 
 
+  public void copyPaste(){
+    Template a = templateList.getIndex(0);
+    Template b = templateList.getIndex(1);
+    if(a != null && b !=null) b.copyParameters(a);
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Sub templates

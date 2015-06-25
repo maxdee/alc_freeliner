@@ -56,6 +56,11 @@ class Template{
  */
  	public void copy(Template _tp){
  		// copy the first tier of variables
+ 		templateID = _tp.getTemplateID();
+ 		copyParameters(_tp);
+ 	}
+
+ 	public void copyParameters(Template _tp){
  		alphaValue = _tp.getAlpha();
 		renderMode = _tp.getRenderMode();
 		segmentMode = _tp.getSegmentMode();
@@ -71,7 +76,6 @@ class Template{
 		strokeWidth = _tp.getStrokeWeight();
 		brushSize = _tp.getBrushSize();
 		brushMode = _tp.getBrushMode();
-		templateID = _tp.getTemplateID();
 		customShape = _tp.getCustomShape();
 		enablerMode = _tp.getEnablerMode();
  	}

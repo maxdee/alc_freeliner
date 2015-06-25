@@ -30,26 +30,26 @@ Now hit 'n' to create a newItem and click around to place some lines. If you hav
 
 
 ###### Tweaking Parameters
-Most lowercase keys are linked with a parameter. For example `q` is for colorMode. Once you press `q` you can change the colorMode by pressing `-` or `=` (aka `+`) or by typing in a number and pressing `enter`. Some parameters are simple toggles. For example `g` enables and diables the grid, but you can also alter the grid size by tweaking the value. The `.` works in a similar fashion where you can enable/disable snapping and adjust the snapping distance.
-
+Most lowercase keys are linked with a parameter. For example `q` is for colorMode. Once you press `q` you can change the colorMode by pressing `-` or `=` (aka `+`) or by typing in a number and pressing `enter`. Some parameters are simple toggles. For example `g` enables and disables the grid, but you can also alter the grid size by tweaking the value. The `.` works in a similar fashion where you can enable/disable snapping and adjust the snapping distance.
 
 ###### Snapping
-The cursor can snap to various stuff. If
-
+The cursor can snap to various stuff. Holding `ctrl` will momentarily disable snapping. If `ctrl` is pressed when snapped, you can right click drag the point.
 
 ###### Text Entry
 `|` pipe begins a text entry and return key returns the text. This has a few uses.
 
 ###### Toggle a renderer to groups with a renderer
-Essentialy adds a other renderer of your choice to any group who has the first renderer on the list.
+Essentially adds a other renderer of your choice to any group who has the first renderer on the list.
 Have a renderer in focus, hit '|' to enable text input and enter a renderer, like 'N', and press return.
-
 
 ###### Create a custom brush
 Make a new segment group, set its center. Add a rendering template (shift + a-z) then hit (ctrl + d). That template will now have a custom brush corresponding to that segment group. You can then remove that template from the group and or remove all the segments of the group.
 
+###### Copy parameters between templates
+Unselect with `esc`, then select the template to copy, then select the template to paste into, and then press `ctrl-c`.  
+
 ###### Save Geometry
-The `@` character saves your current segment groups, with the exception of group 0. The `#` character will load whatever is in `data/groups.xml`. Its a good idea to make a copy of this file because accidently hitting `@` will overwrite the file.
+The `@` character saves your current segment groups, with the exception of group 0. The `#` character will load whatever is in `data/groups.xml`. Its a good idea to make a copy of this file because accidentally hitting `@` will overwrite the file.
 
 ###### Make Videos
 The `*` character begins and stops a frame saving process. These `.tiff` images are saved in batches `capture/clip_N`. You can use Processing's movie maker tool to turn these into a video file. I recommend clearing `capture/` after making some clips. 
