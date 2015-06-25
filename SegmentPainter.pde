@@ -284,6 +284,7 @@ class CircularBrusher extends BrushPutter{
 		float ang = (_event.getLerp()*TAU)+_seg.getAngle(true);
 		PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
 		pos.add(_seg.getRegA());
-		putShape(pos, _seg.getAngle(!event.getDirection()) + event.getAngleMod() + ang + HALF_PI);
+		if(!event.getDirection()) ang += PI;
+		putShape(pos, event.getAngleMod() + ang + HALF_PI);
 	}
 }
