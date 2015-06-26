@@ -17,8 +17,6 @@ class TweakableTemplate extends Template {
     super();
   }
 
-
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Bank management
@@ -144,6 +142,10 @@ class TweakableTemplate extends Template {
     if(bankIndex >= bank.size()) bankIndex = bank.size()-1;
     loadFromBank(bankIndex);
     return bankIndex;
+  }
+
+  public void setCustomColor(color _c){
+    customColor = _c;
   }
 
 }

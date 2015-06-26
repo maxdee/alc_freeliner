@@ -17,11 +17,11 @@ class Filler extends GroupPainter{
 	public void paintGroup(RenderableTemplate _rt){
 		super.paintGroup(_rt);
 
-		float angle = event.getAngleMod();  //getRotationMode()*(event.getLerp()*TWO_PI);
-		float lorp = 1-event.getLerp();
+		float angle = _rt.getAngleMod();  //getRotationMode()*(_rt.getLerp()*TWO_PI);
+		float lorp = 1-_rt.getLerp();
 		lorp*=lorp;
-		PVector center = event.getSegmentGroup().getCenter();
-		PShape shpe = cloneShape(event.getSegmentGroup().getShape(),
+		PVector center = _rt.getSegmentGroup().getCenter();
+		PShape shpe = cloneShape(_rt.getSegmentGroup().getShape(),
 														 lorp,//1.0, 
 														 center);
 		canvas.pushMatrix();
@@ -44,13 +44,13 @@ class FunFiller extends GroupPainter{
 	public void paintGroup(RenderableTemplate _rt){
 		super.paintGroup(_rt);
 
-		float angle = event.getAngleMod();  //getRotationMode()*(event.getLerp()*TWO_PI);
-		float lorp = 1-event.getLerp();
+		float angle = _rt.getAngleMod();  //getRotationMode()*(_rt.getLerp()*TWO_PI);
+		float lorp = 1-_rt.getLerp();
 		lorp*=lorp;
-		PVector center = event.getSegmentGroup().getCenter();
-		float fluct = (float(event.getBeatCount())/4)*TWO_PI;
-		center = angleMove(center.get(), fluct, center.dist(event.getSegmentGroup().getSegment(0).getA())/2);
-		PShape shpe = cloneShape(event.getSegmentGroup().getShape(),
+		PVector center = _rt.getSegmentGroup().getCenter();
+		float fluct = (float(_rt.getBeatCount())/4)*TWO_PI;
+		center = angleMove(center.get(), fluct, center.dist(_rt.getSegmentGroup().getSegment(0).getA())/2);
+		PShape shpe = cloneShape(_rt.getSegmentGroup().getShape(),
 														 1.0,//lorp, 
 														 center);
 		canvas.pushMatrix();

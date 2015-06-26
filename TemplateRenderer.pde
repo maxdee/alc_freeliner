@@ -129,6 +129,7 @@ class TemplateRenderer {
    * @param RenderableTemplate to render.
    */
   public void renderTemplate(RenderableTemplate _rt){
+    if(_rt.getSegmentGroup().isEmpty()) return;
     // push canvas to template
     _rt.setCanvas(canvas);
     if(!enablers[_rt.getEnablerMode()%ENABLER_COUNT].enable(_rt)) return;

@@ -438,6 +438,10 @@ class SegmentGroup {
     return centered;
   }
 
+  public final boolean isEmpty(){
+    return segments.isEmpty();
+  }
+
   public final PVector getSegmentStart(){
     return segmentStart;
   }

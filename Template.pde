@@ -34,11 +34,14 @@ class Template{
 	int brushSize;
 	// Which brush
 	int brushMode;
-
+	// enablers decide if render or not
 	int enablerMode;
 
 	// custom shape
   PShape customShape;
+
+  // custom color
+  color customColor;
 
 	char templateID;
 	public Template(){
@@ -78,6 +81,7 @@ class Template{
 		brushMode = _tp.getBrushMode();
 		customShape = _tp.getCustomShape();
 		enablerMode = _tp.getEnablerMode();
+		customColor = _tp.getCustomColor();
  	}
 
 /**
@@ -99,6 +103,7 @@ class Template{
 		brushSize = 20;
 		brushMode = 1;
 		enablerMode = 1;
+		customColor = color(0,0,50,255);
  	}
 
 	public void setCustomShape(PShape _shp){
@@ -209,5 +214,9 @@ class Template{
 
 	public final int getEnablerMode(){
 		return enablerMode;
+	}
+
+	public final color getCustomColor(){
+		return customColor;
 	}
 }

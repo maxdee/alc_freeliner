@@ -190,8 +190,7 @@ void mouseWheel(MouseEvent event) {
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-void oscEvent(OscMessage theOscMessage) {
-  /* check if theOscMessage has the address pattern we are looking for. */
+void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the address pattern we are looking for. */
   
   if(theOscMessage.checkAddrPattern("/freeliner/tweak")==true) {
     /* check if the typetag is the right one. */
@@ -202,7 +201,20 @@ void oscEvent(OscMessage theOscMessage) {
       int val = theOscMessage.get(2).intValue();
       freeliner.keyboard.oscDistribute(tp, kay, val);
     }  
-  } 
+  }
+  if(theOscMessage.checkAddrPattern("/freeliner/color")==true) {
+    /* check if the typetag is the right one. */
+    if(theOscMessage.checkTypetag("siiii")) {
+      /* parse theOscMessage and extract the values from the osc message arguments. */
+      char id = theOscMessage.get(0).stringValue().charAt(0);
+      color col = color(
+        theOscMessage.get(1).intValue(),
+        theOscMessage.get(2).intValue(),
+        theOscMessage.get(3).intValue(),
+        theOscMessage.get(4).intValue());
+      freeliner.templateManager.setCustomColor(id, col);
+    }  
+  }
 }
 
 void oscTick(){

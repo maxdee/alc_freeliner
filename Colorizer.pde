@@ -49,7 +49,7 @@ class Colorizer {
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-/*
+/**
  * Basic white
  */
 class PalletteColor extends Colorizer {
@@ -63,7 +63,7 @@ class PalletteColor extends Colorizer {
 	}
 }
 
-/*
+/**
  * Basic white
  */
 class RandomPrimaryColor extends Colorizer {
@@ -77,7 +77,7 @@ class RandomPrimaryColor extends Colorizer {
 	}
 }
 
-/*
+/**
  * Per Repetition
  */
 class RepetitionColor extends Colorizer {
@@ -103,7 +103,7 @@ class RepetitionColor extends Colorizer {
 }
 
 
-/*
+/**
  * Constantly changing random primary color
  */
 class FlashyWhiteRedBlack extends Colorizer {
@@ -117,7 +117,7 @@ class FlashyWhiteRedBlack extends Colorizer {
 	}
 }
 
-/*
+/**
  * Constantly changing random value gray
  */
 class FlashyGray extends Colorizer {
@@ -131,7 +131,7 @@ class FlashyGray extends Colorizer {
 	}
 }
 
-/*
+/**
  * Constantly changing random primary color
  */
 class FlashyPrimaryColor extends Colorizer {
@@ -145,7 +145,7 @@ class FlashyPrimaryColor extends Colorizer {
 	}
 }
 
-/*
+/**
  * Constantly changing random color
  */
 class FlashyRandom extends Colorizer {
@@ -159,7 +159,7 @@ class FlashyRandom extends Colorizer {
 	}
 }
 
-/*
+/**
  * Constantly changing random color
  */
 class Strobe extends Colorizer {
@@ -169,14 +169,14 @@ class Strobe extends Colorizer {
 	public color get(RenderableTemplate _event){
 		// if(_event.getLerp()<0.2) return color(255);
 		// else return color(0);
-		if(maybe(20))return color(255);
+		if(maybe(20)) return color(255);
 		else return color(0);
 	}
 }
 
 
 
-/*
+/**
  * Fade through the HUE
  */
 class HSBFade extends Colorizer {
@@ -189,6 +189,17 @@ class HSBFade extends Colorizer {
 		hue = fltMod(hue);
 		_event.setHue(hue);
 		return alphaMod(c ,_event.getAlpha());
+	}	
+}
+
+/**
+ * Get template's custom color
+ */
+class CustomColor extends Colorizer {
+	public CustomColor(){
+	}
+	public color get(RenderableTemplate _event){
+		return _event.getCustomColor();
 	}	
 }
 

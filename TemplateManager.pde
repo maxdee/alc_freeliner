@@ -230,16 +230,14 @@ class TemplateManager{
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////     Sub templates
+  ///////     OSC specific
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   
-  // template swaping system? template copying system A -> B
-
-  public void saveTemplate(Template _t){
-
+  public void setCustomColor(char _id, color _c){
+    TweakableTemplate tp = getTemplate(_id);
+    if(tp != null) tp.setCustomColor(_c);
   }
-
 
 
 
