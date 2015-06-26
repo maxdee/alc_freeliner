@@ -39,6 +39,7 @@
   Mouse mouse;
   // SegmentGroup used to display information, aka group 0
   SegmentGroup guiSegments;
+  SegmentGroup refSegments;
   
   // canvas for all the GUI elements.
   PGraphics canvas;
@@ -108,6 +109,7 @@
     mouse = _m;
     // set the SegmentGroup used by the GUI
     guiSegments = groupManager.getGroup(0);
+    refSegments = groupManager.getGroup(1);
   }
 
 
@@ -173,6 +175,9 @@
     else tags += renderString;
     if(tags.length()>20) tags = "*ALL*";
     // first segment shows which group is selected
+    // String id = str(_sg.getID());
+    // if(_sg == guiSegments) id = "info";
+    // else if(_sg == refSegments) id = "ref";
     guiSegments.setWord("[Item: "+groupManager.getSelectedIndex()+"]", 0);
     // second segment shows the Templates selected
     guiSegments.setWord("[Rndr: "+tags+"]", 1);
@@ -298,9 +303,15 @@
     canvas.fill(TEXT_COLOR);
     // group ID and template tags
     int id = _sg.getID();
+    String idTag = str(id);
+    if(_sg == guiSegments) idTag = "info";
+    else if(_sg == refSegments) idTag = "ref";
     String tTags = _sg.getTemplateList().getTags();
     // display left and right of pos
-    canvas.text(str(id), pos.x - (16+int(id>9)*6), pos.y+6);
+    int fset = (16+int(id>9)*6);
+    if(idTag == "info") fset = 35;
+    else if(idTag == "ref") fset = 28;
+    canvas.text(idTag, pos.x - fset, pos.y+6);
     canvas.text(tTags, pos.x + 6, pos.y+6);
     canvas.noFill();
     canvas.stroke(TEXT_COLOR);
