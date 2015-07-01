@@ -98,3 +98,24 @@ class Painter{
 ///////    Misc painters
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
+
+class LineToLine extends Painter{
+  public LineToLine(){
+  }
+  public void paint(ArrayList<Segment> _segs, RenderableTemplate _rt){
+    super.paint(_rt);
+    PShape shp = createShape();
+    shp.beginShape();
+    PVector pos = new PVector(0,0);
+    canvas.stroke(255);
+    canvas.strokeWeight(6);
+    int weighter = 0;
+    for(Segment seg : _segs){
+      pos = seg.getRegPos(event.getLerp()).get();
+      shp.vertex(pos.x, pos.y);
+    }
+    shp.endShape();
+    applyStyle(shp);
+    canvas.shape(shp);
+  }
+}

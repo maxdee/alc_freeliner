@@ -61,7 +61,7 @@ class BackForth extends Easing{
 
 	public float ease(float _lrp, RenderableTemplate _rt){
 		if(_rt.getBeatCount() % 2 == 0) return _lrp;
-		else return -invert(_lrp); 
+		else return invert(_lrp); 
 	}
 }
 
@@ -69,7 +69,7 @@ class ReverseLerp extends Easing{
 	public ReverseLerp(){}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
-		return -invert(_lrp); 
+		return invert(_lrp); 
 	}
 }
 

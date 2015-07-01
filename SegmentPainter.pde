@@ -195,7 +195,7 @@ class SimpleBrusher extends BrushPutter{
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		putShape(_seg.getPos(event.getLerp()), _seg.getAngle(event.getDirection()) + event.getAngleMod());
+		putShape(_seg.getPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
 	}
 }
 

@@ -8,7 +8,7 @@
 class TemplateRenderer {
   // rendering modes and repetition
   RenderMode[] renderModes;
-  final int RENDERER_COUNT = 4;
+  final int RENDERER_COUNT = 5;
 
   Repetition[] repeaters;
   final int REPEATER_COUNT = 4;
@@ -58,7 +58,7 @@ class TemplateRenderer {
     renderModes[1] = new LineSegment();
     renderModes[2] = new CircularSegment();
     renderModes[3] = new Geometry();
-    //renderModes[4] = new WrapLine();
+    renderModes[4] = new WrapLine();
 
     // add repetitionModes
     repeaters = new Repetition[REPEATER_COUNT];

@@ -120,6 +120,35 @@ class CircularSegment extends PerSegment{
 }
 
 
+
+class WrapLine extends PerSegment{
+	LineToLine painter;
+
+	public WrapLine(){
+		painter = new LineToLine();
+	}
+	public void doRender(RenderableTemplate _rt) {
+		//super.doRender(_rt);
+		ArrayList<Segment> segList;
+		SegmentSelector selector = getSelector(_rt.getSegmentMode()); //constrain(_rt.getSegmentMode(), 4, 5);
+		// need to constrain to a few segmentSelectors...
+		if(selector instanceof SegmentBranch){
+			segList = selector.getSegments(_rt);
+			painter.paint(segList, _rt);
+		}
+		else if(selector instanceof RunThroughBranches){
+			segList = selector.getSegments(_rt);
+			painter.paint(segList, _rt);
+		}
+		else {
+			ArrayList<ArrayList<Segment>> trees = _rt.getSegmentGroup().getBranches();
+			for(ArrayList<Segment> branch : trees){
+				painter.paint(branch, _rt);
+			}
+		//println("=============================");
+		}
+	}
+}
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    fill etc

@@ -39,7 +39,7 @@ class SegmentGroup {
   PShape itemShape;
 
   ArrayList<Segment> segments;
-
+  ArrayList<Segment> sortedSegments;
   ArrayList<ArrayList<Segment>> treeBranches; 
   int segCount = 0;
   TemplateList templateList;
@@ -71,6 +71,7 @@ class SegmentGroup {
    */
   public void init(){
     segments = new ArrayList();
+    sortedSegments = new ArrayList();
     treeBranches = new ArrayList();
     templateList = new TemplateList();
     segmentStart = new PVector(-10, -10, -10);
@@ -320,10 +321,10 @@ class SegmentGroup {
   // segments need to be sorted if a segments gets deleted and remplaced by 2 or more new segments.
   // might be a bug around first segment...
   private void sortSegments(){
-    segments.clear();
+    sortedSegments.clear();
     for(ArrayList<Segment> brnch : treeBranches)
       for(Segment seg : brnch)
-        segments.add(seg);
+        sortedSegments.add(seg);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -333,13 +334,13 @@ class SegmentGroup {
   ////////////////////////////////////////////////////////////////////////////////////
   // deprecate
   public final ArrayList<Segment> getSegments() {
-    return segments;
+    return sortedSegments;
   }
 
   // Segment accessors
   public Segment getSegment(int _index){
     //if(_index >= segments.size()) return null;
-    if(segments.size() > 0 && _index >= 0) return segments.get(_index % segments.size());
+    if(segments.size() > 0 && _index >= 0) return sortedSegments.get(_index % segments.size());
     return null;
   }
   
