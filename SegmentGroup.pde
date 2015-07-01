@@ -84,10 +84,12 @@ class SegmentGroup {
   }
 
   public void updateGeometry(){
-    setNeighbors();
     findRealNeighbors();
+    sortSegments();
+    setNeighbors();
     if(centered) placeCenter(center);
     generateShape();
+    if(segments.size() == 0) sortedSegments.clear();
   }
 
 
@@ -119,6 +121,11 @@ class SegmentGroup {
     updateGeometry();
   }
 
+  /**
+   * Make a segment by giving a start and a end
+   * @param PVector starting coordinate
+   * @param PVector ending coordinate
+   */
   public void addSegment(PVector _a, PVector _b){
     segments.add(new Segment(_a, _b));
     segCount++;
@@ -228,7 +235,8 @@ class SegmentGroup {
         v2 = i+1;
         if (i==0) v1 = segCount-1; // maybe wrong
         if (i==segCount-1) v2 = 0;
-        segments.get(i).setNeighbors(segments.get(v1), segments.get(v2));
+        sortedSegments.get(i).setNeighbors(sortedSegments.get(v1), sortedSegments.get(v2));
+        //segments.get(i).setNeighbors(segments.get(v1), segments.get(v2));
       }
     }
   }
@@ -242,13 +250,13 @@ class SegmentGroup {
     float _x = 0;
     float _y = 0;
     if(segCount!=0){
-      for (int i = 0; i < segCount; i++) {
-        _x = segments.get(i).getRegA().x;
-        _y = segments.get(i).getRegA().y;
+      for (Segment seg : sortedSegments){
+        _x = seg.getRegA().x;
+        _y = seg.getRegA().y;
         itemShape.vertex(_x, _y, _x/width, _y/height);
       }
-      _x = segments.get(0).getRegA().x;
-      _y = segments.get(0).getRegA().y;
+      _x = sortedSegments.get(0).getRegA().x;
+      _y = sortedSegments.get(0).getRegA().y;
       itemShape.vertex(_x, _y, _x/width, _y/height);
     }
     else {
@@ -258,6 +266,33 @@ class SegmentGroup {
 
     itemShape.endShape(CLOSE);//CLOSE dosent work...
   }
+
+
+  // private void generateShape() {
+  //   itemShape = createShape();
+  //   itemShape.textureMode(NORMAL);
+  //   itemShape.beginShape();
+  //   itemShape.strokeJoin(ROUND);
+  //   itemShape.strokeCap(ROUND); //strokeCap(SQUARE);
+  //   float _x = 0;
+  //   float _y = 0;
+  //   if(segCount!=0){
+  //     for (int i = 0; i < segCount; i++) {
+  //       _x = segments.get(i).getRegA().x;
+  //       _y = segments.get(i).getRegA().y;
+  //       itemShape.vertex(_x, _y, _x/width, _y/height);
+  //     }
+  //     _x = segments.get(0).getRegA().x;
+  //     _y = segments.get(0).getRegA().y;
+  //     itemShape.vertex(_x, _y, _x/width, _y/height);
+  //   }
+  //   else {
+  //     itemShape.vertex(0,0);
+  //     itemShape.vertex(0,0);
+  //   }
+
+  //   itemShape.endShape(CLOSE);//CLOSE dosent work...
+  // }
 
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -282,6 +317,7 @@ class SegmentGroup {
           root = false;
         }
       }
+      if(toCheck == segments.get(0)) root = true; // added to force segment 0 as a root
       if(root) roots.add(toCheck);
     }
     if(roots.size() == 0) roots.add(segments.get(0));
@@ -294,7 +330,6 @@ class SegmentGroup {
       if(next.size() > 0) treeBranches.add(next);
       else keepSearching = false;
     }
-    sortSegments();
   }
 
 
@@ -340,7 +375,7 @@ class SegmentGroup {
   // Segment accessors
   public Segment getSegment(int _index){
     //if(_index >= segments.size()) return null;
-    if(segments.size() > 0 && _index >= 0) return sortedSegments.get(_index % segments.size());
+    if(sortedSegments.size() > 0 && _index >= 0) return sortedSegments.get(_index % sortedSegments.size());
     return null;
   }
   
@@ -400,11 +435,6 @@ class SegmentGroup {
     brushScaler = sizer/10.0;
     return sizer;
   }
-
-  // public int setSnapVal(int s){
-  //   snapVal = numTweaker(s, snapVal); 
-  //   return snapVal;
-  // }
 
   public void setTemplateList(TemplateList _tl){
     templateList.copy(_tl);
