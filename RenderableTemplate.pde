@@ -36,6 +36,7 @@ class RenderableTemplate extends TweakableTemplate{
  */
  	// Which beat we are on
 	int beatCount;
+	int rawBeatCount;
 	int randomValue;
 	int largeRandom;
 	boolean direction;
@@ -75,6 +76,11 @@ class RenderableTemplate extends TweakableTemplate{
 		super();
 	}
 
+	public RenderableTemplate(char _id){
+		super(_id);
+	}
+
+
 /*
  * Constructor
  * @param SegmentGroup in question
@@ -103,16 +109,25 @@ class RenderableTemplate extends TweakableTemplate{
 		canvas = _pg;
 	}
 
-	public void setTime(float _lerp, int _beat){
-		unitInterval = _lerp;
+	public void setBeatCount(int _beat){
 		if(beatCount != _beat){
 			beatCount = _beat;
 			setrandomValue((int)random(100));
 	    setLargeRan((int)random(10000));
 		}
 		colorCount = 0;
+		// this updates according to source template...
 		copy(sourceTemplate);
+		// find the scaled size, the brushSize of the source template may have changed
 		scaledBrushSize = brushSize * segmentGroup.getBrushScaler();
+	}
+
+	public void setRawBeatCount(int _raw){
+		rawBeatCount = _raw;
+	}
+
+	public void setUnitInterval(float _u){
+		unitInterval = _u;
 	}
 
 	public void forceScaledBrushSize(float _s){
@@ -196,6 +211,10 @@ class RenderableTemplate extends TweakableTemplate{
  		return beatCount;
  	}
 
+ 	public final int getRawBeatCount(){
+ 		return rawBeatCount;
+ 	}
+
  	public final int getRandomValue(){
  		return randomValue;
  	}
@@ -248,3 +267,54 @@ class RenderableTemplate extends TweakableTemplate{
 	}
 }
 
+
+class KillableTemplate extends RenderableTemplate{
+	
+	float unitIntervalOffset;
+	boolean toKill;
+	/*
+	 * Constructor
+	 * @param SegmentGroup in question
+	 */
+	public KillableTemplate(Template _te, SegmentGroup _sg){
+		super(_te.getTemplateID());
+		println(_te.getStrokeMode());
+		sourceTemplate = _te;
+		copy(_te);
+		// force enable?
+		// enablerMode = 1;
+		segmentGroup = _sg;
+		beatCount = -1;
+		doRender = true; // remove?
+		toKill = false;
+	}
+
+	public void setOffset(float _o){
+		unitIntervalOffset = _o;
+	}
+
+	public void setUnitInterval(float _u){
+		float ha =   _u - unitIntervalOffset;
+		if(ha < 0.0) ha += 1.0;
+		if(ha < unitInterval) toKill = true;
+		unitInterval = ha;
+	}
+
+	// does not update...
+	public void setBeatCount(int _beat){
+		if(beatCount != _beat){
+			beatCount = _beat;
+			setrandomValue((int)random(100));
+	    setLargeRan((int)random(10000));
+		}
+		colorCount = 0;
+		// this updates according to source template...
+		//copy(sourceTemplate);
+		// find the scaled size, the brushSize of the source template may have changed
+		scaledBrushSize = brushSize * segmentGroup.getBrushScaler();
+	}
+
+	public boolean isDone(){
+		return toKill;
+	}
+}

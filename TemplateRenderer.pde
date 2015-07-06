@@ -98,7 +98,7 @@ class TemplateRenderer {
    * Render a arrayList of renderable templates.
    * @param ArrayList<RenderableTemplate> to render.
    */
-	public void render(ArrayList<RenderableTemplate> _toRender){
+	public void beginRender(){
     canvas.beginDraw();
     // either clear or fade the last frame.
     if(trails){
@@ -109,12 +109,17 @@ class TemplateRenderer {
       canvas.clear();
       //canvas.background(BACKGROUND_COLOR);
     }
+	}
 
+  public void render(ArrayList<RenderableTemplate> _toRender){
     // render templates
     if(_toRender.size() > 0)
       for(RenderableTemplate rt : _toRender)
         renderTemplate(rt);
+  }
 
+
+  public void endRender(){
     canvas.endDraw();
     // save frame if recording
     if(record){
@@ -122,7 +127,9 @@ class TemplateRenderer {
       canvas.save("capture/clip_"+clipCount+"/frame-"+fn+".tif");
       frameCount++;
     }
-	}
+  }
+
+
 
   /**
    * Render a renderable template.
@@ -136,7 +143,7 @@ class TemplateRenderer {
     // get multiple unit intervals to use
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
-    //if(!enablers[_rt.getEnablerMode()].enable(_rt)) return;
+
     for(float flt : flts){
       // Repition object return arrayList of unit intervals.
       // negative values indicates going in reverse

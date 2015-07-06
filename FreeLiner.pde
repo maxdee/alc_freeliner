@@ -41,6 +41,7 @@ class FreeLiner {
     mouse.inject(groupManager, keyboard);
     keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
     gui.inject(groupManager, mouse);
+    templateManager.inject(groupManager);
   }
 
   PShader fadefrag;
@@ -52,9 +53,12 @@ class FreeLiner {
     if(!focused) keyboard.forceRelease();
     // update template models
     templateManager.update();
-    templateManager.launchLoops(groupManager.getGroups());
+    templateManager.launchLoops();//groupManager.getGroups());
     // render animations
+    templateRenderer.beginRender();
+    templateRenderer.render(templateManager.getLoops());
     templateRenderer.render(templateManager.getEvents());
+    templateRenderer.endRender();
     image(templateRenderer.getCanvas(), 0, 0);
     // draw gui on top
     gui.update();
@@ -86,3 +90,4 @@ class FreeLiner {
     //merp
   }
 }
+

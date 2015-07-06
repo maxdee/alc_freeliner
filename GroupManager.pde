@@ -239,7 +239,7 @@ class GroupManager{
     XML[] groupData = file.getChildren("group");
     PVector posA = new PVector(0,0);
     PVector posB = new PVector(0,0);
-    int skip = 2;
+    int skip = 1; // or 2 or none?
 
     for(XML xgroup : groupData){
       if(skip > 0){
@@ -376,6 +376,19 @@ class GroupManager{
   public ArrayList<SegmentGroup> getGroups(){
     return groups;
   }
+
+/**
+ * Get groups with a certain template
+ * @return SegmentGroup arrayList
+ */
+  public ArrayList<SegmentGroup> getGroups(TweakableTemplate _tp){
+    ArrayList<SegmentGroup> _groups = new ArrayList();
+    for(SegmentGroup _sg : groups){
+      if(_sg.getTemplateList().contains(_tp)) _groups.add(_sg);
+    }
+    return _groups;
+  }
+
 
 /**
  * Get the snappedSegment

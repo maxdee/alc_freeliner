@@ -82,7 +82,7 @@ class Keyboard{
     "#    loadGroups",
     "$    saveTemplate",
     "%    loadTemplate",
-    "!    loopAll",
+    "!    togglePlayMode",
     "*    record"
   };
 
@@ -364,7 +364,6 @@ class Keyboard{
       else if (_k == 't') templateManager.sync.tap(); 
       else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());  
       else if (_k == 'y') valueGiven_ = str(templateRenderer.toggleTrails());
-      //else if (_k == 'u') valueGiven_ = str(templateRenderer.toggleP2D());
       else if (_k == '*') valueGiven_ = str(toggleRecording());
       else if (_k == ',') valueGiven_ = str(gui.toggleViewTags());
       else if (_k == '.') valueGiven_ = str(mouse.toggleSnapping());
@@ -375,7 +374,7 @@ class Keyboard{
       else if (_k == '=') distributor(editKey, -1, _vg); //increase value
       else if (_k == ']') valueGiven_ = str(mouse.toggleFixedLength());
       else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
-      else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
+      //else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
       else if (_k == '@') groupManager.saveGroups();//Vertices();
       else if (_k == '#') groupManager.loadGroups();
       else used_ = false;

@@ -54,7 +54,7 @@ class SweepingEnabler extends Enabler{
 		float diff = pos - tracker;
 		if(diff < DIST && diff > 0){
 			//println();
-			_rt.setTime(diff/DIST, _rt.getBeatCount());
+			_rt.setUnitInterval(diff/DIST);
 			return true;
 		}
 		else return false;
@@ -73,7 +73,7 @@ class SwoopingEnabler extends Enabler{
 		float diff = pos - tracker;
 		if(diff < DIST && diff > 0){
 			//println();
-			_rt.setTime(diff/DIST, _rt.getBeatCount());
+			_rt.setUnitInterval(diff/DIST);
 			return true;
 		}
 		else return false;

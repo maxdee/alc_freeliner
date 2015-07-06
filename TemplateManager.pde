@@ -41,6 +41,8 @@ class TemplateManager{
   // synchronise things
   Synchroniser sync;
 
+  GroupManager groupManager;
+
 
   public TemplateManager(){
     sync = new Synchroniser();
@@ -48,7 +50,13 @@ class TemplateManager{
     loops = new ArrayList();
     eventList = new ArrayList();
   	init();
+    groupManager = null;
   }
+
+  public void inject(GroupManager _gm){
+    groupManager = _gm;
+  }
+
 
   private void init() {
     templates = new ArrayList();
@@ -59,77 +67,57 @@ class TemplateManager{
   }
 
   // update the render events
-  void update() {
+  public void update() {
     sync.update();
-    int beatDv = 1;
-    if(loops.size() > 0){
-      for (RenderableTemplate rt : loops) {
-        beatDv = rt.getBeatDivider();
-        rt.setTime(sync.getLerp(beatDv), sync.getPeriod(beatDv));
-      }
+    // set the unitinterval/beat for all templates
+    syncTemplates(loops);
+    syncTemplates(eventList);
+    ArrayList<RenderableTemplate> toKill = new ArrayList();
+    for(RenderableTemplate _tp : eventList){
+      if(((KillableTemplate) _tp).isDone()) toKill.add(_tp);
     }
-    if(eventList.size() > 0){
-      for (RenderableTemplate rt : eventList) {
-        beatDv = rt.getBeatDivider();
-        rt.setTime(sync.getLerp(beatDv), sync.getPeriod(beatDv));
+    if(toKill.size()>0){
+      for(RenderableTemplate _rt : toKill){
+        eventList.remove(_rt);
       }
     }
   }
 
+  // synchronise renderable templates lists
+  private void syncTemplates(ArrayList<RenderableTemplate> _tp){
+    int beatDv = 1;
+    if(_tp.size() > 0){
+      for (RenderableTemplate rt : _tp) {
+        beatDv = rt.getBeatDivider();
+        rt.setUnitInterval(sync.getLerp(beatDv));
+        rt.setBeatCount(sync.getPeriod(beatDv));
+        rt.setRawBeatCount(sync.getPeriod(0));
+      }
+    }
+  }
 
-
-  void launchLoops(ArrayList<SegmentGroup> _groups){
+  /**
+   * Makes sure there is a renderable template for all the segmentGroup / Template pairs.
+   * @param ArrayList<SegmentGroup>   
+   */
+  public void launchLoops(){
+    ArrayList<SegmentGroup> _groups = groupManager.getGroups();
     if(_groups.size() == 0) return;
-    ArrayList<RenderableTemplate> toKeep = new ArrayList<RenderableTemplate>();
-    // check to add new loops
+    ArrayList<RenderableTemplate> toKeep = new ArrayList();
+    //check to add new loops
     for(SegmentGroup sg : _groups){
       ArrayList<TweakableTemplate> tmps = sg.getTemplateList().getAll();
       if(tmps != null){
         for(TweakableTemplate te : tmps){
           RenderableTemplate rt = getByIDandGroup(loops, te.getTemplateID(), sg);
           if(rt != null) toKeep.add(rt);
-          else toKeep.add(eventFactory(te, sg));
+          else toKeep.add(loopFactory(te, sg));
         }
       }
     }
     loops = toKeep;
   }
 
-
-  RenderableTemplate getByIDandGroup(ArrayList<RenderableTemplate> _tps, char _id, SegmentGroup _sg){
-    for(RenderableTemplate tp : _tps){
-      if(tp.getTemplateID() == _id && tp.getSegmentGroup() == _sg) return tp;
-    }
-    return null;
-  }
-
-
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     ETemplate array methods
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-  
-
-  // private ArrayList<Template> getByID(ArrayList<Template> _tps, char _id){
-  //   ArrayList<RenderableTemplate> tmps = new ArrayList();
-  //   for(Template tmp : _tps){
-  //     if(tmp.getTemplateID() == _id) tmps.add(tmp);
-  //   } 
-  //   return tmp;
-  // }
-
-  // remove a template from a list by ID
-  // private void removeByID(ArrayList<Template> _tps, char _id){
-  //   ArrayList<Template> toRemove = new ArrayList();
-  //   for(Template tp : _tps){
-  //     if(tp.getTemplateID() == _id) toRemove.add(tp);
-  //   }
-  //   if(toRemove.size() > 0)
-  //     for(Template tp : toRemove)
-  //       _tps.remove(tp);
-  // }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -138,32 +126,42 @@ class TemplateManager{
   ////////////////////////////////////////////////////////////////////////////////////
 
   // set size as per scalar
-  public RenderableTemplate eventFactory(TweakableTemplate _te, SegmentGroup _sg){
-    println("new event");
+  public RenderableTemplate loopFactory(TweakableTemplate _te, SegmentGroup _sg){
     return new RenderableTemplate(_te, _sg);
   }
 
-
+    // set size as per scalar
+  public RenderableTemplate eventFactory(TweakableTemplate _te, SegmentGroup _sg){
+    RenderableTemplate _rt = new KillableTemplate(_te, _sg);
+    ((KillableTemplate) _rt).setOffset(sync.getLerp(_rt.getBeatDivider()));
+    return _rt;
+  }
 
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////     Rendering
+  ///////     Playing functions
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  // new effects here for nuance!
-  // such as one groups renderer
-  // X number of groups
-  // left to right things
+  public void trigger(char _c){
+    TweakableTemplate _tp = getTemplate(_c);
+    if(_tp == null) return;
+    //print("Trigering "+_c+" with groups ");
+    // get groups with template
+    ArrayList<SegmentGroup> _groups = groupManager.getGroups(_tp);
+    if(_groups.size() > 0){
+      for(SegmentGroup _sg : _groups){
+        //print(_sg.getID()+", ");
+        eventList.add(eventFactory(_tp, _sg));    
+      }
+    }
+  }
 
-  void renderGroup(SegmentGroup _sg){
-    // ArrayList<TweakableTemplate> rList = _sg.getTemplateList().getAll();
-    // if(rList != null){
-    //   for (TweakableTemplate r_ : rList) {
-    //     r_.renderGroup(_sg);
-    //   }
-    // }
+  public void trigger(char _c, SegmentGroup _sg){
+    TweakableTemplate _tp = getTemplate(_c);
+    if(_tp == null) return;
+    eventList.add(eventFactory(_tp, _sg));   
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -172,16 +170,9 @@ class TemplateManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   
-  public void trigger(char _c){
-    TweakableTemplate r_ = getTemplate(_c);
-    // Factory!
-    //if(r_ != null) r_.trigger(1);
-  }
-
-  public void trigger(SegmentGroup _sg){
-
-  }
-
+  /**
+   * Select all the templates in order to tweak them all. Triggered by ctrl-a
+   */
   public void focusAll() {
     templateList.clear();
     for (TweakableTemplate r_ : templates) {
@@ -189,6 +180,45 @@ class TemplateManager{
     }
   }
 
+  /**
+   * unSelect templates
+   */
+  public void unSelect(){
+    templateList.clear();
+  }
+
+  /**
+   * toggle template selection
+   */
+  public void toggle(char _c){
+    templateList.toggle(getTemplate(_c));
+  }
+
+
+  /**
+   * Copy one template into an other. Triggered by ctrl-c with 2 templates selected.
+   */
+  public void copyPaste(){
+    Template a = templateList.getIndex(0);
+    Template b = templateList.getIndex(1);
+    if(a != null && b !=null) b.copyParameters(a);
+  }
+
+  /**
+   * Set a template's custom color, this is done with OSC.
+   */
+  public void setCustomColor(char _id, color _c){
+    TweakableTemplate tp = getTemplate(_id);
+    if(tp != null) tp.setCustomColor(_c);
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Setting custom shapes
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  
   // set a decorator's shape
   private void setCustomShape(SegmentGroup _sg){
     if(_sg == null) return; 
@@ -222,22 +252,6 @@ class TemplateManager{
   }
 
 
-  public void copyPaste(){
-    Template a = templateList.getIndex(0);
-    Template b = templateList.getIndex(1);
-    if(a != null && b !=null) b.copyParameters(a);
-  }
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     OSC specific
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-  
-  public void setCustomColor(char _id, color _c){
-    TweakableTemplate tp = getTemplate(_id);
-    if(tp != null) tp.setCustomColor(_c);
-  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -245,26 +259,6 @@ class TemplateManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   
-  public boolean toggleLooping() {
-    // allLoop = !allLoop;
-    // for (int i = 0; i<N_TEMPLATES; i++) {
-    //   templates.get(i).setLooper(allLoop);
-    // }
-    // return allLoop;
-    return false;
-  }
-
-  public void unSelect(){
-    templateList.clear();
-  }
-
-  public void toggle(char _c){
-    templateList.toggle(getTemplate(_c));
-  }
-
-  // public void toggle(TweakableTemplate _rn){
-  //   templateList.toggle(_rn);
-  // }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -276,10 +270,12 @@ class TemplateManager{
     return sync;
   }
 
+  public ArrayList<RenderableTemplate> getLoops(){
+    return loops;
+  } 
+
   public ArrayList<RenderableTemplate> getEvents(){
-    // ArrayList<RenderableTemplate> rt = new ArrayList<RenderableTemplate>(loops);
-    // rt.add()
-    return loops;//eventList;
+    return eventList;
   } 
 
   public boolean isFocused(){
@@ -291,9 +287,12 @@ class TemplateManager{
     else return null;
   }
 
-  // public ArrayList<TweakableTemplate> getSelected(){
-  //   return templateList.getAll();
-  // }
+  public RenderableTemplate getByIDandGroup(ArrayList<RenderableTemplate> _tps, char _id, SegmentGroup _sg){
+    for(RenderableTemplate tp : _tps){
+      if(tp.getTemplateID() == _id && tp.getSegmentGroup() == _sg) return tp;
+    }
+    return null;
+  }
   
   public TemplateList getTemplateList(){
     return templateList;
