@@ -214,6 +214,18 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
       freeliner.templateManager.setCustomColor(id, col);
     }  
   }
+  if(theOscMessage.checkAddrPattern("/freeliner/trigger")==true) {
+    /* check if the typetag is the right one. */
+    if(theOscMessage.checkTypetag("s")) {
+      char id = theOscMessage.get(0).stringValue().charAt(0);
+      freeliner.templateManager.trigger(id);
+    } 
+    if(theOscMessage.checkTypetag("si")) {
+      char id = theOscMessage.get(0).stringValue().charAt(0);
+      freeliner.templateManager.trigger(id, theOscMessage.get(1).intValue());
+    }  
+  }
+
 }
 
 void oscTick(){

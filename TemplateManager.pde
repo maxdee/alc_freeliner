@@ -158,7 +158,9 @@ class TemplateManager{
     }
   }
 
-  public void trigger(char _c, SegmentGroup _sg){
+  public void trigger(char _c, int _id){
+    SegmentGroup _sg = groupManager.getGroup(_id);
+    if(_sg == null) return;
     TweakableTemplate _tp = getTemplate(_c);
     if(_tp == null) return;
     eventList.add(eventFactory(_tp, _sg));   
