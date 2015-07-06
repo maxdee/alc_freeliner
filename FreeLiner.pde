@@ -1,4 +1,4 @@
-/**
+               /**
  * ##copyright##
  * See LICENSE.md
  * 
@@ -23,13 +23,9 @@ class FreeLiner {
   Mouse mouse;
   Keyboard keyboard;
 
-  // OSC not in use.
-  //OscP5 oscP5;
   PImage imageBackground;
 
   public FreeLiner() {
-    //network
-    //oscP5 = new OscP5(this, 3333);
 
     // instantiate 
     // model

@@ -52,7 +52,8 @@
   final color SNAPPED_CURSOR_COLOR = color(0, 200, 0);
   final color TEXT_COLOR = INVERTED_COLOR ? color(0) : color(255);
 
-  final color SEGMENT_COLOR = color(170);
+  final color SEGMENT_COLOR = color(190);
+  final color SEGMENT_COLOR_UNSELECTED = color(110);
 
   PShape arrow;
 
@@ -64,7 +65,7 @@
   // reference gridSize and grid canvas, gets updated if the mouse gridSize changes.
   int gridSize = 30;
   PShape grid;
-  final color GRID_COLOR = color(75);
+  final color GRID_COLOR = color(150);
   //PGraphics grid;
   // for auto hiding the GUI
   int guiTimeout = 1000;
@@ -325,9 +326,11 @@
    */
   public void showGroupLines(SegmentGroup _sg) {
     ArrayList<Segment> segs =  _sg.getSegments();
-    if(segs != null)
-      for (Segment seg : segs)
-        showSegmentLines(seg);
+    if(segs != null){
+      for (Segment seg : segs){
+        showSegmentLines(seg, _sg);
+      }
+    }
   }
 
   /**
@@ -335,9 +338,10 @@
    * If it is centered it also shows the path offset.
    * @param Segment segment to draw
    */
-  public void showSegmentLines(Segment _s) {
+  public void showSegmentLines(Segment _s, SegmentGroup _sg) {
     if(groupManager.getSnappedSegment() == _s) canvas.stroke(SNAPPED_CURSOR_COLOR);
-    else canvas.stroke(SEGMENT_COLOR);
+    else if(_sg == groupManager.getSelectedGroup()) canvas.stroke(SEGMENT_COLOR);
+    else canvas.stroke(SEGMENT_COLOR_UNSELECTED);
     canvas.strokeWeight(1);
     vecLine(canvas, _s.getRegA(), _s.getRegB());
     //canvas.stroke(100);

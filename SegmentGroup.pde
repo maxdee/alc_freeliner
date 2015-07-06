@@ -129,6 +129,7 @@ class SegmentGroup {
   public void addSegment(PVector _a, PVector _b){
     segments.add(new Segment(_a, _b));
     segCount++;
+    updateGeometry();
   }
 
   /**

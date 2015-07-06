@@ -97,7 +97,7 @@ class SegmentBranch extends SegmentSelector{
 	}
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
 		int index = _event.getBeatCount();
-		if(_event.getDirection()) index = 10000 - (index % 9999);
+		if(_event.getDirection()) index = 10000 - (index % 9999); // dosent seem to work...
 		return _event.segmentGroup.getBranch(index);
 	} 
 }

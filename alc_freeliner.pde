@@ -191,7 +191,6 @@ void mouseWheel(MouseEvent event) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the address pattern we are looking for. */
-  
   if(theOscMessage.checkAddrPattern("/freeliner/tweak")==true) {
     /* check if the typetag is the right one. */
     if(theOscMessage.checkTypetag("ssi")) {
@@ -229,10 +228,10 @@ void oscTick(){
 
 void setupLEDs(){
   // init the subclass of freeLEDing
-  freeLED = new FreeLEDing();
-  //freeLED = new OctoLEDing(this, "/dev/ttyACM0");
+  //freeLED = new FreeLEDing();
+  freeLED = new OctoLEDing(this, "/dev/ttyACM0");
   // load a ledmap file
-  freeLED.parseLEDfile("data/ledstarmap.xml");
+  freeLED.parseLEDfile("data/led_landr2.xml");
 }
 
 void updateLEDs(){

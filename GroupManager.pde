@@ -206,6 +206,7 @@ class GroupManager{
   public void saveGroups(){
     XML groupData = new XML("groups");
     for(SegmentGroup grp : groups){
+      if(grp.isEmpty()) continue;
       XML xgroup = groupData.addChild("group");
       xgroup.setInt("ID", grp.getID());
       xgroup.setFloat("centerX", grp.getCenter().x);
@@ -253,10 +254,13 @@ class GroupManager{
         getSelectedGroup().addSegment(posA.get(), posB.get()); 
       }
       getSelectedGroup().mouseInput(LEFT, posB);
-      getSelectedGroup().setNeighbors();
+      // //getSelectedGroup().setNeighbors();
+      // getSelectedGroup().updateGeometry();
       posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
       // bug with centering? seems ok...
-      if(abs(posA.x - getSelectedGroup().getSegment(0).getA().x) > 2) getSelectedGroup().placeCenter(posA);
+      //println(getSelectedGroup().sortedSegments.size());
+      if(abs(posA.x - getSelectedGroup().getSegment(1).getA().x) > 2) getSelectedGroup().placeCenter(posA);
+      
     }
   }
 

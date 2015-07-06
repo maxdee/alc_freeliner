@@ -56,7 +56,6 @@ class Keyboard{
     "j    reverseMode",
     "k    internalClock",
     "l    loop mode",
-    "m    modulator", 
     "n    newItem", 
     "o    rotation",
     "p    probability",
@@ -452,7 +451,6 @@ class Keyboard{
         else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));  
         else if (_k == 'u') valueGiven_ = str(_template.setEnablerMode(_n));
         else if (_k == '%') valueGiven_ = str(_template.setBankIndex(_n));
-        //else if (_k == 'm') valueGiven_ = str(_template.setModulationMode(_n));  
         else used_ = false;
       }
       

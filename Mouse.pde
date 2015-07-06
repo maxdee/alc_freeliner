@@ -303,6 +303,7 @@ class Mouse{
   public int setGridSize(int _v) {
     if(_v >= 10 || _v==-1 || _v==-2){
       gridSize = numTweaker(_v, gridSize);
+      if(gridSize < 10) gridSize = 10;
     }
     return gridSize;
   }
