@@ -112,9 +112,11 @@ class TemplateRenderer {
 	}
 
   public void render(ArrayList<RenderableTemplate> _toRender){
+    // copy arraylist
+    ArrayList<RenderableTemplate> lst = new ArrayList<RenderableTemplate>(_toRender);
     // render templates
-    if(_toRender.size() > 0)
-      for(RenderableTemplate rt : _toRender)
+    if(lst.size() > 0)
+      for(RenderableTemplate rt : lst)
         renderTemplate(rt);
   }
 
@@ -143,7 +145,7 @@ class TemplateRenderer {
     // get multiple unit intervals to use
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
-
+    
     for(float flt : flts){
       // Repition object return arrayList of unit intervals.
       // negative values indicates going in reverse

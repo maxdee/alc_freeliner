@@ -87,7 +87,7 @@ class RenderableTemplate extends TweakableTemplate{
  */
 	public RenderableTemplate(Template _te, SegmentGroup _sg){
 		super(_te.getTemplateID());
-		println(_te.getStrokeMode());
+		//println(_te.getStrokeMode());
 		sourceTemplate = _te;
 		copy(_te);
 		segmentGroup = _sg;
