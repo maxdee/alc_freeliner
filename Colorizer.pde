@@ -1,5 +1,7 @@
 
 // base class for color picking
+// add global color pallette to manipulate.
+// then the color cycling modes can hop between pre determined colours.
 class Colorizer {
 	//custom colors?
 	final String name = "Colorizer";
@@ -64,7 +66,7 @@ class PalletteColor extends Colorizer {
 }
 
 /**
- * Basic white
+ * Random primary color
  */
 class RandomPrimaryColor extends Colorizer {
 	public RandomPrimaryColor(){
@@ -73,6 +75,20 @@ class RandomPrimaryColor extends Colorizer {
 
 	public color get(RenderableTemplate _event){
 		color c =  pallet[(_event.getRandomValue() % 3)+2];
+		return  alphaMod(c ,_event.getAlpha());
+	}
+}
+
+/**
+ * 
+ */
+class PrimaryBeatColor extends Colorizer {
+	public PrimaryBeatColor(){
+		
+	}
+
+	public color get(RenderableTemplate _event){
+		color c =  pallet[(_event.getRawBeatCount() % 3)+2];
 		return  alphaMod(c ,_event.getAlpha());
 	}
 }
@@ -170,7 +186,7 @@ class Strobe extends Colorizer {
 		// if(_event.getLerp()<0.2) return color(255);
 		// else return color(0);
 		if(maybe(20)) return color(255);
-		else return color(0);
+		else return color(0,0,0,0);
 	}
 }
 

@@ -85,9 +85,10 @@ class TemplateManager{
 
   // synchronise renderable templates lists
   private void syncTemplates(ArrayList<RenderableTemplate> _tp){
+    ArrayList<RenderableTemplate> lst = new ArrayList<RenderableTemplate>(_tp);
     int beatDv = 1;
     if(_tp.size() > 0){
-      for (RenderableTemplate rt : _tp) {
+      for (RenderableTemplate rt : lst) {
         beatDv = rt.getBeatDivider();
         rt.setUnitInterval(sync.getLerp(beatDv));
         rt.setBeatCount(sync.getPeriod(beatDv));

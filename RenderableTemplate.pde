@@ -268,6 +268,8 @@ class RenderableTemplate extends TweakableTemplate{
 }
 
 
+
+// this is for triggering system
 class KillableTemplate extends RenderableTemplate{
 	
 	float unitIntervalOffset;
