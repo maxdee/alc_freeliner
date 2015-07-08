@@ -186,7 +186,7 @@ class Strobe extends Colorizer {
 		// if(_event.getLerp()<0.2) return color(255);
 		// else return color(0);
 		if(maybe(20)) return color(255);
-		else return color(0,0,0,0);
+		else return color(255,0);
 	}
 }
 
