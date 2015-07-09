@@ -12,6 +12,10 @@
 
 import oscP5.*;
 import netP5.*;
+// Syphon!!
+// uncomment code following Syphon!!
+//import codeanticode.syphon.*;
+//SyphonServer spyhonServer;
 
 FreeLiner freeliner;
 PFont font;
@@ -89,6 +93,9 @@ void setup() {
   // attempting to skip anoying white screen on startup
   //frame.setBackground(new java.awt.Color(0, 0, 0));
   //textureMode(NORMAL);
+
+  // Syphon!!
+  //spyhonServer = new SyphonServer(this, "alcFreeliner");
 }
 
 /**
@@ -144,6 +151,8 @@ void draw() {
   if(doSplash) splash();
   freeliner.update();
   if(LED_MODE) updateLEDs();
+  // Syphon!!
+  //spyhonServer.sendImage(freeLiner.templateRenderer.getCanvas());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
