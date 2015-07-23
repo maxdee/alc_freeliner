@@ -89,11 +89,16 @@ class SegmentGroup {
     findRealNeighbors();
     sortSegments();
     setNeighbors();
+    updateAngles();
     if(centered) placeCenter(center);
     generateShape();
     if(segments.size() == 0) sortedSegments.clear();
   }
 
+
+  private void updateAngles(){
+    for(Segment seg : segments) seg.updateAngle();
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -247,6 +252,10 @@ class SegmentGroup {
     }
   }
 
+
+  /**
+   * Make a PShape of the geometry
+   */
   private void generateShape() {
     itemShape = createShape();
     itemShape.textureMode(NORMAL);

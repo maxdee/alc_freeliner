@@ -183,6 +183,7 @@ class GroupManager{
   private void reCenter(){
     for(SegmentGroup sg : groups){
       if(sg.isCentered()) sg.placeCenter(sg.getCenter());
+      sg.updateGeometry();
       //else sg.placeCenter(sg.getSegmentStart());
     }
   }
