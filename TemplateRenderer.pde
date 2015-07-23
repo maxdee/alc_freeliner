@@ -221,6 +221,8 @@ class TemplateRenderer {
    */ 
   public int setTrails(int v){
     trailmix = numTweaker(v, trailmix);
+    if(v == 255) trails = false;
+    else trails = true;
     fadefrag.set("fadeforce", float(trailmix)/255);
     return trailmix;
   }

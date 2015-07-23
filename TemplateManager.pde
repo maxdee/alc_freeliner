@@ -167,6 +167,13 @@ class TemplateManager{
     eventList.add(eventFactory(_tp, _sg));   
   }
 
+  public void oscTrigger(String _tags, int _gp){
+    for(int i = 0; i < _tags.length(); i++){
+      if(_gp != -1) trigger(_tags.charAt(i), _gp);
+      else trigger(_tags.charAt(i));
+    }
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Actions
@@ -210,9 +217,11 @@ class TemplateManager{
   /**
    * Set a template's custom color, this is done with OSC.
    */
-  public void setCustomColor(char _id, color _c){
-    TweakableTemplate tp = getTemplate(_id);
-    if(tp != null) tp.setCustomColor(_c);
+  public void setCustomColor(String _tags, color _c){
+    for(int i = 0; i < _tags.length(); i++){
+      TweakableTemplate tp = getTemplate(_tags.charAt(i));
+      if(tp != null) tp.setCustomColor(_c);
+    }
   }
 
 

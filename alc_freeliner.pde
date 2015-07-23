@@ -49,7 +49,7 @@ boolean INVERTED_COLOR = false;
 final String BG_IMAGE_FILE = "data/###backgroundImage.jpg";
 
 // are you using OSX? I do not, I use GNU/Linux
-final boolean OSX = false;
+boolean OSX = false;
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -75,7 +75,7 @@ void setup() {
   oscP5 = new OscP5(this,6667);
   toPDpatch = new NetAddress("127.0.0.1",6668);
   // set OS
-  if(System.getProperty("os.name") == "Mac OS X") OSX = true;
+  if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
 }
 
@@ -182,37 +182,45 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
     /* check if the typetag is the right one. */
     if(theOscMessage.checkTypetag("ssi")) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
-      char tp = theOscMessage.get(0).stringValue().charAt(0);
+      String tags = theOscMessage.get(0).stringValue();
       char kay = theOscMessage.get(1).stringValue().charAt(0);
       int val = theOscMessage.get(2).intValue();
-      freeliner.keyboard.oscDistribute(tp, kay, val);
+      freeliner.keyboard.oscDistribute(tags, kay, val);
+    }  
+  }
+
+  if(theOscMessage.checkAddrPattern("/freeliner/trigger")==true) {
+    /* check if the typetag is the right one. */
+    if(theOscMessage.checkTypetag("s")) {
+      String tags = theOscMessage.get(0).stringValue();
+      freeliner.templateManager.oscTrigger(tags, -1);
+    } 
+    if(theOscMessage.checkTypetag("si")) {
+      String tags = theOscMessage.get(0).stringValue();
+      freeliner.templateManager.oscTrigger(tags, theOscMessage.get(1).intValue());
     }  
   }
   if(theOscMessage.checkAddrPattern("/freeliner/color")==true) {
     /* check if the typetag is the right one. */
     if(theOscMessage.checkTypetag("siiii")) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
-      char id = theOscMessage.get(0).stringValue().charAt(0);
+      String tags = theOscMessage.get(0).stringValue();
       color col = color(
         theOscMessage.get(1).intValue(),
         theOscMessage.get(2).intValue(),
         theOscMessage.get(3).intValue(),
         theOscMessage.get(4).intValue());
-      freeliner.templateManager.setCustomColor(id, col);
+      freeliner.templateManager.setCustomColor(tags, col);
     }  
   }
-  if(theOscMessage.checkAddrPattern("/freeliner/trigger")==true) {
+  if(theOscMessage.checkAddrPattern("/freeliner/trails") == true) {
     /* check if the typetag is the right one. */
-    if(theOscMessage.checkTypetag("s")) {
-      char id = theOscMessage.get(0).stringValue().charAt(0);
-      freeliner.templateManager.trigger(id);
-    } 
-    if(theOscMessage.checkTypetag("si")) {
-      char id = theOscMessage.get(0).stringValue().charAt(0);
-      freeliner.templateManager.trigger(id, theOscMessage.get(1).intValue());
+    if(theOscMessage.checkTypetag("i")) {
+      /* parse theOscMessage and extract the values from the osc message arguments. */
+      int tval = theOscMessage.get(0).intValue();
+      freeliner.templateRenderer.setTrails(tval);
     }  
   }
-
 }
 
 void oscTick(){

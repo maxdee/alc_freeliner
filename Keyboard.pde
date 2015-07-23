@@ -406,10 +406,12 @@ class Keyboard{
   }
 
 
-  public void oscDistribute(char _tmp, char _k, int _n){
-    TweakableTemplate _rt = templateManager.getTemplate(_tmp);
-    if(_rt != null){
-      rendererDispatch(_rt, _k, _n, false);
+  public void oscDistribute(String _tags, char _k, int _n){
+    for(int i = 0; i < _tags.length(); i++){
+      TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
+      if(_rt != null){
+        rendererDispatch(_rt, _k, _n, false);
+      }
     }
   }
 
