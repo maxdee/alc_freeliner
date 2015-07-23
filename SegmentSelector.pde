@@ -40,7 +40,7 @@ class SequentialSegments extends SegmentSelector{
 		ArrayList<Segment> segs = new ArrayList();
 		int index = _event.getBeatCount();
 		if(_event.getDirection()) index = 10000 - (index % 9999);
-		segs.add(_event.segmentGroup.getSegment(index));
+		segs.add(_event.segmentGroup.getSegmentSequence(index));
 		return segs;
 	}
 }

@@ -368,6 +368,14 @@ class SegmentGroup {
     return null;
   }
   
+  // Segment accessors
+  public Segment getSegmentSequence(int _index){
+    //if(_index >= segments.size()) return null;
+    if(_index >= 0) return sortedSegments.get(_index%sortedSegCount);
+    return null;
+  }
+
+
   public ArrayList<ArrayList<Segment>> getBranches(){
     return treeBranches; 
   } 
