@@ -184,16 +184,16 @@ class Keyboard{
  */
   public void processKeyCodes(int kc) {
     if (kc==SHIFT) shifted = true;
-    else if (kc == ESC) unSelectThings();
+    else if (kc == ESC || kc == 27) unSelectThings();
     else if (kc==CONTROL) setCtrled(true);
-    else if (kc==ALT) alted = true;
+    else if (kc==ALT) setAlted(true);
     else if (kc==UP) groupManager.nudger(false, -1, shifted);
     else if (kc==DOWN) groupManager.nudger(false, 1, shifted);
     else if (kc==LEFT) groupManager.nudger(true, -1, shifted);
     else if (kc==RIGHT) groupManager.nudger(true, 1, shifted);
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
-    else if (kc==DELETE) groupManager.deleteSegment();
+    else if (kc==BACKSPACE) groupManager.deleteSegment();
     else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.  
   }
 
@@ -540,6 +540,15 @@ class Keyboard{
     else ctrled = false;
   }
 
+  public void setAlted(boolean _b){
+    if(_b){
+      ctrled = true;
+      if(OSX) mouse.setOrigin();
+    }
+    else ctrled = false;
+  }
+
+
   public boolean toggleEnterText(){
     enterText = !enterText;
     return enterText;
@@ -552,6 +561,7 @@ class Keyboard{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   public boolean isCtrled(){
+    if(OSX) return alted;
     return ctrled;
   }
   public boolean isShifted(){
