@@ -7,17 +7,12 @@
  * @since     2014-12-01
  */
 
-
-// add scrolling text and osc settable text
-
 import oscP5.*;
 import netP5.*;
-// Syphon!!
-// uncomment code following Syphon!!
-//import codeanticode.syphon.*;
-//SyphonServer spyhonServer;
 
 FreeLiner freeliner;
+
+// fonts
 PFont font;
 PFont introFont;
 boolean doSplash = true;
@@ -45,7 +40,7 @@ int xres = 1024;
 int yres = 768;
 
 // for the glitch gallery ballpit
-boolean ballPit = false;//true;
+final boolean BALL_PIT = false;//true;
 
 // invert colors
 boolean INVERTED_COLOR = false;
@@ -56,15 +51,7 @@ final String BG_IMAGE_FILE = "data/###backgroundImage.jpg";
 // are you using OSX? I do not, I use GNU/Linux
 final boolean OSX = false;
 
-////////////////////////////////////////////////////////////////////////////////////
-///////
-///////     LED system
-///////
-////////////////////////////////////////////////////////////////////////////////////
 
-// enable LEDsystem
-final boolean LED_MODE = false;
-FreeLEDing freeLED;
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -79,23 +66,16 @@ void setup() {
   // load fonts
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");
-  
   splash();
+
+  // pick your flavour of freeliner
   freeliner = new FreeLiner();
+  //freeliner = new FreelinerLED(this, "led_echo.xml");
+  //freeliner = new FreelinerSyphon(this);
 
   // osc setup
   oscP5 = new OscP5(this,6667);
   toPDpatch = new NetAddress("127.0.0.1",6668);
-
-  if(LED_MODE) setupLEDs();
-
-  // cruft
-  // attempting to skip anoying white screen on startup
-  //frame.setBackground(new java.awt.Color(0, 0, 0));
-  //textureMode(NORMAL);
-
-  // Syphon!!
-  //spyhonServer = new SyphonServer(this, "alcFreeliner");
 }
 
 /**
@@ -150,9 +130,6 @@ void draw() {
   else background(0);
   if(doSplash) splash();
   freeliner.update();
-  if(LED_MODE) updateLEDs();
-  // Syphon!!
-  //spyhonServer.sendImage(freeLiner.templateRenderer.getCanvas());
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -177,14 +154,14 @@ void mousePressed(MouseEvent event) {
 }
 
 void mouseDragged() {
-  if(ballPit && mouseX < width/2) freeliner.getMouse().drag(mouseButton, 
+  if(BALL_PIT && mouseX < width/2) freeliner.getMouse().drag(mouseButton, 
                                               -(int((mouseY/(float)height)*(width/2.0)))+width/2,
                                               (int((mouseX/(width/2.0))*height)));
   else freeliner.getMouse().drag(mouseButton, mouseX, mouseY);
 }
 
 void mouseMoved() {
-  if(ballPit && mouseX < width/2) freeliner.getMouse().move(-(int((mouseY/(float)height)*(width/2.0)))+width/2,
+  if(BALL_PIT && mouseX < width/2) freeliner.getMouse().move(-(int((mouseY/(float)height)*(width/2.0)))+width/2,
                                               (int((mouseX/(width/2.0))*height))); 
   else freeliner.getMouse().move(mouseX, mouseY);
 }
@@ -239,30 +216,5 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
 
 void oscTick(){
   oscP5.send(tickmsg, toPDpatch); 
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-///////
-///////    LED system
-///////
-////////////////////////////////////////////////////////////////////////////////////
-
-void setupLEDs(){
-  // init the subclass of freeLEDing
-  //freeLED = new FreeLEDing();
-  freeLED = new OctoLEDing(this, "/dev/ttyACM0");
-  // load a ledmap file
-  freeLED.parseLEDfile("data/led_landr2.xml");
-}
-
-void updateLEDs(){
-  // parse the graphics
-  freeLED.parseGraphics(freeliner.getCanvas());
-  // draw the LED statuses
-  //octoLED.drawLEDstatus(this.g);
-  // output to whatever
-  freeLED.output();
-  // draw the LED map
-  image(freeLED.getMap(),0,0);
 }
 
