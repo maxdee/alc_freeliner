@@ -31,7 +31,7 @@
  * CTRL feather mouse + (ctrl)...
  * UP DOWN LEFT RIGHT move snapped or previous point, SHIFT for faster
  * TAB tab through segmentGroups, SHIFT to reverse
- * DELETE remove selected segment
+ * BACKSPACE remove selected segment
  * <p>
  * CTRL + KEYS MAPPING
  * ctrl-a   selectAll
@@ -542,10 +542,10 @@ class Keyboard{
 
   public void setAlted(boolean _b){
     if(_b){
-      ctrled = true;
+      alted = true;
       if(OSX) mouse.setOrigin();
     }
-    else ctrled = false;
+    else alted = false;
   }
 
 
