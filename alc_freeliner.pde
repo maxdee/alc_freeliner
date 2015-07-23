@@ -74,6 +74,9 @@ void setup() {
   // osc setup
   oscP5 = new OscP5(this,6667);
   toPDpatch = new NetAddress("127.0.0.1",6668);
+  // set OS
+  if(System.getProperty("os.name") == "Mac OS X") OSX = true;
+  else OSX = false;
 }
 
 /**
