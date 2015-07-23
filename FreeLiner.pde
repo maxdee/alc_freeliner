@@ -44,7 +44,6 @@ class FreeLiner {
     templateManager.inject(groupManager);
   }
 
-  PShader fadefrag;
   /**
    * It all starts here...
    */

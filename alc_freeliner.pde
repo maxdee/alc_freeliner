@@ -51,8 +51,6 @@ final String BG_IMAGE_FILE = "data/###backgroundImage.jpg";
 // are you using OSX? I do not, I use GNU/Linux
 final boolean OSX = false;
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     Setup

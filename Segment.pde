@@ -92,13 +92,14 @@ class Segment {
   }
 
   private void findOffset() {
+    if(neighbA == null || neighbB == null) return;
     offA = inset(pointA, neighbA.getRegA(), pointB, center, scaledSize);
     offB = inset(pointB, pointA, neighbB.getRegB(), center, scaledSize);
   }
 
   public void setPointA(PVector p){
     pointA = p.get();
-    
+    updateAngle();
   }
 
   public void setPointB(PVector p){

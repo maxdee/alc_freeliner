@@ -39,9 +39,11 @@ class SegmentGroup {
   PShape itemShape;
 
   ArrayList<Segment> segments;
-  ArrayList<Segment> sortedSegments;
-  ArrayList<ArrayList<Segment>> treeBranches; 
   int segCount = 0;
+  ArrayList<Segment> sortedSegments;
+  int sortedSegCount = 0;
+  ArrayList<ArrayList<Segment>> treeBranches; 
+
   TemplateList templateList;
   PVector center;
   PVector segmentStart;
@@ -231,12 +233,15 @@ class SegmentGroup {
     int v1 = 0;
     int v2 = 0;
     if (segCount>0) {
-      for (int i = 0; i<segCount; i++) {
+      for (int i = 0; i < sortedSegCount; i++) {
         v1 = i-1;
         v2 = i+1;
-        if (i==0) v1 = segCount-1; // maybe wrong
-        if (i==segCount-1) v2 = 0;
-        sortedSegments.get(i).setNeighbors(sortedSegments.get(v1), sortedSegments.get(v2));
+        if (i==0) v1 = sortedSegCount-1; // maybe wrong
+        if (i >= sortedSegCount-1) v2 = 0;
+        Segment s1 = getSegment(v1);
+        Segment s2 = getSegment(v2);
+        if(s1 != null && s2 != null)
+          getSegment(i).setNeighbors(s1, s2);
         //segments.get(i).setNeighbors(segments.get(v1), segments.get(v2));
       }
     }
@@ -267,33 +272,6 @@ class SegmentGroup {
 
     itemShape.endShape(CLOSE);//CLOSE dosent work...
   }
-
-
-  // private void generateShape() {
-  //   itemShape = createShape();
-  //   itemShape.textureMode(NORMAL);
-  //   itemShape.beginShape();
-  //   itemShape.strokeJoin(ROUND);
-  //   itemShape.strokeCap(ROUND); //strokeCap(SQUARE);
-  //   float _x = 0;
-  //   float _y = 0;
-  //   if(segCount!=0){
-  //     for (int i = 0; i < segCount; i++) {
-  //       _x = segments.get(i).getRegA().x;
-  //       _y = segments.get(i).getRegA().y;
-  //       itemShape.vertex(_x, _y, _x/width, _y/height);
-  //     }
-  //     _x = segments.get(0).getRegA().x;
-  //     _y = segments.get(0).getRegA().y;
-  //     itemShape.vertex(_x, _y, _x/width, _y/height);
-  //   }
-  //   else {
-  //     itemShape.vertex(0,0);
-  //     itemShape.vertex(0,0);
-  //   }
-
-  //   itemShape.endShape(CLOSE);//CLOSE dosent work...
-  // }
 
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -361,6 +339,7 @@ class SegmentGroup {
     for(ArrayList<Segment> brnch : treeBranches)
       for(Segment seg : brnch)
         sortedSegments.add(seg);
+    sortedSegCount = sortedSegments.size();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -376,7 +355,7 @@ class SegmentGroup {
   // Segment accessors
   public Segment getSegment(int _index){
     //if(_index >= segments.size()) return null;
-    if(sortedSegments.size() > 0 && _index >= 0) return sortedSegments.get(_index % sortedSegments.size());
+    if(_index >= 0 && _index < sortedSegCount) return sortedSegments.get(_index);
     return null;
   }
   
