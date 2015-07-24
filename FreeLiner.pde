@@ -18,6 +18,7 @@ class FreeLiner {
   TemplateManager templateManager;
   // view
   TemplateRenderer templateRenderer;
+  int trailmix = -1;
   Gui gui;
   // control
   Mouse mouse;
@@ -64,8 +65,15 @@ class FreeLiner {
     if(gui.doDraw()){
       image(gui.getCanvas(), 0, 0);
     }
+    if(trailmix != -1){
+      templateRenderer.setTrails(trailmix);
+      trailmix = -1;
+    }
   }
 
+  public void oscSetTrails(int _t){
+    trailmix = _t;
+  }
 
 
   public Mouse getMouse(){

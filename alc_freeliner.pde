@@ -218,7 +218,7 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
     if(theOscMessage.checkTypetag("i")) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
       int tval = theOscMessage.get(0).intValue();
-      freeliner.templateRenderer.setTrails(tval);
+      freeliner.oscSetTrails(tval);
     }  
   }
 }

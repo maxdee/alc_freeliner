@@ -376,7 +376,7 @@ class Keyboard{
       else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
       //else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
       else if (_k == '@') groupManager.saveGroups();//Vertices();
-      else if (_k == '#') groupManager.loadGroups();
+      else if (_k == '#') groupManager.loadGroups(templateManager);
       else used_ = false;
     }
     else {

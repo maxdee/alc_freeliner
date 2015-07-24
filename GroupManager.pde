@@ -208,10 +208,12 @@ class GroupManager{
     XML groupData = new XML("groups");
     for(SegmentGroup grp : groups){
       if(grp.isEmpty()) continue;
+      if(grp.getID() == 0 | grp.getID() == 1) continue;
       XML xgroup = groupData.addChild("group");
       xgroup.setInt("ID", grp.getID());
       xgroup.setFloat("centerX", grp.getCenter().x);
       xgroup.setFloat("centerY", grp.getCenter().y);
+      xgroup.setString("tags", grp.getTemplateList().getTags());
       for(Segment seg : grp.getSegments()){
         XML xseg = xgroup.addChild("segment");
         xseg.setFloat("aX",seg.getRegA().x);
@@ -227,7 +229,7 @@ class GroupManager{
   // what a mess what a mess
   // we cant have that we cant have that
   // clean it up clean it up
-  public void loadGroups(){
+  public void loadGroups(TemplateManager _tm){
     XML file;
     try {
       file = loadXML("data/groups.xml");
@@ -240,13 +242,13 @@ class GroupManager{
     XML[] groupData = file.getChildren("group");
     PVector posA = new PVector(0,0);
     PVector posB = new PVector(0,0);
-    int skip = 1; // or 2 or none?
+    // int skip = 0; // or 2 or none?
 
     for(XML xgroup : groupData){
-      if(skip > 0){
-        skip--;
-        continue;
-      }
+      // if(skip > 0){
+      //   skip--;
+      //   continue;
+      // }
       newGroup();
       XML[] xseg = xgroup.getChildren("segment");
       for(XML seg : xseg){
@@ -258,9 +260,15 @@ class GroupManager{
       // //getSelectedGroup().setNeighbors();
       // getSelectedGroup().updateGeometry();
       posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
+      String _tags = xgroup.getString("tags");
+      if(_tags.length()>0){
+        for(int i = 0; i < _tags.length();i++){
+          getSelectedGroup().getTemplateList().toggle(_tm.getTemplate(_tags.charAt(i)));
+        }
+      }
       // bug with centering? seems ok...
       //println(getSelectedGroup().sortedSegments.size());
-      if(abs(posA.x - getSelectedGroup().getSegment(1).getA().x) > 2) getSelectedGroup().placeCenter(posA);
+      if(abs(posA.x - getSelectedGroup().getSegment(0).getB().x) > 2) getSelectedGroup().placeCenter(posA);
       
     }
   }
@@ -411,3 +419,60 @@ class GroupManager{
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+// public void loadGroups(){
+//     XML file;
+//     try {
+//       file = loadXML("data/groups.xml");
+//     }
+//     catch (Exception e){
+//       println("No groups.xml");
+//       return;
+//     }
+
+//     XML[] groupData = file.getChildren("group");
+//     PVector posA = new PVector(0,0);
+//     PVector posB = new PVector(0,0);
+//     // int skip = 0; // or 2 or none?
+
+//     for(XML xgroup : groupData){
+//       // if(skip > 0){
+//       //   skip--;
+//       //   continue;
+//       // }
+//       newGroup();
+//       if(xgroup.getChildCount() == 1){
+//         XML seg = xgroup.getChild("segment");
+//         posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
+//         posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
+//         getSelectedGroup().addSegment(posA.get(), posB.get()); 
+//       }
+//       else {
+//         XML[] xseg = xgroup.getChildren("segment");
+//         for(XML seg : xseg){
+//           posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
+//           posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
+//           getSelectedGroup().addSegment(posA.get(), posB.get()); 
+//         }
+//       }
+//       getSelectedGroup().mouseInput(LEFT, posB);
+//       // //getSelectedGroup().setNeighbors();
+//       // getSelectedGroup().updateGeometry();
+//       posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
+//       // bug with centering? seems ok...
+//       //println(getSelectedGroup().sortedSegments.size());
+//       if(abs(posA.x - getSelectedGroup().getSegment(1).getA().x) > 2) getSelectedGroup().placeCenter(posA);
+      
+//     }
+//   }
+
