@@ -172,7 +172,7 @@ class BrushPutter extends SegmentPainter{
     applyStyle(shape_);
     canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
-    canvas.rotate(_a+HALF_PI+event.getAngleMod()); 
+    canvas.rotate(_a+ HALF_PI +event.getAngleMod()); 
     canvas.shape(shape_);
     canvas.popMatrix();
 	}

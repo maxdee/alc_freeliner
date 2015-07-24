@@ -162,6 +162,7 @@ class TemplateRenderer {
       repetitionCount++;
       // modify angle modifier
       tweakAngle(_rt);
+      println(_rt.getDirection());
       // pass template to renderer
       getRenderer(_rt.getRenderMode()).doRender(_rt);
     }
@@ -172,15 +173,26 @@ class TemplateRenderer {
    * One of the last few things to expand into 
    * @param RenderableTemplate to render.
    */ 
+  // public void tweakAngle(RenderableTemplate _rt){
+  //   int rotMode = _rt.getRotationMode();
+  //   if(rotMode > 0){
+  //     if(_rt.getDirection()) _rt.setAngleMod(PI*rotMode*_rt.getLerp());
+  //     else _rt.setAngleMod(PI*-rotMode*_rt.getLerp());
+  //   }
+  //   else _rt.setAngleMod(0);
+  // }
+
+
   public void tweakAngle(RenderableTemplate _rt){
     int rotMode = _rt.getRotationMode();
+    float ang = 0;
     if(rotMode > 0){
-      if(rotMode < 4) _rt.setAngleMod(_rt.getLerp()*PI*-rotMode);
-      else if(rotMode >= 4) _rt.setAngleMod(_rt.getLerp()*PI*(rotMode-3));
+      if(rotMode < 4) ang = _rt.getLerp()*PI*-rotMode;
+      else if(rotMode >= 4) ang = _rt.getLerp()*PI*(rotMode-3);
+      _rt.setAngleMod(ang);
     }
     else _rt.setAngleMod(0);
   }
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Effects
