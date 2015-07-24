@@ -227,9 +227,9 @@ class RenderableTemplate extends TweakableTemplate{
  		return direction;
  	}
 
-/*
- * Third tier accessors
- */
+	/*
+	 * Third tier accessors
+	 */
  	public final float getUnitInterval(){
  		return unitInterval;
  	}

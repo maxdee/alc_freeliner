@@ -99,7 +99,8 @@ class TwoFull extends Repetition{
 		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 
 		flts.append(lrp);
-		flts.append(lrp-1);
+		if(lrp < 0) flts.append(lrp+1); 
+		else flts.append(lrp-1);
 		return flts;
 	}
 }

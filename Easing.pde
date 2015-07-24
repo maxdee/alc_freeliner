@@ -7,10 +7,6 @@ class Easing {
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return _lrp;
 	}
-
-	public float invert(float _f){
-		return -_f+1.0;
-	}
 }
 
 class NoEasing extends Easing {
@@ -77,7 +73,7 @@ class ReverseLerp extends Easing{
 	public ReverseLerp(){}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
-		return _lrp-1;//invert(_lrp); 
+		return _lrp-1;
 	}
 }
 

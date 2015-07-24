@@ -162,7 +162,6 @@ class TemplateRenderer {
       repetitionCount++;
       // modify angle modifier
       tweakAngle(_rt);
-      println(_rt.getDirection());
       // pass template to renderer
       getRenderer(_rt.getRenderMode()).doRender(_rt);
     }
@@ -189,7 +188,8 @@ class TemplateRenderer {
     if(rotMode > 0){
       if(rotMode < 4) ang = _rt.getLerp()*PI*-rotMode;
       else if(rotMode >= 4) ang = _rt.getLerp()*PI*(rotMode-3);
-      _rt.setAngleMod(ang);
+      if(_rt.getDirection()) ang -= PI;
+      _rt.setAngleMod(ang );
     }
     else _rt.setAngleMod(0);
   }
