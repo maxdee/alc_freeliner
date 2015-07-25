@@ -32,8 +32,8 @@ OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
 // set if the sketch is FULLSCREEN by default
 // if true, the resolution will be automaticaly set
-//final boolean FULLSCREEN = true;
-final boolean FULLSCREEN = false;
+final boolean FULLSCREEN = true;
+//final boolean FULLSCREEN = false;
 
 // default window size if not FULLSCREEN
 int xres = 400;//1024;
