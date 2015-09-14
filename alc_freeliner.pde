@@ -7,6 +7,11 @@
  * @since     2014-12-01
  */
 
+
+// ADD LAST TRIGGERED TWEAK!!!
+// reduce space in infoline
+// cursor style and size
+
 import oscP5.*;
 import netP5.*;
 
@@ -36,8 +41,8 @@ final boolean FULLSCREEN = true;
 //final boolean FULLSCREEN = false;
 
 // default window size if not FULLSCREEN
-int xres = 400;//1024;
-int yres = 600;//768;
+int xres = 1024;
+int yres = 768;
 
 // for the glitch gallery ballpit
 final boolean BALL_PIT = false;//true;
@@ -68,7 +73,7 @@ void setup() {
 
   // pick your flavour of freeliner
   freeliner = new FreeLiner();
-  //freeliner = new FreelinerLED(this, "led_echo.xml");
+  //freeliner = new FreelinerLED(this, "cubemap.xml");
   //freeliner = new FreelinerSyphon(this);
 
   // osc setup

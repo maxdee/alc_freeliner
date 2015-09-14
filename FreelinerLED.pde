@@ -17,7 +17,8 @@ class FreelinerLED extends FreeLiner{
 		super();
 		// init the subclass of freeLEDing
 	  //freeLED = new FreeLEDing();
-	  freeLED = new OctoLEDing(_pa, "/dev/ttyACM0");
+	  //freeLED = new OctoLEDing(_pa, "/dev/ttyACM0");
+	  freeLED = new FastLEDing(_pa, "/dev/ttyACM0");
 	  // load a ledmap file
 	  freeLED.parseLEDfile("data/"+_file);
 	}
