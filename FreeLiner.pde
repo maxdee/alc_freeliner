@@ -1,7 +1,7 @@
 /**
  * ##copyright##
  * See LICENSE.md
- * 
+ *
  * @author    Maxime Damecour (http://nnvtn.ca)
  * @version   0.1
  * @since     2014-12-01
@@ -28,7 +28,7 @@ class FreeLiner {
 
   public FreeLiner() {
 
-    // instantiate 
+    // instantiate
     // model
     groupManager = new GroupManager();
     templateManager =  new TemplateManager();
@@ -79,7 +79,7 @@ class FreeLiner {
   public Mouse getMouse(){
     return mouse;
   }
- 
+
   public Keyboard getKeyboard(){
     return keyboard;
   }
@@ -97,4 +97,3 @@ class FreeLiner {
     //merp
   }
 }
-

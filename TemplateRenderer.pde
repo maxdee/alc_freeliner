@@ -1,6 +1,6 @@
 /**
  * View part
- * The template renderer is where the rendering process begins. 
+ * The template renderer is where the rendering process begins.
  *
  *
  */
@@ -19,7 +19,7 @@ class TemplateRenderer {
   //graphics for rendering
   PGraphics canvas;
 
-  //draw a solid or transparent 
+  //draw a solid or transparent
   boolean trails;
   int trailmix;
 
@@ -27,10 +27,6 @@ class TemplateRenderer {
   boolean record;
   int clipCount;
   int frameCount;
-
-  // experimental
-  PShader fadefrag;
-  boolean useP2D = false;
 
   final color BACKGROUND_COLOR = INVERTED_COLOR ? color(255) : color(0);
 
@@ -43,7 +39,6 @@ class TemplateRenderer {
     canvas.smooth(1);
     canvas.ellipseMode(CENTER);
 
-    fadefrag = loadShader("data/fadefrag.glsl");
     // init variables
     trails = false;
     trailmix = 30;
@@ -76,17 +71,17 @@ class TemplateRenderer {
     enablers[4] = new RandomEnabler();
     enablers[5] = new EveryX(2);
     enablers[6] = new EveryX(3);
-    enablers[7] = new EveryX(4);    
+    enablers[7] = new EveryX(4);
     enablers[8] = new EveryX(5);
     enablers[9] = new EveryX(6);
     enablers[10] = new EveryX(7);
     enablers[11] = new EveryX(8);
-    
+
 	}
 
   public RenderMode getRenderer(int _index){
     if(_index >= RENDERER_COUNT) _index = RENDERER_COUNT - 1;
-    return renderModes[_index]; 
+    return renderModes[_index];
   }
 
   public Repetition getRepeater(int _index){
@@ -101,17 +96,12 @@ class TemplateRenderer {
 	public void beginRender(){
     canvas.beginDraw();
     // either clear or fade the last frame.
-    if(trails){
-      if(!useP2D) alphaBG(canvas, trailmix);
-      else canvas.filter(fadefrag); //alphaBG(canvas, trailmix);//
-    }
-    else {
-      canvas.clear();
-      //canvas.background(BACKGROUND_COLOR);
-    }
+    if(trails) alphaBG(canvas, trailmix);
+    else canvas.clear();
 	}
 
   public void render(ArrayList<RenderableTemplate> _toRender){
+
     // copy arraylist
     ArrayList<RenderableTemplate> lst = new ArrayList<RenderableTemplate>(_toRender);
     // render templates
@@ -145,7 +135,7 @@ class TemplateRenderer {
     // get multiple unit intervals to use
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
-    
+
     for(float flt : flts){
       // Repition object return arrayList of unit intervals.
       // negative values indicates going in reverse
@@ -158,7 +148,7 @@ class TemplateRenderer {
         _rt.setDirection(false);
       }
       // push the repetition count to template
-      _rt.setRepetition(repetitionCount); 
+      _rt.setRepetition(repetitionCount);
       repetitionCount++;
       // modify angle modifier
       tweakAngle(_rt);
@@ -169,9 +159,9 @@ class TemplateRenderer {
 
 
   /**
-   * One of the last few things to expand into 
+   * One of the last few things to expand into
    * @param RenderableTemplate to render.
-   */ 
+   */
   // public void tweakAngle(RenderableTemplate _rt){
   //   int rotMode = _rt.getRotationMode();
   //   if(rotMode > 0){
@@ -203,24 +193,18 @@ class TemplateRenderer {
    * SetBackground with alpha value
    * @param PGraphics to draw
    * @param int alpha value of black
-   */ 
+   */
   private void alphaBG(PGraphics _pg, int _alpha) {
     _pg.fill(BACKGROUND_COLOR, _alpha);
     _pg.stroke(BACKGROUND_COLOR, _alpha);
     _pg.rect(0, 0, width, height);
   }
 
-  public boolean toggleP2D(){
-    useP2D = !useP2D;
-    if(useP2D) canvas = createGraphics(width, height, P2D);
-    else canvas = createGraphics(width, height);
-    return useP2D;
-  }
 
   /**
    * Toggle the use of background with alpha value
    * @return boolean value given
-   */ 
+   */
   public boolean toggleTrails(){
     trails = !trails;
     return trails;
@@ -230,12 +214,11 @@ class TemplateRenderer {
    * Set the alpha value of the background
    * @param int tweaking value
    * @return int value given
-   */ 
+   */
   public int setTrails(int v){
     trailmix = numTweaker(v, trailmix);
     if(v == 255) trails = false;
     else trails = true;
-    fadefrag.set("fadeforce", float(trailmix)/255);
     return trailmix;
   }
 

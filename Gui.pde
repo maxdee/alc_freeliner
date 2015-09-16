@@ -25,7 +25,7 @@
 
 /**
  * The gui class draws various information to a PGraphics canvas.
- * 
+ *
  * <p>
  * All drawing happens here.
  * </p>
@@ -40,7 +40,7 @@
   // SegmentGroup used to display information, aka group 0
   SegmentGroup guiSegments;
   SegmentGroup refSegments;
-  
+
   // canvas for all the GUI elements.
   PGraphics canvas;
   // PShape of the crosshair cursor
@@ -74,7 +74,7 @@
   //ui strings
   // keyString is the parameter associated with lowercase keys, i.e. "q   strokeMode", "g   gridSize".
   String keyString = "derp";
-  // value given to recently modified parameter 
+  // value given to recently modified parameter
   String valueGiven = "__";
   // The TweakableTemplate tags of templates selected by the TemplateManager
   String renderString = "_";
@@ -85,7 +85,7 @@
    */
   public Gui(){
     // init canvas, P2D significantly faster
-    canvas = createGraphics(width, height, P2D);
+    canvas = createGraphics(width, height, P2D);//, FX2D);
     canvas.smooth(0);
     // make grid
     generateGrid(gridSize);
@@ -136,7 +136,7 @@
 
     // draw the grid
     if (mouse.useGrid()){
-      // re-draw the grid if the size changed. 
+      // re-draw the grid if the size changed.
       if(mouse.getGridSize() != gridSize) generateGrid(mouse.getGridSize());
       canvas.shape(grid,0,0); // was without canvas before
     }
@@ -147,7 +147,7 @@
     SegmentGroup sg = groupManager.getSelectedGroup();
     if(sg != null){
       //canvas.fill(255);
-      showTag(sg); 
+      showTag(sg);
       showGroupLines(sg);
       if (viewCursor) previewLine(sg);
     }
@@ -158,7 +158,7 @@
         groupGui(seg);
       }
     }
-    
+
     // draw on screen information with group 0
     infoWritter();
     canvas.endDraw();
@@ -168,7 +168,7 @@
    * This formats the information to display and assigns it to the segements of the gui group.
    */
   private void infoWritter() {
-    // Template tags of selected by selectedGroup or templateManager selected 
+    // Template tags of selected by selectedGroup or templateManager selected
     if(guiSegments.getSegments().size() == 0) return;
     String tags = " ";
     TemplateList rl = groupManager.getTemplateList();
@@ -189,7 +189,7 @@
     // framerate ish
     guiSegments.setWord("[FPS "+(int)frameRate+"]", 4);
     // draw the information that was just set to segments of group 0
-    ArrayList<Segment> segs = guiSegments.getSegments(); 
+    ArrayList<Segment> segs = guiSegments.getSegments();
     int sz = int(guiSegments.getBrushScaler()*20);
     if(segs != null)
       for(Segment seg : segs)
@@ -197,7 +197,7 @@
   }
 
 
-  
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Cursor Parts
@@ -205,7 +205,7 @@
   ////////////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Display the cursor. 
+   * Display the cursor.
    * If it is snapped we display it green.
    * If it seems like we are using a matrox dual head, rotates the cursor to show which projector you are on.
    * @param PVector cursor coordinates
@@ -253,10 +253,10 @@
 
     crosshair.vertex(out, out);
     crosshair.vertex(in, in);
-    
+
     crosshair.vertex(out, -out);
     crosshair.vertex(in, -in);
-    
+
     crosshair.vertex(-out, out);
     crosshair.vertex(-in, in);
     crosshair.endShape();
@@ -282,16 +282,16 @@
   ///////     Segment Group drawing
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * Displays the segments of a SegmentGroup
    * @param SegmentGroup to draw
-   */ 
+   */
   private void groupGui(SegmentGroup _sg){
     canvas.fill(200);
-    if(viewTags) showTag(_sg); 
+    if(viewTags) showTag(_sg);
     if(viewLines) showGroupLines(_sg);
-  } 
+  }
 
   /**
    * Display the tag and center of a group
@@ -299,7 +299,7 @@
    */
   public void showTag(SegmentGroup _sg) {
     // Get center if centered or last point made
-    PVector pos = _sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart(); 
+    PVector pos = _sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart();
     canvas.noStroke();
     canvas.fill(TEXT_COLOR);
     // group ID and template tags
@@ -406,7 +406,7 @@
   }
 
   /**
-   * Makes a screenshot with all lines and itemNumbers/renderers. 
+   * Makes a screenshot with all lines and itemNumbers/renderers.
    * This is helpfull to have a reference as to what is what when rocking out.
    * Gets called everytime a new group is create.
    */
@@ -471,7 +471,7 @@
 
   /**
    * Check if GUI needs to be drawn and update the GUI timeout for auto hiding.
-   */ 
+   */
   public boolean doDraw(){
     if (guiTimer > 0 || mouse.useGrid()) {
       guiTimer--;
@@ -497,7 +497,7 @@
 
   public void setValueGiven(String _s){
     valueGiven = _s;
-  }  
+  }
 
   public void setTemplateString(String _s){
     renderString = _s;

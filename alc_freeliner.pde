@@ -1,16 +1,16 @@
 /**
  * ##copyright##
  * See LICENSE.md
- * 
+ *
  * @author    Maxime Damecour (http://nnvtn.ca)
  * @version   0.1
  * @since     2014-12-01
  */
 
-
 // ADD LAST TRIGGERED TWEAK!!!
 // reduce space in infoline
 // cursor style and size
+// ellipse by default
 
 import oscP5.*;
 import netP5.*;
@@ -35,23 +35,11 @@ OscMessage tickmsg = new OscMessage("/freeliner/tick");
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-// set if the sketch is FULLSCREEN by default
-// if true, the resolution will be automaticaly set
-final boolean FULLSCREEN = true;
-//final boolean FULLSCREEN = false;
-
-// default window size if not FULLSCREEN
-int xres = 1024;
-int yres = 768;
-
 // for the glitch gallery ballpit
 final boolean BALL_PIT = false;//true;
 
 // invert colors
 boolean INVERTED_COLOR = false;
-
-// add a image path to load a background image.
-final String BG_IMAGE_FILE = "data/###backgroundImage.jpg";
 
 // are you using OSX? I do not, I use GNU/Linux
 boolean OSX = false;
@@ -61,9 +49,15 @@ boolean OSX = false;
 ///////     Setup
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
+void settings(){
+  size(1024, 768, P2D);
+  //fullScreen(P2D, 2);
+  smooth();
+  //noSmooth();
+}
 
 void setup() {
-  setupGraphics();
+  surface.setResizable(false); // needs to scale other PGraphics
   noCursor();
 
   // load fonts
@@ -84,32 +78,11 @@ void setup() {
   else OSX = false;
 }
 
-/**
- * Setup the canvas, load a background image if provided
- */
-void setupGraphics(){
-  // check if background image provided
-  try {
-    backgroundImage = loadImage(BG_IMAGE_FILE);
-  }
-  catch (Exception e){
-    println("No background image found");
-  }
-  // if no background image provided set size to default or fullscreen
-  if(backgroundImage == null){
-    if(!FULLSCREEN) size(xres, yres, P2D);
-    else size(displayWidth, displayHeight, P2D);
-  }
-  // if background image is provided set the size of the image.
-  else {
-    size(backgroundImage.width, backgroundImage.height, P2D);
-  }
-}
 
 // lets processing know if we want it FULLSCREEN
-boolean sketchFullScreen() {
-  return FULLSCREEN;
-}
+// boolean sketchFullScreen() {
+//   return FULLSCREEN;
+// }
 
 // splash screen!
 void splash(){
@@ -160,7 +133,7 @@ void mousePressed(MouseEvent event) {
 }
 
 void mouseDragged() {
-  if(BALL_PIT && mouseX < width/2) freeliner.getMouse().drag(mouseButton, 
+  if(BALL_PIT && mouseX < width/2) freeliner.getMouse().drag(mouseButton,
                                               -(int((mouseY/(float)height)*(width/2.0)))+width/2,
                                               (int((mouseX/(width/2.0))*height)));
   else freeliner.getMouse().drag(mouseButton, mouseX, mouseY);
@@ -168,7 +141,7 @@ void mouseDragged() {
 
 void mouseMoved() {
   if(BALL_PIT && mouseX < width/2) freeliner.getMouse().move(-(int((mouseY/(float)height)*(width/2.0)))+width/2,
-                                              (int((mouseX/(width/2.0))*height))); 
+                                              (int((mouseX/(width/2.0))*height)));
   else freeliner.getMouse().move(mouseX, mouseY);
 }
 
@@ -191,7 +164,7 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
       char kay = theOscMessage.get(1).stringValue().charAt(0);
       int val = theOscMessage.get(2).intValue();
       freeliner.keyboard.oscDistribute(tags, kay, val);
-    }  
+    }
   }
 
   if(theOscMessage.checkAddrPattern("/freeliner/trigger")==true) {
@@ -199,11 +172,11 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
     if(theOscMessage.checkTypetag("s")) {
       String tags = theOscMessage.get(0).stringValue();
       freeliner.templateManager.oscTrigger(tags, -1);
-    } 
+    }
     if(theOscMessage.checkTypetag("si")) {
       String tags = theOscMessage.get(0).stringValue();
       freeliner.templateManager.oscTrigger(tags, theOscMessage.get(1).intValue());
-    }  
+    }
   }
   if(theOscMessage.checkAddrPattern("/freeliner/color")==true) {
     /* check if the typetag is the right one. */
@@ -216,7 +189,7 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
         theOscMessage.get(3).intValue(),
         theOscMessage.get(4).intValue());
       freeliner.templateManager.setCustomColor(tags, col);
-    }  
+    }
   }
   if(theOscMessage.checkAddrPattern("/freeliner/trails") == true) {
     /* check if the typetag is the right one. */
@@ -224,11 +197,10 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
       /* parse theOscMessage and extract the values from the osc message arguments. */
       int tval = theOscMessage.get(0).intValue();
       freeliner.oscSetTrails(tval);
-    }  
+    }
   }
 }
 
 void oscTick(){
-  oscP5.send(tickmsg, toPDpatch); 
+  oscP5.send(tickmsg, toPDpatch);
 }
-

@@ -3,7 +3,7 @@
 class SegmentPainter extends Painter{
 	final String name = "SegmentPainter";
 	// reference to the _event being rendered
-	// RenderableTemplate _event; 
+	// RenderableTemplate _event;
 
 
 	public SegmentPainter(){
@@ -135,7 +135,7 @@ class BrushPutter extends SegmentPainter{
 	final String name = "BrusPutter";
 	Brush[] brushes;
 	final int BRUSH_COUNT = 9;
-	
+
 
 	public BrushPutter(){
 		loadBrushes();
@@ -167,23 +167,28 @@ class BrushPutter extends SegmentPainter{
 
 	// regular putShape
 	public void putShape(PVector _p, float _a){
-		PShape shape_; 
+		PShape shape_;
     shape_ = getBrush(event.getBrushMode()).getShape(event);
     applyStyle(shape_);
     canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
-    canvas.rotate(_a+ HALF_PI +event.getAngleMod()); 
+    canvas.rotate(_a+ HALF_PI +event.getAngleMod());
     canvas.shape(shape_);
-    canvas.popMatrix();
+
+		canvas.strokeWeight(20);
+		canvas.stroke(200);
+		canvas.point(0,0);
+
+		canvas.popMatrix();
 	}
 	// // putShape with overidable size
 	// public void putShape(PVector _p, float _a, float _s){
-	// 	PShape shape_; 
+	// 	PShape shape_;
  //    shape_ = getBrush(event.getBrushMode()).getShape(_s);
  //    applyStyle(shape_);
  //    canvas.pushMatrix();
  //    canvas.translate(_p.x, _p.y);
- //    canvas.rotate(_a+HALF_PI+event.getAngleMod()); 
+ //    canvas.rotate(_a+HALF_PI+event.getAngleMod());
  //    canvas.shape(shape_);
  //    canvas.popMatrix();
 	// }
@@ -246,7 +251,7 @@ class BrushFill extends BrushPutter{
 		float inter = 1.0/count;
 		PVector pos = new PVector(0,0); _seg.getPos(lrp).get();
 		float tmpLrp = 0;
-		
+
 		// calling super after due to custom brush size
 		super.paintSegment(_seg, _event);
 
@@ -254,7 +259,7 @@ class BrushFill extends BrushPutter{
 			tmpLrp = (i%2 == 0) ? lrp : (lrp-1)*-1;
 			pos = vecLerp(_seg.getPos(tmpLrp).get(), center, i*inter);
 			putShape(pos, (i%2 == 0) ? ang : ang + PI);
-		}		
+		}
 	}
 
 
