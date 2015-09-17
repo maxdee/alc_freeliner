@@ -162,7 +162,7 @@ class BrushPutter extends SegmentPainter{
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		_seg.setSize(event.getScaledBrushSize());
+		_seg.setSize(_event.getScaledBrushSize());
 	}
 
 	// regular putShape

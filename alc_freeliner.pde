@@ -62,6 +62,7 @@ void setup() {
   surface.setResizable(false); // needs to scale other PGraphics
   //surface.setAlwaysOnTop(boolean);
   noCursor();
+  hint(ENABLE_KEY_REPEAT);
 
   // load fonts
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");

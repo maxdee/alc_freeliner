@@ -85,7 +85,7 @@
    */
   public Gui(){
     // init canvas, P2D significantly faster
-    canvas = createGraphics(width, height, P2D);//, FX2D);
+    canvas = createGraphics(width, height, P2D);//, FX2D)
     canvas.smooth(0);
     // make grid
     generateGrid(gridSize);
