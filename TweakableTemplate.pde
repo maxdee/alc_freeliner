@@ -114,7 +114,7 @@ class TweakableTemplate extends Template {
 
   public int setStrokeWidth(int _v) {
     strokeWidth = numTweaker(_v, strokeWidth);
-    if(strokeWidth <= 0) strokeWidth = 1;
+    if(strokeWidth <= 0) strokeWidth = 1; // use colorMode 0 for no stroke #p3
     return strokeWidth;
   }
 

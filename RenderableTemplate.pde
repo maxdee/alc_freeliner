@@ -24,7 +24,7 @@
 
 // the data structure shared between a SegmentGroup and Renderer
 class RenderableTemplate extends TweakableTemplate{
-	// 
+	//
 	Template sourceTemplate;
 
 	SegmentGroup segmentGroup;
@@ -271,7 +271,7 @@ class RenderableTemplate extends TweakableTemplate{
 
 // this is for triggering system
 class KillableTemplate extends RenderableTemplate{
-	
+
 	float unitIntervalOffset;
 	boolean toKill;
 	/*

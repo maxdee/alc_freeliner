@@ -11,6 +11,7 @@
 // reduce space in infoline
 // cursor style and size
 // ellipse by default
+// strokeWeight offset
 
 import oscP5.*;
 import netP5.*;

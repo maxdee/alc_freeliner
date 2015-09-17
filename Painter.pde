@@ -18,6 +18,7 @@ class Painter{
   public void paint(RenderableTemplate _rt){
     event = _rt;
     canvas = event.getCanvas();
+		//applyStyle(canvas);
   }
 
 	// color stuffs
@@ -52,22 +53,24 @@ class Painter{
     return colorizers[_index];
   }
 
-// apply colors to shape
+	// apply colors to shape
   public void applyStyle(PShape _s){
-
   	int fillMode = event.getFillMode();
   	int strokeMode = event.getStrokeMode();
   	int strokeWidth = event.getStrokeWeight();
-    if (fillMode != 0){
+
+		if (fillMode != 0){
       _s.setFill(true);
       _s.setFill(getColorizer(fillMode).get(event));
     }
-    else _s.setFill(false);
+		else _s.setFill(false);
+
     if(strokeMode != 0) {
-      _s.setStroke(getColorizer(strokeMode).get(event));
+			_s.setStroke(true);
+      _s.setStroke(getColorizer(strokeMode).get(event)); // _s.getStyle().stroke = getColorizer(strokeMode).get(event);//
       _s.setStrokeWeight(strokeWidth);
     }
-    else _s.noStroke();
+    else _s.setStroke(false);
   }
 
   //apply settings to a canvas

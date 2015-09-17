@@ -57,7 +57,7 @@ class FloatSmoother {
     if(firstValue){
       firstValue = false;
       fillArray(s);
-    } 
+    }
     flts.append(s);
     flts.remove(0);
     return arrayAverager();
@@ -126,7 +126,7 @@ void vecLine(PGraphics p, PVector a, PVector b){
 PVector angleMove(PVector p, float a, float s){
   PVector out = new PVector(cos(a)*s, sin(a)*s, 0);
   out.add(p);
-  return out; 
+  return out;
 }
 
 /**
@@ -144,7 +144,7 @@ PVector vectorMirror(PVector p){
 
 float fltMod(float f) {
   if (f>1) f-=1;
-  else if (f<0) f+=1; 
+  else if (f<0) f+=1;
   return f;
 }
 
@@ -190,7 +190,9 @@ PShape cloneShape(PShape _source, float _scale, PVector _center){
   return shp;
 }
 
-
+PShape cloneShape(PShape _source, float _scale){
+  return cloneShape(_source, _scale, new PVector(0,0));
+}
 
 ///////////////////////
 
