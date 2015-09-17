@@ -46,7 +46,7 @@ class Template{
 	char templateID;
 	public Template(){
 	}
-	
+
 	public Template(char _id){
 		templateID = _id;
 		reset();
@@ -101,7 +101,7 @@ class Template{
 		beatDivider = 1;
 		strokeWidth = 3;
 		brushSize = 20;
-		brushMode = 1;
+		brushMode = 0;
 		enablerMode = 1;
 		customColor = color(0,0,50,255);
  	}
@@ -115,7 +115,7 @@ class Template{
 	///////    Debug
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
-	
+
 	public void print(){
 		println("++++++++++++++++++++++++");
 		println("Template : "+templateID);
@@ -140,7 +140,7 @@ class Template{
 	///////    Accessors
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
-  
+
   public PShape getCustomShape(){
     return customShape;
   }

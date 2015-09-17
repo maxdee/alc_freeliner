@@ -1,7 +1,7 @@
 /**
  * ##copyright##
  * See LICENSE.md
- * 
+ *
  * @author    Maxime Damecour (http://nnvtn.ca)
  * @version   0.1
  * @since     2014-12-01
@@ -13,8 +13,8 @@
  */
 abstract class Brush {
   // Size to generate brushes
-	final int BASE_SIZE = 20; 
-  final int HALF_SIZE = BASE_SIZE/2; 
+	final int BASE_SIZE = 20;
+  final int HALF_SIZE = BASE_SIZE/2;
   // The brush
   PShape brushShape;
   PShape scaledBrush;
@@ -48,7 +48,7 @@ abstract class Brush {
       scaledBrushSize = _rt.getScaledBrushSize();
       scaledBrush = cloneShape(brushShape, scaledBrushSize/BASE_SIZE, new PVector(0,0));
     }
-  	return scaledBrush; 
+  	return scaledBrush;
   }
 }
 
@@ -79,7 +79,7 @@ class PointBrush extends Brush {
  */
 class LineBrush extends Brush {
   public LineBrush(){
-    
+
   }
 	public PShape generateBrush(){
 		PShape shp = createShape();
@@ -96,7 +96,7 @@ class LineBrush extends Brush {
  */
 class ChevronBrush extends Brush {
   public ChevronBrush(){
-    
+
   }
 	public PShape generateBrush(){
 		PShape shp = createShape();
@@ -114,7 +114,7 @@ class ChevronBrush extends Brush {
  */
 class SquareBrush extends Brush {
   public SquareBrush(){
-    
+
   }
 	public PShape generateBrush(){
 		PShape shp = createShape();
@@ -146,9 +146,9 @@ class CustomBrush extends Brush {
     scaledBrushSize = 1;
     return null;
   }
-  
+
   public PShape getShape(RenderableTemplate _rt){
-    
+
     if(abs(_rt.getScaledBrushSize() - this.scaledBrushSize) > 0.5 || scaledBrush == null){
       //println(_rt.getScaledBrushSize() - scaledBrushSize);
       scaledBrushSize = _rt.getScaledBrushSize();
@@ -160,7 +160,7 @@ class CustomBrush extends Brush {
       empty.endShape(CLOSE);
       return empty;
     }
-    return scaledBrush; 
+    return scaledBrush;
   }
 }
 
@@ -170,7 +170,7 @@ class CustomBrush extends Brush {
  */
 class CircleBrush extends Brush {
   public CircleBrush(){
-    
+
   }
   public PShape generateBrush(){
     PShape shp =  createShape(ELLIPSE, -HALF_SIZE, -HALF_SIZE, BASE_SIZE, BASE_SIZE);
@@ -183,7 +183,7 @@ class CircleBrush extends Brush {
  */
 class TriangleBrush extends Brush {
   public TriangleBrush(){
-    
+
   }
   public PShape generateBrush(){
     float hght = sqrt(sq(BASE_SIZE)+pow(HALF_SIZE,2));
@@ -200,7 +200,7 @@ class TriangleBrush extends Brush {
  */
 class XBrush extends Brush {
   public XBrush(){
-    
+
   }
   public PShape generateBrush(){
     PShape shp = createShape();
@@ -244,8 +244,6 @@ class SprinkleBrush extends Brush {
   }
 
   public PShape getShape(RenderableTemplate _rt){
-    return generateSprinkles(_rt.getScaledBrushSize()); 
+    return generateSprinkles(_rt.getScaledBrushSize());
   }
 }
-
-

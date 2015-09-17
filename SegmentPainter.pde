@@ -174,11 +174,6 @@ class BrushPutter extends SegmentPainter{
     canvas.translate(_p.x, _p.y);
     canvas.rotate(_a+ HALF_PI +event.getAngleMod());
     canvas.shape(shape_);
-
-		canvas.strokeWeight(20);
-		canvas.stroke(200);
-		canvas.point(0,0);
-
 		canvas.popMatrix();
 	}
 	// // putShape with overidable size

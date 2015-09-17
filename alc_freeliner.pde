@@ -49,6 +49,8 @@ boolean OSX = false;
 ///////     Setup
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
+
+// lovely new feature of p3
 void settings(){
   size(1024, 768, P2D);
   //fullScreen(P2D, 2);
@@ -58,6 +60,7 @@ void settings(){
 
 void setup() {
   surface.setResizable(false); // needs to scale other PGraphics
+  //surface.setAlwaysOnTop(boolean);
   noCursor();
 
   // load fonts
@@ -73,6 +76,7 @@ void setup() {
   // osc setup
   oscP5 = new OscP5(this,6667);
   toPDpatch = new NetAddress("127.0.0.1",6668);
+
   // set OS
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
@@ -94,7 +98,7 @@ void splash(){
   text("a!Lc freeLiner", 10, height/2);
   textSize(24);
   fill(255);
-  text("V0.02 - made with PROCESSING", 10, (height/2)+20);
+  text("V0.03 - made with PROCESSING", 10, (height/2)+20);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
