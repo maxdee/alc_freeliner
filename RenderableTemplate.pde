@@ -66,6 +66,7 @@ class RenderableTemplate extends TweakableTemplate{
 	int groupID;
 	boolean doRender;
 
+
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Constructors
@@ -93,6 +94,7 @@ class RenderableTemplate extends TweakableTemplate{
 		segmentGroup = _sg;
 		beatCount = -1;
 		doRender = true;
+
 	}
 
 /*
@@ -182,6 +184,20 @@ class RenderableTemplate extends TweakableTemplate{
  	public void setDoRender(boolean _b){
  		doRender = _b;
  	}
+
+	// public void setBrush(PShape _brush){
+	// 	brush = _brush;
+	// }
+	//
+	// public int setBrushSize(int _s){
+	// 	updateBrush = true;
+	// 	super.setBrushSize(_s);
+	// }
+	//
+	// public void setBrushMode(int _m){
+	// 	updateBrush = true;
+	// 	super.setBrushMode(_m);
+	// }
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Accessors
@@ -265,6 +281,18 @@ class RenderableTemplate extends TweakableTemplate{
 	public final float getHue(){
 		return hue;
 	}
+
+	// public final PShape getBrush(){
+	// 	return brush;
+	// }
+	// // ask if the brush needs updating
+	// public final boolean updateBrush(){
+	// 	if(updateBrush || brush == null){
+	// 		updateBrush = false;
+	// 		return true;
+	// 	}
+	// 	return false;
+	// }
 }
 
 
