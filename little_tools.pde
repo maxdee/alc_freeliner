@@ -187,6 +187,7 @@ PShape cloneShape(PShape _source, float _scale, PVector _center){
   }
   if(abs(frst.dist(last)) < 0.1) shp.endShape(CLOSE);
   else shp.endShape();
+  //_source = null; // cleanup?
   return shp;
 }
 

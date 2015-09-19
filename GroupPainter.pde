@@ -21,7 +21,7 @@ class Filler extends GroupPainter{
 		float lorp = 1-_rt.getLerp();
 		lorp*=lorp;
 		PVector center = _rt.getSegmentGroup().getCenter();
-			PShape shpe = _rt.getSegmentGroup().getShape();
+		PShape shpe = _rt.getSegmentGroup().getShape();
 		// PShape shpe = cloneShape(_rt.getSegmentGroup().getShape(),
 		// 												 lorp,//1.0,
 		// 												 center);
@@ -30,7 +30,7 @@ class Filler extends GroupPainter{
 		canvas.translate(center.x, center.y);
 		canvas.scale(lorp);
 		canvas.rotate(angle);
-		canvas.shape(shpe);
+		canvas.shape(shpe, -center.x, -center.y);
 		canvas.popMatrix();
 	}
 
