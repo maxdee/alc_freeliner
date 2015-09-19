@@ -8,7 +8,6 @@
  */
 
 // ADD LAST TRIGGERED TWEAK!!!
-// reduce space in infoline
 // cursor style and size
 // ellipse by default
 // strokeWeight offset

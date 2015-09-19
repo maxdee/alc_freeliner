@@ -174,9 +174,18 @@ class CircleBrush extends Brush {
 
   }
   public PShape generateBrush(){
-    PShape shp =  createShape(ELLIPSE, -HALF_SIZE, -HALF_SIZE, BASE_SIZE, BASE_SIZE);
+    PShape shp =  createShape(ELLIPSE, 0, 0, BASE_SIZE, BASE_SIZE);
     return shp;
   }
+	// overRide for scaling
+	public PShape getShape(RenderableTemplate _rt){
+		// update if the size changed
+		if(abs(_rt.getScaledBrushSize() - scaledBrushSize) > 0.5){
+			scaledBrushSize = _rt.getScaledBrushSize();
+			scaledBrush =  createShape(ELLIPSE, 0, 0, scaledBrushSize, scaledBrushSize);
+		}
+		return scaledBrush;
+	}
 }
 
 /**

@@ -37,7 +37,7 @@ class TemplateRenderer {
     // init canvas
     canvas = createGraphics(width, height, P2D);
     canvas.smooth(1);
-    canvas.ellipseMode(CENTER);
+    //canvas.ellipseMode(CENTER);
 
     // init variables
     trails = false;
