@@ -12,6 +12,7 @@
 // cursor style and size
 // ellipse by default
 // strokeWeight offset
+// trigger + segment selector....
 
 import oscP5.*;
 import netP5.*;
@@ -55,8 +56,8 @@ boolean OSX = false;
 void settings(){
   size(1024, 768, P2D);
   //fullScreen(P2D, 2);
-  smooth();
-  //noSmooth();
+  //smooth();
+  noSmooth();
 }
 
 void setup() {

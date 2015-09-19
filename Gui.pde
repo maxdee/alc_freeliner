@@ -492,7 +492,8 @@
 
 
   public void setKeyString(String _s){
-    keyString = _s;
+    String ks = _s.replaceAll(" ", "");
+    keyString = ks.charAt(0)+" "+ks;
   }
 
   public void setValueGiven(String _s){

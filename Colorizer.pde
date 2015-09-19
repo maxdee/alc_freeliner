@@ -70,7 +70,7 @@ class PalletteColor extends Colorizer {
  */
 class RandomPrimaryColor extends Colorizer {
 	public RandomPrimaryColor(){
-		
+
 	}
 
 	public color get(RenderableTemplate _event){
@@ -80,11 +80,11 @@ class RandomPrimaryColor extends Colorizer {
 }
 
 /**
- * 
+ *
  */
 class PrimaryBeatColor extends Colorizer {
 	public PrimaryBeatColor(){
-		
+
 	}
 
 	public color get(RenderableTemplate _event){
@@ -106,7 +106,7 @@ class RepetitionColor extends Colorizer {
 												};
 
 	public RepetitionColor(){
-		
+
 	}
 
 	public color get(RenderableTemplate _event){
@@ -124,7 +124,7 @@ class RepetitionColor extends Colorizer {
  */
 class FlashyWhiteRedBlack extends Colorizer {
 	public FlashyWhiteRedBlack(){
-		
+
 	}
 
 	public color get(RenderableTemplate _event){
@@ -138,7 +138,7 @@ class FlashyWhiteRedBlack extends Colorizer {
  */
 class FlashyGray extends Colorizer {
 	public FlashyGray(){
-		
+
 	}
 
 	public color get(RenderableTemplate _event){
@@ -152,7 +152,7 @@ class FlashyGray extends Colorizer {
  */
 class FlashyPrimaryColor extends Colorizer {
 	public FlashyPrimaryColor(){
-		
+
 	}
 
 	public color get(RenderableTemplate _event){
@@ -166,7 +166,7 @@ class FlashyPrimaryColor extends Colorizer {
  */
 class FlashyRandom extends Colorizer {
 	public FlashyRandom(){
-		
+
 	}
 
 	public color get(RenderableTemplate _event){
@@ -205,7 +205,7 @@ class HSBFade extends Colorizer {
 		hue = fltMod(hue);
 		_event.setHue(hue);
 		return alphaMod(c ,_event.getAlpha());
-	}	
+	}
 }
 
 /**
@@ -216,6 +216,5 @@ class CustomColor extends Colorizer {
 	}
 	public color get(RenderableTemplate _event){
 		return _event.getCustomColor();
-	}	
+	}
 }
-

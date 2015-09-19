@@ -21,13 +21,14 @@ class Filler extends GroupPainter{
 		float lorp = 1-_rt.getLerp();
 		lorp*=lorp;
 		PVector center = _rt.getSegmentGroup().getCenter();
-		PShape shpe = cloneShape(_rt.getSegmentGroup().getShape(),
-														 lorp,//1.0, 
-														 center);
+			PShape shpe = _rt.getSegmentGroup().getShape();
+		// PShape shpe = cloneShape(_rt.getSegmentGroup().getShape(),
+		// 												 lorp,//1.0,
+		// 												 center);
 		canvas.pushMatrix();
 		applyStyle(shpe);
 		canvas.translate(center.x, center.y);
-		//canvas.scale(lorp);
+		canvas.scale(lorp);
 		canvas.rotate(angle);
 		canvas.shape(shpe);
 		canvas.popMatrix();
@@ -51,7 +52,7 @@ class FunFiller extends GroupPainter{
 		float fluct = (float(_rt.getBeatCount())/4)*TWO_PI;
 		center = angleMove(center.get(), fluct, center.dist(_rt.getSegmentGroup().getSegment(0).getA())/2);
 		PShape shpe = cloneShape(_rt.getSegmentGroup().getShape(),
-														 1.0,//lorp, 
+														 1.0,//lorp,
 														 center);
 		canvas.pushMatrix();
 		applyStyle(shpe);
@@ -100,4 +101,3 @@ class NoiseShape extends GroupPainter{
 		canvas.popMatrix();
 	}
 }
-
