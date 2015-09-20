@@ -40,35 +40,35 @@
  * ctrl-r   reset template
  * ctrl-d   customShape
  */
- 
+
 class Keyboard{
   //provides strings to show what is happening.
   final String keyMap[] = {
-    "a    animationMode", 
-    "b    renderMode", 
-    "c    placeCenter", 
-    "d    setShape", 
+    "a    animationMode",
+    "b    renderMode",
+    "c    placeCenter",
+    "d    setShape",
     "e    setAlpha",
     "f    setFill",
-    "g    grid/size", 
+    "g    grid/size",
     "h    easingMode",
-    "i    repetitonMode", 
+    "i    repetitonMode",
     "j    reverseMode",
     "k    internalClock",
     "l    loop mode",
-    "n    newItem", 
+    "n    newItem",
     "o    rotation",
     "p    probability",
-    "q    setStroke", 
-    "r    repetitionCount", 
-    "s    setSize", 
-    "t    tap", 
+    "q    setStroke",
+    "r    repetitionCount",
+    "s    setSize",
+    "t    tap",
     "u    enablerMode",
     "v    vertMode",
-    "x    setDiv", 
-    "y    trails", 
-    "w    strkWeigth",   
-    ",    showTags", 
+    "x    setDiv",
+    "y    trails",
+    "w    strkWeigth",
+    ",    showTags",
     "/    showLines",
     ";    showCrosshair",
     ".    snap/Dist",
@@ -78,7 +78,7 @@ class Keyboard{
     "[    fixedAngle",
     "-    decreaseValue",
     "=    increaseValue",
-    "@    saveGroups", 
+    "@    saveGroups",
     "#    loadGroups",
     "$    saveTemplate",
     "%    loadTemplate",
@@ -194,7 +194,7 @@ class Keyboard{
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
     else if (kc==BACKSPACE) groupManager.deleteSegment();
-    else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.  
+    else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
   }
 
 /**
@@ -224,16 +224,18 @@ class Keyboard{
  * @param char the capital key to process
  */
   public void processCAPS(char _c) {
+    TemplateList tl = groupManager.getTemplateList();
+    if(tl == null) tl = templateManager.getTemplateList();
     if(shifted){
-      TemplateList tl = groupManager.getTemplateList();
-      if(tl == null) tl = templateManager.getTemplateList();
       tl.toggle(templateManager.getTemplate(_c));
-      gui.setTemplateString(tl.getTags());
       groupManager.setReferenceGroupTemplateList(tl);
     }
     else {
       templateManager.trigger(_c);
+      tl.clear();
+      tl.toggle(templateManager.getTemplate(_c));
     }
+    gui.setTemplateString(tl.getTags());
   }
 
 
@@ -296,7 +298,7 @@ class Keyboard{
   }
 
 /**
- * CTRL-a selects all renderers as always. 
+ * CTRL-a selects all renderers as always.
  */
   private void focusAll(){
     groupManager.unSelect();
@@ -330,8 +332,8 @@ class Keyboard{
         if(templates != null)
           for(TweakableTemplate te : templates)
             rendererDispatch(te, _k, _n, _vg);
-      }    
-    } 
+      }
+    }
   }
 
 
@@ -352,24 +354,24 @@ class Keyboard{
     String valueGiven_ = null;
     if(_n == -3){
       if (_k == 'n'){
-        groupManager.newGroup(); 
+        groupManager.newGroup();
         gui.updateReference();
       }
       //more ergonomic?
       // else if (_k == 'a') nudger(true, -1); //right
       // else if (_k == 'd') nudger(true, 1); //left
-      // else if (_k == 's') nudger(false, 1); //down 
+      // else if (_k == 's') nudger(false, 1); //down
       // else if (_k == 'w') nudger(false, -1); //up
 
-      else if (_k == 't') templateManager.sync.tap(); 
-      else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());  
+      else if (_k == 't') templateManager.sync.tap();
+      else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());
       else if (_k == 'y') valueGiven_ = str(templateRenderer.toggleTrails());
       else if (_k == '*') valueGiven_ = str(toggleRecording());
       else if (_k == ',') valueGiven_ = str(gui.toggleViewTags());
       else if (_k == '.') valueGiven_ = str(mouse.toggleSnapping());
-      else if (_k == '/') valueGiven_ = str(gui.toggleViewLines()); 
+      else if (_k == '/') valueGiven_ = str(gui.toggleViewLines());
       else if (_k == ';') valueGiven_ = str(gui.toggleViewPosition());
-      else if (_k == '|') valueGiven_ = str(toggleEnterText()); 
+      else if (_k == '|') valueGiven_ = str(toggleEnterText());
       else if (_k == '-') distributor(editKey, -2, _vg); //decrease value
       else if (_k == '=') distributor(editKey, -1, _vg); //increase value
       else if (_k == ']') valueGiven_ = str(mouse.toggleFixedLength());
@@ -388,7 +390,7 @@ class Keyboard{
       else if (editKey == '.') valueGiven_ = str(groupManager.setSnapDist(_n));
       else used_ = false;
     }
-    
+
     if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
     return used_;
   }
@@ -423,7 +425,7 @@ class Keyboard{
   public boolean rendererDispatch(TweakableTemplate _template, char _k, int _n, boolean _vg) {
     //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
     boolean used_ = true;
-    
+
     if(_template != null){
       String valueGiven_ = null;
       if(_n == -3){
@@ -443,18 +445,18 @@ class Keyboard{
         else if (_k == 'j') valueGiven_ = str(_template.setReverseMode(_n));
         else if (_k == 'b') valueGiven_ = str(_template.setRenderMode(_n));
         else if (_k == 'p') valueGiven_ = str(_template.setProbability(_n));
-        else if (_k == 'h') valueGiven_ = str(_template.setEasingMode(_n)); 
-        else if (_k == 's') valueGiven_ = str(_template.setBrushSize(_n));   
+        else if (_k == 'h') valueGiven_ = str(_template.setEasingMode(_n));
+        else if (_k == 's') valueGiven_ = str(_template.setBrushSize(_n));
         else if (_k == 'q') valueGiven_ = str(_template.setStrokeMode(_n));
-        else if (_k == 'w') valueGiven_ = str(_template.setStrokeWidth(_n)); 
+        else if (_k == 'w') valueGiven_ = str(_template.setStrokeWidth(_n));
         else if (_k == 'd') valueGiven_ = str(_template.setBrushMode(_n));
         else if (_k == 'v') valueGiven_ = str(_template.setSegmentMode(_n));
-        else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));  
+        else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));
         else if (_k == 'u') valueGiven_ = str(_template.setEnablerMode(_n));
         else if (_k == '%') valueGiven_ = str(_template.setBankIndex(_n));
         else used_ = false;
       }
-      
+
       if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
     }
     return used_;
@@ -484,7 +486,7 @@ class Keyboard{
 
 
   /**
-   * Get text typed. 
+   * Get text typed.
    * If a group is selected, set the word for the most current segment placed.
    * Else add a template to all groups with selected template.
    * @param char to add

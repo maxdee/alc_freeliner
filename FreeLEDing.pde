@@ -1,7 +1,7 @@
 /**
  * ##copyright##
  * See LICENSE.md
- * 
+ *
  * @author    Maxime Damecour (http://nnvtn.ca)
  * @version   0.1
  * @since     2015-06-01
@@ -37,7 +37,7 @@ class FreeLEDing {
   // parse a PGraphics for led colors
   public void parseGraphics(PGraphics _pg){
     _pg.loadPixels();
-    int ind; 
+    int ind;
     int max = _pg.width*_pg.height;
     for(RGBled led : leds){
       ind = led.getX() + (led.getY()*width);
@@ -52,7 +52,7 @@ class FreeLEDing {
     try {
       file = loadXML(_file);
       XML[] XMLleds = file.getChildren("led");
-      
+
       for(XML ledData : XMLleds){
         addLEDs(ledData.getInt("from"),
                 ledData.getInt("to"),
@@ -60,7 +60,7 @@ class FreeLEDing {
                 ledData.getFloat("aY"),
                 ledData.getFloat("bX"),
                 ledData.getFloat("bY"));
-      } 
+      }
       ledCount = leds.size();
       drawLEDmap();
     }
@@ -112,7 +112,7 @@ class FreeLEDing {
     }
     ledMap.endDraw();
   }
-  
+
   public PGraphics getMap(){
     return ledMap;
   }
@@ -130,8 +130,8 @@ class FreeLEDing {
 ////////////////////////////////////////////////////////////////////////////////////
 
 // OscLEDing to send LED data via OSC
-// FastLEDing to send LED data to a duino with FastLED Library 
-// OctoLEDing to send LED data to a teensy 3.X with OctoWS11 Library 
+// FastLEDing to send LED data to a duino with FastLED Library
+// OctoLEDing to send LED data to a teensy 3.X with OctoWS11 Library
 
 /**
  * use for OSC led thing
@@ -139,7 +139,7 @@ class FreeLEDing {
 class OscLEDing extends FreeLEDing {
   NetAddress ledServer;
   int packetSize;
-  
+
   public OscLEDing(String _ip, int _port){
     super();
     ledServer = new NetAddress(_ip, _port);
@@ -185,7 +185,7 @@ class OscLEDing extends FreeLEDing {
 class FastLEDing extends FreeLEDing {
   Serial port;
   int packetSize;
-  
+
   public FastLEDing(PApplet _pa, String _port){
     super();
     try{
@@ -238,7 +238,7 @@ class FastLEDing extends FreeLEDing {
 class OctoLEDing extends FreeLEDing {
   Serial port;
   int packetSize;
-  
+
   public OctoLEDing(PApplet _pa, String _port){
     super();
     try{
@@ -302,7 +302,7 @@ class RGBled{
   byte blue;
 
   color col;
-  
+
   public RGBled(int _i, int _x, int _y){
     index = _i;
     xPos = _x;
@@ -323,15 +323,15 @@ class RGBled{
   public color getColor(){
     return col;
   }
-  
+
   public byte getRed(){
     return red;
   }
-  
+
   public byte getGreen(){
     return green;
   }
-  
+
   public byte getBlue(){
     return blue;
   }
@@ -346,5 +346,3 @@ class RGBled{
     return yPos;
   }
 }
-
-

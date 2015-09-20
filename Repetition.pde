@@ -1,8 +1,6 @@
 
-
-
 // Repetition was iterator
-// returns different unit intervals in relation to 
+// returns different unit intervals in relation to
 // unit intervals that are negative means reverse.
 class Repetition {
 	Easing[] easers;
@@ -31,7 +29,7 @@ class Repetition {
 
 	public Easing getEaser(int _index){
 		if(_index >= EASER_COUNT) _index = EASER_COUNT - 1;
-		return easers[_index]; 
+		return easers[_index];
 	}
 }
 
@@ -99,7 +97,7 @@ class TwoFull extends Repetition{
 		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 
 		flts.append(lrp);
-		if(lrp < 0) flts.append(lrp+1); 
+		if(lrp < 0) flts.append(lrp+1);
 		else flts.append(lrp-1);
 		return flts;
 	}

@@ -1,7 +1,7 @@
 /**
  * ##copyright##
  * See LICENSE.md
- * 
+ *
  * @author    Maxime Damecour (http://nnvtn.ca)
  * @version   0.1
  * @since     2015-07-22
@@ -17,8 +17,8 @@ class FreelinerLED extends FreeLiner{
 		super();
 		// init the subclass of freeLEDing
 	  //freeLED = new FreeLEDing();
-	  //freeLED = new OctoLEDing(_pa, "/dev/ttyACM0");
-	  freeLED = new FastLEDing(_pa, "/dev/ttyACM0");
+	  freeLED = new OctoLEDing(_pa, "/dev/ttyACM0");
+	  //freeLED = new FastLEDing(_pa, "/dev/ttyACM0");
 	  // load a ledmap file
 	  freeLED.parseLEDfile("data/"+_file);
 	}
@@ -28,10 +28,11 @@ class FreelinerLED extends FreeLiner{
 	  // parse the graphics
 	  freeLED.parseGraphics(getCanvas());
 	  // draw the LED statuses
-	  //octoLED.drawLEDstatus(this.g);
+		//freeLED.drawLEDstatus(_pg);
 	  // output to whatever
 	  freeLED.output();
 	  // draw the LED map
 	  image(freeLED.getMap(),0,0);
+		//
 	}
 }

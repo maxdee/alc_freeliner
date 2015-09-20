@@ -12,6 +12,7 @@
 // ellipse by default
 // strokeWeight offset
 // trigger + segment selector....
+// rotate acording to clockwise? first segment pA.y>pB.y
 
 import oscP5.*;
 import netP5.*;
@@ -72,7 +73,7 @@ void setup() {
 
   // pick your flavour of freeliner
   freeliner = new FreeLiner();
-  //freeliner = new FreelinerLED(this, "cubemap.xml");
+  //freeliner = new FreelinerLED(this, "ledstarmap.xml");
   //freeliner = new FreelinerSyphon(this);
 
   // osc setup
