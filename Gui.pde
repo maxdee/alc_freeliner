@@ -21,8 +21,6 @@
  * @version   0.1
  * @since     2014-12-01
  */
- // for caps lock detection
- import java.awt.*;
 
 
 /**
@@ -475,8 +473,7 @@
    * Check if GUI needs to be drawn and update the GUI timeout for auto hiding.
    */
   public boolean doDraw(){
-    boolean capsLocked = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
-    if (guiTimer > 0 || mouse.useGrid() || !capsLocked) {
+    if (guiTimer > 0 || mouse.useGrid()) {
       guiTimer--;
       return true;
     }
