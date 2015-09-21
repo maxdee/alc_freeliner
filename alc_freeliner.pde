@@ -54,8 +54,8 @@ boolean OSX = false;
 
 // lovely new feature of p3
 void settings(){
-  size(1024, 768, P2D);
-  //fullScreen(P2D, 2);
+  //size(1024, 768, P2D);
+  fullScreen(P2D, 2);
   //smooth();
   noSmooth();
 }

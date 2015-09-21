@@ -1,6 +1,10 @@
 
 // Anything that has to do with rendering things with one segment
 // basic painter dosent know what to paint but knows what color
+
+// extract colorizers?
+// gets a reference to one.
+
 class Painter{
 
 	// Since we paint we need colors
@@ -108,7 +112,7 @@ class LineToLine extends Painter{
   }
   public void paint(ArrayList<Segment> _segs, RenderableTemplate _rt){
     super.paint(_rt);
-    PShape shp = createShape();
+    PShape shp = createShape(LINES);
     shp.beginShape();
     PVector pos = new PVector(0,0);
     canvas.stroke(255);
@@ -118,7 +122,7 @@ class LineToLine extends Painter{
       pos = seg.getRegPos(event.getLerp()).get();
       shp.vertex(pos.x, pos.y);
     }
-    shp.endShape();
+    shp.endShape(LINES);
     applyStyle(shp);
     canvas.shape(shp);
   }
