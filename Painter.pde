@@ -112,7 +112,7 @@ class LineToLine extends Painter{
   }
   public void paint(ArrayList<Segment> _segs, RenderableTemplate _rt){
     super.paint(_rt);
-    PShape shp = createShape(LINES);
+    PShape shp = createShape();
     shp.beginShape();
     PVector pos = new PVector(0,0);
     canvas.stroke(255);

@@ -506,8 +506,9 @@ class Keyboard{
 
   // type in values of stuff
   private void numMaker(char _k) {
-    if(numberMaker.charAt(0)==' ') numberMaker = str(_k);
+    if(numberMaker.charAt(0) == ' ') numberMaker = str(_k);
     else numberMaker = numberMaker + _k;
+    if(numberMaker.charAt(0) == '0' && numberMaker.length()>1) numberMaker = numberMaker.substring(1);
     gui.setValueGiven(numberMaker);
   }
 
