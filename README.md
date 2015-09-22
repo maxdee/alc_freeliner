@@ -9,7 +9,7 @@ Using a computer mouse cursor the user can create geometric forms composed of li
 
 Templates hold data related to how a segmentGroup will be rendered. There is 26 TweakableTemplates, one per uppercase letter. The parameters are configurable via keys like ‘s’ for size, they can be set by typing a new numerical value or pressing ‘-‘ and ‘+’ (actually ‘-‘ and ‘=’).
 
-Each segmentGroup can have multiple templates. The templateManager then combines segmentGroups with their templates to create RenderableTemplates which then get rendered . 
+Each segmentGroup can have multiple templates. The templateManager then combines segmentGroups with their templates to create RenderableTemplates which then get rendered .
 
 ### Philosophy ###
 
@@ -40,10 +40,10 @@ The cursor can snap to various stuff. Holding `ctrl` will momentarily disable sn
 
 ###### Toggle a renderer to groups with a renderer
 Essentially adds a other renderer of your choice to any group who has the first renderer on the list.
-Have a renderer in focus, hit '|' to enable text input and enter a renderer, like 'N', and press return.
+Have a renderer in focus, hit `|` to enable text input and enter a renderer, like `N`, and press return.
 
 ###### Create a custom brush
-Make a new segment group, set its center. Add a rendering template (shift + a-z) then hit (ctrl + d). That template will now have a custom brush corresponding to that segment group. You can then remove that template from the group and or remove all the segments of the group.
+Make a new segment group, set its center. Add a rendering template (`shift + a-z`) then hit (`ctrl + d`). That template will now have a custom brush corresponding to that segment group. You can then remove that template from the group and or remove all the segments of the group.
 
 ###### Copy parameters between templates
 Unselect with `esc`, then select the template to copy, then select the template to paste into, and then press `ctrl-c`.  
@@ -52,6 +52,8 @@ Unselect with `esc`, then select the template to copy, then select the template 
 The `@` character saves your current segment groups, with the exception of group 0. The `#` character will load whatever is in `data/groups.xml`. Its a good idea to make a copy of this file because accidentally hitting `@` will overwrite the file.
 
 ###### Make Videos
-The `*` character begins and stops a frame saving process. These `.tiff` images are saved in batches `capture/clip_N`. You can use Processing's movie maker tool to turn these into a video file. I recommend clearing `capture/` after making some clips. 
+The `*` character begins and stops a frame saving process. These `.tiff` images are saved in batches `capture/clip_N`. You can use Processing's movie maker tool to turn these into a video file. I recommend clearing `capture/` after making some clips.
 
-
+## Current Bugs ##
+  * The fill or stroke modes (`q and f`) get stuck at 0, change the shapeSize to get your stroke or fill back.
+  * Only one closed shape per items, due to segment sorting.
