@@ -18,7 +18,7 @@ class RenderMode {
  * Parent class for all rendering that happens per segment.
  */
 class PerSegment extends RenderMode{
-	
+
 	SegmentSelector[] segmentSelectors;
 	final int SELECTOR_COUNT = 7;
 
@@ -178,5 +178,3 @@ class Geometry extends RenderMode{
 		return groupPainters[_index];
 	}
 }
-
-

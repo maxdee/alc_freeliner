@@ -118,11 +118,13 @@ class LineToLine extends Painter{
     canvas.stroke(255);
     canvas.strokeWeight(6);
     int weighter = 0;
+		println("segz : "+_segs.size());
     for(Segment seg : _segs){
       pos = seg.getRegPos(event.getLerp()).get();
       shp.vertex(pos.x, pos.y);
     }
-    shp.endShape(LINES);
+		shp.vertex(pos.x,pos.y);
+    shp.endShape();
     applyStyle(shp);
     canvas.shape(shp);
   }
