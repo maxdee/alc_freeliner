@@ -7,13 +7,6 @@
  * @since     2014-12-01
  */
 
-// ADD LAST TRIGGERED TWEAK!!!
-// cursor style and size
-// ellipse by default
-// strokeWeight offset
-// trigger + segment selector....
-// rotate acording to clockwise? first segment pA.y>pB.y
-
 import oscP5.*;
 import netP5.*;
 

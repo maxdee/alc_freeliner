@@ -78,7 +78,7 @@ class GroupManager{
 
 /**
  * Tab the focus through groups.
- * @param boolean reverse direction (shift+tab) 
+ * @param boolean reverse direction (shift+tab)
  */
   public void tabThrough(boolean _shift) {
     if(!isFocused()) selectedIndex = lastSelectedIndex;
@@ -97,7 +97,7 @@ class GroupManager{
       for (SegmentGroup sg : groups) {
         TemplateList tl = sg.getTemplateList();
         if(tl != null)
-          if(tl.contains(_toMatch))         
+          if(tl.contains(_toMatch))
             tl.toggle(_toAdd);
       }
     }
@@ -105,7 +105,7 @@ class GroupManager{
 
 /**
  * Snap puts all the PVectors that are near the position given into a arrayList.
- * The snapDist can be adjusted like anything else. 
+ * The snapDist can be adjusted like anything else.
  * It returns the place it snapped to to adjust cursor.
  * @param PVector of the cursor
  * @return PVector where it snapped.
@@ -122,7 +122,7 @@ class GroupManager{
       if(_pos.dist(groups.get(i).getCenter()) < snapDist){
         snappedList.add(groups.get(i).getCenter());
         snap = groups.get(i).getCenter();
-        snappedIndex = i;    
+        snappedIndex = i;
       }
       for(Segment seg : segs){
         if(_pos.dist(seg.getRegA()) < snapDist){
@@ -140,9 +140,9 @@ class GroupManager{
           snappedIndex = i;
         }
       }
-    }    
+    }
     if (snappedIndex != -1){
-      if(selectedIndex == -1) lastSelectedIndex = snappedIndex; 
+      if(selectedIndex == -1) lastSelectedIndex = snappedIndex;
       return snap;// snappedList.get(0);
     }
     else return _pos;
@@ -221,7 +221,7 @@ class GroupManager{
         xseg.setFloat("bX",seg.getRegB().x);
         xseg.setFloat("bY",seg.getRegB().y);
       }
-      saveXML(groupData, "data/groups.xml");
+      saveXML(groupData, "userdata/groups.xml");
     }
   }
 
@@ -232,7 +232,7 @@ class GroupManager{
   public void loadGroups(TemplateManager _tm){
     XML file;
     try {
-      file = loadXML("data/groups.xml");
+      file = loadXML("userdata/groups.xml");
     }
     catch (Exception e){
       println("No groups.xml");
@@ -254,7 +254,7 @@ class GroupManager{
       for(XML seg : xseg){
         posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
         posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
-        getSelectedGroup().addSegment(posA.get(), posB.get()); 
+        getSelectedGroup().addSegment(posA.get(), posB.get());
       }
       getSelectedGroup().mouseInput(LEFT, posB);
       // //getSelectedGroup().setNeighbors();
@@ -269,7 +269,7 @@ class GroupManager{
       // bug with centering? seems ok...
       //println(getSelectedGroup().sortedSegments.size());
       if(abs(posA.x - getSelectedGroup().getSegment(0).getB().x) > 2) getSelectedGroup().placeCenter(posA);
-      
+
     }
   }
 
@@ -283,7 +283,7 @@ class GroupManager{
 
 /**
  * Unselect selected group
- */  
+ */
   public void unSelect(){
     lastSelectedIndex = selectedIndex;
     selectedIndex = -1;
@@ -291,7 +291,7 @@ class GroupManager{
 
 /**
  * Unselect selected group
- */  
+ */
   // public int setSelectedGroupIndex(int _i) {
   //   selectedIndex = _i % groupCount;
   //   return selectedIndex;
@@ -301,7 +301,7 @@ class GroupManager{
  * Adjust the snapping distance.
  * @param int adjustement to make
  * @return int new value
- */  
+ */
   public int setSnapDist(int _i){
     snapDist = numTweaker(_i, snapDist);
     return snapDist;
@@ -325,7 +325,7 @@ class GroupManager{
 /**
  * Get renderList of the selected group, null if no group selected.
  * @return renderList
- */  
+ */
   public TemplateList getTemplateList(){
     SegmentGroup sg = getSelectedGroup();
     if(sg != null) return sg.getTemplateList();
@@ -334,8 +334,8 @@ class GroupManager{
 
 /**
  * Check if a group is focused
- * @return boolean 
- */  
+ * @return boolean
+ */
   boolean isFocused(){
     if(snappedIndex != -1 || selectedIndex != -1) return true;
     else return false;
@@ -344,7 +344,7 @@ class GroupManager{
 /**
  * Get the selectedGroupIndex, will return -1 if nothing selected, used by gui
  * @return int index
- */  
+ */
   public int getSelectedIndex(){
     return selectedIndex;
   }
@@ -352,7 +352,7 @@ class GroupManager{
 /**
  * Get the selectedGroup, or the snapped one, or null
  * @return SegmentGroup
- */ 
+ */
   public SegmentGroup getSelectedGroup(){
     if(snappedIndex != -1 && selectedIndex == -1) return groups.get(snappedIndex);
     else if(selectedIndex != -1 && selectedIndex <= groupCount) return groups.get(selectedIndex);
@@ -363,7 +363,7 @@ class GroupManager{
  * Get the previously selected group, or null
  * Used to set the previously selected group as a renderer's custom shape.
  * @return SegmentGroup
- */ 
+ */
   public SegmentGroup getLastSelectedGroup(){
     if(lastSelectedIndex != -1 ) return groups.get(lastSelectedIndex);
     else return null;
@@ -419,60 +419,3 @@ class GroupManager{
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-// public void loadGroups(){
-//     XML file;
-//     try {
-//       file = loadXML("data/groups.xml");
-//     }
-//     catch (Exception e){
-//       println("No groups.xml");
-//       return;
-//     }
-
-//     XML[] groupData = file.getChildren("group");
-//     PVector posA = new PVector(0,0);
-//     PVector posB = new PVector(0,0);
-//     // int skip = 0; // or 2 or none?
-
-//     for(XML xgroup : groupData){
-//       // if(skip > 0){
-//       //   skip--;
-//       //   continue;
-//       // }
-//       newGroup();
-//       if(xgroup.getChildCount() == 1){
-//         XML seg = xgroup.getChild("segment");
-//         posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
-//         posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
-//         getSelectedGroup().addSegment(posA.get(), posB.get()); 
-//       }
-//       else {
-//         XML[] xseg = xgroup.getChildren("segment");
-//         for(XML seg : xseg){
-//           posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
-//           posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
-//           getSelectedGroup().addSegment(posA.get(), posB.get()); 
-//         }
-//       }
-//       getSelectedGroup().mouseInput(LEFT, posB);
-//       // //getSelectedGroup().setNeighbors();
-//       // getSelectedGroup().updateGeometry();
-//       posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
-//       // bug with centering? seems ok...
-//       //println(getSelectedGroup().sortedSegments.size());
-//       if(abs(posA.x - getSelectedGroup().getSegment(1).getA().x) > 2) getSelectedGroup().placeCenter(posA);
-      
-//     }
-//   }
-

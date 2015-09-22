@@ -20,7 +20,7 @@ class FreelinerLED extends FreeLiner{
 	  freeLED = new OctoLEDing(_pa, "/dev/ttyACM0");
 	  //freeLED = new FastLEDing(_pa, "/dev/ttyACM0");
 	  // load a ledmap file
-	  freeLED.parseLEDfile("data/"+_file);
+	  freeLED.parseLEDfile("userdata/"+_file);
 	}
 
 	void update(){

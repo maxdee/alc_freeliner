@@ -143,12 +143,12 @@ class BrushPutter extends SegmentPainter{
 
 	public void loadBrushes(){
 		brushes = new Brush[BRUSH_COUNT];
-		brushes[0] = new PointBrush(); // dosent work with P2D
+		brushes[0] = new CircleBrush();
 		brushes[1] = new LineBrush();
-		brushes[2] = new ChevronBrush();
-		brushes[3] = new SquareBrush();
-		brushes[4] = new XBrush();
-		brushes[5] = new CircleBrush();
+		brushes[2] = new PointBrush();
+		brushes[3] = new ChevronBrush();
+		brushes[4] = new SquareBrush();
+		brushes[5] = new XBrush();
 		brushes[6] = new TriangleBrush();
 		brushes[7] = new SprinkleBrush();
 		brushes[8] = new CustomBrush();

@@ -92,7 +92,7 @@ class Template{
  		renderMode = 0;
 		animationMode = 0;
 		strokeMode = 1;
-		fillMode = 0;
+		fillMode = 1;
 		rotationMode = 0;
 		reverseMode = 0;
 		repetitionMode = 0;
