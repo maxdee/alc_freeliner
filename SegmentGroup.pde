@@ -231,27 +231,6 @@ class SegmentGroup {
     centerPutting = false;
   }
 
-  /**
-   * Set each segments direct neighbors
-   */
-  private void setNeighbors() {
-    int v1 = 0;
-    int v2 = 0;
-    if (segCount>0) {
-      for (int i = 0; i < sortedSegCount; i++) {
-        v1 = i-1;
-        v2 = i+1;
-        if (i==0) v1 = sortedSegCount-1; // maybe wrong
-        if (i >= sortedSegCount-1) v2 = 0;
-        Segment s1 = getSegment(v1);
-        Segment s2 = getSegment(v2);
-        if(s1 != null && s2 != null)
-          getSegment(i).setNeighbors(s1, s2);
-        //segments.get(i).setNeighbors(segments.get(v1), segments.get(v2));
-      }
-    }
-  }
-
 
   /**
    * Make a PShape of the geometry
@@ -320,7 +299,9 @@ class SegmentGroup {
     }
   }
 
-
+  /**
+   * Looks for segments not sorted.
+   */
   private ArrayList<Segment> getNext(ArrayList<Segment> _segs){
     ArrayList<Segment> nextSegs = new ArrayList();
     boolean duplicate = false;
@@ -341,8 +322,9 @@ class SegmentGroup {
     return nextSegs;
   }
 
-  // segments need to be sorted if a segments gets deleted and remplaced by 2 or more new segments.
-  // might be a bug around first segment...
+  /**
+   * segments need to be sorted if a segments gets deleted and remplaced by 2 or more new segments.
+   */
   private void sortSegments(){
     sortedSegments.clear();
     for(ArrayList<Segment> brnch : treeBranches)
@@ -356,6 +338,28 @@ class SegmentGroup {
       sortedSegCount = sortedSegments.size();
     }
   }
+
+  /**
+   * Set each segments direct neighbors
+   */
+  private void setNeighbors() {
+    int v1 = 0;
+    int v2 = 0;
+    if (segCount>0) {
+      for (int i = 0; i < sortedSegCount; i++) {
+        v1 = i-1;
+        v2 = i+1;
+        if (i==0) v1 = sortedSegCount-1; // maybe wrong
+        if (i >= sortedSegCount-1) v2 = 0;
+        Segment s1 = getSegment(v1);
+        Segment s2 = getSegment(v2);
+        if(s1 != null && s2 != null)
+          getSegment(i).setNeighbors(s1, s2);
+        //segments.get(i).setNeighbors(segments.get(v1), segments.get(v2));
+      }
+    }
+  }
+
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

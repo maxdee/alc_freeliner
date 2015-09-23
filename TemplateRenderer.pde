@@ -131,6 +131,7 @@ class TemplateRenderer {
     if(_rt.getSegmentGroup().isEmpty()) return;
     // push canvas to template
     _rt.setCanvas(canvas);
+    // check the enabler, it may modify the unitInterval
     if(!enablers[_rt.getEnablerMode()%ENABLER_COUNT].enable(_rt)) return;
     // get multiple unit intervals to use
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
