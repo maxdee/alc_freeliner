@@ -417,5 +417,4 @@ class GroupManager{
     if (isFocused()) return getSelectedGroup().getLastPoint();
     else return new PVector(width/2, height/2, 0);
   }
-
 }

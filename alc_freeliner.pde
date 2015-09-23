@@ -15,8 +15,6 @@ FreeLiner freeliner;
 // fonts
 PFont font;
 PFont introFont;
-boolean doSplash = true;
-PImage backgroundImage = null;
 
 // OSC parts
 OscP5 oscP5;
@@ -30,22 +28,25 @@ OscMessage tickmsg = new OscMessage("/freeliner/tick");
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-// for the glitch gallery ballpit
-final boolean BALL_PIT = false;//true;
+// are you using OSX? I do not, I use GNU/Linux
+boolean OSX = false; // should set itself to true if OSX
 
 // invert colors
-boolean INVERTED_COLOR = false;
+final boolean INVERTED_COLOR = false;
 
-// are you using OSX? I do not, I use GNU/Linux
-boolean OSX = false;
+// disable splash logo
+boolean doSplash = true;
 
-////////////////////////////////////////////////////////////////////////////////////
-///////
-///////     Setup
-///////
-////////////////////////////////////////////////////////////////////////////////////
+// UDP Port for incomming messages
+final int OSC_IN_PORT = 6667;
 
-// lovely new feature of p3
+// UDP Port for outgoing sync message
+final int OSC_OUT_PORT = 6668;
+
+// IP address to send sync messages to
+final String OSC_OUT_IP = "127.0.0.1";
+
+// lovely new feature of p3! set your graphics preferences.
 void settings(){
   size(1024, 768, P2D);
   //fullScreen(P2D, 2);
@@ -53,11 +54,17 @@ void settings(){
   //noSmooth();
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////     Setup
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
 void setup() {
   surface.setResizable(false); // needs to scale other PGraphics
   //surface.setAlwaysOnTop(boolean);
   noCursor();
-  hint(ENABLE_KEY_REPEAT);
+  hint(ENABLE_KEY_REPEAT); // usefull for performance
 
   // load fonts
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
@@ -70,19 +77,13 @@ void setup() {
   //freeliner = new FreelinerSyphon(this);
 
   // osc setup
-  oscP5 = new OscP5(this,6667);
-  toPDpatch = new NetAddress("127.0.0.1",6668);
+  oscP5 = new OscP5(this, OSC_IN_PORT);
+  toPDpatch = new NetAddress(OSC_OUT_IP, OSC_OUT_PORT);
 
   // set OS
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
 }
-
-
-// lets processing know if we want it FULLSCREEN
-// boolean sketchFullScreen() {
-//   return FULLSCREEN;
-// }
 
 // splash screen!
 void splash(){
@@ -105,8 +106,7 @@ void splash(){
 
 // do the things
 void draw() {
-  if(backgroundImage != null) image(backgroundImage,0,0);
-  else background(0);
+  background(0);
   if(doSplash) splash();
   freeliner.update();
 }
@@ -133,16 +133,11 @@ void mousePressed(MouseEvent event) {
 }
 
 void mouseDragged() {
-  if(BALL_PIT && mouseX < width/2) freeliner.getMouse().drag(mouseButton,
-                                              -(int((mouseY/(float)height)*(width/2.0)))+width/2,
-                                              (int((mouseX/(width/2.0))*height)));
-  else freeliner.getMouse().drag(mouseButton, mouseX, mouseY);
+  freeliner.getMouse().drag(mouseButton, mouseX, mouseY);
 }
 
 void mouseMoved() {
-  if(BALL_PIT && mouseX < width/2) freeliner.getMouse().move(-(int((mouseY/(float)height)*(width/2.0)))+width/2,
-                                              (int((mouseX/(width/2.0))*height)));
-  else freeliner.getMouse().move(mouseX, mouseY);
+  freeliner.getMouse().move(mouseX, mouseY);
 }
 
 void mouseWheel(MouseEvent event) {
