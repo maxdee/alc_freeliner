@@ -42,7 +42,7 @@ class SegmentGroup {
   int segCount = 0;
   ArrayList<Segment> sortedSegments;
   int sortedSegCount = 0;
-  ArrayList<ArrayList<Segment>> treeBranches; 
+  ArrayList<ArrayList<Segment>> treeBranches;
 
   TemplateList templateList;
   PVector center;
@@ -146,7 +146,7 @@ class SegmentGroup {
   public void deleteSegment(Segment _seg){
     if(segments.remove(_seg)){
       segCount--;
-      updateGeometry();  
+      updateGeometry();
     }
   }
 
@@ -174,7 +174,7 @@ class SegmentGroup {
         undoSegment();
         endSegment(np);
       }
-    } 
+    }
     // nudge the center
     else {
       np = center.get();
@@ -335,9 +335,9 @@ class SegmentGroup {
             }
           }
           if(!duplicate) nextSegs.add(next);
-        } 
+        }
       }
-    } 
+    }
     return nextSegs;
   }
 
@@ -349,6 +349,12 @@ class SegmentGroup {
       for(Segment seg : brnch)
         sortedSegments.add(seg);
     sortedSegCount = sortedSegments.size();
+    if(sortedSegCount != segCount){
+      sortedSegments.clear();
+      for(Segment seg : segments)
+        sortedSegments.add(seg);
+      sortedSegCount = sortedSegments.size();
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -367,7 +373,7 @@ class SegmentGroup {
     if(_index >= 0 && _index < sortedSegCount) return sortedSegments.get(_index);
     return null;
   }
-  
+
   // Segment accessors
   public Segment getSegmentSequence(int _index){
     //if(_index >= segments.size()) return null;
@@ -377,8 +383,8 @@ class SegmentGroup {
 
 
   public ArrayList<ArrayList<Segment>> getBranches(){
-    return treeBranches; 
-  } 
+    return treeBranches;
+  }
 
   public ArrayList<Segment> getBranch(int _i){
     if(treeBranches.size() == 0 || _i < 0) return null;
@@ -395,7 +401,7 @@ class SegmentGroup {
   public void mouseInput(int mb, PVector c) {
     if (mb == 37 && centerPutting) placeCenter(c);
     else if (mb == 39 && centerPutting) unCenter();
-    else if (mb == 37 && firstPoint) startSegment(c); 
+    else if (mb == 37 && firstPoint) startSegment(c);
     else if (mb == 37 && !firstPoint) endSegment(c);
     else if (mb == 39) undoSegment();
     else if (mb == 3) breakSegment(c);
@@ -414,7 +420,7 @@ class SegmentGroup {
   public void setWord(String w, int v) {
     if (segCount >= 1 && v == -1) segments.get(segCount-1).setWord(w);
     else if (v<segCount) segments.get(v).setWord(w);
-  } 
+  }
 
   public void newRan(){
     for (int i = 0; i < segCount; i++) {
@@ -428,7 +434,7 @@ class SegmentGroup {
   }
 
   public int setBrushScaler(int s){
-    sizer = numTweaker(s, sizer); 
+    sizer = numTweaker(s, sizer);
     brushScaler = sizer/10.0;
     return sizer;
   }
@@ -487,5 +493,3 @@ class SegmentGroup {
   }
 
 }
-
-
