@@ -250,6 +250,10 @@ class Keyboard{
       gui.setTemplateString(" ");//templateManager.renderList.getString());
       groupManager.setReferenceGroupTemplateList(null);
     }
+    // This should fix some bugs.
+    alted = false;
+    ctrled = false;
+    shifted = false;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
