@@ -55,22 +55,24 @@ void settings(){
   //noSmooth();
 }
 
-// Your color pallette!
-
-// customize your colors
-// final color[] colorPallet = {
-//                   color(255),
-//                   color(0),
-//                   color(255,0,0),
-//                   color(0,255,0),
-//                   color(0,0,255),
-//                   // customize these colors!
-//                   color(0,255,255),
-//                   color(255,255,0),
-//                   color(0,100,0),
-//                   color(100,3,255),
-//                   color(255,0,255),
-//                 };
+// Your color pallette! customize it!
+// use hex value or color(0,100,200);
+final color[] userPallet = {
+                  #ffff00,
+                  #ffad10,
+                  #ff0000,
+                  #ff00ad,
+                  #f700f7,
+                  #ad00ff,
+                  #0000ff,
+                  #009cff,
+                  #00c6ff,
+                  #00deb5,
+                  #a5ff00,
+                  #f700f7,
+                };
+                
+final int PALLETTE_COUNT = 12;
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

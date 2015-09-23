@@ -5,19 +5,6 @@
 class Colorizer {
 	//custom colors?
 	final String name = "Colorizer";
-  final color[] pallet = {
-  									color(255),
-  									color(0),
-                    color(255,0,0),
-                    color(0,255,0),
-                    color(0,0,255),
-                    // customize these colors!
-                    color(0,255,255),
-                    color(255,255,0),
-                    color(0,100,0),
-                    color(100,3,255),
-                    color(255,0,255),
-                  };
 
   public Colorizer(){
   }
@@ -31,16 +18,14 @@ class Colorizer {
   	return color(red(_c), green(_c), blue(_c), _alpha);
   }
 
-
-  // util methods
-  private color getPalletIndex(int _index){
-  	if(_index < pallet.length) return pallet[_index];
-  	else return color(0);
-  }
-
   public color HSBtoRGB(float _h, float _s, float _b){
   	return java.awt.Color.HSBtoRGB(_h, _s, _b);
   }
+
+	public color getFromPallette(int _c){
+		if(_c >= 0 || _c < PALLETTE_COUNT) return userPallet[_c];
+		else return color(255);
+	}
 
   public String getName(){
   	return name;
@@ -54,44 +39,92 @@ class Colorizer {
 ////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Basic white
+ * Basic Color
+ */
+class SimpleColor extends Colorizer{
+	color col;
+	public SimpleColor(color _c){
+		col = _c;
+	}
+	public color get(RenderableTemplate _event, int _alpha){
+		return alphaMod(col , _alpha);
+	}
+}
+
+/**
+ * Colors from the user's pallette
  */
 class PalletteColor extends Colorizer {
 	int colorIndex;
+
 	public PalletteColor(int _i){
 		colorIndex = _i;
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
-		return alphaMod(pallet[colorIndex] , _alpha);//pallet[_event.getBeatCount() % 3];
+		return alphaMod(getFromPallette(colorIndex) , _alpha);
+	}
+}
+
+/**
+ * Working with primary colors
+ */
+class PrimaryColor extends Colorizer {
+	public PrimaryColor(){
+
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+		return alphaMod(getPrimary(1), _alpha);
+	}
+
+	public color getPrimary(int _c){
+		switch(_c){
+			case 0:
+				return #ff0000;
+			case 1:
+				return #00ff00;
+			default:
+				return #0000ff;
+		}
 	}
 }
 
 /**
  * Random primary color
  */
-class RandomPrimaryColor extends Colorizer {
+class RandomPrimaryColor extends PrimaryColor {
 	public RandomPrimaryColor(){
 
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
-		color c =  pallet[(_event.getRandomValue() % 3)+2];
-		return  alphaMod(c , _alpha);
+		return alphaMod(getPrimary(_event.getRandomValue()%3), _alpha);
 	}
 }
 
 /**
- *
+ * Changes primary color on the beat regardless of divider
  */
-class PrimaryBeatColor extends Colorizer {
+class PrimaryBeatColor extends PrimaryColor {
 	public PrimaryBeatColor(){
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+		return alphaMod(getPrimary(_event.getRawBeatCount() % 3), _alpha);
+	}
+}
+
+/**
+ * Constantly changing random primary color
+ */
+class FlashyPrimaryColor extends PrimaryColor {
+	public FlashyPrimaryColor(){
 
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
-		color c =  pallet[(_event.getRawBeatCount() % 3)+2];
-		return  alphaMod(c , _alpha);
+		return alphaMod(getPrimary((int)random(3)), _alpha);
 	}
 }
 
@@ -99,41 +132,20 @@ class PrimaryBeatColor extends Colorizer {
  * Per Repetition
  */
 class RepetitionColor extends Colorizer {
-	final color[] cols = { color(245,206,48),
-												 color(13,105,172),
-												 color(255,175,0),
-												 color(0,0,240),
-												 color(255,255,0),
-												 color(255,0,0)
-												};
 
 	public RepetitionColor(){
 
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
-		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % cols.length;
-		index %= cols.length;
+		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % PALLETTE_COUNT;
+		index %= PALLETTE_COUNT;
 		if(index < 0) index = 0;
-		color c = cols[index];
+		color c = userPallet[index];
 		return alphaMod(c , _alpha);
 	}
 }
 
-
-/**
- * Constantly changing random primary color
- */
-class FlashyWhiteRedBlack extends Colorizer {
-	public FlashyWhiteRedBlack(){
-
-	}
-
-	public color get(RenderableTemplate _event, int _alpha){
-		color c = pallet[(int)random(3)];
-		return alphaMod(c , _alpha);
-	}
-}
 
 /**
  * Constantly changing random value gray
@@ -149,19 +161,6 @@ class FlashyGray extends Colorizer {
 	}
 }
 
-/**
- * Constantly changing random primary color
- */
-class FlashyPrimaryColor extends Colorizer {
-	public FlashyPrimaryColor(){
-
-	}
-
-	public color get(RenderableTemplate _event, int _alpha){
-		color c = pallet[(int)random(3)+2];
-		return alphaMod(c , _alpha);
-	}
-}
 
 /**
  * Constantly changing random color
@@ -185,14 +184,10 @@ class Strobe extends Colorizer {
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
-		// if(_event.getLerp()<0.2) return color(255);
-		// else return color(0);
 		if(maybe(20)) return color(255);
 		else return color(255,0);
 	}
 }
-
-
 
 /**
  * Fade through the HUE

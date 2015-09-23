@@ -9,7 +9,7 @@ class Painter{
 
 	// Since we paint we need colors
 	Colorizer[] colorizers;
-  final int COLORIZER_COUNT = 21;
+  final int COLORIZER_COUNT = 27;
 
   PGraphics canvas;
 	String name = "Painter";
@@ -28,28 +28,36 @@ class Painter{
 	// color stuffs
 	public void initColorizers(){
 		colorizers = new Colorizer[COLORIZER_COUNT];
-		colorizers[0] = new PalletteColor(0);
-    colorizers[1] = new PalletteColor(0);
-    colorizers[2] = new PalletteColor(2);
-    colorizers[3] = new PalletteColor(3);
-    colorizers[4] = new PalletteColor(4);
-    colorizers[5] = new PalletteColor(5);
-    colorizers[6] = new PalletteColor(6);
-    colorizers[7] = new PalletteColor(7);
-    colorizers[8] = new PalletteColor(8);
-    colorizers[9] = new PalletteColor(9);
-    colorizers[10] = new PalletteColor(1);
-		colorizers[11] = new RepetitionColor();
-		colorizers[12] = new RandomPrimaryColor();
-    colorizers[13] = new PrimaryBeatColor();
-		colorizers[14] = new HSBFade();
-    colorizers[15] = new FlashyPrimaryColor();
-    colorizers[16] = new FlashyGray();
-    colorizers[17] = new FlashyRandom();
-    colorizers[18] = new FlashyWhiteRedBlack();
-    colorizers[19] = new Strobe();
-    colorizers[20] = new CustomColor();
-
+		// basic colors
+		colorizers[0] = new SimpleColor(color(0));
+    colorizers[1] = new SimpleColor(color(255));
+    colorizers[2] = new SimpleColor(color(255, 0, 0));
+    colorizers[3] = new SimpleColor(color(0, 255, 0));
+    colorizers[4] = new SimpleColor(color(0, 0, 255));
+    colorizers[5] = new SimpleColor(color(0));
+		// userPallet colors
+    colorizers[6] = new PalletteColor(0);
+    colorizers[7] = new PalletteColor(1);
+    colorizers[8] = new PalletteColor(2);
+    colorizers[9] = new PalletteColor(3);
+    colorizers[10] = new PalletteColor(4);
+		colorizers[11] = new PalletteColor(5);
+		colorizers[12] = new PalletteColor(6);
+		colorizers[13] = new PalletteColor(7);
+		colorizers[14] = new PalletteColor(8);
+		colorizers[15] = new PalletteColor(9);
+		colorizers[16] = new PalletteColor(10);
+		colorizers[17] = new PalletteColor(11);
+		// changing color modes
+		colorizers[18] = new RepetitionColor();
+		colorizers[19] = new RandomPrimaryColor();
+    colorizers[20] = new PrimaryBeatColor();
+		colorizers[21] = new HSBFade();
+    colorizers[22] = new FlashyPrimaryColor();
+    colorizers[23] = new FlashyGray();
+    colorizers[24] = new FlashyRandom();
+    colorizers[25] = new Strobe();
+    colorizers[26] = new CustomColor();
 	}
 
   public Colorizer getColorizer(int _index){
