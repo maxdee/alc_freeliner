@@ -118,9 +118,14 @@ class TweakableTemplate extends Template {
     return strokeWidth;
   }
 
-  public int setAlpha(int _v){
-    alphaValue = numTweaker(_v, alphaValue);
-    return alphaValue;
+  public int setStrokeAlpha(int _v){
+    strokeAlpha = numTweaker(_v, strokeAlpha);
+    return strokeAlpha;
+  }
+
+  public int setFillAlpha(int _v){
+    fillAlpha = numTweaker(_v, fillAlpha);
+    return fillAlpha;
   }
 
   public int setBrushSize(int v) {

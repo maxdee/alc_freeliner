@@ -48,11 +48,29 @@ final String OSC_OUT_IP = "127.0.0.1";
 
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
+  // set the resolution, or fullscreen and display
   size(1024, 768, P2D);
   //fullScreen(P2D, 2);
   smooth();
   //noSmooth();
 }
+
+// Your color pallette!
+
+// customize your colors
+// final color[] colorPallet = {
+//                   color(255),
+//                   color(0),
+//                   color(255,0,0),
+//                   color(0,255,0),
+//                   color(0,0,255),
+//                   // customize these colors!
+//                   color(0,255,255),
+//                   color(255,255,0),
+//                   color(0,100,0),
+//                   color(100,3,255),
+//                   color(255,0,255),
+//                 };
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

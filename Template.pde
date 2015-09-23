@@ -15,7 +15,8 @@ class Template{
 	// Colorizer mode for fill, 0 is noFill()
 	int fillMode;
 	// alpha channel
-	int alphaValue;
+	int strokeAlpha;
+	int fillAlpha;
 	// Add rotation to elements such as brushes
 	int rotationMode;
 	// how we manipulate unitIntervals
@@ -64,7 +65,8 @@ class Template{
  	}
 
  	public void copyParameters(Template _tp){
- 		alphaValue = _tp.getAlpha();
+ 		strokeAlpha = _tp.getStrokeAlpha();
+		fillAlpha = _tp.getFillAlpha();
 		renderMode = _tp.getRenderMode();
 		segmentMode = _tp.getSegmentMode();
 		animationMode = _tp.getAnimationMode();
@@ -88,8 +90,9 @@ class Template{
  * Reset to default values
  */
  	public void reset(){
- 		alphaValue = 255;
- 		renderMode = 0;
+ 		fillAlpha = 255;
+		strokeAlpha = 255;
+		renderMode = 0;
 		animationMode = 0;
 		strokeMode = 1;
 		fillMode = 1;
@@ -176,8 +179,12 @@ class Template{
 		return strokeMode;
 	}
 
-	public final int getAlpha(){
-		return alphaValue;
+	public final int getStrokeAlpha(){
+		return strokeAlpha;
+	}
+
+	public final int getFillAlpha(){
+		return fillAlpha;
 	}
 
 	public final int getStrokeWeight(){

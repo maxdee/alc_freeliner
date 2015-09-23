@@ -48,14 +48,14 @@ class Keyboard{
     "b    renderMode",
     "c    placeCenter",
     "d    setShape",
-    "e    setAlpha",
+    //"e    setAlpha",
     "f    setFill",
     "g    grid/size",
     "h    easingMode",
     "i    repetitonMode",
     "j    reverseMode",
-    "k    internalClock",
-    "l    loop mode",
+    "k    strokeAlpha",
+    "l    fillAlpha",
     "n    newItem",
     "o    rotation",
     "p    probability",
@@ -429,30 +429,29 @@ class Keyboard{
     if(_template != null){
       String valueGiven_ = null;
       if(_n == -3){
-        if (_k == 'l') return false;//valueGiven_ = str(_template.toggleLoop());
-        else if (_k == 'k') return false;//valueGiven_ = str(_template.toggleInternal());
-        else if (_k == '$') _template.saveToBank();
+        if (_k == '$') _template.saveToBank();
         else if (int(_k) == 518) _template.reset();
         else used_ = false;
       }
       else {
         if (_k == 'a') valueGiven_ = str(_template.setAnimationMode(_n));
+        else if (_k == 'b') valueGiven_ = str(_template.setRenderMode(_n));
+        else if (_k == 'd') valueGiven_ = str(_template.setBrushMode(_n));
         else if (_k == 'f') valueGiven_ = str(_template.setFillMode(_n));
-        else if (_k == 'e') valueGiven_ = str(_template.setAlpha(_n));
-        else if (_k == 'r') valueGiven_ = str(_template.setRepetitionCount(_n));
-        else if (_k == 'x') valueGiven_ = str(_template.setBeatDivider(_n));
+        else if (_k == 'h') valueGiven_ = str(_template.setEasingMode(_n));
         else if (_k == 'i') valueGiven_ = str(_template.setRepetitionMode(_n));
         else if (_k == 'j') valueGiven_ = str(_template.setReverseMode(_n));
-        else if (_k == 'b') valueGiven_ = str(_template.setRenderMode(_n));
-        else if (_k == 'p') valueGiven_ = str(_template.setProbability(_n));
-        else if (_k == 'h') valueGiven_ = str(_template.setEasingMode(_n));
-        else if (_k == 's') valueGiven_ = str(_template.setBrushSize(_n));
-        else if (_k == 'q') valueGiven_ = str(_template.setStrokeMode(_n));
-        else if (_k == 'w') valueGiven_ = str(_template.setStrokeWidth(_n));
-        else if (_k == 'd') valueGiven_ = str(_template.setBrushMode(_n));
-        else if (_k == 'v') valueGiven_ = str(_template.setSegmentMode(_n));
+        else if (_k == 'k') valueGiven_ = str(_template.setStrokeAlpha(_n));
+        else if (_k == 'l') valueGiven_ = str(_template.setFillAlpha(_n));
         else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));
+        else if (_k == 'p') valueGiven_ = str(_template.setProbability(_n));
+        else if (_k == 'q') valueGiven_ = str(_template.setStrokeMode(_n));
+        else if (_k == 'r') valueGiven_ = str(_template.setRepetitionCount(_n));
+        else if (_k == 's') valueGiven_ = str(_template.setBrushSize(_n));
         else if (_k == 'u') valueGiven_ = str(_template.setEnablerMode(_n));
+        else if (_k == 'v') valueGiven_ = str(_template.setSegmentMode(_n));
+        else if (_k == 'w') valueGiven_ = str(_template.setStrokeWidth(_n));
+        else if (_k == 'x') valueGiven_ = str(_template.setBeatDivider(_n));
         else if (_k == '%') valueGiven_ = str(_template.setBankIndex(_n));
         else used_ = false;
       }

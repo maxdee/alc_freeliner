@@ -22,13 +22,15 @@ class Colorizer {
   public Colorizer(){
   }
 
-  public color get(RenderableTemplate _event){
-  	return alphaMod(color(255),_event.getAlpha());
+  public color get(RenderableTemplate _event, int _alpha){
+  	return alphaMod(color(255), _alpha);
   }
 
+	// need to multiplex alpha value for fill & stroke, just fill, or just stroke.
   public color alphaMod(color  _c, int _alpha){
   	return color(red(_c), green(_c), blue(_c), _alpha);
   }
+
 
   // util methods
   private color getPalletIndex(int _index){
@@ -60,8 +62,8 @@ class PalletteColor extends Colorizer {
 		colorIndex = _i;
 	}
 
-	public color get(RenderableTemplate _event){
-		return alphaMod(pallet[colorIndex] ,_event.getAlpha());//pallet[_event.getBeatCount() % 3];
+	public color get(RenderableTemplate _event, int _alpha){
+		return alphaMod(pallet[colorIndex] , _alpha);//pallet[_event.getBeatCount() % 3];
 	}
 }
 
@@ -73,9 +75,9 @@ class RandomPrimaryColor extends Colorizer {
 
 	}
 
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		color c =  pallet[(_event.getRandomValue() % 3)+2];
-		return  alphaMod(c ,_event.getAlpha());
+		return  alphaMod(c , _alpha);
 	}
 }
 
@@ -87,9 +89,9 @@ class PrimaryBeatColor extends Colorizer {
 
 	}
 
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		color c =  pallet[(_event.getRawBeatCount() % 3)+2];
-		return  alphaMod(c ,_event.getAlpha());
+		return  alphaMod(c , _alpha);
 	}
 }
 
@@ -109,12 +111,12 @@ class RepetitionColor extends Colorizer {
 
 	}
 
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % cols.length;
 		index %= cols.length;
 		if(index < 0) index = 0;
 		color c = cols[index];
-		return alphaMod(c ,_event.getAlpha());
+		return alphaMod(c , _alpha);
 	}
 }
 
@@ -127,9 +129,9 @@ class FlashyWhiteRedBlack extends Colorizer {
 
 	}
 
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		color c = pallet[(int)random(3)];
-		return alphaMod(c ,_event.getAlpha());
+		return alphaMod(c , _alpha);
 	}
 }
 
@@ -141,9 +143,9 @@ class FlashyGray extends Colorizer {
 
 	}
 
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		color c = color(random(255));
-		return alphaMod(c ,_event.getAlpha());
+		return alphaMod(c , _alpha);
 	}
 }
 
@@ -155,9 +157,9 @@ class FlashyPrimaryColor extends Colorizer {
 
 	}
 
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		color c = pallet[(int)random(3)+2];
-		return alphaMod(c ,_event.getAlpha());
+		return alphaMod(c , _alpha);
 	}
 }
 
@@ -169,9 +171,9 @@ class FlashyRandom extends Colorizer {
 
 	}
 
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		color c = color(random(255),random(255),random(255));
-		return alphaMod(c ,_event.getAlpha());
+		return alphaMod(c , _alpha);
 	}
 }
 
@@ -182,7 +184,7 @@ class Strobe extends Colorizer {
 	public Strobe(){
 	}
 
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		// if(_event.getLerp()<0.2) return color(255);
 		// else return color(0);
 		if(maybe(20)) return color(255);
@@ -198,13 +200,13 @@ class Strobe extends Colorizer {
 class HSBFade extends Colorizer {
 	public HSBFade(){
 	}
-	public color get(RenderableTemplate _event){
+	public color get(RenderableTemplate _event, int _alpha){
 		float hue = _event.getHue();
 		color c = HSBtoRGB(hue, 1.0, 1.0);
 		hue+=0.001;
 		hue = fltMod(hue);
 		_event.setHue(hue);
-		return alphaMod(c ,_event.getAlpha());
+		return alphaMod(c , _alpha);
 	}
 }
 
@@ -214,7 +216,7 @@ class HSBFade extends Colorizer {
 class CustomColor extends Colorizer {
 	public CustomColor(){
 	}
-	public color get(RenderableTemplate _event){
-		return _event.getCustomColor();
+	public color get(RenderableTemplate _event, int _alpha){
+		return alphaMod(_event.getCustomColor(), _alpha);
 	}
 }
