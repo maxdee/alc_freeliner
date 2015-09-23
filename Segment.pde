@@ -36,16 +36,16 @@ class Segment {
   // these are alternative positions for pointA and pointB
   PVector ranA;
   PVector ranB;
-  
+
   // previous and or next segments, needed to create offset line
   Segment neighbA;
   Segment neighbB;
 
   // center position of the segment
   PVector center;
-  
+
   float scaledSize;
-  
+
   float angle;
   //float anglePI;
   boolean centered;
@@ -119,7 +119,7 @@ class Segment {
   }
 
   public void setSize(float _s){
-    if(_s != scaledSize && centered){ 
+    if(_s != scaledSize && centered){
       scaledSize = _s;
       findOffset();
     }
@@ -146,9 +146,9 @@ class Segment {
    */
   PVector inset(PVector p, PVector pA, PVector pB, PVector c, float d) {
     float angleA = (atan2(p.y-pA.y, p.x-pA.x));
-    float angleB = (atan2(p.y-pB.y, p.x-pB.x));  
-    float A = radianAbs(angleA); 
-    float B = radianAbs(angleB); 
+    float angleB = (atan2(p.y-pB.y, p.x-pB.x));
+    float A = radianAbs(angleA);
+    float B = radianAbs(angleB);
     float ang = abs(A-B)/2; //the shortest angle
 
     d = (d/2)/sin(ang);
@@ -162,7 +162,7 @@ class Segment {
 
     PVector offset;
     if (c.dist(outA) < c.dist(outB)) return outA;
-    else  return outB;  
+    else  return outB;
   }
 
   float radianAbs(float a) {
@@ -171,7 +171,7 @@ class Segment {
     }
     while (a>TWO_PI) {
       a-=TWO_PI;
-    } 
+    }
     return a;
   }
 
@@ -199,7 +199,7 @@ class Segment {
     return vecLerp(pointA, pointB, l);
   }
 
-  // return centered if centered  
+  // return centered if centered
   public final PVector getA() {
     if(centered) return offA;
     else return pointA;
@@ -232,7 +232,7 @@ class Segment {
   public final PVector getRanA() {
     return ranA;
   }
-  
+
   public final PVector getRanB() {
     return ranB;
   }
@@ -270,9 +270,8 @@ class Segment {
   public final Segment getNext(){
     return neighbB;
   }
-  
+
   public final Segment getPrev(){
     return neighbA;
   }
 }
-

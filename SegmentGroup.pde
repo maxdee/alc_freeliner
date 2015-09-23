@@ -56,7 +56,8 @@ class SegmentGroup {
   boolean launchit = false;
   boolean incremented = false;
 
-  // int snapVal = 10;
+  //for roations
+  boolean clockwise = false;
 
   /**
    * Create an new SegmentGroup
@@ -90,6 +91,7 @@ class SegmentGroup {
     sortSegments();
     setNeighbors();
     updateAngles();
+    clockwise = findDirection();
     if(centered) placeCenter(center);
     generateShape();
     if(segments.size() == 0) sortedSegments.clear();
@@ -360,6 +362,16 @@ class SegmentGroup {
     }
   }
 
+  private boolean findDirection(){
+    for(Segment seg : sortedSegments){
+      int ax = int(seg.getRegA().x);
+      int bx = int(seg.getRegB().x);
+      if( ax > bx) return true;
+      else if (ax < bx) return false;
+    }
+    return false;
+  }
+
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -478,6 +490,10 @@ class SegmentGroup {
 
   public final boolean isEmpty(){
     return segments.isEmpty();
+  }
+
+  public final boolean isClockWise(){
+    return clockwise;
   }
 
   public final PVector getSegmentStart(){

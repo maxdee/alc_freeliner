@@ -163,26 +163,23 @@ class TemplateRenderer {
    * One of the last few things to expand into
    * @param RenderableTemplate to render.
    */
-  // public void tweakAngle(RenderableTemplate _rt){
-  //   int rotMode = _rt.getRotationMode();
-  //   if(rotMode > 0){
-  //     if(_rt.getDirection()) _rt.setAngleMod(PI*rotMode*_rt.getLerp());
-  //     else _rt.setAngleMod(PI*-rotMode*_rt.getLerp());
-  //   }
-  //   else _rt.setAngleMod(0);
-  // }
-
-
+  // yes a mess!
   public void tweakAngle(RenderableTemplate _rt){
     int rotMode = _rt.getRotationMode();
-    float ang = 0;
-    if(rotMode > 0){
-      if(rotMode < 4) ang = _rt.getLerp()*PI*-rotMode;
-      else if(rotMode >= 4) ang = _rt.getLerp()*PI*(rotMode-3);
-      if(_rt.getDirection()) ang -= PI;
-      _rt.setAngleMod(ang );
+    float _ang = 0;
+    if(rotMode == 0) _rt.setAngleMod(0);
+    else {
+      if(rotMode < 4){
+        if(_rt.getSegmentGroup().isClockWise()) _ang = _rt.getLerp()*PI*-rotMode;
+        else _ang = _rt.getLerp()*PI*rotMode;
+      }
+      else if(rotMode == 4) _ang = -_rt.getLerp()*PI;
+      else if(rotMode == 5) _ang = _rt.getLerp()*PI;
+
+      if(_rt.getDirection()) _ang -= PI;
+      _rt.setAngleMod(_ang);
     }
-    else _rt.setAngleMod(0);
+
   }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
