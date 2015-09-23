@@ -115,8 +115,13 @@ class RunThroughBranches extends SegmentSelector{
 	public RunThroughBranches(){
 	}
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
-		int index = int(_event.getLerp() * _event.segmentGroup.treeBranches.size());
-		//println(index);
-		return _event.segmentGroup.getBranch(index);
+		float _segCount = _event.segmentGroup.treeBranches.size();
+		float _unit = _event.getUnitInterval();
+		int _index = int(_unit * _segCount);
+		float _inc = 1.0/_segCount;
+		float _lrp = (_unit - (_index * _inc))/_inc;
+
+		_event.setLerp(_lrp);
+		return _event.segmentGroup.getBranch(_index);
 	}
 }
