@@ -1,11 +1,10 @@
 # alc_Freeliner Developement #
 
 
-## TODO ##
+#### TODO ####
  * add scrolling text and osc settable text
 
-
-## Ideas ##
+#### Ideas ####
   * cursor style and size, in different situations a different cursor could be used.
   * strokeWeight offset
   * trigger + segment selector.... (???)
