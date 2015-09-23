@@ -71,7 +71,7 @@ final color[] userPallet = {
                   #a5ff00,
                   #f700f7,
                 };
-                
+
 final int PALLETTE_COUNT = 12;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -171,7 +171,8 @@ void mouseWheel(MouseEvent event) {
 ////////////////////////////////////////////////////////////////////////////////////
 
 void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the address pattern we are looking for. */
-  if(theOscMessage.checkAddrPattern("/freeliner/tweak")==true) {
+  // tweak parameters
+  if(theOscMessage.checkAddrPattern("/freeliner/tweak")) {
     /* check if the typetag is the right one. */
     if(theOscMessage.checkTypetag("ssi")) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
@@ -181,8 +182,8 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
       freeliner.keyboard.oscDistribute(tags, kay, val);
     }
   }
-
-  if(theOscMessage.checkAddrPattern("/freeliner/trigger")==true) {
+  // trigger animations
+  else if(theOscMessage.checkAddrPattern("/freeliner/trigger")) {
     /* check if the typetag is the right one. */
     if(theOscMessage.checkTypetag("s")) {
       String tags = theOscMessage.get(0).stringValue();
@@ -193,7 +194,27 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
       freeliner.templateManager.oscTrigger(tags, theOscMessage.get(1).intValue());
     }
   }
-  if(theOscMessage.checkAddrPattern("/freeliner/color")==true) {
+  // enable diable and set intencity of trails
+  else if(theOscMessage.checkAddrPattern("/freeliner/trails")) {
+    /* check if the typetag is the right one. */
+    if(theOscMessage.checkTypetag("i")) {
+      /* parse theOscMessage and extract the values from the osc message arguments. */
+      int tval = theOscMessage.get(0).intValue();
+      freeliner.oscSetTrails(tval);
+    }
+  }
+  // change the colors in the userPallette
+  else if(theOscMessage.checkAddrPattern("/freeliner/pallette")){
+    if(theOscMessage.checkTypetag("iiii")){
+      int _index = theOscMessage.get(0).intValue();
+      int _r = theOscMessage.get(1).intValue();
+      int _g = theOscMessage.get(2).intValue();
+      int _b = theOscMessage.get(3).intValue();
+      setUserPallette(_index, color(_r, _g, _b));
+    }
+  }
+  // set the custom color
+  else if(theOscMessage.checkAddrPattern("/freeliner/color")) {
     /* check if the typetag is the right one. */
     if(theOscMessage.checkTypetag("siiii")) {
       /* parse theOscMessage and extract the values from the osc message arguments. */
@@ -206,16 +227,12 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
       freeliner.templateManager.setCustomColor(tags, col);
     }
   }
-  if(theOscMessage.checkAddrPattern("/freeliner/trails") == true) {
-    /* check if the typetag is the right one. */
-    if(theOscMessage.checkTypetag("i")) {
-      /* parse theOscMessage and extract the values from the osc message arguments. */
-      int tval = theOscMessage.get(0).intValue();
-      freeliner.oscSetTrails(tval);
-    }
-  }
 }
 
 void oscTick(){
   oscP5.send(tickmsg, toPDpatch);
+}
+
+void setUserPallette(int _i, color _c){
+  if(_i >= 0 && _i < PALLETTE_COUNT) userPallet[_i] = _c;
 }
