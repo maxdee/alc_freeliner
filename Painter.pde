@@ -124,19 +124,13 @@ class LineToLine extends Painter{
   }
   public void paint(ArrayList<Segment> _segs, RenderableTemplate _rt){
     super.paint(_rt);
-    PShape shp = createShape();
-    shp.beginShape();
-    PVector pos = new PVector(0,0);
-    canvas.stroke(255);
-    canvas.strokeWeight(6);
-    int weighter = 0;
+		applyStyle(canvas);
+    PVector pos = new PVector(-10,-10);
+		PVector prev = new PVector(-10,-10);
     for(Segment seg : _segs){
-      pos = seg.getRegPos(event.getLerp()).get();
-      shp.vertex(pos.x, pos.y);
+			prev = pos.get();
+			pos = seg.getRegPos(event.getLerp()).get();
+			if(prev.x != -10 && pos.x != -10) vecLine(canvas, pos, prev);
     }
-		shp.vertex(pos.x,pos.y);
-    shp.endShape();
-    applyStyle(shp);
-    canvas.shape(shp);
   }
 }
