@@ -162,7 +162,7 @@ class BrushPutter extends SegmentPainter{
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		_seg.setSize(_event.getScaledBrushSize());
+		_seg.setSize(_event.getScaledBrushSize()+_event.getStrokeWeight());
 	}
 
 	// regular putShape
@@ -176,17 +176,6 @@ class BrushPutter extends SegmentPainter{
     canvas.shape(shape_);
 		canvas.popMatrix();
 	}
-	// // putShape with overidable size
-	// public void putShape(PVector _p, float _a, float _s){
-	// 	PShape shape_;
- //    shape_ = getBrush(event.getBrushMode()).getShape(_s);
- //    applyStyle(shape_);
- //    canvas.pushMatrix();
- //    canvas.translate(_p.x, _p.y);
- //    canvas.rotate(_a+HALF_PI+event.getAngleMod());
- //    canvas.shape(shape_);
- //    canvas.popMatrix();
-	// }
 }
 
 class SimpleBrusher extends BrushPutter{
@@ -200,9 +189,9 @@ class SimpleBrusher extends BrushPutter{
 }
 
 
-class SpiralBrush extends BrushPutter{
+class SpiralBrusher extends BrushPutter{
 	final String name = "SpiralBrush";
-	public SpiralBrush(){
+	public SpiralBrusher(){
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
@@ -213,12 +202,12 @@ class SpiralBrush extends BrushPutter{
 	}
 }
 
-class TwoBrush extends BrushPutter{
-	public TwoBrush(){}
+class TwoBrusher extends BrushPutter{
+	public TwoBrusher(){}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		float lrp = event.getLerp();
+		float lrp = _event.getLerp();
 		PVector pv = _seg.getPos(lrp).get();
 		putShape(pv, _seg.getAngle(false));
 		pv = _seg.getPos(-lrp+1).get();
@@ -227,38 +216,51 @@ class TwoBrush extends BrushPutter{
 }
 
 
-class BrushFill extends BrushPutter{
-	public BrushFill(){
+class InShapeBrusher extends BrushPutter{
+	public InShapeBrusher(){
 
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		PVector center = _seg.getCenter().get();
-		// find the distance from the middle to the center
-		float dst = center.dist(_seg.getPos(0.5));
-		// how many things
-		int count = constrain(_event.getRepetitionCount(), 1, 20); //ceil(dst/event.getScaledBrushSize());
-		// force the brush size
-		_event.forceScaledBrushSize(dst/count);
-		float lrp = _event.getLerp();
-		float ang =  _seg.getAngle(_event.getDirection());
-		//int count = 5; // what should I attach this to?
-		float inter = 1.0/count;
-		PVector pos = new PVector(0,0); _seg.getPos(lrp).get();
-		float tmpLrp = 0;
-
-		// calling super after due to custom brush size
 		super.paintSegment(_seg, _event);
-
-		for(int i = 0; i < count; i++){
-			tmpLrp = (i%2 == 0) ? lrp : (lrp-1)*-1;
-			pos = vecLerp(_seg.getPos(tmpLrp).get(), center, i*inter);
-			putShape(pos, (i%2 == 0) ? ang : ang + PI);
-		}
+		PVector pA = _seg.getRegPos(_event.getLerp());
+		PVector cent = _seg.getCenter();
+		putShape(vecLerp(pA, cent, 0.5),  _seg.getAngle(event.getDirecstion()));
 	}
-
-
 }
+
+// class BrushFill extends BrushPutter{
+// 	public BrushFill(){
+//
+// 	}
+//
+// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
+// 		PVector center = _seg.getCenter().get();
+// 		// find the distance from the middle to the center
+// 		float dst = center.dist(_seg.getPos(0.5));
+// 		// how many things
+// 		int count = constrain(_event.getRepetitionCount(), 1, 20); //ceil(dst/event.getScaledBrushSize());
+// 		// force the brush size
+// 		_event.forceScaledBrushSize(dst/count);
+// 		float lrp = _event.getLerp();
+// 		float ang =  _seg.getAngle(_event.getDirection());
+// 		//int count = 5; // what should I attach this to?
+// 		float inter = 1.0/count;
+// 		PVector pos = new PVector(0,0); _seg.getPos(lrp).get();
+// 		float tmpLrp = 0;
+//
+// 		// calling super after due to custom brush size
+// 		super.paintSegment(_seg, _event);
+//
+// 		for(int i = 0; i < count; i++){
+// 			tmpLrp = (i%2 == 0) ? lrp : (lrp-1)*-1;
+// 			pos = vecLerp(_seg.getPos(tmpLrp).get(), center, i*inter);
+// 			putShape(pos, (i%2 == 0) ? ang : ang + PI);
+// 		}
+// 	}
+
+
+
 // center brusher
 
 class CenterBrusher extends BrushPutter{

@@ -269,7 +269,7 @@ class Keyboard{
  * @param int ascii value of the key
  */
   public void modCommands(int k){
-    if(ctrled || alted) println("mod keys "+k);
+    //if(ctrled || alted) println("mod keys "+k);
     if (ctrled && k == 1) focusAll(); // a
     else if(ctrled && k == 3) templateManager.copyPaste();
     else if(ctrled && k == 9) gui.setValueGiven( str(mouse.toggleInvertMouse()) );

@@ -70,9 +70,9 @@ class BrushSegment extends PerSegment{
   	super();
   	segmentPainters = new SegmentPainter[PAINTER_COUNT];
     segmentPainters[0] = new SimpleBrusher();
-    segmentPainters[1] = new TwoBrush();
-    segmentPainters[2] = new SpiralBrush();
-    segmentPainters[3] = new BrushFill();
+    segmentPainters[1] = new TwoBrusher();
+    segmentPainters[2] = new SpiralBrusher();
+    segmentPainters[3] = new InShapeBrusher();
     segmentPainters[4] = new CenterBrusher();
     segmentPainters[5] = new CircularBrusher();
   }
