@@ -225,7 +225,7 @@ class InShapeBrusher extends BrushPutter{
 		super.paintSegment(_seg, _event);
 		PVector pA = _seg.getRegPos(_event.getLerp());
 		PVector cent = _seg.getCenter();
-		putShape(vecLerp(pA, cent, 0.5),  _seg.getAngle(event.getDirecstion()));
+		putShape(vecLerp(pA, cent, 0.5),  _seg.getAngle(event.getDirection()));
 	}
 }
 

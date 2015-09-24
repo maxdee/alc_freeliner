@@ -262,7 +262,7 @@ class Keyboard{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  //for some reason if you are holding ctrl or alt you get other keycodes
+//for some reason if you are holding ctrl or alt you get other keycodes
 /**
  * Process a key differently if ctrl or alt is pressed.
  *
