@@ -1,6 +1,11 @@
 
 # alcFreeliner #
 
+The new v0.3 is for Processing 3. Needs testing and fixing on OSX.
+Check the processingTwo branch is still cool.
+
+### What is? ###
+
 Also know as a!LcFreeliner. This software is feature-full geometric animation software built for live projection mapping. Development started in fall 2013.
 
 It is made with Processing. It is licensed as GNU Lesser General Public License. A official release will occur once I have solidified the new architecture developed during this semester.

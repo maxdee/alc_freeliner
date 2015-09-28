@@ -3,7 +3,7 @@
  * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.1
+ * @version   0.3
  * @since     2014-12-01
  */
 
@@ -22,6 +22,7 @@ OscP5 oscP5;
 NetAddress toPDpatch;
 OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
+final float VERSION = 0.3;
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     OPTIONS!
@@ -115,7 +116,7 @@ void splash(){
   text("a!Lc freeLiner", 10, height/2);
   textSize(24);
   fill(255);
-  text("V0.03 - made with PROCESSING", 10, (height/2)+20);
+  text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

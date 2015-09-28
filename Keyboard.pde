@@ -49,7 +49,7 @@ class Keyboard{
     "c    placeCenter",
     "d    setShape",
     //"e    setAlpha",
-    "f    setFill",
+    "f    fillColor",
     "g    grid/size",
     "h    easingMode",
     "i    repetitonMode",
@@ -59,19 +59,19 @@ class Keyboard{
     "n    newItem",
     "o    rotation",
     "p    probability",
-    "q    setStroke",
-    "r    repetitionCount",
-    "s    setSize",
-    "t    tap",
-    "u    enablerMode",
-    "v    vertMode",
-    "x    setDiv",
-    "y    trails",
+    "q    strkColor",
+    "r    polka",
+    "s    size",
+    "t    tempo",
+    "u    enabler",
+    "v    segmentSelector",
+    "x    beatMultiplier",
+    "y    trecers",
     "w    strkWeigth",
     ",    showTags",
     "/    showLines",
     ";    showCrosshair",
-    ".    snap/Dist",
+    ".    snapping",
     "|    enterText",
     "m    breakLine",
     "]    fixedLenght",
@@ -82,7 +82,6 @@ class Keyboard{
     "#    loadGroups",
     "$    saveTemplate",
     "%    loadTemplate",
-    "!    togglePlayMode",
     "*    record"
   };
 
@@ -93,7 +92,7 @@ class Keyboard{
     "ctrl-i   reverseX",
     "ctrl-r   resetTemplate"
   };
-
+// videotron
   // dependecy injection
   GroupManager groupManager;
   TemplateManager templateManager;
@@ -194,7 +193,7 @@ class Keyboard{
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
     else if (kc==BACKSPACE) groupManager.deleteSegment();
-    else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
+    //else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
   }
 
 /**
@@ -361,12 +360,7 @@ class Keyboard{
         groupManager.newGroup();
         gui.updateReference();
       }
-      //more ergonomic?
-      // else if (_k == 'a') nudger(true, -1); //right
-      // else if (_k == 'd') nudger(true, 1); //left
-      // else if (_k == 's') nudger(false, 1); //down
-      // else if (_k == 'w') nudger(false, -1); //up
-
+      else if (_k == 'm') mouse.press(3);
       else if (_k == 't') templateManager.sync.tap();
       else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());
       else if (_k == 'y') valueGiven_ = str(templateRenderer.toggleTrails());
