@@ -2,7 +2,7 @@
 # alcFreeliner #
 
 The new v0.3 is for Processing 3. Needs testing and fixing on OSX.
-Check the processingTwo branch is still cool.
+Check the processingTwo branch its still cool.
 
 ### What is? ###
 
@@ -62,5 +62,4 @@ The `@` character saves your current segment groups, with the exception of group
 The `*` character begins and stops a frame saving process. These `.tiff` images are saved in batches `capture/clip_N`. You can use Processing's movie maker tool to turn these into a video file. I recommend clearing `capture/` after making some clips.
 
 ## Current Bugs ##
-  * The fill or stroke modes (`q and f`) get stuck at 0, change the shapeSize to get your stroke or fill back.
-  * Only one closed shape per items, due to segment sorting.
+Report one?
