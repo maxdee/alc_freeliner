@@ -213,15 +213,16 @@
    */
   private void putCrosshair(PVector _pos, boolean _snap){
     // if snapped, make cursor green, white otherwise
-    if(_snap) crosshair.setStroke(SNAPPED_CURSOR_COLOR);
+    if(_snap && !BW_BEAMER) crosshair.setStroke(SNAPPED_CURSOR_COLOR);
     else crosshair.setStroke(CURSOR_COLOR);
     crosshair.setStrokeWeight(CURSOR_STROKE_WIDTH);
     canvas.pushMatrix();
     canvas.translate(_pos.x, _pos.y);
     // if dual projectors rotate the cursor by 45 when on second projector
-    if(width > 2000 && _pos.x > width/2) {
+    if(DUAL_HEAD && _pos.x > width/2) {
       canvas.rotate(QUARTER_PI);
     }
+    if(_snap && BW_BEAMER) canvas.rotate(QUARTER_PI);
     canvas.shape(crosshair);
     canvas.popMatrix();
   }
