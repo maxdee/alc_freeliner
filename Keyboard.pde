@@ -41,7 +41,7 @@
  * ctrl-d   customShape
  */
 
-class Keyboard{
+class Keyboard implements FreelinerConfig{
   //provides strings to show what is happening.
   final String keyMap[] = {
     "a    animationMode",
@@ -107,6 +107,7 @@ class Keyboard{
 
   // more keycodes
   final int CAPS_LOCK = 20;
+  
   // flags
   boolean enterText;
 

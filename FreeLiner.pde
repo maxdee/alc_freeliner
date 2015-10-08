@@ -24,8 +24,6 @@ class FreeLiner {
   Mouse mouse;
   Keyboard keyboard;
 
-  PImage imageBackground;
-
   public FreeLiner() {
 
     // instantiate

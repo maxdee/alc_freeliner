@@ -32,7 +32,7 @@
  *
  * @see SegmentGroup
  */
- class Gui{
+ class Gui implements FreelinerConfig{
 
   // depends on a group manager and a mouse
   GroupManager groupManager;
@@ -45,15 +45,8 @@
   PGraphics canvas;
   // PShape of the crosshair cursor
   PShape crosshair;
-  final int CURSOR_SIZE = 20;
-  final int CURSOR_GAP_SIZE = 4;
-  final int CURSOR_STROKE_WIDTH = 3;
-  final color CURSOR_COLOR = INVERTED_COLOR ? color(0) : color(255);
-  final color SNAPPED_CURSOR_COLOR = color(0, 200, 0);
-  final color TEXT_COLOR = INVERTED_COLOR ? color(0) : color(255);
+  //final int CURSOR_SIZE = 20;
 
-  final color SEGMENT_COLOR = color(190);
-  final color SEGMENT_COLOR_UNSELECTED = color(110);
 
   PShape arrow;
 
@@ -65,10 +58,10 @@
   // reference gridSize and grid canvas, gets updated if the mouse gridSize changes.
   int gridSize = 30;
   PShape grid;
-  final color GRID_COLOR = color(150);
+
   //PGraphics grid;
   // for auto hiding the GUI
-  int guiTimeout = 1000;
+
   int guiTimer = 1000;
 
   //ui strings
@@ -461,7 +454,7 @@
    * Reset the time of the GUI auto hiding
    */
   public void resetTimeOut(){
-    guiTimer = guiTimeout;
+    guiTimer = GUI_TIMEOUT;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

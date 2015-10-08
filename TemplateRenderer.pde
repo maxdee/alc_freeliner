@@ -5,7 +5,7 @@
  *
  */
 
-class TemplateRenderer {
+class TemplateRenderer implements FreelinerConfig{
   // rendering modes and repetition
   RenderMode[] renderModes;
   final int RENDERER_COUNT = 5;
@@ -27,8 +27,6 @@ class TemplateRenderer {
   boolean record;
   int clipCount;
   int frameCount;
-
-  final color BACKGROUND_COLOR = INVERTED_COLOR ? color(255) : color(0);
 
   /**
    * Constructor

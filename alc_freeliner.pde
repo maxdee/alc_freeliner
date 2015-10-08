@@ -32,9 +32,6 @@ final float VERSION = 0.3;
 // are you using OSX? I do not, I use GNU/Linux
 boolean OSX = false; // should set itself to true if OSX
 
-// invert colors
-final boolean INVERTED_COLOR = false;
-
 // disable splash logo
 boolean doSplash = true;
 
@@ -64,7 +61,7 @@ void settings(){
 
 // Your color pallette! customize it!
 // use hex value or color(0,100,200);
-final color[] userPallet = {
+color[] userPallet = {
                   #ffff00,
                   #ffad10,
                   #ff0000,
