@@ -44,12 +44,6 @@ final int OSC_OUT_PORT = 6668;
 // IP address to send sync messages to
 final String OSC_OUT_IP = "127.0.0.1";
 
-// If you are using a DLP with no colour wheel
-final boolean BW_BEAMER = true;
-
-// If you are using a dual head setup
-final boolean DUAL_HEAD = false;
-
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
   // set the resolution, or fullscreen and display
