@@ -229,38 +229,6 @@ class InShapeBrusher extends BrushPutter{
 	}
 }
 
-// class BrushFill extends BrushPutter{
-// 	public BrushFill(){
-//
-// 	}
-//
-// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-// 		PVector center = _seg.getCenter().get();
-// 		// find the distance from the middle to the center
-// 		float dst = center.dist(_seg.getPos(0.5));
-// 		// how many things
-// 		int count = constrain(_event.getRepetitionCount(), 1, 20); //ceil(dst/event.getScaledBrushSize());
-// 		// force the brush size
-// 		_event.forceScaledBrushSize(dst/count);
-// 		float lrp = _event.getLerp();
-// 		float ang =  _seg.getAngle(_event.getDirection());
-// 		//int count = 5; // what should I attach this to?
-// 		float inter = 1.0/count;
-// 		PVector pos = new PVector(0,0); _seg.getPos(lrp).get();
-// 		float tmpLrp = 0;
-//
-// 		// calling super after due to custom brush size
-// 		super.paintSegment(_seg, _event);
-//
-// 		for(int i = 0; i < count; i++){
-// 			tmpLrp = (i%2 == 0) ? lrp : (lrp-1)*-1;
-// 			pos = vecLerp(_seg.getPos(tmpLrp).get(), center, i*inter);
-// 			putShape(pos, (i%2 == 0) ? ang : ang + PI);
-// 		}
-// 	}
-
-
-
 // center brusher
 
 class CenterBrusher extends BrushPutter{
@@ -289,4 +257,34 @@ class CircularBrusher extends BrushPutter{
 		if(!event.getDirection()) ang += PI;
 		putShape(pos, event.getAngleMod() + ang + HALF_PI);
 	}
+}
+
+
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////    Text painting
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
+class TextWritter extends SegmentPainter{
+
+	public TextWritter(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		String _txt = _seg.getText();
+		canvas.textSize(_event.getScaledBrushSize());
+		canvas.textFont(font);
+		//for()
+
+	}
+
+	public void putChar(char _chr, PVector _p){
+		// canvas.pushMatrix();
+		// canvas.translate(_p.x, _p.y);
+		// canvas.rotate(_a+ HALF_PI +event.getAngleMod());
+		// canvas.text();
+		// canvas.popMatrix();
+	}
+
 }

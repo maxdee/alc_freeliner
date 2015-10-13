@@ -56,6 +56,7 @@ class Keyboard implements FreelinerConfig{
     "j    reverseMode",
     "k    strokeAlpha",
     "l    fillAlpha",
+    "m    breakLine",
     "n    newItem",
     "o    rotation",
     "p    probability",
@@ -65,15 +66,15 @@ class Keyboard implements FreelinerConfig{
     "t    tempo",
     "u    enabler",
     "v    segmentSelector",
+    "w    strkWeigth",
     "x    beatMultiplier",
     "y    trecers",
-    "w    strkWeigth",
+    //"z    ???????",
     ",    showTags",
     "/    showLines",
     ";    showCrosshair",
     ".    snapping",
     "|    enterText",
-    "m    breakLine",
     "]    fixedLenght",
     "[    fixedAngle",
     "-    decreaseValue",
@@ -92,7 +93,7 @@ class Keyboard implements FreelinerConfig{
     "ctrl-i   reverseX",
     "ctrl-r   resetTemplate"
   };
-// videotron
+
   // dependecy injection
   GroupManager groupManager;
   TemplateManager templateManager;
@@ -107,7 +108,7 @@ class Keyboard implements FreelinerConfig{
 
   // more keycodes
   final int CAPS_LOCK = 20;
-  
+
   // flags
   boolean enterText;
 

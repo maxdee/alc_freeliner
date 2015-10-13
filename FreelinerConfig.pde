@@ -19,4 +19,7 @@ interface FreelinerConfig{
 
   // Rendering options
   final color BACKGROUND_COLOR = #000000;
+
+  // Keyboard Section
+  // final char ...
 }
