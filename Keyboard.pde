@@ -84,8 +84,7 @@ class Keyboard implements FreelinerConfig{
     "$    saveTemplate",
     "%    loadTemplate",
     "*    record",
-    ">    play",
-    "<    rec"
+    ">    steps"
   };
 
   final String ctrlKeyMap[] = {
@@ -177,6 +176,10 @@ class Keyboard implements FreelinerConfig{
         distributor(k, -3, true);
       }
     }
+    //this should be elsewhere...
+    if(editKey == '>') {
+      gui.setTemplateString(templateManager.getSynchroniser().getStepToEdit().getTags());
+    }
   }
 
 
@@ -228,6 +231,7 @@ class Keyboard implements FreelinerConfig{
  */
   public void processCAPS(char _c) {
     TemplateList tl = groupManager.getTemplateList();
+    if(editKey == '>') tl = templateManager.getSynchroniser().getStepToEdit();
     if(tl == null) tl = templateManager.getTemplateList();
     if(shifted){
       tl.toggle(templateManager.getTemplate(_c));
@@ -257,6 +261,7 @@ class Keyboard implements FreelinerConfig{
     alted = false;
     ctrled = false;
     shifted = false;
+    editKey = ' ';
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -381,8 +386,6 @@ class Keyboard implements FreelinerConfig{
       //else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
       else if (_k == '@') groupManager.saveGroups();//Vertices();
       else if (_k == '#') groupManager.loadGroups(templateManager);
-      else if (_k == '>') valueGiven_ = templateManager.getSynchroniser().togglePlay();
-      else if (_k == '<') valueGiven_ = templateManager.getSynchroniser().toggleRec();
       else if (_k == '?') templateManager.getSynchroniser().clear();
       else used_ = false;
     }
@@ -393,6 +396,7 @@ class Keyboard implements FreelinerConfig{
       else if (editKey == ']') valueGiven_ = str(mouse.setLineLenght(_n));
       else if (editKey == '[') valueGiven_ = str(mouse.setLineAngle(_n));
       else if (editKey == '.') valueGiven_ = str(groupManager.setSnapDist(_n));
+      else if (editKey == '>') valueGiven_ = str(templateManager.getSynchroniser().setEditStep(_n));
       else used_ = false;
     }
 

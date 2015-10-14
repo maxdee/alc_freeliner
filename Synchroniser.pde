@@ -100,15 +100,22 @@ class Synchroniser{
   }
 }
 
-
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////    Sequencer extention
+///////
+////////////////////////////////////////////////////////////////////////////////////
 
 class SequenceSync extends Synchroniser{
   TemplateList[] lists;
+  TemplateList selectedList;
   boolean doStep = false;
   final int STEP_COUNT = 16;
   int step = 0;
-  boolean record = false;
-  boolean play = false;
+  int editStep = 0;
+
+
+  boolean stepChanged = false;
 
   public SequenceSync(){
     super();
@@ -116,23 +123,27 @@ class SequenceSync extends Synchroniser{
     for(int i = 0; i < STEP_COUNT; i++){
       lists[i] = new TemplateList();
     }
+    selectedList = lists[0];
   }
   //
   public void update(){
     super.update();
     int oldStep = step;
-    if(play) step = periodCount % STEP_COUNT;
+    step = periodCount % STEP_COUNT;
     if(step != oldStep) doStep = true;
-    // println(step);
   }
 
-  // add or remove the Templates if
+  // add or remove the Templates, gets called by triggering
   public void templateInput(TweakableTemplate _tw){
-    if(record){
-      lists[step].toggle(_tw);
-      //if(!lists[step].contains(_tw))
-      //if(lists[step].contains(_tw)) templateList[step].toggle(_tw);
-    }
+    // if(record){
+    //   lists[step].toggle(_tw);
+    //   //if(!lists[step].contains(_tw))
+    //   //if(lists[step].contains(_tw)) templateList[step].toggle(_tw);
+    // }
+  }
+
+  public void templateInput(TweakableTemplate _tw, int _stp){
+    // set for specific steps? show the tags for each step, cycle with -=
   }
 
   public void clear(){
@@ -141,24 +152,29 @@ class SequenceSync extends Synchroniser{
     }
   }
 
-  public String toggleRec(){
-    record = !record;
-    return str(record);
+
+  // set which step to edit
+  public int setEditStep(int _n){
+    editStep = numTweaker(_n, editStep);
+    editStep %= STEP_COUNT;
+    selectedList = lists[editStep];
+    stepChanged = true;
+    return editStep;
   }
-  public String togglePlay(){
-    play = !play;
-    return str(play);
+
+  public TemplateList getStepToEdit(){
+    return selectedList;
   }
 
   // check for things to trigger
   public TemplateList getStepList(){
     if(doStep){
       doStep = false;
-      if(play) return lists[step];
-      else return null;
+      return lists[step];
     }
     else return null;
   }
+
   public int getStep(){
     return step;
   }

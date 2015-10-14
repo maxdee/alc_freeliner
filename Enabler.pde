@@ -1,5 +1,5 @@
 class Enabler{
-	
+
 	public Enabler(){
 
 	}
@@ -10,7 +10,7 @@ class Enabler{
 
 
 class Disabler extends Enabler{
-	
+
 	public Disabler(){
 
 	}
@@ -19,6 +19,15 @@ class Disabler extends Enabler{
 	}
 }
 
+class Triggerable extends Enabler{
+
+	public Triggerable(){
+
+	}
+	public boolean enable(RenderableTemplate _rt){
+		return false;
+	}
+}
 
 
 
@@ -44,7 +53,7 @@ class EveryX extends Enabler{
 
 
 class SweepingEnabler extends Enabler{
-	final float DIST = 200.0;//float(width)/4.0; 
+	final float DIST = 200.0;//float(width)/4.0;
 	public SweepingEnabler(){
 		super();
 	}
@@ -62,7 +71,7 @@ class SweepingEnabler extends Enabler{
 }
 
 class SwoopingEnabler extends Enabler{
-	final float DIST = 200.0;//float(width)/4.0; 
+	final float DIST = 200.0;//float(width)/4.0;
 	public SwoopingEnabler(){
 		super();
 

@@ -312,7 +312,7 @@ class KillableTemplate extends RenderableTemplate{
 		sourceTemplate = _te;
 		copy(_te);
 		// force enable?
-		enablerMode = 1;
+		if(enablerMode != 0) enablerMode = 1;
 		segmentGroup = _sg;
 		beatCount = -1;
 		doRender = true; // remove?
