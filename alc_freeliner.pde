@@ -22,7 +22,7 @@ OscP5 oscP5;
 NetAddress toPDpatch;
 OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
-final float VERSION = 0.3;
+final float VERSION = 0.3.1;
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     OPTIONS!

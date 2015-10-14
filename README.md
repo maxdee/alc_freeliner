@@ -58,6 +58,9 @@ Unselect with `esc`, then select the template to copy, then select the template 
 ##### Save Geometry
 The `@` character saves your current segment groups, with the exception of group 0. The `#` character will load whatever is in `data/groups.xml`. Its a good idea to make a copy of this file because accidentally hitting `@` will overwrite the file.
 
+##### Sequencing
+16 step sequencing, may change. By tweaking the `>` character you can move through the steps. Steps are like items, they can have multiple templates. Press the `>` key then add a template or two then go to the next step with `=` (+) and onwards. It is recommended to use enabler mode 2.
+
 ##### Make Videos
 The `*` character begins and stops a frame saving process. These `.tiff` images are saved in batches `capture/clip_N`. You can use Processing's movie maker tool to turn these into a video file. I recommend clearing `capture/` after making some clips.
 
