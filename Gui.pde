@@ -177,6 +177,8 @@
     guiSegments.setText("[Rndr: "+tags+"]", 1);
     // third show the parameter associated with key and values given to parameters
     guiSegments.setText("["+keyString+": "+valueGiven+"]", 2);
+    // display what step
+    //guiSegments.setText("[stp: "+templateManager.getSynchroniser().getStep() +"]", 3);
     // display how long we have been jamming
     guiSegments.setText("["+getTimeRunning()+"]", 3);
     // framerate ish

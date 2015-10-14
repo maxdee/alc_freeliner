@@ -83,7 +83,9 @@ class Keyboard implements FreelinerConfig{
     "#    loadGroups",
     "$    saveTemplate",
     "%    loadTemplate",
-    "*    record"
+    "*    record",
+    ">    play",
+    "<    rec"
   };
 
   final String ctrlKeyMap[] = {
@@ -379,6 +381,9 @@ class Keyboard implements FreelinerConfig{
       //else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
       else if (_k == '@') groupManager.saveGroups();//Vertices();
       else if (_k == '#') groupManager.loadGroups(templateManager);
+      else if (_k == '>') valueGiven_ = templateManager.getSynchroniser().togglePlay();
+      else if (_k == '<') valueGiven_ = templateManager.getSynchroniser().toggleRec();
+      else if (_k == '?') templateManager.getSynchroniser().clear();
       else used_ = false;
     }
     else {

@@ -30,7 +30,7 @@
 class TemplateManager{
 	//selects templates to control
   TemplateList templateList;
-  
+
   //templates all the basic templates
   ArrayList<TweakableTemplate> templates;
   final int N_TEMPLATES = 26;
@@ -39,13 +39,13 @@ class TemplateManager{
   ArrayList<RenderableTemplate> eventList;
   ArrayList<RenderableTemplate> loops;
   // synchronise things
-  Synchroniser sync;
+  SequenceSync sync;
 
   GroupManager groupManager;
 
 
   public TemplateManager(){
-    sync = new Synchroniser();
+    sync = new SequenceSync();
   	templateList = new TemplateList();
     loops = new ArrayList();
     eventList = new ArrayList();
@@ -69,6 +69,8 @@ class TemplateManager{
   // update the render events
   public void update() {
     sync.update();
+    trigger(sync.getStepList());
+    // check for events?
     // set the unitinterval/beat for all templates
     syncTemplates(loops);
     syncTemplates(eventList);
@@ -99,7 +101,7 @@ class TemplateManager{
 
   /**
    * Makes sure there is a renderable template for all the segmentGroup / Template pairs.
-   * @param ArrayList<SegmentGroup>   
+   * @param ArrayList<SegmentGroup>
    */
   public void launchLoops(){
     ArrayList<SegmentGroup> _groups = groupManager.getGroups();
@@ -144,29 +146,46 @@ class TemplateManager{
   ///////     Playing functions
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
+  // trigger but catch with synchroniser
   public void trigger(char _c){
     TweakableTemplate _tp = getTemplate(_c);
     if(_tp == null) return;
-    //print("Trigering "+_c+" with groups ");
+    trigger(_tp);
+    sync.templateInput(_tp);
+  }
+
+  public void trigger(TweakableTemplate _tp){
+    if(_tp == null) return;
     // get groups with template
     ArrayList<SegmentGroup> _groups = groupManager.getGroups(_tp);
     if(_groups.size() > 0){
       for(SegmentGroup _sg : _groups){
         //print(_sg.getID()+", ");
-        eventList.add(eventFactory(_tp, _sg));    
+        eventList.add(eventFactory(_tp, _sg));
       }
     }
   }
 
+  // trigger a letter + group
   public void trigger(char _c, int _id){
     SegmentGroup _sg = groupManager.getGroup(_id);
     if(_sg == null) return;
     TweakableTemplate _tp = getTemplate(_c);
     if(_tp == null) return;
-    eventList.add(eventFactory(_tp, _sg));   
+    eventList.add(eventFactory(_tp, _sg));
   }
 
+  // trigger a templateList
+  public void trigger(TemplateList _tl){
+    if(_tl == null) return;
+    ArrayList<TweakableTemplate> _tp = _tl.getAll();
+    if(_tp == null) return;
+    if(_tp.size() > 0){
+      for(TweakableTemplate tw : _tp) trigger(tw);
+    }
+  }
+
+  // osc trigger many things and gps
   public void oscTrigger(String _tags, int _gp){
     for(int i = 0; i < _tags.length(); i++){
       if(_gp != -1) trigger(_tags.charAt(i), _gp);
@@ -179,7 +198,7 @@ class TemplateManager{
   ///////     Actions
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-  
+
   /**
    * Select all the templates in order to tweak them all. Triggered by ctrl-a
    */
@@ -230,17 +249,17 @@ class TemplateManager{
   ///////     Setting custom shapes
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-  
+
   // set a decorator's shape
   private void setCustomShape(SegmentGroup _sg){
-    if(_sg == null) return; 
+    if(_sg == null) return;
     ArrayList<TweakableTemplate> temps = _sg.getTemplateList().getAll();
 
     if(_sg.getShape() == null) return;
 
     PShape sourceShape = cloneShape(_sg.getShape(), 1.0, _sg.getCenter());
     //println("Setting customShape of "+temp.getTemplateID()+" with a shape of "+sourceShape.getVertexCount()+" vertices");
-    
+
     int vertexCount = sourceShape.getVertexCount();
     if(vertexCount > 0){
       // store the widest x coordinate
@@ -254,7 +273,7 @@ class TemplateManager{
         mn = sourceShape.getVertex(i).y;
         if(mx > maxX) maxX = mx;
         if(mn < minX) minX = mn;
-      }      
+      }
       // return a brush scaled to the BASE_SIZE
       float baseSize = (float)new PointBrush().BASE_SIZE;
       PShape cust = cloneShape(sourceShape, baseSize/(maxX+abs(minX)), new PVector(0,0));
@@ -270,7 +289,7 @@ class TemplateManager{
   ///////     Mutators
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-  
+
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -278,17 +297,17 @@ class TemplateManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public Synchroniser getSynchroniser(){
+  public SequenceSync getSynchroniser(){
     return sync;
   }
 
   public ArrayList<RenderableTemplate> getLoops(){
     return loops;
-  } 
+  }
 
   public ArrayList<RenderableTemplate> getEvents(){
     return eventList;
-  } 
+  }
 
   public boolean isFocused(){
     return templateList.getIndex(0) != null;
@@ -305,7 +324,7 @@ class TemplateManager{
     }
     return null;
   }
-  
+
   public TemplateList getTemplateList(){
     return templateList;
   }

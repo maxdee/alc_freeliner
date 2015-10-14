@@ -28,7 +28,7 @@ class Synchroniser{
   // millis to render one frame
   int renderTime = 0;
   int lastRender = 0;
-  
+
   // tapTempo
   int lastTap = 0;
   int lastTime = 0;
@@ -68,7 +68,7 @@ class Synchroniser{
     if(_div < 1) _div = 1;
     int cyc_ = (periodCount%_div);
     float lrp_ = (1.0/_div)*cyc_;
-    return (lerper/_div) + lrp_; 
+    return (lerper/_div) + lrp_;
   }
 
   public int getPeriod(int _div){
@@ -97,5 +97,69 @@ class Synchroniser{
 
   public void setRecording(boolean _r) {
     record = _r;
+  }
+}
+
+
+
+class SequenceSync extends Synchroniser{
+  TemplateList[] lists;
+  boolean doStep = false;
+  final int STEP_COUNT = 16;
+  int step = 0;
+  boolean record = false;
+  boolean play = false;
+
+  public SequenceSync(){
+    super();
+    lists = new TemplateList[STEP_COUNT];
+    for(int i = 0; i < STEP_COUNT; i++){
+      lists[i] = new TemplateList();
+    }
+  }
+  //
+  public void update(){
+    super.update();
+    int oldStep = step;
+    if(play) step = periodCount % STEP_COUNT;
+    if(step != oldStep) doStep = true;
+    // println(step);
+  }
+
+  // add or remove the Templates if
+  public void templateInput(TweakableTemplate _tw){
+    if(record){
+      lists[step].toggle(_tw);
+      //if(!lists[step].contains(_tw))
+      //if(lists[step].contains(_tw)) templateList[step].toggle(_tw);
+    }
+  }
+
+  public void clear(){
+    for(int i = 0; i < STEP_COUNT; i++){
+      lists[i].clear();
+    }
+  }
+
+  public String toggleRec(){
+    record = !record;
+    return str(record);
+  }
+  public String togglePlay(){
+    play = !play;
+    return str(play);
+  }
+
+  // check for things to trigger
+  public TemplateList getStepList(){
+    if(doStep){
+      doStep = false;
+      if(play) return lists[step];
+      else return null;
+    }
+    else return null;
+  }
+  public int getStep(){
+    return step;
   }
 }
