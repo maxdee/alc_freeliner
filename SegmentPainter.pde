@@ -289,8 +289,7 @@ class TextWritter extends SegmentPainter{
 		canvas.pushMatrix();
 		canvas.translate(_p.x, _p.y);
 		canvas.rotate(_a + event.getAngleMod());
-		canvas.text(_chr,0,0);
+		canvas.text(_chr, 0, event.getScaledBrushSize()/3.0);
 		canvas.popMatrix();
 	}
-
 }

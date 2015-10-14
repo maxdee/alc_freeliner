@@ -432,10 +432,10 @@ class SegmentGroup {
   public void toggleTemplate(TweakableTemplate _te) {
     templateList.toggle(_te);
   }
-
-  public void setWord(String w, int v) {
-    if (segCount >= 1 && v == -1) segments.get(segCount-1).setWord(w);
-    else if (v<segCount) segments.get(v).setWord(w);
+  // check_this
+  public void setText(String w, int v) {
+    if (segCount >= 1 && v == -1) segments.get(segCount-1).setText(w);
+    else if (v<segCount) segments.get(v).setText(w);
   }
 
   public void newRan(){

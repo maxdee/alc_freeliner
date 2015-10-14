@@ -51,7 +51,8 @@ final String OSC_OUT_IP = "127.0.0.1";
 void settings(){
   // set the resolution, or fullscreen and display
   //size(1024, 768, P2D);
-  fullScreen(P2D, 2);
+  size(600, 600, P2D);
+  //fullScreen(P2D, 2);
   smooth();
   //noSmooth();
 }
@@ -111,7 +112,7 @@ void splash(){
   background(0);
   stroke(100);
   fill(150);
-  textMode(CENTER);
+  //setText(CENTER);
   textFont(introFont);
   text("a!Lc freeLiner", 10, height/2);
   textSize(24);
@@ -226,6 +227,16 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
         theOscMessage.get(3).intValue(),
         theOscMessage.get(4).intValue());
       freeliner.templateManager.setCustomColor(tags, col);
+    }
+  }
+  else if(theOscMessage.checkAddrPattern("/freeliner/text")){
+    /* check if the typetag is the right one. */
+    if(theOscMessage.checkTypetag("iis")) {
+      /* parse theOscMessage and extract the values from the osc message arguments. */
+      int grp = theOscMessage.get(0).intValue();
+      int seg = theOscMessage.get(1).intValue();
+      String txt = theOscMessage.get(2).stringValue();
+      freeliner.groupManager.setText(grp, seg, txt);
     }
   }
 }

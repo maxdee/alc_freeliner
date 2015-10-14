@@ -307,10 +307,13 @@ class GroupManager{
     return snapDist;
   }
 
-  // public void toggle(TemplateEvent _rn){
-  //   renderList.toggle(_rn);
-  // }
-
+  public void setText(int _grp, int _seg, String _txt){
+    SegmentGroup group = getGroup(_grp);
+    if(group == null) return;
+    Segment seg = group.getSegment(_seg);
+    if(seg == null) return;
+    seg.setText(_txt);
+  }
 
   public void setReferenceGroupTemplateList(TemplateList _tl){
     groups.get(1).setTemplateList(_tl);

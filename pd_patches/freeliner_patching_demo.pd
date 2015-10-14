@@ -1,4 +1,4 @@
-#N canvas 595 56 869 660 10;
+#N canvas 472 18 869 660 10;
 #X declare -lib mrpeach;
 #X obj 46 599 freeliner_OSC 1;
 #X obj 139 580 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
@@ -50,6 +50,13 @@
 #X obj 164 295 s freeliner-1;
 #X obj 203 428 s freeliner-1;
 #X obj 663 17 fl_rgba;
+#X obj 695 405 s freeliner-1;
+#X msg 710 357 tx 2 1 hello;
+#X msg 695 380 tx 2 1 noise;
+#X obj 695 286 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 695 333 alternate;
+#X obj 695 308 metro 300;
 #X connect 1 0 0 1;
 #X connect 2 0 3 0;
 #X connect 4 0 5 0;
@@ -94,3 +101,9 @@
 #X connect 42 0 15 0;
 #X connect 43 0 45 0;
 #X connect 46 0 41 0;
+#X connect 48 0 47 0;
+#X connect 49 0 47 0;
+#X connect 50 0 52 0;
+#X connect 51 0 49 0;
+#X connect 51 1 48 0;
+#X connect 52 0 51 0;

@@ -125,7 +125,7 @@ class Segment {
     }
   }
 
-  public void setWord(String w){
+  public void setText(String w){
     segmentText = w;
   }
 

@@ -492,7 +492,7 @@ class Keyboard implements FreelinerConfig{
    */
   private void returnWord() {
     SegmentGroup _sg = groupManager.getSelectedGroup();
-    if (groupManager.getSnappedSegment() != null) groupManager.getSnappedSegment().setWord(wordMaker);
+    if (groupManager.getSnappedSegment() != null) groupManager.getSnappedSegment().setText(wordMaker);
     else if(wordMaker.length() > 0) {
       TweakableTemplate _toadd = templateManager.getTemplate(wordMaker.charAt(0));
       TweakableTemplate _tomatch = templateManager.getTemplateList().getIndex(0);

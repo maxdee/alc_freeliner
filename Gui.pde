@@ -125,7 +125,7 @@
     canvas.clear();
     canvas.textFont(font);
     canvas.textSize(15);
-    canvas.textMode(CENTER);
+    //canvas.setText(CENTER);
 
     // draw the grid
     if (mouse.useGrid()){
@@ -172,15 +172,15 @@
     // String id = str(_sg.getID());
     // if(_sg == guiSegments) id = "info";
     // else if(_sg == refSegments) id = "ref";
-    guiSegments.setWord("[Item: "+groupManager.getSelectedIndex()+"]", 0);
+    guiSegments.setText("[Item: "+groupManager.getSelectedIndex()+"]", 0);
     // second segment shows the Templates selected
-    guiSegments.setWord("[Rndr: "+tags+"]", 1);
+    guiSegments.setText("[Rndr: "+tags+"]", 1);
     // third show the parameter associated with key and values given to parameters
-    guiSegments.setWord("["+keyString+": "+valueGiven+"]", 2);
+    guiSegments.setText("["+keyString+": "+valueGiven+"]", 2);
     // display how long we have been jamming
-    guiSegments.setWord("["+getTimeRunning()+"]", 3);
+    guiSegments.setText("["+getTimeRunning()+"]", 3);
     // framerate ish
-    guiSegments.setWord("[FPS "+(int)frameRate+"]", 4);
+    guiSegments.setText("[FPS "+(int)frameRate+"]", 4);
     // draw the information that was just set to segments of group 0
     ArrayList<Segment> segs = guiSegments.getSegments();
     int sz = int(guiSegments.getBrushScaler()*20);
