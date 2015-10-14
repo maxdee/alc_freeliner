@@ -273,18 +273,24 @@ class TextWritter extends SegmentPainter{
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		String _txt = _seg.getText();
-		canvas.textSize(_event.getScaledBrushSize());
+		float _ang = _seg.getAngle(_event.getDirection());
 		canvas.textFont(font);
-		//for()
-
+		canvas.textSize(_event.getScaledBrushSize());
+		char[] carr = _txt.toCharArray();
+		int l = _txt.length();
+		PVector pos = new PVector(0,0);
+		for(int i = 0; i < l; i++){
+			pos = _seg.getRegPos(-((float)i/(l+1) + 1.0/(l+1))+1);
+			putChar(carr[i], pos, _ang);
+		}
 	}
 
-	public void putChar(char _chr, PVector _p){
-		// canvas.pushMatrix();
-		// canvas.translate(_p.x, _p.y);
-		// canvas.rotate(_a+ HALF_PI +event.getAngleMod());
-		// canvas.text();
-		// canvas.popMatrix();
+	public void putChar(char _chr, PVector _p, float _a){
+		canvas.pushMatrix();
+		canvas.translate(_p.x, _p.y);
+		canvas.rotate(_a + event.getAngleMod());
+		canvas.text(_chr,0,0);
+		canvas.popMatrix();
 	}
 
 }

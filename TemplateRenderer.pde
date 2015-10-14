@@ -8,7 +8,7 @@
 class TemplateRenderer implements FreelinerConfig{
   // rendering modes and repetition
   RenderMode[] renderModes;
-  final int RENDERER_COUNT = 5;
+  final int RENDERER_COUNT = 6;
 
   Repetition[] repeaters;
   final int REPEATER_COUNT = 4;
@@ -49,9 +49,10 @@ class TemplateRenderer implements FreelinerConfig{
     renderModes = new RenderMode[RENDERER_COUNT];
     renderModes[0] = new BrushSegment();
     renderModes[1] = new LineSegment();
-    renderModes[2] = new CircularSegment();
+    renderModes[2] = new WrapLine();
     renderModes[3] = new Geometry();
-    renderModes[4] = new WrapLine();
+    renderModes[4] = new TextLine();
+    renderModes[5] = new CircularSegment();
 
     // add repetitionModes
     repeaters = new Repetition[REPEATER_COUNT];

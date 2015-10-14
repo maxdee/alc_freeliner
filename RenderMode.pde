@@ -113,12 +113,29 @@ class CircularSegment extends PerSegment{
 		segmentPainters[0] = new Elliptic();
     segmentPainters[1] = new RadarPainter();
 	}
-		public SegmentPainter getPainter(int _index){
+	public SegmentPainter getPainter(int _index){
 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
 		return segmentPainters[_index];
 	}
 }
 
+
+// text rendering
+class TextLine extends PerSegment{
+	SegmentPainter[] segmentPainters;
+	final int PAINTER_COUNT = 1;
+
+	public TextLine(){
+		super();
+		segmentPainters = new SegmentPainter[PAINTER_COUNT];
+		segmentPainters[0] = new TextWritter();
+	}
+
+	public SegmentPainter getPainter(int _index){
+		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		return segmentPainters[_index];
+	}
+}
 
 
 class WrapLine extends PerSegment{

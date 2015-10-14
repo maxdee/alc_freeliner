@@ -22,7 +22,7 @@ class Painter{
   public void paint(RenderableTemplate _rt){
     event = _rt;
     canvas = event.getCanvas();
-		//applyStyle(canvas);
+		applyStyle(canvas);
   }
 
 	// color stuffs

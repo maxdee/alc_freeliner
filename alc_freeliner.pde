@@ -32,6 +32,9 @@ final float VERSION = 0.3;
 // are you using OSX? I do not, I use GNU/Linux
 boolean OSX = false; // should set itself to true if OSX
 
+// invert colors
+final boolean INVERTED_COLOR = false;
+
 // disable splash logo
 boolean doSplash = true;
 
@@ -47,7 +50,6 @@ final String OSC_OUT_IP = "127.0.0.1";
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(800, 600, P2D);
   //size(1024, 768, P2D);
   fullScreen(P2D, 2);
   smooth();
@@ -56,7 +58,7 @@ void settings(){
 
 // Your color pallette! customize it!
 // use hex value or color(0,100,200);
-color[] userPallet = {
+final color[] userPallet = {
                   #ffff00,
                   #ffad10,
                   #ff0000,
