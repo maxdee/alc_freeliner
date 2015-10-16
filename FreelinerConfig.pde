@@ -20,6 +20,11 @@ interface FreelinerConfig{
   // Rendering options
   final color BACKGROUND_COLOR = #000000;
 
+  // Timing and stuff
+  final int DEFAULT_TEMPO = 1500;
+  final int SEQ_STEP_COUNT = 16; // customize step count of Sequencer
+
+
   // Keyboard Section
   // final char ...
 }

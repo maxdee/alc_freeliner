@@ -36,6 +36,7 @@
  * CTRL + KEYS MAPPING
  * ctrl-a   selectAll
  * ctrl-c   clone A -> B
+ * ctrl-b   all that has A gets B
  * ctrl-i   revers mouseX
  * ctrl-r   reset template
  * ctrl-d   customShape
@@ -90,6 +91,7 @@ class Keyboard implements FreelinerConfig{
   final String ctrlKeyMap[] = {
     "ctrl-a   selectAll",
     "ctrl-c   clone",
+    "ctrl-b   groupAddTemplate",
     "ctrl-d   customShape",
     "ctrl-i   reverseX",
     "ctrl-r   resetTemplate"
@@ -277,12 +279,14 @@ class Keyboard implements FreelinerConfig{
  * @param int ascii value of the key
  */
   public void modCommands(int k){
-    //if(ctrled || alted) println("mod keys "+k);
+    if(ctrled || alted) println("mod keys "+k);
     if (ctrled && k == 1) focusAll(); // a
-    else if(ctrled && k == 3) templateManager.copyPaste();
+    else if(ctrled && k == 3) templateManager.copyTemplate();
+    else if(ctrled && k == 22) templateManager.pasteTemplate();
+    else if(ctrled && k == 2) templateManager.groupAddTemplate(); // ctrl-b
+    else if(ctrled && k == 4) distributor(char(504), -3, false);  // set custom shape
     else if(ctrled && k == 9) gui.setValueGiven( str(mouse.toggleInvertMouse()) );
     else if(ctrled && k == 18) distributor(char(518), -3, false); // re init()
-    else if(ctrled && k == 4) distributor(char(504), -3, false);  // set custom shape
   }
 
 /**
@@ -502,11 +506,6 @@ class Keyboard implements FreelinerConfig{
   private void returnWord() {
     SegmentGroup _sg = groupManager.getSelectedGroup();
     if (groupManager.getSnappedSegment() != null) groupManager.getSnappedSegment().setText(wordMaker);
-    else if(wordMaker.length() > 0) {
-      TweakableTemplate _toadd = templateManager.getTemplate(wordMaker.charAt(0));
-      TweakableTemplate _tomatch = templateManager.getTemplateList().getIndex(0);
-      groupManager.groupAddTemplate(_toadd, _tomatch);
-    }
     wordMaker = " ";
     enterText = false;
   }

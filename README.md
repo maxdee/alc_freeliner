@@ -45,15 +45,15 @@ The cursor can snap to various stuff. When snapping to points you can nudge them
 ##### Text Entry
 `|` pipe begins a text entry and return key returns the text. This has a few uses. More later.
 
-##### Toggle a renderer to groups with a renderer
-Essentially adds a other renderer of your choice to any group who has the first renderer on the list.
-Have a renderer in focus, hit `|` to enable text input and enter a renderer, like `N`, and press return.
+##### Toggle a template to groups with a template
+Essentially adds a other template of your choice to any group who has the first template on the list.
+Select two templates like `A` and `B`, press `ctrl-b`. All geometry that has `A` will now also have `B`. 
 
 ##### Create a custom brush
 Make a new segment group, set its center. Add a rendering template (`shift + a-z`) then hit (`ctrl + d`). That template will now have a custom brush corresponding to that segment group. You can then remove that template from the group and or remove all the segments of the group.
 
 ##### Copy parameters between templates
-Unselect with `esc`, then select the template to copy, then select the template to paste into, and then press `ctrl-c`.  
+Unselect with `esc`, then select the template to copy, then select the template to paste into, and then press `ctrl-c`.   
 
 ##### Save Geometry
 The `@` character saves your current segment groups, with the exception of group 0. The `#` character will load whatever is in `data/groups.xml`. Its a good idea to make a copy of this file because accidentally hitting `@` will overwrite the file.

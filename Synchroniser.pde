@@ -23,7 +23,7 @@
  */
 
 
-class Synchroniser{
+class Synchroniser implements FreelinerConfig{
 
   // millis to render one frame
   int renderTime = 0;
@@ -33,7 +33,7 @@ class Synchroniser{
   int lastTap = 0;
   int lastTime = 0;
   FloatSmoother tapTimer;
-  int tempo = 1500;
+  int tempo = DEFAULT_TEMPO;
 
   boolean record;
 
@@ -110,7 +110,7 @@ class SequenceSync extends Synchroniser{
   TemplateList[] lists;
   TemplateList selectedList;
   boolean doStep = false;
-  final int STEP_COUNT = 16;
+  final int SEQ_STEP_COUNT = 16;
   int step = 0;
   int editStep = 0;
 
@@ -119,8 +119,8 @@ class SequenceSync extends Synchroniser{
 
   public SequenceSync(){
     super();
-    lists = new TemplateList[STEP_COUNT];
-    for(int i = 0; i < STEP_COUNT; i++){
+    lists = new TemplateList[SEQ_STEP_COUNT];
+    for(int i = 0; i < SEQ_STEP_COUNT; i++){
       lists[i] = new TemplateList();
     }
     selectedList = lists[0];
@@ -129,7 +129,7 @@ class SequenceSync extends Synchroniser{
   public void update(){
     super.update();
     int oldStep = step;
-    step = periodCount % STEP_COUNT;
+    step = periodCount % SEQ_STEP_COUNT;
     if(step != oldStep) doStep = true;
   }
 
@@ -147,7 +147,7 @@ class SequenceSync extends Synchroniser{
   }
 
   public void clear(){
-    for(int i = 0; i < STEP_COUNT; i++){
+    for(int i = 0; i < SEQ_STEP_COUNT; i++){
       lists[i].clear();
     }
   }
@@ -156,7 +156,7 @@ class SequenceSync extends Synchroniser{
   // set which step to edit
   public int setEditStep(int _n){
     editStep = numTweaker(_n, editStep);
-    editStep %= STEP_COUNT;
+    editStep %= SEQ_STEP_COUNT;
     selectedList = lists[editStep];
     stepChanged = true;
     return editStep;

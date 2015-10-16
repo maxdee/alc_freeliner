@@ -92,7 +92,7 @@ class GroupManager{
  * @param renderer to add
  * @param renderer to match
  */
-  public void groupAddTemplate(TweakableTemplate _toAdd, TweakableTemplate _toMatch){
+  public void groupAddTemplate(TweakableTemplate _toMatch, TweakableTemplate _toAdd){
     if(groups.size() > 0 && _toAdd != null && _toMatch != null){
       for (SegmentGroup sg : groups) {
         TemplateList tl = sg.getTemplateList();

@@ -1,9 +1,14 @@
 # alc_Freeliner Developement #
 
 #### TODO ####
- * add scrolling text and osc settable text
+ * more text modes?
+ * more line modes.
  * put keyboard shortcuts in FreelinerConfig / make actual bindings.
+ * iterator should be before run through segs? somethign to do with trigger mode
+ * triangle brush center wrong
+ * prevent resizing of brush...
 
+*** use check_this tag to mark spots to come back to
 
 
 #### Ideas ####

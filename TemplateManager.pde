@@ -33,6 +33,7 @@ class TemplateManager{
 
   //templates all the basic templates
   ArrayList<TweakableTemplate> templates;
+  TweakableTemplate copyedTemplate;
   final int N_TEMPLATES = 26;
 
   // events to render
@@ -49,6 +50,7 @@ class TemplateManager{
   	templateList = new TemplateList();
     loops = new ArrayList();
     eventList = new ArrayList();
+    copyedTemplate = null;
   	init();
     groupManager = null;
   }
@@ -227,10 +229,33 @@ class TemplateManager{
   /**
    * Copy one template into an other. Triggered by ctrl-c with 2 templates selected.
    */
-  public void copyPaste(){
-    Template a = templateList.getIndex(0);
-    Template b = templateList.getIndex(1);
-    if(a != null && b !=null) b.copyParameters(a);
+  // public void copyPaste(){
+  //   Template a = templateList.getIndex(0);
+  //   Template b = templateList.getIndex(1);
+  //   if(a != null && b !=null) b.copyParameters(a);
+  // }
+
+  /**
+   * Copy a template and maybe paste it automaticaly. Triggered by ctrl-c with 2 templates selected.
+   */
+  public void copyTemplate(){
+    copyedTemplate = templateList.getIndex(0);
+    TweakableTemplate toGetCopy = templateList.getIndex(1);
+    if(copyedTemplate != null && toGetCopy != null) toGetCopy.copyParameters(copyedTemplate);
+  }
+
+  /**
+   * Paste a previously copyed template into an other
+   */
+  public void pasteTemplate(){
+    TweakableTemplate toGetCopy = templateList.getIndex(0);
+    if(copyedTemplate != null && toGetCopy != null) toGetCopy.copyParameters(copyedTemplate);
+  }
+
+  public void groupAddTemplate(){
+    TweakableTemplate a = templateList.getIndex(0);
+    TweakableTemplate b = templateList.getIndex(1);
+    if(a != null && b !=null) groupManager.groupAddTemplate(a, b);
   }
 
   /**
