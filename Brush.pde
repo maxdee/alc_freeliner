@@ -225,6 +225,54 @@ class XBrush extends Brush {
 }
 
 /**
+ * Leaf shaped brush
+ */
+class LeafBrush extends Brush {
+  public LeafBrush(){
+
+  }
+  public PShape generateBrush(){
+    PShape shp = createShape();
+    shp.beginShape();
+		shp.vertex(-0.6728153, 7.683716);
+		shp.vertex(-0.4056158, 2.7851562);
+		shp.vertex(-2.8896399, 4.5375977);
+		shp.vertex(-4.957216, 5.289551);
+		shp.vertex(-3.3653917, 3.6522217);
+		shp.vertex(-0.48373985, 2.5578613);
+		shp.vertex(-4.891837, 2.8632812);
+		shp.vertex(-8.405435, 0.9388428);
+		shp.vertex(-4.4208436, 1.0469971);
+		shp.vertex(-0.46278572, 2.366455);
+		shp.vertex(-4.9180675, -0.93652344);
+		shp.vertex(-7.5094423, -5.944824);
+		shp.vertex(-3.296897, -2.949585);
+		shp.vertex(-0.4129467, 2.2398682);
+		shp.vertex(-1.4464064, -2.9370117);
+		shp.vertex(0.1256113, -10.602173);
+		shp.vertex(1.3657084, -3.0498047);
+		shp.vertex(0.0832119, 2.2938232);
+		shp.vertex(3.0037231, -2.4002686);
+		shp.vertex(8.227526, -6.843628);
+		shp.vertex(5.1290474, -0.6890869);
+		shp.vertex(0.1441145, 2.5178223);
+		shp.vertex(4.1453266, 1.0227051);
+		shp.vertex(8.281681, 0.76416016);
+		shp.vertex(4.5554295, 2.894287);
+		shp.vertex(0.081624985, 2.7386475);
+		shp.vertex(2.7639713, 3.6608887);
+		shp.vertex(4.9208336, 5.5914307);
+		shp.vertex(1.978899, 4.6070557);
+		shp.vertex(-0.193079, 2.8511963);
+		shp.vertex(-0.35807228, 7.8149414);
+
+    shp.endShape();
+    return shp;
+  }
+}
+
+
+/**
  * Sprinkles
  */
 class SprinkleBrush extends Brush {
