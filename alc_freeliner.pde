@@ -52,7 +52,7 @@ void settings(){
   // set the resolution, or fullscreen and display
   size(1024, 768, P2D);
   //size(600, 600, P2D);
-  //fullScreen(P2D, 2);
+  fullScreen(P2D, 2);
   //fullscreen(P2D, SPAN);
   //orientation(LANDSCAPE);
   //pixelDensity(2);
