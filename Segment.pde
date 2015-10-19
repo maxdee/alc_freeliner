@@ -226,6 +226,7 @@ class Segment {
    * @return PVector offset of stroke width
    */
   public final PVector getStrokeOffsetA(){
+    if(!centered) return pointA;
     return strokeOffsetA;
   }
 
@@ -234,6 +235,7 @@ class Segment {
    * @return PVector offset of stroke width
    */
   public final PVector getStrokeOffsetB(){
+    if(!centered) return pointB;
     return strokeOffsetB;
   }
 
