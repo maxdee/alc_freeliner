@@ -96,6 +96,7 @@ class Segment {
   public void setNeighbors(Segment a, Segment b){
     neighbA = a;
     neighbB = b;
+    findOffset();
   }
 
   private void findOffset() {
