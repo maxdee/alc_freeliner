@@ -142,6 +142,16 @@ class SegmentGroup {
   }
 
   /**
+   * Make a segment by giving a start and a end
+   * @param Segment to add
+   */
+  public void addSegment(Segment _seg){
+    segments.add(_seg);
+    segCount++;
+    updateGeometry();
+  }
+
+  /**
    * Remove a specific segment.
    * @param Segment to remove
    */

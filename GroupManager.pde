@@ -213,6 +213,7 @@ class GroupManager{
       xgroup.setInt("ID", grp.getID());
       xgroup.setFloat("centerX", grp.getCenter().x);
       xgroup.setFloat("centerY", grp.getCenter().y);
+      xgroup.setInt("centered", int(grp.isCentered()));
       xgroup.setString("tags", grp.getTemplateList().getTags());
       for(Segment seg : grp.getSegments()){
         XML xseg = xgroup.addChild("segment");
@@ -220,6 +221,8 @@ class GroupManager{
         xseg.setFloat("aY",seg.getPointA().y);
         xseg.setFloat("bX",seg.getPointB().x);
         xseg.setFloat("bY",seg.getPointB().y);
+        // for leds and such
+        xseg.setString("txt",seg.getText());
       }
       saveXML(groupData, "userdata/groups.xml");
     }
@@ -251,10 +254,13 @@ class GroupManager{
       // }
       newGroup();
       XML[] xseg = xgroup.getChildren("segment");
+      Segment _seg;
       for(XML seg : xseg){
         posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
         posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
-        getSelectedGroup().addSegment(posA.get(), posB.get());
+        _seg = new Segment(posA.get(), posB.get());
+        _seg.setText(seg.getString("txt"));
+        getSelectedGroup().addSegment(_seg);
       }
       getSelectedGroup().mouseInput(LEFT, posB);
       // //getSelectedGroup().setNeighbors();
@@ -269,7 +275,7 @@ class GroupManager{
       // bug with centering? seems ok...
       //println(getSelectedGroup().sortedSegments.size());
       if(abs(posA.x - getSelectedGroup().getSegment(0).getPointB().x) > 2) getSelectedGroup().placeCenter(posA);
-
+      if(!boolean(xgroup.getInt("centered"))) getSelectedGroup().unCenter();
     }
   }
 
