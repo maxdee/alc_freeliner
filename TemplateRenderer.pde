@@ -35,6 +35,8 @@ class TemplateRenderer implements FreelinerConfig{
     // init canvas
     canvas = createGraphics(width, height, P2D);
     canvas.smooth(1);
+    canvas.strokeCap(STROKE_CAP);
+    canvas.strokeJoin(STROKE_JOIN);
     //canvas.ellipseMode(CENTER);
 
     // init variables

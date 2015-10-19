@@ -19,6 +19,8 @@ interface FreelinerConfig{
 
   // Rendering options
   final color BACKGROUND_COLOR = #000000;
+  final int STROKE_CAP = ROUND;
+  final int STROKE_JOIN = MITER;
 
   // Timing and stuff
   final int DEFAULT_TEMPO = 1500;

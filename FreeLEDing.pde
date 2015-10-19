@@ -51,15 +51,26 @@ class FreeLEDing {
     XML file;
     try {
       file = loadXML(_file);
-      XML[] XMLleds = file.getChildren("led");
-
-      for(XML ledData : XMLleds){
-        addLEDs(ledData.getInt("from"),
-                ledData.getInt("to"),
-                ledData.getFloat("aX"),
-                ledData.getFloat("aY"),
-                ledData.getFloat("bX"),
-                ledData.getFloat("bY"));
+      XML[] groupData = file.getChildren("group");
+      PVector posA = new PVector(0,0);
+      PVector posB = new PVector(0,0);
+      int from = 0;
+      int to = 0;
+      for(XML xgroup : groupData){
+        XML[] xseg = xgroup.getChildren("segment");
+        Segment _seg;
+        for(XML seg : xseg){
+          posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
+          posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
+          String txt = seg.getString("txt");
+          //parse txt to from to
+          addLEDs(from,
+                  to,
+                  posA.x,
+                  posA.y,
+                  posB.x,
+                  posB.y);
+        }
       }
       ledCount = leds.size();
       drawLEDmap();
@@ -69,6 +80,33 @@ class FreeLEDing {
       exit();
     }
   }
+
+  /********************* OLD FILE LOADER *********************/
+  // parse a xml file for led positions
+  // public void parseLEDfile(String _file){
+  //   leds = new ArrayList();
+  //   XML file;
+  //   try {
+  //     file = loadXML(_file);
+  //     XML[] segment = file.getChildren("segments");
+  //
+  //     for(XML ledData : XMLleds){
+  //       addLEDs(ledData.getInt("from"),
+  //               ledData.getInt("to"),
+  //               ledData.getFloat("aX"),
+  //               ledData.getFloat("aY"),
+  //               ledData.getFloat("bX"),
+  //               ledData.getFloat("bY"));
+  //     }
+  //     ledCount = leds.size();
+  //     drawLEDmap();
+  //   }
+  //   catch(Exception e){
+  //     println("LEDmap XML file "+_file+" not found");
+  //     exit();
+  //   }
+  // }
+
 
   // add LEDs with interpolation if necessary
   private void addLEDs(int from, int to, float aX, float aY, float bX, float bY){

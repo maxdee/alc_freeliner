@@ -11,7 +11,7 @@
  * Abstract class for brushes.
  * Brushes are PShapes drawn along segments
  */
-abstract class Brush {
+abstract class Brush implements FreelinerConfig{
   // Size to generate brushes
 	final int BASE_SIZE = 20;
   final int HALF_SIZE = BASE_SIZE/2;
@@ -68,6 +68,8 @@ class PointBrush extends Brush {
 
 	public PShape generateBrush(){
 		PShape shp = createShape();
+		shp.strokeJoin(STROKE_JOIN);
+		shp.strokeCap(STROKE_CAP);
 		shp.beginShape(POINTS);
     shp.vertex(0,0);
 		shp.endShape();
