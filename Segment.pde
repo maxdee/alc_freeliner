@@ -31,8 +31,11 @@ class Segment {
   PVector pointA;
   PVector pointB;
   // these are the coordinates of the offset of the brush size
-  PVector offA;
-  PVector offB;
+  PVector brushOffsetA;
+  PVector brushOffsetB;
+  PVector strokeOffsetA;
+  PVector strokeOffsetB;
+
   // these are alternative positions for pointA and pointB
   PVector ranA;
   PVector ranB;
@@ -45,6 +48,7 @@ class Segment {
   PVector center;
 
   float scaledSize;
+  float strokeWidth;
 
   float angle;
   //float anglePI;
@@ -60,9 +64,12 @@ class Segment {
     pointB = pB.get();
     center = new PVector(0, 0, 0);
     newRan();
-    offA = new PVector(0,0,0);
-    offB = new PVector(0,0,0);
+    brushOffsetA = new PVector(0,0,0);
+    brushOffsetB = new PVector(0,0,0);
+    strokeOffsetA = new PVector(0,0,0);
+    strokeOffsetB = new PVector(0,0,0);
     scaledSize = 10;
+    strokeWidth  = 3;
     centered = false;
     updateAngle();
     segmentText = "freeliner!";
@@ -93,8 +100,10 @@ class Segment {
 
   private void findOffset() {
     if(neighbA == null || neighbB == null) return;
-    offA = inset(pointA, neighbA.getRegA(), pointB, center, scaledSize);
-    offB = inset(pointB, pointA, neighbB.getRegB(), center, scaledSize);
+    brushOffsetA = inset(pointA, neighbA.getPointA(), pointB, center, scaledSize + strokeWidth);
+    brushOffsetB = inset(pointB, pointA, neighbB.getPointB(), center, scaledSize + strokeWidth);
+    strokeOffsetA = inset(pointA, neighbA.getPointA(), pointB, center, strokeWidth);
+    strokeOffsetB = inset(pointB, pointA, neighbB.getPointB(), center, strokeWidth);
   }
 
   public void setPointA(PVector p){
@@ -124,6 +133,15 @@ class Segment {
       findOffset();
     }
   }
+
+  public void setStrokeWidth(float _w){
+    if(_w != scaledSize && centered){
+      strokeWidth = _w;
+      findOffset();
+    }
+  }
+
+
 
   public void setText(String w){
     segmentText = w;
@@ -182,51 +200,133 @@ class Segment {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  // public final int getSize(){
-  //   return scaledSize;
-  // }
+  /**
+   * POINT POSITIONS
+   */
 
-  public final PVector getPos(float l) {
-    if (centered) return getOffPos(l);
-    else return getRegPos(l);
-  }
-
-  public final PVector getOffPos(float l){
-    return vecLerp(offA, offB, l);
-  }
-
-  public final PVector getRegPos(float l){
-    return vecLerp(pointA, pointB, l);
-  }
-
-  // return centered if centered
-  public final PVector getA() {
-    if(centered) return offA;
-    else return pointA;
-  }
-
-  public final PVector getB() {
-    if(centered) return offB;
-    else return pointB;
-  }
-
-  //get offset pos from predetermined angle
-  //add a recentOffA with a recent scaledSize
-  public final PVector getOffA() {
-    return offA;
-  }
-
-  public final PVector getOffB() {
-    return offB;
-  }
-  //original points
-  public final PVector getRegA(){
+  /**
+   * Get the first vertex
+   * @return PVector pointA
+   */
+  public final PVector getPointA(){
     return pointA;
   }
 
-  public final PVector getRegB(){
+  /**
+   * Get the second vertex
+   * @return PVector pointB
+   */
+  public final PVector getPointB(){
     return pointB;
   }
+
+  /**
+   * Get pointA's strokeWidth offset
+   * @return PVector offset of stroke width
+   */
+  public final PVector getStrokeOffsetA(){
+    return strokeOffsetA;
+  }
+
+  /**
+   * Get pointB's strokeWidth offset
+   * @return PVector offset of stroke width
+   */
+  public final PVector getStrokeOffsetB(){
+    return strokeOffsetB;
+  }
+
+  /**
+   * Get pointA's brushSize offset
+   * @return PVector offset of brushSize
+   */
+  public final PVector getBrushOffsetA(){
+    return brushOffsetA;
+  }
+
+  /**
+   * Get pointB's brushSize offset
+   * @return PVector offset of brushSize
+   */
+  public final PVector getBrushOffsetB(){
+    return brushOffsetB;
+  }
+
+  /**
+   * INTERPOLATED POSTIONS
+   */
+
+  /**
+   * Interpolate between pointA and pointB, offset by brush if centered
+   * @param float unit interval (lerp)
+   * @return PVector interpolated position
+   */
+  public final PVector getBrushPos(float _l) {
+    if (centered) return vecLerp(brushOffsetA, brushOffsetB, _l);
+    else return vecLerp(pointA, pointB, _l);
+  }
+
+  /**
+   * Interpolate between pointA and pointB, offset by strokeWidth if centered
+   * @param float unit interval (lerp)
+   * @return PVector interpolated position
+   */
+  public final PVector getStrokePos(float _l) {
+    if (centered) return vecLerp(strokeOffsetA, strokeOffsetB, _l);
+    else return vecLerp(pointA, pointB, _l);
+  }
+
+  //
+  //
+  // public final PVector getOffPos(float _l){
+  //   return vecLerp(brushOffsetA, brushOffsetB, _l);
+  // }
+  //
+  // public final PVector getStrokeOffPos(float _l){
+  //   return vecLerp(strokeOffsetA, strokeOffsetB, _l);
+  // }
+  //
+  // public final PVector getRegPos(float _l){
+  //   if(centered) return getStrokeOffPos(_l);
+  //   return vecLerp(pointA, pointB, _l);
+  // }
+  //
+  // // return centered if centered
+  // public final PVector getA() {
+  //   if(centered) return brushOffsetA;
+  //   else return pointA;
+  // }
+  //
+  // public final PVector getB() {
+  //   if(centered) return brushOffsetB;
+  //   else return pointB;
+  // }
+  //
+  // //get offset pos from predetermined angle
+  // //add a recentbrushOffsetA with a recent scaledSize
+  // public final PVector getbrushOffsetA() {
+  //   return brushOffsetA;
+  // }
+  //
+  // public final PVector getbrushOffsetB() {
+  //   return brushOffsetB;
+  // }
+  //
+  // public final PVector getStrokeWidthOffA(){
+  //   return strokeOffsetA;
+  // }
+  //
+  // public final PVector getStrokeWidthOffB(){
+  //   return strokeOffsetB;
+  // }
+  // //original points
+  // public final PVector getPointA(){
+  //   return pointA;
+  // }
+  // //
+  // public final PVector getPointB(){
+  //   return pointB;
+  // }
 
   //random pos
   public final PVector getRanA() {

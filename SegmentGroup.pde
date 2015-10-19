@@ -247,12 +247,12 @@ class SegmentGroup {
     float _y = 0;
     if(segCount!=0){
       for (Segment seg : sortedSegments){
-        _x = seg.getRegA().x;
-        _y = seg.getRegA().y;
+        _x = seg.getPointA().x;
+        _y = seg.getPointA().y;
         itemShape.vertex(_x, _y, _x/width, _y/height);
       }
-      _x = sortedSegments.get(0).getRegA().x;
-      _y = sortedSegments.get(0).getRegA().y;
+      _x = sortedSegments.get(0).getPointA().x;
+      _y = sortedSegments.get(0).getPointA().y;
       itemShape.vertex(_x, _y, _x/width, _y/height);
     }
     else {
@@ -282,7 +282,7 @@ class SegmentGroup {
     for(Segment toCheck : segments){
       root = true;
       for(Segment seg : segments){
-        if(toCheck.getRegA().dist(seg.getRegB()) < 0.1){
+        if(toCheck.getPointA().dist(seg.getPointB()) < 0.1){
           root = false;
         }
       }
@@ -309,7 +309,7 @@ class SegmentGroup {
     boolean duplicate = false;
     for(Segment seg : _segs){
       for(Segment next : segments){
-        if(seg.getRegB().dist(next.getRegA()) < 0.001){
+        if(seg.getPointB().dist(next.getPointA()) < 0.001){
           // check duplicates
           duplicate = false;
           for(ArrayList<Segment> br : treeBranches){
@@ -364,8 +364,8 @@ class SegmentGroup {
 
   private boolean findDirection(){
     for(Segment seg : sortedSegments){
-      int ax = int(seg.getRegA().x);
-      int bx = int(seg.getRegB().x);
+      int ax = int(seg.getPointA().x);
+      int bx = int(seg.getPointB().x);
       if( ax > bx) return true;
       else if (ax < bx) return false;
     }

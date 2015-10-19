@@ -339,13 +339,13 @@
     else if(_sg == groupManager.getSelectedGroup()) canvas.stroke(SEGMENT_COLOR);
     else canvas.stroke(SEGMENT_COLOR_UNSELECTED);
     canvas.strokeWeight(1);
-    vecLine(canvas, _s.getRegA(), _s.getRegB());
+    vecLine(canvas, _s.getPointA(), _s.getPointB());
     //canvas.stroke(100);
     //if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
     canvas.stroke(200);
     canvas.strokeWeight(4);
-    canvas.point(_s.getRegA().x, _s.getRegA().y);
-    canvas.point(_s.getRegB().x, _s.getRegB().y);
+    canvas.point(_s.getPointA().x, _s.getPointA().y);
+    canvas.point(_s.getPointB().x, _s.getPointB().y);
     PVector midpoint = _s.getMidPoint();
     canvas.pushMatrix();
     canvas.translate(midpoint.x, midpoint.y);
@@ -370,7 +370,7 @@
     canvas.textSize(_size);
     char[] carr = txt.toCharArray();
     for(int i = 0; i < l; i++){
-      pos = _s.getRegPos(-((float)i/(l+1) + 1.0/(l+1))+1);
+      pos = _s.getStrokePos(-((float)i/(l+1) + 1.0/(l+1))+1);
       canvas.pushMatrix();
       canvas.translate(pos.x, pos.y);
       canvas.rotate(_s.getAngle(false));

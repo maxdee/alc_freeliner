@@ -125,13 +125,13 @@ class GroupManager{
         snappedIndex = i;
       }
       for(Segment seg : segs){
-        if(_pos.dist(seg.getRegA()) < snapDist){
-          snappedList.add(seg.getRegA());
-          snap = seg.getRegA();
+        if(_pos.dist(seg.getPointA()) < snapDist){
+          snappedList.add(seg.getPointA());
+          snap = seg.getPointA();
           snappedIndex = i;        }
-        else if(_pos.dist(seg.getRegB()) < snapDist){
-          snappedList.add(seg.getRegB());
-          snap = seg.getRegB();
+        else if(_pos.dist(seg.getPointB()) < snapDist){
+          snappedList.add(seg.getPointB());
+          snap = seg.getPointB();
           snappedIndex = i;
         }
         else if (_pos.dist(seg.getMidPoint()) < snapDist){
@@ -216,10 +216,10 @@ class GroupManager{
       xgroup.setString("tags", grp.getTemplateList().getTags());
       for(Segment seg : grp.getSegments()){
         XML xseg = xgroup.addChild("segment");
-        xseg.setFloat("aX",seg.getRegA().x);
-        xseg.setFloat("aY",seg.getRegA().y);
-        xseg.setFloat("bX",seg.getRegB().x);
-        xseg.setFloat("bY",seg.getRegB().y);
+        xseg.setFloat("aX",seg.getPointA().x);
+        xseg.setFloat("aY",seg.getPointA().y);
+        xseg.setFloat("bX",seg.getPointB().x);
+        xseg.setFloat("bY",seg.getPointB().y);
       }
       saveXML(groupData, "userdata/groups.xml");
     }
@@ -268,7 +268,7 @@ class GroupManager{
       }
       // bug with centering? seems ok...
       //println(getSelectedGroup().sortedSegments.size());
-      if(abs(posA.x - getSelectedGroup().getSegment(0).getB().x) > 2) getSelectedGroup().placeCenter(posA);
+      if(abs(posA.x - getSelectedGroup().getSegment(0).getPointB().x) > 2) getSelectedGroup().placeCenter(posA);
 
     }
   }

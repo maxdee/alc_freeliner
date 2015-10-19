@@ -50,7 +50,7 @@ class FunFiller extends GroupPainter{
 		lorp*=lorp;
 		PVector center = _rt.getSegmentGroup().getCenter();
 		float fluct = (float(_rt.getBeatCount())/4)*TWO_PI;
-		center = angleMove(center.get(), fluct, center.dist(_rt.getSegmentGroup().getSegment(0).getA())/2);
+		center = angleMove(center.get(), fluct, center.dist(_rt.getSegmentGroup().getSegment(0).getPointA())/2);
 		PShape shpe = cloneShape(_rt.getSegmentGroup().getShape(),
 														 1.0,//lorp,
 														 center);
@@ -80,7 +80,7 @@ class NoiseShape extends GroupPainter{
 		PVector pa = new PVector(0,0);
 		boolean first = true;
 		for(Segment seg : event.getSegmentGroup().getSegments()){
-			pos = seg.getRegA().get();
+			pos = seg.getPointA().get();
 			pos = vecLerp(pos, center, random(100)/100);
 			pos.sub(center);
 			if(first){
