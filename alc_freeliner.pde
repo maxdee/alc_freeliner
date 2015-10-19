@@ -242,6 +242,15 @@ void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the add
       freeliner.groupManager.setText(grp, seg, txt);
     }
   }
+  else if(theOscMessage.checkAddrPattern("/freeliner/rawkey")){
+    if(theOscMessage.checkTypetag("sii")) {
+      char k = theOscMessage.get(0).stringValue().charAt(0);
+      int kc = theOscMessage.get(1).intValue();
+      int rel = theOscMessage.get(2).intValue();
+      if(rel == 1) freeliner.getKeyboard().processKey(k, kc);
+      else if(rel == 0) freeliner.getKeyboard().processRelease(k, kc);
+    }
+  }
 }
 
 void oscTick(){
