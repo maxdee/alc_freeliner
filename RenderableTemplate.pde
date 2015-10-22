@@ -58,6 +58,8 @@ class RenderableTemplate extends TweakableTemplate{
 	float scaledBrushSize;
 	int colorCount;
 	float hue;
+	PShape brushShape;
+	boolean updateBrush;
 /*
  * Variable for internal use.
  */
@@ -94,7 +96,8 @@ class RenderableTemplate extends TweakableTemplate{
 		segmentGroup = _sg;
 		beatCount = -1;
 		doRender = true;
-
+		brushShape = null;
+		updateBrush = true;
 	}
 
 /*
@@ -185,24 +188,29 @@ class RenderableTemplate extends TweakableTemplate{
  		doRender = _b;
  	}
 
-	// public void setBrush(PShape _brush){
-	// 	brush = _brush;
-	// }
+	public void setBrushShape(PShape _brush){
+		updateBrush = false;
+		brushShape = _brush;
+	}
 	//
-	// public int setBrushSize(int _s){
-	// 	updateBrush = true;
-	// 	super.setBrushSize(_s);
-	// }
-	//
-	// public void setBrushMode(int _m){
-	// 	updateBrush = true;
-	// 	super.setBrushMode(_m);
-	// }
+	public int setBrushSize(int _s){
+		updateBrush = true;
+		return super.setBrushSize(_s);
+	}
+
+	public int setBrushMode(int _m){
+		updateBrush = true;
+		return super.setBrushMode(_m);
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Accessors
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
+
+	public boolean doUpdateBrush(){
+		return updateBrush;
+	}
 
 	public boolean doRender(){
 		return doRender;
@@ -282,9 +290,9 @@ class RenderableTemplate extends TweakableTemplate{
 		return hue;
 	}
 
-	// public final PShape getBrush(){
-	// 	return brush;
-	// }
+	public final PShape getBrushShape(){
+		return brushShape;
+	}
 	// // ask if the brush needs updating
 	// public final boolean updateBrush(){
 	// 	if(updateBrush || brush == null){
@@ -341,7 +349,11 @@ class KillableTemplate extends RenderableTemplate{
 		// this updates according to source template...
 		//copy(sourceTemplate);
 		// find the scaled size, the brushSize of the source template may have changed
-		scaledBrushSize = brushSize * segmentGroup.getBrushScaler();
+		float sb = brushSize * segmentGroup.getBrushScaler();
+		if(sb != scaledBrushSize) {
+			updateBrush = true;
+			scaledBrushSize = sb;
+		}
 	}
 
 	public boolean isDone(){

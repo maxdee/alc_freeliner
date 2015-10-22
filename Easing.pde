@@ -29,7 +29,23 @@ class Sine extends Easing{
 	public Sine(){}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
-		return sin(_lrp*PI);
+		return sin((_lrp)*PI);
+	}
+}
+
+class Cosine extends Easing{
+	public Cosine(){}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		return cos(_lrp*PI);
+	}
+}
+
+class Boost extends Easing{
+	public Boost(){}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		return sin((_lrp)*HALF_PI);
 	}
 }
 
@@ -50,14 +66,14 @@ class Fixed extends Easing{
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return value;
 	}
-}	
+}
 
 class BackForth extends Easing{
 	public BackForth(){}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
 		if(_rt.getBeatCount() % 2 == 0) return _lrp;
-		else return _lrp-1; 
+		else return _lrp-1;
 	}
 }
 
@@ -65,7 +81,7 @@ class TwoTwoReverse extends Easing{
 	public TwoTwoReverse(){}
 	public float ease(float _lrp, RenderableTemplate _rt){
 		if(_rt.getBeatCount() % 4 > 1) return _lrp;
-		else return _lrp-1; 
+		else return _lrp-1;
 	}
 }
 
@@ -102,9 +118,9 @@ class TargetNoise extends Easing{
 				position+=ha;
 				if(position > target)
 					target = int(-random(100)+20);
-			} 
+			}
 			target = constrain(target, -100, 100);
 		}
-		return float(position+100)/200.0; 
+		return float(position+100)/200.0;
 	}
 }

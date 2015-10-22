@@ -59,6 +59,21 @@ class FullLine extends LinePainter {
 	}
 }
 
+class TrainLine extends LinePainter {
+	final String name = "MiddleLine";
+
+	public TrainLine(){
+	}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		float lrp = event.getLerp();
+		if(lrp < 0.5) vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), _seg.getStrokePos(lrp*2));
+		else vecLine(event.getCanvas(), _seg.getStrokePos(2*(lrp-0.5)), _seg.getStrokeOffsetB());
+	}
+}
+
+
 class MiddleLine extends LinePainter {
 	final String name = "MiddleLine";
 
@@ -165,12 +180,14 @@ class BrushPutter extends SegmentPainter{
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		_seg.setSize(_event.getScaledBrushSize()+_event.getStrokeWeight());
+		//if(event.doUpdateBrush()) event.setBrushShape(getBrush(event.getBrushMode()).getShape(event));
 	}
 
 	// regular putShape
 	public void putShape(PVector _p, float _a){
 		PShape shape_;
-    shape_ = getBrush(event.getBrushMode()).getShape(event);
+    shape_ = getBrush(event.getBrushMode()).getShape(event);//event.getBrushShape(); //
+		if(shape_ == null) return;
     applyStyle(shape_);
     canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);

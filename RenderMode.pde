@@ -85,7 +85,7 @@ class BrushSegment extends PerSegment{
 // Make lines on segments
 class LineSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	final int PAINTER_COUNT = 5;
+	final int PAINTER_COUNT = 6;
 
 	public LineSegment(){
 		super();
@@ -93,8 +93,9 @@ class LineSegment extends PerSegment{
     segmentPainters[0] = new FunLine();
     segmentPainters[1] = new FullLine();
     segmentPainters[2] = new MiddleLine();
-    segmentPainters[3] = new Maypole();
-    segmentPainters[4] = new SegToSeg();
+		segmentPainters[3]  = new TrainLine();
+    segmentPainters[4] = new Maypole();
+    segmentPainters[5] = new SegToSeg();
 	}
 	public SegmentPainter getPainter(int _index){
 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;

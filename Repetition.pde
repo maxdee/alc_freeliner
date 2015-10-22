@@ -4,20 +4,22 @@
 // unit intervals that are negative means reverse.
 class Repetition {
 	Easing[] easers;
-	final int EASER_COUNT = 11;
+	final int EASER_COUNT = 13;
 	public Repetition(){
 		easers = new Easing[EASER_COUNT];
 		easers[0] = new NoEasing();
 		easers[1] = new ReverseLerp();
 		easers[2] = new Square();
 		easers[3] = new Sine();
-		easers[4] = new BackForth();
-		easers[5] = new TwoTwoReverse();
-		easers[6] = new RandomUnit();
-		easers[7] = new TargetNoise();
-		easers[8] = new Fixed(1.0);
-		easers[9] = new Fixed(0.5);
-		easers[10] = new Fixed(0.0);
+		easers[4] = new Cosine();
+		easers[5] = new Boost();
+		easers[6] = new BackForth();
+		easers[7] = new TwoTwoReverse();
+		easers[8] = new RandomUnit();
+		easers[9] = new TargetNoise();
+		easers[10] = new Fixed(1.0);
+		easers[11] = new Fixed(0.5);
+		easers[12] = new Fixed(0.0);
 	}
 
 	public FloatList getFloats(RenderableTemplate _rt){
