@@ -59,6 +59,7 @@ void settings(){
   //pixelDensity(2);
   smooth();
   //noSmooth();
+  PJOGL.profile=1; // for syphon!?
 }
 
 // Your color pallette! customize it!
