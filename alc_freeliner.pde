@@ -10,22 +10,9 @@
 import oscP5.*;
 import netP5.*;
 
-FreeLiner freeliner;
-
-// fonts
-PFont font;
-PFont introFont;
-
-// OSC parts
-OscP5 oscP5;
-// where to send a sync message
-NetAddress toPDpatch;
-OscMessage tickmsg = new OscMessage("/freeliner/tick");
-
-final String VERSION = "0.3.1";
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
-///////     OPTIONS!
+///////     OPTIONS! (more in FreelinerConfig.pde)
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -80,6 +67,22 @@ final color[] userPallet = {
                 };
 
 final int PALLETTE_COUNT = 12;
+
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////     Not Options
+///////
+////////////////////////////////////////////////////////////////////////////////////
+FreeLiner freeliner;
+// fonts
+PFont font;
+PFont introFont;
+// OSC parts
+OscP5 oscP5;
+// where to send a sync message
+NetAddress toPDpatch;
+OscMessage tickmsg = new OscMessage("/freeliner/tick");
+final String VERSION = "0.3.1";
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
