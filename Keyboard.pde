@@ -233,6 +233,7 @@ class Keyboard implements FreelinerConfig{
  */
   public void processCAPS(char _c) {
     TemplateList tl = groupManager.getTemplateList();
+
     if(editKey == '>') tl = templateManager.getSynchroniser().getStepToEdit();
     if(tl == null) tl = templateManager.getTemplateList();
     if(shifted){
@@ -241,8 +242,10 @@ class Keyboard implements FreelinerConfig{
     }
     else {
       templateManager.trigger(_c);
-      tl.clear();
-      tl.toggle(templateManager.getTemplate(_c));
+      if(tl != groupManager.getTemplateList()){
+        tl.clear();
+        tl.toggle(templateManager.getTemplate(_c));
+      }
     }
     gui.setTemplateString(tl.getTags());
   }
