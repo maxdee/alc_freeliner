@@ -1,8 +1,6 @@
 class Enabler{
+	public Enabler(){}
 
-	public Enabler(){
-
-	}
 	public boolean enable(RenderableTemplate _rt){
 		return true;
 	}
@@ -10,19 +8,16 @@ class Enabler{
 
 
 class Disabler extends Enabler{
+	public Disabler(){}
 
-	public Disabler(){
-
-	}
 	public boolean enable(RenderableTemplate _rt){
 		return false;
 	}
 }
 
+
 class Triggerable extends Enabler{
-
 	public Triggerable(){
-
 	}
 	public boolean enable(RenderableTemplate _rt){
 		return false;
@@ -38,19 +33,6 @@ class RandomEnabler extends Enabler{
 		else return false;
 	}
 }
-
-class EveryX extends Enabler{
-	int beatSelect = 0;
-	public EveryX(int _x){
-		super();
-		beatSelect = _x;
-	}
-	public boolean enable(RenderableTemplate _rt){
-		if(_rt.getBeatCount()%beatSelect == 0) return true;
-		else return false;
-	}
-}
-
 
 class SweepingEnabler extends Enabler{
 	final float DIST = 200.0;//float(width)/4.0;

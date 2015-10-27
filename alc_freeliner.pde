@@ -16,37 +16,27 @@ import netP5.*;
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-// are you using OSX? I do not, I use GNU/Linux
-boolean OSX = false; // should set itself to true if OSX
-
 // invert colors
 final boolean INVERTED_COLOR = false;
 
-// disable splash logo
-boolean doSplash = true;
-
 // UDP Port for incomming messages
 final int OSC_IN_PORT = 6667;
-
 // UDP Port for outgoing sync message
 final int OSC_OUT_PORT = 6668;
-
 // IP address to send sync messages to
 final String OSC_OUT_IP = "127.0.0.1";
 
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(1024, 768, P2D);
-  //size(2078, 800, P2D);
-  //size(600, 600, P2D);
-  fullScreen(P2D, 2);
+  size(1024, 768, P2D);
+  //fullScreen(P2D, 2);
   //fullscreen(P2D, SPAN);
   //orientation(LANDSCAPE);
   //pixelDensity(2);
   smooth();
   //noSmooth();
-  PJOGL.profile=1; // for syphon!?
+  //PJOGL.profile=1; // for syphon!?
 }
 
 // Your color pallette! customize it!
@@ -73,6 +63,7 @@ final int PALLETTE_COUNT = 12;
 ///////     Not Options
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
+
 FreeLiner freeliner;
 // fonts
 PFont font;
@@ -83,6 +74,8 @@ OscP5 oscP5;
 NetAddress toPDpatch;
 OscMessage tickmsg = new OscMessage("/freeliner/tick");
 final String VERSION = "0.3.1";
+boolean doSplash = true;
+boolean OSX = false;
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -110,7 +103,7 @@ void setup() {
   oscP5 = new OscP5(this, OSC_IN_PORT);
   toPDpatch = new NetAddress(OSC_OUT_IP, OSC_OUT_PORT);
 
-  // set OS
+  // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
 }

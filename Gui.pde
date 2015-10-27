@@ -27,11 +27,12 @@
  * The gui class draws various information to a PGraphics canvas.
  *
  * <p>
- * All drawing happens here.
+ * All grafical user interface stuff goes here.
  * </p>
  *
  * @see SegmentGroup
  */
+
  class Gui implements FreelinerConfig{
 
   // depends on a group manager and a mouse
@@ -45,9 +46,8 @@
   PGraphics canvas;
   // PShape of the crosshair cursor
   PShape crosshair;
-  //final int CURSOR_SIZE = 20;
 
-
+  // for displaying segment direction
   PShape arrow;
 
   //gui and line placing
@@ -55,14 +55,13 @@
   boolean viewLines;
   boolean viewTags;
   boolean viewCursor;
+
   // reference gridSize and grid canvas, gets updated if the mouse gridSize changes.
-  int gridSize = 30;
+  int gridSize = DEFAULT_GRID_SIZE;
   PShape grid;
 
-  //PGraphics grid;
   // for auto hiding the GUI
-
-  int guiTimer = 1000;
+  int guiTimer = GUI_TIMEOUT;
 
   //ui strings
   // keyString is the parameter associated with lowercase keys, i.e. "q   strokeMode", "g   gridSize".
@@ -169,12 +168,11 @@
     else tags += renderString;
     if(tags.length()>20) tags = "*ALL*";
     // first segment shows which group is selected
-    // String id = str(_sg.getID());
-    // if(_sg == guiSegments) id = "info";
-    // else if(_sg == refSegments) id = "ref";
-    guiSegments.setText("[Item: "+groupManager.getSelectedIndex()+"]", 0);
+    int geom = groupManager.getSelectedIndex();
+    if(geom == -1) guiSegments.setText("[Geom : ]", 0);
+    else guiSegments.setText("[Geom : "+geom+"]", 0);
     // second segment shows the Templates selected
-    guiSegments.setText("[Rndr: "+tags+"]", 1);
+    guiSegments.setText("[Rndr : "+tags+"]", 1);
     // third show the parameter associated with key and values given to parameters
     guiSegments.setText("["+keyString+": "+valueGiven+"]", 2);
     // display what step
@@ -408,14 +406,14 @@
    */
    // disable cause too slooooow?
   private void updateReference() {
-    // boolean tgs = viewTags;
-    // boolean lns = viewLines;
-    // viewLines = true;
-    // viewTags = true;
-    // update();
-    // canvas.save("reference.jpg");
-    // viewTags = tgs;
-    // viewLines = lns;
+    boolean tgs = viewTags;
+    boolean lns = viewLines;
+    viewLines = true;
+    viewTags = true;
+    update();
+    canvas.save("userdata/reference.jpg");
+    viewTags = tgs;
+    viewLines = lns;
   }
 
   /**
@@ -486,16 +484,27 @@
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-
+  /**
+   * Set the key-parameter combo to display.
+   * @param String "e   example"
+   */
   public void setKeyString(String _s){
     String ks = _s.replaceAll(" ", "");
     keyString = ks.charAt(0)+" "+ks.substring(1);
   }
 
+  /**
+   * Display the latest value that was given to whatever.
+   * @param String "true" "false" "haha" "123"
+   */
   public void setValueGiven(String _s){
     valueGiven = _s;
   }
 
+  /**
+   * Display the list of templates currently selected.
+   * @param String "ABC"
+   */
   public void setTemplateString(String _s){
     renderString = _s;
   }
