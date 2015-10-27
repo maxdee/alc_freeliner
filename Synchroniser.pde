@@ -60,7 +60,6 @@ class Synchroniser implements FreelinerConfig{
       lerper = 0;
       periodCount++;
       oscTick();
-      //println("bomp " + periodCount);
     }
   }
 

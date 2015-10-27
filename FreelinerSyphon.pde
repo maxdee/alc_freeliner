@@ -1,7 +1,7 @@
 /**
  * ##copyright##
  * See LICENSE.md
- * 
+ *
  * @author    Maxime Damecour (http://nnvtn.ca)
  * @version   0.1
  * @since     2015-07-22
@@ -18,7 +18,7 @@ class FreelinerSyphon extends FreeLiner{
 	SyphonServer syphonServer;
 
 	public FreelinerSyphon(PApplet _pa){
-		super();
+		super(_pa);
 		// Syphon!!
   	syphonServer = new SyphonServer(_pa, "alcFreeliner");
 	}

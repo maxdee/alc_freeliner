@@ -174,47 +174,47 @@ class FreeLEDing {
 /**
  * use for OSC led thing
  */
-class OscLEDing extends FreeLEDing {
-  NetAddress ledServer;
-  int packetSize;
-
-  public OscLEDing(String _ip, int _port){
-    super();
-    ledServer = new NetAddress(_ip, _port);
-    ledCount = 1;
-    packetSize = (ledCount*3)+1;
-
-    println("LED server "+_ip+" port "+_port);
-  }
-
-  // overide to get ledCount
-	public void parseLEDfile(String _file){
-		super.parseLEDfile(_file);
-		ledCount = leds.size();
-		packetSize = ledCount*3;
-	}
-
-  // make a packet and send it
-  public void output(){
-    byte[] ledData = new byte[packetSize];
-
-    for(int i = 1; i < packetSize; i++) ledData[i] = byte(0);
-
-    for(RGBled led : leds){
-      int adr = led.getIndex();
-      //ledCount = 62; // idk whats up
-      if(adr < ledCount){
-        adr = (adr*3);
-        ledData[adr] = led.getRed();
-        ledData[adr+1] = led.getGreen();
-        ledData[adr+2] = led.getBlue();
-      }
-    }
-    OscMessage mess = new OscMessage("/alc/freeLEDing/blob");
-    mess.add(ledData);
-    oscP5.send(mess, ledServer);
-  }
-}
+// class OscLEDing extends FreeLEDing {
+//   NetAddress ledServer;
+//   int packetSize;
+//
+//   public OscLEDing(String _ip, int _port){
+//     super();
+//     ledServer = new NetAddress(_ip, _port);
+//     ledCount = 1;
+//     packetSize = (ledCount*3)+1;
+//
+//     println("LED server "+_ip+" port "+_port);
+//   }
+//
+//   // overide to get ledCount
+// 	public void parseLEDfile(String _file){
+// 		super.parseLEDfile(_file);
+// 		ledCount = leds.size();
+// 		packetSize = ledCount*3;
+// 	}
+//
+//   // make a packet and send it
+//   public void output(){
+//     byte[] ledData = new byte[packetSize];
+//
+//     for(int i = 1; i < packetSize; i++) ledData[i] = byte(0);
+//
+//     for(RGBled led : leds){
+//       int adr = led.getIndex();
+//       //ledCount = 62; // idk whats up
+//       if(adr < ledCount){
+//         adr = (adr*3);
+//         ledData[adr] = led.getRed();
+//         ledData[adr+1] = led.getGreen();
+//         ledData[adr+2] = led.getBlue();
+//       }
+//     }
+//     OscMessage mess = new OscMessage("/alc/freeLEDing/blob");
+//     mess.add(ledData);
+//     oscP5.send(mess, ledServer);
+//   }
+// }
 
 
 /**

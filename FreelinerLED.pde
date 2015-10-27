@@ -14,7 +14,7 @@ class FreelinerLED extends FreeLiner{
 	FreeLEDing freeLED;
 
 	public FreelinerLED(PApplet _pa, String _file){
-		super();
+		super(_pa);
 		// init the subclass of freeLEDing
 	  //freeLED = new FreeLEDing();
 	  freeLED = new OctoLEDing(_pa, "/dev/tty0");

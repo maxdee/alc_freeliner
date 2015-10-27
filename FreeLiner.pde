@@ -23,9 +23,12 @@ class FreeLiner {
   // control
   Mouse mouse;
   Keyboard keyboard;
+  OSClistener osc;
 
-  public FreeLiner() {
+  PApplet applet;
 
+  public FreeLiner(PApplet _pa) {
+    applet = _pa;
     // instantiate
     // model
     groupManager = new GroupManager();
@@ -36,6 +39,7 @@ class FreeLiner {
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();
+    osc = new OSClistener(applet, this);
     // inject dependence
     mouse.inject(groupManager, keyboard);
     keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
