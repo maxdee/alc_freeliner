@@ -57,7 +57,7 @@ class Synchroniser implements FreelinerConfig{
     lerper += renderIncrement;
 
     if(lerper > 1.0){
-      lerper = 0;
+      lerper = 0.0000001;
       periodCount++;
       oscTick();
     }
@@ -71,7 +71,7 @@ class Synchroniser implements FreelinerConfig{
   }
 
   public int getPeriod(int _div){
-    if(_div <1) _div = 1;
+    if(_div < 1) _div = 1;
     return int(periodCount/_div);
   }
 

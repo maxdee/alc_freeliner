@@ -29,7 +29,7 @@ class BackForth extends Reverse{
 
 class TwoTwoReverse extends Reverse{
 	public TwoTwoReverse(){}
-	public float getDirection(float _lrp, RenderableTemplate _rt){
+	public float getDirection(RenderableTemplate _rt){
 		if(_rt.getBeatCount() % 4 > 1) return 1.0;
 		else return -1.0;
 	}

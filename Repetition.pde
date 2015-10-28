@@ -83,13 +83,10 @@ class EvenlySpaced extends Repetition{
 
 	public FloatList getEvenlySpaced(float _lrp, int _count){
 		FloatList flts = new FloatList();
-		float dir;
-		if(_lrp != 0.0) dir = abs(_lrp)/_lrp;
-		else dir = 1.0;
 		float amount = abs(_lrp)/_count;
 		float increments = 1.0/_count;
 		for (int i = 0; i < _count; i++)
-			flts.append(((increments * i) + amount)*dir*rev);
+			flts.append(((increments * i) + amount)*rev);
 		return flts;
 	}
 }
@@ -112,13 +109,11 @@ class TwoFull extends Repetition{
 	public TwoFull(){}
 
 	public FloatList getFloats(RenderableTemplate _rt){
-		rev = getReverser(_rt.getReverseMode()).getDirection(_rt);
 		FloatList flts = new FloatList();
 		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
-
-		flts.append(lrp*rev);
-		if(lrp < 0) flts.append(lrp+1);
-		else flts.append(lrp-1);
+		flts.append(lrp);
+		flts.append(lrp*-1.0);
+		print(flts);
 		return flts;
 	}
 }
