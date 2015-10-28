@@ -45,7 +45,7 @@ class Keyboard implements FreelinerConfig{
     "m    breakLine",
     "n    newItem",
     "o    rotation",
-    "p    probability",
+    //"p    probability",
     "q    strkColor",
     "r    polka",
     "s    size",
@@ -396,6 +396,15 @@ class Keyboard implements FreelinerConfig{
     return used_;
   }
 
+
+  /**
+   * Distribute parameters for segmentGroups, such as place center, set scalar, or grab as cutom shape
+   * @param SegmentGroup segmentGroup to affect
+   * @param char editKey (like q for color)
+   * @param int value to set
+   * @param boolean display the valueGiven in the gui.
+   * @return boolean if the key was used.
+   */
   public boolean segmentGroupDispatch(SegmentGroup _sg, char _k, int _n, boolean _vg) {
     boolean used_ = true;
     String valueGiven_ = null;
@@ -408,7 +417,12 @@ class Keyboard implements FreelinerConfig{
     return used_;
   }
 
-
+  /**
+   * Control parameters via OSC, bypassing gui stuff.
+   * @param String template tags (like ABC)
+   * @param char editKey (like q for color)
+   * @param int value to set
+   */
   public void oscDistribute(String _tags, char _k, int _n){
     for(int i = 0; i < _tags.length(); i++){
       TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
@@ -417,10 +431,6 @@ class Keyboard implements FreelinerConfig{
       }
     }
   }
-
-
-
-
 
 
   public boolean rendererDispatch(TweakableTemplate _template, char _k, int _n, boolean _vg) {
@@ -445,7 +455,7 @@ class Keyboard implements FreelinerConfig{
         else if (_k == 'k') valueGiven_ = str(_template.setStrokeAlpha(_n));
         else if (_k == 'l') valueGiven_ = str(_template.setFillAlpha(_n));
         else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));
-        else if (_k == 'p') valueGiven_ = str(_template.setProbability(_n));
+        //else if (_k == 'p') valueGiven_ = str(_template.setProbability(_n));
         else if (_k == 'q') valueGiven_ = str(_template.setStrokeMode(_n));
         else if (_k == 'r') valueGiven_ = str(_template.setRepetitionCount(_n));
         else if (_k == 's') valueGiven_ = str(_template.setBrushSize(_n));
@@ -456,7 +466,6 @@ class Keyboard implements FreelinerConfig{
         else if (_k == '%') valueGiven_ = str(_template.setBankIndex(_n));
         else used_ = false;
       }
-
       if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
     }
     return used_;
@@ -484,13 +493,6 @@ class Keyboard implements FreelinerConfig{
     else wordMaker = wordMaker + _k;
   }
 
-
-  /**
-   * Get text typed.
-   * If a group is selected, set the word for the most current segment placed.
-   * Else add a template to all groups with selected template.
-   * @param char to add
-   */
   private void returnWord() {
     SegmentGroup _sg = groupManager.getSelectedGroup();
     if (groupManager.getSnappedSegment() != null) groupManager.getSnappedSegment().setText(wordMaker);
@@ -523,6 +525,12 @@ class Keyboard implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  /**
+   * Set the editKey
+   * The edit key is very important, it selects what parameter to modify.
+   * This also verbose the parameter in the GUI.
+   * @param char the edit Key
+   */
   public void setEditKey(char _k) {
     if (keyIsMapped(_k) && _k != '-' && _k != '=') {
       gui.setKeyString(getKeyString(_k));
@@ -532,14 +540,22 @@ class Keyboard implements FreelinerConfig{
     }
   }
 
+  /**
+   * Set if the ctrl key is pressed. Also sets the mousePointer origin to feather the mouse movement for non OSX.
+   * @param boolean ctrl key status
+   */
   public void setCtrled(boolean _b){
     if(_b){
       ctrled = true;
-      mouse.setOrigin();
+      if(!OSX) mouse.setOrigin();
     }
     else ctrled = false;
   }
 
+  /**
+   * Set if the alt key is pressed. Also sets the mousePointer origin to feather the mouse movement for OSX.
+   * @param boolean alt key status
+   */
   public void setAlted(boolean _b){
     if(_b){
       alted = true;
@@ -548,7 +564,10 @@ class Keyboard implements FreelinerConfig{
     else alted = false;
   }
 
-
+  /**
+   * Toggle text entry
+   * @return boolean valueGiven
+   */
   public boolean toggleEnterText(){
     enterText = !enterText;
     return enterText;
@@ -560,10 +579,19 @@ class Keyboard implements FreelinerConfig{
   ///////     Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+  /**
+   * Is the ctrl key pressed? In OSX the ctrl key behavior is given to the alt key...
+   * @return boolean valueGiven
+   */
   public boolean isCtrled(){
     if(OSX) return alted;
     return ctrled;
   }
+
+  public boolean isAlted(){
+    return alted;
+  }
+
   public boolean isShifted(){
     return shifted;
   }

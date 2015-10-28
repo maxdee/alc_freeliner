@@ -54,16 +54,20 @@ class Template{
 	}
 
 
-/**
- * Copy a Template
- * @parma RenderEvent to copy
- */
+	/**
+	 * Copy a Template
+	 * @parma RenderEvent to copy
+	 */
  	public void copy(Template _tp){
  		// copy the first tier of variables
  		templateID = _tp.getTemplateID();
  		copyParameters(_tp);
  	}
 
+	/**
+	 * Copy Template parameters
+	 * @parma RenderEvent to copy
+	 */
  	public void copyParameters(Template _tp){
  		strokeAlpha = _tp.getStrokeAlpha();
 		fillAlpha = _tp.getFillAlpha();
@@ -86,9 +90,10 @@ class Template{
 		customColor = _tp.getCustomColor();
  	}
 
-/**
- * Reset to default values
- */
+	/**
+	 * Reset to default values
+	 * Defaults from Config.pde?
+	 */
  	public void reset(){
  		fillAlpha = 255;
 		strokeAlpha = 255;
@@ -152,9 +157,9 @@ class Template{
 		return templateID;
 	}
 
-/*
- * First tier accessors
- */
+	/**
+	 * First tier accessors
+	 */
 	public final int getRenderMode(){
 		return renderMode;
 	}

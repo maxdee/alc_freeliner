@@ -133,7 +133,7 @@ class TemplateRenderer implements FreelinerConfig{
       // Repition object return arrayList of unit intervals.
       // negative values indicates going in reverse
       if(flt < 0){
-        _rt.setLerp(abs(flt));
+        _rt.setLerp(flt+1);
         _rt.setDirection(true);
       }
       else {

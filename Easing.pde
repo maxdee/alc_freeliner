@@ -68,30 +68,6 @@ class Fixed extends Easing{
 	}
 }
 
-class BackForth extends Easing{
-	public BackForth(){}
-
-	public float ease(float _lrp, RenderableTemplate _rt){
-		if(_rt.getBeatCount() % 2 == 0) return _lrp;
-		else return _lrp-1;
-	}
-}
-
-class TwoTwoReverse extends Easing{
-	public TwoTwoReverse(){}
-	public float ease(float _lrp, RenderableTemplate _rt){
-		if(_rt.getBeatCount() % 4 > 1) return _lrp;
-		else return _lrp-1;
-	}
-}
-
-class ReverseLerp extends Easing{
-	public ReverseLerp(){}
-
-	public float ease(float _lrp, RenderableTemplate _rt){
-		return _lrp-1;
-	}
-}
 
 class TargetNoise extends Easing{
 	int target;
