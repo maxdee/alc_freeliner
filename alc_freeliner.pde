@@ -29,8 +29,8 @@ final String OSC_OUT_IP = "127.0.0.1";
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
   // set the resolution, or fullscreen and display
-  size(1024, 768, P2D);
-  //fullScreen(P2D, 2);
+  //size(1024, 768, P2D);
+  fullScreen(P2D, 2);
   //fullscreen(P2D, SPAN);
   //orientation(LANDSCAPE);
   //pixelDensity(2);
@@ -137,6 +137,10 @@ void draw() {
   freeliner.update();
 }
 
+// sync message to other software
+void oscTick(){
+ oscP5.send(tickmsg, toPDpatch);
+}
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Input
@@ -168,8 +172,4 @@ void mouseMoved() {
 
 void mouseWheel(MouseEvent event) {
   freeliner.getMouse().wheeled(event.getCount());
-}
- // sync message
-void oscTick(){
-  oscP5.send(tickmsg, toPDpatch);
 }

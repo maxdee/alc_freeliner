@@ -100,7 +100,4 @@ class OSClistener implements OscEventListener{
   void setUserPallette(int _i, color _c){
     if(_i >= 0 && _i < PALLETTE_COUNT) userPallet[_i] = _c;
   }
-
-
-
 }
