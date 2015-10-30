@@ -29,7 +29,7 @@ final String OSC_OUT_IP = "127.0.0.1";
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(1024, 768, P2D);
+  size(1024, 768, P2D);
   fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   //orientation(LANDSCAPE);
@@ -80,6 +80,9 @@ OscP5 oscP5;
 NetAddress toPDpatch;
 OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
+FLgui flg = null; // set specific key to init gui
+boolean runGui = false;
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     Setup
@@ -110,6 +113,8 @@ void setup() {
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
+
+  if(runGui) launchGUI();
 }
 
 // splash screen!
@@ -123,6 +128,15 @@ void splash(){
   textSize(24);
   fill(255);
   text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
+}
+
+// external GUI launcher
+void launchGUI(){
+  if(flg != null) return;
+  flg = new FLgui(freeliner);
+  String[] args = {"Freeliner GUI", "--display=1"};
+  PApplet.runSketch(args, flg);
+  flg.loop();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -151,6 +165,7 @@ void oscTick(){
 // relay the inputs to the mapper
 void keyPressed() {
   freeliner.getKeyboard().processKey(key, keyCode);
+  if(key == '~') launchGUI();
   if (key == 27) key = 0;       // dont let escape key, we need it :)
 }
 

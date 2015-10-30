@@ -34,7 +34,7 @@ class Keyboard implements FreelinerConfig{
     "b    renderMode",
     "c    placeCenter",
     "d    setShape",
-    //"e    setAlpha",
+    //"e    ???????",
     "f    fillColor",
     "g    grid/size",
     "h    easingMode",
@@ -147,6 +147,7 @@ class Keyboard implements FreelinerConfig{
     //                      vg  println(alted+"  "+ctrled+"  "+shifted);
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
     processKeyCodes(kc); // TAB SHIFT and friends
+    // if in text entry mode
     if (enterText) {
       if (k==ENTER) returnWord();
       else if (k!=65535) wordMaker(k);
@@ -154,10 +155,10 @@ class Keyboard implements FreelinerConfig{
       gui.setValueGiven(wordMaker);
     }
     else {
-      if (k >= 48 && k <= 57) numMaker(k);
-      else if (k>=65 && k <= 90) processCAPS(k);
-      else if (k==ENTER) returnNumber();
-      else if (ctrled || alted) modCommands(int(k));
+      if (k >= 48 && k <= 57) numMaker(k); // grab numbers into the numberMaker
+      else if (k>=65 && k <= 90) processCAPS(k); // grab uppercase letters
+      else if (k==ENTER) returnNumber(); // grab enter
+      else if (ctrled || alted) modCommands(int(k)); // alternate mappings related to ctrl and alt combos
       else{
         setEditKey(k);
         distributor(k, -3, true);
@@ -165,7 +166,7 @@ class Keyboard implements FreelinerConfig{
     }
     //this should be elsewhere...
     if(editKey == '>') {
-      gui.setTemplateString(templateManager.getSynchroniser().getStepToEdit().getTags());
+      gui.setTemplateString(templateManager.getSynchroniser().getStepToEdit().getTags()); // updates the tags to the ones of the sequencer
     }
   }
 
@@ -208,6 +209,12 @@ class Keyboard implements FreelinerConfig{
     alted = false;
   }
 
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Interpretation
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 /**
  * Process capital letters. A trick is applied here, different actions happen if caps-lock is on or shift is pressed.
  * <p>
@@ -235,30 +242,6 @@ class Keyboard implements FreelinerConfig{
     gui.setTemplateString(tl.getTags());
   }
 
-
-/**
- * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
- */
-  private void unSelectThings(){
-    if(!groupManager.isFocused() && !templateManager.isFocused()) gui.hide();
-    else {
-      templateManager.unSelect();
-      groupManager.unSelect();
-      gui.setTemplateString(" ");//templateManager.renderList.getString());
-      groupManager.setReferenceGroupTemplateList(null);
-    }
-    // This should fix some bugs.
-    alted = false;
-    ctrled = false;
-    shifted = false;
-    editKey = ' ';
-  }
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     Interpretation
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
 
 //for some reason if you are holding ctrl or alt you get other keycodes
 /**
@@ -310,6 +293,23 @@ class Keyboard implements FreelinerConfig{
     gui.setTemplateString("*all*");
   }
 
+/**
+ * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
+ */
+  private void unSelectThings(){
+    if(!groupManager.isFocused() && !templateManager.isFocused()) gui.hide();
+    else {
+      templateManager.unSelect();
+      groupManager.unSelect();
+      gui.setTemplateString(" ");//templateManager.renderList.getString());
+      groupManager.setReferenceGroupTemplateList(null);
+    }
+    // This should fix some bugs.
+    alted = false;
+    ctrled = false;
+    shifted = false;
+    editKey = ' ';
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Distribution of input to things

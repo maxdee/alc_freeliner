@@ -55,6 +55,7 @@
   // The TweakableTemplate tags of templates selected by the TemplateManager
   String renderString = "_";
 
+  String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS"};
   /**
    * Constructor
    * @param GroupManager dependency injection
@@ -146,25 +147,37 @@
   private void infoWritter() {
     // Template tags of selected by selectedGroup or templateManager selected
     if(guiSegments.getSegments().size() == 0) return;
-    String tags = " ";
-    TemplateList rl = groupManager.getTemplateList();
-    if (rl != null) tags += rl.getTags();
-    else tags += renderString;
-    if(tags.length()>20) tags = "*ALL*";
+    // String tags = " ";
+    // TemplateList rl = groupManager.getTemplateList();
+    // if (rl != null) tags += rl.getTags();
+    // else tags += renderString;
+    // if(tags.length()>20) tags = "*ALL*";
+
     // first segment shows which group is selected
     int geom = groupManager.getSelectedIndex();
-    if(geom == -1) guiSegments.setText("[Geom : ]", 0);
-    else guiSegments.setText("[Geom : "+geom+"]", 0);
+    if(geom == -1) allInfo[0] = "[Geom : ]";
+    else allInfo[0] = "[Geom : "+geom+"]";
+    guiSegments.setText(allInfo[0], 0);
+
     // second segment shows the Templates selected
-    guiSegments.setText("[Rndr : "+tags+"]", 1);
+    TemplateList _rl = groupManager.getTemplateList();
+    String _tags = "";
+    if (_rl != null) _tags = _rl.getTags();
+    else _tags = renderString;
+    if(_tags.length()>20) _tags = "*ALL*";
+    allInfo[1] = "[Rndr : "+_tags+"]";
+    guiSegments.setText(allInfo[1], 1);
+
     // third show the parameter associated with key and values given to parameters
-    guiSegments.setText("["+keyString+": "+valueGiven+"]", 2);
-    // display what step
-    //guiSegments.setText("[stp: "+templateManager.getSynchroniser().getStep() +"]", 3);
+    allInfo[2] = "["+keyString+": "+valueGiven+"]";
+    guiSegments.setText(allInfo[2], 2);
+
     // display how long we have been jamming
-    guiSegments.setText("["+getTimeRunning()+"]", 3);
+    allInfo[3] = "["+getTimeRunning()+"]";
+    guiSegments.setText(allInfo[3], 3);
     // framerate ish
-    guiSegments.setText("[FPS "+(int)frameRate+"]", 4);
+    allInfo[4] = "[FPS "+(int)frameRate+"]";
+    guiSegments.setText(allInfo[4], 4);
     // draw the information that was just set to segments of group 0
     ArrayList<Segment> segs = guiSegments.getSegments();
     int sz = int(guiSegments.getBrushScaler()*20);
@@ -460,6 +473,10 @@
 
   public PGraphics getCanvas(){
     return canvas;
+  }
+
+  public String[] getAllInfo(){
+    return allInfo;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

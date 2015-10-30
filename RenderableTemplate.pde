@@ -316,7 +316,6 @@ class KillableTemplate extends RenderableTemplate{
 	 */
 	public KillableTemplate(Template _te, SegmentGroup _sg){
 		super(_te.getTemplateID());
-		println(_te.getStrokeMode());
 		sourceTemplate = _te;
 		copy(_te);
 		// force enable?

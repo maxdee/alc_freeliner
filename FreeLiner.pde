@@ -86,9 +86,14 @@ class FreeLiner {
     return keyboard;
   }
 
+  public Gui getGui(){
+    return gui;
+  }
+
   public PGraphics getCanvas(){
     return templateRenderer.getCanvas();
   }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Debug

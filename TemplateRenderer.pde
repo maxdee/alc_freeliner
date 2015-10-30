@@ -1,4 +1,14 @@
 /**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.3
+ * @since     2014-12-01
+ */
+
+
+/**
  * View part
  * The template renderer is where the rendering process begins.
  *
