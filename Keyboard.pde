@@ -144,7 +144,6 @@ class Keyboard implements FreelinerConfig{
  * @param int the keyCode
  */
   public void processKey(char k, int kc) {
-    //                      vg  println(alted+"  "+ctrled+"  "+shifted);
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
     processKeyCodes(kc); // TAB SHIFT and friends
     // if in text entry mode
@@ -177,7 +176,7 @@ class Keyboard implements FreelinerConfig{
  * @param int the keyCode
  */
   public void processKeyCodes(int kc) {
-    if (kc==SHIFT) shifted = true;
+    if (kc == SHIFT) shifted = true;
     else if (kc == ESC || kc == 27) unSelectThings();
     else if (kc==CONTROL) setCtrled(true);
     else if (kc==ALT) setAlted(true);

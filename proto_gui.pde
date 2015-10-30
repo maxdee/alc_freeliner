@@ -7,9 +7,9 @@
  * @since     2014-12-01
  */
 
-
 import processing.core.PApplet;
 import processing.core.PSurface;
+
 // thx to @codingjoe for leading me to this!
 public class FLgui extends PApplet {
   FreeLiner freeliner;
@@ -17,7 +17,7 @@ public class FLgui extends PApplet {
   // gui Items
   ArrayList<GuiItem> guiItems;
   // gui variables
-  boolean relayKeys;
+  boolean relayKeys = true;
   public FLgui(FreeLiner _fl){
     super();
     freeliner = _fl;
@@ -25,11 +25,12 @@ public class FLgui extends PApplet {
 
   public void settings(){
     size(1000, 400, P2D);
+    smooth(0);
   }
 
   public void setup() {
     surface.setResizable(false); // keep it pretty
-    smooth(0);
+    textMode(CORNER);
     //frameRate(10); // keep it fast?
     guiItems = new ArrayList();
     //guiItems.add();
@@ -37,22 +38,23 @@ public class FLgui extends PApplet {
 
   public void draw(){
     background(0);
-
     displayInfo();
   }
 
   public void displayInfo(){
-    String[] _info = freeliner.getGui().getAllInfo();
+    textSize(20);
+    String[] _info = reverse(freeliner.getGui().getAllInfo());
     String _txt = "";
-    for(String str : _info) _txt += str;
+    for(String str : _info) _txt += str+"  ";
     fill(255);
-    text(_txt, 500, 200);
+    text(_txt, 0, 20);
   }
 
 
   public void mouseMoved(){ }
 
   public void keyPressed(){
+    println("in ext : "+(keyCode==SHIFT));
     if(relayKeys) freeliner.getKeyboard().processKey(key, keyCode);
     if (key == 27) key = 0;       // dont let escape key, we need it :)
   }

@@ -52,7 +52,8 @@ class FreeLiner {
    */
   public void update() {
     //background(0);
-    if(!focused) keyboard.forceRelease();
+    // external gui needs this commented
+    //if(!focused) keyboard.forceRelease();
     // update template models
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());

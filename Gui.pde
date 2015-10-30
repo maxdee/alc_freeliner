@@ -101,6 +101,7 @@
    * Main update function, draws all of the GUI elements to a PGraphics
    */
   public void update() {
+    updateInfo();
     if(mouse.hasMoved()) resetTimeOut();
     if(!doDraw()) return;
 
@@ -137,28 +138,18 @@
     }
 
     // draw on screen information with group 0
-    infoWritter();
+    displayInfo();
     canvas.endDraw();
   }
 
   /**
-   * This formats the information to display and assigns it to the segements of the gui group.
+   * This formats the information.
    */
-  private void infoWritter() {
-    // Template tags of selected by selectedGroup or templateManager selected
-    if(guiSegments.getSegments().size() == 0) return;
-    // String tags = " ";
-    // TemplateList rl = groupManager.getTemplateList();
-    // if (rl != null) tags += rl.getTags();
-    // else tags += renderString;
-    // if(tags.length()>20) tags = "*ALL*";
-
+  private void updateInfo(){
     // first segment shows which group is selected
     int geom = groupManager.getSelectedIndex();
     if(geom == -1) allInfo[0] = "[Geom : ]";
     else allInfo[0] = "[Geom : "+geom+"]";
-    guiSegments.setText(allInfo[0], 0);
-
     // second segment shows the Templates selected
     TemplateList _rl = groupManager.getTemplateList();
     String _tags = "";
@@ -166,18 +157,20 @@
     else _tags = renderString;
     if(_tags.length()>20) _tags = "*ALL*";
     allInfo[1] = "[Rndr : "+_tags+"]";
-    guiSegments.setText(allInfo[1], 1);
-
     // third show the parameter associated with key and values given to parameters
     allInfo[2] = "["+keyString+": "+valueGiven+"]";
-    guiSegments.setText(allInfo[2], 2);
-
     // display how long we have been jamming
     allInfo[3] = "["+getTimeRunning()+"]";
-    guiSegments.setText(allInfo[3], 3);
     // framerate ish
     allInfo[4] = "[FPS "+(int)frameRate+"]";
-    guiSegments.setText(allInfo[4], 4);
+  }
+
+  /**
+   * This displays the info on the gui group.
+   */
+  private void displayInfo() {
+    if(guiSegments.getSegments().size() == 0) return;
+    for(int i = 0; i < 5; i++) guiSegments.setText(allInfo[i], i);
     // draw the information that was just set to segments of group 0
     ArrayList<Segment> segs = guiSegments.getSegments();
     int sz = int(guiSegments.getBrushScaler()*20);
@@ -464,7 +457,7 @@
    * Check if GUI needs to be drawn and update the GUI timeout for auto hiding.
    */
   public boolean doDraw(){
-    if (guiTimer > 0 || mouse.useGrid()) {
+    if ((guiTimer > 0 || mouse.useGrid()) && focused) { // recently added window focus
       guiTimer--;
       return true;
     }
