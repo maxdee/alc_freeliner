@@ -3,8 +3,8 @@
 #### TODO ####
  * more text modes?
  * more line modes.
- * put keyboard shortcuts in FreelinerConfig / make actual bindings.
- * iterator should be before run through segs? somethign to do with trigger mode
+ * fix keyboard handling (international)
+ * iterator/easing should be before run through segs? somethign to do with trigger mode
  * triangle brush center wrong
  * prevent resizing of brush...
 
@@ -20,6 +20,14 @@
   * bumper system
   * Geometry hot swap, reload geometery according to xml file, but not resetting the templates.
   * Per distance repetition?
+
+### Interface ###
+  * Should preset templates be a single template or can be a combo relating to one item? Perhaps presets can be linked somehow.
+  * latch!
+  * midi?
+  * geometry mod?
+  * https://github.com/extrapixel/gif-animation
+  * G4P + ^
 
 ### VJ specific ###
   * Mirroring render mode? makes a mirrored segmentGroup copy? or a mirrored accessor?
