@@ -1,5 +1,19 @@
+/**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.3
+ * @since     2014-12-01
+ */
 
 
+
+
+ /**
+  * Templates hold all the parameters for the renderer.
+  *
+  */
 class Template{
 /*
  * First tier, data that dosent change unless told to

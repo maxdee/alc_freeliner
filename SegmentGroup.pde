@@ -483,7 +483,6 @@ class SegmentGroup {
     return segCount;
   }
 
-
   public final PShape getShape(){
     return itemShape;
   }

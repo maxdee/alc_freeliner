@@ -29,8 +29,8 @@ final String OSC_OUT_IP = "127.0.0.1";
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
   // set the resolution, or fullscreen and display
-  size(1024, 768, P2D);
-  //fullScreen(P2D, 2);
+  //size(1024, 768, P2D);
+  fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   //orientation(LANDSCAPE);
   //pixelDensity(2);
@@ -88,6 +88,7 @@ OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
 void setup() {
   surface.setResizable(false); // needs to scale other PGraphics
+  surface.setTitle("a!Lc Freeliner");
   //surface.setAlwaysOnTop(boolean);
   noCursor();
   hint(ENABLE_KEY_REPEAT); // usefull for performance
