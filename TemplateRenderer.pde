@@ -47,7 +47,6 @@ class TemplateRenderer implements FreelinerConfig{
     canvas.smooth(1);
     canvas.strokeCap(STROKE_CAP);
     canvas.strokeJoin(STROKE_JOIN);
-    //canvas.ellipseMode(CENTER);
 
     // init variables
     trails = false;

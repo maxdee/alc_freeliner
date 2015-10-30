@@ -31,6 +31,7 @@ public class FLgui extends PApplet {
   public void setup() {
     surface.setResizable(false); // keep it pretty
     textMode(CORNER);
+    hint(ENABLE_KEY_REPEAT); // usefull for performance
     //frameRate(10); // keep it fast?
     guiItems = new ArrayList();
     //guiItems.add();
