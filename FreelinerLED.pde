@@ -16,8 +16,8 @@ class FreelinerLED extends FreeLiner{
 	public FreelinerLED(PApplet _pa, String _file){
 		super(_pa);
 		// init the subclass of freeLEDing
-	  //freeLED = new FreeLEDing();
-	  freeLED = new OctoLEDing(_pa, "/dev/tty0");
+	  freeLED = new FreeLEDing();
+	  //freeLED = new OctoLEDing(_pa, "/dev/tty0");
 	  //freeLED = new FastLEDing(_pa, "/dev/ttyACM0");
 	  // load a ledmap file
 	  freeLED.parseLEDfile("userdata/"+_file);

@@ -62,14 +62,21 @@ class FreeLEDing {
         for(XML seg : xseg){
           posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
           posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
-          String txt = seg.getString("txt");
-          //parse txt to from to
-          addLEDs(from,
-                  to,
-                  posA.x,
-                  posA.y,
-                  posB.x,
-                  posB.y);
+          String[] cmd = split(seg.getString("txt"), " ");
+
+          if(cmd[0].equals("/led") && cmd.length>2){
+            println(cmd[1]);
+            from = int(cmd[1]);
+            to = int(cmd[2]);
+            println("Adding LEDs from: "+from+"  to: "+to);
+            //parse txt to from to
+            addLEDs(from,
+                    to,
+                    posA.x,
+                    posA.y,
+                    posB.x,
+                    posB.y);
+          }
         }
       }
       ledCount = leds.size();
