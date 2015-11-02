@@ -38,6 +38,7 @@ public class ExternalGUI extends PApplet {
     // InfoLine is the same info the regular GUI shows
     widgets.add(new InfoLine(new PVector(0,0), new PVector(width, 20), freeliner.getGui()));
     widgets.add(new Widget(new PVector(100,100), new PVector(20,20)));
+    widgets.add(new Fader(new PVector(100,125), new PVector(100,20)));
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -79,11 +80,22 @@ public class ExternalGUI extends PApplet {
     cursor.set(mouseX, mouseY);
   }
 
+  public void mousePressed(){
+    for(Widget wdgt : widgets) wdgt.click(mouseButton);
+  }
+
+  public void mouseDragged(){
+    cursor.set(mouseX, mouseY);
+    for(Widget wdgt : widgets) wdgt.update(cursor);
+    for(Widget wdgt : widgets) wdgt.click(mouseButton);
+  }
+
   public void keyPressed(){
     println("in ext : "+(keyCode==SHIFT));
     if(relayKeys) freeliner.getKeyboard().processKey(key, keyCode);
     if (key == 27) key = 0;       // dont let escape key, we need it :)
   }
+  
   public void keyReleased(){
     if(relayKeys) freeliner.getKeyboard().processRelease(key, keyCode);
   }
@@ -96,7 +108,7 @@ public class ExternalGUI extends PApplet {
 ////////////////////////////////////////////////////////////////////////////////////
 
 // basic class to make clickable object
-class Widget {
+class Widget implements FreelinerConfig{
   PVector pos;
   PVector size;
   // mouse position relative to widget 0,0
@@ -138,16 +150,45 @@ class Widget {
   }
 
   public void click(int _mb){
-    if(selected) action();
+    if(selected) action(_mb);
   }
 
   // here is where we process actions
-  public void action(){
+  public void action(int _button){
     // you can use mouseFloat for info
   }
   // public void setPos(PVector _pos){
   //   pos = _pos.get();
   // }
+
+  public void setBackgroundColor(color _col){
+    bgcol = _col;
+  }
+  public void setSelectedColor(color _col){
+    selcol = _col;
+  }
+}
+
+// simple fader class, needs to be bound to a freeliner param?
+class Fader extends Widget {
+  float value;
+  color faderCol = color(255,0,0);
+  public Fader(PVector _pos, PVector _sz){
+    super(_pos, _sz);
+    value = 0.5;
+  }
+
+  public void show(PGraphics _canvas){
+    super.show(_canvas);
+    if(active){
+      _canvas.fill(faderCol);
+      _canvas.rect(pos.x, pos.y, size.x * value, size.y);
+    }
+  }
+
+  public void action(int _button){
+    value = mouseFloat.x;
+  }
 }
 
 
