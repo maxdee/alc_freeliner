@@ -25,6 +25,7 @@ public class ExternalGUI extends PApplet {
 
   // gui Items
   ArrayList<Widget> widgets;
+  Widget selectedWidget;
 
   /**
    * Constructor,
@@ -37,8 +38,9 @@ public class ExternalGUI extends PApplet {
     widgets = new ArrayList();
     // InfoLine is the same info the regular GUI shows
     widgets.add(new InfoLine(new PVector(0,0), new PVector(width, 20), freeliner.getGui()));
-    widgets.add(new Widget(new PVector(100,100), new PVector(20,20)));
+    widgets.add(new Toggle(new PVector(100,100), new PVector(20,20)));
     widgets.add(new Fader(new PVector(100,125), new PVector(100,20)));
+    selectedWidget = null;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +66,10 @@ public class ExternalGUI extends PApplet {
   public void draw(){
     background(0);
     // update the widgets with the mouse position
-    for(Widget wdgt : widgets) wdgt.update(cursor);
+    if(!mousePressed) selectedWidget = null;
+    for(Widget wdgt : widgets){
+      if(!mousePressed && wdgt.update(cursor)) selectedWidget = wdgt;
+    }
 
     // draw stuff
     canvas.beginDraw();
@@ -81,13 +86,15 @@ public class ExternalGUI extends PApplet {
   }
 
   public void mousePressed(){
-    for(Widget wdgt : widgets) wdgt.click(mouseButton);
+    if(selectedWidget != null) selectedWidget.click(mouseButton);
   }
 
   public void mouseDragged(){
     cursor.set(mouseX, mouseY);
-    for(Widget wdgt : widgets) wdgt.update(cursor);
-    for(Widget wdgt : widgets) wdgt.click(mouseButton);
+    if(selectedWidget != null) {
+      selectedWidget.setCursor(cursor);
+      selectedWidget.click(mouseButton);
+    }
   }
 
   public void keyPressed(){
@@ -95,7 +102,7 @@ public class ExternalGUI extends PApplet {
     if(relayKeys) freeliner.getKeyboard().processKey(key, keyCode);
     if (key == 27) key = 0;       // dont let escape key, we need it :)
   }
-  
+
   public void keyReleased(){
     if(relayKeys) freeliner.getKeyboard().processRelease(key, keyCode);
   }
@@ -117,8 +124,10 @@ class Widget implements FreelinerConfig{
   PVector mouseFloat;
   boolean selected;
   boolean active;
-  color bgcol = color(100);
-  color selcol = color(200);
+  color bgColor = color(100);
+  color hoverColor = color(200);
+  color frontColor = color(255, 0, 0);
+
 
   public Widget(PVector _pos, PVector _sz){
     pos = _pos.get();
@@ -129,19 +138,24 @@ class Widget implements FreelinerConfig{
   }
 
   // the update function should be called at first to give the mouse position.
-  public void update(PVector _cursor){
-    mouseDelta = _cursor.get().sub(pos);
-    mouseFloat.set(mouseDelta.x/size.x, mouseDelta.y/size.y);
+  public boolean update(PVector _cursor){
+    setCursor(_cursor);
     if(!active) selected = false;
     else selected = isOver();
+    return selected;
+  }
+
+  public void setCursor(PVector _cursor){
+    mouseDelta = _cursor.get().sub(pos);
+    mouseFloat.set(mouseDelta.x/size.x, mouseDelta.y/size.y);
   }
 
   // draw stuff here
   public void show(PGraphics _pg){
     if(!active) return;
     _pg.noStroke();
-    if(selected) _pg.fill(selcol);
-    else _pg.fill(bgcol);
+    if(selected) _pg.fill(hoverColor);
+    else _pg.fill(bgColor);
     _pg.rect(pos.x, pos.y, size.x, size.y);
   }
 
@@ -149,6 +163,7 @@ class Widget implements FreelinerConfig{
     return (mouseDelta.x > 0 && mouseDelta.y > 0) && (mouseDelta.x < size.x && mouseDelta.y < size.y);
   }
 
+  // redundant...
   public void click(int _mb){
     if(selected) action(_mb);
   }
@@ -162,17 +177,41 @@ class Widget implements FreelinerConfig{
   // }
 
   public void setBackgroundColor(color _col){
-    bgcol = _col;
+    bgColor = _col;
   }
-  public void setSelectedColor(color _col){
-    selcol = _col;
+  public void setHoverColor(color _col){
+    hoverColor = _col;
+  }
+  public void setFrontColor(color _col){
+    frontColor = _col;
   }
 }
+
+class Toggle extends Widget {
+  boolean value;
+  color toggleCol = color(255,0,0);
+  int inset = 2;
+  public Toggle(PVector _pos, PVector _sz){
+    super(_pos, _sz);
+    value = false;
+  }
+  public void show(PGraphics _canvas){
+    super.show(_canvas);
+    if(active && value){
+      _canvas.fill(frontColor);
+      _canvas.rect(pos.x+inset, pos.y+inset, size.x-(2*inset), size.y-(2*inset));
+    }
+  }
+  public void action(int _button){
+    value = !value;
+  }
+}
+
 
 // simple fader class, needs to be bound to a freeliner param?
 class Fader extends Widget {
   float value;
-  color faderCol = color(255,0,0);
+  int inset = 2;
   public Fader(PVector _pos, PVector _sz){
     super(_pos, _sz);
     value = 0.5;
@@ -181,16 +220,21 @@ class Fader extends Widget {
   public void show(PGraphics _canvas){
     super.show(_canvas);
     if(active){
-      _canvas.fill(faderCol);
-      _canvas.rect(pos.x, pos.y, size.x * value, size.y);
+      _canvas.fill(frontColor);
+      _canvas.rect(pos.x+inset, pos.y+inset, (size.x-(2*inset)) * value, size.y-(2*inset));
     }
   }
 
   public void action(int _button){
-    value = mouseFloat.x;
+    value = constrain(mouseFloat.x, 0.0, 1.0);
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////     Actual widgets
+///////
+////////////////////////////////////////////////////////////////////////////////////
 
 // display GUI info compiled by the regular Freeliner GUI
 class InfoLine extends Widget {
