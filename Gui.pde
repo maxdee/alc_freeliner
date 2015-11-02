@@ -56,6 +56,7 @@
   String renderString = "_";
 
   String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS"};
+  
   /**
    * Constructor
    * @param GroupManager dependency injection

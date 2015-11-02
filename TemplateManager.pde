@@ -121,6 +121,7 @@ class TemplateManager{
 
     // set size as per scalar
   public RenderableTemplate eventFactory(TweakableTemplate _te, SegmentGroup _sg){
+    //_te.launch();
     RenderableTemplate _rt = new KillableTemplate(_te, _sg);
     ((KillableTemplate) _rt).setOffset(sync.getLerp(_rt.getBeatDivider()));
     return _rt;

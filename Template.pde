@@ -8,8 +8,6 @@
  */
 
 
-
-
  /**
   * Templates hold all the parameters for the renderer.
   *
