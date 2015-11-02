@@ -1,4 +1,14 @@
 /**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.3
+ * @since     2014-12-01
+ */
+
+
+/**
  * View part
  * The template renderer is where the rendering process begins.
  *
@@ -37,7 +47,6 @@ class TemplateRenderer implements FreelinerConfig{
     canvas.smooth(1);
     canvas.strokeCap(STROKE_CAP);
     canvas.strokeJoin(STROKE_JOIN);
-    //canvas.ellipseMode(CENTER);
 
     // init variables
     trails = false;

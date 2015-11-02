@@ -37,6 +37,7 @@ class RenderableTemplate extends TweakableTemplate{
  	// Which beat we are on
 	int beatCount;
 	int rawBeatCount;
+	int launchCount;
 	int randomValue;
 	int largeRandom;
 	boolean direction;
@@ -179,7 +180,6 @@ class RenderableTemplate extends TweakableTemplate{
  		direction = _dir;
  	}
 
-
  	public void setHue(float _h){
  		hue = _h;
  	}
@@ -231,7 +231,7 @@ class RenderableTemplate extends TweakableTemplate{
 /*
  * Second tier accessors
  */
- 	public final int getBeatCount(){
+ 	public int getBeatCount(){
  		return beatCount;
  	}
 
@@ -254,7 +254,7 @@ class RenderableTemplate extends TweakableTemplate{
 	/*
 	 * Third tier accessors
 	 */
- 	public final float getUnitInterval(){
+ 	public float getUnitInterval(){
  		return unitInterval;
  	}
 
@@ -314,9 +314,8 @@ class KillableTemplate extends RenderableTemplate{
 	 * Constructor
 	 * @param SegmentGroup in question
 	 */
-	public KillableTemplate(Template _te, SegmentGroup _sg){
+	public KillableTemplate(TweakableTemplate _te, SegmentGroup _sg){
 		super(_te.getTemplateID());
-		println(_te.getStrokeMode());
 		sourceTemplate = _te;
 		copy(_te);
 		// force enable?
@@ -325,6 +324,11 @@ class KillableTemplate extends RenderableTemplate{
 		beatCount = -1;
 		doRender = true; // remove?
 		toKill = false;
+	}
+
+	public void copy(TweakableTemplate _te){
+		super.copy(_te);
+		//launchCount = _te.getLaunchCount();
 	}
 
 	public void setOffset(float _o){
@@ -359,4 +363,12 @@ class KillableTemplate extends RenderableTemplate{
 	public boolean isDone(){
 		return toKill;
 	}
+
+	// public int getBeatCount(){
+ // 		return launchCount;
+ // 	}
+ // public final float getUnitInterval(){
+ //  println(beatCount+"  "+randomValue+"  "+largeRandom);
+ //  return unitInterval;
+ // }
 }

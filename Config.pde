@@ -29,4 +29,8 @@ interface FreelinerConfig{
 
   // Keyboard Section
   // final char ...
+
+
+  // ExternalGUI options
+  
 }

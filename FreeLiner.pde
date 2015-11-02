@@ -52,7 +52,8 @@ class FreeLiner {
    */
   public void update() {
     //background(0);
-    if(!focused) keyboard.forceRelease();
+    // external gui needs this commented
+    //if(!focused) keyboard.forceRelease();
     // update template models
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());
@@ -86,9 +87,14 @@ class FreeLiner {
     return keyboard;
   }
 
+  public Gui getGui(){
+    return gui;
+  }
+
   public PGraphics getCanvas(){
     return templateRenderer.getCanvas();
   }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Debug

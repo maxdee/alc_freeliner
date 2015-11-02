@@ -5,7 +5,9 @@
 class TweakableTemplate extends Template {
 
   int bankIndex;
+  //int launchCount = 0;
   ArrayList<Template> bank;
+
 
 	public TweakableTemplate(char _id){
 		super(_id);
@@ -16,6 +18,13 @@ class TweakableTemplate extends Template {
   public TweakableTemplate(){
     super();
   }
+
+  // public void launch(){
+  //   launchCount++;
+  // }
+  // public int getLaunchCount(){
+  //   return launchCount;
+  // }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -153,5 +162,4 @@ class TweakableTemplate extends Template {
   public void setCustomColor(color _c){
     customColor = _c;
   }
-
 }
