@@ -88,6 +88,7 @@ class Keyboard implements FreelinerConfig{
   TemplateRenderer templateRenderer;
   Gui gui;
   Mouse mouse;
+  FreeLiner freeliner;
 
   //key pressed
   boolean shifted;
@@ -105,8 +106,8 @@ class Keyboard implements FreelinerConfig{
   char editKeyCopy = ' ';
 
   //user input int and string
-  String numberMaker = " ";
-  String wordMaker = " ";
+  String numberMaker = "";
+  String wordMaker = "";
 
 
 /**
@@ -129,12 +130,13 @@ class Keyboard implements FreelinerConfig{
  * @param Gui reference
  * @param Mouse reference
  */
-  public void inject(GroupManager _gm, TemplateManager _em, TemplateRenderer _er, Gui _gui, Mouse _m){
-    groupManager = _gm;
-    templateManager = _em;
-    templateRenderer = _er;
-    gui = _gui;
-    mouse = _m;
+  public void inject(FreeLiner _fl){
+    freeliner = _fl;
+    groupManager = freeliner.getGroupManager();
+    templateManager = freeliner.getTemplateManager();
+    templateRenderer = freeliner.getTemplateRenderer();
+    gui = freeliner.getGui();
+    mouse = freeliner.getMouse();
   }
 
 /**
@@ -186,8 +188,17 @@ class Keyboard implements FreelinerConfig{
     else if (kc==RIGHT) groupManager.nudger(true, 1, shifted);
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
-    else if (kc==BACKSPACE) groupManager.deleteSegment();
+    else if (kc==BACKSPACE) backspaceAction();
     //else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
+  }
+
+  private void backspaceAction(){
+    // if (enterText) {
+    //   wordMaker = removeLetter(wordMaker);
+    // }
+    // else if(numberMaker.length() > 0) numberMaker = removeLetter(numberMaker);
+    // else
+    if (!enterText) groupManager.deleteSegment();
   }
 
 /**
@@ -257,6 +268,8 @@ class Keyboard implements FreelinerConfig{
     else if(ctrled && k == 4) distributor(char(504), -3, false);  // set custom shape
     else if(ctrled && k == 9) gui.setValueGiven( str(mouse.toggleInvertMouse()) );
     else if(ctrled && k == 18) distributor(char(518), -3, false); // re init()
+    else if(ctrled && k == 12) freeliner.reParse(); // re init()
+    else if(ctrled && k == 11) freeliner.toggleExtraGraphics(); // re init()
   }
 
 /**
@@ -290,6 +303,8 @@ class Keyboard implements FreelinerConfig{
     groupManager.unSelect();
     templateManager.focusAll();
     gui.setTemplateString("*all*");
+    wordMaker = "";
+    enterText = false;
   }
 
 /**
@@ -488,22 +503,31 @@ class Keyboard implements FreelinerConfig{
    * @param char to add
    */
   private void wordMaker(char _k) {
-    if(wordMaker.charAt(0) == ' ') wordMaker = str(_k);
-    else wordMaker = wordMaker + _k;
+    if(wordMaker.length() < 1) wordMaker = str(_k);
+    else wordMaker = wordMaker + str(_k);
   }
+
+  private String removeLetter(String _s){
+     if(_s.length() > 1){
+       return _s.substring(0, _s.length()-1 );
+     }
+     return "";
+   }
+
+
 
   private void returnWord() {
     SegmentGroup _sg = groupManager.getSelectedGroup();
     if (groupManager.getSnappedSegment() != null) groupManager.getSnappedSegment().setText(wordMaker);
-    wordMaker = " ";
+    wordMaker = "";
     enterText = false;
   }
 
 
   // type in values of stuff
   private void numMaker(char _k) {
-    if(numberMaker.charAt(0) == ' ') numberMaker = str(_k);
-    else numberMaker = numberMaker + _k;
+    if(numberMaker.length() < 1) numberMaker = str(_k);
+    else numberMaker = numberMaker + str(_k);
     if(numberMaker.charAt(0) == '0' && numberMaker.length()>1) numberMaker = numberMaker.substring(1);
     gui.setValueGiven(numberMaker);
   }
@@ -515,7 +539,7 @@ class Keyboard implements FreelinerConfig{
     catch (Exception e){
       println("Bad number string");
     }
-    numberMaker = " ";
+    numberMaker = "";
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

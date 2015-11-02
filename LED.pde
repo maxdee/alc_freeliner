@@ -25,7 +25,7 @@ class FreeLEDing {
   int ledCount;
   // 1.0 of brightness
   float brightness;
-
+  String ledMapFile;
   public FreeLEDing(){
     leds = new ArrayList();
     ledMap = createGraphics(width, height); //switch to P2D
@@ -87,33 +87,6 @@ class FreeLEDing {
       exit();
     }
   }
-
-  /********************* OLD FILE LOADER *********************/
-  // parse a xml file for led positions
-  // public void parseLEDfile(String _file){
-  //   leds = new ArrayList();
-  //   XML file;
-  //   try {
-  //     file = loadXML(_file);
-  //     XML[] segment = file.getChildren("segments");
-  //
-  //     for(XML ledData : XMLleds){
-  //       addLEDs(ledData.getInt("from"),
-  //               ledData.getInt("to"),
-  //               ledData.getFloat("aX"),
-  //               ledData.getFloat("aY"),
-  //               ledData.getFloat("bX"),
-  //               ledData.getFloat("bY"));
-  //     }
-  //     ledCount = leds.size();
-  //     drawLEDmap();
-  //   }
-  //   catch(Exception e){
-  //     println("LEDmap XML file "+_file+" not found");
-  //     exit();
-  //   }
-  // }
-
 
   // add LEDs with interpolation if necessary
   private void addLEDs(int from, int to, float aX, float aY, float bX, float bY){
@@ -257,12 +230,15 @@ class FastLEDing extends FreeLEDing {
 
     for(RGBled led : leds){
       int adr = led.getIndex();
-      ledCount = 62; // idk whats up
+      ledCount = 42; // idk whats up
       if(adr < ledCount){
         adr = (adr*3)+1;
-        ledData[adr] = led.getRed();
-        ledData[adr+1] = led.getGreen();
-        ledData[adr+2] = led.getBlue();
+        if ((char)led.getRed()>5) ledData[adr] = led.getRed(); else ledData[adr] = 0;
+        if ((char)led.getGreen()>5) ledData[adr+1] = led.getGreen(); else ledData[adr+1] = 0;
+        if ((char)led.getBlue()>5) ledData[adr+2] = led.getBlue(); else ledData[adr+2] = 0;
+        // ledData[adr] = led.getRed();
+        // ledData[adr+1] = led.getGreen();
+        // ledData[adr+2] = led.getBlue();
       }
     }
     port.write(ledData);

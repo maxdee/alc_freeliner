@@ -12,15 +12,21 @@ class FreelinerLED extends FreeLiner{
 	// enable LEDsystem
 	final boolean LED_MODE = false;
 	FreeLEDing freeLED;
+	boolean showLEDmap = true;
 
 	public FreelinerLED(PApplet _pa, String _file){
 		super(_pa);
 		// init the subclass of freeLEDing
-	  freeLED = new FreeLEDing();
+	  //freeLED = new FreeLEDing();
 	  //freeLED = new OctoLEDing(_pa, "/dev/tty0");
-	  //freeLED = new FastLEDing(_pa, "/dev/ttyACM0");
+	  freeLED = new FastLEDing(_pa, "/dev/ttyACM0");
 	  // load a ledmap file
 	  freeLED.parseLEDfile("userdata/"+_file);
+	}
+
+	public void reParse(){
+		freeLED.parseLEDfile("userdata/groups.xml");
+		showLEDmap = true;
 	}
 
 	void update(){
@@ -32,7 +38,11 @@ class FreelinerLED extends FreeLiner{
 	  // output to whatever
 	  freeLED.output();
 	  // draw the LED map
-	  image(freeLED.getMap(),0,0);
+	  if(showLEDmap) image(freeLED.getMap(),0,0);
 		//
+	}
+
+	public void toggleExtraGraphics(){
+		showLEDmap = !showLEDmap;
 	}
 }

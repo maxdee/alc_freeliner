@@ -196,6 +196,7 @@ class TemplateRenderer implements FreelinerConfig{
   private void alphaBG(PGraphics _pg, int _alpha) {
     _pg.fill(BACKGROUND_COLOR, _alpha);
     _pg.stroke(BACKGROUND_COLOR, _alpha);
+    _pg.strokeWeight(1);
     _pg.rect(0, 0, width, height);
   }
 

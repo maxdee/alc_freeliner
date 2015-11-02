@@ -42,7 +42,7 @@ class FreeLiner {
     osc = new OSClistener(applet, this);
     // inject dependence
     mouse.inject(groupManager, keyboard);
-    keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
+    keyboard.inject(this);
     gui.inject(groupManager, mouse);
     templateManager.inject(groupManager);
   }
@@ -78,6 +78,10 @@ class FreeLiner {
     trailmix = _t;
   }
 
+  // its a dummy for FreelinerLED
+  public void reParse(){ }
+  // its a dummy for others
+  public void toggleExtraGraphics(){}
 
   public Mouse getMouse(){
     return mouse;
@@ -89,6 +93,15 @@ class FreeLiner {
 
   public Gui getGui(){
     return gui;
+  }
+  public GroupManager getGroupManager(){
+    return groupManager;
+  }
+  public TemplateManager getTemplateManager(){
+    return templateManager;
+  }
+  public TemplateRenderer getTemplateRenderer(){
+    return templateRenderer;
   }
 
   public PGraphics getCanvas(){
