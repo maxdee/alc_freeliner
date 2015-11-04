@@ -3,28 +3,30 @@
  * Subclass of RenderEvent that is tweakable
  */
 class TweakableTemplate extends Template {
-
+  // store presets!
   int bankIndex;
-  //int launchCount = 0;
   ArrayList<Template> bank;
 
+  // track launches, will replace the beat count in killable templates
+  int launchCount;
 
 	public TweakableTemplate(char _id){
 		super(_id);
     bank = new ArrayList();
     bankIndex = 0;
+    launchCount = 0;
 	}
 
   public TweakableTemplate(){
     super();
   }
 
-  // public void launch(){
-  //   launchCount++;
-  // }
-  // public int getLaunchCount(){
-  //   return launchCount;
-  // }
+  public void launch(){
+    launchCount++;
+  }
+  public int getLaunchCount(){
+    return launchCount;
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -61,15 +63,6 @@ class TweakableTemplate extends Template {
     reverseMode = numTweaker(_v, reverseMode);
     return reverseMode;
   }
-
-  // public boolean toggleLoop(){
-  //   looper = !looper;
-  //   return looper;
-  // }
-
-  // public void setLooper(boolean _b){
-  //   looper = _b;
-  // }
 
   public int setAnimationMode(int _v) {
     animationMode = numTweaker(_v, animationMode);
@@ -123,7 +116,7 @@ class TweakableTemplate extends Template {
 
   public int setStrokeWidth(int _v) {
     strokeWidth = numTweaker(_v, strokeWidth);
-    if(strokeWidth <= 0) strokeWidth = 1; // use colorMode 0 for no stroke #p3
+    if(strokeWidth <= 0) strokeWidth = 1;
     return strokeWidth;
   }
 

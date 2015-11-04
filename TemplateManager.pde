@@ -43,7 +43,6 @@ class TemplateManager{
     groupManager = _gm;
   }
 
-
   private void init() {
     templates = new ArrayList();
     for (int i = 0; i < N_TEMPLATES; i++) {
@@ -121,7 +120,6 @@ class TemplateManager{
 
     // set size as per scalar
   public RenderableTemplate eventFactory(TweakableTemplate _te, SegmentGroup _sg){
-    //_te.launch();
     RenderableTemplate _rt = new KillableTemplate(_te, _sg);
     ((KillableTemplate) _rt).setOffset(sync.getLerp(_rt.getBeatDivider()));
     return _rt;
@@ -143,11 +141,12 @@ class TemplateManager{
 
   public void trigger(TweakableTemplate _tp){
     if(_tp == null) return;
+    _tp.launch(); // increments the launchCount
     // get groups with template
     ArrayList<SegmentGroup> _groups = groupManager.getGroups(_tp);
     if(_groups.size() > 0){
+      println(_groups.size());
       for(SegmentGroup _sg : _groups){
-        //print(_sg.getID()+", ");
         eventList.add(eventFactory(_tp, _sg));
       }
     }

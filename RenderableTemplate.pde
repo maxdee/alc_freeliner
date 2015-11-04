@@ -324,11 +324,12 @@ class KillableTemplate extends RenderableTemplate{
 		beatCount = -1;
 		doRender = true; // remove?
 		toKill = false;
+		println("From constructor : "+launchCount+" "+this);
 	}
 
 	public void copy(TweakableTemplate _te){
 		super.copy(_te);
-		//launchCount = _te.getLaunchCount();
+		launchCount = _te.getLaunchCount();
 	}
 
 	public void setOffset(float _o){
@@ -364,9 +365,9 @@ class KillableTemplate extends RenderableTemplate{
 		return toKill;
 	}
 
-	// public int getBeatCount(){
- // 		return launchCount;
- // 	}
+	public int getBeatCount(){
+ 		return launchCount;
+ 	}
  // public final float getUnitInterval(){
  //  println(beatCount+"  "+randomValue+"  "+largeRandom);
  //  return unitInterval;
