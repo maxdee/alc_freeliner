@@ -45,4 +45,7 @@ class FreelinerLED extends FreeLiner{
 	public void toggleExtraGraphics(){
 		showLEDmap = !showLEDmap;
 	}
+	public FreeLEDing getLEDsystem(){
+		return freeLED;
+	}
 }

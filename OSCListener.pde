@@ -95,6 +95,20 @@ class OSClistener implements OscEventListener{
         else if(rel == 0) freeliner.getKeyboard().processRelease(k, kc);
       }
     }
+    else if(theOscMessage.checkAddrPattern("/freeliner/lightdimming")){
+      if(freeliner instanceof alc_freeliner.FreelinerLED){
+        FreeLEDing led = ((FreelinerLED)freeliner).getLEDsystem();
+        if(led == null) return;
+        if(theOscMessage.checkTypetag("fff")){
+          led.setRGBbrightness(theOscMessage.get(0).floatValue(),
+                               theOscMessage.get(1).floatValue(),
+                               theOscMessage.get(2).floatValue());
+        }
+        else if(theOscMessage.checkTypetag("f")){
+          led.setBrightness(theOscMessage.get(0).floatValue());
+        }
+      }
+    }
   }
 
   void setUserPallette(int _i, color _c){

@@ -26,9 +26,26 @@ class FreeLEDing {
   // 1.0 of brightness
   float brightness;
   String ledMapFile;
+
+  //dimmers
+  float redDimmer = 1.0;
+  float greenDimmer = 1.0;
+  float blueDimmer = 1.0;
+
+
+
+  // gamma correction
+  boolean correctGamma = true;
+  int[] gammatable = new int[256];
+  float gamma = 3.2; // 3.2 seems to be nice
+
   public FreeLEDing(){
     leds = new ArrayList();
     ledMap = createGraphics(width, height); //switch to P2D
+    // init gammatable
+    for (int i=0; i < 256; i++) {
+      gammatable[i] = (int)(pow((float)i / 255.0, gamma) * 255.0 + 0.5);
+    }
   }
 
   // override to send data to a LED system
@@ -136,7 +153,16 @@ class FreeLEDing {
   }
 
   public void setBrightness(float _f){
-    brightness = _f;
+    _f = constrain(_f, 0.0, 1.0);
+    redDimmer = _f;
+    greenDimmer = _f;
+    blueDimmer = _f;
+  }
+
+  public void setRGBbrightness(float _r, float _g, float _blue){
+    redDimmer = constrain(_r, 0.0, 1.0);
+    greenDimmer = constrain(_r, 0.0, 1.0);
+    blueDimmer = constrain(_r, 0.0, 1.0);
   }
 }
 
@@ -216,7 +242,12 @@ class FastLEDing extends FreeLEDing {
     delay(100);
     port.write('?');
     delay(100);
-    ledCount = Integer.parseInt(getMessage());
+    try{
+      ledCount = Integer.parseInt(getMessage());
+    } catch (Exception e){
+      println("Could not get LED count");
+      exit();
+    }
     packetSize = (ledCount*3)+1;
 
     println("Connected to "+_port+" with "+ledCount+" LEDs");
@@ -228,20 +259,31 @@ class FastLEDing extends FreeLEDing {
     ledData[0] = '*';
     for(int i = 1; i < packetSize; i++) ledData[i] = byte(0);
 
+    byte red = 0;
+    byte green = 0;
+    byte blue = 0;
+    int cutoff = 3;
     for(RGBled led : leds){
       int adr = led.getIndex();
-      ledCount = 42; // idk whats up
+      println(ledCount);
+      if(ledCount != 142) ledCount = 142;
+      //ledCount = 42; // idk whats up
       if(adr < ledCount){
+        red = byte(led.getRed() * redDimmer);
+        green = byte(led.getGreen() * greenDimmer);
+        blue = byte(led.getBlue() * blueDimmer);
+
+        red = byte(correctGamma ?  red : gammatable[red]);
+        green = byte(correctGamma ?  green : gammatable[green]);
+        blue = byte(correctGamma ?  blue : gammatable[blue]);
         adr = (adr*3)+1;
-        if ((char)led.getRed()>5) ledData[adr] = led.getRed(); else ledData[adr] = 0;
-        if ((char)led.getGreen()>5) ledData[adr+1] = led.getGreen(); else ledData[adr+1] = 0;
-        if ((char)led.getBlue()>5) ledData[adr+2] = led.getBlue(); else ledData[adr+2] = 0;
-        // ledData[adr] = led.getRed();
-        // ledData[adr+1] = led.getGreen();
-        // ledData[adr+2] = led.getBlue();
+        if ((char)red > cutoff) ledData[adr] = red; else ledData[adr] = 0;
+        if ((char)green > cutoff) ledData[adr+1] = green ; else ledData[adr+1] = 0;
+        if ((char)blue > cutoff) ledData[adr+2] = blue; else ledData[adr+2] = 0;
       }
     }
     port.write(ledData);
+    //println(t+" "+getMessage());
   }
 
   public String getMessage(){
