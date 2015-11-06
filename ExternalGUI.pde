@@ -23,6 +23,8 @@ public class ExternalGUI extends PApplet {
   // gui behavioral variables
   boolean relayKeys = true;
 
+  final int WIDTH = 1000;
+  final int HEIGHT = 400;
   // gui Items
   ArrayList<Widget> widgets;
   Widget selectedWidget;
@@ -37,9 +39,10 @@ public class ExternalGUI extends PApplet {
     cursor = new PVector(0,0);
     widgets = new ArrayList();
     // InfoLine is the same info the regular GUI shows
-    widgets.add(new InfoLine(new PVector(0,0), new PVector(width, 20), freeliner.getGui()));
+    widgets.add(new InfoLine(new PVector(0,0), new PVector(WIDTH, 20), freeliner.getGui()));
     widgets.add(new Toggle(new PVector(100,100), new PVector(20,20)));
     widgets.add(new Fader(new PVector(100,125), new PVector(100,20)));
+    widgets.add(new SequenceGUI(new PVector(0, HEIGHT - 150), new PVector(WIDTH, 150), freeliner.getTemplateManager().getSynchroniser()));
     selectedWidget = null;
   }
 
@@ -248,6 +251,7 @@ class InfoLine extends Widget {
   }
 
   public void show(PGraphics _canvas){
+    if(!active) return;
     _canvas.textSize(txtSize);
     String[] _info = reverse(flGui.getAllInfo());
     String _txt = "";
@@ -257,6 +261,55 @@ class InfoLine extends Widget {
   }
 }
 
+
+// display the sequences
+class SequenceGUI extends Widget {
+  int txtSize = 30;
+  int inset = 2;
+  SequenceSync sequencer;
+  public SequenceGUI(PVector _pos, PVector _sz, SequenceSync _seq){
+    super(_pos, _sz);
+    //txtSize = int(_sz.y);
+    sequencer = _seq;
+    active = true;
+  }
+
+  public void show(PGraphics _canvas){
+    if(!active) return;
+    int _index = 0;
+    int _stepSize = int(size.x/ 16.0);
+    _canvas.textSize(30);
+    for(TemplateList _tl : sequencer.getStepLists()){
+      _canvas.pushMatrix();
+      _canvas.translate(_stepSize * _index, pos.y);
+      if(_index == sequencer.getStep()) _canvas.fill(hoverColor);
+      else _canvas.fill(bgColor);
+      _canvas.stroke(0);
+      _canvas.strokeWeight(1);
+      _canvas.rect(0, 0, _stepSize, size.y);
+      _canvas.noStroke();
+      if(_tl == sequencer.getStepToEdit()){
+        _canvas.fill(frontColor);
+        _canvas.rect(inset, inset, _stepSize-(2*inset), size.y-(2*inset));
+      }
+      _canvas.rotate(HALF_PI);
+      _canvas.fill(255);
+      _canvas.text(_tl.getTags(),inset*4,-inset*4);
+      _canvas.popMatrix();
+      _index++;
+
+    }
+  }
+
+
+}
+
+  //   String[] _info = reverse(flGui.getAllInfo());
+  //   String _txt = "";
+  //   for(String str : _info) _txt += str+"  ";
+  //   _canvas.fill(255);
+  //   _canvas.text(_txt, pos.x, pos.y+txtSize);
+  // }
 
 
 

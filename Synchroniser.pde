@@ -174,6 +174,10 @@ class SequenceSync extends Synchroniser{
     else return null;
   }
 
+  public TemplateList[] getStepLists(){
+    return lists;
+  }
+
   public int getStep(){
     return step;
   }

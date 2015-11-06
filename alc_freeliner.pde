@@ -103,8 +103,8 @@ void setup() {
   splash();
 
   // pick your flavour of freeliner
-  //freeliner = new FreeLiner(this);
-  freeliner = new FreelinerLED(this, "groups.xml");
+  freeliner = new FreeLiner(this);
+  //freeliner = new FreelinerLED(this, "groups.xml");
   //freeliner = new FreelinerSyphon(this);
 
   //osc
