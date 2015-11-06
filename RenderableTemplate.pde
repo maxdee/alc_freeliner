@@ -324,7 +324,6 @@ class KillableTemplate extends RenderableTemplate{
 		beatCount = -1;
 		doRender = true; // remove?
 		toKill = false;
-		println("From constructor : "+launchCount+" "+this);
 	}
 
 	public void copy(TweakableTemplate _te){

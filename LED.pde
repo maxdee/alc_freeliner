@@ -265,7 +265,6 @@ class FastLEDing extends FreeLEDing {
     int cutoff = 3;
     for(RGBled led : leds){
       int adr = led.getIndex();
-      println(ledCount);
       if(ledCount != 142) ledCount = 142;
       //ledCount = 42; // idk whats up
       if(adr < ledCount){

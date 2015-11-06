@@ -357,4 +357,8 @@ class TemplateManager{
     return templateList;
   }
 
+  public ArrayList<TweakableTemplate> getTemplates(){
+    return templates;
+  }
+
 }

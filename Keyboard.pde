@@ -438,10 +438,17 @@ class Keyboard implements FreelinerConfig{
    * @param int value to set
    */
   public void oscDistribute(String _tags, char _k, int _n){
-    for(int i = 0; i < _tags.length(); i++){
-      TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
-      if(_rt != null){
-        rendererDispatch(_rt, _k, _n, false);
+    if(_tags.charAt(0) == '*'){
+      for(TweakableTemplate _tw : templateManager.getTemplates()){
+        if( _tw != null) rendererDispatch(_tw, _k, _n, false);
+      }
+    }
+    else {
+      for(int i = 0; i < _tags.length(); i++){
+        TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
+        if(_rt != null){
+          rendererDispatch(_rt, _k, _n, false);
+        }
       }
     }
   }

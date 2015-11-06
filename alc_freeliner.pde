@@ -29,7 +29,8 @@ final String OSC_OUT_IP = "127.0.0.1";
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
   // set the resolution, or fullscreen and display
-  size(1024, 768, P2D);
+  size(1200, 431, P2D);
+  //size(1024, 768, P2D);
   //fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   //orientation(LANDSCAPE);
@@ -80,7 +81,7 @@ OscP5 oscP5;
 NetAddress toPDpatch;
 OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
-ExternalGUI flg = null; // set specific key to init gui
+ExternalGUI externalGUI = null; // set specific key to init gui
 boolean runGui = false;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -113,6 +114,7 @@ void setup() {
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
+  // perhaps use -> PApplet.platform == MACOSX
 
   if(runGui) launchGUI();
 }
@@ -132,12 +134,16 @@ void splash(){
 
 // external GUI launcher
 void launchGUI(){
-  if(flg != null) return;
-  flg = new ExternalGUI(freeliner);
+  if(externalGUI != null) return;
+  externalGUI = new ExternalGUI(freeliner);
   String[] args = {"Freeliner GUI", "--display=1"};
-  PApplet.runSketch(args, flg);
-  flg.loop();
+  PApplet.runSketch(args, externalGUI);
+  externalGUI.loop();
 }
+// void closeGUI(){
+//   if(externalGUI != null) return;
+//   PApplet.stopSketch
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

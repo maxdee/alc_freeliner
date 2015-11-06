@@ -28,6 +28,7 @@ class TemplateRenderer implements FreelinerConfig{
 
   //graphics for rendering
   PGraphics canvas;
+  //PImage tomap;
 
   //draw a solid or transparent
   boolean trails;
@@ -47,6 +48,9 @@ class TemplateRenderer implements FreelinerConfig{
     canvas.smooth(1);
     canvas.strokeCap(STROKE_CAP);
     canvas.strokeJoin(STROKE_JOIN);
+
+    //backgroundImgae
+    //tomap = loadImage("userdata/klangderp_led.png");
 
     // init variables
     trails = false;
@@ -101,6 +105,7 @@ class TemplateRenderer implements FreelinerConfig{
     // either clear or fade the last frame.
     if(trails) alphaBG(canvas, trailmix);
     else canvas.clear();
+    //canvas.image(tomap, 0,0);
 	}
 
   public void render(ArrayList<RenderableTemplate> _toRender){
