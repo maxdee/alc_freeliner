@@ -6,7 +6,7 @@ class Repetition {
 	Easing[] easers;
 	final int EASER_COUNT = 10;
 	Reverse[] reversers;
-	final int REVERSER_COUNT = 4;
+	final int REVERSER_COUNT = 5;
 
 	float rev = 1.0;
 
@@ -28,6 +28,7 @@ class Repetition {
 		reversers[1] = new Reverse();
 		reversers[2] = new BackForth();
 		reversers[3] = new TwoTwoReverse();
+		reversers[4] = new RandomReverse();
 
 	}
 
