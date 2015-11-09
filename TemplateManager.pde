@@ -307,8 +307,10 @@ class TemplateManager{
       // return a brush scaled to the BASE_SIZE
       float baseSize = (float)new PointBrush().BASE_SIZE;
       PShape cust = cloneShape(sourceShape, baseSize/(maxX+abs(minX)), new PVector(0,0));
-      for(TweakableTemplate temp : temps)
-        temp.setCustomShape(cust);
+      if(temps != null)
+        for(TweakableTemplate temp : temps)
+          if(temp != null)
+            temp.setCustomShape(cust);
     }
   }
 
