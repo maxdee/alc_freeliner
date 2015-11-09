@@ -7,7 +7,6 @@
  * @since     2014-12-01
  */
 
-
 /**
  * Manage a keyboard
  * <p>
@@ -252,6 +251,8 @@ class Keyboard implements FreelinerConfig{
     ctrled = false;
     shifted = false;
     editKey = ' ';
+    gui.setKeyString("unselect");
+    gui.setValueGiven(" ");
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
