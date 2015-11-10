@@ -323,6 +323,8 @@ class Keyboard implements FreelinerConfig{
     ctrled = false;
     shifted = false;
     editKey = ' ';
+    gui.setKeyString("____");
+    gui.setValueGiven("_");
   }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

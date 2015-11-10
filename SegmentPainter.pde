@@ -263,6 +263,23 @@ class CenterBrusher extends BrushPutter{
 	}
 }
 
+class OppositeBrusher extends BrushPutter{
+
+	public OppositeBrusher(){}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		boolean _dir = _event.getDirection();
+		float _lerp = _event.getLerp();
+		if(_event.getSegmentIndex() % 2 == 1){
+			_dir = !_dir;
+			_lerp = -_lerp+1;
+		}
+		putShape(_seg.getBrushPos(_lerp), _seg.getAngle(_dir) + _event.getAngleMod());
+	}
+}
+
+
 class CircularBrusher extends BrushPutter{
 
 	public CircularBrusher(){}

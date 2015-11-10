@@ -133,6 +133,13 @@ class GroupManager{
     else return _pos;
   }
 
+
+
+  public void unSnap(){
+    snappedList.clear();
+    snappedIndex = -1;
+    snappedSegment = null;
+  }
 /**
  * Nudge all PVectors of the snappedList.
  * If the snapped list is empty and we are focused on a group, nudge the segmentStart.

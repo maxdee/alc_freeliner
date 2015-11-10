@@ -27,7 +27,7 @@
 /**
  * Manages the mouse input, the cursor movement and the clicks
  * <p>
- * 
+ *
  *
  */
 class Mouse{
@@ -41,7 +41,7 @@ class Mouse{
 
   boolean mouseEnabled;
   boolean snapping;
-  boolean snapped;  
+  boolean snapped;
   boolean useFixedAngle;
   boolean useFixedLength;
   boolean invertMouse;
@@ -111,7 +111,7 @@ class Mouse{
    * @param int mouseButton
    * @param PVector position
    */
-  void fakeMouse(int mb, PVector p) { 
+  void fakeMouse(int mb, PVector p) {
     position = p.get();
     //mousePress(mb);
   }
@@ -123,14 +123,14 @@ class Mouse{
    * @param int Y axis (mouseY)
    */
   public void move(int _x, int _y) {
-    hasMoved = true;  
+    hasMoved = true;
     mousePos.set(_x, _y);
-    if (mouseEnabled) { 
-      if(invertMouse) mousePos.set(abs(width - _x), mousePos.y); 
+    if (mouseEnabled) {
+      if(invertMouse) mousePos.set(abs(width - _x), mousePos.y);
       if (grid) position = gridMouse(mousePos, gridSize);
       else if (useFixedLength) position = constrainMouse(mousePos, previousPosition, lineLenght);
       else if (keyboard.isCtrled()) position = featherMouse(mousePos, mouseOrigin, 0.2);
-      else if (snapping) position = snapMouse(mousePos); 
+      else if (snapping) position = snapMouse(mousePos);
       else position = mousePos.get();
     }
     //gui.resetTimeOut();
@@ -157,7 +157,7 @@ class Mouse{
 
   /**
    * Scroll wheel input, currently unused, oooooh possibilities :)
-   * 
+   *
    * @param int positive or negative value depending on direction
    */
   public void wheeled(int _n) {
@@ -177,7 +177,7 @@ class Mouse{
    * @param PVector of mouse position
    * @param int size of grid
    * @return PVector of nearest intersection to position provided
-   */  
+   */
   public PVector gridMouse(PVector _pos, int _grid){
     return new PVector(round(_pos.x/_grid)*_grid, round(_pos.y/_grid)*_grid);
   }
@@ -185,15 +185,15 @@ class Mouse{
   /**
    * constrain mouse to fixed length and optionaly at an angle of 60deg
    * <p>
-   * This is usefull when aproximating curves, all segments will be of same length. 
+   * This is usefull when aproximating curves, all segments will be of same length.
    * Constraining angle allows to create fun geometry, for VJ like visuals
    *
    * @param PVector of mouse position
    * @param PVector of the previous place clicked
    * @return PVector constrained to length and possibly angle
-   */  
+   */
   public PVector constrainMouse(PVector _pos, PVector _prev, int _len){
-    
+
     float ang = PVector.sub(_prev, _pos).heading()+PI;
     if (useFixedAngle) ang = radians(int(degrees(ang)/lineAngle)*lineAngle);
     return new PVector((cos(ang)*_len)+_prev.x, (sin(ang)*_len)+_prev.y, 0);
@@ -205,7 +205,7 @@ class Mouse{
    * @param PVector of mouse position
    * @param PVector of where the mouse when ctrl was pressed.
    * @return PVector feathered from origin
-   */  
+   */
   public PVector featherMouse(PVector _pos, PVector _origin, float _sensitivity){
     PVector fthr = PVector.mult(PVector.sub(_pos, _origin), _sensitivity);
     return PVector.add(_origin, fthr);
@@ -217,7 +217,7 @@ class Mouse{
    *
    * @param PVector of mouse position
    * @return PVector of snapped location, or if it did not snap, the position provided
-   */  
+   */
   public PVector snapMouse(PVector _pos){
     PVector snap_ = groupManager.snap(_pos);
     if(snap_ == _pos) snapped = false;
@@ -229,7 +229,7 @@ class Mouse{
   /**
    * Move the cursor around with arrow keys, to a greater amount if shift is pressed.
    *
-   */  
+   */
   private void positionUp() {
     if (keyboard.isShifted()) position.y -= 10;
     else position.y--;
@@ -296,6 +296,7 @@ class Mouse{
 
   public boolean toggleSnapping(){
     snapping = !snapping;
+    if(!snapping) groupManager.unSnap();
     return snapping;
   }
 
@@ -308,7 +309,7 @@ class Mouse{
     return gridSize;
   }
   private boolean toggleGrid() {
-    grid = !grid;   
+    grid = !grid;
     return grid;
   }
 
@@ -338,7 +339,7 @@ class Mouse{
 
 
   public boolean hasMoved(){
-    if(!hasMoved) return false; 
+    if(!hasMoved) return false;
     hasMoved = false;
     return true;
   }

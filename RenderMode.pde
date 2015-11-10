@@ -64,7 +64,7 @@ class PerSegment extends RenderMode{
 // Place brushes on segments
 class BrushSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
-  final int PAINTER_COUNT = 6;
+  final int PAINTER_COUNT = 7;
 
   public BrushSegment(){
   	super();
@@ -74,7 +74,8 @@ class BrushSegment extends PerSegment{
     segmentPainters[2] = new SpiralBrusher();
     segmentPainters[3] = new InShapeBrusher();
     segmentPainters[4] = new CenterBrusher();
-    segmentPainters[5] = new CircularBrusher();
+		segmentPainters[5] = new OppositeBrusher();
+    segmentPainters[6] = new CircularBrusher();
   }
 	public SegmentPainter getPainter(int _index){
 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
