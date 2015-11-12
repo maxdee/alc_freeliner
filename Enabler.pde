@@ -33,6 +33,7 @@ class Triggerable extends Enabler{
 	}
 }
 
+// something for triggerable but not from the seq
 
 
 class RandomEnabler extends Enabler{

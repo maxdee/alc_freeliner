@@ -124,7 +124,7 @@ class TemplateRenderer implements FreelinerConfig{
     // save frame if recording
     if(record){
       String fn = String.format("%06d", frameCount);
-      canvas.save("capture/clip_"+clipCount+"/frame-"+fn+".tif");
+      canvas.save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
       frameCount++;
     }
   }
