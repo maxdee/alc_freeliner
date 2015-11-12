@@ -52,7 +52,8 @@ class FunLine extends LinePainter {
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), _seg.getStrokePos(event.getLerp()));
+		PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
+		vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), pos);//_seg.getStrokePos(event.getLerp()));
 	}
 }
 
@@ -192,6 +193,12 @@ class BrushPutter extends SegmentPainter{
 		//if(event.doUpdateBrush()) event.setBrushShape(getBrush(event.getBrushMode()).getShape(event));
 	}
 
+	public float getAngle(Segment _seg, RenderableTemplate _event){
+		float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
+		if(_event.getDirection()) ang += PI;
+		return ang + _event.getAngleMod();
+	}
+
 	// regular putShape
 	public void putShape(PVector _p, float _a){
 		PShape shape_;
@@ -200,7 +207,7 @@ class BrushPutter extends SegmentPainter{
     applyStyle(shape_);
     canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
-    canvas.rotate(_a+ HALF_PI +event.getAngleMod());
+    canvas.rotate(_a+ HALF_PI);// +event.getAngleMod());
     canvas.shape(shape_);
 		canvas.popMatrix();
 	}
@@ -214,7 +221,7 @@ class SimpleBrusher extends BrushPutter{
 		super.paintSegment(_seg, _event);
 		//putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
 		PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
-		putShape(pos, _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
+		putShape(pos, getAngle(_seg, _event));
 	}
 }
 
