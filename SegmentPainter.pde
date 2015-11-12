@@ -1,3 +1,12 @@
+/**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.3
+ * @since     2014-12-01
+ */
+
 
 // base class
 class SegmentPainter extends Painter{
@@ -203,7 +212,9 @@ class SimpleBrusher extends BrushPutter{
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
+		//putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
+		PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
+		putShape(pos, _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
 	}
 }
 

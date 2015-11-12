@@ -22,6 +22,8 @@ class Template{
 	int segmentMode;
 	// different "animations" of a rendering style
 	int animationMode;
+	// how to extract position from a segment
+	int interpolateMode;
 	// Colorizer mode for stroke, 0 is noStroke()
 	int strokeMode;
 	// Colorizer mode for fill, 0 is noFill()
@@ -86,6 +88,7 @@ class Template{
 		renderMode = _tp.getRenderMode();
 		segmentMode = _tp.getSegmentMode();
 		animationMode = _tp.getAnimationMode();
+		interpolateMode = _tp.getInterpolateMode();
 		strokeMode = _tp.getStrokeMode();
 		fillMode = _tp.getFillMode();
 		rotationMode = _tp.getRotationMode();
@@ -111,6 +114,7 @@ class Template{
 		strokeAlpha = 255;
 		renderMode = 0;
 		animationMode = 0;
+		interpolateMode = 0;
 		strokeMode = 1;
 		fillMode = 1;
 		rotationMode = 0;
@@ -182,6 +186,10 @@ class Template{
 
 	public final int getAnimationMode(){
 		return animationMode;
+	}
+
+	public final int getInterpolateMode(){
+		return interpolateMode;
 	}
 
 	public final int getEasingMode(){

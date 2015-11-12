@@ -34,7 +34,7 @@ class Keyboard implements FreelinerConfig{
     "b    renderMode",
     "c    placeCenter",
     "d    setShape",
-    //"e    ???????",
+    "e    enterpolator",
     "f    fillColor",
     "g    grid/size",
     "h    easingMode",
@@ -45,7 +45,7 @@ class Keyboard implements FreelinerConfig{
     "m    breakLine",
     "n    newItem",
     "o    rotation",
-    //"p    probability",
+    //"p    posGetter",
     "q    strkColor",
     "r    polka",
     "s    size",
@@ -478,7 +478,7 @@ class Keyboard implements FreelinerConfig{
         else if (_k == 'k') valueGiven_ = str(_template.setStrokeAlpha(_n));
         else if (_k == 'l') valueGiven_ = str(_template.setFillAlpha(_n));
         else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));
-        //else if (_k == 'p') valueGiven_ = str(_template.setProbability(_n));
+        else if (_k == 'e') valueGiven_ = str(_template.setInterpolateMode(_n));
         else if (_k == 'q') valueGiven_ = str(_template.setStrokeMode(_n));
         else if (_k == 'r') valueGiven_ = str(_template.setRepetitionCount(_n));
         else if (_k == 's') valueGiven_ = str(_template.setBrushSize(_n));

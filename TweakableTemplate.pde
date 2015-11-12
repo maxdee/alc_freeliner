@@ -69,6 +69,11 @@ class TweakableTemplate extends Template {
     return animationMode;
   }
 
+  public int setInterpolateMode(int _v) {
+    interpolateMode = numTweaker(_v, interpolateMode);
+    return interpolateMode;
+  }
+
   public int setRenderMode(int _v) {
     renderMode = numTweaker(_v, renderMode);
     return renderMode;

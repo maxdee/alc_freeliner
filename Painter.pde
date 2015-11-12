@@ -1,3 +1,13 @@
+/**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.3
+ * @since     2014-12-01
+ */
+
+
 
 // Anything that has to do with rendering things with one segment
 // basic painter dosent know what to paint but knows what color
@@ -10,6 +20,9 @@ class Painter{
 	// Since we paint we need colors
 	Colorizer[] colorizers;
   final int COLORIZER_COUNT = 27;
+	Interpolator[] posGetters;
+	final int INTERPOLATOR_GETTER_COUNT = 2;
+
 
   PGraphics canvas;
 	String name = "Painter";
@@ -23,7 +36,16 @@ class Painter{
     event = _rt;
     canvas = event.getCanvas();
 		applyStyle(canvas);
+
+		posGetters = new Interpolator[INTERPOLATOR_GETTER_COUNT];
+		posGetters[0] = new Interpolator();
+		posGetters[1] = new CenterSender();
   }
+
+	public Interpolator getInterpolator(int _index){
+		if(_index >= INTERPOLATOR_GETTER_COUNT) _index = INTERPOLATOR_GETTER_COUNT - 1;
+		return posGetters[_index];
+	}
 
 	// color stuffs
 	public void initColorizers(){
