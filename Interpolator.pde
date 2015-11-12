@@ -8,8 +8,6 @@
  */
 
 // PositionGetters are responsible for fetching a position from a segment.
-
-
 class Interpolator{
 
   public Interpolator(){}
@@ -39,6 +37,9 @@ class Interpolator{
 }
 
 
+
+
+// front pointA to the center
 class CenterSender extends Interpolator{
 
   public CenterSender(){
@@ -49,10 +50,14 @@ class CenterSender extends Interpolator{
     if(_painter instanceof BrushPutter) return vecLerp(_seg.getBrushOffsetA(), _seg.getCenter(), _tp.getLerp());
     else return vecLerp(_seg.getStrokeOffsetA(), _seg.getCenter(), _tp.getLerp());
   }
+  public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
+    return atan2(_seg.getPointA().y - _seg.getCenter().y, _seg.getPointA().x - _seg.getCenter().x);
+  }
 }
 
-class CircularInterpolator extends Interpolator{
-  public CircularInterpolator(){
+// on a radius of segment pointA
+class RadiusInterpolator extends Interpolator{
+  public RadiusInterpolator(){
     super();
   }
   // interpolate to center
@@ -67,7 +72,50 @@ class CircularInterpolator extends Interpolator{
     return pos;
   }
 
+
   public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
     return (_tp.getLerp()*TAU)+_seg.getAngle(true);
   }
+}
+
+// from the middle of a segments
+class DiameterInterpolator extends Interpolator{
+  public DiameterInterpolator(){
+    super();
+  }
+  // interpolate to center
+  public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
+	  float dist = 0;
+    if(_painter instanceof BrushPutter) dist = (_seg.getLength()-(_tp.getScaledBrushSize()/2.0))/2.0;
+    else dist = (_seg.getLength()-(_tp.getStrokeWeight()/2.0))/2.0;
+  	float ang = getAngle(_seg, _tp, _painter);
+
+  	PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
+  	pos.add(vecLerp(_seg.getPointA(), _seg.getPointB(), 0.5));
+    return pos;
+  }
+
+
+  public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
+    return (_tp.getLerp()*TAU)+_seg.getAngle(true);
+  }
+}
+
+class RandomInterpolator extends Interpolator{
+  public RandomInterpolator(){
+    super();
+  }
+  // interpolate to center
+  public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
+    PVector pos;
+    if(_painter instanceof BrushPutter) pos = _seg.getBrushPos(random(0,1));
+    else pos = _seg.getStrokePos(random(0,1));
+
+    return vecLerp(pos, _seg.getCenter(), random(0,1));
+  }
+
+  //
+  // public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
+  //   return random(TAU);
+  // }
 }

@@ -153,6 +153,7 @@ void launchGUI(){
 
 // do the things
 void draw() {
+  randomSeed(millis());
   background(0);
   if(doSplash) splash();
   freeliner.update();

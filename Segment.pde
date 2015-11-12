@@ -231,6 +231,7 @@ class Segment {
    * @return PVector offset of brushSize
    */
   public final PVector getBrushOffsetA(){
+    if(!centered) return pointA;
     return brushOffsetA;
   }
 
@@ -239,6 +240,7 @@ class Segment {
    * @return PVector offset of brushSize
    */
   public final PVector getBrushOffsetB(){
+    if(!centered) return pointB;
     return brushOffsetB;
   }
 

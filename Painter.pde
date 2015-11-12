@@ -21,7 +21,7 @@ class Painter{
 	Colorizer[] colorizers;
   final int COLORIZER_COUNT = 27;
 	Interpolator[] posGetters;
-	final int INTERPOLATOR_GETTER_COUNT = 3;
+	final int INTERPOLATOR_GETTER_COUNT = 5;
 
 
   PGraphics canvas;
@@ -40,12 +40,18 @@ class Painter{
 		posGetters = new Interpolator[INTERPOLATOR_GETTER_COUNT];
 		posGetters[0] = new Interpolator();
 		posGetters[1] = new CenterSender();
-		posGetters[2] = new CircularInterpolator();
+		posGetters[2] = new RandomInterpolator();
+		posGetters[3] = new DiameterInterpolator();
+		posGetters[4] = new RadiusInterpolator();
   }
 
 	public Interpolator getInterpolator(int _index){
 		if(_index >= INTERPOLATOR_GETTER_COUNT) _index = INTERPOLATOR_GETTER_COUNT - 1;
 		return posGetters[_index];
+	}
+
+	public PVector getPosition(Segment _seg){
+		return getInterpolator(event.getInterpolateMode()).getPosition(_seg, event, this);
 	}
 
 	// color stuffs
