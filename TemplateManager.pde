@@ -145,7 +145,6 @@ class TemplateManager{
     // get groups with template
     ArrayList<SegmentGroup> _groups = groupManager.getGroups(_tp);
     if(_groups.size() > 0){
-      println(_groups.size());
       for(SegmentGroup _sg : _groups){
         eventList.add(eventFactory(_tp, _sg));
       }
@@ -161,13 +160,15 @@ class TemplateManager{
     eventList.add(eventFactory(_tp, _sg));
   }
 
-  // trigger a templateList
+  // trigger a templateList, in this case via the
   public void trigger(TemplateList _tl){
     if(_tl == null) return;
     ArrayList<TweakableTemplate> _tp = _tl.getAll();
     if(_tp == null) return;
     if(_tp.size() > 0){
-      for(TweakableTemplate tw : _tp) trigger(tw);
+      for(TweakableTemplate tw : _tp){
+        if(tw.getEnablerMode() != 3) trigger(tw); // check if is in the right enabler mode
+      }
     }
   }
 

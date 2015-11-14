@@ -24,7 +24,7 @@ class TemplateRenderer implements FreelinerConfig{
   final int REPEATER_COUNT = 4;
 
   Enabler[] enablers;
-  final int ENABLER_COUNT = 6;
+  final int ENABLER_COUNT = 7;
 
   //graphics for rendering
   PGraphics canvas;
@@ -81,9 +81,10 @@ class TemplateRenderer implements FreelinerConfig{
     enablers[0] = new Disabler();
     enablers[1] = new Enabler();
     enablers[2] = new Triggerable();
-    enablers[3] = new SweepingEnabler();
-    enablers[4] = new SwoopingEnabler();
-    enablers[5] = new RandomEnabler();
+    enablers[3] = new Triggerable();
+    enablers[4] = new SweepingEnabler();
+    enablers[5] = new SwoopingEnabler();
+    enablers[6] = new RandomEnabler();
 	}
 
   public RenderMode getRenderer(int _index){

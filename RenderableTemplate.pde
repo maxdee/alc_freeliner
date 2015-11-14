@@ -310,6 +310,7 @@ class KillableTemplate extends RenderableTemplate{
 
 	float unitIntervalOffset;
 	boolean toKill;
+
 	/*
 	 * Constructor
 	 * @param SegmentGroup in question
@@ -325,6 +326,7 @@ class KillableTemplate extends RenderableTemplate{
 		doRender = true; // remove?
 		toKill = false;
 	}
+
 
 	public void copy(TweakableTemplate _te){
 		super.copy(_te);
