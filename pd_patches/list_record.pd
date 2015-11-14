@@ -1,4 +1,4 @@
-#N canvas 422 108 747 526 10;
+#N canvas 420 104 747 526 10;
 #X obj 111 72 inlet;
 #X obj 111 93 route play rec;
 #X obj 243 72 inlet;
@@ -45,4 +45,3 @@
 #X connect 19 0 20 0;
 #X connect 19 0 21 1;
 #X connect 20 0 19 1;
-#X connect 21 0 22 0;
