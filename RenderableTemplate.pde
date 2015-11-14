@@ -125,7 +125,7 @@ class RenderableTemplate extends TweakableTemplate{
 		// this updates according to source template...
 		copy(sourceTemplate);
 		// find the scaled size, the brushSize of the source template may have changed
-		scaledBrushSize = brushSize * segmentGroup.getBrushScaler();
+		scaledBrushSize = brushSize * (BRUSH_SCALING ? segmentGroup.getBrushScaler() : 1.0);
 	}
 
 	public void setRawBeatCount(int _raw){
