@@ -103,7 +103,7 @@ class Maypole extends LinePainter {
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		vecLine(event.getCanvas(), _seg.getCenter(), _seg.getStrokePos(event.getLerp()));
+		vecLine(event.getCanvas(), _seg.getCenter(), getPosition(_seg));
 	}
 }
 

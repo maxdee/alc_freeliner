@@ -16,7 +16,6 @@ class Filler extends GroupPainter{
 
 	public void paintGroup(RenderableTemplate _rt){
 		super.paintGroup(_rt);
-
 		float angle = _rt.getAngleMod();  //getRotationMode()*(_rt.getLerp()*TWO_PI);
 		float lorp = 1-_rt.getLerp();
 		lorp*=lorp;
@@ -79,9 +78,9 @@ class NoiseShape extends GroupPainter{
 		PVector pos = new PVector(0,0);
 		PVector pa = new PVector(0,0);
 		boolean first = true;
-		for(Segment seg : event.getSegmentGroup().getSegments()){
-			pos = seg.getPointA().get();
-			pos = vecLerp(pos, center, random(100)/100);
+		for(Segment _seg : event.getSegmentGroup().getSegments()){
+			//pos = _seg.getPointA().get();
+			pos = getPosition(_seg);//vecLerp(pos, center, random(100)/100);
 			pos.sub(center);
 			if(first){
 				first = false;
@@ -95,7 +94,7 @@ class NoiseShape extends GroupPainter{
 		canvas.pushMatrix();
 		applyStyle(shpe);
 		canvas.translate(center.x, center.y);
-		canvas.scale(lorp);
+		//canvas.scale(lorp);
 		canvas.rotate(angle);
 		canvas.shape(shpe);
 		canvas.popMatrix();

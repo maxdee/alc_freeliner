@@ -21,7 +21,7 @@ class Painter{
 	Colorizer[] colorizers;
   final int COLORIZER_COUNT = 27;
 	Interpolator[] posGetters;
-	final int INTERPOLATOR_GETTER_COUNT = 5;
+	final int INTERPOLATOR_GETTER_COUNT = 7;
 
 
   PGraphics canvas;
@@ -40,9 +40,11 @@ class Painter{
 		posGetters = new Interpolator[INTERPOLATOR_GETTER_COUNT];
 		posGetters[0] = new Interpolator();
 		posGetters[1] = new CenterSender();
-		posGetters[2] = new RandomInterpolator();
-		posGetters[3] = new DiameterInterpolator();
-		posGetters[4] = new RadiusInterpolator();
+		posGetters[2] = new HalfWayInterpolator();
+		posGetters[3] = new RandomExpandingInterpolator();
+		posGetters[4] = new RandomInterpolator();
+		posGetters[5] = new DiameterInterpolator();
+		posGetters[6] = new RadiusInterpolator();
   }
 
 	public Interpolator getInterpolator(int _index){
