@@ -190,6 +190,22 @@ class Strobe extends Colorizer {
 }
 
 /**
+ * Constantly changing random color
+ */
+class Flash extends Colorizer {
+	public Flash(){
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+		if(_event.getUnitInterval()<0.01) return color(255, 255);
+		else if(_event.getUnitInterval()>0.1) return color(0,0);
+		else return color(0, 255);
+	}
+}
+
+
+
+/**
  * Fade through the HUE
  */
 class HSBFade extends Colorizer {

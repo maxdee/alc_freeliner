@@ -19,9 +19,9 @@ class Painter{
 
 	// Since we paint we need colors
 	Colorizer[] colorizers;
-  final int COLORIZER_COUNT = 27;
+  final int COLORIZER_COUNT = 28;
 	Interpolator[] posGetters;
-	final int INTERPOLATOR_GETTER_COUNT = 7;
+	final int INTERPOLATOR_GETTER_COUNT = 8;
 
 
   PGraphics canvas;
@@ -40,11 +40,12 @@ class Painter{
 		posGetters = new Interpolator[INTERPOLATOR_GETTER_COUNT];
 		posGetters[0] = new Interpolator();
 		posGetters[1] = new CenterSender();
-		posGetters[2] = new HalfWayInterpolator();
-		posGetters[3] = new RandomExpandingInterpolator();
-		posGetters[4] = new RandomInterpolator();
-		posGetters[5] = new DiameterInterpolator();
-		posGetters[6] = new RadiusInterpolator();
+		posGetters[2] = new CenterSender();
+		posGetters[3] = new HalfWayInterpolator();
+		posGetters[4] = new RandomExpandingInterpolator();
+		posGetters[5] = new RandomInterpolator();
+		posGetters[6] = new DiameterInterpolator();
+		posGetters[7] = new RadiusInterpolator();
   }
 
 	public Interpolator getInterpolator(int _index){
@@ -88,7 +89,8 @@ class Painter{
     colorizers[23] = new FlashyGray();
     colorizers[24] = new FlashyRandom();
     colorizers[25] = new Strobe();
-    colorizers[26] = new CustomColor();
+		colorizers[26] = new Flash();
+    colorizers[27] = new CustomColor();
 	}
 
   public Colorizer getColorizer(int _index){

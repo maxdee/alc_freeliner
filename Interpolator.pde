@@ -55,6 +55,8 @@ class CenterSender extends Interpolator{
   }
 }
 
+
+
 // front pointA to the center
 class HalfWayInterpolator extends Interpolator{
 
@@ -107,7 +109,7 @@ class DiameterInterpolator extends Interpolator{
   	float ang = getAngle(_seg, _tp, _painter);
 
   	PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
-  	pos.add(vecLerp(_seg.getPointA(), _seg.getPointB(), 0.5));
+  	pos.add(_seg.getMidPoint());
     return pos;
   }
 
@@ -155,3 +157,23 @@ class RandomExpandingInterpolator extends Interpolator{
   //   return random(TAU);
   // }
 }
+
+
+
+// // front midPoint to the center
+// class MiddleCenterSender extends Interpolator{
+//
+//   public MiddleCenterSender(){
+//     super();
+//   }
+//   // interpolate to center
+//   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
+//     PVector _pos;
+//     if(_painter instanceof BrushPutter) _pos = vecLerp(_seg.getBrushOffsetA(), _seg.getBrushOffsetB(), 0.5);
+//     else _pos = vecLerp(_seg.getStrokeOffsetA(), _seg.getStrokeOffsetB(), 0.5);
+//     return vecLerp(_pos, _seg.getCenter(), _tp.getLerp());
+//   }
+//   public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
+//     return atan2(_seg.getMidPoint().y - _seg.getCenter().y, _seg.getMidPoint().x - _seg.getCenter().x);
+//   }
+// }

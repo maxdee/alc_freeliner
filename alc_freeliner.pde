@@ -20,18 +20,18 @@
 final boolean INVERTED_COLOR = false;
 
 // UDP Port for incomming messages
-final int OSC_IN_PORT = 6666;
+final int OSC_IN_PORT = 6667;
 // UDP Port for outgoing sync message
 final int OSC_OUT_PORT = 6668;
 // IP address to send sync messages to
-final String OSC_OUT_IP = "192.168.0.141";
+final String OSC_OUT_IP = "127.0.0.1";
 
 // lovely new feature of p3! set your graphics preferences.
 void settings(){
   // set the resolution, or fullscreen and display
   //size(1200, 431, P2D);
-  size(1024, 768, P2D);
-  //fullScreen(P2D, 2);
+//size(1024, 768, P2D);
+fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   //orientation(LANDSCAPE);
   //pixelDensity(2);
