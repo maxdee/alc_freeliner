@@ -1,5 +1,13 @@
 interface FreelinerConfig{
 
+  // UDP Port for incomming messages
+  final int OSC_IN_PORT = 6667;
+  // UDP Port for outgoing sync message
+  final int OSC_OUT_PORT = 6668;
+  // IP address to send sync messages to
+  final String OSC_OUT_IP = "127.0.0.1";
+
+
   // GUI options
   final int CURSOR_SIZE = 20;
   final int CURSOR_GAP_SIZE = 4;
@@ -17,6 +25,8 @@ interface FreelinerConfig{
   final boolean BW_BEAMER = false;
   // If you are using a dual head setup
   final boolean DUAL_HEAD = false;//true;
+  // invert colors
+  final boolean INVERTED_COLOR = false;
 
   // Rendering options
   final color BACKGROUND_COLOR = #000000;
