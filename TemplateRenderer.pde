@@ -135,6 +135,8 @@ class TemplateRenderer implements FreelinerConfig{
    * @param RenderableTemplate to render.
    */
   public void renderTemplate(RenderableTemplate _rt){
+    if(_rt == null) return;
+    if(_rt.getSegmentGroup() == null) return;
     if(_rt.getSegmentGroup().isEmpty()) return;
     // push canvas to template
     _rt.setCanvas(canvas);
