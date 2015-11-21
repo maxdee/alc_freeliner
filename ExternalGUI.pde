@@ -10,23 +10,25 @@
 import processing.core.PApplet;
 import processing.core.PSurface;
 
-// thx to @codingjoe for leading me to this!
+/**
+ * ExternalGUI is a seperate PApplet launched by freeliner
+ */
 public class ExternalGUI extends PApplet {
 
   // reference to the freeliner instance to control
   FreeLiner freeliner;
-
   // canvas to draw to, is needed to be passed to objects that need to draw.
   PGraphics canvas;
   // mouse cursor
   PVector cursor;
-  // gui behavioral variables
+  // send keys from externalGUI to freeliner keyboard input
   boolean relayKeys = true;
-
+  // externalGUI size, make sure you also change them in the settings() method
   final int WIDTH = 1000;
   final int HEIGHT = 400;
-  // gui Items
+  // ArrayList of widgets
   ArrayList<Widget> widgets;
+  // the selected widget, aka the one that the cursor hovers
   Widget selectedWidget;
 
   /**
@@ -51,7 +53,8 @@ public class ExternalGUI extends PApplet {
   ///////     PApplet Basics
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-  // your traditional sketch setup function
+
+  // your traditional sketch settings function
   public void settings(){
     size(1000, 400, P2D);
     smooth(0);
