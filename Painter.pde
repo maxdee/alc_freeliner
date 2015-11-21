@@ -19,7 +19,7 @@ class Painter{
 
 	// Since we paint we need colors
 	Colorizer[] colorizers;
-  final int COLORIZER_COUNT = 28;
+  final int COLORIZER_COUNT = 29;
 	Interpolator[] posGetters;
 	final int INTERPOLATOR_GETTER_COUNT = 8;
 
@@ -90,7 +90,8 @@ class Painter{
     colorizers[24] = new FlashyRandom();
     colorizers[25] = new Strobe();
 		colorizers[26] = new Flash();
-    colorizers[27] = new CustomColor();
+		colorizers[27] = new JahColor();
+    colorizers[28] = new CustomColor();
 	}
 
   public Colorizer getColorizer(int _index){

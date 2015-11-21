@@ -131,6 +131,26 @@ class FlashyPrimaryColor extends PrimaryColor {
 /**
  * Per Repetition
  */
+class JahColor extends Colorizer {
+
+	color[] jah = {#CE000E,#E9FF00,#268E01};
+	final int JAH_COUNT = 3;
+	public JahColor(){
+
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % JAH_COUNT;
+		index %= JAH_COUNT;
+		if(index < 0) index = 0;
+		color c = jah[index];
+		return alphaMod(c , _alpha);
+	}
+}
+
+/**
+ * JahColor
+ */
 class RepetitionColor extends Colorizer {
 
 	public RepetitionColor(){
@@ -145,7 +165,6 @@ class RepetitionColor extends Colorizer {
 		return alphaMod(c , _alpha);
 	}
 }
-
 
 /**
  * Constantly changing random value gray

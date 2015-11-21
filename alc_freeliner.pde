@@ -7,8 +7,8 @@
  * @since     2014-12-01
  */
 
- import oscP5.*;
- import netP5.*;
+import oscP5.*;
+import netP5.*;
 
 /**
  * HELLO THERE! WELCOME to FREELINER
