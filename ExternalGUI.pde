@@ -113,25 +113,35 @@ public class ExternalGUI extends PApplet {
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
-///////     Gui items, like template selector, colorPicker, gui text! toggleable keyboard sender
+///////     Widgets! from scratch.
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-// basic class to make clickable object
+/**
+ * Basic widget class
+ */
 class Widget implements FreelinerConfig{
+  // position and size
   PVector pos;
   PVector size;
   // mouse position relative to widget 0,0
   PVector mouseDelta;
   // mouse XY 0.0 to 1.0
   PVector mouseFloat;
+  // if the mouse is over the widget
   boolean selected;
+  // enable disable widget
   boolean active;
+  // basic colors
   color bgColor = color(100);
   color hoverColor = color(200);
   color frontColor = color(255, 0, 0);
 
-
+  /**
+   * Constructor
+   * @param PVector position of top left corner of widget
+   * @param PVector widget dimentions
+   */
   public Widget(PVector _pos, PVector _sz){
     pos = _pos.get();
     size = _sz.get();
@@ -140,20 +150,10 @@ class Widget implements FreelinerConfig{
     active = true;
   }
 
-  // the update function should be called at first to give the mouse position.
-  public boolean update(PVector _cursor){
-    setCursor(_cursor);
-    if(!active) selected = false;
-    else selected = isOver();
-    return selected;
-  }
-
-  public void setCursor(PVector _cursor){
-    mouseDelta = _cursor.get().sub(pos);
-    mouseFloat.set(mouseDelta.x/size.x, mouseDelta.y/size.y);
-  }
-
-  // draw stuff here
+  /**
+   * Render the widget, draws the basic background and changes its color if widget selected.
+   * @param PGraphics canvas to draw on
+   */
   public void show(PGraphics _pg){
     if(!active) return;
     _pg.noStroke();
@@ -162,22 +162,56 @@ class Widget implements FreelinerConfig{
     _pg.rect(pos.x, pos.y, size.x, size.y);
   }
 
+  /**
+   * Update the widget
+   * @param PVector cursor position
+   * @return boolean cursor is over widget
+   */
+  public boolean update(PVector _cursor){
+    setCursor(_cursor);
+    if(!active) selected = false;
+    else selected = isOver();
+    return selected;
+  }
+
+  /**
+   * Update the cursor position, determin the mouseDelta and unit interval
+   * @param PVector cursor position
+   */
+  public void setCursor(PVector _cursor){
+    mouseDelta = _cursor.get().sub(pos);
+    mouseFloat.set(mouseDelta.x/size.x, mouseDelta.y/size.y);
+  }
+
+  /**
+   * Is mouse over widget
+   * @return boolean
+   */
   public boolean isOver(){
     return (mouseDelta.x > 0 && mouseDelta.y > 0) && (mouseDelta.x < size.x && mouseDelta.y < size.y);
   }
 
-  // redundant...
+  /**
+   * receive mouse press
+   * @param int mouse button
+   * @return boolean
+   */
   public void click(int _mb){
     if(selected) action(_mb);
   }
 
-  // here is where we process actions
+  /**
+   * where the action of the widget happens
+   * @param int mouse button
+   * @return boolean
+   */
   public void action(int _button){
     // you can use mouseFloat for info
   }
-  // public void setPos(PVector _pos){
-  //   pos = _pos.get();
-  // }
+
+  public void setPos(PVector _pos){
+    pos = _pos.get();
+  }
 
   public void setBackgroundColor(color _col){
     bgColor = _col;
@@ -190,14 +224,21 @@ class Widget implements FreelinerConfig{
   }
 }
 
+
+
+/**
+ * Basic toggle widget, subclass and inject things to control.
+ */
 class Toggle extends Widget {
   boolean value;
   color toggleCol = color(255,0,0);
   int inset = 2;
+
   public Toggle(PVector _pos, PVector _sz){
     super(_pos, _sz);
     value = false;
   }
+
   public void show(PGraphics _canvas){
     super.show(_canvas);
     if(active && value){
@@ -205,13 +246,15 @@ class Toggle extends Widget {
       _canvas.rect(pos.x+inset, pos.y+inset, size.x-(2*inset), size.y-(2*inset));
     }
   }
+
   public void action(int _button){
     value = !value;
   }
 }
 
-
-// simple fader class, needs to be bound to a freeliner param?
+/**
+ * Basic horizontal fader widget, subclass and inject things to control.
+ */
 class Fader extends Widget {
   float value;
   int inset = 2;
@@ -239,7 +282,10 @@ class Fader extends Widget {
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-// display GUI info compiled by the regular Freeliner GUI
+
+/**
+ * Widget to display GUI info compiled by the regular Freeliner GUI
+ */
 class InfoLine extends Widget {
   Gui flGui;
   int txtSize;
@@ -261,12 +307,14 @@ class InfoLine extends Widget {
   }
 }
 
-
-// display the sequences
+/**
+ * Widget to control the sequencer
+ */
 class SequenceGUI extends Widget {
   int txtSize = 30;
   int inset = 2;
   SequenceSync sequencer;
+
   public SequenceGUI(PVector _pos, PVector _sz, SequenceSync _seq){
     super(_pos, _sz);
     //txtSize = int(_sz.y);
@@ -300,24 +348,4 @@ class SequenceGUI extends Widget {
 
     }
   }
-
-
 }
-
-  //   String[] _info = reverse(flGui.getAllInfo());
-  //   String _txt = "";
-  //   for(String str : _info) _txt += str+"  ";
-  //   _canvas.fill(255);
-  //   _canvas.text(_txt, pos.x, pos.y+txtSize);
-  // }
-
-
-
-
-
-
-
-
-
-
-///

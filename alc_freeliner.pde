@@ -16,7 +16,6 @@
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(1200, 431, P2D);
   //size(1024, 768, P2D);
   fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
@@ -74,21 +73,20 @@ boolean runGui = false;
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
+
+  // pick your flavour of freeliner
+  freeliner = new FreeLiner(this);
+  //freeliner = new FreelinerSyphon(this);
+  //freeliner = new FreelinerLED(this, "groups.xml");
+
   surface.setResizable(false); // needs to scale other PGraphics
   surface.setTitle("a!Lc Freeliner");
-
   noCursor();
   hint(ENABLE_KEY_REPEAT); // usefull for performance
 
   // load fonts
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");
-  splash();
-
-  // pick your flavour of freeliner
-  freeliner = new FreeLiner(this);
-  //freeliner = new FreelinerSyphon(this);
-  //freeliner = new FreelinerLED(this, "groups.xml");
 
   //osc
   oscP5 = new OscP5(this, FreelinerConfig.OSC_IN_PORT);
@@ -98,7 +96,7 @@ void setup() {
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
   // perhaps use -> PApplet.platform == MACOSX
-
+  splash();
   if(runGui) launchGUI();
 }
 
