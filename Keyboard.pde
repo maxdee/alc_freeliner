@@ -53,7 +53,7 @@ class Keyboard implements FreelinerConfig{
     "v    segmentSelector",
     "w    strkWeigth",
     "x    beatMultiplier",
-    "y    trecers",
+    "y    tracers",
     //"z    ???????",
     ",    showTags",
     "/    showLines",
@@ -186,7 +186,6 @@ class Keyboard implements FreelinerConfig{
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
     else if (kc==BACKSPACE) groupManager.deleteSegment();
-    //else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
   }
 
 /**
