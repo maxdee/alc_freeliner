@@ -332,25 +332,6 @@ class Keyboard implements FreelinerConfig{
     enterText = false;
   }
 
-/**
- * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
- */
-  private void unSelectThings(){
-    if(!groupManager.isFocused() && !templateManager.isFocused()) gui.hide();
-    else {
-      templateManager.unSelect();
-      groupManager.unSelect();
-      gui.setTemplateString(" ");//templateManager.renderList.getString());
-      groupManager.setReferenceGroupTemplateList(null);
-    }
-    // This should fix some bugs.
-    alted = false;
-    ctrled = false;
-    shifted = false;
-    editKey = ' ';
-    gui.setKeyString("____");
-    gui.setValueGiven("_");
-  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Distribution of input to things
