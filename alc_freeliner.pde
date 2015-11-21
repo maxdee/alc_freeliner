@@ -10,38 +10,23 @@
  import oscP5.*;
  import netP5.*;
 
-////////////////////////////////////////////////////////////////////////////////////
-///////
-///////     OPTIONS! (more in FreelinerConfig.pde)
-///////
-////////////////////////////////////////////////////////////////////////////////////
-
-// invert colors
-final boolean INVERTED_COLOR = false;
-
-// UDP Port for incomming messages
-final int OSC_IN_PORT = 6667;
-// UDP Port for outgoing sync message
-final int OSC_OUT_PORT = 6668;
-// IP address to send sync messages to
-final String OSC_OUT_IP = "127.0.0.1";
-
-// lovely new feature of p3! set your graphics preferences.
+/**
+ * HELLO THERE! WELCOME to FREELINER
+ * Here are some settings. There are more settings in the Config.pde file.
+ */
 void settings(){
   // set the resolution, or fullscreen and display
   //size(1200, 431, P2D);
   //size(1024, 768, P2D);
   fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
-  //orientation(LANDSCAPE);
-  //pixelDensity(2);
   smooth();
-  //noSmooth();
-  //PJOGL.profile=1; // for syphon!?
 }
 
-// Your color pallette! customize it!
-// use hex value or color(0,100,200);
+/**
+ * Your color pallette! customize it!
+ * Use hex value or color(0,100,200);
+ */
 final color[] userPallet = {
                   #ffff00,
                   #ffad10,
@@ -58,8 +43,6 @@ final color[] userPallet = {
                 };
 
 final int PALLETTE_COUNT = 12;
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -93,7 +76,7 @@ boolean runGui = false;
 void setup() {
   surface.setResizable(false); // needs to scale other PGraphics
   surface.setTitle("a!Lc Freeliner");
-  //surface.setAlwaysOnTop(boolean);
+
   noCursor();
   hint(ENABLE_KEY_REPEAT); // usefull for performance
 
@@ -104,12 +87,12 @@ void setup() {
 
   // pick your flavour of freeliner
   freeliner = new FreeLiner(this);
-  //freeliner = new FreelinerLED(this, "groups.xml");
   //freeliner = new FreelinerSyphon(this);
+  //freeliner = new FreelinerLED(this, "groups.xml");
 
   //osc
-  oscP5 = new OscP5(this, OSC_IN_PORT);
-  toPDpatch = new NetAddress(OSC_OUT_IP, OSC_OUT_PORT);
+  oscP5 = new OscP5(this, FreelinerConfig.OSC_IN_PORT);
+  toPDpatch = new NetAddress(FreelinerConfig.OSC_OUT_IP, FreelinerConfig.OSC_OUT_PORT);
   oscP5.addListener(freeliner.osc);
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;

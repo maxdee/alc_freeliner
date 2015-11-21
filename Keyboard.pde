@@ -7,7 +7,6 @@
  * @since     2014-12-01
  */
 
-
 /**
  * Manage a keyboard
  * <p>
@@ -54,7 +53,7 @@ class Keyboard implements FreelinerConfig{
     "v    segmentSelector",
     "w    strkWeigth",
     "x    beatMultiplier",
-    "y    trecers",
+    "y    tracers",
     //"z    ???????",
     ",    showTags",
     "/    showLines",
@@ -252,6 +251,32 @@ class Keyboard implements FreelinerConfig{
     gui.setTemplateString(tl.getTags());
   }
 
+
+/**
+ * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
+ */
+  private void unSelectThings(){
+    if(!groupManager.isFocused() && !templateManager.isFocused()) gui.hide();
+    else {
+      templateManager.unSelect();
+      groupManager.unSelect();
+      gui.setTemplateString(" ");//templateManager.renderList.getString());
+      groupManager.setReferenceGroupTemplateList(null);
+    }
+    // This should fix some bugs.
+    alted = false;
+    ctrled = false;
+    shifted = false;
+    editKey = ' ';
+    gui.setKeyString("unselect");
+    gui.setValueGiven(" ");
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Interpretation
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
 //for some reason if you are holding ctrl or alt you get other keycodes
 /**

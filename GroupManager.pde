@@ -133,8 +133,6 @@ class GroupManager{
     else return _pos;
   }
 
-
-
   public void unSnap(){
     snappedList.clear();
     snappedIndex = -1;
