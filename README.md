@@ -1,8 +1,7 @@
 
 # alcFreeliner #
 
-The new v0.3 is for Processing 3. Needs testing and fixing on OSX.
-Check the processingTwo branch its still cool.
+The new v0.3 is for Processing 3.
 
 ### What is? ###
 
@@ -47,7 +46,7 @@ The cursor can snap to various stuff. When snapping to points you can nudge them
 
 ##### Toggle a template to groups with a template
 Essentially adds a other template of your choice to any group who has the first template on the list.
-Select two templates like `A` and `B`, press `ctrl-b`. All geometry that has `A` will now also have `B`. 
+Select two templates like `A` and `B`, press `ctrl-b`. All geometry that has `A` will now also have `B`.
 
 ##### Create a custom brush
 Make a new segment group, set its center. Add a rendering template (`shift + a-z`) then hit (`ctrl + d`). That template will now have a custom brush corresponding to that segment group. You can then remove that template from the group and or remove all the segments of the group.
