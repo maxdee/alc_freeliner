@@ -44,7 +44,7 @@ class Keyboard implements FreelinerConfig{
     "m    breakLine",
     "n    newItem",
     "o    rotation",
-    //"p    posGetter",
+    //"p    probability??",
     "q    strkColor",
     "r    polka",
     "s    size",

@@ -44,7 +44,10 @@ public class ExternalGUI extends PApplet {
     widgets.add(new InfoLine(new PVector(0,0), new PVector(WIDTH, 20), freeliner.getGui()));
     widgets.add(new Toggle(new PVector(100,100), new PVector(20,20)));
     widgets.add(new Fader(new PVector(100,125), new PVector(100,20)));
-    widgets.add(new SequenceGUI(new PVector(0, HEIGHT - 150), new PVector(WIDTH, 150), freeliner.getTemplateManager().getSynchroniser()));
+    widgets.add(new SequenceGUI(new PVector(0, HEIGHT - 150),
+                                new PVector(WIDTH, 150),
+                                freeliner.getTemplateManager().getSynchroniser(),
+                                freeliner.getTemplateManager().getTemplateList()));
     selectedWidget = null;
   }
 
@@ -137,8 +140,8 @@ class Widget implements FreelinerConfig{
   boolean active;
   // basic colors
   color bgColor = color(100);
-  color hoverColor = color(200);
-  color frontColor = color(255, 0, 0);
+  color hoverColor = color(150);
+  color frontColor = color(200,0,0);
 
   /**
    * Constructor
@@ -313,17 +316,102 @@ class InfoLine extends Widget {
 /**
  * Widget to control the sequencer
  */
+// class SequenceGUI extends Widget {
+//   int txtSize = 30;
+//   int inset = 2;
+//   SequencerStepWidget[] stepWidgets;
+//   SequenceSync sequencer;
+//   Widget selectedStep;
+//
+//   public SequenceGUI(PVector _pos, PVector _sz, SequenceSync _seq){
+//     super(_pos, _sz);
+//     //txtSize = int(_sz.y);
+//     sequencer = _seq;
+//     active = true;
+//     initStepWidgets();
+//     selectedStep = null;
+//   }
+//
+//   public void initStepWidgets(){
+//     int _stepSize = int(size.x/ SEQ_STEP_COUNT);
+//     stepWidgets = new SequencerStepWidget[SEQ_STEP_COUNT];
+//     for(int i = 0; i < SEQ_STEP_COUNT; i++){
+//       stepWidgets[i] = new SequencerStepWidget(new PVector(_stepSize * i, pos.y), new PVector(_stepSize, size.y), i);
+//     }
+//   }
+//
+//   // override update to send to subwdgites
+//   public boolean update(PVector _cursor){
+//     selectedStep = null;
+//     for(Widget wdg : stepWidgets){
+//       if(!mousePressed && wdg.update(_cursor)) selectedStep = wdg;
+//     }
+//     return selectedStep != null;
+//   }
+//   // override update to send to subwdgites
+//   public void click(int _mb){
+//     if(selectedStep != null) selectedStep.click(_mb);
+//   }
+//
+//   public void show(PGraphics _canvas){
+//     for(Widget wdg : stepWidgets){
+//       wdg.show(_canvas);
+//     }
+//   }
+// }
+//
+// // sub widget!
+// class SequencerStepWidget extends Widget {
+//   int txtSize = 30;
+//   int inset = 2;
+//   int stepNumber = 0;
+//
+//   public SequencerStepWidget(PVector _pos, PVector _sz, int _index){
+//     super(_pos, _sz);
+//     stepNumber = _index;
+//     //txtSize = int(_sz.y);
+//     active = true;
+//   }
+//
+//   public void show(PGraphics _canvas){
+//     super.show(_canvas);
+//     if(!active) return;
+//   }
+// }
+//
+
+
+/**
+ * Widget to control the sequencer
+ */
 class SequenceGUI extends Widget {
   int txtSize = 30;
   int inset = 2;
   SequenceSync sequencer;
+  TemplateList managerList;
 
-  public SequenceGUI(PVector _pos, PVector _sz, SequenceSync _seq){
+  public SequenceGUI(PVector _pos, PVector _sz, SequenceSync _seq, TemplateList _tl){
     super(_pos, _sz);
     //txtSize = int(_sz.y);
     sequencer = _seq;
+    managerList = _tl;
     active = true;
   }
+
+  public void action(int _mb){
+    int _clickedStep = int(mouseFloat.x * SEQ_STEP_COUNT);
+    println(_mb+"  "+_clickedStep);
+    if(_mb == LEFT) sequencer.setStep(_clickedStep);
+    else if(_mb == RIGHT){
+      ArrayList<TweakableTemplate> _tmps = managerList.getAll();
+      if(_tmps == null) return;
+      sequencer.setEditStep(_clickedStep);
+      for(TweakableTemplate _tw : _tmps){
+        sequencer.getStepToEdit().toggle(_tw);
+      }
+    }
+  }
+
 
   public void show(PGraphics _canvas){
     if(!active) return;
@@ -348,7 +436,6 @@ class SequenceGUI extends Widget {
       _canvas.text(_tl.getTags(),inset*4,-inset*4);
       _canvas.popMatrix();
       _index++;
-
     }
   }
 }

@@ -181,4 +181,10 @@ class SequenceSync extends Synchroniser{
   public int getStep(){
     return step;
   }
+
+  public void setStep(int _step){
+    periodCount = (_step - 1)+16;
+    step = periodCount % SEQ_STEP_COUNT;
+    lerper = 0.99999;
+  }
 }
