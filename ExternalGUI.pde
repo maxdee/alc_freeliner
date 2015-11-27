@@ -107,7 +107,6 @@ public class ExternalGUI extends PApplet {
   }
 
   public void keyPressed(){
-    println("in ext : "+(keyCode==SHIFT));
     if(relayKeys) freeliner.getKeyboard().processKey(key, keyCode);
     if (key == 27) key = 0;       // dont let escape key, we need it :)
   }
@@ -316,74 +315,6 @@ class InfoLine extends Widget {
 /**
  * Widget to control the sequencer
  */
-// class SequenceGUI extends Widget {
-//   int txtSize = 30;
-//   int inset = 2;
-//   SequencerStepWidget[] stepWidgets;
-//   SequenceSync sequencer;
-//   Widget selectedStep;
-//
-//   public SequenceGUI(PVector _pos, PVector _sz, SequenceSync _seq){
-//     super(_pos, _sz);
-//     //txtSize = int(_sz.y);
-//     sequencer = _seq;
-//     active = true;
-//     initStepWidgets();
-//     selectedStep = null;
-//   }
-//
-//   public void initStepWidgets(){
-//     int _stepSize = int(size.x/ SEQ_STEP_COUNT);
-//     stepWidgets = new SequencerStepWidget[SEQ_STEP_COUNT];
-//     for(int i = 0; i < SEQ_STEP_COUNT; i++){
-//       stepWidgets[i] = new SequencerStepWidget(new PVector(_stepSize * i, pos.y), new PVector(_stepSize, size.y), i);
-//     }
-//   }
-//
-//   // override update to send to subwdgites
-//   public boolean update(PVector _cursor){
-//     selectedStep = null;
-//     for(Widget wdg : stepWidgets){
-//       if(!mousePressed && wdg.update(_cursor)) selectedStep = wdg;
-//     }
-//     return selectedStep != null;
-//   }
-//   // override update to send to subwdgites
-//   public void click(int _mb){
-//     if(selectedStep != null) selectedStep.click(_mb);
-//   }
-//
-//   public void show(PGraphics _canvas){
-//     for(Widget wdg : stepWidgets){
-//       wdg.show(_canvas);
-//     }
-//   }
-// }
-//
-// // sub widget!
-// class SequencerStepWidget extends Widget {
-//   int txtSize = 30;
-//   int inset = 2;
-//   int stepNumber = 0;
-//
-//   public SequencerStepWidget(PVector _pos, PVector _sz, int _index){
-//     super(_pos, _sz);
-//     stepNumber = _index;
-//     //txtSize = int(_sz.y);
-//     active = true;
-//   }
-//
-//   public void show(PGraphics _canvas){
-//     super.show(_canvas);
-//     if(!active) return;
-//   }
-// }
-//
-
-
-/**
- * Widget to control the sequencer
- */
 class SequenceGUI extends Widget {
   int txtSize = 30;
   int inset = 2;
@@ -400,7 +331,6 @@ class SequenceGUI extends Widget {
 
   public void action(int _mb){
     int _clickedStep = int(mouseFloat.x * SEQ_STEP_COUNT);
-    println(_mb+"  "+_clickedStep);
     if(_mb == LEFT) sequencer.setStep(_clickedStep);
     else if(_mb == RIGHT){
       ArrayList<TweakableTemplate> _tmps = managerList.getAll();

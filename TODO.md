@@ -4,7 +4,6 @@
  * more text modes?
  * more line modes.
  * fix keyboard handling (international)
- * iterator/easing should be before run through segs? somethign to do with trigger mode
  * triangle brush center wrong
  * prevent resizing of brush...
 
@@ -12,10 +11,8 @@
 
 
 #### Ideas ####
+  * Add translate XYZ rotate XYZ and scale to each segmentGroup!!!
   * cursor style and size, in different situations a different cursor could be used.
-  * strokeWeight offset
-  * trigger + segment selector.... (???)
-  * rotate acording to clockwise? first segment pA.y>pB.y
   * template linking, link A->B, tweak and trigger affects both, Dont change the values that differ?
   * bumper system
   * Geometry hot swap, reload geometery according to xml file, but not resetting the templates.
@@ -27,7 +24,8 @@
   * midi?
   * geometry mod?
   * https://github.com/extrapixel/gif-animation
-  * G4P + ^
+  * Master transformation. move rotate whole canvas.
+  * PREVIEW
 
 ### VJ specific ###
   * Mirroring render mode? makes a mirrored segmentGroup copy? or a mirrored accessor?
