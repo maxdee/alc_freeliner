@@ -22,7 +22,6 @@
  * @since     2014-12-01
  */
 
-
 class Synchroniser implements FreelinerConfig{
 
   // millis to render one frame

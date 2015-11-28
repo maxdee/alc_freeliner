@@ -3,7 +3,7 @@
  * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.3
+ * @version   0.3ss
  * @since     2014-12-01
  */
 
@@ -114,6 +114,7 @@ class Template implements FreelinerConfig{
 		strokeAlpha = 255;
 		renderMode = 0;
 		animationMode = 0;
+		segmentMode  = 0;
 		interpolateMode = 0;
 		strokeMode = 1;
 		fillMode = 1;

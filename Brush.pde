@@ -12,6 +12,7 @@
  * Brushes are PShapes drawn along segments
  */
 abstract class Brush implements FreelinerConfig{
+	String name =  "basic";//brush
   // Size to generate brushes
 	final int BASE_SIZE = 20;
   final int HALF_SIZE = BASE_SIZE/2;
@@ -51,6 +52,9 @@ abstract class Brush implements FreelinerConfig{
     }
   	return scaledBrush;
   }
+	public String getName(){
+		return name;
+	}
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -63,6 +67,9 @@ abstract class Brush implements FreelinerConfig{
  * A brush that is just a point.
  */
 class PointBrush extends Brush {
+
+	String name =  "point";//brush
+
   public PointBrush(){
   }
 
@@ -81,6 +88,9 @@ class PointBrush extends Brush {
  * A brush that is a perpendicular line.
  */
 class LineBrush extends Brush {
+
+	String name =  "line";//brush
+
   public LineBrush(){
 
   }
@@ -98,6 +108,9 @@ class LineBrush extends Brush {
  * Chevron brush >>>>
  */
 class ChevronBrush extends Brush {
+
+	String name =  "chevron";//brush
+
   public ChevronBrush(){
 
   }
@@ -116,6 +129,9 @@ class ChevronBrush extends Brush {
  * Square shaped brush
  */
 class SquareBrush extends Brush {
+
+	String name =  "square";//brush
+
   public SquareBrush(){
 
   }
@@ -136,6 +152,9 @@ class SquareBrush extends Brush {
  * Custom brush, a brush that is the segments of group.
  */
 class CustomBrush extends Brush {
+
+	String name =  "custom";//brush
+
   /**
    * Constructor will generate a null shape.
    */
@@ -172,6 +191,9 @@ class CustomBrush extends Brush {
  * Circle shaped brush
  */
 class CircleBrush extends Brush {
+
+	String name =  "circle";//brush
+
   public CircleBrush(){
 
   }
@@ -194,6 +216,9 @@ class CircleBrush extends Brush {
  * Triangle shaped brush
  */
 class TriangleBrush extends Brush {
+
+	String name =  "triangle";//brush
+
   public TriangleBrush(){
 
   }
@@ -211,6 +236,9 @@ class TriangleBrush extends Brush {
  * X shaped brush
  */
 class XBrush extends Brush {
+
+	String name =  "X";//brush
+
   public XBrush(){
 
   }
@@ -230,6 +258,9 @@ class XBrush extends Brush {
  * Leaf shaped brush
  */
 class LeafBrush extends Brush {
+
+	String name =  "leaf";//brush
+
   public LeafBrush(){
 
   }
@@ -278,6 +309,9 @@ class LeafBrush extends Brush {
  * Sprinkles
  */
 class SprinkleBrush extends Brush {
+
+	String name =  "sprinkle";//brush
+
   public SprinkleBrush(){}
   // dosent apply here...
   public PShape generateBrush(){
