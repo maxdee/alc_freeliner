@@ -83,7 +83,7 @@ class RadiusInterpolator extends Interpolator{
 	  float dist = 0;
     if(_painter instanceof BrushPutter) dist = _seg.getLength()-(_tp.getScaledBrushSize()/2.0);
     else dist = _seg.getLength()-(_tp.getStrokeWeight()/2.0);
-  	float ang = getAngle(_seg, _tp, _painter);
+  	float ang = (_tp.getLerp()*TAU)+_seg.getAngle(true);//getAngle(_seg, _tp, _painter);
 
   	PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
   	pos.add(_seg.getPointA());
@@ -92,7 +92,7 @@ class RadiusInterpolator extends Interpolator{
 
 
   public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
-    return (_tp.getLerp()*TAU)+_seg.getAngle(true);
+    return (_tp.getLerp()*TAU)+_seg.getAngle(true)+HALF_PI;
   }
 }
 
@@ -106,7 +106,7 @@ class DiameterInterpolator extends Interpolator{
 	  float dist = 0;
     if(_painter instanceof BrushPutter) dist = (_seg.getLength()-(_tp.getScaledBrushSize()/2.0))/2.0;
     else dist = (_seg.getLength()-(_tp.getStrokeWeight()/2.0))/2.0;
-  	float ang = getAngle(_seg, _tp, _painter);
+  	float ang = (_tp.getLerp()*TAU)+_seg.getAngle(true);//getAngle(_seg, _tp, _painter);
 
   	PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
   	pos.add(_seg.getMidPoint());
@@ -115,7 +115,7 @@ class DiameterInterpolator extends Interpolator{
 
 
   public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
-    return (_tp.getLerp()*TAU)+_seg.getAngle(true);
+    return (_tp.getLerp()*TAU)+_seg.getAngle(true)+HALF_PI;
   }
 }
 
