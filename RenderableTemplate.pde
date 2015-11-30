@@ -355,12 +355,12 @@ class KillableTemplate extends RenderableTemplate{
 		// this updates according to source template...
 		//copy(sourceTemplate);
 		// find the scaled size, the brushSize of the source template may have changed
-		//float sb = brushSize * segmentGroup.getBrushScaler();
-		scaledBrushSize = brushSize;
-		// if(sb != scaledBrushSize) {
-		// 	updateBrush = true;
-		// 	scaledBrushSize = sb;
-		// }
+		float sb = brushSize;// * segmentGroup.getBrushScaler();
+		//scaledBrushSize = brushSize;
+		if(sb != scaledBrushSize) {
+			updateBrush = true;
+			scaledBrushSize = sb;
+		}
 	}
 
 	public boolean isDone(){

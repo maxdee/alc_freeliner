@@ -45,9 +45,9 @@ class TemplateRenderer implements FreelinerConfig{
 	public TemplateRenderer(){
     // init canvas
     canvas = createGraphics(width, height, P2D);
-    canvas.smooth(1);
-    canvas.strokeCap(STROKE_CAP);
-    canvas.strokeJoin(STROKE_JOIN);
+    canvas.smooth(0);
+    // canvas.strokeCap(STROKE_CAP);
+    // canvas.strokeJoin(STROKE_JOIN);
 
     //backgroundImgae
     //tomap = loadImage("userdata/klangderp_led.png");

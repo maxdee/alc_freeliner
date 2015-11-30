@@ -66,6 +66,7 @@ public class ExternalGUI extends PApplet {
   // your traditional sketch setup function
   public void setup() {
     canvas = createGraphics(width, height, P2D);
+    canvas.textFont(font);
     surface.setResizable(false); // keep it pretty
     textMode(CORNER);
     hint(ENABLE_KEY_REPEAT); // usefull for performance
@@ -316,7 +317,7 @@ class InfoLine extends Widget {
  * Widget to control the sequencer
  */
 class SequenceGUI extends Widget {
-  int txtSize = 30;
+  int txtSize = 20;
   int inset = 2;
   SequenceSync sequencer;
   TemplateList managerList;
@@ -347,7 +348,7 @@ class SequenceGUI extends Widget {
     if(!active) return;
     int _index = 0;
     int _stepSize = int(size.x/ 16.0);
-    _canvas.textSize(30);
+    _canvas.textSize(txtSize);
     for(TemplateList _tl : sequencer.getStepLists()){
       _canvas.pushMatrix();
       _canvas.translate(_stepSize * _index, pos.y);
