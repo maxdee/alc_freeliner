@@ -76,6 +76,7 @@ class TemplateManager{
     int beatDv = 1;
     if(_tp.size() > 0){
       for (RenderableTemplate rt : lst) {
+        // had a null pointer here...
         beatDv = rt.getBeatDivider();
         rt.setUnitInterval(sync.getLerp(beatDv));
         rt.setBeatCount(sync.getPeriod(beatDv));

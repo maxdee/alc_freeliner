@@ -45,6 +45,7 @@ class FreeLiner {
     keyboard.inject(this);
     gui.inject(groupManager, mouse);
     templateManager.inject(groupManager);
+    groupManager.inject(templateManager);
   }
 
   /**

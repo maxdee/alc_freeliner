@@ -14,6 +14,8 @@
  */
 class GroupManager{
 
+  // guess we will add this too.
+  TemplateManager templateManager;
   //manages groups of points
   ArrayList<SegmentGroup> groups;
   int groupCount = 0;
@@ -45,6 +47,10 @@ class GroupManager{
     selectedIndex = 0;
   }
 
+
+  public void inject(TemplateManager _tm){
+    templateManager = _tm;
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -192,9 +198,12 @@ class GroupManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-
-
+  // argumentless
   public void saveGroups(){
+    saveGroups("userdata/groups.xml");
+  }
+
+  public void saveGroups(String _fn){
     XML groupData = new XML("groups");
     for(SegmentGroup grp : groups){
       if(grp.isEmpty()) continue;
@@ -214,18 +223,21 @@ class GroupManager{
         // for leds and such
         xseg.setString("txt",seg.getText());
       }
-      saveXML(groupData, "userdata/groups.xml");
+      saveXML(groupData, _fn);
     }
   }
 
 
+  public void loadGroups(){
+    loadGroups("userdata/groups.xml");
+  }
   // what a mess what a mess
   // we cant have that we cant have that
   // clean it up clean it up
-  public void loadGroups(TemplateManager _tm){
+  public void loadGroups(String _fn){
     XML file;
     try {
-      file = loadXML("userdata/groups.xml");
+      file = loadXML(_fn);
     }
     catch (Exception e){
       println("No groups.xml");
@@ -259,7 +271,7 @@ class GroupManager{
       String _tags = xgroup.getString("tags");
       if(_tags.length()>0){
         for(int i = 0; i < _tags.length();i++){
-          getSelectedGroup().getTemplateList().toggle(_tm.getTemplate(_tags.charAt(i)));
+          getSelectedGroup().getTemplateList().toggle(templateManager.getTemplate(_tags.charAt(i)));
         }
       }
       // bug with centering? seems ok...
