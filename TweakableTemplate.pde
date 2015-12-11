@@ -104,7 +104,7 @@ class TweakableTemplate extends Template {
     return beatDivider;
   }
 
-  public int setRotation(int _v){
+  public int setRotationMode(int _v){
     rotationMode = numTweaker(_v, rotationMode);
     return rotationMode;
   }

@@ -158,7 +158,6 @@ class Button extends Widget {
     super.show(_canvas);
     if(active && counter > 0){
       counter--;
-      println(counter);
       _canvas.fill(frontColor);
       _canvas.rect(pos.x+inset, pos.y+inset, size.x-(2*inset), size.y-(2*inset));
     }
@@ -177,8 +176,6 @@ class Button extends Widget {
 
   }
 }
-
-
 
 /**
  * Basic toggle widget, subclass and inject things to control.

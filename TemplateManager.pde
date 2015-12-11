@@ -261,19 +261,77 @@ class TemplateManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void saveTemplate(Template _tp){
-    XML _template = new XML("template");
-
-
-
-    XML templateFile = loadXML("userdata/templates/templates.xml");
-    //xml.addChild();
-
+  public void saveTemplates(){
+    saveTemplates("userdata/templates.xml");
   }
 
+  /**
+   * Simple save templates to xml file.
+   */
+  public void saveTemplates(String _fn){
+    XML _templates = new XML("templates");
+    for(Template _tp : templates){
+      XML _tmp = _templates.addChild("template");
+      _tmp.setString("ID", str(_tp.getTemplateID()));
+      _tmp.setInt("renderMode", _tp.getRenderMode());
+      _tmp.setInt("segmentMode", _tp.getSegmentMode());
+      _tmp.setInt("animationMode", _tp.getAnimationMode());
+      _tmp.setInt("interpolateMode", _tp.getInterpolateMode());
+      _tmp.setInt("strokeMode", _tp.getStrokeMode());
+      _tmp.setInt("fillMode", _tp.getFillMode());
+      _tmp.setInt("strokeAlpha", _tp.getStrokeAlpha());
+      _tmp.setInt("fillAlpha", _tp.getFillAlpha());
+      _tmp.setInt("rotationMode", _tp.getRotationMode());
+      _tmp.setInt("easingMode", _tp.getEasingMode());
+      _tmp.setInt("reverseMode", _tp.getReverseMode());
+      _tmp.setInt("repetitionMode", _tp.getRepetitionMode());
+      _tmp.setInt("repetitionCount", _tp.getRepetitionCount());
+      _tmp.setInt("beatDivider", _tp.getBeatDivider());
+      _tmp.setInt("strokeWidth", _tp.getStrokeWeight());
+      _tmp.setInt("brushSize", _tp.getBrushSize());
+      _tmp.setInt("brushMode", _tp.getBrushMode());
+      _tmp.setInt("enablerMode", _tp.getEnablerMode());
+    }
+    saveXML(_templates, _fn);
+  }
 
-  public void loadTemplate(String _name, Template _loadInto){
+  public void loadTemplates(){
+    loadTemplates("userdata/templates.xml");
+  }
 
+  public void loadTemplates(String _fn){
+    XML file;
+    try {
+      file = loadXML(_fn);
+    }
+    catch (Exception e){
+      println(_fn+" cant be loaded");
+      return;
+    }
+    XML[] _templateData = file.getChildren("template");
+    TweakableTemplate _tmp;
+    for(XML _tp : _templateData){
+      _tmp = getTemplate(_tp.getString("ID").charAt(0));
+      if(_tmp == null) continue;
+      _tmp.setRenderMode(_tp.getInt("renderMode"));
+      _tmp.setSegmentMode(_tp.getInt("segmentMode"));
+      _tmp.setAnimationMode(_tp.getInt("animationMode"));
+      _tmp.setInterpolateMode(_tp.getInt("interpolateMode"));
+      _tmp.setStrokeMode(_tp.getInt("strokeMode"));
+      _tmp.setFillMode(_tp.getInt("fillMode"));
+      _tmp.setStrokeAlpha(_tp.getInt("strokeAlpha"));
+      _tmp.setFillAlpha(_tp.getInt("fillAlpha"));
+      _tmp.setRotationMode(_tp.getInt("rotationMode"));
+      _tmp.setEasingMode(_tp.getInt("easingMode"));
+      _tmp.setReverseMode(_tp.getInt("reverseMode"));
+      _tmp.setRepetitionMode(_tp.getInt("repetitionMode"));
+      _tmp.setRepetitionCount(_tp.getInt("repetitionCount"));
+      _tmp.setBeatDivider(_tp.getInt("beatDivider"));
+      _tmp.setStrokeWidth(_tp.getInt("strokeWidth"));
+      _tmp.setBrushSize(_tp.getInt("brushSize"));
+      _tmp.setBrushMode(_tp.getInt("brushMode"));
+      _tmp.setEnablerMode(_tp.getInt("enablerMode"));
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

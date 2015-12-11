@@ -64,8 +64,8 @@ class Keyboard implements FreelinerConfig{
     "[    fixedAngle",
     "-    decreaseValue",
     "=    increaseValue",
-    "@    saveGroups",
-    "#    loadGroups",
+    "@    saveStuff",
+    "#    loadStuff",
     "$    saveTemplate",
     "%    loadTemplate",
     "*    record",
@@ -78,7 +78,9 @@ class Keyboard implements FreelinerConfig{
     "ctrl-b   groupAddTemplate",
     "ctrl-d   customShape",
     "ctrl-i   reverseX",
-    "ctrl-r   resetTemplate"
+    "ctrl-r   resetTemplate",
+    "ctrl-s   saveStuff",
+    "ctrl-o   loadStuff"
   };
 
   // dependecy injection
@@ -295,6 +297,8 @@ class Keyboard implements FreelinerConfig{
     else if(ctrled && k == 18) distributor(char(518), -3, false); // re init()
     else if(ctrled && k == 12) freeliner.reParse(); // re init()
     else if(ctrled && k == 11) freeliner.toggleExtraGraphics(); // re init()
+    else if(ctrled && k == 19) saveStuff();
+    else if(ctrled && k == 15) loadStuff();
   }
 
 /**
@@ -398,8 +402,8 @@ class Keyboard implements FreelinerConfig{
       else if (_k == ']') valueGiven_ = str(mouse.toggleFixedLength());
       else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
       //else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
-      else if (_k == '@') groupManager.saveGroups();//Vertices();
-      else if (_k == '#') groupManager.loadGroups();
+      // else if (_k == '@') saveStuff();
+      // else if (_k == '#') loadStuff();
       else if (_k == '?') templateManager.getSynchroniser().clear();
       else used_ = false;
     }
@@ -483,7 +487,7 @@ class Keyboard implements FreelinerConfig{
         else if (_k == 'j') valueGiven_ = str(_template.setReverseMode(_n));
         else if (_k == 'k') valueGiven_ = str(_template.setStrokeAlpha(_n));
         else if (_k == 'l') valueGiven_ = str(_template.setFillAlpha(_n));
-        else if (_k == 'o') valueGiven_ = str(_template.setRotation(_n));
+        else if (_k == 'o') valueGiven_ = str(_template.setRotationMode(_n));
         else if (_k == 'e') valueGiven_ = str(_template.setInterpolateMode(_n));
         else if (_k == 'q') valueGiven_ = str(_template.setStrokeMode(_n));
         else if (_k == 'r') valueGiven_ = str(_template.setRepetitionCount(_n));
@@ -505,6 +509,15 @@ class Keyboard implements FreelinerConfig{
     boolean record = templateRenderer.toggleRecording();
     templateManager.getSynchroniser().setRecording(record);
     return record;
+  }
+
+  public void saveStuff(){
+    groupManager.saveGroups();
+    templateManager.saveTemplates();
+  }
+  public void loadStuff(){
+    groupManager.loadGroups();
+    templateManager.loadTemplates();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

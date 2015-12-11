@@ -240,7 +240,7 @@ class GroupManager{
       file = loadXML(_fn);
     }
     catch (Exception e){
-      println("No groups.xml");
+      println(_fn+" cant be loaded");
       return;
     }
 
