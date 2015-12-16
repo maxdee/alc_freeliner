@@ -63,5 +63,8 @@ The `@` character saves your current segment groups, with the exception of group
 ##### Make Videos
 The `*` character begins and stops a frame saving process. These `.tiff` images are saved in batches `capture/clip_N`. You can use Processing's movie maker tool to turn these into a video file. I recommend clearing `capture/` after making some clips.
 
+##### Quitting
+Freeliner can be quit with your systems shortcut to close a window, like `alt-f4` or with `cmd-w` on OSX.
+
 ## Current Bugs ##
 Report one?
