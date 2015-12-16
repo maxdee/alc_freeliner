@@ -60,12 +60,14 @@ class TemplateManager{
     syncTemplates(loops);
     syncTemplates(eventList);
     ArrayList<RenderableTemplate> toKill = new ArrayList();
-    for(RenderableTemplate _tp : eventList){
-      if(((KillableTemplate) _tp).isDone()) toKill.add(_tp);
-    }
-    if(toKill.size()>0){
-      for(RenderableTemplate _rt : toKill){
-        eventList.remove(_rt);
+    synchronized(eventList){
+      for(RenderableTemplate _tp : eventList){
+        if(((KillableTemplate) _tp).isDone()) toKill.add(_tp);
+      }
+      if(toKill.size()>0){
+        for(RenderableTemplate _rt : toKill){
+          eventList.remove(_rt);
+        }
       }
     }
   }
@@ -77,6 +79,7 @@ class TemplateManager{
     if(_tp.size() > 0){
       for (RenderableTemplate rt : lst) {
         // had a null pointer here...
+        if(rt == null) continue; // does this fix?
         beatDv = rt.getBeatDivider();
         rt.setUnitInterval(sync.getLerp(beatDv));
         rt.setBeatCount(sync.getPeriod(beatDv));
