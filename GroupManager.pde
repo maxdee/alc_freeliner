@@ -200,7 +200,7 @@ class GroupManager{
 
   // argumentless
   public void saveGroups(){
-    saveGroups("userdata/groups.xml");
+    saveGroups("userdata/geometry.xml");
   }
 
   public void saveGroups(String _fn){
@@ -229,7 +229,7 @@ class GroupManager{
 
 
   public void loadGroups(){
-    loadGroups("userdata/groups.xml");
+    loadGroups("userdata/geometry.xml");
   }
   // what a mess what a mess
   // we cant have that we cant have that
