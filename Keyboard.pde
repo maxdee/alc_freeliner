@@ -291,7 +291,10 @@ class Keyboard implements FreelinerConfig{
   public void modCommands(int k){
     // quick fix for ctrl-alt in OSX
     boolean _ctrl = ctrled;
-    if(OSX) _ctrl = alted;
+    if(OSX) {
+      _ctrl = alted;
+      k-=96;
+    }
     //if(ctrled || alted) println("mod keys "+k);
     if (_ctrl && k == 1) focusAll(); // a
     else if(_ctrl && k == 3) templateManager.copyTemplate();
