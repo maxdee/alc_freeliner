@@ -24,6 +24,8 @@
  * ctrl-i   revers mouseX
  * ctrl-r   reset template
  * ctrl-d   customShape
+ * ctrl-s   save
+ * ctrl-o   open
  */
 
 class Keyboard implements FreelinerConfig{
@@ -287,18 +289,21 @@ class Keyboard implements FreelinerConfig{
  * @param int ascii value of the key
  */
   public void modCommands(int k){
-    if(ctrled || alted) println("mod keys "+k);
-    if (ctrled && k == 1) focusAll(); // a
-    else if(ctrled && k == 3) templateManager.copyTemplate();
-    else if(ctrled && k == 22) templateManager.pasteTemplate();
-    else if(ctrled && k == 2) templateManager.groupAddTemplate(); // ctrl-b
-    else if(ctrled && k == 4) distributor(char(504), -3, false);  // set custom shape
-    else if(ctrled && k == 9) gui.setValueGiven( str(mouse.toggleInvertMouse()) );
-    else if(ctrled && k == 18) distributor(char(518), -3, false); // re init()
-    else if(ctrled && k == 12) freeliner.reParse(); // re init()
-    else if(ctrled && k == 11) freeliner.toggleExtraGraphics(); // re init()
-    else if(ctrled && k == 19) saveStuff();
-    else if(ctrled && k == 15) loadStuff();
+    // quick fix for ctrl-alt in OSX
+    boolean _ctrl = ctrled;
+    if(OSX) _ctrl = alted;
+    //if(ctrled || alted) println("mod keys "+k);
+    if (_ctrl && k == 1) focusAll(); // a
+    else if(_ctrl && k == 3) templateManager.copyTemplate();
+    else if(_ctrl && k == 22) templateManager.pasteTemplate();
+    else if(_ctrl && k == 2) templateManager.groupAddTemplate(); // ctrl-b
+    else if(_ctrl && k == 4) distributor(char(504), -3, false);  // set custom shape
+    else if(_ctrl && k == 9) gui.setValueGiven( str(mouse.toggleInvertMouse()) );
+    else if(_ctrl && k == 18) distributor(char(518), -3, false); // re init()
+    else if(_ctrl && k == 12) freeliner.reParse(); // re init()
+    else if(_ctrl && k == 11) freeliner.toggleExtraGraphics(); // re init()
+    else if(_ctrl && k == 19) saveStuff();
+    else if(_ctrl && k == 15) loadStuff();
   }
 
 /**
