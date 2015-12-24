@@ -30,7 +30,7 @@
 
 class Keyboard implements FreelinerConfig{
   //provides strings to show what is happening.
-  final String keyMap[] = {
+  final String KEY_MAP[] = {
     "a    animationMode",
     "b    renderMode",
     "c    placeCenter",
@@ -66,23 +66,23 @@ class Keyboard implements FreelinerConfig{
     "[    fixedAngle",
     "-    decreaseValue",
     "=    increaseValue",
-    "@    saveStuff",
-    "#    loadStuff",
     "$    saveTemplate",
     "%    loadTemplate",
     "*    record",
     ">    steps"
   };
 
-  final String ctrlKeyMap[] = {
-    "ctrl-a   selectAll",
-    "ctrl-c   clone",
-    "ctrl-b   groupAddTemplate",
-    "ctrl-d   customShape",
-    "ctrl-i   reverseX",
-    "ctrl-r   resetTemplate",
-    "ctrl-s   saveStuff",
-    "ctrl-o   loadStuff"
+  final String CTRL_KEY_MAP[] = {
+    "a    selectAll",
+    "c    clone",
+    "b    groupAddTemplate",
+    "d    customShape",
+    "i    reverseMouse",
+    "r    resetTemplate",
+    "s    saveStuff",
+    "o    loadStuff",
+    "l    loadLED",
+    "k    showLEDmap"
   };
 
   // dependecy injection
@@ -162,9 +162,9 @@ class Keyboard implements FreelinerConfig{
       if (k >= 48 && k <= 57) numMaker(k); // grab numbers into the numberMaker
       else if (k>=65 && k <= 90) processCAPS(k); // grab uppercase letters
       else if (k==ENTER) returnNumber(); // grab enter
-      else if (ctrled || alted) modCommands(int(k)); // alternate mappings related to ctrl and alt combos
+      else if (ctrled || alted) modCommands(char(kc)); // alternate mappings related to ctrl and alt combos
       else{
-        setEditKey(k);
+        setEditKey(k, KEY_MAP);
         distributor(k, -3, true);
       }
     }
@@ -205,7 +205,7 @@ class Keyboard implements FreelinerConfig{
   }
 
 /**
- * Process key release, mostly affcting coded keys
+ * Process key release, mostly affecting coded keys
  *
  * @param char the key
  * @param int the keyCode
@@ -288,25 +288,28 @@ class Keyboard implements FreelinerConfig{
  *
  * @param int ascii value of the key
  */
-  public void modCommands(int k){
+  public void modCommands(char _k){
+    _k+=32;
+    println("Mod : "+_k);
     // quick fix for ctrl-alt in OSX
     boolean _ctrl = ctrled;
     if(OSX) {
       _ctrl = alted;
-      k-=96;
+      //_k-=96;
     }
-    //if(ctrled || alted) println("mod keys "+k);
-    if (_ctrl && k == 1) focusAll(); // a
-    else if(_ctrl && k == 3) templateManager.copyTemplate();
-    else if(_ctrl && k == 22) templateManager.pasteTemplate();
-    else if(_ctrl && k == 2) templateManager.groupAddTemplate(); // ctrl-b
-    else if(_ctrl && k == 4) distributor(char(504), -3, false);  // set custom shape
-    else if(_ctrl && k == 9) gui.setValueGiven( str(mouse.toggleInvertMouse()) );
-    else if(_ctrl && k == 18) distributor(char(518), -3, false); // re init()
-    else if(_ctrl && k == 12) freeliner.reParse(); // re init()
-    else if(_ctrl && k == 11) freeliner.toggleExtraGraphics(); // re init()
-    else if(_ctrl && k == 19) saveStuff();
-    else if(_ctrl && k == 15) loadStuff();
+    if (_k == 'a') focusAll();
+    else if(_k == 'c') templateManager.copyTemplate();
+    else if(_k == 'v') templateManager.pasteTemplate();
+    else if(_k == 'b') templateManager.groupAddTemplate(); // ctrl-b
+    else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape
+    else if(_k == 'i') gui.setValueGiven( str(mouse.toggleInvertMouse()) );
+    else if(_k == 'r') distributor(char(518), -3, false);
+    else if(_k == 'l') freeliner.reParse();
+    else if(_k == 'k') freeliner.toggleExtraGraphics();
+    else if(_k == 's') saveStuff();
+    else if(_k == 'o') loadStuff();
+    else return;
+    gui.setKeyString(getKeyString(_k, CTRL_KEY_MAP));
   }
 
 /**
@@ -314,9 +317,9 @@ class Keyboard implements FreelinerConfig{
  *
  * @param char the key
  */
-  boolean keyIsMapped(char k) {
-    for (int i = 0; i < keyMap.length; i++) {
-      if (keyMap[i].charAt(0)==k) return true;
+  boolean keyIsMapped(char _k, String[] _map) {
+    for (int i = 0; i < _map.length; i++) {
+      if (_map[i].charAt(0) == _k) return true;
     }
     return false;
   }
@@ -326,12 +329,13 @@ class Keyboard implements FreelinerConfig{
  *
  * @param char the key
  */
-  String getKeyString(char k) {
-    for (int i = 0; i < keyMap.length; i++) {
-      if (keyMap[i].charAt(0)==k) return keyMap[i];
+  String getKeyString(char _k, String[] _map) {
+    for (int i = 0; i < _map.length; i++) {
+      if (_map[i].charAt(0) == _k) return _map[i];
     }
     return "not mapped?";
   }
+
 
 /**
  * CTRL-a selects all renderers as always.
@@ -590,9 +594,9 @@ class Keyboard implements FreelinerConfig{
    * This also verbose the parameter in the GUI.
    * @param char the edit Key
    */
-  public void setEditKey(char _k) {
-    if (keyIsMapped(_k) && _k != '-' && _k != '=') {
-      gui.setKeyString(getKeyString(_k));
+  public void setEditKey(char _k, String[] _map) {
+    if (keyIsMapped(_k, _map) && _k != '-' && _k != '=') {
+      gui.setKeyString(getKeyString(_k, _map));
       editKey = _k;
       numberMaker = "0";
       gui.setValueGiven("_");
