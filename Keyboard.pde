@@ -289,7 +289,6 @@ class Keyboard implements FreelinerConfig{
  * @param int ascii value of the key
  */
   public void modCommands(char _k){
-    _k+=32;
     println("Mod : "+_k);
     // quick fix for ctrl-alt in OSX
     boolean _ctrl = ctrled;
@@ -297,6 +296,7 @@ class Keyboard implements FreelinerConfig{
       _ctrl = alted;
       //_k-=96;
     }
+    else _k += 32; // linux needs offset?
     if (_k == 'a') focusAll();
     else if(_k == 'c') templateManager.copyTemplate();
     else if(_k == 'v') templateManager.pasteTemplate();
@@ -304,8 +304,8 @@ class Keyboard implements FreelinerConfig{
     else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape
     else if(_k == 'i') gui.setValueGiven( str(mouse.toggleInvertMouse()) );
     else if(_k == 'r') distributor(char(518), -3, false);
-    else if(_k == 'l') freeliner.reParse();
-    else if(_k == 'k') freeliner.toggleExtraGraphics();
+    else if(_k == 'l') freeliner.reParse(); // reparse for LED map
+    else if(_k == 'k') freeliner.toggleExtraGraphics(); // show extra graphics
     else if(_k == 's') saveStuff();
     else if(_k == 'o') loadStuff();
     else return;
@@ -448,7 +448,6 @@ class Keyboard implements FreelinerConfig{
     String valueGiven_ = null;
     if(_k == 'c') valueGiven_ = str(_sg.toggleCenterPutting());
     else if(_k == 's') valueGiven_ = str(_sg.setBrushScaler(_n));
-    //else if(_k == '.') valueGiven_ = str(_sg.setSnapVal(_n));
     else if (int(_k) == 504) templateManager.setCustomShape(_sg);
     else used_ = false;
     if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
@@ -478,7 +477,15 @@ class Keyboard implements FreelinerConfig{
   }
 
 
-  public boolean rendererDispatch(TweakableTemplate _template, char _k, int _n, boolean _vg) {
+  /**
+   * Change the parameters of a template.
+   * @param TweakableTemplate template to modify
+   * @param char editKey
+   * @param int value
+   * @param boolean display value or not
+   * @return boolean value used
+   */
+  public boolean templateDispatch(TweakableTemplate _template, char _k, int _n, boolean _vg) {
     //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
     boolean used_ = true;
 
@@ -516,17 +523,27 @@ class Keyboard implements FreelinerConfig{
     return used_;
   }
 
-
+  /**
+   * Toggle the recording state.
+   * @return boolean value given
+   */
   public boolean toggleRecording(){
     boolean record = templateRenderer.toggleRecording();
     templateManager.getSynchroniser().setRecording(record);
     return record;
   }
 
+  /**
+   * Save geometry and templates to default file.
+   */
   public void saveStuff(){
     groupManager.saveGroups();
     templateManager.saveTemplates();
   }
+
+  /**
+   * Load geometry and templates from default file.
+   */
   public void loadStuff(){
     groupManager.loadGroups();
     templateManager.loadTemplates();
@@ -547,15 +564,18 @@ class Keyboard implements FreelinerConfig{
     else wordMaker = wordMaker + str(_k);
   }
 
+  // failz
   private String removeLetter(String _s){
      if(_s.length() > 1){
        return _s.substring(0, _s.length()-1 );
      }
      return "";
-   }
+  }
 
-
-
+  /**
+   * Use the word being typed. Mostly setting a segments text.
+   * Perhaps write commands for the sequencer?
+   */
   private void returnWord() {
     SegmentGroup _sg = groupManager.getSelectedGroup();
     if (groupManager.getSnappedSegment() != null) groupManager.getSnappedSegment().setText(wordMaker);
@@ -564,7 +584,10 @@ class Keyboard implements FreelinerConfig{
   }
 
 
-  // type in values of stuff
+  /**
+   * Compose numbers with 0-9
+   * @param char character to add to the pending number
+   */
   private void numMaker(char _k) {
     if(numberMaker.length() < 1) numberMaker = str(_k);
     else numberMaker = numberMaker + str(_k);
@@ -572,6 +595,9 @@ class Keyboard implements FreelinerConfig{
     gui.setValueGiven(numberMaker);
   }
 
+  /**
+   * Use freshly typed number.
+   */
   private void returnNumber() {
     try {
       distributor(editKey, Integer.parseInt(numberMaker), true);
