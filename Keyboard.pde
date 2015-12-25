@@ -285,8 +285,7 @@ class Keyboard implements FreelinerConfig{
     println("Mod : "+_k);
     // quick fix for ctrl-alt in OSX
     boolean _ctrl = isCtrled();
-    if(!OSX) _k += 32; // linux needs offset?
-    //else
+    _k += 32;
     if (_k == 'a') focusAll();
     else if(_k == 'c') templateManager.copyTemplate();
     else if(_k == 'v') templateManager.pasteTemplate();
