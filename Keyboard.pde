@@ -228,6 +228,7 @@ class Keyboard implements FreelinerConfig{
   ///////     Interpretation
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
 /**
  * Process capital letters. A trick is applied here, different actions happen if caps-lock is on or shift is pressed.
  * <p>
@@ -276,27 +277,16 @@ class Keyboard implements FreelinerConfig{
     gui.setValueGiven(" ");
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     Interpretation
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-
-//for some reason if you are holding ctrl or alt you get other keycodes
 /**
  * Process a key differently if ctrl or alt is pressed.
- *
  * @param int ascii value of the key
  */
   public void modCommands(char _k){
     println("Mod : "+_k);
     // quick fix for ctrl-alt in OSX
-    boolean _ctrl = ctrled;
-    if(OSX) {
-      _ctrl = alted;
-      //_k-=96;
-    }
-    else _k += 32; // linux needs offset?
+    boolean _ctrl = isCtrled();
+    if(!OSX) _k += 32; // linux needs offset?
+    //else
     if (_k == 'a') focusAll();
     else if(_k == 'c') templateManager.copyTemplate();
     else if(_k == 'v') templateManager.pasteTemplate();
@@ -373,7 +363,7 @@ class Keyboard implements FreelinerConfig{
         ArrayList<TweakableTemplate> templates = tl.getAll();
         if(templates != null)
           for(TweakableTemplate te : templates)
-            rendererDispatch(te, _k, _n, _vg);
+            templateDispatch(te, _k, _n, _vg);
       }
     }
   }
@@ -463,14 +453,14 @@ class Keyboard implements FreelinerConfig{
   public void oscDistribute(String _tags, char _k, int _n){
     if(_tags.charAt(0) == '*'){
       for(TweakableTemplate _tw : templateManager.getTemplates()){
-        if( _tw != null) rendererDispatch(_tw, _k, _n, false);
+        if( _tw != null) templateDispatch(_tw, _k, _n, false);
       }
     }
     else {
       for(int i = 0; i < _tags.length(); i++){
         TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
         if(_rt != null){
-          rendererDispatch(_rt, _k, _n, false);
+          templateDispatch(_rt, _k, _n, false);
         }
       }
     }

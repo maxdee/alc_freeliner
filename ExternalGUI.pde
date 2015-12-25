@@ -31,6 +31,8 @@ public class ExternalGUI extends PApplet {
   // the selected widget, aka the one that the cursor hovers
   Widget selectedWidget;
 
+  boolean windowFocus;
+
   /**
    * Constructor,
    * @param Freeliner to control
@@ -39,6 +41,7 @@ public class ExternalGUI extends PApplet {
     super();
     freeliner = _fl;
     cursor = new PVector(0,0);
+    windowFocus = true;
     widgets = new ArrayList();
     // InfoLine is the same info the regular GUI shows
     widgets.add(new InfoLine(new PVector(0,0), new PVector(WIDTH, 22), freeliner.getGui()));
@@ -76,6 +79,10 @@ public class ExternalGUI extends PApplet {
   }
 
   public void draw(){
+    if(windowFocus != focused){
+      freeliner.getKeyboard().forceRelease();
+      windowFocus = focused;
+    }
     background(0);
     // update the widgets with the mouse position
     if(!mousePressed) selectedWidget = null;

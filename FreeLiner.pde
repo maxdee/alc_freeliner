@@ -25,6 +25,8 @@ class FreeLiner {
   Keyboard keyboard;
   OSClistener osc;
 
+  boolean windowFocus;
+
   PApplet applet;
 
   public FreeLiner(PApplet _pa) {
@@ -46,6 +48,7 @@ class FreeLiner {
     gui.inject(groupManager, mouse);
     templateManager.inject(groupManager);
     groupManager.inject(templateManager);
+    windowFocus = true;
   }
 
   /**
@@ -53,8 +56,10 @@ class FreeLiner {
    */
   public void update() {
     //background(0);
-    // external gui needs this commented
-    //if(!focused) keyboard.forceRelease();
+    if(windowFocus != focused){
+      keyboard.forceRelease();
+      windowFocus = focused;
+    }
     // update template models
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());
