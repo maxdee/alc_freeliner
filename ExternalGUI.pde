@@ -83,7 +83,7 @@ public class ExternalGUI extends PApplet {
       freeliner.getKeyboard().forceRelease();
       windowFocus = focused;
     }
-    background(0);
+    background(0,0,50);
     // update the widgets with the mouse position
     if(!mousePressed) selectedWidget = null;
     for(Widget wdgt : widgets){
@@ -93,6 +93,7 @@ public class ExternalGUI extends PApplet {
     // draw stuff
     canvas.beginDraw();
     canvas.clear();
+
     // display all the widgets
     for(Widget wdgt : widgets) wdgt.show(canvas);
     canvas.endDraw();
