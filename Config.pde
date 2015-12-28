@@ -40,6 +40,61 @@ interface FreelinerConfig{
 
   // Keyboard Section
   // final char ...
+  //provides strings to show what is happening.
+  final String KEY_MAP[] = {
+    "a    animationMode",
+    "b    renderMode",
+    "c    placeCenter",
+    "d    setShape",
+    "e    enterpolator",
+    "f    fillColor",
+    "g    grid/size",
+    "h    easingMode",
+    "i    repetitonMode",
+    "j    reverseMode",
+    "k    strokeAlpha",
+    "l    fillAlpha",
+    "m    breakLine",
+    "n    newItem",
+    "o    rotation",
+    //"p    probability??",
+    "q    strkColor",
+    "r    polka",
+    "s    size",
+    "t    tempo",
+    "u    enabler",
+    "v    segmentSelector",
+    "w    strkWeigth",
+    "x    beatMultiplier",
+    "y    tracers",
+    //"z    ???????",
+    ",    showTags",
+    "/    showLines",
+    ";    showCrosshair",
+    ".    snapping",
+    "|    enterText",
+    "]    fixedLenght",
+    "[    fixedAngle",
+    "-    decreaseValue",
+    "=    increaseValue",
+    "$    saveTemplate",
+    "%    loadTemplate",
+    "*    record",
+    ">    steps"
+  };
+
+  final String CTRL_KEY_MAP[] = {
+    "a    selectAll",
+    "c    clone",
+    "b    groupAddTemplate",
+    "d    customShape",
+    "i    reverseMouse",
+    "r    resetTemplate",
+    "s    saveStuff",
+    "o    loadStuff",
+    "l    loadLED",
+    "k    showLEDmap"
+  };
 
 
   // ExternalGUI options

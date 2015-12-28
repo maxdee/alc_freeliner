@@ -59,14 +59,21 @@ class Template implements FreelinerConfig{
   color customColor;
 
 	char templateID;
+
 	public Template(){
+		reset();
 	}
 
 	public Template(char _id){
 		templateID = _id;
 		reset();
 	}
-
+	// 
+	// public Template(Template _source){
+	// 	templateID = 'z';
+	// 	reset();
+	// 	copy(_source);
+	// }
 
 	/**
 	 * Copy a Template

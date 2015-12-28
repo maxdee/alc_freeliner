@@ -52,8 +52,7 @@ class SegmentGroup {
     ID = _id;
     init();
   }
-
-
+  
   /**
    * Initialises variables, can be used to reset a group.
    */

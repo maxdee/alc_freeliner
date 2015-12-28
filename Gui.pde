@@ -56,7 +56,7 @@
   String renderString = "_";
 
   String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS"};
-  
+
   /**
    * Constructor
    * @param GroupManager dependency injection
@@ -493,7 +493,7 @@
    * @param String "true" "false" "haha" "123"
    */
   public void setValueGiven(String _s){
-    valueGiven = _s;
+    if(_s != null) valueGiven = _s;
   }
 
   /**

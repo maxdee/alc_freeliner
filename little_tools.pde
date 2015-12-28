@@ -23,20 +23,15 @@
  */
 
 
-/**
- * Subclass of ArrayList that prevents out of bound errors
- */
-// class SafeList<E> extends ArrayList<E> {
-//   public SafeList(){
-
-//   }
-
-//   public E get(int _index){
-//     _index = constrain(_index, 0, size()-1);
-//     if(_index == -1) return null;
-//     return super.get(_index);
-//   }
-// }
+int stringInt(String _str){
+  try {
+    return Integer.parseInt(_str);
+  }
+  catch (Exception e){
+    println("Bad number string");
+    return 42;
+  }
+}
 
 /**
  * Class to collect and average data

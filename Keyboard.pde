@@ -29,65 +29,10 @@
  */
 
 class Keyboard implements FreelinerConfig{
-  //provides strings to show what is happening.
-  final String KEY_MAP[] = {
-    "a    animationMode",
-    "b    renderMode",
-    "c    placeCenter",
-    "d    setShape",
-    "e    enterpolator",
-    "f    fillColor",
-    "g    grid/size",
-    "h    easingMode",
-    "i    repetitonMode",
-    "j    reverseMode",
-    "k    strokeAlpha",
-    "l    fillAlpha",
-    "m    breakLine",
-    "n    newItem",
-    "o    rotation",
-    //"p    probability??",
-    "q    strkColor",
-    "r    polka",
-    "s    size",
-    "t    tempo",
-    "u    enabler",
-    "v    segmentSelector",
-    "w    strkWeigth",
-    "x    beatMultiplier",
-    "y    tracers",
-    //"z    ???????",
-    ",    showTags",
-    "/    showLines",
-    ";    showCrosshair",
-    ".    snapping",
-    "|    enterText",
-    "]    fixedLenght",
-    "[    fixedAngle",
-    "-    decreaseValue",
-    "=    increaseValue",
-    "$    saveTemplate",
-    "%    loadTemplate",
-    "*    record",
-    ">    steps"
-  };
-
-  final String CTRL_KEY_MAP[] = {
-    "a    selectAll",
-    "c    clone",
-    "b    groupAddTemplate",
-    "d    customShape",
-    "i    reverseMouse",
-    "r    resetTemplate",
-    "s    saveStuff",
-    "o    loadStuff",
-    "l    loadLED",
-    "k    showLEDmap"
-  };
 
   // dependecy injection
   GroupManager groupManager;
-  TemplateManager templateManager;
+  //TemplateManager templateManager;
   TemplateRenderer templateRenderer;
   Gui gui;
   Mouse mouse;
@@ -111,7 +56,6 @@ class Keyboard implements FreelinerConfig{
   //user input int and string
   String numberMaker = "";
   String wordMaker = "";
-
 
 /**
  * Constructor inits default values
@@ -142,26 +86,27 @@ class Keyboard implements FreelinerConfig{
     mouse = freeliner.getMouse();
   }
 
-/**
- * receive and key and keycode from papplet.keyPressed();
- *
- * @param char key that was press
- * @param int the keyCode
- */
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Starts Here
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * receive and key and keycode from papplet.keyPressed();
+   *
+   * @param char key that was press
+   * @param int the keyCode
+   */
   public void processKey(char k, int kc) {
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
     processKeyCodes(kc); // TAB SHIFT and friends
     // if in text entry mode
-    if (enterText) {
-      if (k==ENTER) returnWord();
-      else if (k!=65535) wordMaker(k);
-      println("Making word:  "+wordMaker);
-      gui.setValueGiven(wordMaker);
-    }
+    if (enterText) textEntry(_k);
     else {
       if (k >= 48 && k <= 57) numMaker(k); // grab numbers into the numberMaker
-      else if (k>=65 && k <= 90) processCAPS(k); // grab uppercase letters
       else if (k==ENTER) returnNumber(); // grab enter
+      else if (k>=65 && k <= 90) processCAPS(k); // grab uppercase letters
       else if (ctrled || alted) modCommands(char(kc)); // alternate mappings related to ctrl and alt combos
       else{
         setEditKey(k, KEY_MAP);
@@ -174,12 +119,16 @@ class Keyboard implements FreelinerConfig{
     }
   }
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Interpretation
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
-/**
- * Process keycode for keys like ENTER or ESC
- *
- * @param int the keyCode
- */
+  /**
+   * Process keycode for keys like ENTER or ESC
+   * @param int the keyCode
+   */
   public void processKeyCodes(int kc) {
     if (kc == SHIFT) shifted = true;
     else if (kc == ESC || kc == 27) unSelectThings();
@@ -195,18 +144,8 @@ class Keyboard implements FreelinerConfig{
     //else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
   }
 
-  private void backspaceAction(){
-    // if (enterText) {
-    //   wordMaker = removeLetter(wordMaker);
-    // }
-    // else if(numberMaker.length() > 0) numberMaker = removeLetter(numberMaker);
-    // else
-    if (!enterText) groupManager.deleteSegment();
-  }
-
 /**
- * Process key release, mostly affecting coded keys
- *
+ * Process key release, mostly affecting coded keys.
  * @param char the key
  * @param int the keyCode
  */
@@ -216,18 +155,7 @@ class Keyboard implements FreelinerConfig{
     else if (kc==18) alted = false;
   }
 
-  public void forceRelease(){
-    shifted = false;
-    ctrled = false;
-    alted = false;
-  }
 
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     Interpretation
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Process capital letters. A trick is applied here, different actions happen if caps-lock is on or shift is pressed.
@@ -238,44 +166,27 @@ class Keyboard implements FreelinerConfig{
  * @param char the capital key to process
  */
   public void processCAPS(char _c) {
-    TemplateList tl = groupManager.getTemplateList();
-
-    if(editKey == '>') tl = templateManager.getSynchroniser().getStepToEdit();
-    if(tl == null) tl = templateManager.getTemplateList();
-    if(shifted){
-      tl.toggle(templateManager.getTemplate(_c));
-      groupManager.setReferenceGroupTemplateList(tl);
-    }
-    else {
-      templateManager.trigger(_c);
-      if(tl != groupManager.getTemplateList()){
-        tl.clear();
-        tl.toggle(templateManager.getTemplate(_c));
+    // if editing steps
+    if(editKey == '>' && shifted) makeCMD("seq"+" "+"add"+" "+_c);
+    else{
+      TemplateList _tl = groupManager.getTemplateList();
+      if(tl == null) tl = templateManager.getTemplateList();
+      if(shifted){
+        _tl.toggle(templateManager.getTemplate(_c));
+        groupManager.setReferenceGroupTemplateList(_tl); // set ref
+        gui.setTemplateString(_tl.getTags());
+      }
+      else {
+        makeCMD("tr"+" "+_c);
+        if(_tl != groupManager.getTemplateList()){
+          _tl.getTemplateList().clear();
+          _tl.toggle(templateManager.getTemplate(_c));
+          gui.setTemplateString(_tl.getTags());
+        }
       }
     }
-    gui.setTemplateString(tl.getTags());
   }
 
-
-/**
- * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
- */
-  private void unSelectThings(){
-    if(!groupManager.isFocused() && !templateManager.isFocused()) gui.hide();
-    else {
-      templateManager.unSelect();
-      groupManager.unSelect();
-      gui.setTemplateString(" ");//templateManager.renderList.getString());
-      groupManager.setReferenceGroupTemplateList(null);
-    }
-    // This should fix some bugs.
-    alted = false;
-    ctrled = false;
-    shifted = false;
-    editKey = ' ';
-    gui.setKeyString("unselect");
-    gui.setValueGiven(" ");
-  }
 
 /**
  * Process a key differently if ctrl or alt is pressed.
@@ -287,12 +198,14 @@ class Keyboard implements FreelinerConfig{
     boolean _ctrl = isCtrled();
     _k += 32;
     if (_k == 'a') focusAll();
-    else if(_k == 'c') templateManager.copyTemplate();
-    else if(_k == 'v') templateManager.pasteTemplate();
-    else if(_k == 'b') templateManager.groupAddTemplate(); // ctrl-b
-    else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape
-    else if(_k == 'i') gui.setValueGiven( str(mouse.toggleInvertMouse()) );
-    else if(_k == 'r') distributor(char(518), -3, false);
+    else if(_k == 'c') makeCMD("copy"+" "+templateManager.getTemplateList().getTags());//templateManager.copyTemplate();
+    else if(_k == 'v') makeCMD("paste"+" "+templateManager.getTemplateList().getTags());//templateManager.pasteTemplate();
+    else if(_k == 'b') makeCMD("tog"+" "+templateManager.getTemplateList().getTags());//templateManager.groupAddTemplate(); // ctrl-b
+    else if(_k == 'r') makeCMD("reset"+" "+templateManager.getTemplateList().getTags());
+
+    else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape needs a cmd
+    else if(_k == 'i') gui.setValueGiven( str(mouse.toggleInvertMouse()) ); // invert X
+
     else if(_k == 'l') freeliner.reParse(); // reparse for LED map
     else if(_k == 'k') freeliner.toggleExtraGraphics(); // show extra graphics
     else if(_k == 's') saveStuff();
@@ -301,41 +214,6 @@ class Keyboard implements FreelinerConfig{
     gui.setKeyString(getKeyString(_k, CTRL_KEY_MAP));
   }
 
-/**
- * Checks if the key is mapped by checking the keyMap to see if is defined there.
- *
- * @param char the key
- */
-  boolean keyIsMapped(char _k, String[] _map) {
-    for (int i = 0; i < _map.length; i++) {
-      if (_map[i].charAt(0) == _k) return true;
-    }
-    return false;
-  }
-
-/**
- * Gets the string associated to the key from the keyMap
- *
- * @param char the key
- */
-  String getKeyString(char _k, String[] _map) {
-    for (int i = 0; i < _map.length; i++) {
-      if (_map[i].charAt(0) == _k) return _map[i];
-    }
-    return "not mapped?";
-  }
-
-
-/**
- * CTRL-a selects all renderers as always.
- */
-  private void focusAll(){
-    groupManager.unSelect();
-    templateManager.focusAll();
-    gui.setTemplateString("*all*");
-    wordMaker = "";
-    enterText = false;
-  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -351,28 +229,22 @@ class Keyboard implements FreelinerConfig{
   //if no item has focus, pass it to the slected renderers.
 
   public void distributor(char _k, int _n, boolean _vg){
-    if (!localDispatch(_k, _n, _vg)){
-      SegmentGroup sg = groupManager.getSelectedGroup();
-      TemplateList tl = null;
-      if(sg != null){
-        if(!segmentGroupDispatch(sg, _k, _n, _vg)) tl = sg.getTemplateList();
-      }
-      else tl = templateManager.getTemplateList();
-      if(tl != null){
-        ArrayList<TweakableTemplate> templates = tl.getAll();
-        if(templates != null)
-          for(TweakableTemplate te : templates)
-            templateDispatch(te, _k, _n, _vg);
-      }
+    if (localDispatch(_k, _n, _vg)) return;
+
+    SegmentGroup sg = groupManager.getSelectedGroup();
+    TemplateList tl = null;
+    if(sg != null){
+      if(!segmentGroupDispatch(sg, _k, _n, _vg)) tl = sg.getTemplateList();
+    }
+    else tl = templateManager.getTemplateList();
+
+    if(tl != null){
+      makeCMD("tw"+" "+tl.getTags()+" "+_k+" "+_n);
+      if(_vg) gui.setValueGiven(processor.getValueGiven());
     }
   }
 
 
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     Dispatches
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
 
   // PERHAPS MOVE
   // for the signature ***, char k, int n, boolean vg
@@ -382,44 +254,45 @@ class Keyboard implements FreelinerConfig{
 
   public boolean localDispatch(char _k, int _n, boolean _vg) {
     boolean used_ = true;
-    String valueGiven_ = null;
-    if(_n == -3){
+
+    if(_n == -3){ // if no value entered
       if (_k == 'n'){
         groupManager.newGroup();
         gui.updateReference();
       }
       else if (_k == 'm') mouse.press(3);
-      else if (_k == 't') templateManager.sync.tap();
-      else if (_k == 'g') valueGiven_ = str(mouse.toggleGrid());
-      else if (_k == 'y') valueGiven_ = str(templateRenderer.toggleTrails());
-      else if (_k == '*') valueGiven_ = str(toggleRecording());
-      else if (_k == ',') valueGiven_ = str(gui.toggleViewTags());
-      else if (_k == '.') valueGiven_ = str(mouse.toggleSnapping());
-      else if (_k == '/') valueGiven_ = str(gui.toggleViewLines());
-      else if (_k == ';') valueGiven_ = str(gui.toggleViewPosition());
-      else if (_k == '|') valueGiven_ = str(toggleEnterText());
+      else if (_k == 't') makeCMD("seq"+" "+"tap"); // tap tempo
+      else if (_k == 'g') makeCMD("tools"+" "+" "+"grid"); // valueGiven_ = str(mouse.toggleGrid());
+      else if (_k == 'y') makeCMD("post"+" "+"trails");//valueGiven_ = str(templateRenderer.toggleTrails());
+      else if (_k == '*') makeCMD("tools"+" "+"rec");//valueGiven_ = str(toggleRecording());
+      else if (_k == '.') makeCMD("tools"+" "+"snap");//valueGiven_ = str(mouse.toggleSnapping());
+      else if (_k == ',') makeCMD("tools"+" "+" "+"tags");//valueGiven_ = str(gui.toggleViewTags());
+      else if (_k == '/') makeCMD("tools"+" "+" "+"lines");//valueGiven_ = str(gui.toggleViewLines());
+      //else if (_k == ';') valueGiven_ = str(gui.toggleViewPosition());
+      else if (_k == '|') valueGiven_ = str(toggleEnterText()); // acts localy
       else if (_k == '-') distributor(editKey, -2, _vg); //decrease value
       else if (_k == '=') distributor(editKey, -1, _vg); //increase value
-      else if (_k == ']') valueGiven_ = str(mouse.toggleFixedLength());
-      else if (_k == '[') valueGiven_ = str(mouse.toggleFixedAngle());
+      else if (_k == ']') makeCMD("tools"+" "+"fixed"+" "+"length");//valueGiven_ = str(mouse.toggleFixedLength());
+      else if (_k == '[') makeCMD("tools"+" "+"fixed"+" "+"angle");//valueGiven_ = str(mouse.toggleFixedAngle());
       //else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
       // else if (_k == '@') saveStuff();
       // else if (_k == '#') loadStuff();
-      else if (_k == '?') templateManager.getSynchroniser().clear();
+      else if (_k == '?') makeCMD("seq"+" "+"clear");//templateManager.getSynchroniser().clear();
       else used_ = false;
     }
     else {
-      if (editKey == 'g') valueGiven_ = str(mouse.setGridSize(_n));
-      else if (editKey == 't') templateManager.sync.nudgeTime(_n);
-      else if (editKey == 'y') valueGiven_ = str(templateRenderer.setTrails(_n));
-      else if (editKey == ']') valueGiven_ = str(mouse.setLineLenght(_n));
-      else if (editKey == '[') valueGiven_ = str(mouse.setLineAngle(_n));
-      else if (editKey == '.') valueGiven_ = str(groupManager.setSnapDist(_n));
-      else if (editKey == '>') valueGiven_ = str(templateManager.getSynchroniser().setEditStep(_n));
+      if (editKey == 'g') makeCMD("tools"+" "+"grid"+" "+_n);//valueGiven_ = str(mouse.setGridSize(_n));
+      else if (editKey == 't') makeCMD("seq"+" "+"tap"+" "+_n);//templateManager.sync.nudgeTime(_n);
+      else if (editKey == 'y') makeCMD("post"+" "+"trails"+" "+_n);//valueGiven_ = str(templateRenderer.setTrails(_n));
+      else if (editKey == ']') makeCMD("tools"+" "+"fixed"+" "+"line"+_n);//valueGiven_ = str(mouse.setLineLenght(_n));
+      else if (editKey == '[') makeCMD("tools"+" "+"fixed"+" "+"angle"+_n);//valueGiven_ = str(mouse.setLineAngle(_n));
+      else if (editKey == '.') makeCMD("tools"+" "+"snap"+" "+_n);//valueGiven_ = str(groupManager.setSnapDist(_n));
+      else if (editKey == '>') makeCMD("seq"+" "+"edit"+" "+_n);//valueGiven_ = str(templateManager.getSynchroniser().setEditStep(_n));
       else used_ = false;
     }
 
-    if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
+    if(_vg) gui.setValueGiven(processor.getValueGiven());
+
     return used_;
   }
 
@@ -432,6 +305,7 @@ class Keyboard implements FreelinerConfig{
    * @param boolean display the valueGiven in the gui.
    * @return boolean if the key was used.
    */
+   // #needswork
   public boolean segmentGroupDispatch(SegmentGroup _sg, char _k, int _n, boolean _vg) {
     boolean used_ = true;
     String valueGiven_ = null;
@@ -449,67 +323,68 @@ class Keyboard implements FreelinerConfig{
    * @param char editKey (like q for color)
    * @param int value to set
    */
+    // #needswork
   public void oscDistribute(String _tags, char _k, int _n){
-    if(_tags.charAt(0) == '*'){
-      for(TweakableTemplate _tw : templateManager.getTemplates()){
-        if( _tw != null) templateDispatch(_tw, _k, _n, false);
-      }
-    }
-    else {
-      for(int i = 0; i < _tags.length(); i++){
-        TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
-        if(_rt != null){
-          templateDispatch(_rt, _k, _n, false);
-        }
-      }
-    }
+    // if(_tags.charAt(0) == '*'){
+    //   for(TweakableTemplate _tw : templateManager.getTemplates()){
+    //     if( _tw != null) templateDispatch(_tw, _k, _n, false);
+    //   }
+    // }
+    // else {
+    //   for(int i = 0; i < _tags.length(); i++){
+    //     TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
+    //     if(_rt != null){
+    //       templateDispatch(_rt, _k, _n, false);
+    //     }
+    //   }
+    // }
   }
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Actions?
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void forceRelease(){
+    shifted = false;
+    ctrled = false;
+    alted = false;
+  }
+
+  private void backspaceAction(){
+    if (!enterText) groupManager.deleteSegment();
+  }
 
   /**
-   * Change the parameters of a template.
-   * @param TweakableTemplate template to modify
-   * @param char editKey
-   * @param int value
-   * @param boolean display value or not
-   * @return boolean value used
+   * The ESC key triggers this, it unselects segment groups / renderers, a second press will hid the gui.
    */
-  public boolean templateDispatch(TweakableTemplate _template, char _k, int _n, boolean _vg) {
-    //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
-    boolean used_ = true;
-
-    if(_template != null){
-      String valueGiven_ = null;
-      if(_n == -3){
-        if (_k == '$') _template.saveToBank();
-        else if (int(_k) == 518) _template.reset();
-        else used_ = false;
-      }
-      else {
-        if (_k == 'a') valueGiven_ = str(_template.setAnimationMode(_n));
-        else if (_k == 'b') valueGiven_ = str(_template.setRenderMode(_n));
-        else if (_k == 'd') valueGiven_ = str(_template.setBrushMode(_n));
-        else if (_k == 'f') valueGiven_ = str(_template.setFillMode(_n));
-        else if (_k == 'h') valueGiven_ = str(_template.setEasingMode(_n));
-        else if (_k == 'i') valueGiven_ = str(_template.setRepetitionMode(_n));
-        else if (_k == 'j') valueGiven_ = str(_template.setReverseMode(_n));
-        else if (_k == 'k') valueGiven_ = str(_template.setStrokeAlpha(_n));
-        else if (_k == 'l') valueGiven_ = str(_template.setFillAlpha(_n));
-        else if (_k == 'o') valueGiven_ = str(_template.setRotationMode(_n));
-        else if (_k == 'e') valueGiven_ = str(_template.setInterpolateMode(_n));
-        else if (_k == 'q') valueGiven_ = str(_template.setStrokeMode(_n));
-        else if (_k == 'r') valueGiven_ = str(_template.setRepetitionCount(_n));
-        else if (_k == 's') valueGiven_ = str(_template.setBrushSize(_n));
-        else if (_k == 'u') valueGiven_ = str(_template.setEnablerMode(_n));
-        else if (_k == 'v') valueGiven_ = str(_template.setSegmentMode(_n));
-        else if (_k == 'w') valueGiven_ = str(_template.setStrokeWidth(_n));
-        else if (_k == 'x') valueGiven_ = str(_template.setBeatDivider(_n));
-        else if (_k == '%') valueGiven_ = str(_template.setBankIndex(_n));
-        else used_ = false;
-      }
-      if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
+  private void unSelectThings(){
+    if(!groupManager.isFocused() && !templateManager.isFocused()) gui.hide();
+    else {
+      templateManager.unSelect();
+      groupManager.unSelect();
+      gui.setTemplateString(" ");//templateManager.renderList.getString());
+      groupManager.setReferenceGroupTemplateList(null);
     }
-    return used_;
+    // This should fix some bugs.
+    alted = false;
+    ctrled = false;
+    shifted = false;
+    editKey = ' ';
+    gui.setKeyString("unselect");
+    gui.setValueGiven(" ");
+  }
+
+  /**
+   * CTRL-a selects all renderers as always.
+   */
+  private void focusAll(){
+    groupManager.unSelect();
+    templateManager.focusAll();
+    gui.setTemplateString("*all*");
+    wordMaker = "";
+    enterText = false;
   }
 
   /**
@@ -543,6 +418,13 @@ class Keyboard implements FreelinerConfig{
   ///////     Typing in stuff
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+  private void textEntry(char _k){
+    if (_k==ENTER) returnWord();
+    else if (_k!=65535) wordMaker(k);
+    println("Making word:  "+wordMaker);
+    gui.setValueGiven(wordMaker);
+  }
 
   /**
    * Add a char to the text entry
@@ -657,6 +539,30 @@ class Keyboard implements FreelinerConfig{
   ///////     Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+  /**
+   * Checks if the key is mapped by checking the keyMap to see if is defined there.
+   * @param char the key
+   */
+  boolean keyIsMapped(char _k, String[] _map) {
+    for (int i = 0; i < _map.length; i++) {
+      if (_map[i].charAt(0) == _k) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Gets the string associated to the key from the keyMap
+   *
+   * @param char the key
+   */
+  String getKeyString(char _k, String[] _map) {
+    for (int i = 0; i < _map.length; i++) {
+      if (_map[i].charAt(0) == _k) return _map[i];
+    }
+    return "not mapped?";
+  }
+
+
   /**
    * Is the ctrl key pressed? In OSX the ctrl key behavior is given to the alt key...
    * @return boolean valueGiven

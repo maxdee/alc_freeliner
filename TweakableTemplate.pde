@@ -34,10 +34,11 @@ class TweakableTemplate extends Template {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void saveToBank(){
+  public int saveToBank(){
     Template _tp = new Template();
     _tp.copy(this);
     bank.add(_tp);
+    return bank.size()-1;
   }
 
   public void loadFromBank(int _index){
