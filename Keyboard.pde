@@ -204,10 +204,10 @@ class Keyboard implements FreelinerConfig{
     boolean _ctrl = isCtrled();
     _k += 32;
     if (_k == 'a') focusAll();
-    else if(_k == 'c') makeCMD("copy"+" "+templateManager.getTemplateList().getTags());//templateManager.copyTemplate();
-    else if(_k == 'v') makeCMD("paste"+" "+templateManager.getTemplateList().getTags());//templateManager.pasteTemplate();
-    else if(_k == 'b') makeCMD("tog"+" "+templateManager.getTemplateList().getTags());//templateManager.groupAddTemplate(); // ctrl-b
-    else if(_k == 'r') makeCMD("reset"+" "+templateManager.getTemplateList().getTags());
+    else if(_k == 'c') makeCMD("tp"+" "+"copy"+" "+templateManager.getTemplateList().getTags());//templateManager.copyTemplate();
+    else if(_k == 'v') makeCMD("tp"+" "+"paste"+" "+templateManager.getTemplateList().getTags());//templateManager.pasteTemplate();
+    else if(_k == 'b') makeCMD("tp"+" "+"tog"+" "+templateManager.getTemplateList().getTags());//templateManager.groupAddTemplate(); // ctrl-b
+    else if(_k == 'r') makeCMD("tp"+" "+"reset"+" "+templateManager.getTemplateList().getTags());
 
     else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape needs a cmd
     else if(_k == 'i') gui.setValueGiven( str(mouse.toggleInvertMouse()) ); // invert X
@@ -353,7 +353,7 @@ class Keyboard implements FreelinerConfig{
 
   public void makeCMD(String _cmd){
     println("making cmd : "+_cmd);
-    processor.processCmd(_cmd);
+    processor.processCMD(_cmd);
   }
 
   public void forceRelease(){

@@ -96,7 +96,4 @@ interface FreelinerConfig{
     "k    showLEDmap"
   };
 
-
-  // ExternalGUI options
-
 }

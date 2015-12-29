@@ -8,8 +8,6 @@
  */
 
 
-
-
 /** LIST OF COMMMANDS !!!
  * tw AB q 3
  * tr AB (geometry)
@@ -17,11 +15,15 @@
  * tp paste (AB)
  * tp add (AB)
  * tp reset (AB)
+ * tp save (cooleffects.xml)
+ * tp load (coolstuff.xml)
  * ///////////////////
  * seq tap (offset)
- * seq edit (step)
- * seq clear (step)
+ * seq edit -1,-2,step
+ * seq clear (step || AB)
  * seq add A (step)
+ * cmd rec
+ * cmd play
  * ///////////////////
  * tools grid (size)
  * tools lines
@@ -31,7 +33,12 @@
  * tools fixed line (length)
  * tools fixed angle (angle)
  * ///////////////////
+ * geom txt ?????????????????
+ * geom save (coolMap.xml)
+ * geom load (coolMap.xml)
+ * ///////////////////
  * post trails (alpha)
+ * post shader (coolfrag.glsl)
  */
 
 
@@ -41,6 +48,9 @@
 class CommandProcessor implements FreelinerConfig{
 
   TemplateManager templateManager;
+  TemplateRenderer templateRenderer;
+  GroupManager groupManager;
+  SequenceSync synchroniser;
 
   // this string gets set to whatever value was set
   String valueGiven = "";
@@ -56,13 +66,16 @@ class CommandProcessor implements FreelinerConfig{
    */
   public void inject(FreeLiner _fl){
     templateManager = _fl.getTemplateManager();
+    synchroniser = templateManager.getSynchroniser();
+    templateRenderer = _fl.getTemplateRenderer();
+    groupManager = _fl.getGroupManager();
   }
 
 
   // keyboard triggered commands go through here? might be able to hack a undo feature...
-  public boolean processCmdStack(String _cmd){
+  public void processCmdStack(String _cmd){
     // add to stack
-    return processCmd(_cmd);
+    processCMD(_cmd);
   }
 
   /**
@@ -73,21 +86,17 @@ class CommandProcessor implements FreelinerConfig{
    * @param String command
    * @return boolean was used
    */
-  public boolean processCmd(String _cmd){
+  public void processCMD(String _cmd){
     // if(record)
     String[] _args = split(_cmd, ' ');
-    if(_args.length == 0) return false;
-    if(_args[0].equals("tw")) templateCMD(_args);//tweakTemplates(_args);
-    else if(_args[0].equals("tr")) templateCMD(_args);//triggerTemplate(_args);
+    if(_args.length == 0) return;
+    if(_args[0].equals("tw")) templateCMD(_args); // good
+    else if(_args[0].equals("tr")) templateCMD(_args); // need to check trigger group
     else if(_args[0].equals("tp")) templateCMD(_args);
     else if(_args[0].equals("seq")) sequencerCMD(_args);
     else if(_args[0].equals("post")) postCMD(_args);
     else if(_args[0].equals("tools")) toolsCMD(_args);
-    else {
-      println("Unknown CMD : "+_cmd);
-      return false;
-    }
-    return true;
+    else println("Unknown CMD : "+join(_args, ' '));
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +116,14 @@ class CommandProcessor implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public void postCMD(String[] _args){
-    println("PostCMD : "+_args);
+    // println("PostCMD : "+_args);
+    if(_args.length < 3) return;
+    else if(_args[1].equals("trails")){
+      int _v = stringInt(_args[2]);
+      if(_v == -3) valueGiven = str(templateRenderer.toggleTrails());
+      else valueGiven = str(templateRenderer.setTrails(_v));
+    }
+    else println("Unknown CMD : "+join(_args, ' '));
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -115,11 +131,39 @@ class CommandProcessor implements FreelinerConfig{
   ///////     sequencerCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
+  // * seq tap
+  // * seq edit -1,-2,step
+  // * seq clear (step || AB)
+  // * seq toggle A (step)
   public void sequencerCMD(String[] _args){
-    // if less than three add to selected step
-    // if(_args.length < 3){
-    //   tl = templateManager.getSynchroniser().getStepToEdit();
+    //if(_args.length < 3) return;
+    if(_args[1].equals("tap")) synchroniser.tap();
+    else if(_args[1].equals("edit")) editStep(_args); // up down or specific
+    else if(_args[1].equals("clear")) clearStep(_args); //
+    else if(_args[1].equals("toggle")) toggleStep(_args);
+    else println("Unknown CMD : "+join(_args, ' '));
+  }
+
+  public void editStep(String[] _args){
+    if(_args.length == 3) valueGiven = str(synchroniser.setEditStep(stringInt(_args[2])));
+  }
+
+  public void clearStep(String[] _args){
+    // if(_args.length == 2) synchroniser.clear());
+    // else if(_args.length == 3){
+    //   int _v = stringInt(_args[2]);
+    //   if(_v != -42) synchroniser.clearStep(_v);
+    //   else synchroniser.clear(String _args[2]);
+    // }
+  }
+
+  public void toggleStep(String[] _args){
+    // if(_args.length == 2) synchroniser.clear());
+    // else if(_args.length == 3){
+    //   int _v = stringInt(_args[2]);
+    //   if(_v != -42) synchroniser.clearStep(_v);
+    //   else synchroniser.clear(String _args[2]);
+    // }
   }
 
 
@@ -128,6 +172,7 @@ class CommandProcessor implements FreelinerConfig{
   ///////     Template commands
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
   public void templateCMD(String[] _args){
     if(_args[0].equals("tw")) tweakTemplates(_args);
     else if(_args[0].equals("tr")) triggerTemplates(_args);
@@ -221,10 +266,6 @@ class CommandProcessor implements FreelinerConfig{
     else if (int(_k) == 518) _template.reset();
 
   }
-
-
-
-
 
 
   ////////////////////////////////////////////////////////////////////////////////////

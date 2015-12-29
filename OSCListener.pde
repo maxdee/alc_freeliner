@@ -30,7 +30,8 @@ class OSClistener implements OscEventListener{
         String tags = theOscMessage.get(0).stringValue();
         char kay = theOscMessage.get(1).stringValue().charAt(0);
         int val = theOscMessage.get(2).intValue();
-        freeliner.keyboard.oscDistribute(tags, kay, val);
+        //freeliner.keyboard.oscDistribute(tags, kay, val);
+        freeliner.getCommandProcessor().processCMD("tw"+" "+tags+" "+kay+" "+val);
       }
     }
     // trigger animations
@@ -42,7 +43,8 @@ class OSClistener implements OscEventListener{
       }
       if(theOscMessage.checkTypetag("si")) {
         String tags = theOscMessage.get(0).stringValue();
-        freeliner.templateManager.oscTrigger(tags, theOscMessage.get(1).intValue());
+        //freeliner.templateManager.oscTrigger(tags, theOscMessage.get(1).intValue());
+        freeliner.getCommandProcessor().processCMD("tr"+" "+tags+" "+theOscMessage.get(1).intValue());
       }
     }
     // enable diable and set intencity of trails

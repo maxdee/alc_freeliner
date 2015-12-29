@@ -105,15 +105,19 @@ class FreeLiner {
   public Gui getGui(){
     return gui;
   }
+
   public GroupManager getGroupManager(){
     return groupManager;
   }
+
   public TemplateManager getTemplateManager(){
     return templateManager;
   }
+
   public TemplateRenderer getTemplateRenderer(){
     return templateRenderer;
   }
+
   public CommandProcessor getCommandProcessor(){
     return commandProcessor;
   }

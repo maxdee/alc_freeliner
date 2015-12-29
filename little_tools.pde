@@ -29,7 +29,7 @@ int stringInt(String _str){
   }
   catch (Exception e){
     println("Bad number string");
-    return 42;
+    return -42;
   }
 }
 

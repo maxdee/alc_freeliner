@@ -123,7 +123,7 @@ class SequenceSync extends Synchroniser{
     }
     selectedList = lists[0];
   }
-  //
+
   public void update(){
     super.update();
     int oldStep = step;
@@ -145,9 +145,21 @@ class SequenceSync extends Synchroniser{
   }
 
   public void clear(){
-    for(int i = 0; i < SEQ_STEP_COUNT; i++){
-      lists[i].clear();
-    }
+    // for(int i = 0; i < SEQ_STEP_COUNT; i++){
+    //   lists[i].clear();
+    // }
+    for(TemplateList _tl : lists) _tl.clear();
+  }
+
+  public void clear(int _s){
+    if(_s < SEQ_STEP_COUNT) lists[_s].clear();
+  }
+
+  public void clear(String _tags){
+    // if(_tags.length < 1) return;
+    // for(int i = 0; i < _tags.length; i++)
+    //   for(TemplateList _lst)
+    //     if(_lst.getID() == _tags.charAt(i)) _lst.toggle()
   }
 
 
