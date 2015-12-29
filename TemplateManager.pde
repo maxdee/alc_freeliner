@@ -228,17 +228,18 @@ class TemplateManager{
    * Copy a template and maybe paste it automaticaly. Triggered by ctrl-c with 2 templates selected.
    */
   public void copyTemplate(){
-    TweakableTemplate toCopy = templateList.getIndex(0).getTag();
+    TweakableTemplate toCopy = templateList.getIndex(0);
     TweakableTemplate pasteInto = templateList.getIndex(1);
     copyTemplate(toCopy, pasteInto);
   }
 
   // for ABCD (A->BCD)
   public void copyTemplate(String _tags){
-    if(_tags.length = 1) copyTemplate(getTemplate(_tags.charAt(0), null);
+    if(_tags.length() == 0) return;
+    if(_tags.length() == 1) copyTemplate(getTemplate(_tags.charAt(0)), null);
     else
-      for(int i = 1; i < _tags.length; i++)
-        copyTemplate(getTemplate(_tags.charAt(0), _tags.charAt(i));
+      for(int i = 1; i < _tags.length(); i++)
+        copyTemplate(getTemplate(_tags.charAt(0)), getTemplate(_tags.charAt(i)));
   }
 
   public void copyTemplate(TweakableTemplate _toCopy, TweakableTemplate _toPaste){
@@ -254,13 +255,13 @@ class TemplateManager{
   }
 
   public void pasteTemplate(String _tags){
-    if(_tags.length > 0)
-      for(int i = 0; i < _tags.length; i++)
-        pasteTemplate(getTemplate(_tags.charAt(i));
+    if(_tags.length() > 0)
+      for(int i = 0; i < _tags.length(); i++)
+        pasteTemplate(getTemplate(_tags.charAt(i)));
   }
 
   public void pasteTemplate(TweakableTemplate _pasteInto){
-    if(copyedTemplate != null && _pasteInto != null) toGetCopy.copyParameters(copyedTemplate);
+    if(copyedTemplate != null && _pasteInto != null) _pasteInto.copyParameters(copyedTemplate);
   }
 
   /**
@@ -271,16 +272,27 @@ class TemplateManager{
   }
 
   public void groupAddTemplate(String _tags){
-    if(_tags.length > 0)
-      for(int i = 1; i < _tags.length; i++)
-        groupAddTemplate(getTemplate(_tags.charAt(0), getTemplate(_tags.charAt(i));
+    if(_tags.length() > 0)
+      for(int i = 1; i < _tags.length(); i++)
+        groupAddTemplate(getTemplate(_tags.charAt(0)), getTemplate(_tags.charAt(i)));
   }
 
-  public void groupAddTemplate(Template _a, Template _b){
+  public void groupAddTemplate(TweakableTemplate _a, TweakableTemplate _b){
     if(_a != null && _b !=null) groupManager.groupAddTemplate(_a, _b);
   }
 
-  
+  /**
+   * ResetTemplate
+   */
+  public void resetTemplate(){
+   resetTemplate(templateList.getTags());
+  }
+
+  public void resetTemplate(String _tags){
+    if(_tags.length() > 0)
+      for(int i = 0; i < _tags.length(); i++)
+        getTemplate(_tags.charAt(i)).reset();
+  }
   /**
    * Set a template's custom color, this is done with OSC.
    */
@@ -461,17 +473,18 @@ class TemplateManager{
   }
 
   // a fancier accessor, supports "ANCD" "*"
-  public ArrayList<Template> getTemplates(String _tags){
-    ArrayList<Template> _tmps = new ArrayList();
-    if(_tags.length == 0) return null;
+  public ArrayList<TweakableTemplate> getTemplates(String _tags){
+    if(_tags.length() < 1) return null;
+    ArrayList<TweakableTemplate> _tmps = new ArrayList();
+    if(_tags.length() == 0) return null;
     else if(_tags.charAt(0) == '*'){
-      for(TweakableTemplate _tw : templateManager.getTemplates()){
+      for(TweakableTemplate _tw : getTemplates()){
         if( _tw != null) _tmps.add(_tw);
       }
     }
     else {
       for(int i = 0; i < _tags.length(); i++){
-        TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
+        TweakableTemplate _tw = getTemplate(_tags.charAt(i));
         if( _tw != null) _tmps.add(_tw);
       }
     }

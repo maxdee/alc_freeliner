@@ -48,13 +48,13 @@ class CommandProcessor implements FreelinerConfig{
   /**
    * Constructor, nothing to do here.
    */
-  public CommmandProcessor(){ }
+  public CommandProcessor(){ }
 
   /**
    * Dependency injection
-   * @param Freeliner
+   * @param FreeLiner
    */
-  public void inject(Freeliner _fl){
+  public void inject(FreeLiner _fl){
     templateManager = _fl.getTemplateManager();
   }
 
@@ -62,7 +62,7 @@ class CommandProcessor implements FreelinerConfig{
   // keyboard triggered commands go through here? might be able to hack a undo feature...
   public boolean processCmdStack(String _cmd){
     // add to stack
-    processCmd(_cmd);
+    return processCmd(_cmd);
   }
 
   /**
@@ -75,8 +75,8 @@ class CommandProcessor implements FreelinerConfig{
    */
   public boolean processCmd(String _cmd){
     // if(record)
-    String[] _args = split(args, ' ');
-    if(_args.length == 0) return;
+    String[] _args = split(_cmd, ' ');
+    if(_args.length == 0) return false;
     if(_args[0].equals("tw")) templateCMD(_args);//tweakTemplates(_args);
     else if(_args[0].equals("tr")) templateCMD(_args);//triggerTemplate(_args);
     else if(_args[0].equals("tp")) templateCMD(_args);
@@ -92,14 +92,34 @@ class CommandProcessor implements FreelinerConfig{
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////     template commands
+  ///////     toolsCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void sequencerCMD(String _args){
+  public void toolsCMD(String[] _args){
+    println("toolsCMD : "+_args);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     postCMD
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void postCMD(String[] _args){
+    println("PostCMD : "+_args);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     sequencerCMD
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void sequencerCMD(String[] _args){
     // if less than three add to selected step
-    if(_args.length < 3){
-      tl = templateManager.getSynchroniser().getStepToEdit();
+    // if(_args.length < 3){
+    //   tl = templateManager.getSynchroniser().getStepToEdit();
   }
 
 
@@ -139,12 +159,13 @@ class CommandProcessor implements FreelinerConfig{
     else templateManager.groupAddTemplate();
   }
 
+  // could be in tm
   public void triggerTemplates(String[] _args){
     if(_args.length == 2){
-      for(int i = 0; i < _args[1].length; i++) templateManager.trigger(_args[1].charAt(i));
+      for(int i = 0; i < _args[1].length(); i++) templateManager.trigger(_args[1].charAt(i));
     }
     else if(_args.length > 2){
-      for(int i = 0; i < _args[1].length; i++)
+      for(int i = 0; i < _args[1].length(); i++)
         for(int j = 2; j < _args.length; j++) templateManager.trigger(_args[1].charAt(i), stringInt(_args[j]));
     }
   }
@@ -156,12 +177,13 @@ class CommandProcessor implements FreelinerConfig{
    * @return boolean was used
    */
   public void tweakTemplates(String[] _args){
-    ArrayList<Template> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
+    //if(_args.length < 4) return;
+    //if(_args[3] == "-3") return;
+    ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
     if(_tmps == null) return;
     char _k = _args[2].charAt(0);
-    int _v = 0;
-    try {_v = Integer.parseInt(_str);} catch (Exception e){ println("Bad int string"); return false;}
-    for(Template _tp : _tmps) templateDispatch(_tp, _k, _v)
+    int _v = stringInt(_args[3]);
+    for(TweakableTemplate _tp : _tmps) templateDispatch(_tp, _k, _v);
   }
 
   /**
@@ -173,7 +195,7 @@ class CommandProcessor implements FreelinerConfig{
    */
   public void templateDispatch(TweakableTemplate _template, char _k, int _n) {
     //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
-    if(_template == null) return false;
+    if(_template == null) return;
 
     if (_k == 'a') valueGiven = str(_template.setAnimationMode(_n));
     else if (_k == 'b') valueGiven = str(_template.setRenderMode(_n));

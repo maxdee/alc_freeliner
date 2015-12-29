@@ -32,8 +32,9 @@ class Keyboard implements FreelinerConfig{
 
   // dependecy injection
   GroupManager groupManager;
-  //TemplateManager templateManager;
+  TemplateManager templateManager;
   TemplateRenderer templateRenderer;
+  CommandProcessor processor;
   Gui gui;
   Mouse mouse;
   FreeLiner freeliner;
@@ -84,6 +85,8 @@ class Keyboard implements FreelinerConfig{
     templateRenderer = freeliner.getTemplateRenderer();
     gui = freeliner.getGui();
     mouse = freeliner.getMouse();
+
+    processor = freeliner.getCommandProcessor();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -98,19 +101,20 @@ class Keyboard implements FreelinerConfig{
    * @param char key that was press
    * @param int the keyCode
    */
-  public void processKey(char k, int kc) {
+  public void processKey(char _k, int _kc) {
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
-    processKeyCodes(kc); // TAB SHIFT and friends
+    //processKeyCodes(_kc); // TAB SHIFT and friends
     // if in text entry mode
-    if (enterText) textEntry(_k);
+    if(processKeyCodes(_kc)) return; // TAB SHIFT and friends
+    else if (enterText) textEntry(_k);
     else {
-      if (k >= 48 && k <= 57) numMaker(k); // grab numbers into the numberMaker
-      else if (k==ENTER) returnNumber(); // grab enter
-      else if (k>=65 && k <= 90) processCAPS(k); // grab uppercase letters
-      else if (ctrled || alted) modCommands(char(kc)); // alternate mappings related to ctrl and alt combos
+      if (_k >= 48 && _k <= 57) numMaker(_k); // grab numbers into the numberMaker
+      else if (_k == ENTER) returnNumber(); // grab enter
+      else if (_k >= 65 && _k <= 90) processCAPS(_k); // grab uppercase letters
+      else if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
       else{
-        setEditKey(k, KEY_MAP);
-        distributor(k, -3, true);
+        setEditKey(_k, KEY_MAP);
+        distributor(_k, -3, true);
       }
     }
     //this should be elsewhere...
@@ -129,7 +133,7 @@ class Keyboard implements FreelinerConfig{
    * Process keycode for keys like ENTER or ESC
    * @param int the keyCode
    */
-  public void processKeyCodes(int kc) {
+  public boolean processKeyCodes(int kc) {
     if (kc == SHIFT) shifted = true;
     else if (kc == ESC || kc == 27) unSelectThings();
     else if (kc==CONTROL) setCtrled(true);
@@ -141,6 +145,8 @@ class Keyboard implements FreelinerConfig{
     //tab and shift tab throug groups
     else if (kc==TAB) groupManager.tabThrough(shifted);
     else if (kc==BACKSPACE) backspaceAction();
+    else return false;
+    return true;
     //else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
   }
 
@@ -170,7 +176,7 @@ class Keyboard implements FreelinerConfig{
     if(editKey == '>' && shifted) makeCMD("seq"+" "+"add"+" "+_c);
     else{
       TemplateList _tl = groupManager.getTemplateList();
-      if(tl == null) tl = templateManager.getTemplateList();
+      if(_tl == null) _tl = templateManager.getTemplateList();
       if(shifted){
         _tl.toggle(templateManager.getTemplate(_c));
         groupManager.setReferenceGroupTemplateList(_tl); // set ref
@@ -179,7 +185,7 @@ class Keyboard implements FreelinerConfig{
       else {
         makeCMD("tr"+" "+_c);
         if(_tl != groupManager.getTemplateList()){
-          _tl.getTemplateList().clear();
+          _tl.clear();
           _tl.toggle(templateManager.getTemplate(_c));
           gui.setTemplateString(_tl.getTags());
         }
@@ -230,7 +236,6 @@ class Keyboard implements FreelinerConfig{
 
   public void distributor(char _k, int _n, boolean _vg){
     if (localDispatch(_k, _n, _vg)) return;
-
     SegmentGroup sg = groupManager.getSelectedGroup();
     TemplateList tl = null;
     if(sg != null){
@@ -269,7 +274,7 @@ class Keyboard implements FreelinerConfig{
       else if (_k == ',') makeCMD("tools"+" "+" "+"tags");//valueGiven_ = str(gui.toggleViewTags());
       else if (_k == '/') makeCMD("tools"+" "+" "+"lines");//valueGiven_ = str(gui.toggleViewLines());
       //else if (_k == ';') valueGiven_ = str(gui.toggleViewPosition());
-      else if (_k == '|') valueGiven_ = str(toggleEnterText()); // acts localy
+      else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
       else if (_k == '-') distributor(editKey, -2, _vg); //decrease value
       else if (_k == '=') distributor(editKey, -1, _vg); //increase value
       else if (_k == ']') makeCMD("tools"+" "+"fixed"+" "+"length");//valueGiven_ = str(mouse.toggleFixedLength());
@@ -346,6 +351,11 @@ class Keyboard implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  public void makeCMD(String _cmd){
+    println("making cmd : "+_cmd);
+    processor.processCmd(_cmd);
+  }
+
   public void forceRelease(){
     shifted = false;
     ctrled = false;
@@ -421,7 +431,7 @@ class Keyboard implements FreelinerConfig{
 
   private void textEntry(char _k){
     if (_k==ENTER) returnWord();
-    else if (_k!=65535) wordMaker(k);
+    else if (_k!=65535) wordMaker(_k);
     println("Making word:  "+wordMaker);
     gui.setValueGiven(wordMaker);
   }

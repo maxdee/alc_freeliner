@@ -25,6 +25,8 @@ class FreeLiner {
   Keyboard keyboard;
   OSClistener osc;
 
+  CommandProcessor commandProcessor;
+
   boolean windowFocus;
 
   PApplet applet;
@@ -42,12 +44,15 @@ class FreeLiner {
     mouse = new Mouse();
     keyboard = new Keyboard();
     osc = new OSClistener(applet, this);
+
+    commandProcessor = new CommandProcessor();
     // inject dependence
     mouse.inject(groupManager, keyboard);
     keyboard.inject(this);
     gui.inject(groupManager, mouse);
     templateManager.inject(groupManager);
     groupManager.inject(templateManager);
+    commandProcessor.inject(this);
     windowFocus = true;
   }
 
@@ -108,6 +113,9 @@ class FreeLiner {
   }
   public TemplateRenderer getTemplateRenderer(){
     return templateRenderer;
+  }
+  public CommandProcessor getCommandProcessor(){
+    return commandProcessor;
   }
 
   public PGraphics getCanvas(){
