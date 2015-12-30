@@ -19,6 +19,7 @@ class FreelinerLED extends FreeLiner{
 		// init the subclass of freeLEDing
 	  //freeLED = new FreeLEDing();
 	  //freeLED = new OctoLEDing(_pa, "/dev/tty0");
+		String portName = Serial.list()[0];
 	  freeLED = new FastLEDing(_pa, "/dev/ttyACM0");
 	  // load a ledmap file
 	  freeLED.parseLEDfile("userdata/led_fullstrips.xml");//suserdata/"+_file);

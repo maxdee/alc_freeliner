@@ -116,16 +116,23 @@ class CommandProcessor implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public void postCMD(String[] _args){
-    // println("PostCMD : "+_args);
-    if(_args.length < 3) return;
-    else if(_args[1].equals("trails")){
-      int _v = stringInt(_args[2]);
-      if(_v == -3) valueGiven = str(templateRenderer.toggleTrails());
-      else valueGiven = str(templateRenderer.setTrails(_v));
-    }
+    //println("PostCMD : "+_args);
+    if(_args.length < 1) return;
+    else if(_args[1].equals("trails")) trailsCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
 
+
+  public void trailsCMD(String[] _args){
+    if(_args.length < 2) return;
+    else if(_args[1].equals("trails")){
+      if(_args.length == 2) valueGiven = str(templateRenderer.toggleTrails());
+      else {
+        int _v = stringInt(_args[2]);
+        valueGiven = str(templateRenderer.setTrails(_v));
+      }
+    }
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     sequencerCMD
