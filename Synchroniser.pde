@@ -144,26 +144,33 @@ class SequenceSync extends Synchroniser{
     // set for specific steps? show the tags for each step, cycle with -=
   }
 
+  /**
+   * Clear everything
+   */
   public void clear(){
-    // for(int i = 0; i < SEQ_STEP_COUNT; i++){
-    //   lists[i].clear();
-    // }
     for(TemplateList _tl : lists) _tl.clear();
   }
 
+  /**
+   * Clear specific step
+   * @param int step index
+   */
   public void clear(int _s){
     if(_s < SEQ_STEP_COUNT) lists[_s].clear();
   }
 
-  public void clear(String _tags){
-    // if(_tags.length < 1) return;
-    // for(int i = 0; i < _tags.length; i++)
-    //   for(TemplateList _lst)
-    //     if(_lst.getID() == _tags.charAt(i)) _lst.toggle()
+  /**
+   * Clear a specific Template
+   * @param TweakableTemplate template to clear
+   */
+  public void clear(TweakableTemplate _tw){
+    for(TemplateList _tl : lists) _tl.remove(_tw);
   }
 
-
-  // set which step to edit
+  /**
+   * Set step to edit
+   * @param int step index
+   */
   public int setEditStep(int _n){
     editStep = numTweaker(_n, editStep);
     editStep %= SEQ_STEP_COUNT;
@@ -171,6 +178,22 @@ class SequenceSync extends Synchroniser{
     stepChanged = true;
     return editStep;
   }
+
+  /**
+   * Jump to specific step
+   * @param int step index
+   */
+  public void setStep(int _step){
+    periodCount = (_step - 1)+16;
+    step = periodCount % SEQ_STEP_COUNT;
+    lerper = 0.99999;
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Accessors
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
   public TemplateList getStepToEdit(){
     return selectedList;
@@ -191,11 +214,5 @@ class SequenceSync extends Synchroniser{
 
   public int getStep(){
     return step;
-  }
-
-  public void setStep(int _step){
-    periodCount = (_step - 1)+16;
-    step = periodCount % SEQ_STEP_COUNT;
-    lerper = 0.99999;
   }
 }

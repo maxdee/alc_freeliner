@@ -22,6 +22,8 @@
  * seq edit -1,-2,step
  * seq clear (step || AB)
  * seq add A (step)
+ * seq play (step)
+ * seq stop
  * cmd rec
  * cmd play
  * ///////////////////
@@ -104,7 +106,13 @@ class CommandProcessor implements FreelinerConfig{
   ///////     toolsCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
+  // * tools grid (size)
+  // * tools lines
+  // * tools tags
+  // * tools snap (dist)
+  // * tools rec
+  // * tools fixed line (length)
+  // * tools fixed angle (angle)
   public void toolsCMD(String[] _args){
     println("toolsCMD : "+_args);
   }
@@ -122,7 +130,6 @@ class CommandProcessor implements FreelinerConfig{
     else println("Unknown CMD : "+join(_args, ' '));
   }
 
-
   public void trailsCMD(String[] _args){
     if(_args.length < 2) return;
     else if(_args[1].equals("trails")){
@@ -133,20 +140,23 @@ class CommandProcessor implements FreelinerConfig{
       }
     }
   }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     sequencerCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
   // * seq tap
   // * seq edit -1,-2,step
   // * seq clear (step || AB)
   // * seq toggle A (step)
+
   public void sequencerCMD(String[] _args){
     //if(_args.length < 3) return;
     if(_args[1].equals("tap")) synchroniser.tap();
     else if(_args[1].equals("edit")) editStep(_args); // up down or specific
-    else if(_args[1].equals("clear")) clearStep(_args); //
+    else if(_args[1].equals("clear")) clear(_args); //
     else if(_args[1].equals("toggle")) toggleStep(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
@@ -155,28 +165,30 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length == 3) valueGiven = str(synchroniser.setEditStep(stringInt(_args[2])));
   }
 
-  public void clearStep(String[] _args){
-    // if(_args.length == 2) synchroniser.clear());
-    // else if(_args.length == 3){
-    //   int _v = stringInt(_args[2]);
-    //   if(_v != -42) synchroniser.clearStep(_v);
-    //   else synchroniser.clear(String _args[2]);
-    // }
+  public void clear(String[] _args){
+    if(_args.length == 2) synchroniser.clear();
+    else if(_args.length == 3){
+      int _v = stringInt(_args[2]);
+      if(_v != -42) synchroniser.clear(_v);
+      else {
+        templateManager.getTemplates(_args[2]);
+        // for(TweakableTemplate _tw : templateManager.getTemplates(_args[2]))
+        //   synchroniser.clear(_tw);
+      }
+    }
   }
 
   public void toggleStep(String[] _args){
-    // if(_args.length == 2) synchroniser.clear());
-    // else if(_args.length == 3){
-    //   int _v = stringInt(_args[2]);
-    //   if(_v != -42) synchroniser.clearStep(_v);
-    //   else synchroniser.clear(String _args[2]);
+    // if(_args.length > 2){
+    //   for(TweakableTemplate _tw : templateManager.getTemplates(_args[2]))
+    //     synchroniser.toggle(_tw);
     // }
   }
 
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////     Template commands
+  ///////     Template commands ********TESTED********
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
@@ -187,7 +199,7 @@ class CommandProcessor implements FreelinerConfig{
       if(_args[1].equals("copy")) copy(_args);
       else if(_args[1].equals("paste")) paste(_args);
       else if(_args[1].equals("reset")) reset(_args);
-      else if(_args[1].equals("add")) add(_args);
+      else if(_args[1].equals("tog")) add(_args);
     }
   }
 
