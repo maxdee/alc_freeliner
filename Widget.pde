@@ -317,10 +317,10 @@ public class GeometrySaver extends GeometryLoader {
 class SequenceGUI extends Widget {
   int txtSize = 20;
   int inset = 2;
-  SequenceSync sequencer;
+  Sequencer sequencer;
   TemplateList managerList;
 
-  public SequenceGUI(PVector _pos, PVector _sz, SequenceSync _seq, TemplateList _tl){
+  public SequenceGUI(PVector _pos, PVector _sz, Sequencer _seq, TemplateList _tl){
     super(_pos, _sz);
     //txtSize = int(_sz.y);
     sequencer = _seq;
@@ -330,7 +330,7 @@ class SequenceGUI extends Widget {
 
   public void action(int _mb){
     int _clickedStep = int(mouseFloat.x * SEQ_STEP_COUNT);
-    if(_mb == LEFT) sequencer.setStep(_clickedStep);
+    if(_mb == LEFT) sequencer.forceStep(_clickedStep);
     else if(_mb == RIGHT){
       ArrayList<TweakableTemplate> _tmps = managerList.getAll();
       if(_tmps == null) return;

@@ -24,13 +24,14 @@ class TemplateManager{
   ArrayList<RenderableTemplate> eventList;
   ArrayList<RenderableTemplate> loops;
   // synchronise things
-  SequenceSync sync;
-
+  Synchroniser sync;
+  Sequencer sequencer;
   GroupManager groupManager;
 
 
   public TemplateManager(){
-    sync = new SequenceSync();
+    sync = new Synchroniser();
+    sequencer = new Sequencer();
   	templateList = new TemplateList();
     loops = new ArrayList();
     eventList = new ArrayList();
@@ -54,7 +55,9 @@ class TemplateManager{
   // update the render events
   public void update() {
     sync.update();
-    trigger(sync.getStepList());
+    sequencer.update(sync.getPeriodCount());
+    trigger(sequencer.getStepList());
+    //println("tags "+sequencer.getStepList().getTags());
     // check for events?
     // set the unitinterval/beat for all templates
     syncTemplates(loops);
@@ -140,7 +143,7 @@ class TemplateManager{
     TweakableTemplate _tp = getTemplate(_c);
     if(_tp == null) return;
     trigger(_tp);
-    sync.templateInput(_tp);
+    // sync.templateInput(_tp);
   }
 
   public void trigger(TweakableTemplate _tp){
@@ -436,8 +439,12 @@ class TemplateManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public SequenceSync getSynchroniser(){
+  public Synchroniser getSynchroniser(){
     return sync;
+  }
+
+  public Sequencer getSequencer(){
+    return sequencer;
   }
 
   public ArrayList<RenderableTemplate> getLoops(){

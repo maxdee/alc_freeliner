@@ -21,19 +21,20 @@
  * seq tap (offset)
  * seq edit -1,-2,step
  * seq clear (step || AB)
- * seq add A (step)
- * seq play (step)
+ * seq add A step
+ * seq toggle A (step)
+ * seq play 0,1
  * seq stop
  * cmd rec
  * cmd play
  * ///////////////////
- * tools grid (size)
  * tools lines
  * tools tags
+ * tools capture
  * tools snap (dist)
- * tools rec
- * tools fixed line (length)
- * tools fixed angle (angle)
+ * tools grid (size)
+ * tools ruler (length)
+ * tools angle (angle)
  * ///////////////////
  * geom txt ?????????????????
  * geom save (coolMap.xml)
@@ -52,8 +53,10 @@ class CommandProcessor implements FreelinerConfig{
   TemplateManager templateManager;
   TemplateRenderer templateRenderer;
   GroupManager groupManager;
-  SequenceSync synchroniser;
-
+  Synchroniser synchroniser;
+  Sequencer sequencer;
+  Mouse mouse;
+  Gui gui;
   // this string gets set to whatever value was set
   String valueGiven = "";
 
@@ -69,8 +72,11 @@ class CommandProcessor implements FreelinerConfig{
   public void inject(FreeLiner _fl){
     templateManager = _fl.getTemplateManager();
     synchroniser = templateManager.getSynchroniser();
+    sequencer = templateManager.getSequencer();
     templateRenderer = _fl.getTemplateRenderer();
     groupManager = _fl.getGroupManager();
+    mouse = _fl.getMouse();
+    gui = _fl.getGui();
   }
 
 
@@ -106,15 +112,56 @@ class CommandProcessor implements FreelinerConfig{
   ///////     toolsCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-  // * tools grid (size)
   // * tools lines
   // * tools tags
+  // * tools capture
   // * tools snap (dist)
-  // * tools rec
-  // * tools fixed line (length)
-  // * tools fixed angle (angle)
+  // * tools grid (size)
+  // * tools ruler (length)
+  // * tools angle (angle)
+
   public void toolsCMD(String[] _args){
-    println("toolsCMD : "+_args);
+    if(_args.length < 2) return;
+    if(_args[1].equals("lines")) valueGiven = str(gui.toggleViewLines());
+    else if(_args[1].equals("tags")) valueGiven = str(gui.toggleViewLines());
+    else if(_args[1].equals("capture")) valueGiven = str(templateRenderer.toggleRecording());
+    else if(_args[1].equals("snap")) snapCMD(_args);
+    else if(_args[1].equals("grid")) gridCMD(_args);
+    else if(_args[1].equals("ruler")) rulerCMD(_args);
+    else if(_args[1].equals("angle")) angleCMD(_args);
+    else println("Unknown CMD : "+join(_args, ' '));
+  }
+
+  public void snapCMD(String[] _args){
+    if(_args.length > 2){
+      int _v = stringInt(_args[2]);
+      if(_v == -3) valueGiven = str(mouse.toggleSnapping());
+      else if(_v != -42) valueGiven = str(groupManager.setSnapDist(_v));
+    }
+  }
+
+  public void gridCMD(String[] _args){
+    if(_args.length > 2){
+      int _v = stringInt(_args[2]);
+      if(_v == -3) valueGiven = str(mouse.toggleGrid());
+      else if(_v != -42) valueGiven = str(mouse.setGridSize(_v));
+    }
+  }
+
+  public void rulerCMD(String[] _args){
+    if(_args.length > 2){
+      int _v = stringInt(_args[2]);
+      if(_v == -3) valueGiven = str(mouse.toggleFixedLength());
+      else if(_v != -42) valueGiven = str(mouse.setLineLenght(_v));
+    }
+  }
+
+  public void angleCMD(String[] _args){
+    if(_args.length > 2){
+      int _v = stringInt(_args[2]);
+      if(_v == -3) valueGiven = str(mouse.toggleFixedAngle());
+      else if(_v != -42) valueGiven = str(mouse.setLineAngle(_v));
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -156,33 +203,36 @@ class CommandProcessor implements FreelinerConfig{
     //if(_args.length < 3) return;
     if(_args[1].equals("tap")) synchroniser.tap();
     else if(_args[1].equals("edit")) editStep(_args); // up down or specific
-    else if(_args[1].equals("clear")) clear(_args); //
+    else if(_args[1].equals("clear")) clearSeq(_args); //
     else if(_args[1].equals("toggle")) toggleStep(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
 
   public void editStep(String[] _args){
-    if(_args.length == 3) valueGiven = str(synchroniser.setEditStep(stringInt(_args[2])));
+    if(_args.length == 3) valueGiven = str(sequencer.setEditStep(stringInt(_args[2])));
+    gui.setTemplateString(sequencer.getStepToEdit().getTags());
   }
 
-  public void clear(String[] _args){
-    if(_args.length == 2) synchroniser.clear();
-    else if(_args.length == 3){
+  public void clearSeq(String[] _args){
+    //if(_args.length == 2) sequencer.clear();
+    //else
+    if(_args.length == 3){
       int _v = stringInt(_args[2]);
-      if(_v != -42) synchroniser.clear(_v);
+      if(_v != -42) sequencer.clear(_v);
       else {
         templateManager.getTemplates(_args[2]);
-        // for(TweakableTemplate _tw : templateManager.getTemplates(_args[2]))
-        //   synchroniser.clear(_tw);
+        for(TweakableTemplate _tw : templateManager.getTemplates(_args[2]))
+          sequencer.clear(_tw);
       }
     }
   }
 
   public void toggleStep(String[] _args){
-    // if(_args.length > 2){
-    //   for(TweakableTemplate _tw : templateManager.getTemplates(_args[2]))
-    //     synchroniser.toggle(_tw);
-    // }
+    if(_args.length > 2){
+      for(TweakableTemplate _tw : templateManager.getTemplates(_args[2]))
+        sequencer.toggle(_tw);
+    }
+    gui.setTemplateString(sequencer.getStepToEdit().getTags());
   }
 
 
@@ -199,7 +249,7 @@ class CommandProcessor implements FreelinerConfig{
       if(_args[1].equals("copy")) copy(_args);
       else if(_args[1].equals("paste")) paste(_args);
       else if(_args[1].equals("reset")) reset(_args);
-      else if(_args[1].equals("tog")) add(_args);
+      else if(_args[1].equals("share")) add(_args);
     }
   }
 

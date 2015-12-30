@@ -51,7 +51,7 @@ public class ExternalGUI extends PApplet {
     widgets.add(new Fader(new PVector(100,125), new PVector(100,20)));
     widgets.add(new SequenceGUI(new PVector(0, HEIGHT - 150),
                                 new PVector(WIDTH, 150),
-                                freeliner.getTemplateManager().getSynchroniser(),
+                                freeliner.getTemplateManager().getSequencer(),
                                 freeliner.getTemplateManager().getTemplateList()));
     selectedWidget = null;
   }

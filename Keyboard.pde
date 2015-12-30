@@ -16,16 +16,6 @@
  * UP DOWN LEFT RIGHT move snapped or previous point, SHIFT for faster
  * TAB tab through segmentGroups, SHIFT to reverse
  * BACKSPACE remove selected segment
- * <p>
- * CTRL + KEYS MAPPING
- * ctrl-a   selectAll
- * ctrl-c   clone A -> B
- * ctrl-b   all that has A gets B
- * ctrl-i   revers mouseX
- * ctrl-r   reset template
- * ctrl-d   customShape
- * ctrl-s   save
- * ctrl-o   open
  */
 
 class Keyboard implements FreelinerConfig{
@@ -103,7 +93,6 @@ class Keyboard implements FreelinerConfig{
    */
   public void processKey(char _k, int _kc) {
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
-    //processKeyCodes(_kc); // TAB SHIFT and friends
     // if in text entry mode
     if(processKeyCodes(_kc)) return; // TAB SHIFT and friends
     else if (enterText) textEntry(_k);
@@ -112,14 +101,12 @@ class Keyboard implements FreelinerConfig{
       else if (_k == ENTER) returnNumber(); // grab enter
       else if (_k >= 65 && _k <= 90) processCAPS(_k); // grab uppercase letters
       else if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
+      else if (_k == '-') distributor(editKey, -2, true); //decrease value
+      else if (_k == '=') distributor(editKey, -1, true); //increase value
       else{
         setEditKey(_k, KEY_MAP);
-        distributor(_k, -3, true);
+        distributor(editKey, -3, true);
       }
-    }
-    //this should be elsewhere...
-    if(editKey == '>') {
-      gui.setTemplateString(templateManager.getSynchroniser().getStepToEdit().getTags()); // updates the tags to the ones of the sequencer
     }
   }
 
@@ -173,7 +160,7 @@ class Keyboard implements FreelinerConfig{
  */
   public void processCAPS(char _c) {
     // if editing steps
-    if(editKey == '>' && shifted) makeCMD("seq"+" "+"add"+" "+_c);
+    if(editKey == '>' && shifted) makeCMD("seq"+" "+"toggle"+" "+_c);
     else{
       TemplateList _tl = groupManager.getTemplateList();
       if(_tl == null) _tl = templateManager.getTemplateList();
@@ -206,7 +193,7 @@ class Keyboard implements FreelinerConfig{
     if (_k == 'a') focusAll();
     else if(_k == 'c') makeCMD("tp"+" "+"copy"+" "+templateManager.getTemplateList().getTags());//templateManager.copyTemplate();
     else if(_k == 'v') makeCMD("tp"+" "+"paste"+" "+templateManager.getTemplateList().getTags());//templateManager.pasteTemplate();
-    else if(_k == 'b') makeCMD("tp"+" "+"tog"+" "+templateManager.getTemplateList().getTags());//templateManager.groupAddTemplate(); // ctrl-b
+    else if(_k == 'b') makeCMD("tp"+" "+"share"+" "+templateManager.getTemplateList().getTags());//templateManager.groupAddTemplate(); // ctrl-b
     else if(_k == 'r') makeCMD("tp"+" "+"reset"+" "+templateManager.getTemplateList().getTags());
 
     else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape needs a cmd
@@ -259,45 +246,25 @@ class Keyboard implements FreelinerConfig{
 
   public boolean localDispatch(char _k, int _n, boolean _vg) {
     boolean used_ = true;
-
-    if(_n == -3){ // if no value entered
-      if (_k == 'n'){
-        groupManager.newGroup();
-        gui.updateReference();
-      }
-      else if (_k == 'm') mouse.press(3);
-      else if (_k == 't') makeCMD("seq"+" "+"tap"); // tap tempo
-      else if (_k == 'g') makeCMD("tools"+" "+" "+"grid"); // valueGiven_ = str(mouse.toggleGrid());
-      else if (_k == 'y') makeCMD("post"+" "+"trails");//valueGiven_ = str(templateRenderer.toggleTrails());
-      else if (_k == '*') makeCMD("tools"+" "+"rec");//valueGiven_ = str(toggleRecording());
-      else if (_k == '.') makeCMD("tools"+" "+"snap");//valueGiven_ = str(mouse.toggleSnapping());
-      else if (_k == ',') makeCMD("tools"+" "+" "+"tags");//valueGiven_ = str(gui.toggleViewTags());
-      else if (_k == '/') makeCMD("tools"+" "+" "+"lines");//valueGiven_ = str(gui.toggleViewLines());
-      //else if (_k == ';') valueGiven_ = str(gui.toggleViewPosition());
-      else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
-      else if (_k == '-') distributor(editKey, -2, _vg); //decrease value
-      else if (_k == '=') distributor(editKey, -1, _vg); //increase value
-      else if (_k == ']') makeCMD("tools"+" "+"fixed"+" "+"length");//valueGiven_ = str(mouse.toggleFixedLength());
-      else if (_k == '[') makeCMD("tools"+" "+"fixed"+" "+"angle");//valueGiven_ = str(mouse.toggleFixedAngle());
-      //else if (_k == '!') valueGiven_ = str(templateManager.toggleLooping());
-      // else if (_k == '@') saveStuff();
-      // else if (_k == '#') loadStuff();
-      else if (_k == '?') makeCMD("seq"+" "+"clear");//templateManager.getSynchroniser().clear();
-      else used_ = false;
+    if (_k == 'n'){
+      groupManager.newGroup();
+      gui.updateReference();
     }
-    else {
-      if (editKey == 'g') makeCMD("tools"+" "+"grid"+" "+_n);//valueGiven_ = str(mouse.setGridSize(_n));
-      else if (editKey == 't') makeCMD("seq"+" "+"tap"+" "+_n);//templateManager.sync.nudgeTime(_n);
-      else if (editKey == 'y') makeCMD("post"+" "+"trails"+" "+_n);//valueGiven_ = str(templateRenderer.setTrails(_n));
-      else if (editKey == ']') makeCMD("tools"+" "+"fixed"+" "+"line"+_n);//valueGiven_ = str(mouse.setLineLenght(_n));
-      else if (editKey == '[') makeCMD("tools"+" "+"fixed"+" "+"angle"+_n);//valueGiven_ = str(mouse.setLineAngle(_n));
-      else if (editKey == '.') makeCMD("tools"+" "+"snap"+" "+_n);//valueGiven_ = str(groupManager.setSnapDist(_n));
-      else if (editKey == '>') makeCMD("seq"+" "+"edit"+" "+_n);//valueGiven_ = str(templateManager.getSynchroniser().setEditStep(_n));
-      else used_ = false;
-    }
-
+    else if (_k == 'm') mouse.press(3);
+    else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
+    else if (_k == '*') makeCMD("tools"+" "+"rec");//valueGiven_ = str(toggleRecording());
+    else if (_k == ',') makeCMD("tools"+" "+" "+"tags");//valueGiven_ = str(gui.toggleViewTags());
+    else if (_k == '/') makeCMD("tools"+" "+" "+"lines");//valueGiven_ = str(gui.toggleViewLines());
+    else if (_k == '?') makeCMD("seq"+" "+"clear"+" "+templateManager.getTemplateList().getTags());
+    else if (_k == 'g') makeCMD("tools"+" "+"grid"+" "+_n);//valueGiven_ = str(mouse.setGridSize(_n));
+    else if (_k == 't') makeCMD("seq"+" "+"tap"+" "+_n);//templateManager.sync.nudgeTime(_n);
+    else if (_k == 'y') makeCMD("post"+" "+"trails"+" "+_n);//valueGiven_ = str(templateRenderer.setTrails(_n));
+    else if (_k == ']') makeCMD("tools"+" "+"ruler"+" "+_n);//valueGiven_ = str(mouse.setLineLenght(_n));
+    else if (_k == '[') makeCMD("tools"+" "+"angle"+" "+_n);//valueGiven_ = str(mouse.setLineAngle(_n));
+    else if (_k == '.') makeCMD("tools"+" "+"snap"+" "+_n);//valueGiven_ = str(groupManager.setSnapDist(_n));
+    else if (_k == '>') makeCMD("seq"+" "+"edit"+" "+_n);//valueGiven_ = str(templateManager.getSynchroniser().setEditStep(_n));
+    else used_ = false;
     if(_vg) gui.setValueGiven(processor.getValueGiven());
-
     return used_;
   }
 
