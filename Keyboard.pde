@@ -76,6 +76,7 @@ class Keyboard implements FreelinerConfig{
     gui = freeliner.getGui();
     mouse = freeliner.getMouse();
     processor = freeliner.getCommandProcessor();
+    unSelectThings();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -90,6 +91,7 @@ class Keyboard implements FreelinerConfig{
    * @param char key that was press
    * @param int the keyCode
    */
+
   public void processKey(char _k, int _kc) {
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
     // if in text entry mode
@@ -102,6 +104,7 @@ class Keyboard implements FreelinerConfig{
       else if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
       else if (_k == '-') distributor(editKey, -2, true); //decrease value
       else if (_k == '=') distributor(editKey, -1, true); //increase value
+      else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
       else{
         setEditKey(_k, KEY_MAP);
         distributor(editKey, -3, true);
@@ -190,9 +193,9 @@ class Keyboard implements FreelinerConfig{
     boolean _ctrl = isCtrled();
     _k += 32;
     if (_k == 'a') focusAll();
-    else if(_k == 'c') makeCMD("tp"+" "+"copy"+" "+templateManager.getTemplateList().getTags());//templateManager.copyTemplate();
-    else if(_k == 'v') makeCMD("tp"+" "+"paste"+" "+templateManager.getTemplateList().getTags());//templateManager.pasteTemplate();
-    else if(_k == 'b') makeCMD("tp"+" "+"share"+" "+templateManager.getTemplateList().getTags());//templateManager.groupAddTemplate(); // ctrl-b
+    else if(_k == 'c') makeCMD("tp"+" "+"copy"+" "+templateManager.getTemplateList().getTags());
+    else if(_k == 'v') makeCMD("tp"+" "+"paste"+" "+templateManager.getTemplateList().getTags());
+    else if(_k == 'b') makeCMD("tp"+" "+"share"+" "+templateManager.getTemplateList().getTags());
     else if(_k == 'r') makeCMD("tp"+" "+"reset"+" "+templateManager.getTemplateList().getTags());
 
     else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape needs a cmd
@@ -250,7 +253,6 @@ class Keyboard implements FreelinerConfig{
       gui.updateReference();
     }
     else if (_k == 'm') mouse.press(3);
-    else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
     else if (_k == '*') makeCMD("tools"+" "+"rec");//valueGiven_ = str(toggleRecording());
     else if (_k == ',') makeCMD("tools"+" "+" "+"tags");//valueGiven_ = str(gui.toggleViewTags());
     else if (_k == '/') makeCMD("tools"+" "+" "+"lines");//valueGiven_ = str(gui.toggleViewLines());
@@ -424,8 +426,9 @@ class Keyboard implements FreelinerConfig{
    * Perhaps write commands for the sequencer?
    */
   private void returnWord() {
-    SegmentGroup _sg = groupManager.getSelectedGroup();
-    if (groupManager.getSnappedSegment() != null) groupManager.getSnappedSegment().setText(wordMaker);
+    if(groupManager.getSnappedSegment() != null)
+        makeCMD("geom"+" "+"text"+" "+wordMaker);
+    else makeCMD(wordMaker);
     wordMaker = "";
     enterText = false;
   }

@@ -80,7 +80,8 @@ interface FreelinerConfig{
     "$    saveTemplate",
     "%    loadTemplate",
     "*    record",
-    ">    steps"
+    ">    steps",
+    "?    clearSeq"
   };
 
   final String CTRL_KEY_MAP[] = {

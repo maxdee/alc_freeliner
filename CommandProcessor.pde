@@ -8,9 +8,9 @@
  */
 
 
-/** LIST OF COMMMANDS !!!
+/** LIST OF COMMMANDS !!! () means optional arguments
  * tw AB q 3
- * tr AB (geometry)
+ * tr AB (3)
  * tp copy (AB)
  * tp paste (AB)
  * tp add (AB)
@@ -36,7 +36,7 @@
  * tools ruler (length)
  * tools angle (angle)
  * ///////////////////
- * geom txt ?????????????????
+ * geom txt word (2 3)
  * geom save (coolMap.xml)
  * geom load (coolMap.xml)
  * ///////////////////
@@ -170,11 +170,15 @@ class CommandProcessor implements FreelinerConfig{
   ///////     geomCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+  // * geom txt word (2 3)
+  // * geom save (coolMap.xml)
+  // * geom load (coolMap.xml)
 
   public void geometryCMD(String[] _args){
     if(_args.length < 2) return;
     if(_args[1].equals("save")) saveGeometryCMD(_args);
     else if(_args[1].equals("load")) loadGeometryCMD(_args);
+    else if(_args[1].equals("text")) setTextCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
 
@@ -188,7 +192,20 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args.length == 3) groupManager.loadGroups(_args[2]);
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////
+  public void setTextCMD(String[] _args){
+    if(_args.length == 3){
+      if(groupManager.getSnappedSegment() != null)
+        groupManager.getSnappedSegment().setText(_args[2]);
+    }
+    else if(_args.length == 5){
+      SegmentGroup _sg = groupManager.getGroup(stringInt(_args[3]));
+      if(_sg != null){
+        Segment _seg = _sg.getSegment(stringInt(_args[4]));
+        if(_seg != null) _seg.setText(_args[2]);
+      }
+    }
+  }
+  ///////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     postCMD
   ///////
@@ -235,17 +252,19 @@ class CommandProcessor implements FreelinerConfig{
   public void editStep(String[] _args){
     if(_args.length == 3) valueGiven = str(sequencer.setEditStep(stringInt(_args[2])));
     gui.setTemplateString(sequencer.getStepToEdit().getTags());
+    // valueGiven = sequencer.getStepToEdit().getTags();
+    println("tags   "+sequencer.getStepToEdit().getTags());
   }
 
   public void clearSeq(String[] _args){
-    //if(_args.length == 2) sequencer.clear();
-    //else
+    if(_args.length == 2) sequencer.clear();
     if(_args.length == 3){
       int _v = stringInt(_args[2]);
       if(_v != -42) sequencer.clear(_v);
       else {
-        templateManager.getTemplates(_args[2]);
-        for(TweakableTemplate _tw : templateManager.getTemplates(_args[2]))
+        ArrayList<TweakableTemplate> _tps =  templateManager.getTemplates(_args[2]);
+        if(_tps == null) return;
+        for(TweakableTemplate _tw : _tps)
           sequencer.clear(_tw);
       }
     }
@@ -337,7 +356,7 @@ class CommandProcessor implements FreelinerConfig{
    * @return boolean was used
    */
   public void tweakTemplates(String[] _args){
-    //if(_args.length < 4) return;
+    if(_args.length < 4) return;
     //if(_args[3] == "-3") return;
     ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
     if(_tmps == null) return;

@@ -26,7 +26,6 @@ class Sequencer implements FreelinerConfig{
   boolean recording = false; // implement this
   boolean stepChanged = false;
 
-
   public Sequencer(){
     lists = new TemplateList[SEQ_STEP_COUNT];
     for(int i = 0; i < SEQ_STEP_COUNT; i++){
@@ -87,7 +86,7 @@ class Sequencer implements FreelinerConfig{
    */
   public int setEditStep(int _n){
     editStep = numTweaker(_n, editStep);
-    editStep %= SEQ_STEP_COUNT;
+    if(editStep >= SEQ_STEP_COUNT) editStep = SEQ_STEP_COUNT-1;
     selectedList = lists[editStep];
     stepChanged = true;
     return editStep;
@@ -102,6 +101,12 @@ class Sequencer implements FreelinerConfig{
    doStep = true; // might need a time delay
   }
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Modifiers
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
   public boolean play(boolean _b){
     playing = _b;
     return playing;
@@ -110,6 +115,16 @@ class Sequencer implements FreelinerConfig{
   public boolean play(){
     playing = !playing;
     return playing;
+  }
+
+  public boolean record(boolean _b){
+    recording = _b;
+    return recording;
+  }
+
+  public boolean record(){
+    recording = !recording;
+    return recording;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -137,5 +152,13 @@ class Sequencer implements FreelinerConfig{
 
   public int getStep(){
     return step;
+  }
+
+  public boolean isPlaying(){
+    return playing;
+  }
+
+  public boolean isRecording(){
+    return recording;
   }
 }

@@ -11,17 +11,16 @@ class OSClistener implements OscEventListener{
 
   FreeLiner freeliner;
 
+
   public OSClistener(PApplet _pa, FreeLiner _fl){
     // osc setup
     freeliner = _fl;
-
   }
 
   public void oscStatus(OscStatus theStatus){}
-
-
   // new OSC messages = /freeliner/tw/A/q 3 ???
   void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the address pattern we are looking for. */
+    println(theOscMessage);
     // tweak parameters
     if(theOscMessage.checkAddrPattern("/freeliner/tweak")) {
       /* check if the typetag is the right one. */
@@ -40,6 +39,7 @@ class OSClistener implements OscEventListener{
       if(theOscMessage.checkTypetag("s")) {
         String tags = theOscMessage.get(0).stringValue();
         freeliner.templateManager.oscTrigger(tags, -1);
+        freeliner.getCommandProcessor().processCMD("tr"+" "+tags);
       }
       if(theOscMessage.checkTypetag("si")) {
         String tags = theOscMessage.get(0).stringValue();
