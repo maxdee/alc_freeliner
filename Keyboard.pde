@@ -75,7 +75,6 @@ class Keyboard implements FreelinerConfig{
     templateRenderer = freeliner.getTemplateRenderer();
     gui = freeliner.getGui();
     mouse = freeliner.getMouse();
-
     processor = freeliner.getCommandProcessor();
   }
 
@@ -378,16 +377,16 @@ class Keyboard implements FreelinerConfig{
    * Save geometry and templates to default file.
    */
   public void saveStuff(){
-    groupManager.saveGroups();
-    templateManager.saveTemplates();
+    makeCMD("geom"+" "+"save");
+    makeCMD("tp"+" "+"save");
   }
 
   /**
    * Load geometry and templates from default file.
    */
   public void loadStuff(){
-    groupManager.loadGroups();
-    templateManager.loadTemplates();
+    makeCMD("geom"+" "+"load");
+    makeCMD("tp"+" "+"load");
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

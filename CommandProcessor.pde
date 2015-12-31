@@ -21,7 +21,7 @@
  * seq tap (offset)
  * seq edit -1,-2,step
  * seq clear (step || AB)
- * seq add A step
+ * seq share A step
  * seq toggle A (step)
  * seq play 0,1
  * seq stop
@@ -104,6 +104,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("seq")) sequencerCMD(_args);
     else if(_args[0].equals("post")) postCMD(_args);
     else if(_args[0].equals("tools")) toolsCMD(_args);
+    else if(_args[0].equals("geom")) geometryCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
 
@@ -166,13 +167,35 @@ class CommandProcessor implements FreelinerConfig{
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
+  ///////     geomCMD
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void geometryCMD(String[] _args){
+    if(_args.length < 2) return;
+    if(_args[1].equals("save")) saveGeometryCMD(_args);
+    else if(_args[1].equals("load")) loadGeometryCMD(_args);
+    else println("Unknown CMD : "+join(_args, ' '));
+  }
+
+  public void saveGeometryCMD(String[] _args){
+    if(_args.length == 2) groupManager.saveGroups();
+    else if(_args.length == 3) groupManager.saveGroups(_args[2]);
+  }
+
+  public void loadGeometryCMD(String[] _args){
+    if(_args.length == 2) groupManager.loadGroups();
+    else if(_args.length == 3) groupManager.loadGroups(_args[2]);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
   ///////     postCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
   public void postCMD(String[] _args){
-    //println("PostCMD : "+_args);
-    if(_args.length < 1) return;
+    if(_args.length < 2) return;
     else if(_args[1].equals("trails")) trailsCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
@@ -201,7 +224,8 @@ class CommandProcessor implements FreelinerConfig{
 
   public void sequencerCMD(String[] _args){
     //if(_args.length < 3) return;
-    if(_args[1].equals("tap")) synchroniser.tap();
+    if(_args.length < 2) return;
+    else if(_args[1].equals("tap")) synchroniser.tap();
     else if(_args[1].equals("edit")) editStep(_args); // up down or specific
     else if(_args[1].equals("clear")) clearSeq(_args); //
     else if(_args[1].equals("toggle")) toggleStep(_args);
@@ -241,34 +265,56 @@ class CommandProcessor implements FreelinerConfig{
   ///////     Template commands ********TESTED********
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+  // * tw AB q 3
+  // * tr AB (geometry)
+  // * tp copy (AB)
+  // * tp paste (AB)
+  // * tp share (AB)
+  // * tp reset (AB)
+  // * tp save (cooleffects.xml)
+  // * tp load (coolstuff.xml)
 
   public void templateCMD(String[] _args){
     if(_args[0].equals("tw")) tweakTemplates(_args);
     else if(_args[0].equals("tr")) triggerTemplates(_args);
     else if(_args[0].equals("tp")){
-      if(_args[1].equals("copy")) copy(_args);
-      else if(_args[1].equals("paste")) paste(_args);
-      else if(_args[1].equals("reset")) reset(_args);
-      else if(_args[1].equals("share")) add(_args);
+      if(_args.length < 2) return;
+      else if(_args[1].equals("copy")) copyCMD(_args);
+      else if(_args[1].equals("paste")) pasteCMD(_args);
+      else if(_args[1].equals("reset")) resetCMD(_args);
+      else if(_args[1].equals("share")) addCMD(_args);
+      else if(_args[1].equals("save")) saveTemplateCMD(_args);
+      else if(_args[1].equals("load")) loadTemplateCMD(_args);
     }
+    else println("Unknown CMD : "+join(_args, ' '));
   }
 
-  public void copy(String[] _args){
+  public void saveTemplateCMD(String[] _args){
+    if(_args.length == 2) templateManager.saveTemplates();
+    else if(_args.length == 3) templateManager.saveTemplates(_args[2]);
+  }
+
+  public void loadTemplateCMD(String[] _args){
+    if(_args.length == 2) templateManager.loadTemplates();
+    else if(_args.length == 3) templateManager.loadTemplates(_args[2]);
+  }
+
+  public void copyCMD(String[] _args){
     if(_args.length == 3) templateManager.copyTemplate(_args[2]);
     else templateManager.copyTemplate();
   }
 
-  public void paste(String[] _args){
+  public void pasteCMD(String[] _args){
     if(_args.length == 3) templateManager.pasteTemplate(_args[2]);
     else templateManager.pasteTemplate();
   }
 
-  public void reset(String[] _args){
+  public void resetCMD(String[] _args){
     if(_args.length == 3) templateManager.resetTemplate(_args[2]);
     else templateManager.resetTemplate();
   }
 
-  public void add(String[] _args){
+  public void addCMD(String[] _args){
     if(_args.length == 3) templateManager.groupAddTemplate(_args[2]);
     else templateManager.groupAddTemplate();
   }
@@ -348,8 +394,6 @@ class CommandProcessor implements FreelinerConfig{
   }
 }
 
-
-
 // class to create loops of events.
 class Looper {
   Synchroniser synchroniser;
@@ -369,5 +413,4 @@ class Looper {
   public void update(){
 
   }
-
 }
