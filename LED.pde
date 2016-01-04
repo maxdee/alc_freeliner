@@ -32,12 +32,10 @@ class FreeLEDing {
   float greenDimmer = 1.0;
   float blueDimmer = 1.0;
 
-
-
   // gamma correction
   boolean correctGamma = true;
   int[] gammatable = new int[256];
-  float gamma = 3.2; // 3.2 seems to be nice
+  float gamma = 7; // 3.2 seems to be nice
 
   public FreeLEDing(){
     leds = new ArrayList();
@@ -68,6 +66,7 @@ class FreeLEDing {
     XML file;
     try {
       file = loadXML(_file);
+      println("file found "+_file);
       XML[] groupData = file.getChildren("group");
       PVector posA = new PVector(0,0);
       PVector posB = new PVector(0,0);
@@ -358,12 +357,13 @@ class RGBled{
   int index;
   int xPos;
   int yPos;
-
+  float gamma = 1.7;
   byte red;
   byte green;
   byte blue;
 
   color col;
+
 
   public RGBled(int _i, int _x, int _y){
     index = _i;
@@ -373,7 +373,7 @@ class RGBled{
 
   public void setColor(color _c){
     col = _c;
-    int threshold = 7;
+    int threshold = 4;
     red = byte((col >> 16) & 0xFF);
     //if(red < threshold) red = byte(0);
     green = byte((col >> 8) & 0xFF);
@@ -381,6 +381,7 @@ class RGBled{
     blue = byte(col & 0xFF);
     //if(blue < threshold) blue = byte(0);
   }
+
 
   public color getColor(){
     return col;

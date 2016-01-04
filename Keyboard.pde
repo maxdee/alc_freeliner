@@ -76,7 +76,6 @@ class Keyboard implements FreelinerConfig{
     gui = freeliner.getGui();
     mouse = freeliner.getMouse();
     processor = freeliner.getCommandProcessor();
-    unSelectThings();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

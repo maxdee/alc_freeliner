@@ -75,9 +75,9 @@ boolean runGui = false;
 void setup() {
 
   // pick your flavour of freeliner
-  freeliner = new FreeLiner(this);
+  //freeliner = new FreeLiner(this);
   //freeliner = new FreelinerSyphon(this);
-  //freeliner = new FreelinerLED(this, "groups.xml");
+  freeliner = new FreelinerLED(this, "tunnel_map.xml");
 
   surface.setResizable(false); // needs to scale other PGraphics
   surface.setTitle("a!Lc Freeliner");

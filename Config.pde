@@ -14,12 +14,15 @@ interface FreelinerConfig{
   final int CURSOR_STROKE_WIDTH = 3;
   final int GUI_TIMEOUT = 1000;
   final int DEFAULT_GRID_SIZE = 32;
+  final int NODE_STROKE_WEIGTH = 7;
+  final int NODE_COLOR = #969696;
   final color CURSOR_COLOR = #FFFFFF;
   final color SNAPPED_CURSOR_COLOR = #00C800;
   final color TEXT_COLOR = #FFFFFF;
   final color GRID_COLOR = #969696;
   final color SEGMENT_COLOR = #BEBEBE;
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
+
 
   // If you are using a DLP with no colour wheel
   final boolean BW_BEAMER = false;

@@ -331,8 +331,8 @@
     vecLine(canvas, _s.getPointA(), _s.getPointB());
     //canvas.stroke(100);
     //if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
-    canvas.stroke(200);
-    canvas.strokeWeight(4);
+    canvas.stroke(NODE_COLOR);
+    canvas.strokeWeight(NODE_STROKE_WEIGTH);
     canvas.point(_s.getPointA().x, _s.getPointA().y);
     canvas.point(_s.getPointB().x, _s.getPointB().y);
     PVector midpoint = _s.getMidPoint();

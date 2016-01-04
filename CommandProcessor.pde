@@ -360,6 +360,7 @@ class CommandProcessor implements FreelinerConfig{
     //if(_args[3] == "-3") return;
     ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
     if(_tmps == null) return;
+    if(_args[2].length() == 0) return;
     char _k = _args[2].charAt(0);
     int _v = stringInt(_args[3]);
     for(TweakableTemplate _tp : _tmps) templateDispatch(_tp, _k, _v);
