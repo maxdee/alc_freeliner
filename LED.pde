@@ -104,6 +104,28 @@ class FreeLEDing {
     }
   }
 
+  // private void addLEDsCircle(int from, int to, float aX, float aY, float bX, float bY){
+  //   int ledCnt = abs(from-to);
+  //   float angleIncrement = 3;
+  //   float angle = atan2(aY-bY, aX-bX);
+  //   float dist = dist(aX,aY, bX, bY);
+  //   int ind;
+  //   int x;
+  //   int y;
+  //   if(from == to) leds.add(new RGBled(from, int(aX), int(aY)));
+  //   else {
+  //     for(int i = from; i <= to; i++){
+  //       ind = from+i;
+  //       x = int((dist*cos(angle))+aX);
+  //       y = int((dist*sin(angle))+aY);
+  //       x = constrain(x,0, width);
+  //       y = constrain(y,0, height);
+  //       leds.add(new RGBled(ind, x, y));
+  //       angle += angleIncrement;
+  //     }
+  //   }
+  // }
+
   // add LEDs with interpolation if necessary
   private void addLEDs(int from, int to, float aX, float aY, float bX, float bY){
     int ledCnt = abs(from-to);
