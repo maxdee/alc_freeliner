@@ -205,7 +205,7 @@ class CommandProcessor implements FreelinerConfig{
       }
     }
   }
-  
+
   ///////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     postCMD
@@ -221,10 +221,10 @@ class CommandProcessor implements FreelinerConfig{
   public void trailsCMD(String[] _args){
     if(_args.length < 2) return;
     else if(_args[1].equals("trails")){
-      if(_args.length == 2) valueGiven = str(templateRenderer.toggleTrails());
-      else {
+      if(_args.length > 2){
         int _v = stringInt(_args[2]);
-        valueGiven = str(templateRenderer.setTrails(_v));
+        if(_v == -3) valueGiven = str(templateRenderer.toggleTrails());
+        else valueGiven = str(templateRenderer.setTrails(_v));
       }
     }
   }
