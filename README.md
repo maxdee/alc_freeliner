@@ -1,8 +1,7 @@
 
 # alcFreeliner #
 
-The new v0.3 is for Processing 3. Needs testing and fixing on OSX.
-Check the processingTwo branch its still cool.
+The new v0.4!! is for Processing 3. Needs testing and fixing on OSX.
 
 ### What is? ###
 

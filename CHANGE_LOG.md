@@ -1,3 +1,6 @@
+### Version 0.4 ###
+ * New command system
+
 ### Version 0.3.2 ###
  * Substantial changes, testing encouraged.
  * Effects of animationMode are transfered into the more versatile enterpolator, use the `e` key to change it.
