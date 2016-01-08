@@ -253,8 +253,8 @@ class Keyboard implements FreelinerConfig{
     }
     else if (_k == 'm') mouse.press(3);
     else if (_k == '*') makeCMD("tools"+" "+"rec");//valueGiven_ = str(toggleRecording());
-    else if (_k == ',') makeCMD("tools"+" "+" "+"tags");//valueGiven_ = str(gui.toggleViewTags());
-    else if (_k == '/') makeCMD("tools"+" "+" "+"lines");//valueGiven_ = str(gui.toggleViewLines());
+    else if (_k == ',') makeCMD("tools"+" "+"tags");//valueGiven_ = str(gui.toggleViewTags());
+    else if (_k == '/') makeCMD("tools"+" "+"lines");//valueGiven_ = str(gui.toggleViewLines());
     else if (_k == '?') makeCMD("seq"+" "+"clear"+" "+templateManager.getTemplateList().getTags());
     else if (_k == 'g') makeCMD("tools"+" "+"grid"+" "+_n);//valueGiven_ = str(mouse.setGridSize(_n));
     else if (_k == 't') makeCMD("seq"+" "+"tap"+" "+_n);//templateManager.sync.nudgeTime(_n);

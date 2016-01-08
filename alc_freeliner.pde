@@ -113,7 +113,7 @@ void splash(){
   text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
 }
 
-// external GUI launcher
+//external GUI launcher
 void launchGUI(){
   if(externalGUI != null) return;
   externalGUI = new ExternalGUI(freeliner);
@@ -121,10 +121,10 @@ void launchGUI(){
   PApplet.runSketch(args, externalGUI);
   externalGUI.loop();
 }
-// void closeGUI(){
-//   if(externalGUI != null) return;
-//   PApplet.stopSketch
-// }
+void closeGUI(){
+  if(externalGUI != null) return;
+  //PApplet.stopSketch();
+}
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

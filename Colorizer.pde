@@ -209,7 +209,7 @@ class Strobe extends Colorizer {
 }
 
 /**
- * Constantly changing random color
+ * flash once! then black?
  */
 class Flash extends Colorizer {
 	public Flash(){
@@ -226,6 +226,31 @@ class Flash extends Colorizer {
 
 /**
  * Fade through the HUE
+ */
+class MillisFade extends Colorizer {
+	public MillisFade(){
+	}
+	public color get(RenderableTemplate _event, int _alpha){
+
+		color c = HSBtoRGB(float(millis()%10000)/10000.0, 1.0, 1.0);
+		return alphaMod(c , _alpha);
+	}
+}
+
+/**
+ * Fade through the HUE
+ */
+class HSBLerp extends Colorizer {
+	public HSBLerp(){
+	}
+	public color get(RenderableTemplate _event, int _alpha){
+		color c = HSBtoRGB(_event.getLerp(), 1.0, 1.0);
+		return alphaMod(c , _alpha);
+	}
+}
+
+/**
+ * HSB Lerp
  */
 class HSBFade extends Colorizer {
 	public HSBFade(){
