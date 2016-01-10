@@ -24,7 +24,7 @@ byte LEDbuffer[BUFFER_SIZE];
 
 void setup() {
   Serial.begin(115200);
-  FastLED.addLeds<WS2801, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);
+  FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);
   initTest();
 }
 

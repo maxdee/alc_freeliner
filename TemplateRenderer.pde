@@ -37,6 +37,10 @@ class TemplateRenderer implements FreelinerConfig{
   int clipCount;
   int frameCount;
 
+  PShader shaderOne;
+  PShader shaderTwo;
+  PShader shaderThree;
+
   /**
    * Constructor
    */
@@ -44,7 +48,7 @@ class TemplateRenderer implements FreelinerConfig{
     // init canvas
     canvas = createGraphics(width, height, P2D);
     canvas.smooth(0);
-
+    shaderOne = loadShader("shaders/testShader.glsl");
     // canvas.strokeCap(STROKE_CAP);
     // canvas.strokeJoin(STROKE_JOIN);
 
