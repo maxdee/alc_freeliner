@@ -349,6 +349,8 @@ class Keyboard implements FreelinerConfig{
     ctrled = false;
     shifted = false;
     editKey = ' ';
+    enterText = false;
+    wordMaker = "";
     gui.setKeyString("unselect");
     gui.setValueGiven(" ");
   }
@@ -402,6 +404,15 @@ class Keyboard implements FreelinerConfig{
     println("Making word:  "+wordMaker);
     gui.setValueGiven(wordMaker);
   }
+    /**
+     * Toggle text entry
+     * @return boolean valueGiven
+     */
+    public boolean toggleEnterText(){
+      enterText = !enterText;
+      if(enterText) setEditKey('|', KEY_MAP);
+      return enterText;
+    }
 
   /**
    * Add a char to the text entry
@@ -428,10 +439,12 @@ class Keyboard implements FreelinerConfig{
     if(groupManager.getSnappedSegment() != null)
         makeCMD("geom"+" "+"text"+" "+wordMaker);
     else makeCMD(wordMaker);
+    gui.setKeyString("sure");
+    gui.setValueGiven(wordMaker);
     wordMaker = "";
+
     enterText = false;
   }
-
 
   /**
    * Compose numbers with 0-9
@@ -500,15 +513,6 @@ class Keyboard implements FreelinerConfig{
       if(OSX) mouse.setOrigin();
     }
     else alted = false;
-  }
-
-  /**
-   * Toggle text entry
-   * @return boolean valueGiven
-   */
-  public boolean toggleEnterText(){
-    enterText = !enterText;
-    return enterText;
   }
 
 

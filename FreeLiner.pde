@@ -31,6 +31,8 @@ class FreeLiner {
 
   PApplet applet;
 
+  PShader shaderOne;
+
   public FreeLiner(PApplet _pa) {
     applet = _pa;
     // instantiate
@@ -54,8 +56,20 @@ class FreeLiner {
     groupManager.inject(templateManager);
     commandProcessor.inject(this);
     windowFocus = true;
+
+    reloadShader();
+    //shaderOne = loadShader("shaders/shaderOne.glsl");
   }
 
+  void reloadShader(){
+    try{
+      shaderOne = loadShader("shaders/shaderOne.glsl");
+    }
+    catch(Exception _e){
+      println("Could not load shader... ");
+      println(_e);
+    }
+  }
   /**
    * It all starts here...
    */
@@ -73,10 +87,12 @@ class FreeLiner {
     templateRenderer.render(templateManager.getLoops());
     templateRenderer.render(templateManager.getEvents());
     templateRenderer.endRender();
+    //try{shader(shaderOne);}catch(RuntimeException _e){}
     image(templateRenderer.getCanvas(), 0, 0);
     // draw gui on top
     gui.update();
     if(gui.doDraw()){
+      resetShader();
       image(gui.getCanvas(), 0, 0);
     }
     if(trailmix != -1){

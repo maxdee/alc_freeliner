@@ -312,6 +312,22 @@ public class GeometrySaver extends GeometryLoader {
 
 
 /**
+ * Widget to display GUI info compiled by the regular Freeliner GUI
+ */
+public class ShaderLoader extends Button {
+  FreeLiner freeliner;
+  public ShaderLoader(PVector _pos, PVector _sz, FreeLiner _fl){
+    super(_pos, _sz);
+    active = true;
+    label = "reloadShader";
+    freeliner = _fl;
+  }
+
+  public void action(int _mb){
+    if(_mb == LEFT) freeliner.reloadShader();
+  }
+}
+/**
  * Widget to control the sequencer
  */
 class SequenceGUI extends Widget {
