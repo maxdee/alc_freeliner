@@ -24,14 +24,16 @@ class FreeLiner {
   Mouse mouse;
   Keyboard keyboard;
   OSClistener osc;
-
+  // new part
   CommandProcessor commandProcessor;
 
+  // misc
   boolean windowFocus;
-
   PApplet applet;
-
   PShader shaderOne;
+
+  // optional background image
+  PImage backgroundImage;
 
   public FreeLiner(PApplet _pa) {
     applet = _pa;
@@ -57,8 +59,12 @@ class FreeLiner {
     commandProcessor.inject(this);
     windowFocus = true;
 
+    // experimental
     reloadShader();
-    //shaderOne = loadShader("shaders/shaderOne.glsl");
+
+    // check for background image, usefull for tracing paterns
+    try { backgroundImage = loadImage("userdata/background.png");}
+    catch(Exception _e) {backgroundImage = null;}
   }
 
   void reloadShader(){
@@ -75,6 +81,7 @@ class FreeLiner {
    */
   public void update() {
     //background(0);
+    if(backgroundImage != null) image(backgroundImage,0,0);
     if(windowFocus != focused){
       keyboard.forceRelease();
       windowFocus = focused;
