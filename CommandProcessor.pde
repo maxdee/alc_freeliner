@@ -125,7 +125,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return;
     if(_args[1].equals("lines")) valueGiven = str(gui.toggleViewLines());
     else if(_args[1].equals("tags")) valueGiven = str(gui.toggleViewLines());
-    else if(_args[1].equals("capture")) valueGiven = str(templateRenderer.toggleRecording());
+    else if(_args[1].equals("rec")) valueGiven = str(templateRenderer.toggleRecording());
     else if(_args[1].equals("snap")) snapCMD(_args);
     else if(_args[1].equals("grid")) gridCMD(_args);
     else if(_args[1].equals("ruler")) rulerCMD(_args);
