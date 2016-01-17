@@ -520,4 +520,9 @@
     viewLines = !viewLines;
     return viewLines;
   }
+  public void hideStuff(){
+    viewTags = false;
+    viewLines = false;
+    mouse.
+  }
 }

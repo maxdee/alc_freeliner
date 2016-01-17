@@ -353,6 +353,8 @@ class Keyboard implements FreelinerConfig{
     wordMaker = "";
     gui.setKeyString("unselect");
     gui.setValueGiven(" ");
+    gui.hideStuff();
+    mouse.setGrid(false);
   }
 
   /**

@@ -308,11 +308,15 @@ class Mouse{
     }
     return gridSize;
   }
+
   private boolean toggleGrid() {
     grid = !grid;
     return grid;
   }
 
+  public void setGrid(boolean _b){
+    grid = _b;
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
