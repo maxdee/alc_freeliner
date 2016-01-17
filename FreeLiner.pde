@@ -31,6 +31,7 @@ class FreeLiner {
   boolean windowFocus;
   PApplet applet;
   PShader shaderOne;
+  PGraphics fxCanvas;
 
   // optional background image
   PImage backgroundImage;
@@ -61,7 +62,7 @@ class FreeLiner {
 
     // experimental
     reloadShader();
-
+    fxCanvas = createGraphics(width, height, P2D);
     // check for background image, usefull for tracing paterns
     try { backgroundImage = loadImage("userdata/background.png");}
     catch(Exception _e) {backgroundImage = null;}
@@ -69,7 +70,7 @@ class FreeLiner {
 
   void reloadShader(){
     try{
-      shaderOne = loadShader("shaders/shaderOne.glsl");
+      shaderOne = loadShader("shaders/feedback.glsl");
     }
     catch(Exception _e){
       println("Could not load shader... ");
@@ -94,8 +95,16 @@ class FreeLiner {
     templateRenderer.render(templateManager.getLoops());
     templateRenderer.render(templateManager.getEvents());
     templateRenderer.endRender();
-    //try{shader(shaderOne);}catch(RuntimeException _e){}
-    image(templateRenderer.getCanvas(), 0, 0);
+    // experimental rendering pipeline
+    fxCanvas.beginDraw();
+    fxCanvas.clear();
+    try{fxCanvas.shader(shaderOne);}catch(RuntimeException _e){
+      println("shader no good");
+      fxCanvas.resetShader();
+    }
+    fxCanvas.image(templateRenderer.getCanvas(), 0, 0);
+    fxCanvas.endDraw();
+    image(fxCanvas,0,0);
     // draw gui on top
     gui.update();
     if(gui.doDraw()){

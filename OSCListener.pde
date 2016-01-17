@@ -20,7 +20,7 @@ class OSClistener implements OscEventListener{
   public void oscStatus(OscStatus theStatus){}
   // new OSC messages = /freeliner/tw/A/q 3 ???
   void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the address pattern we are looking for. */
-    println(theOscMessage);
+    //println(theOscMessage);
     // tweak parameters
     if(theOscMessage.checkAddrPattern("/freeliner/tweak")) {
       /* check if the typetag is the right one. */

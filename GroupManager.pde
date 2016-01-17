@@ -76,6 +76,10 @@ class GroupManager{
     else if (_shift) selectedIndex--;
     else selectedIndex++;
     selectedIndex = wrap(selectedIndex, groupCount-1);
+    // update ref.
+    if(getSelectedGroup() != null)
+      setReferenceGroupTemplateList(getSelectedGroup().getTemplateList());
+
   }
 
 /**
@@ -341,8 +345,11 @@ class GroupManager{
  * @return renderList
  */
   public TemplateList getTemplateList(){
-    SegmentGroup sg = getSelectedGroup();
-    if(sg != null) return sg.getTemplateList();
+    SegmentGroup _sg = getSelectedGroup();
+    if(_sg != null){
+      if(_sg.getID() == 1) return null; // to prevent ref group from getting templates, could do it for the gui too.
+      else return _sg.getTemplateList();
+    }
     else return null;
   }
 
