@@ -7,7 +7,6 @@ interface FreelinerConfig{
   // IP address to send sync messages to
   final String OSC_OUT_IP = "127.0.0.1";
 
-
   // GUI options
   final int CURSOR_SIZE = 20;
   final int CURSOR_GAP_SIZE = 4;
@@ -40,6 +39,9 @@ interface FreelinerConfig{
   // Timing and stuff
   final int DEFAULT_TEMPO = 1500;
   final int SEQ_STEP_COUNT = 16; // customize step count of Sequencer
+
+  // to enable / disable experimental parts.
+  final boolean EXPERIMENTAL = false;
 
   // Keyboard Section
   // final char ...

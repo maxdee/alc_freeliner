@@ -12,7 +12,7 @@
  * Main class for alc_freeliner
  * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
  */
-class FreeLiner {
+class FreeLiner implements FreelinerConfig{
   // model
   GroupManager groupManager;
   TemplateManager templateManager;
@@ -26,13 +26,12 @@ class FreeLiner {
   OSClistener osc;
   // new part
   CommandProcessor commandProcessor;
-
   // misc
   boolean windowFocus;
   PApplet applet;
+  // experimental
   PShader shaderOne;
   PGraphics fxCanvas;
-
   // optional background image
   PImage backgroundImage;
 
@@ -63,6 +62,7 @@ class FreeLiner {
     // experimental
     reloadShader();
     fxCanvas = createGraphics(width, height, P2D);
+
     // check for background image, usefull for tracing paterns
     try { backgroundImage = loadImage("userdata/background.png");}
     catch(Exception _e) {backgroundImage = null;}
@@ -98,10 +98,7 @@ class FreeLiner {
     // experimental rendering pipeline
     fxCanvas.beginDraw();
     fxCanvas.clear();
-    try{fxCanvas.shader(shaderOne);}catch(RuntimeException _e){
-      println("shader no good");
-      fxCanvas.resetShader();
-    }
+    if(EXPERIMENTAL) useShader();
     fxCanvas.image(templateRenderer.getCanvas(), 0, 0);
     fxCanvas.endDraw();
     image(fxCanvas,0,0);
@@ -114,6 +111,15 @@ class FreeLiner {
     if(trailmix != -1){
       templateRenderer.setTrails(trailmix);
       trailmix = -1;
+    }
+  }
+
+
+  private void useShader(){
+    try{fxCanvas.shader(shaderOne);}
+    catch(RuntimeException _e){
+      println("shader no good");
+      fxCanvas.resetShader();
     }
   }
 
