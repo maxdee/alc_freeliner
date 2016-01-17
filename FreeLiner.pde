@@ -70,7 +70,7 @@ class FreeLiner implements FreelinerConfig{
 
   void reloadShader(){
     try{
-      shaderOne = loadShader("shaders/feedback.glsl");
+      shaderOne = loadShader("shaders/basicFrag.glsl");
     }
     catch(Exception _e){
       println("Could not load shader... ");
