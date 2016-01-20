@@ -289,29 +289,6 @@ class Keyboard implements FreelinerConfig{
     return used_;
   }
 
-  /**
-   * Control parameters via OSC, bypassing gui stuff.
-   * @param String template tags (like ABC)
-   * @param char editKey (like q for color)
-   * @param int value to set
-   */
-    // #needswork
-  public void oscDistribute(String _tags, char _k, int _n){
-    // if(_tags.charAt(0) == '*'){
-    //   for(TweakableTemplate _tw : templateManager.getTemplates()){
-    //     if( _tw != null) templateDispatch(_tw, _k, _n, false);
-    //   }
-    // }
-    // else {
-    //   for(int i = 0; i < _tags.length(); i++){
-    //     TweakableTemplate _rt = templateManager.getTemplate(_tags.charAt(i));
-    //     if(_rt != null){
-    //       templateDispatch(_rt, _k, _n, false);
-    //     }
-    //   }
-    // }
-  }
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Actions?

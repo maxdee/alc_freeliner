@@ -68,6 +68,8 @@ class FreeLiner implements FreelinerConfig{
     catch(Exception _e) {backgroundImage = null;}
   }
 
+
+  // experimental
   void reloadShader(){
     try{
       shaderOne = loadShader("shaders/basicFrag.glsl");
@@ -77,6 +79,7 @@ class FreeLiner implements FreelinerConfig{
       println(_e);
     }
   }
+
   /**
    * It all starts here...
    */

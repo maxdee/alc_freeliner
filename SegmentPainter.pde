@@ -170,9 +170,9 @@ class BrushPutter extends SegmentPainter{
 
 	public void loadBrushes(){
 		brushes = new Brush[BRUSH_COUNT];
-		brushes[0] = new CircleBrush();
+		brushes[0] = new PointBrush();
 		brushes[1] = new LineBrush();
-		brushes[2] = new PointBrush();
+		brushes[2] = new CircleBrush();
 		brushes[3] = new ChevronBrush();
 		brushes[4] = new SquareBrush();
 		brushes[5] = new XBrush();

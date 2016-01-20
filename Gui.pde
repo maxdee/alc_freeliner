@@ -523,6 +523,6 @@
   public void hideStuff(){
     viewTags = false;
     viewLines = false;
-    mouse.
+    mouse.setGrid(false);
   }
 }
