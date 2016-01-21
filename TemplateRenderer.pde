@@ -28,6 +28,11 @@ class TemplateRenderer implements FreelinerConfig{
 
   //graphics for rendering
   PGraphics canvas;
+  // experimental
+  PImage mask;
+  boolean makeMask = false;
+  boolean useMask = false;
+
 
   //draw a solid or transparent
   boolean trails;
@@ -37,6 +42,7 @@ class TemplateRenderer implements FreelinerConfig{
   boolean record;
   int clipCount;
   int frameCount;
+
 
   /**
    * Constructor
@@ -114,17 +120,39 @@ class TemplateRenderer implements FreelinerConfig{
     if(lst.size() > 0)
       for(RenderableTemplate rt : lst)
         renderTemplate(rt);
-  }
 
+
+    if(useMask && !makeMask) canvas.image(mask,0,0);
+  }
 
   public void endRender(){
     canvas.endDraw();
+    if(makeMask) makeMask();
     // save frame if recording
     if(record){
       String fn = String.format("%06d", frameCount);
       canvas.save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
       frameCount++;
     }
+  }
+
+  // experimental
+  void makeMask(){
+    useMask = true;
+    makeMask = false;
+    mask = null;
+    mask = canvas.get();
+    mask.loadPixels();
+    color _col;
+    for(int i = 0; i< width * height; i++){
+      if(((mask.pixels[i] >> 8) & 0xFF) > 100) mask.pixels[i] = color(100, 0);
+      else mask.pixels[i] = color(0,255);
+    }
+    mask.updatePixels();
+  }
+
+  public void doMask(){
+    makeMask = true;
   }
 
   /**

@@ -35,6 +35,8 @@ class FreeLiner implements FreelinerConfig{
   // optional background image
   PImage backgroundImage;
 
+
+
   public FreeLiner(PApplet _pa) {
     applet = _pa;
     // instantiate
@@ -67,6 +69,8 @@ class FreeLiner implements FreelinerConfig{
     try { backgroundImage = loadImage("userdata/background.png");}
     catch(Exception _e) {backgroundImage = null;}
   }
+
+
 
 
   // experimental
@@ -116,6 +120,7 @@ class FreeLiner implements FreelinerConfig{
       trailmix = -1;
     }
   }
+
 
 
   private void useShader(){

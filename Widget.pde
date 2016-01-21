@@ -319,7 +319,7 @@ public class ShaderLoader extends Button {
   public ShaderLoader(PVector _pos, PVector _sz, FreeLiner _fl){
     super(_pos, _sz);
     active = true;
-    label = "reloadShader";
+    this.label = "reloadShader";
     freeliner = _fl;
   }
 
@@ -327,6 +327,25 @@ public class ShaderLoader extends Button {
     if(_mb == LEFT) freeliner.reloadShader();
   }
 }
+
+/**
+ * Widget to display GUI info compiled by the regular Freeliner GUI
+ */
+public class MaskLoader extends Button {
+  FreeLiner freeliner;
+  public MaskLoader(PVector _pos, PVector _sz, FreeLiner _fl){
+    super(_pos, _sz);
+    active = true;
+    this.label = "makeMask";
+    freeliner = _fl;
+  }
+
+  public void action(int _mb){
+    if(_mb == LEFT) freeliner.templateRenderer.doMask();
+  }
+}
+
+
 /**
  * Widget to control the sequencer
  */
