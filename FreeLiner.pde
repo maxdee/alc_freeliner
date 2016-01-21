@@ -71,8 +71,6 @@ class FreeLiner implements FreelinerConfig{
   }
 
 
-
-
   // experimental
   void reloadShader(){
     try{

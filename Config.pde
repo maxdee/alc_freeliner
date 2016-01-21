@@ -99,6 +99,7 @@ interface FreelinerConfig{
     "s    saveStuff",
     "o    loadStuff",
     "l    loadLED",
+    "m    masking",
     "k    showLEDmap"
   };
 

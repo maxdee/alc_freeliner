@@ -29,10 +29,9 @@ class TemplateRenderer implements FreelinerConfig{
   //graphics for rendering
   PGraphics canvas;
   // experimental
-  PImage mask;
+  PImage maskImage;
   boolean makeMask = false;
   boolean useMask = false;
-
 
   //draw a solid or transparent
   boolean trails;
@@ -54,15 +53,12 @@ class TemplateRenderer implements FreelinerConfig{
     // canvas.strokeCap(STROKE_CAP);
     // canvas.strokeJoin(STROKE_JOIN);
 
-
     // init variables
     trails = false;
     trailmix = 30;
-
     record = false;
     clipCount = 0;
     frameCount = 0;
-
     // add renderModes
     renderModes = new RenderMode[RENDERER_COUNT];
     renderModes[0] = new BrushSegment();
@@ -71,14 +67,12 @@ class TemplateRenderer implements FreelinerConfig{
     renderModes[3] = new Geometry();
     renderModes[4] = new TextLine();
     renderModes[5] = new CircularSegment();
-
     // add repetitionModes
     repeaters = new Repetition[REPEATER_COUNT];
     repeaters[0] = new Single();
     repeaters[1] = new EvenlySpaced();
     repeaters[2] = new EvenlySpacedWithZero();
     repeaters[3] = new TwoFull();
-
     // add enablers
     enablers = new Enabler[ENABLER_COUNT];
     enablers[0] = new Disabler();
@@ -89,16 +83,6 @@ class TemplateRenderer implements FreelinerConfig{
     enablers[5] = new SwoopingEnabler();
     enablers[6] = new RandomEnabler();
 	}
-
-  public RenderMode getRenderer(int _index){
-    if(_index >= RENDERER_COUNT) _index = RENDERER_COUNT - 1;
-    return renderModes[_index];
-  }
-
-  public Repetition getRepeater(int _index){
-    if(_index >= REPEATER_COUNT) _index = REPEATER_COUNT - 1;
-    return repeaters[_index];
-  }
 
   /**
    * Render a arrayList of renderable templates.
@@ -122,37 +106,18 @@ class TemplateRenderer implements FreelinerConfig{
         renderTemplate(rt);
 
 
-    if(useMask && !makeMask) canvas.image(mask,0,0);
+    if(useMask && !makeMask) canvas.image(maskImage,0,0);
   }
 
   public void endRender(){
     canvas.endDraw();
-    if(makeMask) makeMask();
+    if(makeMask) makeMask(canvas);
     // save frame if recording
     if(record){
       String fn = String.format("%06d", frameCount);
       canvas.save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
       frameCount++;
     }
-  }
-
-  // experimental
-  void makeMask(){
-    useMask = true;
-    makeMask = false;
-    mask = null;
-    mask = canvas.get();
-    mask.loadPixels();
-    color _col;
-    for(int i = 0; i< width * height; i++){
-      if(((mask.pixels[i] >> 8) & 0xFF) > 100) mask.pixels[i] = color(100, 0);
-      else mask.pixels[i] = color(0,255);
-    }
-    mask.updatePixels();
-  }
-
-  public void doMask(){
-    makeMask = true;
   }
 
   /**
@@ -215,6 +180,68 @@ class TemplateRenderer implements FreelinerConfig{
     }
 
   }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////     Masking
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Parse a image to make a mask.
+     * @param PImage to make into mask
+     */
+    void makeMask(PImage _source){
+      useMask = true;
+      makeMask = false;
+      maskImage = null;
+      maskImage = _source.get();
+      maskImage.loadPixels();
+      color _col;
+      for(int i = 0; i< width * height; i++){
+        // check the green pixels.
+        if(((maskImage.pixels[i] >> 8) & 0xFF) > 100) maskImage.pixels[i] = color(100, 0);
+        else maskImage.pixels[i] = color(0,255);
+      }
+      maskImage.updatePixels();
+    }
+
+    /**
+     * Set a flag to generate mask next render.
+     */
+    public void generateMask(){
+      makeMask = true;
+    }
+
+    public boolean toggleMask(){
+      if(useMask){
+        useMask = false;
+        return useMask;
+      }
+      else {
+        generateMask();
+        return true;
+      }
+    }
+
+    /**
+     * Load a image as the mask (transparent png for now...)
+     * @param String mask png file
+     */
+    public void loadMask(String _file){
+      try {
+        makeMask(loadImage("userdata/background.png"));
+      }
+      catch(Exception _e) {
+        println("Mask file could not be loaded : "+_file);
+        useMask = false;
+      }
+    }
+
+    public void saveMask(String _file){
+      // save the mask for later use
+      println("saveMask not yet implemented");
+    }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Effects
@@ -274,5 +301,15 @@ class TemplateRenderer implements FreelinerConfig{
    */
 	public final PGraphics getCanvas(){
     return canvas;
+  }
+
+  public RenderMode getRenderer(int _index){
+    if(_index >= RENDERER_COUNT) _index = RENDERER_COUNT - 1;
+    return renderModes[_index];
+  }
+
+  public Repetition getRepeater(int _index){
+    if(_index >= REPEATER_COUNT) _index = REPEATER_COUNT - 1;
+    return repeaters[_index];
   }
 }

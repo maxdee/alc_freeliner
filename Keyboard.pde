@@ -196,12 +196,14 @@ class Keyboard implements FreelinerConfig{
     else if(_k == 'v') makeCMD("tp"+" "+"paste"+" "+templateManager.getTemplateList().getTags());
     else if(_k == 'b') makeCMD("tp"+" "+"share"+" "+templateManager.getTemplateList().getTags());
     else if(_k == 'r') makeCMD("tp"+" "+"reset"+" "+templateManager.getTemplateList().getTags());
-
+    else if(_k == 'm') makeCMD("post"+" "+"mask");
+    
     else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape needs a cmd
     else if(_k == 'i') gui.setValueGiven( str(mouse.toggleInvertMouse()) ); // invert X
 
-    else if(_k == 'l') freeliner.reParse(); // reparse for LED map
     else if(_k == 'k') freeliner.toggleExtraGraphics(); // show extra graphics
+    else if(_k == 'l') freeliner.reParse(); // reparse for LED map
+
     else if(_k == 's') saveStuff();
     else if(_k == 'o') loadStuff();
     else return;

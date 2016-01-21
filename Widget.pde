@@ -341,7 +341,7 @@ public class MaskLoader extends Button {
   }
 
   public void action(int _mb){
-    if(_mb == LEFT) freeliner.templateRenderer.doMask();
+    if(_mb == LEFT) freeliner.templateRenderer.generateMask();
   }
 }
 
