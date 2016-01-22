@@ -290,5 +290,4 @@
   	public final PGraphics getFXCanvas(){
       return fxCanvas;
     }
-
   }
