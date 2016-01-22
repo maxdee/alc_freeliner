@@ -47,8 +47,8 @@ public class ExternalGUI extends PApplet {
     widgets.add(new InfoLine(new PVector(0,0), new PVector(WIDTH, 22), freeliner.getGui()));
     widgets.add(new GeometryLoader(new PVector(0,26), new PVector(20,20), freeliner.getGroupManager()));
     widgets.add(new GeometrySaver(new PVector(0,48), new PVector(20,20), freeliner.getGroupManager()));
-    widgets.add(new ShaderLoader(new PVector(500,48), new PVector(20,20), freeliner));
-    widgets.add(new MaskLoader(new PVector(500, 64), new PVector(20,20), freeliner));
+    widgets.add(new ShaderLoader(new PVector(200,26), new PVector(20,20), freeliner));
+    widgets.add(new MaskLoader(new PVector(200, 48), new PVector(20,20), freeliner));
     widgets.add(new Toggle(new PVector(100,100), new PVector(20,20)));
     widgets.add(new Fader(new PVector(100,125), new PVector(100,20)));
     widgets.add(new SequenceGUI(new PVector(0, HEIGHT - 150),

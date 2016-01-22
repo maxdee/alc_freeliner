@@ -56,6 +56,15 @@ class OSClistener implements OscEventListener{
         freeliner.getCanvasManager().oscSetTrails(tval);
       }
     }
+    else if(theOscMessage.checkAddrPattern("/freeliner/shader")) {
+      /* check if the typetag is the right one. */
+      if(theOscMessage.checkTypetag("if")) {
+        /* parse theOscMessage and extract the values from the osc message arguments. */
+        int ind = theOscMessage.get(0).intValue();
+        float flt = theOscMessage.get(1).floatValue();
+        freeliner.getCanvasManager().getShader().setUniforms(ind, flt);
+      }
+    }
     // change the colors in the userPallette
     else if(theOscMessage.checkAddrPattern("/freeliner/pallette")){
       if(theOscMessage.checkTypetag("iiii")){

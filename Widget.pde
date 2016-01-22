@@ -61,6 +61,7 @@ public class Widget implements FreelinerConfig{
     if(selected) _pg.fill(hoverColor);
     else _pg.fill(bgColor);
     _pg.rect(pos.x, pos.y, size.x, size.y);
+    showLabel(_pg);
   }
 
   public void showLabel(PGraphics _pg){
@@ -220,7 +221,6 @@ class Fader extends Widget {
       _canvas.fill(frontColor);
       _canvas.rect(pos.x+inset, pos.y+inset, (size.x-(2*inset)) * value, size.y-(2*inset));
     }
-    showLabel(_canvas);
   }
 
   public void action(int _button){
@@ -276,7 +276,6 @@ public class GeometryLoader extends Button {
   public void show(PGraphics _canvas){
     if(!active) return;
     super.show(_canvas);
-    showLabel(_canvas);
   }
 
   public void action(int _mb){
@@ -324,7 +323,7 @@ public class ShaderLoader extends Button {
   }
 
   public void action(int _mb){
-    if(_mb == LEFT) freeliner.canvasManager.reloadShader();
+    if(_mb == LEFT) freeliner.canvasManager.getShader().reloadShader();
   }
 }
 

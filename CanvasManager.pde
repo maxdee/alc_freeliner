@@ -29,7 +29,7 @@
     boolean trails;
     int trailmix;
     // Shaders
-    PShader shaderOne;
+    FLShader flShader;
     // for video recording
     boolean record;
     int clipCount;
@@ -51,7 +51,7 @@
       frameCount = 0;
 
       // experimental
-      reloadShader();
+      flShader = new FLShader("shaders/basicFrag.glsl");
 
       // check for background image, usefull for tracing paterns
       try { backgroundImage = loadImage("userdata/background.png");}
@@ -92,7 +92,8 @@
       // experimental rendering pipeline
       fxCanvas.beginDraw();
       fxCanvas.clear();
-      if(EXPERIMENTAL) useShader();
+      //if(EXPERIMENTAL) useShader();
+      flShader.useShader(fxCanvas);
       fxCanvas.image(drawingCanvas, 0, 0);
       fxCanvas.endDraw();
     }
@@ -127,38 +128,10 @@
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Reload default shader
-     */
-    public void reloadShader(){
-      reloadShader("shaders/basicFrag.glsl");
+    public void setShader(String _file){
+      flShader = new FLShader(_file);
     }
 
-    /**
-     * ReloadShader
-     * @param String shader file
-     */
-    public void reloadShader(String _file){
-      try{
-        shaderOne = loadShader(_file);
-      }
-      catch(Exception _e){
-        println("Could not load shader... ");
-        println(_e);
-      }
-    }
-
-    private void useShader(){
-      try{fxCanvas.shader(shaderOne);}
-      catch(RuntimeException _e){
-        println("shader no good");
-        fxCanvas.resetShader();
-      }
-    }
-
-    private void setUniform(){
-
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
@@ -274,6 +247,9 @@
     ///////    Accessors
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
+    public FLShader getShader(){
+      return flShader;
+    }
 
     /**
      * Access the drawingCanvas
@@ -291,3 +267,54 @@
       return fxCanvas;
     }
   }
+
+
+class FLShader{
+  PShader shader;
+  String fileName;
+  boolean valuesUpdated;
+  float[] uniforms;
+
+  public FLShader(String _file){
+    fileName = _file;
+    reloadShader();
+    valuesUpdated = true;
+    uniforms = new float[]{0.5, 0.5, 0.5, 0.5};
+  }
+
+  public void useShader(PGraphics _pg){
+    if(shader == null) return;
+    if(valuesUpdated){
+      println(uniforms);
+      shader.set("u1", uniforms[0]);
+      shader.set("u2", uniforms[1]);
+      shader.set("u3", uniforms[2]);
+      shader.set("u4", uniforms[3]);
+      valuesUpdated = false;
+    }
+    try{_pg.shader(shader);}
+    catch(RuntimeException _e){
+      println("shader no good");
+      _pg.resetShader();
+    }
+  }
+
+  public void setUniforms(int _i, float _val){
+    uniforms[_i % 4] = _val;
+    valuesUpdated = true;
+  }
+
+  /**
+   * Reload default shader
+   */
+  public void reloadShader(){
+    try{
+      shader = loadShader(fileName);
+    }
+    catch(Exception _e){
+      println("Could not load shader... ");
+      println(_e);
+      shader = null;
+    }
+  }
+}
