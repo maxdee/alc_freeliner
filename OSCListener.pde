@@ -53,7 +53,7 @@ class OSClistener implements OscEventListener{
       if(theOscMessage.checkTypetag("i")) {
         /* parse theOscMessage and extract the values from the osc message arguments. */
         int tval = theOscMessage.get(0).intValue();
-        freeliner.oscSetTrails(tval);
+        freeliner.getCanvasManager().oscSetTrails(tval);
       }
     }
     // change the colors in the userPallette

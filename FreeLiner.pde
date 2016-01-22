@@ -18,8 +18,11 @@ class FreeLiner implements FreelinerConfig{
   TemplateManager templateManager;
   // view
   TemplateRenderer templateRenderer;
-  int trailmix = -1;
+  CanvasManager canvasManager; // new!
+
+  // int trailmix = -1;
   Gui gui;
+
   // control
   Mouse mouse;
   Keyboard keyboard;
@@ -29,13 +32,6 @@ class FreeLiner implements FreelinerConfig{
   // misc
   boolean windowFocus;
   PApplet applet;
-  // experimental
-  PShader shaderOne;
-  PGraphics fxCanvas;
-  // optional background image
-  PImage backgroundImage;
-
-
 
   public FreeLiner(PApplet _pa) {
     applet = _pa;
@@ -46,6 +42,7 @@ class FreeLiner implements FreelinerConfig{
     // view
     templateRenderer = new TemplateRenderer();
     gui = new Gui();
+    canvasManager = new CanvasManager();
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();
@@ -61,33 +58,14 @@ class FreeLiner implements FreelinerConfig{
     commandProcessor.inject(this);
     windowFocus = true;
 
-    // experimental
-    reloadShader();
-    fxCanvas = createGraphics(width, height, P2D);
-
-    // check for background image, usefull for tracing paterns
-    try { backgroundImage = loadImage("userdata/background.png");}
-    catch(Exception _e) {backgroundImage = null;}
+    templateRenderer.setCanvas(canvasManager.getDrawingCanvas());
   }
 
-
-  // experimental
-  void reloadShader(){
-    try{
-      shaderOne = loadShader("shaders/basicFrag.glsl");
-    }
-    catch(Exception _e){
-      println("Could not load shader... ");
-      println(_e);
-    }
-  }
 
   /**
    * It all starts here...
    */
   public void update() {
-    //background(0);
-    if(backgroundImage != null) image(backgroundImage,0,0);
     if(windowFocus != focused){
       keyboard.forceRelease();
       windowFocus = focused;
@@ -96,47 +74,29 @@ class FreeLiner implements FreelinerConfig{
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());
     // render animations
-    templateRenderer.beginRender();
+    canvasManager.beginRender();
     templateRenderer.render(templateManager.getLoops());
     templateRenderer.render(templateManager.getEvents());
-    templateRenderer.endRender();
-    // experimental rendering pipeline
-    fxCanvas.beginDraw();
-    fxCanvas.clear();
-    if(EXPERIMENTAL) useShader();
-    fxCanvas.image(templateRenderer.getCanvas(), 0, 0);
-    fxCanvas.endDraw();
-    image(fxCanvas,0,0);
-    // draw gui on top
+    canvasManager.endRender();
+
+    image(canvasManager.getFXCanvas(),0,0);
     gui.update();
     if(gui.doDraw()){
       resetShader();
       image(gui.getCanvas(), 0, 0);
     }
-    if(trailmix != -1){
-      templateRenderer.setTrails(trailmix);
-      trailmix = -1;
-    }
-  }
-
-
-
-  private void useShader(){
-    try{fxCanvas.shader(shaderOne);}
-    catch(RuntimeException _e){
-      println("shader no good");
-      fxCanvas.resetShader();
-    }
-  }
-
-  public void oscSetTrails(int _t){
-    trailmix = _t;
   }
 
   // its a dummy for FreelinerLED
   public void reParse(){ }
   // its a dummy for others
   public void toggleExtraGraphics(){}
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    Accessors
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
   public Mouse getMouse(){
     return mouse;
@@ -166,8 +126,12 @@ class FreeLiner implements FreelinerConfig{
     return commandProcessor;
   }
 
+  public CanvasManager getCanvasManager(){
+    return canvasManager;
+  }
+
   public PGraphics getCanvas(){
-    return templateRenderer.getCanvas();
+    return canvasManager.getFXCanvas();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

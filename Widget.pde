@@ -324,7 +324,7 @@ public class ShaderLoader extends Button {
   }
 
   public void action(int _mb){
-    if(_mb == LEFT) freeliner.reloadShader();
+    if(_mb == LEFT) freeliner.canvasManager.reloadShader();
   }
 }
 
@@ -341,7 +341,7 @@ public class MaskLoader extends Button {
   }
 
   public void action(int _mb){
-    if(_mb == LEFT) freeliner.templateRenderer.generateMask();
+    if(_mb == LEFT) freeliner.canvasManager.generateMask();
   }
 }
 

@@ -347,15 +347,15 @@ class Keyboard implements FreelinerConfig{
     enterText = false;
   }
 
-  /**
-   * Toggle the recording state.
-   * @return boolean value given
-   */
-  public boolean toggleRecording(){
-    boolean record = templateRenderer.toggleRecording();
-    templateManager.getSynchroniser().setRecording(record);
-    return record;
-  }
+  // /**
+  //  * Toggle the recording state.
+  //  * @return boolean value given
+  //  */
+  // public boolean toggleRecording(){
+  //   boolean record = templateRenderer.toggleRecording();
+  //   templateManager.getSynchroniser().setRecording(record);
+  //   return record;
+  // }
 
   /**
    * Save geometry and templates to default file.

@@ -53,6 +53,7 @@ class CommandProcessor implements FreelinerConfig{
 
   TemplateManager templateManager;
   TemplateRenderer templateRenderer;
+  CanvasManager canvasManager;
   GroupManager groupManager;
   Synchroniser synchroniser;
   Sequencer sequencer;
@@ -75,6 +76,7 @@ class CommandProcessor implements FreelinerConfig{
     synchroniser = templateManager.getSynchroniser();
     sequencer = templateManager.getSequencer();
     templateRenderer = _fl.getTemplateRenderer();
+    canvasManager = _fl.getCanvasManager();
     groupManager = _fl.getGroupManager();
     mouse = _fl.getMouse();
     gui = _fl.getGui();
@@ -126,7 +128,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return;
     if(_args[1].equals("lines")) valueGiven = str(gui.toggleViewLines());
     else if(_args[1].equals("tags")) valueGiven = str(gui.toggleViewLines());
-    else if(_args[1].equals("rec")) valueGiven = str(templateRenderer.toggleRecording());
+    else if(_args[1].equals("rec")) valueGiven = str(canvasManager.toggleRecording());
     else if(_args[1].equals("snap")) snapCMD(_args);
     else if(_args[1].equals("grid")) gridCMD(_args);
     else if(_args[1].equals("ruler")) rulerCMD(_args);
@@ -225,9 +227,9 @@ class CommandProcessor implements FreelinerConfig{
     //if(_args.length < 2) return;
     //else if(_args[1].equals("mask")){
     if(_args.length > 2){
-      templateRenderer.loadMask(_args[2]);
+      canvasManager.loadMask(_args[2]);
     }
-    else valueGiven = str(templateRenderer.toggleMask());
+    else valueGiven = str(canvasManager.toggleMask());
   }
 
   public void trailsCMD(String[] _args){
@@ -235,8 +237,8 @@ class CommandProcessor implements FreelinerConfig{
     //else if(_args[1].equals("trails")){
       if(_args.length > 2){
         int _v = stringInt(_args[2]);
-        if(_v == -3) valueGiven = str(templateRenderer.toggleTrails());
-        else valueGiven = str(templateRenderer.setTrails(_v));
+        if(_v == -3) valueGiven = str(canvasManager.toggleTrails());
+        else valueGiven = str(canvasManager.setTrails(_v));
       }
     //}
   }

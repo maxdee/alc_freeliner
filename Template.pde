@@ -3,7 +3,7 @@
  * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.3ss
+ * @version   0.3
  * @since     2014-12-01
  */
 
@@ -68,7 +68,7 @@ class Template implements FreelinerConfig{
 		templateID = _id;
 		reset();
 	}
-	// 
+	//
 	// public Template(Template _source){
 	// 	templateID = 'z';
 	// 	reset();

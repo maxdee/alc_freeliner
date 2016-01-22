@@ -53,6 +53,13 @@ class TweakableTemplate extends Template {
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
 
+
+  /*
+   * Tweakables, all these more or less work the same.
+   * @param int value, -1 increment, -2 decrement, >= 0 set, -3 return current value
+   * @return int value given to parameter
+   */
+
 	public int setProbability(int v){
     // probability = numTweaker(v, probability);
     // if(probability > 100) probability = 100;

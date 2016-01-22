@@ -11,8 +11,6 @@
 /**
  * View part
  * The template renderer is where the rendering process begins.
- *
- *
  */
 
 class TemplateRenderer implements FreelinerConfig{
@@ -26,39 +24,13 @@ class TemplateRenderer implements FreelinerConfig{
   Enabler[] enablers;
   final int ENABLER_COUNT = 7;
 
-  //graphics for rendering
+  // drawing surface
   PGraphics canvas;
-  // experimental
-  PImage maskImage;
-  boolean makeMask = false;
-  boolean useMask = false;
-
-  //draw a solid or transparent
-  boolean trails;
-  int trailmix;
-
-  // for video recording
-  boolean record;
-  int clipCount;
-  int frameCount;
-
 
   /**
    * Constructor
    */
 	public TemplateRenderer(){
-    // init canvas
-    canvas = createGraphics(width, height, P2D);
-    canvas.smooth(0);
-    // canvas.strokeCap(STROKE_CAP);
-    // canvas.strokeJoin(STROKE_JOIN);
-
-    // init variables
-    trails = false;
-    trailmix = 30;
-    record = false;
-    clipCount = 0;
-    frameCount = 0;
     // add renderModes
     renderModes = new RenderMode[RENDERER_COUNT];
     renderModes[0] = new BrushSegment();
@@ -84,40 +56,21 @@ class TemplateRenderer implements FreelinerConfig{
     enablers[6] = new RandomEnabler();
 	}
 
+  public void setCanvas(PGraphics _pg){
+    canvas = _pg;
+  }
+
   /**
    * Render a arrayList of renderable templates.
    * @param ArrayList<RenderableTemplate> to render.
    */
-	public void beginRender(){
-    canvas.beginDraw();
-    // either clear or fade the last frame.
-    if(trails) alphaBG(canvas, trailmix);
-    else canvas.clear();
-    //canvas.image(tomap, 0,0);
-	}
-
   public void render(ArrayList<RenderableTemplate> _toRender){
-
     // copy arraylist
     ArrayList<RenderableTemplate> lst = new ArrayList<RenderableTemplate>(_toRender);
     // render templates
     if(lst.size() > 0)
       for(RenderableTemplate rt : lst)
         renderTemplate(rt);
-
-
-    if(useMask && !makeMask) canvas.image(maskImage,0,0);
-  }
-
-  public void endRender(){
-    canvas.endDraw();
-    if(makeMask) makeMask(canvas);
-    // save frame if recording
-    if(record){
-      String fn = String.format("%06d", frameCount);
-      canvas.save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
-      frameCount++;
-    }
   }
 
   /**
@@ -157,7 +110,7 @@ class TemplateRenderer implements FreelinerConfig{
     }
   }
 
-
+  //needs work
   /**
    * One of the last few things to expand into
    * @param RenderableTemplate to render.
@@ -178,130 +131,13 @@ class TemplateRenderer implements FreelinerConfig{
       if(_rt.getDirection()) _ang -= PI;
       _rt.setAngleMod(_ang);
     }
-
   }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////
-    ///////     Masking
-    ///////
-    ////////////////////////////////////////////////////////////////////////////////////
-    /**
-     * Parse a image to make a mask.
-     * @param PImage to make into mask
-     */
-    void makeMask(PImage _source){
-      useMask = true;
-      makeMask = false;
-      maskImage = null;
-      maskImage = _source.get();
-      maskImage.loadPixels();
-      color _col;
-      for(int i = 0; i< width * height; i++){
-        // check the green pixels.
-        if(((maskImage.pixels[i] >> 8) & 0xFF) > 100) maskImage.pixels[i] = color(100, 0);
-        else maskImage.pixels[i] = color(0,255);
-      }
-      maskImage.updatePixels();
-    }
-
-    /**
-     * Set a flag to generate mask next render.
-     */
-    public void generateMask(){
-      makeMask = true;
-    }
-
-    public boolean toggleMask(){
-      if(useMask){
-        useMask = false;
-        return useMask;
-      }
-      else {
-        generateMask();
-        return true;
-      }
-    }
-
-    /**
-     * Load a image as the mask (transparent png for now...)
-     * @param String mask png file
-     */
-    public void loadMask(String _file){
-      try {
-        makeMask(loadImage("userdata/background.png"));
-      }
-      catch(Exception _e) {
-        println("Mask file could not be loaded : "+_file);
-        useMask = false;
-      }
-    }
-
-    public void saveMask(String _file){
-      // save the mask for later use
-      println("saveMask not yet implemented");
-    }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////     Effects
+  ///////     Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
-  /**
-   * SetBackground with alpha value
-   * @param PGraphics to draw
-   * @param int alpha value of black
-   */
-  private void alphaBG(PGraphics _pg, int _alpha) {
-    _pg.fill(BACKGROUND_COLOR, _alpha);
-    _pg.stroke(BACKGROUND_COLOR, _alpha);
-    _pg.strokeWeight(1);
-    _pg.rect(0, 0, width, height);
-  }
-
-
-  /**
-   * Toggle the use of background with alpha value
-   * @return boolean value given
-   */
-  public boolean toggleTrails(){
-    trails = !trails;
-    return trails;
-  }
-
-  /**
-   * Set the alpha value of the background
-   * @param int tweaking value
-   * @return int value given
-   */
-  public int setTrails(int v){
-    trailmix = numTweaker(v, trailmix);
-    if(v == 255) trails = false;
-    else trails = true;
-    return trailmix;
-  }
-
-  /**
-   * Turn on and off frame capture
-   * @return boolean value given
-   */
-  public boolean toggleRecording(){
-    record = !record;
-    if(record) {
-      clipCount++;
-      frameCount = 0;
-    }
-    return record;
-  }
-
-  /**
-   * Access the rendering canvas
-   * @return PGraphics
-   */
-	public final PGraphics getCanvas(){
-    return canvas;
-  }
 
   public RenderMode getRenderer(int _index){
     if(_index >= RENDERER_COUNT) _index = RENDERER_COUNT - 1;
