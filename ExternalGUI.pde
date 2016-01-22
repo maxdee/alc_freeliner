@@ -85,7 +85,8 @@ public class ExternalGUI extends PApplet {
       freeliner.getKeyboard().forceRelease();
       windowFocus = focused;
     }
-    background(0,0,50);
+    if(freeliner instanceof FreelinerLED) background(50,0,0);
+    else background(0,0,50);
     // update the widgets with the mouse position
     if(!mousePressed) selectedWidget = null;
     for(Widget wdgt : widgets){

@@ -66,6 +66,7 @@ class FreeLiner implements FreelinerConfig{
    * It all starts here...
    */
   public void update() {
+    autoSave();
     if(windowFocus != focused){
       keyboard.forceRelease();
       windowFocus = focused;
@@ -91,6 +92,15 @@ class FreeLiner implements FreelinerConfig{
   public void reParse(){ }
   // its a dummy for others
   public void toggleExtraGraphics(){}
+
+  // need to make this better.
+  private void autoSave(){
+    if(frameCount % 1000 == 1){
+      // commandProcessor.processCMD("geom"+" "+"save"+" "+"userdata/autoSaveGeometry.xml");
+      // commandProcessor.processCMD("tp"+" "+"save"+" "+"userdata/autoSaveTemplates.xml");
+      // println("Autot saved");
+    }
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
