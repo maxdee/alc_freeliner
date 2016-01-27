@@ -64,7 +64,9 @@ class TemplateManager{
     syncTemplates(eventList);
     ArrayList<RenderableTemplate> toKill = new ArrayList();
     synchronized(eventList){
-      for(RenderableTemplate _tp : eventList){
+      ArrayList<RenderableTemplate> _safe = new ArrayList(eventList);
+      for(RenderableTemplate _tp : _safe){
+        if(_tp == null) return;
         if(((KillableTemplate) _tp).isDone()) toKill.add(_tp);
       }
       if(toKill.size()>0){

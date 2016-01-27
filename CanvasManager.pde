@@ -79,7 +79,9 @@
       drawingCanvas.endDraw();
       if(makeMask) makeMask(drawingCanvas);
 
-      applyFX();
+      if(EXPERIMENTAL) applyFX();
+      else noFX();
+      //if(makeMask) makeMask(drawingCanvas);
       // save frame if recording
       if(record){
         String fn = String.format("%06d", frameCount);
@@ -95,9 +97,17 @@
       //if(EXPERIMENTAL) useShader();
       flShader.useShader(fxCanvas);
       fxCanvas.image(drawingCanvas, 0, 0);
+      fxCanvas.resetShader();
+      fxCanvas.image(drawingCanvas, 0, 0);
       fxCanvas.endDraw();
     }
 
+    public void noFX(){
+      fxCanvas.beginDraw();
+      fxCanvas.clear();
+      fxCanvas.image(drawingCanvas, 0, 0);
+      fxCanvas.endDraw();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
