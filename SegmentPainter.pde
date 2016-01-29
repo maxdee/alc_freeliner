@@ -252,6 +252,12 @@ class TwoBrusher extends BrushPutter{
 		pv = _seg.getBrushPos(-lrp+1).get();
 		putShape(pv, _seg.getAngle(true));
 	}
+	// public float getAngle(Segment _seg, RenderableTemplate _event){
+	// 	float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
+	// 	if(_event.getDirection()) ang += PI;
+	// 	if(_seg.isClockWise()) return ang + _event.getAngleMod();
+	// 	else return ang + (-_event.getAngleMod());
+	// }
 }
 
 

@@ -65,3 +65,14 @@ The `*` character begins and stops a frame saving process. These `.tiff` images 
 
 ## Current Bugs ##
 Report one?
+
+## SHOUTOUTS ##
+-MrStar
+-Zap
+-Tats
+-Quessy
+-Jason Lewis
+-BunBun
+-ClaireLabs
+-Bruno/Laika
+-potluck crew
