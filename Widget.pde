@@ -323,7 +323,7 @@ public class ShaderLoader extends Button {
   }
 
   public void action(int _mb){
-    if(_mb == LEFT) freeliner.canvasManager.getShader().reloadShader();
+    if(_mb == LEFT) freeliner.canvasManager.getSelectedShader().reloadShader();
   }
 }
 

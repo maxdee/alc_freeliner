@@ -29,9 +29,10 @@
     boolean trails;
     int trailmix;
     // Shaders
-    FLShader flShader;
+    FLShader[] flShaders;
     boolean useShader;
-    int selectedShader;
+    int shaderIndex;
+    final int SHADER_COUNT = 4;
     // for video recording
     boolean record;
     int clipCount;
@@ -53,8 +54,13 @@
       frameCount = 0;
 
       // experimental
-      flShader = new FLShader("shaders/basicFrag.glsl");
-      selectedShader = 0;
+      //flShader = new FLShader("shaders/basicFrag.glsl");
+      flShaders = new FLShader[SHADER_COUNT];
+      flShaders[0] = new FLShader("shaders/fragZero.glsl");
+      flShaders[1] = new FLShader("shaders/fragOne.glsl");
+      flShaders[2] = new FLShader("shaders/fragTwo.glsl");
+      flShaders[3] = new FLShader("shaders/fragThree.glsl");
+      shaderIndex = 0;
       useShader = false;
       // check for background image, usefull for tracing paterns
       try { backgroundImage = loadImage("userdata/background.png");}
@@ -98,7 +104,7 @@
       fxCanvas.beginDraw();
       fxCanvas.clear();
       //if(EXPERIMENTAL) useShader();
-      flShader.useShader(fxCanvas);
+      getSelectedShader().useShader(fxCanvas);
       fxCanvas.image(drawingCanvas, 0, 0);
       if(!trails){
         fxCanvas.resetShader();
@@ -144,9 +150,9 @@
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    public void setShader(String _file){
-      flShader = new FLShader(_file);
-    }
+    // public void setShader(String _file){
+    //   flShader = new FLShader(_file);
+    // }
 
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -251,7 +257,7 @@
      */
     public boolean toggleShader(){
       useShader = !useShader;
-      flShader.reloadShader();
+      getSelectedShader().reloadShader();
       return useShader;
     }
 
@@ -261,8 +267,8 @@
      * @return int value given
      */
     public int setShader(int v){
-      selectedShader = numTweaker(v, selectedShader);
-      return selectedShader;
+      shaderIndex = numTweaker(v, shaderIndex);
+      return shaderIndex;
     }
 
     /**
@@ -283,8 +289,8 @@
     ///////    Accessors
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
-    public FLShader getShader(){
-      return flShader;
+    public FLShader getSelectedShader(){
+      return flShaders[shaderIndex%SHADER_COUNT];
     }
 
     /**
@@ -303,6 +309,24 @@
       return fxCanvas;
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////   Shader object
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
 
 class FLShader{
