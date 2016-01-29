@@ -52,7 +52,7 @@ class SegmentGroup {
     ID = _id;
     init();
   }
-  
+
   /**
    * Initialises variables, can be used to reset a group.
    */
@@ -472,6 +472,12 @@ class SegmentGroup {
   }
 
   public final PVector getCenter(){
+    return center;
+    //if(centered) return center;
+    //else return segmentStart;
+  }
+
+  public final PVector getTagPosition(){
     if(centered) return center;
     else return segmentStart;
   }

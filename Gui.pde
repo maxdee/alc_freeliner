@@ -284,7 +284,7 @@
    */
   public void showTag(SegmentGroup _sg) {
     // Get center if centered or last point made
-    PVector pos = _sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart();
+    PVector pos = _sg.getTagPosition();//_sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart();
     canvas.noStroke();
     canvas.fill(TEXT_COLOR);
     // group ID and template tags
