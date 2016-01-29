@@ -30,6 +30,8 @@
     int trailmix;
     // Shaders
     FLShader flShader;
+    boolean useShader;
+    int selectedShader;
     // for video recording
     boolean record;
     int clipCount;
@@ -52,7 +54,8 @@
 
       // experimental
       flShader = new FLShader("shaders/basicFrag.glsl");
-
+      selectedShader = 0;
+      useShader = false;
       // check for background image, usefull for tracing paterns
       try { backgroundImage = loadImage("userdata/background.png");}
       catch(Exception _e) {backgroundImage = null;}
@@ -79,9 +82,9 @@
       drawingCanvas.endDraw();
       if(makeMask) makeMask(drawingCanvas);
 
-      if(EXPERIMENTAL) applyFX();
+      if(useShader) applyFX();
       else noFX();
-      //if(makeMask) makeMask(drawingCanvas);
+
       // save frame if recording
       if(record){
         String fn = String.format("%06d", frameCount);
@@ -97,13 +100,16 @@
       //if(EXPERIMENTAL) useShader();
       flShader.useShader(fxCanvas);
       fxCanvas.image(drawingCanvas, 0, 0);
-      fxCanvas.resetShader();
-      fxCanvas.image(drawingCanvas, 0, 0);
+      if(!trails){
+        fxCanvas.resetShader();
+        fxCanvas.image(drawingCanvas, 0, 0);
+      }
       fxCanvas.endDraw();
     }
 
     public void noFX(){
       fxCanvas.beginDraw();
+      fxCanvas.resetShader();
       fxCanvas.clear();
       fxCanvas.image(drawingCanvas, 0, 0);
       fxCanvas.endDraw();
@@ -237,6 +243,26 @@
       if(v == 255) trails = false;
       else trails = true;
       return trailmix;
+    }
+
+    /**
+     * Toggle the use of shaders
+     * @return boolean value given
+     */
+    public boolean toggleShader(){
+      useShader = !useShader;
+      flShader.reloadShader();
+      return useShader;
+    }
+
+    /**
+     * Shader to use of whatever
+     * @param int tweaking value
+     * @return int value given
+     */
+    public int setShader(int v){
+      selectedShader = numTweaker(v, selectedShader);
+      return selectedShader;
     }
 
     /**

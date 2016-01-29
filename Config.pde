@@ -62,7 +62,7 @@ interface FreelinerConfig{
     "m    breakLine",
     "n    newItem",
     "o    rotation",
-    //"p    probability??",
+    "p    shader",
     "q    strkColor",
     "r    polka",
     "s    size",

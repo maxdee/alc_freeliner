@@ -58,6 +58,7 @@ class FreeLiner implements FreelinerConfig{
     commandProcessor.inject(this);
     windowFocus = true;
 
+    // improve this
     templateRenderer.setCanvas(canvasManager.getDrawingCanvas());
   }
 

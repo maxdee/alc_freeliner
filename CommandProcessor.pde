@@ -219,6 +219,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return;
     else if(_args[1].equals("trails")) trailsCMD(_args);
     else if(_args[1].equals("mask")) maskCMD(_args);
+    else if(_args[1].equals("shader")) shaderCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
 
@@ -241,6 +242,15 @@ class CommandProcessor implements FreelinerConfig{
         else valueGiven = str(canvasManager.setTrails(_v));
       }
     //}
+  }
+
+  // needs to be tested with file argument
+  public void shaderCMD(String[]  _args){
+    if(_args.length > 2){
+      int _v = stringInt(_args[2]);
+      if(_v == -3) valueGiven = str(canvasManager.toggleShader());
+      else valueGiven = str(canvasManager.setShader(_v));
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
