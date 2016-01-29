@@ -34,7 +34,7 @@ class Filler extends GroupPainter{
 	}
 
 }
-// 
+//
 // class FlashFiller extends GroupPainter{
 // 	public FlashFiller(){}
 // 	public void paintGroup(RenderableTemplate _rt){

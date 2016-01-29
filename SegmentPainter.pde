@@ -197,7 +197,8 @@ class BrushPutter extends SegmentPainter{
 	public float getAngle(Segment _seg, RenderableTemplate _event){
 		float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
 		if(_event.getDirection()) ang += PI;
-		return ang + _event.getAngleMod();
+		if(_seg.isClockWise()) return ang + _event.getAngleMod();
+		else return ang + (-_event.getAngleMod());
 	}
 
 	// regular putShape

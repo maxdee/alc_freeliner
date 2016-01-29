@@ -39,6 +39,6 @@ class RandomReverse extends Reverse{
 	public RandomReverse(){}
 	public float getDirection(RenderableTemplate _rt){
 		if(_rt.getRandomValue() % 2 == 1) return 1.0;
-		else return -1.0;
+	   else return -1.0;
 	}
 }

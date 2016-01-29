@@ -345,7 +345,6 @@ class FLShader{
   public void useShader(PGraphics _pg){
     if(shader == null) return;
     if(valuesUpdated){
-      println(uniforms);
       shader.set("u1", uniforms[0]);
       shader.set("u2", uniforms[1]);
       shader.set("u3", uniforms[2]);

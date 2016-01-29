@@ -38,7 +38,7 @@ class Segment {
   float angle;
   //float anglePI;
   boolean centered;
-
+  boolean clockWise;
   float ranFloat;
 
   String segmentText;
@@ -63,6 +63,12 @@ class Segment {
   public void updateAngle(){
     angle = atan2(pointA.y-pointB.y, pointA.x-pointB.x);
     //anglePI = angle + PI;
+    if(pointA.x > pointB.x){
+      if(pointA.y > pointB.y) clockWise = false;
+      else clockWise = true;
+    }
+    else if(pointA.y > pointB.y) clockWise = true;
+    else clockWise = false;
   }
 
 
@@ -280,6 +286,10 @@ class Segment {
   // other stuff
   public final boolean isCentered(){
     return centered;
+  }
+
+  public final boolean isClockWise(){
+    return clockWise;
   }
 
   public final float getAngle(boolean inv) {

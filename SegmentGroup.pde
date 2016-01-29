@@ -358,10 +358,11 @@ class SegmentGroup {
 
   private boolean findDirection(){
     for(Segment seg : sortedSegments){
-      int ax = int(seg.getPointA().x);
-      int bx = int(seg.getPointB().x);
-      if( ax > bx) return true;
-      else if (ax < bx) return false;
+      if(seg != null) return seg.isClockWise();
+      // int ax = int(seg.getPointA().x);
+      // int bx = int(seg.getPointB().x);
+      // if( ax > bx) return true;
+      // else if (ax < bx) return false;
     }
     return false;
   }
