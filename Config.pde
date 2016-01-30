@@ -18,7 +18,7 @@ interface FreelinerConfig{
   final color CURSOR_COLOR = #FFFFFF;
   final color SNAPPED_CURSOR_COLOR = #00C800;
   final color TEXT_COLOR = #FFFFFF;
-  final color GRID_COLOR = #000096;//9696;
+  final color GRID_COLOR = #969696;//9696;
   final color SEGMENT_COLOR = #BEBEBE;
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
 
