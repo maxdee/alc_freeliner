@@ -84,7 +84,7 @@
      */
     public void endRender(){
       // mask, could be applied to fxCanvas or drawingCanvas
-      if(useMask && !makeMask) drawingCanvas.image(maskImage,0,0);
+      if(useMask && !makeMask && !useShader) drawingCanvas.image(maskImage,0,0);
       drawingCanvas.endDraw();
       if(makeMask) makeMask(drawingCanvas);
 
@@ -106,10 +106,11 @@
       //if(EXPERIMENTAL) useShader();
       getSelectedShader().useShader(fxCanvas);
       fxCanvas.image(drawingCanvas, 0, 0);
-      // if(!trails){
-      //   fxCanvas.resetShader();
-      //   fxCanvas.image(drawingCanvas, 0, 0);
-      // }
+
+      if(useMask && !makeMask) {
+        fxCanvas.resetShader();
+        fxCanvas.image(maskImage,0,0);
+      }
       fxCanvas.endDraw();
     }
 
@@ -268,6 +269,7 @@
      */
     public int setShader(int v){
       shaderIndex = numTweaker(v, shaderIndex);
+      getSelectedShader().reloadShader();
       return shaderIndex;
     }
 
@@ -315,13 +317,6 @@
 
 
 
-
-
-
-
-
-
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////   Shader object
@@ -345,10 +340,7 @@ class FLShader{
   public void useShader(PGraphics _pg){
     if(shader == null) return;
     if(valuesUpdated){
-      shader.set("u1", uniforms[0]);
-      shader.set("u2", uniforms[1]);
-      shader.set("u3", uniforms[2]);
-      shader.set("u4", uniforms[3]);
+      passUniforms();
       valuesUpdated = false;
     }
     try{_pg.shader(shader);}
@@ -363,12 +355,20 @@ class FLShader{
     valuesUpdated = true;
   }
 
+  public void passUniforms(){
+    shader.set("u1", uniforms[0]);
+    shader.set("u2", uniforms[1]);
+    shader.set("u3", uniforms[2]);
+    shader.set("u4", uniforms[3]);
+  }
+
   /**
    * Reload default shader
    */
   public void reloadShader(){
     try{
       shader = loadShader(fileName);
+      passUniforms();
     }
     catch(Exception _e){
       println("Could not load shader... ");
