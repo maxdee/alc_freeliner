@@ -14,7 +14,7 @@ interface FreelinerConfig{
   final int GUI_TIMEOUT = 1000;
   final int DEFAULT_GRID_SIZE = 32;
   final int NODE_STROKE_WEIGTH = 7;
-  final int NODE_COLOR = #969696;
+  final int NODE_COLOR = #404040;
   final color CURSOR_COLOR = #FFFFFF;
   final color SNAPPED_CURSOR_COLOR = #00C800;
   final color TEXT_COLOR = #FFFFFF;

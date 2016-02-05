@@ -106,10 +106,10 @@
       //if(EXPERIMENTAL) useShader();
       getSelectedShader().useShader(fxCanvas);
       fxCanvas.image(drawingCanvas, 0, 0);
-      if(!trails){
-        fxCanvas.resetShader();
-        fxCanvas.image(drawingCanvas, 0, 0);
-      }
+      // if(!trails){
+      //   fxCanvas.resetShader();
+      //   fxCanvas.image(drawingCanvas, 0, 0);
+      // }
       fxCanvas.endDraw();
     }
 

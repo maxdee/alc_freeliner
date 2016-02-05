@@ -24,8 +24,8 @@ vec2 rot(vec2 p, float a) {
 }
 
 void main(void) {
-  vec2 pos = vertTexCoord.xy;
-	float diver = (u2*1200.0)+100;
-	pos = floor(pos*diver)/diver;
-	gl_FragColor = texture2D(texture, pos)+texture2D(ppixels,pos)/(1.0+(u1/4.0));
+	vec2 pos = vertTexCoord.xy;
+	float pix = 500.0*(-u2+1.0);
+	pos = floor((pos)*pix)/pix;
+	gl_FragColor = (texture2D(texture, pos)+texture2D(ppixels,pos))*u1;
 }
