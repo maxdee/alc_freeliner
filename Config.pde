@@ -12,9 +12,9 @@ interface FreelinerConfig{
   final int CURSOR_GAP_SIZE = 4;
   final int CURSOR_STROKE_WIDTH = 3;
   final int GUI_TIMEOUT = 1000;
-  final int DEFAULT_GRID_SIZE = 32;
+  // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
   final int NODE_STROKE_WEIGTH = 7;
-  final int NODE_COLOR = #404040;
+  final int NODE_COLOR = #606060;
   final color CURSOR_COLOR = #FFFFFF;
   final color SNAPPED_CURSOR_COLOR = #00C800;
   final color TEXT_COLOR = #FFFFFF;
@@ -38,10 +38,16 @@ interface FreelinerConfig{
 
   // Timing and stuff
   final int DEFAULT_TEMPO = 1500;
-  final int SEQ_STEP_COUNT = 16; // customize step count of Sequencer
+  final int SEQ_STEP_COUNT = 16; // change not recommended, there in spirit
 
   // to enable / disable experimental parts.
   final boolean EXPERIMENTAL = false;
+
+  // Mouse options
+  final int DEFAULT_GRID_SIZE = 64;
+  final int DEFAULT_LINE_ANGLE = 30;
+  final int DEFAULT_LINE_LENGTH = 128;
+  final int MOUSE_DEBOUNCE = 100;
 
   // Keyboard Section
   // final char ...

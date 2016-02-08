@@ -34,8 +34,13 @@ class Interpolator{
   public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
     return _seg.getAngle(false);
   }
-}
 
+  // might be a thing
+  // public PVector getStart(){
+  // }
+  // public PVector getEnd(){
+  // }
+}
 
 
 
@@ -56,8 +61,7 @@ class CenterSender extends Interpolator{
 }
 
 
-
-// front pointA to the center
+// interpolated halfway to the center
 class HalfWayInterpolator extends Interpolator{
 
   public HalfWayInterpolator(){
@@ -89,7 +93,6 @@ class RadiusInterpolator extends Interpolator{
   	pos.add(_seg.getPointA());
     return pos;
   }
-
 
   public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
     return (_tp.getLerp()*TAU)+_seg.getAngle(true)+HALF_PI;

@@ -107,10 +107,10 @@
       getSelectedShader().useShader(fxCanvas);
       fxCanvas.image(drawingCanvas, 0, 0);
 
-      if(useMask && !makeMask) {
-        fxCanvas.resetShader();
-        fxCanvas.image(maskImage,0,0);
-      }
+      // if(useMask && !makeMask) {
+      //   fxCanvas.resetShader();
+      //   fxCanvas.image(maskImage,0,0);
+      // }
       fxCanvas.endDraw();
     }
 

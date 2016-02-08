@@ -14,7 +14,6 @@ class SegmentPainter extends Painter{
 	// reference to the _event being rendered
 	// RenderableTemplate _event;
 
-
 	public SegmentPainter(){
 	}
 
@@ -80,6 +79,18 @@ class TrainLine extends LinePainter {
 		float lrp = event.getLerp();
 		if(lrp < 0.5) vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), _seg.getStrokePos(lrp*2));
 		else vecLine(event.getCanvas(), _seg.getStrokePos(2*(lrp-0.5)), _seg.getStrokeOffsetB());
+
+		// test with enterpolator...
+		// if(lrp < 0.5){
+		// 	_event.setLerp(lrp*2.0);
+		// 	vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), getPosition(_seg));
+		// 	_event.setLerp(lrp);
+		// }
+		// else {
+		// 	_event.setLerp(2*(lrp-0.5));
+		// 	vecLine(event.getCanvas(), getPosition(_seg), _seg.getCenter());
+		// 	_event.setLerp(lrp);
+		// }
 	}
 }
 
@@ -131,7 +142,6 @@ class RadarPainter extends LinePainter {
 		vecLine(_event.getCanvas(), _seg.getStrokeOffsetA(), pos);
 	}
 }
-
 
 
 class SegToSeg extends LinePainter{
