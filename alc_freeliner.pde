@@ -80,7 +80,7 @@ void setup() {
   //freeliner = new FreelinerSyphon(this);
   //freeliner = new FreelinerLED(this,"tunnel_map.xml");
 
-  surface.setResizable(false); // needs to scale other PGraphics
+  surface.setResizable(false);
   surface.setTitle("a!Lc Freeliner");
   noCursor();
   hint(ENABLE_KEY_REPEAT); // usefull for performance

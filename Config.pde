@@ -8,13 +8,13 @@ interface FreelinerConfig{
   final String OSC_OUT_IP = "127.0.0.1";
 
   // GUI options
-  final int CURSOR_SIZE = 20;
-  final int CURSOR_GAP_SIZE = 4;
+  final int CURSOR_SIZE = 18;
+  final int CURSOR_GAP_SIZE = 6;
   final int CURSOR_STROKE_WIDTH = 3;
   final int GUI_TIMEOUT = 1000;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
-  final int NODE_STROKE_WEIGTH = 7;
-  final int NODE_COLOR = #606060;
+  final int NODE_STROKE_WEIGTH = 4;
+  final int NODE_COLOR = #FFFFFF;
   final color CURSOR_COLOR = #FFFFFF;
   final color SNAPPED_CURSOR_COLOR = #00C800;
   final color TEXT_COLOR = #FFFFFF;
