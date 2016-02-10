@@ -9,6 +9,7 @@
 
 
 /** LIST OF COMMMANDS !!! () means optional arguments
+* /////////////////// Playing
  * tw AB q 3
  * tr AB (3)
  * tp copy (AB)
@@ -17,7 +18,7 @@
  * tp reset (AB)
  * tp save (cooleffects.xml)
  * tp load (coolstuff.xml)
- * ///////////////////
+ * /////////////////// Sequencer
  * seq tap (offset)
  * seq edit -1,-2,step
  * seq clear (step || AB)
@@ -27,7 +28,7 @@
  * seq stop
  * cmd rec
  * cmd play
- * ///////////////////
+ * ///////////////////  Tools
  * tools lines
  * tools tags
  * tools capture
@@ -35,11 +36,11 @@
  * tools grid (size)
  * tools ruler (length)
  * tools angle (angle)
- * ///////////////////
+ * ///////////////////  Geometry
  * geom txt word (2 3)
  * geom save (coolMap.xml)
  * geom load (coolMap.xml)
- * ///////////////////
+ * ///////////////////  Post processing
  * post trails (alpha)
  * post shader (coolfrag.glsl)
  * post mask (mask.png)
@@ -181,7 +182,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return;
     if(_args[1].equals("save")) saveGeometryCMD(_args);
     else if(_args[1].equals("load")) loadGeometryCMD(_args);
-    else if(_args[1].equals("text")) setTextCMD(_args);
+    else if(_args[1].equals("text")) textCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
 
@@ -195,7 +196,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args.length == 3) groupManager.loadGroups(_args[2]);
   }
 
-  public void setTextCMD(String[] _args){
+  public void textCMD(String[] _args){
     if(_args.length == 3){
       if(groupManager.getSnappedSegment() != null)
         groupManager.getSnappedSegment().setText(_args[2]);
