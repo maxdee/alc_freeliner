@@ -1,8 +1,7 @@
 ### Version 0.4 ###
  * New command system
  * Masking, hitting `ctrl-m` will make a mask. Any pixels with some green will be transparent.
- * Fragment shaders.
- * `p` to enable disable set shader
+ * Fragment shaders. `p` to enable disable set shader.
 
 ### Version 0.3.2 ###
  * Substantial changes, testing encouraged.

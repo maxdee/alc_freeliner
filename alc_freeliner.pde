@@ -3,7 +3,7 @@
  * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.3
+ * @version   0.4
  * @since     2014-12-01
  */
 
@@ -79,7 +79,7 @@ void setup() {
 
   // pick your flavour of freeliner
   freeliner = new FreeLiner(this);
-  //freeliner = new FreelinerSyphon(this);
+  //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
   //freeliner = new FreelinerLED(this,"tunnel_map.xml");
 
   surface.setResizable(false);

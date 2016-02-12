@@ -18,7 +18,7 @@
  * Boston, MA  02111-1307  USA
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.1
+ * @version   0.4
  * @since     2014-12-01
  */
 
