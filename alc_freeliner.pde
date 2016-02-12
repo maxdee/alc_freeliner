@@ -20,6 +20,8 @@ void settings(){
   //size(1024, 683, P2D);
   //fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
+  // needed for syphon!
+  PJOGL.profile=1;
   smooth(0);
 }
 

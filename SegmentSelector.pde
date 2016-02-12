@@ -66,7 +66,6 @@ class RunThroughSegments extends SegmentSelector{
 	}
 }
 
-
 /**
  * Get a random segment
  */
@@ -77,6 +76,8 @@ class RandomSegment extends SegmentSelector{
 		ArrayList<Segment> segs = new ArrayList();
 		int index = _event.getLargeRandomValue() % _event.segmentGroup.getCount();
 		segs.add(_event.segmentGroup.getSegment(index));
+		// could get R's worth of random segments?
+		// then setLerp...
 		return segs;
 	}
 }

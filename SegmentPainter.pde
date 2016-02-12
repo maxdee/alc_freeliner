@@ -316,21 +316,21 @@ class OppositeBrusher extends BrushPutter{
 }
 
 
-class CircularBrusher extends BrushPutter{
-
-	public CircularBrusher(){}
-
-	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		super.paintSegment(_seg, _event);
-		float dist = _seg.getLength()-(_event.getScaledBrushSize()/2.0);
-		float ang = (_event.getLerp()*TAU)+_seg.getAngle(true);
-		PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
-		pos.add(_seg.getPointA());
-		if(!event.getDirection()) ang += PI;
-		putShape(pos, event.getAngleMod() + ang + HALF_PI);
-	}
-}
-
+// class PolkaBrusher extends BrushPutter{
+//
+// 	public PolkaBrusher(){}
+//
+// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
+// 		super.paintSegment(_seg, _event);
+//
+// 		float dist = _seg.getLength();
+// 		int gap = _event.getRepetitionCount()*10;
+// 		for(int i = 0; i < cnt; i++){
+// 			putShape(getPosition(_seg), getAngle(_seg, _event));
+// 		}
+// 	}
+// }
+//
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
