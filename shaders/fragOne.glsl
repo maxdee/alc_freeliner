@@ -25,17 +25,25 @@ vec2 rot(vec2 p, float a) {
 
 //vec2(0.5614,0.3252)
 void main(void) {
-  vec2 pos = vertTexCoord.xy;
-	pos -= 0.5;
-	pos = rot(pos, 0.1);
-	pos += 0.5;
-	pos.x = (-(pos.x - 0.5)/((u2/3.0)*3.0))+pos.x;
-	pos.y = (-(pos.y - 0.5)/((u2/3.0)*3.0))+pos.y;
-	pos = -pos+vec2(1.0);
-	vec4 col = texture2D(ppixels,pos)*(0.4+u1);
-	col.b /=2.0;
-	col.g /=1.3;
-	gl_FragColor = texture2D(texture,vertTexCoord.xy)+col;
+	vec2 pos = vertTexCoord.xy;
+  vec4 col = texture2D(texture, pos);
+	vec2 dis = pos;
+	dis -= 0.5;
+	dis = rot(dis, 0.0);
+	dis += 0.5;
+	dis.x = (sign(u3-0.5)*(dis.x - 0.53)/(u2*200.0))+dis.x;
+	dis.y = (sign(u3-0.5)*(dis.y - 0.463)/(u2*200.0))+dis.y;
+
+	// if(mod(floor(dis.x * 768.0), 2) == 1)dis.xy+=0.4;
+	// else dis.xy-=0.4;
+	vec4 tracers = texture2D(ppixels, dis);
+	vec4 ref = vec4(0.0);
+
+	//ref = texture2D(ppixels, dis);
+	//tracers.a /= 1.23;
+	//if(ref.r > tracers.r) tracers = ref;
+	col += tracers*u1;
+  gl_FragColor = col;
 }
 
 //if(distance(pos, vec2(0.5)) > u2) discard;
