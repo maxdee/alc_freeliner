@@ -1,8 +1,0 @@
-#N canvas 112 114 450 300 10;
-#X obj 165 104 r beatcount;
-#X obj 179 156 sel 0;
-#X obj 179 135 % \$1;
-#X obj 179 180 outlet;
-#X connect 0 0 2 0;
-#X connect 1 0 3 0;
-#X connect 2 0 1 0;

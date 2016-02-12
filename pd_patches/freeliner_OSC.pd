@@ -1,4 +1,4 @@
-#N canvas 91 124 1351 672 10;
+#N canvas 10 1068 1351 672 10;
 #X declare -lib mrpeach;
 #X obj 13 8 import mrpeach;
 #X obj 371 408 packOSC;
@@ -13,7 +13,7 @@
 #X floatatom 44 118 5 0 0 0 - - -;
 #X obj 443 88 r freeliner-\$1;
 #X text 69 368 add reset template message;
-#X obj 784 608 s freeliner-\$1;
+#X obj 824 648 s freeliner-\$1;
 #X text 645 425 sample messages;
 #X msg 660 467 tr A;
 #X text 698 445 tweak A's color to 3;
@@ -40,10 +40,10 @@
 #X text 746 88 tweak \, trigger \, triggerGroup \, color \, txt;
 #X obj 249 487 print;
 #X obj 519 503 tgl 15 0 empty empty debug 17 7 0 10 -99865 -1 -4160
-0 1;
+1 1;
 #X obj 260 451 spigot;
 #X obj 443 122 route tw tr tg cl tx rk;
-#X msg 769 576 rk q 0 1;
+#X msg 770 577 rk q 0 1;
 #X obj 12 161 s freeliner-\$1;
 #X msg 12 139 beat \$1;
 #N canvas 596 275 450 300 tweak 0;
@@ -121,11 +121,18 @@
 #X text 790 532 set tracer level;
 #X msg 748 555 tx 2 1 quakeroats;
 #X text 858 555 set group 2's segment 1's text;
-#X text 828 575 raw key input \, key \, keycode \, pressed 1 0 released.
+#X text 829 576 raw key input \, key \, keycode \, pressed 1 0 released.
 ;
 #X obj 579 528 bng 15 250 50 0 empty empty empty 17 7 0 10 -99865 -257985
 -1;
 #X obj 241 229 t b;
+#X obj 853 286 r freeliner-\$1;
+#X obj 853 311 route ledbright ledRGB;
+#X msg 917 336 sendtyped /freeliner/lightdimming fff \$1 \$2 \$3;
+#X msg 792 599 ledbright 0.5;
+#X text 930 611 led brightness;
+#X msg 813 621 ledRGB 0.5 0.8 1;
+#X msg 853 361 sendtyped /freeliner/lightdimming f \$1;
 #X connect 1 0 2 0;
 #X connect 2 0 26 0;
 #X connect 3 0 4 0;
@@ -174,4 +181,11 @@
 #X connect 48 0 8 0;
 #X connect 50 0 13 0;
 #X connect 54 0 53 0;
+#X connect 55 0 56 0;
+#X connect 56 0 61 0;
+#X connect 56 1 57 0;
+#X connect 57 0 8 0;
+#X connect 58 0 13 0;
+#X connect 60 0 13 0;
+#X connect 61 0 8 0;
 #X coords 0 -1 1 1 100 60 1 500 500;

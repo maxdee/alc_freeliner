@@ -23,20 +23,15 @@
  */
 
 
-/**
- * Subclass of ArrayList that prevents out of bound errors
- */
-// class SafeList<E> extends ArrayList<E> {
-//   public SafeList(){
-
-//   }
-
-//   public E get(int _index){
-//     _index = constrain(_index, 0, size()-1);
-//     if(_index == -1) return null;
-//     return super.get(_index);
-//   }
-// }
+int stringInt(String _str){
+  try {
+    return Integer.parseInt(_str);
+  }
+  catch (Exception e){
+    println("Bad number string");
+    return -42;
+  }
+}
 
 /**
  * Class to collect and average data
@@ -155,7 +150,6 @@ static int wrap(int v, int n) {
   return v;
 }
 
-
 boolean maybe(int _p){
   return random(100) < _p;
 }
@@ -195,49 +189,12 @@ PShape cloneShape(PShape _source, float _scale){
   return cloneShape(_source, _scale, new PVector(0,0));
 }
 
-///////////////////////
-
-class LerpManager {
-  float lerper;
-  float renderIncrement;
-  float divider;
-  int cycle;
-  boolean loop;
-
-  FloatList lerps;
-
-  public LerpManager(){
-    lerps = new FloatList();
-    loop = true;
-  }
-
-  public void update(float _lrp, int _cyc){
-
-    if(lerps.size() > 0){
-      for(int i = 0; i < lerps.size(); i++){
-        lerps.add(i, renderIncrement);
-        if(lerps.get(i)>1){
-          lerps.remove(i);
-          if(loop) lerps.append(0);
-        }
-      }
-    }
-
-  }
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////    Actions
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-
-
-  public void newLerp(){
-    lerps.append(0);
-  }
-
-  public FloatList getLerps(){
-    if(lerps.size() > 0) return lerps;
-    else return null;
-  }
-}
+/**
+ * PShape clone/resize/center, the centerPosition will translate everything making it 0,0
+ * @param  String directory
+ * @param String file extention
+ * @return String[] fileNames
+ */
+// String[] parseDirectory(String _dir, String _ext){
+//
+// }

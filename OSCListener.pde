@@ -11,15 +11,16 @@ class OSClistener implements OscEventListener{
 
   FreeLiner freeliner;
 
+
   public OSClistener(PApplet _pa, FreeLiner _fl){
     // osc setup
     freeliner = _fl;
-
   }
 
   public void oscStatus(OscStatus theStatus){}
-
+  // new OSC messages = /freeliner/tw/A/q 3 ???
   void oscEvent(OscMessage theOscMessage) {  /* check if theOscMessage has the address pattern we are looking for. */
+    //println(theOscMessage);
     // tweak parameters
     if(theOscMessage.checkAddrPattern("/freeliner/tweak")) {
       /* check if the typetag is the right one. */
@@ -28,7 +29,8 @@ class OSClistener implements OscEventListener{
         String tags = theOscMessage.get(0).stringValue();
         char kay = theOscMessage.get(1).stringValue().charAt(0);
         int val = theOscMessage.get(2).intValue();
-        freeliner.keyboard.oscDistribute(tags, kay, val);
+        //freeliner.keyboard.oscDistribute(tags, kay, val);
+        freeliner.getCommandProcessor().processCMD("tw"+" "+tags+" "+kay+" "+val);
       }
     }
     // trigger animations
@@ -37,10 +39,12 @@ class OSClistener implements OscEventListener{
       if(theOscMessage.checkTypetag("s")) {
         String tags = theOscMessage.get(0).stringValue();
         freeliner.templateManager.oscTrigger(tags, -1);
+        freeliner.getCommandProcessor().processCMD("tr"+" "+tags);
       }
       if(theOscMessage.checkTypetag("si")) {
         String tags = theOscMessage.get(0).stringValue();
-        freeliner.templateManager.oscTrigger(tags, theOscMessage.get(1).intValue());
+        //freeliner.templateManager.oscTrigger(tags, theOscMessage.get(1).intValue());
+        freeliner.getCommandProcessor().processCMD("tr"+" "+tags+" "+theOscMessage.get(1).intValue());
       }
     }
     // enable diable and set intencity of trails
@@ -49,7 +53,16 @@ class OSClistener implements OscEventListener{
       if(theOscMessage.checkTypetag("i")) {
         /* parse theOscMessage and extract the values from the osc message arguments. */
         int tval = theOscMessage.get(0).intValue();
-        freeliner.oscSetTrails(tval);
+        freeliner.getCanvasManager().oscSetTrails(tval);
+      }
+    }
+    else if(theOscMessage.checkAddrPattern("/freeliner/shader")) {
+      /* check if the typetag is the right one. */
+      if(theOscMessage.checkTypetag("if")) {
+        /* parse theOscMessage and extract the values from the osc message arguments. */
+        int ind = theOscMessage.get(0).intValue();
+        float flt = theOscMessage.get(1).floatValue();
+        freeliner.getCanvasManager().getSelectedShader().setUniforms(ind, flt);
       }
     }
     // change the colors in the userPallette

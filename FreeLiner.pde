@@ -12,19 +12,25 @@
  * Main class for alc_freeliner
  * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
  */
-class FreeLiner {
+class FreeLiner implements FreelinerConfig{
   // model
   GroupManager groupManager;
   TemplateManager templateManager;
   // view
   TemplateRenderer templateRenderer;
-  int trailmix = -1;
+  CanvasManager canvasManager; // new!
+
+  // int trailmix = -1;
   Gui gui;
+
   // control
   Mouse mouse;
   Keyboard keyboard;
   OSClistener osc;
-
+  // new part
+  CommandProcessor commandProcessor;
+  // misc
+  boolean windowFocus;
   PApplet applet;
 
   public FreeLiner(PApplet _pa) {
@@ -36,47 +42,72 @@ class FreeLiner {
     // view
     templateRenderer = new TemplateRenderer();
     gui = new Gui();
+    canvasManager = new CanvasManager();
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();
     osc = new OSClistener(applet, this);
+
+    commandProcessor = new CommandProcessor();
     // inject dependence
     mouse.inject(groupManager, keyboard);
-    keyboard.inject(groupManager, templateManager, templateRenderer, gui, mouse);
+    keyboard.inject(this);
     gui.inject(groupManager, mouse);
     templateManager.inject(groupManager);
+    groupManager.inject(templateManager);
+    commandProcessor.inject(this);
+    windowFocus = true;
+
+    // improve this
+    templateRenderer.setCanvas(canvasManager.getDrawingCanvas());
   }
+
 
   /**
    * It all starts here...
    */
   public void update() {
-    //background(0);
-    if(!focused) keyboard.forceRelease();
+    autoSave();
+    if(windowFocus != focused){
+      keyboard.forceRelease();
+      windowFocus = focused;
+    }
     // update template models
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());
     // render animations
-    templateRenderer.beginRender();
+    canvasManager.beginRender();
     templateRenderer.render(templateManager.getLoops());
     templateRenderer.render(templateManager.getEvents());
-    templateRenderer.endRender();
-    image(templateRenderer.getCanvas(), 0, 0);
-    // draw gui on top
+    canvasManager.endRender();
+
+    image(canvasManager.getFXCanvas(),0,0);
     gui.update();
     if(gui.doDraw()){
+      resetShader();
       image(gui.getCanvas(), 0, 0);
     }
-    if(trailmix != -1){
-      templateRenderer.setTrails(trailmix);
-      trailmix = -1;
+  }
+
+  // its a dummy for FreelinerLED
+  public void reParse(){ }
+  // its a dummy for others
+  public void toggleExtraGraphics(){}
+
+  // need to make this better.
+  private void autoSave(){
+    if(frameCount % 1000 == 1){
+      // commandProcessor.processCMD("geom"+" "+"save"+" "+"userdata/autoSaveGeometry.xml");
+      // commandProcessor.processCMD("tp"+" "+"save"+" "+"userdata/autoSaveTemplates.xml");
+      // println("Autot saved");
     }
   }
 
-  public void oscSetTrails(int _t){
-    trailmix = _t;
-  }
-
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    Accessors
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
   public Mouse getMouse(){
     return mouse;
@@ -86,9 +117,34 @@ class FreeLiner {
     return keyboard;
   }
 
-  public PGraphics getCanvas(){
-    return templateRenderer.getCanvas();
+  public Gui getGui(){
+    return gui;
   }
+
+  public GroupManager getGroupManager(){
+    return groupManager;
+  }
+
+  public TemplateManager getTemplateManager(){
+    return templateManager;
+  }
+
+  public TemplateRenderer getTemplateRenderer(){
+    return templateRenderer;
+  }
+
+  public CommandProcessor getCommandProcessor(){
+    return commandProcessor;
+  }
+
+  public CanvasManager getCanvasManager(){
+    return canvasManager;
+  }
+
+  public PGraphics getCanvas(){
+    return canvasManager.getFXCanvas();
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Debug

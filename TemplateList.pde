@@ -40,20 +40,15 @@ class TemplateList {
     templates = new ArrayList();
   }
 
-  public void updateString(){
-    tags = "";
-    for(TweakableTemplate _ten : templates){
-      tags += _ten.getTemplateID();
-    }
-  }
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     actions
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
-  public void clear(){
-    if(!templates.isEmpty()){
-      templates.clear();
-      tags = "";
-    }
-  }
-
+  /**
+   * Copy and other TemplateList
+   */
   public void copy(TemplateList _tl){
     if(_tl == this) return;
     clear();
@@ -62,13 +57,66 @@ class TemplateList {
     if(!_tl.getAll().isEmpty())
       for(TweakableTemplate tt : _tl.getAll())
         toggle(tt);
+    updateString();
   }
 
+  /**
+   * Clear the whole thing
+   */
+  public void clear(){
+    if(!templates.isEmpty()){
+      templates.clear();
+      tags = "";
+    }
+    updateString();
+  }
+
+  /**
+   * Toggle a Template
+   * @param TweakableTemplate template to toggle
+   */
   public void toggle(TweakableTemplate _te) {
     if(_te == null) return;
     if(!templates.remove(_te)) templates.add(_te);
     updateString();
   }
+
+  /**
+   * Add a template
+   * @param TweakableTemplate template to toggle
+   */
+  public void add(TweakableTemplate _te){
+    if(_te == null) return;
+    if(contains(_te)) return;
+    else templates.add(_te);
+    updateString();
+  }
+
+  /**
+   * Remove a specific template
+   * @param TweakableTemplate template to toggle
+   */
+  public void remove(TweakableTemplate _te){
+    if(_te == null) return;
+    if(contains(_te)) templates.remove(_te);
+    updateString();
+  }
+
+  /**
+   * Makes the string of tags
+   */
+  public void updateString(){
+    tags = "";
+    for(TweakableTemplate _ten : templates){
+      tags += _ten.getTemplateID();
+    }
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Accessors
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
   public boolean contains(TweakableTemplate _te){
     return templates.contains(_te);

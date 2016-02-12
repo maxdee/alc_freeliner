@@ -15,7 +15,6 @@ class Enabler{
 	}
 }
 
-
 class Disabler extends Enabler{
 	public Disabler(){}
 
@@ -23,7 +22,6 @@ class Disabler extends Enabler{
 		return false;
 	}
 }
-
 
 class Triggerable extends Enabler{
 	public Triggerable(){
@@ -33,6 +31,7 @@ class Triggerable extends Enabler{
 	}
 }
 
+// something for triggerable but not from the seq
 
 
 class RandomEnabler extends Enabler{
@@ -42,6 +41,8 @@ class RandomEnabler extends Enabler{
 		else return false;
 	}
 }
+
+
 
 class SweepingEnabler extends Enabler{
 	final float DIST = 200.0;//float(width)/4.0;
@@ -65,7 +66,6 @@ class SwoopingEnabler extends Enabler{
 	final float DIST = 200.0;//float(width)/4.0;
 	public SwoopingEnabler(){
 		super();
-
 	}
 	public boolean enable(RenderableTemplate _rt){
 		float pos = _rt.getSegmentGroup().getCenter().x - DIST/2.0;

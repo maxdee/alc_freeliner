@@ -1,7 +1,8 @@
 
 # alcFreeliner #
 
-The new v0.3 is for Processing 3.
+The new v0.4!! is for Processing 3.
+
 
 ### What is? ###
 
@@ -54,8 +55,8 @@ Make a new segment group, set its center. Add a rendering template (`shift + a-z
 ##### Copy parameters between templates
 Unselect with `esc`, then select the template to copy, then select the template to paste into, and then press `ctrl-c`.   
 
-##### Save Geometry
-The `@` character saves your current segment groups, with the exception of group 0. The `#` character will load whatever is in `data/groups.xml`. Its a good idea to make a copy of this file because accidentally hitting `@` will overwrite the file.
+##### Save and load
+Now you can save a complete mapping, geometry and templates. Using `ctrl-s` and `ctrl-o` you can save and load the default files, `userdata/geometry.xml` and `userdata/templates.xml`.
 
 ##### Sequencing
 16 step sequencing, may change. By tweaking the `>` character you can move through the steps. Steps are like items, they can have multiple templates. Press the `>` key then add a template or two then go to the next step with `=` (+) and onwards. It is recommended to use enabler mode 2.
@@ -68,3 +69,14 @@ Freeliner can be quit with your systems shortcut to close a window, like `alt-f4
 
 ## Current Bugs ##
 Report one?
+
+## SHOUTOUTS ##
+-MrStar
+-Zap
+-Tats
+-Quessy
+-Jason Lewis
+-BunBun
+-ClaireLabs
+-Bruno/Laika
+-potluck crew

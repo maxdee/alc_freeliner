@@ -7,8 +7,8 @@
  * @since     2014-12-01
  */
 
- import oscP5.*;
- import netP5.*;
+import oscP5.*;
+import netP5.*;
 
 /**
  * HELLO THERE! WELCOME to FREELINER
@@ -16,10 +16,13 @@
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(1024, 768, P2D);
-  fullScreen(P2D, 2);
+  size(1024, 768, P2D);
+  //size(1024, 683, P2D);
+  //fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
-  smooth();
+  // needed for syphon!
+  PJOGL.profile=1;
+  smooth(0);
 }
 
 /**
@@ -54,7 +57,7 @@ FreeLiner freeliner;
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.3.1";
+final String VERSION = "0.4";
 boolean doSplash = true;
 boolean OSX = false;
 
@@ -63,6 +66,9 @@ OscP5 oscP5;
 NetAddress toPDpatch;
 OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
+ExternalGUI externalGUI = null; // set specific key to init gui
+boolean runGui = false;
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     Setup
@@ -70,21 +76,20 @@ OscMessage tickmsg = new OscMessage("/freeliner/tick");
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-  surface.setResizable(false); // needs to scale other PGraphics
-  surface.setTitle("a!Lc Freeliner");
 
+  // pick your flavour of freeliner
+  freeliner = new FreeLiner(this);
+  //freeliner = new FreelinerSyphon(this);
+  //freeliner = new FreelinerLED(this,"tunnel_map.xml");
+
+  surface.setResizable(false);
+  surface.setTitle("a!Lc Freeliner");
   noCursor();
   hint(ENABLE_KEY_REPEAT); // usefull for performance
 
   // load fonts
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");
-  splash();
-
-  // pick your flavour of freeliner
-  freeliner = new FreeLiner(this);
-  //freeliner = new FreelinerSyphon(this);
-  //freeliner = new FreelinerLED(this, "ledstarmap.xml");
 
   //osc
   oscP5 = new OscP5(this, FreelinerConfig.OSC_IN_PORT);
@@ -93,6 +98,9 @@ void setup() {
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
+  // perhaps use -> PApplet.platform == MACOSX
+  splash();
+  if(runGui) launchGUI();
 }
 
 // splash screen!
@@ -106,6 +114,19 @@ void splash(){
   textSize(24);
   fill(255);
   text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
+}
+
+//external GUI launcher
+void launchGUI(){
+  if(externalGUI != null) return;
+  externalGUI = new ExternalGUI(freeliner);
+  String[] args = {"Freeliner GUI", "--display=1"};
+  PApplet.runSketch(args, externalGUI);
+  externalGUI.loop();
+}
+void closeGUI(){
+  if(externalGUI != null) return;
+  //PApplet.stopSketch();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -134,6 +155,7 @@ void oscTick(){
 // relay the inputs to the mapper
 void keyPressed() {
   freeliner.getKeyboard().processKey(key, keyCode);
+  if(key == '~') launchGUI();
   if (key == 27) key = 0;       // dont let escape key, we need it :)
 }
 

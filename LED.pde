@@ -25,10 +25,25 @@ class FreeLEDing {
   int ledCount;
   // 1.0 of brightness
   float brightness;
+  String ledMapFile;
+
+  //dimmers
+  float redDimmer = 1.0;
+  float greenDimmer = 1.0;
+  float blueDimmer = 1.0;
+
+  // gamma correction
+  boolean correctGamma = true;
+  int[] gammatable = new int[256];
+  float gamma = 7; // 3.2 seems to be nice
 
   public FreeLEDing(){
     leds = new ArrayList();
     ledMap = createGraphics(width, height); //switch to P2D
+    // init gammatable
+    for (int i=0; i < 256; i++) {
+      gammatable[i] = (int)(pow((float)i / 255.0, gamma) * 255.0 + 0.5);
+    }
   }
 
   // override to send data to a LED system
@@ -51,6 +66,7 @@ class FreeLEDing {
     XML file;
     try {
       file = loadXML(_file);
+      println("file found "+_file);
       XML[] groupData = file.getChildren("group");
       PVector posA = new PVector(0,0);
       PVector posB = new PVector(0,0);
@@ -62,14 +78,21 @@ class FreeLEDing {
         for(XML seg : xseg){
           posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
           posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
-          String txt = seg.getString("txt");
-          //parse txt to from to
-          addLEDs(from,
-                  to,
-                  posA.x,
-                  posA.y,
-                  posB.x,
-                  posB.y);
+          String[] cmd = split(seg.getString("txt"), " ");
+
+          if(cmd[0].equals("/led") && cmd.length>2){
+            println(cmd[1]);
+            from = int(cmd[1]);
+            to = int(cmd[2]);
+            println("Adding LEDs from: "+from+"  to: "+to);
+            //parse txt to from to
+            addLEDs(from,
+                    to,
+                    posA.x,
+                    posA.y,
+                    posB.x,
+                    posB.y);
+          }
         }
       }
       ledCount = leds.size();
@@ -81,32 +104,27 @@ class FreeLEDing {
     }
   }
 
-  /********************* OLD FILE LOADER *********************/
-  // parse a xml file for led positions
-  // public void parseLEDfile(String _file){
-  //   leds = new ArrayList();
-  //   XML file;
-  //   try {
-  //     file = loadXML(_file);
-  //     XML[] segment = file.getChildren("segments");
-  //
-  //     for(XML ledData : XMLleds){
-  //       addLEDs(ledData.getInt("from"),
-  //               ledData.getInt("to"),
-  //               ledData.getFloat("aX"),
-  //               ledData.getFloat("aY"),
-  //               ledData.getFloat("bX"),
-  //               ledData.getFloat("bY"));
+  // private void addLEDsCircle(int from, int to, float aX, float aY, float bX, float bY){
+  //   int ledCnt = abs(from-to);
+  //   float angleIncrement = 3;
+  //   float angle = atan2(aY-bY, aX-bX);
+  //   float dist = dist(aX,aY, bX, bY);
+  //   int ind;
+  //   int x;
+  //   int y;
+  //   if(from == to) leds.add(new RGBled(from, int(aX), int(aY)));
+  //   else {
+  //     for(int i = from; i <= to; i++){
+  //       ind = from+i;
+  //       x = int((dist*cos(angle))+aX);
+  //       y = int((dist*sin(angle))+aY);
+  //       x = constrain(x,0, width);
+  //       y = constrain(y,0, height);
+  //       leds.add(new RGBled(ind, x, y));
+  //       angle += angleIncrement;
   //     }
-  //     ledCount = leds.size();
-  //     drawLEDmap();
-  //   }
-  //   catch(Exception e){
-  //     println("LEDmap XML file "+_file+" not found");
-  //     exit();
   //   }
   // }
-
 
   // add LEDs with interpolation if necessary
   private void addLEDs(int from, int to, float aX, float aY, float bX, float bY){
@@ -156,7 +174,16 @@ class FreeLEDing {
   }
 
   public void setBrightness(float _f){
-    brightness = _f;
+    _f = constrain(_f, 0.0, 1.0);
+    redDimmer = _f;
+    greenDimmer = _f;
+    blueDimmer = _f;
+  }
+
+  public void setRGBbrightness(float _r, float _g, float _blue){
+    redDimmer = constrain(_r, 0.0, 1.0);
+    greenDimmer = constrain(_r, 0.0, 1.0);
+    blueDimmer = constrain(_r, 0.0, 1.0);
   }
 }
 
@@ -236,7 +263,12 @@ class FastLEDing extends FreeLEDing {
     delay(100);
     port.write('?');
     delay(100);
-    ledCount = Integer.parseInt(getMessage());
+    try{
+      ledCount = Integer.parseInt(getMessage());
+    } catch (Exception e){
+      println("Could not get LED count");
+      exit();
+    }
     packetSize = (ledCount*3)+1;
 
     println("Connected to "+_port+" with "+ledCount+" LEDs");
@@ -248,17 +280,30 @@ class FastLEDing extends FreeLEDing {
     ledData[0] = '*';
     for(int i = 1; i < packetSize; i++) ledData[i] = byte(0);
 
+    byte red = 0;
+    byte green = 0;
+    byte blue = 0;
+    int cutoff = 3;
     for(RGBled led : leds){
       int adr = led.getIndex();
-      ledCount = 62; // idk whats up
+      if(ledCount != 142) ledCount = 142;
+      //ledCount = 42; // idk whats up
       if(adr < ledCount){
+        red = byte(led.getRed() * redDimmer);
+        green = byte(led.getGreen() * greenDimmer);
+        blue = byte(led.getBlue() * blueDimmer);
+
+        red = byte(correctGamma ?  red : gammatable[red]);
+        green = byte(correctGamma ?  green : gammatable[green]);
+        blue = byte(correctGamma ?  blue : gammatable[blue]);
         adr = (adr*3)+1;
-        ledData[adr] = led.getRed();
-        ledData[adr+1] = led.getGreen();
-        ledData[adr+2] = led.getBlue();
+        if ((char)red > cutoff) ledData[adr] = red; else ledData[adr] = 0;
+        if ((char)green > cutoff) ledData[adr+1] = green ; else ledData[adr+1] = 0;
+        if ((char)blue > cutoff) ledData[adr+2] = blue; else ledData[adr+2] = 0;
       }
     }
     port.write(ledData);
+    //println(t+" "+getMessage());
   }
 
   public String getMessage(){
@@ -334,12 +379,13 @@ class RGBled{
   int index;
   int xPos;
   int yPos;
-
+  float gamma = 1.7;
   byte red;
   byte green;
   byte blue;
 
   color col;
+
 
   public RGBled(int _i, int _x, int _y){
     index = _i;
@@ -349,7 +395,7 @@ class RGBled{
 
   public void setColor(color _c){
     col = _c;
-    int threshold = 7;
+    int threshold = 4;
     red = byte((col >> 16) & 0xFF);
     //if(red < threshold) red = byte(0);
     green = byte((col >> 8) & 0xFF);
@@ -357,6 +403,7 @@ class RGBled{
     blue = byte(col & 0xFF);
     //if(blue < threshold) blue = byte(0);
   }
+
 
   public color getColor(){
     return col;

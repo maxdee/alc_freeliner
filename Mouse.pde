@@ -30,7 +30,7 @@
  *
  *
  */
-class Mouse{
+class Mouse implements FreelinerConfig{
   // other mouse buttons than LEFT and RIGHT
   final int MIDDLE = 3;
   final int FOURTH_BUTTON = 0;
@@ -47,10 +47,10 @@ class Mouse{
   boolean invertMouse;
   boolean grid;
   boolean hasMoved;
-  int lineLenght = 256;
-  int lineAngle = 30;
-  int gridSize = 64;
-
+  int lineLenght = DEFAULT_LINE_LENGTH;
+  int lineAngle = DEFAULT_LINE_ANGLE;
+  int gridSize = DEFAULT_GRID_SIZE;
+  int debounceTimer = 0;
   //mouse crosshair stuff
   PVector position;
   PVector mousePos;
@@ -88,10 +88,14 @@ class Mouse{
 
   /**
    * Handles mouse button press. Buttons are
-   *
    * @param int mouseButton
    */
   public void press(int mb) { // perhaps move to GroupManager
+    if(debounceTimer > millis()-MOUSE_DEBOUNCE) {
+      println("Mouse Bounce!");
+      return;
+    }
+    debounceTimer = millis();
     if (groupManager.isFocused()) {
       if(!(mb == LEFT && snapped && keyboard.isCtrled())) groupManager.getSelectedGroup().mouseInput(mb, position);
 
@@ -107,7 +111,6 @@ class Mouse{
 
   /**
    * Simulate mouse actions!
-   *
    * @param int mouseButton
    * @param PVector position
    */
@@ -118,7 +121,6 @@ class Mouse{
 
   /**
    * Handles mouse movements
-   *
    * @param int X axis (mouseX)
    * @param int Y axis (mouseY)
    */
@@ -308,11 +310,15 @@ class Mouse{
     }
     return gridSize;
   }
+
   private boolean toggleGrid() {
     grid = !grid;
     return grid;
   }
 
+  public void setGrid(boolean _b){
+    grid = _b;
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

@@ -14,6 +14,8 @@
  */
 class GroupManager{
 
+  // guess we will add this too.
+  TemplateManager templateManager;
   //manages groups of points
   ArrayList<SegmentGroup> groups;
   int groupCount = 0;
@@ -46,6 +48,10 @@ class GroupManager{
   }
 
 
+  public void inject(TemplateManager _tm){
+    templateManager = _tm;
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Actions
@@ -70,6 +76,10 @@ class GroupManager{
     else if (_shift) selectedIndex--;
     else selectedIndex++;
     selectedIndex = wrap(selectedIndex, groupCount-1);
+    // update ref.
+    if(getSelectedGroup() != null)
+      setReferenceGroupTemplateList(getSelectedGroup().getTemplateList());
+
   }
 
 /**
@@ -132,7 +142,8 @@ class GroupManager{
     }
     else return _pos;
   }
-  
+
+
   public void unSnap(){
     snappedList.clear();
     snappedIndex = -1;
@@ -192,15 +203,22 @@ class GroupManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-
-
+  // argumentless
   public void saveGroups(){
+    saveGroups("userdata/geometry.xml");
+  }
+
+  public void saveGroups(String _fn){
     XML groupData = new XML("groups");
     for(SegmentGroup grp : groups){
       if(grp.isEmpty()) continue;
-      if(grp.getID() == 0 | grp.getID() == 1) continue;
       XML xgroup = groupData.addChild("group");
       xgroup.setInt("ID", grp.getID());
+
+      if(grp.getID() == 0) xgroup.setString("type", "gui");
+      else if(grp.getID() == 1) xgroup.setString("type", "ref");
+      else xgroup.setString("type", "map");
+
       xgroup.setFloat("centerX", grp.getCenter().x);
       xgroup.setFloat("centerY", grp.getCenter().y);
       xgroup.setInt("centered", int(grp.isCentered()));
@@ -214,35 +232,37 @@ class GroupManager{
         // for leds and such
         xseg.setString("txt",seg.getText());
       }
-      saveXML(groupData, "userdata/groups.xml");
+      saveXML(groupData, _fn);
     }
   }
 
 
+  public void loadGroups(){
+    loadGroups("userdata/geometry.xml");
+  }
   // what a mess what a mess
   // we cant have that we cant have that
   // clean it up clean it up
-  public void loadGroups(TemplateManager _tm){
+  public void loadGroups(String _fn){
     XML file;
     try {
-      file = loadXML("userdata/groups.xml");
+      file = loadXML(_fn);
     }
     catch (Exception e){
-      println("No groups.xml");
+      println(_fn+" cant be loaded");
       return;
     }
 
     XML[] groupData = file.getChildren("group");
     PVector posA = new PVector(0,0);
     PVector posB = new PVector(0,0);
-    // int skip = 0; // or 2 or none?
 
     for(XML xgroup : groupData){
-      // if(skip > 0){
-      //   skip--;
-      //   continue;
-      // }
-      newGroup();
+
+      if(xgroup.getString("type").equals("gui")) selectedIndex = 0;
+      else if(xgroup.getString("type").equals("ref")) selectedIndex = 1;
+      else newGroup();
+
       XML[] xseg = xgroup.getChildren("segment");
       Segment _seg;
       for(XML seg : xseg){
@@ -259,7 +279,7 @@ class GroupManager{
       String _tags = xgroup.getString("tags");
       if(_tags.length()>0){
         for(int i = 0; i < _tags.length();i++){
-          getSelectedGroup().getTemplateList().toggle(_tm.getTemplate(_tags.charAt(i)));
+          getSelectedGroup().getTemplateList().toggle(templateManager.getTemplate(_tags.charAt(i)));
         }
       }
       // bug with centering? seems ok...
@@ -326,8 +346,11 @@ class GroupManager{
  * @return renderList
  */
   public TemplateList getTemplateList(){
-    SegmentGroup sg = getSelectedGroup();
-    if(sg != null) return sg.getTemplateList();
+    SegmentGroup _sg = getSelectedGroup();
+    if(_sg != null){
+      if(_sg.getID() == 1) return null; // to prevent ref group from getting templates, could do it for the gui too.
+      else return _sg.getTemplateList();
+    }
     else return null;
   }
 

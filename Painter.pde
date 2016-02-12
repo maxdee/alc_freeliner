@@ -1,3 +1,13 @@
+ 	/**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.3
+ * @since     2014-12-01
+ */
+
+
 
 // Anything that has to do with rendering things with one segment
 // basic painter dosent know what to paint but knows what color
@@ -9,7 +19,10 @@ class Painter{
 
 	// Since we paint we need colors
 	Colorizer[] colorizers;
-  final int COLORIZER_COUNT = 27;
+  final int COLORIZER_COUNT = 31;
+	Interpolator[] posGetters;
+	final int INTERPOLATOR_GETTER_COUNT = 8;
+
 
   PGraphics canvas;
 	String name = "Painter";
@@ -23,7 +36,26 @@ class Painter{
     event = _rt;
     canvas = event.getCanvas();
 		applyStyle(canvas);
+
+		posGetters = new Interpolator[INTERPOLATOR_GETTER_COUNT];
+		posGetters[0] = new Interpolator();
+		posGetters[1] = new CenterSender();
+		posGetters[2] = new CenterSender();
+		posGetters[3] = new HalfWayInterpolator();
+		posGetters[4] = new RandomExpandingInterpolator();
+		posGetters[5] = new RandomInterpolator();
+		posGetters[6] = new DiameterInterpolator();
+		posGetters[7] = new RadiusInterpolator();
   }
+
+	public Interpolator getInterpolator(int _index){
+		if(_index >= INTERPOLATOR_GETTER_COUNT) _index = INTERPOLATOR_GETTER_COUNT - 1;
+		return posGetters[_index];
+	}
+
+	public PVector getPosition(Segment _seg){
+		return getInterpolator(event.getInterpolateMode()).getPosition(_seg, event, this);
+	}
 
 	// color stuffs
 	public void initColorizers(){
@@ -57,7 +89,12 @@ class Painter{
     colorizers[23] = new FlashyGray();
     colorizers[24] = new FlashyRandom();
     colorizers[25] = new Strobe();
-    colorizers[26] = new CustomColor();
+		colorizers[26] = new Flash();
+		colorizers[27] = new JahColor();
+    colorizers[28] = new CustomColor();
+		colorizers[29] = new MillisFade();
+		colorizers[30] = new HSBLerp();
+
 	}
 
   public Colorizer getColorizer(int _index){

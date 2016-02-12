@@ -1,24 +1,9 @@
 /**
- *
  * ##copyright##
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General
- * Public License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA  02111-1307  USA
+ * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.1
+ * @version   0.3
  * @since     2014-12-01
  */
 
@@ -67,7 +52,6 @@ class SegmentGroup {
     ID = _id;
     init();
   }
-
 
   /**
    * Initialises variables, can be used to reset a group.
@@ -374,10 +358,11 @@ class SegmentGroup {
 
   private boolean findDirection(){
     for(Segment seg : sortedSegments){
-      int ax = int(seg.getPointA().x);
-      int bx = int(seg.getPointB().x);
-      if( ax > bx) return true;
-      else if (ax < bx) return false;
+      if(seg != null) return seg.isClockWise();
+      // int ax = int(seg.getPointA().x);
+      // int bx = int(seg.getPointB().x);
+      // if( ax > bx) return true;
+      // else if (ax < bx) return false;
     }
     return false;
   }
@@ -488,6 +473,12 @@ class SegmentGroup {
   }
 
   public final PVector getCenter(){
+    return center;
+    //if(centered) return center;
+    //else return segmentStart;
+  }
+
+  public final PVector getTagPosition(){
     if(centered) return center;
     else return segmentStart;
   }

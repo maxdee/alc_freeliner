@@ -1,27 +1,11 @@
 /**
- *
  * ##copyright##
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General
- * Public License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA  02111-1307  USA
+ * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.1
+ * @version   0.3
  * @since     2014-12-01
  */
-
 
 /**
  * Manage all the templates
@@ -40,13 +24,14 @@ class TemplateManager{
   ArrayList<RenderableTemplate> eventList;
   ArrayList<RenderableTemplate> loops;
   // synchronise things
-  SequenceSync sync;
-
+  Synchroniser sync;
+  Sequencer sequencer;
   GroupManager groupManager;
 
 
   public TemplateManager(){
-    sync = new SequenceSync();
+    sync = new Synchroniser();
+    sequencer = new Sequencer();
   	templateList = new TemplateList();
     loops = new ArrayList();
     eventList = new ArrayList();
@@ -59,7 +44,6 @@ class TemplateManager{
     groupManager = _gm;
   }
 
-
   private void init() {
     templates = new ArrayList();
     for (int i = 0; i < N_TEMPLATES; i++) {
@@ -71,18 +55,24 @@ class TemplateManager{
   // update the render events
   public void update() {
     sync.update();
-    trigger(sync.getStepList());
+    sequencer.update(sync.getPeriodCount());
+    trigger(sequencer.getStepList());
+    //println("tags "+sequencer.getStepList().getTags());
     // check for events?
     // set the unitinterval/beat for all templates
     syncTemplates(loops);
     syncTemplates(eventList);
     ArrayList<RenderableTemplate> toKill = new ArrayList();
-    for(RenderableTemplate _tp : eventList){
-      if(((KillableTemplate) _tp).isDone()) toKill.add(_tp);
-    }
-    if(toKill.size()>0){
-      for(RenderableTemplate _rt : toKill){
-        eventList.remove(_rt);
+    synchronized(eventList){
+      ArrayList<RenderableTemplate> _safe = new ArrayList(eventList);
+      for(RenderableTemplate _tp : _safe){
+        if(_tp == null) return;
+        if(((KillableTemplate) _tp).isDone()) toKill.add(_tp);
+      }
+      if(toKill.size()>0){
+        for(RenderableTemplate _rt : toKill){
+          eventList.remove(_rt);
+        }
       }
     }
   }
@@ -93,6 +83,8 @@ class TemplateManager{
     int beatDv = 1;
     if(_tp.size() > 0){
       for (RenderableTemplate rt : lst) {
+        // had a null pointer here...
+        if(rt == null) continue; // does this fix?
         beatDv = rt.getBeatDivider();
         rt.setUnitInterval(sync.getLerp(beatDv));
         rt.setBeatCount(sync.getPeriod(beatDv));
@@ -153,16 +145,16 @@ class TemplateManager{
     TweakableTemplate _tp = getTemplate(_c);
     if(_tp == null) return;
     trigger(_tp);
-    sync.templateInput(_tp);
+    // sync.templateInput(_tp);
   }
 
   public void trigger(TweakableTemplate _tp){
     if(_tp == null) return;
+    _tp.launch(); // increments the launchCount
     // get groups with template
     ArrayList<SegmentGroup> _groups = groupManager.getGroups(_tp);
     if(_groups.size() > 0){
       for(SegmentGroup _sg : _groups){
-        //print(_sg.getID()+", ");
         eventList.add(eventFactory(_tp, _sg));
       }
     }
@@ -177,13 +169,15 @@ class TemplateManager{
     eventList.add(eventFactory(_tp, _sg));
   }
 
-  // trigger a templateList
+  // trigger a templateList, in this case via the
   public void trigger(TemplateList _tl){
     if(_tl == null) return;
     ArrayList<TweakableTemplate> _tp = _tl.getAll();
     if(_tp == null) return;
     if(_tp.size() > 0){
-      for(TweakableTemplate tw : _tp) trigger(tw);
+      for(TweakableTemplate tw : _tp){
+        if(tw.getEnablerMode() != 3) trigger(tw); // check if is in the right enabler mode
+      }
     }
   }
 
@@ -239,25 +233,71 @@ class TemplateManager{
    * Copy a template and maybe paste it automaticaly. Triggered by ctrl-c with 2 templates selected.
    */
   public void copyTemplate(){
-    copyedTemplate = templateList.getIndex(0);
-    TweakableTemplate toGetCopy = templateList.getIndex(1);
-    if(copyedTemplate != null && toGetCopy != null) toGetCopy.copyParameters(copyedTemplate);
+    TweakableTemplate toCopy = templateList.getIndex(0);
+    TweakableTemplate pasteInto = templateList.getIndex(1);
+    copyTemplate(toCopy, pasteInto);
+  }
+
+  // for ABCD (A->BCD)
+  public void copyTemplate(String _tags){
+    if(_tags.length() == 0) return;
+    if(_tags.length() == 1) copyTemplate(getTemplate(_tags.charAt(0)), null);
+    else
+      for(int i = 1; i < _tags.length(); i++)
+        copyTemplate(getTemplate(_tags.charAt(0)), getTemplate(_tags.charAt(i)));
+  }
+
+  public void copyTemplate(TweakableTemplate _toCopy, TweakableTemplate _toPaste){
+    copyedTemplate = _toCopy;
+    if(copyedTemplate != null && _toPaste != null) _toPaste.copyParameters(copyedTemplate);
   }
 
   /**
    * Paste a previously copyed template into an other
    */
   public void pasteTemplate(){
-    TweakableTemplate toGetCopy = templateList.getIndex(0);
-    if(copyedTemplate != null && toGetCopy != null) toGetCopy.copyParameters(copyedTemplate);
+    pasteTemplate(templateList.getTags());
   }
 
+  public void pasteTemplate(String _tags){
+    if(_tags.length() > 0)
+      for(int i = 0; i < _tags.length(); i++)
+        pasteTemplate(getTemplate(_tags.charAt(i)));
+  }
+
+  public void pasteTemplate(TweakableTemplate _pasteInto){
+    if(copyedTemplate != null && _pasteInto != null) _pasteInto.copyParameters(copyedTemplate);
+  }
+
+  /**
+   * Toggle a template for groups matching first template
+   */
   public void groupAddTemplate(){
-    TweakableTemplate a = templateList.getIndex(0);
-    TweakableTemplate b = templateList.getIndex(1);
-    if(a != null && b !=null) groupManager.groupAddTemplate(a, b);
+    groupAddTemplate(templateList.getTags());
   }
 
+  public void groupAddTemplate(String _tags){
+    if(_tags.length() > 0)
+      for(int i = 1; i < _tags.length(); i++)
+        groupAddTemplate(getTemplate(_tags.charAt(0)), getTemplate(_tags.charAt(i)));
+  }
+
+  public void groupAddTemplate(TweakableTemplate _a, TweakableTemplate _b){
+    if(_a != null && _b !=null) groupManager.groupAddTemplate(_a, _b);
+  }
+
+  /**
+   * ResetTemplate
+   */
+  public void resetTemplate(){
+   resetTemplate(templateList.getTags());
+  }
+
+  public void resetTemplate(String _tags){
+    if(_tags.length() > 0)
+      for(int i = 0; i < _tags.length(); i++)
+        getTemplate(_tags.charAt(i)).reset();
+  }
   /**
    * Set a template's custom color, this is done with OSC.
    */
@@ -275,19 +315,77 @@ class TemplateManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void saveTemplate(Template _tp){
-    XML _template = new XML("template");
-
-
-
-    XML templateFile = loadXML("userdata/templates/templates.xml");
-    //xml.addChild();
-
+  public void saveTemplates(){
+    saveTemplates("userdata/templates.xml");
   }
 
+  /**
+   * Simple save templates to xml file.
+   */
+  public void saveTemplates(String _fn){
+    XML _templates = new XML("templates");
+    for(Template _tp : templates){
+      XML _tmp = _templates.addChild("template");
+      _tmp.setString("ID", str(_tp.getTemplateID()));
+      _tmp.setInt("renderMode", _tp.getRenderMode());
+      _tmp.setInt("segmentMode", _tp.getSegmentMode());
+      _tmp.setInt("animationMode", _tp.getAnimationMode());
+      _tmp.setInt("interpolateMode", _tp.getInterpolateMode());
+      _tmp.setInt("strokeMode", _tp.getStrokeMode());
+      _tmp.setInt("fillMode", _tp.getFillMode());
+      _tmp.setInt("strokeAlpha", _tp.getStrokeAlpha());
+      _tmp.setInt("fillAlpha", _tp.getFillAlpha());
+      _tmp.setInt("rotationMode", _tp.getRotationMode());
+      _tmp.setInt("easingMode", _tp.getEasingMode());
+      _tmp.setInt("reverseMode", _tp.getReverseMode());
+      _tmp.setInt("repetitionMode", _tp.getRepetitionMode());
+      _tmp.setInt("repetitionCount", _tp.getRepetitionCount());
+      _tmp.setInt("beatDivider", _tp.getBeatDivider());
+      _tmp.setInt("strokeWidth", _tp.getStrokeWeight());
+      _tmp.setInt("brushSize", _tp.getBrushSize());
+      _tmp.setInt("brushMode", _tp.getBrushMode());
+      _tmp.setInt("enablerMode", _tp.getEnablerMode());
+    }
+    saveXML(_templates, _fn);
+  }
 
-  public void loadTemplate(String _name, Template _loadInto){
+  public void loadTemplates(){
+    loadTemplates("userdata/templates.xml");
+  }
 
+  public void loadTemplates(String _fn){
+    XML file;
+    try {
+      file = loadXML(_fn);
+    }
+    catch (Exception e){
+      println(_fn+" cant be loaded");
+      return;
+    }
+    XML[] _templateData = file.getChildren("template");
+    TweakableTemplate _tmp;
+    for(XML _tp : _templateData){
+      _tmp = getTemplate(_tp.getString("ID").charAt(0));
+      if(_tmp == null) continue;
+      _tmp.setRenderMode(_tp.getInt("renderMode"));
+      _tmp.setSegmentMode(_tp.getInt("segmentMode"));
+      _tmp.setAnimationMode(_tp.getInt("animationMode"));
+      _tmp.setInterpolateMode(_tp.getInt("interpolateMode"));
+      _tmp.setStrokeMode(_tp.getInt("strokeMode"));
+      _tmp.setFillMode(_tp.getInt("fillMode"));
+      _tmp.setStrokeAlpha(_tp.getInt("strokeAlpha"));
+      _tmp.setFillAlpha(_tp.getInt("fillAlpha"));
+      _tmp.setRotationMode(_tp.getInt("rotationMode"));
+      _tmp.setEasingMode(_tp.getInt("easingMode"));
+      _tmp.setReverseMode(_tp.getInt("reverseMode"));
+      _tmp.setRepetitionMode(_tp.getInt("repetitionMode"));
+      _tmp.setRepetitionCount(_tp.getInt("repetitionCount"));
+      _tmp.setBeatDivider(_tp.getInt("beatDivider"));
+      _tmp.setStrokeWidth(_tp.getInt("strokeWidth"));
+      _tmp.setBrushSize(_tp.getInt("brushSize"));
+      _tmp.setBrushMode(_tp.getInt("brushMode"));
+      _tmp.setEnablerMode(_tp.getInt("enablerMode"));
+    }
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -343,8 +441,12 @@ class TemplateManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public SequenceSync getSynchroniser(){
+  public Synchroniser getSynchroniser(){
     return sync;
+  }
+
+  public Sequencer getSequencer(){
+    return sequencer;
   }
 
   public ArrayList<RenderableTemplate> getLoops(){
@@ -373,6 +475,29 @@ class TemplateManager{
 
   public TemplateList getTemplateList(){
     return templateList;
+  }
+
+  public ArrayList<TweakableTemplate> getTemplates(){
+    return templates;
+  }
+
+  // a fancier accessor, supports "ANCD" "*"
+  public ArrayList<TweakableTemplate> getTemplates(String _tags){
+    if(_tags.length() < 1) return null;
+    ArrayList<TweakableTemplate> _tmps = new ArrayList();
+    if(_tags.length() == 0) return null;
+    else if(_tags.charAt(0) == '*'){
+      for(TweakableTemplate _tw : getTemplates()){
+        if( _tw != null) _tmps.add(_tw);
+      }
+    }
+    else {
+      for(int i = 0; i < _tags.length(); i++){
+        TweakableTemplate _tw = getTemplate(_tags.charAt(i));
+        if( _tw != null) _tmps.add(_tw);
+      }
+    }
+    return _tmps;
   }
 
 }

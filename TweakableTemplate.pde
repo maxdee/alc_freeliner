@@ -3,18 +3,29 @@
  * Subclass of RenderEvent that is tweakable
  */
 class TweakableTemplate extends Template {
-
+  // store presets!
   int bankIndex;
   ArrayList<Template> bank;
+
+  // track launches, will replace the beat count in killable templates
+  int launchCount;
 
 	public TweakableTemplate(char _id){
 		super(_id);
     bank = new ArrayList();
     bankIndex = 0;
+    launchCount = 0;
 	}
 
   public TweakableTemplate(){
     super();
+  }
+
+  public void launch(){
+    launchCount++;
+  }
+  public int getLaunchCount(){
+    return launchCount;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -23,10 +34,11 @@ class TweakableTemplate extends Template {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void saveToBank(){
+  public int saveToBank(){
     Template _tp = new Template();
     _tp.copy(this);
     bank.add(_tp);
+    return bank.size()-1;
   }
 
   public void loadFromBank(int _index){
@@ -41,6 +53,13 @@ class TweakableTemplate extends Template {
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
 
+
+  /*
+   * Tweakables, all these more or less work the same.
+   * @param int value, -1 increment, -2 decrement, >= 0 set, -3 return current value
+   * @return int value given to parameter
+   */
+
 	public int setProbability(int v){
     // probability = numTweaker(v, probability);
     // if(probability > 100) probability = 100;
@@ -53,18 +72,14 @@ class TweakableTemplate extends Template {
     return reverseMode;
   }
 
-  // public boolean toggleLoop(){
-  //   looper = !looper;
-  //   return looper;
-  // }
-
-  // public void setLooper(boolean _b){
-  //   looper = _b;
-  // }
-
   public int setAnimationMode(int _v) {
     animationMode = numTweaker(_v, animationMode);
     return animationMode;
+  }
+
+  public int setInterpolateMode(int _v) {
+    interpolateMode = numTweaker(_v, interpolateMode);
+    return interpolateMode;
   }
 
   public int setRenderMode(int _v) {
@@ -97,7 +112,7 @@ class TweakableTemplate extends Template {
     return beatDivider;
   }
 
-  public int setRotation(int _v){
+  public int setRotationMode(int _v){
     rotationMode = numTweaker(_v, rotationMode);
     return rotationMode;
   }
@@ -114,7 +129,7 @@ class TweakableTemplate extends Template {
 
   public int setStrokeWidth(int _v) {
     strokeWidth = numTweaker(_v, strokeWidth);
-    if(strokeWidth <= 0) strokeWidth = 1; // use colorMode 0 for no stroke #p3
+    if(strokeWidth <= 0) strokeWidth = 1;
     return strokeWidth;
   }
 
@@ -153,5 +168,4 @@ class TweakableTemplate extends Template {
   public void setCustomColor(color _c){
     customColor = _c;
   }
-
 }

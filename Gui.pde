@@ -55,6 +55,8 @@
   // The TweakableTemplate tags of templates selected by the TemplateManager
   String renderString = "_";
 
+  String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS"};
+
   /**
    * Constructor
    * @param GroupManager dependency injection
@@ -100,6 +102,7 @@
    * Main update function, draws all of the GUI elements to a PGraphics
    */
   public void update() {
+    updateInfo();
     if(mouse.hasMoved()) resetTimeOut();
     if(!doDraw()) return;
 
@@ -136,35 +139,39 @@
     }
 
     // draw on screen information with group 0
-    infoWritter();
+    displayInfo();
     canvas.endDraw();
   }
 
   /**
-   * This formats the information to display and assigns it to the segements of the gui group.
+   * This formats the information.
    */
-  private void infoWritter() {
-    // Template tags of selected by selectedGroup or templateManager selected
-    if(guiSegments.getSegments().size() == 0) return;
-    String tags = " ";
-    TemplateList rl = groupManager.getTemplateList();
-    if (rl != null) tags += rl.getTags();
-    else tags += renderString;
-    if(tags.length()>20) tags = "*ALL*";
+  private void updateInfo(){
     // first segment shows which group is selected
     int geom = groupManager.getSelectedIndex();
-    if(geom == -1) guiSegments.setText("[Geom : ]", 0);
-    else guiSegments.setText("[Geom : "+geom+"]", 0);
+    if(geom == -1) allInfo[0] = "[Geom : ]";
+    else allInfo[0] = "[Geom : "+geom+"]";
     // second segment shows the Templates selected
-    guiSegments.setText("[Rndr : "+tags+"]", 1);
+    TemplateList _rl = groupManager.getTemplateList();
+    String _tags = "";
+    if (_rl != null) _tags = _rl.getTags();
+    else _tags = renderString;
+    if(_tags.length()>20) _tags = "*ALL*";
+    allInfo[1] = "[Rndr : "+_tags+"]";
     // third show the parameter associated with key and values given to parameters
-    guiSegments.setText("["+keyString+": "+valueGiven+"]", 2);
-    // display what step
-    //guiSegments.setText("[stp: "+templateManager.getSynchroniser().getStep() +"]", 3);
+    allInfo[2] = "["+keyString+": "+valueGiven+"]";
     // display how long we have been jamming
-    guiSegments.setText("["+getTimeRunning()+"]", 3);
+    allInfo[3] = "["+getTimeRunning()+"]";
     // framerate ish
-    guiSegments.setText("[FPS "+(int)frameRate+"]", 4);
+    allInfo[4] = "[FPS "+(int)frameRate+"]";
+  }
+
+  /**
+   * This displays the info on the gui group.
+   */
+  private void displayInfo() {
+    if(guiSegments.getSegments().size() == 0) return;
+    for(int i = 0; i < 5; i++) guiSegments.setText(allInfo[i], i);
     // draw the information that was just set to segments of group 0
     ArrayList<Segment> segs = guiSegments.getSegments();
     int sz = int(guiSegments.getBrushScaler()*20);
@@ -277,7 +284,7 @@
    */
   public void showTag(SegmentGroup _sg) {
     // Get center if centered or last point made
-    PVector pos = _sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart();
+    PVector pos = _sg.getTagPosition();//_sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart();
     canvas.noStroke();
     canvas.fill(TEXT_COLOR);
     // group ID and template tags
@@ -324,8 +331,8 @@
     vecLine(canvas, _s.getPointA(), _s.getPointB());
     //canvas.stroke(100);
     //if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
-    canvas.stroke(200);
-    canvas.strokeWeight(4);
+    canvas.stroke(NODE_COLOR);
+    canvas.strokeWeight(NODE_STROKE_WEIGTH);
     canvas.point(_s.getPointA().x, _s.getPointA().y);
     canvas.point(_s.getPointB().x, _s.getPointB().y);
     PVector midpoint = _s.getMidPoint();
@@ -451,7 +458,7 @@
    * Check if GUI needs to be drawn and update the GUI timeout for auto hiding.
    */
   public boolean doDraw(){
-    if (guiTimer > 0 || mouse.useGrid()) {
+    if ((guiTimer > 0 || mouse.useGrid()) && focused) { // recently added window focus
       guiTimer--;
       return true;
     }
@@ -460,6 +467,10 @@
 
   public PGraphics getCanvas(){
     return canvas;
+  }
+
+  public String[] getAllInfo(){
+    return allInfo;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -482,7 +493,7 @@
    * @param String "true" "false" "haha" "123"
    */
   public void setValueGiven(String _s){
-    valueGiven = _s;
+    if(_s != null) valueGiven = _s;
   }
 
   /**
@@ -508,5 +519,10 @@
   public boolean toggleViewLines(){
     viewLines = !viewLines;
     return viewLines;
+  }
+  public void hideStuff(){
+    viewTags = false;
+    viewLines = false;
+    mouse.setGrid(false);
   }
 }

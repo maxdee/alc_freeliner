@@ -59,13 +59,12 @@ class RunThroughSegments extends SegmentSelector{
 		int _index = int(_unit * _segCount);
 		float _inc = 1.0/_segCount;
 		float _lrp = (_unit - (_index * _inc))/_inc;
-
+		// this right here is important
 		_event.setLerp(_lrp);
 		segs.add(_event.segmentGroup.getSegment(_index));
 		return segs;
 	}
 }
-
 
 /**
  * Get a random segment
@@ -75,8 +74,10 @@ class RandomSegment extends SegmentSelector{
 	}
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
 		ArrayList<Segment> segs = new ArrayList();
-		int index = _event.getLargeRandomValue();
+		int index = _event.getLargeRandomValue() % _event.segmentGroup.getCount();
 		segs.add(_event.segmentGroup.getSegment(index));
+		// could get R's worth of random segments?
+		// then setLerp...
 		return segs;
 	}
 }

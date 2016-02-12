@@ -131,6 +131,26 @@ class FlashyPrimaryColor extends PrimaryColor {
 /**
  * Per Repetition
  */
+class JahColor extends Colorizer {
+
+	color[] jah = {#CE000E,#E9FF00,#268E01};
+	final int JAH_COUNT = 3;
+	public JahColor(){
+
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % JAH_COUNT;
+		index %= JAH_COUNT;
+		if(index < 0) index = 0;
+		color c = jah[index];
+		return alphaMod(c , _alpha);
+	}
+}
+
+/**
+ * JahColor
+ */
 class RepetitionColor extends Colorizer {
 
 	public RepetitionColor(){
@@ -145,7 +165,6 @@ class RepetitionColor extends Colorizer {
 		return alphaMod(c , _alpha);
 	}
 }
-
 
 /**
  * Constantly changing random value gray
@@ -190,7 +209,48 @@ class Strobe extends Colorizer {
 }
 
 /**
+ * flash once! then black?
+ */
+class Flash extends Colorizer {
+	public Flash(){
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+		if(_event.getUnitInterval()<0.01) return color(255, 255);
+		else if(_event.getUnitInterval()>0.1) return color(0,0);
+		else return color(0, 255);
+	}
+}
+
+
+
+/**
  * Fade through the HUE
+ */
+class MillisFade extends Colorizer {
+	public MillisFade(){
+	}
+	public color get(RenderableTemplate _event, int _alpha){
+
+		color c = HSBtoRGB(float(millis()%10000)/10000.0, 1.0, 1.0);
+		return alphaMod(c , _alpha);
+	}
+}
+
+/**
+ * Fade through the HUE
+ */
+class HSBLerp extends Colorizer {
+	public HSBLerp(){
+	}
+	public color get(RenderableTemplate _event, int _alpha){
+		color c = HSBtoRGB(_event.getLerp(), 1.0, 1.0);
+		return alphaMod(c , _alpha);
+	}
+}
+
+/**
+ * HSB Lerp
  */
 class HSBFade extends Colorizer {
 	public HSBFade(){

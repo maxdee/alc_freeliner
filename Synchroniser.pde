@@ -1,27 +1,16 @@
 /**
- *
  * ##copyright##
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General
- * Public License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA  02111-1307  USA
+ * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.1
- * @since     2014-12-01
+ * @version   0.3
+ * @since     2015-12-01
  */
 
+
+/*
+ * The synchroniser is in charge of the timing. Tap tempo with compensation for render time.
+ */
 
 class Synchroniser implements FreelinerConfig{
 
@@ -63,19 +52,6 @@ class Synchroniser implements FreelinerConfig{
     }
   }
 
-  public float getLerp(int _div){
-    if(_div < 1) _div = 1;
-    int cyc_ = (periodCount%_div);
-    float lrp_ = (1.0/_div)*cyc_;
-    return (lerper/_div) + lrp_;
-  }
-
-  public int getPeriod(int _div){
-    if(_div < 1) _div = 1;
-    return int(periodCount/_div);
-  }
-
-
   //tap the tempo
   public void tap() {
     int elapsed = millis()-lastTap;
@@ -92,89 +68,24 @@ class Synchroniser implements FreelinerConfig{
     else if(t==-1) lastTime += 100;
   }
 
-  /////////////////////// cruft
-
+  // for frame capture to loc rendertime
   public void setRecording(boolean _r) {
-    record = _r;
-  }
-}
-
-////////////////////////////////////////////////////////////////////////////////////
-///////
-///////    Sequencer extention
-///////
-////////////////////////////////////////////////////////////////////////////////////
-
-class SequenceSync extends Synchroniser{
-  TemplateList[] lists;
-  TemplateList selectedList;
-  boolean doStep = false;
-  final int SEQ_STEP_COUNT = 16;
-  int step = 0;
-  int editStep = 0;
-
-
-  boolean stepChanged = false;
-
-  public SequenceSync(){
-    super();
-    lists = new TemplateList[SEQ_STEP_COUNT];
-    for(int i = 0; i < SEQ_STEP_COUNT; i++){
-      lists[i] = new TemplateList();
-    }
-    selectedList = lists[0];
-  }
-  //
-  public void update(){
-    super.update();
-    int oldStep = step;
-    step = periodCount % SEQ_STEP_COUNT;
-    if(step != oldStep) doStep = true;
+   record = _r;
   }
 
-  // add or remove the Templates, gets called by triggering
-  public void templateInput(TweakableTemplate _tw){
-    // if(record){
-    //   lists[step].toggle(_tw);
-    //   //if(!lists[step].contains(_tw))
-    //   //if(lists[step].contains(_tw)) templateList[step].toggle(_tw);
-    // }
+  public float getLerp(int _div){
+    if(_div < 1) _div = 1;
+    int cyc_ = (periodCount%_div);
+    float lrp_ = (1.0/_div)*cyc_;
+    return (lerper/_div) + lrp_;
   }
 
-  public void templateInput(TweakableTemplate _tw, int _stp){
-    // set for specific steps? show the tags for each step, cycle with -=
+  public int getPeriod(int _div){
+    if(_div < 1) _div = 1;
+    return int(periodCount/_div);
   }
 
-  public void clear(){
-    for(int i = 0; i < SEQ_STEP_COUNT; i++){
-      lists[i].clear();
-    }
-  }
-
-
-  // set which step to edit
-  public int setEditStep(int _n){
-    editStep = numTweaker(_n, editStep);
-    editStep %= SEQ_STEP_COUNT;
-    selectedList = lists[editStep];
-    stepChanged = true;
-    return editStep;
-  }
-
-  public TemplateList getStepToEdit(){
-    return selectedList;
-  }
-
-  // check for things to trigger
-  public TemplateList getStepList(){
-    if(doStep){
-      doStep = false;
-      return lists[step];
-    }
-    else return null;
-  }
-
-  public int getStep(){
-    return step;
+  public int getPeriodCount(){
+    return periodCount;
   }
 }

@@ -8,13 +8,11 @@
  */
 
 
-
-
  /**
   * Templates hold all the parameters for the renderer.
   *
   */
-class Template{
+class Template implements FreelinerConfig{
 /*
  * First tier, data that dosent change unless told to
  */
@@ -24,6 +22,8 @@ class Template{
 	int segmentMode;
 	// different "animations" of a rendering style
 	int animationMode;
+	// how to extract position from a segment
+	int interpolateMode;
 	// Colorizer mode for stroke, 0 is noStroke()
 	int strokeMode;
 	// Colorizer mode for fill, 0 is noFill()
@@ -59,14 +59,21 @@ class Template{
   color customColor;
 
 	char templateID;
+
 	public Template(){
+		reset();
 	}
 
 	public Template(char _id){
 		templateID = _id;
 		reset();
 	}
-
+	//
+	// public Template(Template _source){
+	// 	templateID = 'z';
+	// 	reset();
+	// 	copy(_source);
+	// }
 
 	/**
 	 * Copy a Template
@@ -88,6 +95,7 @@ class Template{
 		renderMode = _tp.getRenderMode();
 		segmentMode = _tp.getSegmentMode();
 		animationMode = _tp.getAnimationMode();
+		interpolateMode = _tp.getInterpolateMode();
 		strokeMode = _tp.getStrokeMode();
 		fillMode = _tp.getFillMode();
 		rotationMode = _tp.getRotationMode();
@@ -113,6 +121,8 @@ class Template{
 		strokeAlpha = 255;
 		renderMode = 0;
 		animationMode = 0;
+		segmentMode  = 0;
+		interpolateMode = 0;
 		strokeMode = 1;
 		fillMode = 1;
 		rotationMode = 0;
@@ -184,6 +194,10 @@ class Template{
 
 	public final int getAnimationMode(){
 		return animationMode;
+	}
+
+	public final int getInterpolateMode(){
+		return interpolateMode;
 	}
 
 	public final int getEasingMode(){
