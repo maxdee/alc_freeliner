@@ -218,8 +218,8 @@
   private void previewLine(SegmentGroup _sg) {
     PVector pos = _sg.getSegmentStart();
     if (pos.x > 0) {
-      canvas.stroke(CURSOR_COLOR);
-      canvas.strokeWeight(3);
+      canvas.stroke(PREVIEW_LINE_COLOR);
+      canvas.strokeWeight(PREVIEW_LINE_WEIGHT);
       vecLine(canvas, pos, mouse.getPosition());
     }
   }

@@ -15,12 +15,15 @@ interface FreelinerConfig{
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
   final int NODE_STROKE_WEIGTH = 4;
   final int NODE_COLOR = #FFFFFF;
+  final int PREVIEW_LINE_WEIGHT = 1;
+  final color PREVIEW_LINE_COLOR = #ff0606;
   final color CURSOR_COLOR = #FFFFFF;
   final color SNAPPED_CURSOR_COLOR = #00C800;
   final color TEXT_COLOR = #FFFFFF;
   final color GRID_COLOR = #969696;//9696;
   final color SEGMENT_COLOR = #BEBEBE;
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
+
 
 
   // If you are using a DLP with no colour wheel

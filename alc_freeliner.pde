@@ -16,12 +16,12 @@ import netP5.*;
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  size(1024, 768, P2D);
+  //size(1024, 768, P2D);
   //size(1024, 683, P2D);
-  //fullScreen(P2D, 2);
+  fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   // needed for syphon!
-  PJOGL.profile=1;
+  //PJOGL.profile=1;
   smooth(0);
 }
 
