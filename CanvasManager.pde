@@ -107,10 +107,10 @@
       getSelectedShader().useShader(fxCanvas);
       fxCanvas.image(drawingCanvas, 0, 0);
 
-      // if(useMask && !makeMask) {
-      //   fxCanvas.resetShader();
-      //   fxCanvas.image(maskImage,0,0);
-      // }
+      if(useMask && !makeMask) {
+        fxCanvas.resetShader();
+        fxCanvas.image(maskImage,0,0);
+      }
       fxCanvas.endDraw();
     }
 
@@ -368,12 +368,12 @@ class FLShader{
   public void reloadShader(){
     try{
       shader = loadShader(fileName);
-      passUniforms();
     }
     catch(Exception _e){
       println("Could not load shader... ");
       println(_e);
       shader = null;
     }
+    //if(shader != null) passUniforms();
   }
 }

@@ -219,7 +219,7 @@
     PVector pos = _sg.getSegmentStart();
     if (pos.x > 0) {
       canvas.stroke(PREVIEW_LINE_COLOR);
-      canvas.strokeWeight(PREVIEW_LINE_WEIGHT);
+      canvas.strokeWeight(PREVIEW_LINE_STROKE_WIDTH);
       vecLine(canvas, pos, mouse.getPosition());
     }
   }
