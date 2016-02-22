@@ -30,13 +30,6 @@ class Painter{
 
 	public Painter(){
 		initColorizers();
-	}
-
-  public void paint(RenderableTemplate _rt){
-    event = _rt;
-    canvas = event.getCanvas();
-		applyStyle(canvas);
-
 		posGetters = new Interpolator[INTERPOLATOR_GETTER_COUNT];
 		posGetters[0] = new Interpolator();
 		posGetters[1] = new CenterSender();
@@ -46,6 +39,12 @@ class Painter{
 		posGetters[5] = new RandomInterpolator();
 		posGetters[6] = new DiameterInterpolator();
 		posGetters[7] = new RadiusInterpolator();
+	}
+
+  public void paint(RenderableTemplate _rt){
+    event = _rt;
+    canvas = event.getCanvas();
+		applyStyle(canvas);
   }
 
 	public Interpolator getInterpolator(int _index){
