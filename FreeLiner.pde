@@ -72,6 +72,7 @@ class FreeLiner implements FreelinerConfig{
       keyboard.forceRelease();
       windowFocus = focused;
     }
+    commandProcessor.processQueue();
     // update template models
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());
@@ -101,6 +102,14 @@ class FreeLiner implements FreelinerConfig{
       // commandProcessor.processCMD("tp"+" "+"save"+" "+"userdata/autoSaveTemplates.xml");
       // println("Autot saved");
     }
+  }
+
+  public void processCMD(String _cmd){
+    commandProcessor.processCMD(_cmd);
+  }
+
+  public void queueCMD(String _cmd){
+    commandProcessor.queueCMD(_cmd);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

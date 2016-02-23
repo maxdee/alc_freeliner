@@ -9,9 +9,11 @@
 
 
 /** LIST OF COMMMANDS !!! () means optional arguments
-* /////////////////// Playing
+ * for adressing templates use ABCD, or * for all, or $ for selected
+ * /////////////////// Playing
  * tw AB q 3
  * tr AB (3)
+ * tp color AB color || r g b a
  * tp copy (AB)
  * tp paste (AB)
  * tp add (AB)
@@ -63,10 +65,14 @@ class CommandProcessor implements FreelinerConfig{
   // this string gets set to whatever value was set
   String valueGiven = "";
 
+  ArrayList<String> commandQueue;
+
   /**
    * Constructor, nothing to do here.
    */
-  public CommandProcessor(){ }
+  public CommandProcessor(){
+    commandQueue = new ArrayList();
+  }
 
   /**
    * Dependency injection
@@ -88,6 +94,17 @@ class CommandProcessor implements FreelinerConfig{
   public void processCmdStack(String _cmd){
     // add to stack
     processCMD(_cmd);
+  }
+
+  public void queueCMD(String _cmd){
+    commandQueue.add(_cmd);
+  }
+
+  public void processQueue(){
+    if(commandQueue.size() == 0) return;
+    ArrayList<String> _q = new ArrayList(commandQueue);
+    for(String _cmd : _q) processCMD(_cmd);
+    commandQueue.clear();
   }
 
   /**
@@ -318,6 +335,8 @@ class CommandProcessor implements FreelinerConfig{
   // * tp reset (AB)
   // * tp save (cooleffects.xml)
   // * tp load (coolstuff.xml)
+  // * tp color AB r g b a
+
 
   public void templateCMD(String[] _args){
     if(_args[0].equals("tw")) tweakTemplates(_args);
@@ -330,6 +349,7 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("share")) addCMD(_args);
       else if(_args[1].equals("save")) saveTemplateCMD(_args);
       else if(_args[1].equals("load")) loadTemplateCMD(_args);
+      else if(_args[1].equals("color")) colorCMD(_args);
     }
     else println("Unknown CMD : "+join(_args, ' '));
   }
@@ -362,6 +382,12 @@ class CommandProcessor implements FreelinerConfig{
   public void addCMD(String[] _args){
     if(_args.length == 3) templateManager.groupAddTemplate(_args[2]);
     else templateManager.groupAddTemplate();
+  }
+
+  public void colorCMD(String[] _args){
+    if(_args.length < 4) return;
+    int _v = stringInt(_args[3]);
+    if(_v != -3) templateManager.setCustomColor(_args[2], _v);
   }
 
   // could be in tm
@@ -425,7 +451,6 @@ class CommandProcessor implements FreelinerConfig{
     else if (_k == '$') valueGiven = str(_template.saveToBank()); // could take an _n to set bank index?
     // mod commands
     else if (int(_k) == 518) _template.reset();
-
   }
 
 

@@ -302,9 +302,10 @@ class TemplateManager{
    * Set a template's custom color, this is done with OSC.
    */
   public void setCustomColor(String _tags, color _c){
-    for(int i = 0; i < _tags.length(); i++){
-      TweakableTemplate tp = getTemplate(_tags.charAt(i));
-      if(tp != null) tp.setCustomColor(_c);
+    ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+    if(_tmps == null) return;
+    for(TweakableTemplate _tp : _tmps){
+      if(_tp != null) _tp.setCustomColor(_c);
     }
   }
 
@@ -486,6 +487,12 @@ class TemplateManager{
     if(_tags.length() < 1) return null;
     ArrayList<TweakableTemplate> _tmps = new ArrayList();
     if(_tags.length() == 0) return null;
+    else if(_tags.charAt(0) == '$'){
+      if(templateList.getAll().size() == 0) return null;
+      for(TweakableTemplate _tw : templateList.getAll()){
+        if(_tw != null) _tmps.add(_tw);
+      }
+    }
     else if(_tags.charAt(0) == '*'){
       for(TweakableTemplate _tw : getTemplates()){
         if( _tw != null) _tmps.add(_tw);

@@ -299,7 +299,7 @@ class Keyboard implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public void makeCMD(String _cmd){
-    println("making cmd : "+_cmd);
+    //println("making cmd : "+_cmd);
     processor.processCMD(_cmd);
   }
 

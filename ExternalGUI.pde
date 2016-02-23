@@ -9,7 +9,7 @@
 
 import processing.core.PApplet;
 import processing.core.PSurface;
-
+import controlP5.*;
 /**
  * ExternalGUI is a seperate PApplet launched by freeliner
  */
@@ -33,6 +33,9 @@ public class ExternalGUI extends PApplet {
 
   boolean windowFocus;
 
+  ControlP5 cp5;
+  ControlP5Controler flcp5;
+
   /**
    * Constructor,
    * @param Freeliner to control
@@ -44,18 +47,15 @@ public class ExternalGUI extends PApplet {
     windowFocus = true;
     widgets = new ArrayList();
     // InfoLine is the same info the regular GUI shows
+
+
     widgets.add(new InfoLine(new PVector(0,0), new PVector(WIDTH, 22), freeliner.getGui()));
-    widgets.add(new GeometryLoader(new PVector(0,26), new PVector(20,20), freeliner.getGroupManager()));
-    widgets.add(new GeometrySaver(new PVector(0,48), new PVector(20,20), freeliner.getGroupManager()));
-    widgets.add(new ShaderLoader(new PVector(200,26), new PVector(20,20), freeliner));
-    widgets.add(new MaskLoader(new PVector(200, 48), new PVector(20,20), freeliner));
-    widgets.add(new Toggle(new PVector(100,100), new PVector(20,20)));
-    widgets.add(new Fader(new PVector(100,125), new PVector(100,20)));
     widgets.add(new SequenceGUI(new PVector(0, HEIGHT - 150),
                                 new PVector(WIDTH, 150),
                                 freeliner.getTemplateManager().getSequencer(),
                                 freeliner.getTemplateManager().getTemplateList()));
     selectedWidget = null;
+
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ public class ExternalGUI extends PApplet {
 
   // your traditional sketch settings function
   public void settings(){
-    size(1000, 400, P2D);
+    size(1000, 700, P2D);
     smooth(0);
   }
 
@@ -78,6 +78,12 @@ public class ExternalGUI extends PApplet {
     textMode(CORNER);
     hint(ENABLE_KEY_REPEAT); // usefull for performance
     //frameRate(10); // keep it fast?
+    cp5 = new ControlP5(this);
+    flcp5 = new ControlP5Controler(cp5, freeliner);
+  }
+
+  void controlEvent(ControlEvent _ev){
+    flcp5.controlEvent(_ev);
   }
 
   public void draw(){
@@ -102,6 +108,7 @@ public class ExternalGUI extends PApplet {
     canvas.endDraw();
     image(canvas, 0, 0);
   }
+
 
   public void mouseMoved(){
     cursor.set(mouseX, mouseY);

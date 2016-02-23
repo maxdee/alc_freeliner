@@ -66,15 +66,15 @@ class OSClistener implements OscEventListener{
       }
     }
     // change the colors in the userPallette
-    else if(theOscMessage.checkAddrPattern("/freeliner/pallette")){
-      if(theOscMessage.checkTypetag("iiii")){
-        int _index = theOscMessage.get(0).intValue();
-        int _r = theOscMessage.get(1).intValue();
-        int _g = theOscMessage.get(2).intValue();
-        int _b = theOscMessage.get(3).intValue();
-        setUserPallette(_index, color(_r, _g, _b));
-      }
-    }
+    // else if(theOscMessage.checkAddrPattern("/freeliner/pallette")){
+    //   if(theOscMessage.checkTypetag("iiii")){
+    //     int _index = theOscMessage.get(0).intValue();
+    //     int _r = theOscMessage.get(1).intValue();
+    //     int _g = theOscMessage.get(2).intValue();
+    //     int _b = theOscMessage.get(3).intValue();
+    //     setUserPallette(_index, color(_r, _g, _b));
+    //   }
+    // }
     // set the custom color
     else if(theOscMessage.checkAddrPattern("/freeliner/color")) {
       /* check if the typetag is the right one. */
@@ -110,7 +110,7 @@ class OSClistener implements OscEventListener{
     }
   }
 
-  void setUserPallette(int _i, color _c){
-    if(_i >= 0 && _i < PALLETTE_COUNT) userPallet[_i] = _c;
-  }
+  // void setUserPallette(int _i, color _c){
+  //   if(_i >= 0 && _i < PALLETTE_COUNT) userPallet[_i] = _c;
+  // }
 }

@@ -2,7 +2,7 @@
 // base class for color picking
 // add global color pallette to manipulate.
 // then the color cycling modes can hop between pre determined colours.
-class Colorizer {
+class Colorizer implements FreelinerConfig{
 	//custom colors?
 	final String name = "Colorizer";
 
