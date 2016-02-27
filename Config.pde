@@ -10,7 +10,7 @@ interface FreelinerConfig{
   // GUI options
   final int CURSOR_SIZE = 18;
   final int CURSOR_GAP_SIZE = 6;
-final int CURSOR_STROKE_WIDTH = 3;
+  final int CURSOR_STROKE_WIDTH = 3;
   final int GUI_TIMEOUT = 1000;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
   final int NODE_STROKE_WEIGTH = 4;

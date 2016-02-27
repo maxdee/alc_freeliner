@@ -259,6 +259,7 @@
     public boolean toggleShader(){
       useShader = !useShader;
       getSelectedShader().reloadShader();
+      getSelectedShader().passUniforms();
       return useShader;
     }
 
@@ -270,6 +271,7 @@
     public int setShader(int v){
       shaderIndex = numTweaker(v, shaderIndex);
       getSelectedShader().reloadShader();
+      getSelectedShader().passUniforms();
       return shaderIndex;
     }
 
@@ -374,6 +376,5 @@ class FLShader{
       println(_e);
       shader = null;
     }
-    //if(shader != null) passUniforms();
   }
 }
