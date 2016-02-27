@@ -414,19 +414,35 @@
   private void generateGrid(int _sz){
     gridSize = _sz;
     //PShape grd;
-    grid = createShape();
-    grid.beginShape(LINES);
-    grid.stroke(GRID_COLOR);
-    grid.strokeWeight(1);
-    for (int x = 0; x < width; x+=gridSize) {
-      for (int y = 0; y < height; y+=gridSize) {
-        grid.vertex(x, 0);
-        grid.vertex(x, height);
-        grid.vertex(0, y);
-        grid.vertex(width, y);
+    grid = createShape(GROUP);
+    PShape _grd = createShape();
+    _grd.beginShape(LINES);
+    _grd.stroke(GRID_COLOR);
+    _grd.strokeWeight(1);
+    for (int x = 0; x < width/2; x+=gridSize) {
+      for (int y = 0; y < height/2; y+=gridSize) {
+        _grd.vertex(width/2 + x, 0);
+        _grd.vertex(width/2 + x, height);
+        _grd.vertex(width/2 - x, 0);
+        _grd.vertex(width/2 - x, height);
+        _grd.vertex(0, height/2 + y);
+        _grd.vertex(width, height/2 + y);
+        _grd.vertex(0, height/2 - y);
+        _grd.vertex(width, height/2 - y);
       }
     }
-    grid.endShape();
+    _grd.endShape();
+    PShape _cross = createShape();
+    _cross.beginShape(LINES);
+    _cross.strokeWeight(3);
+    _cross.stroke(255);
+    _cross.vertex(width/2 + gridSize, height/2);
+    _cross.vertex(width/2 - gridSize, height/2);
+    _cross.vertex(width/2, height/2 + gridSize);
+    _cross.vertex(width/2, height/2 - gridSize);
+    _cross.endShape();
+    grid.addChild(_grd);
+    grid.addChild(_cross);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
