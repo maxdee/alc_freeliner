@@ -11,11 +11,14 @@ uniform vec2 texOffset;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
+
 // use these, but not here...
 uniform float u1;
 uniform float u2;
 uniform float u3;
 uniform float u4;
+
+const float scaler = 768.0/1024.0;
 
 vec2 rot(vec2 p, float a) {
 	return vec2(
@@ -26,15 +29,20 @@ vec2 rot(vec2 p, float a) {
 
 void main(void) {
 	vec2 pos = vertTexCoord.st;
-	 float scal = 40.0;
-	 float div = (pow(u3,2)+0.1)*30.0;
+	float scal = u2/40.0;
+	float div = (pow(u3,2)+0.1)*20.0;
+  pos -= 0.5;
 
-	 if(fract(pos.x*div) > 0.5) pos.y+=u2/scal;
-	 else pos.y-=u2/scal;
+  pos.x /= scaler;
+	if(fract(pos.x*div) > 0.5) pos.y -= scal;
+  else pos.y += scal;
 
-	 if(fract(pos.y*div) > 0.5) pos.x+=u2/scal;
-	 else pos.x-=u2/scal;
+	if(fract(pos.y*div) > 0.5) pos.x += scal;
+	else pos.x -= scal;
+  pos.x *= scaler;
+  pos += 0.5;
 
-	 vec4 col = texture2D(texture, pos);
+	vec4 col = texture2D(texture, pos);
+ 	//gl_FragColor = col * u1; // for praxis
  	gl_FragColor = col + texture2D(ppixels, pos) * u1;
 }
