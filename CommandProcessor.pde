@@ -7,7 +7,6 @@
  * @since     2014-12-01
  */
 
-
 /** LIST OF COMMMANDS !!! () means optional arguments
  * for adressing templates use ABCD, or * for all, or $ for selected
  * /////////////////// Playing
@@ -53,7 +52,6 @@
  * This distributes events to templates and stuff.
  */
 class CommandProcessor implements FreelinerConfig{
-
   TemplateManager templateManager;
   TemplateRenderer templateRenderer;
   CanvasManager canvasManager;
@@ -89,17 +87,18 @@ class CommandProcessor implements FreelinerConfig{
     gui = _fl.getGui();
   }
 
-
-  // keyboard triggered commands go through here? might be able to hack a undo feature...
-  public void processCmdStack(String _cmd){
-    // add to stack
-    processCMD(_cmd);
-  }
-
+  /**
+   * Add a command to the queue.
+   * The external gui uses this to avoid concurent modification exceptions.
+   * @param String command
+   */
   public void queueCMD(String _cmd){
     commandQueue.add(_cmd);
   }
 
+  /**
+   * Process commands that are in the queue.
+   */
   public void processQueue(){
     if(commandQueue.size() == 0) return;
     ArrayList<String> _q = new ArrayList(commandQueue);
@@ -108,12 +107,8 @@ class CommandProcessor implements FreelinerConfig{
   }
 
   /**
-   * This is where commands come to do stuff.
-   * Commands like "tw A q 3" "tr A" "tg A 2 3 4" "tx 2 0 quakeroats"
-   * Sequencer "sq ABC 3" "sq A *"
-   * and maybe like "np 2 xyz" "sv tp ha.xml" "ld gm map.xml"
+   * First level of command parsing, redistributes according to first argument of command.
    * @param String command
-   * @return boolean was used
    */
   public void processCMD(String _cmd){
     // if(record)
@@ -127,6 +122,12 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("tools")) toolsCMD(_args);
     else if(_args[0].equals("geom")) geometryCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
+  }
+
+  // keyboard triggered commands go through here? might be able to hack a undo feature...
+  public void processCmdStack(String _cmd){
+    // add to stack
+    processCMD(_cmd);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

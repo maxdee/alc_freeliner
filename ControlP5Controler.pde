@@ -12,7 +12,7 @@ class ControlP5Controler implements FreelinerConfig{
     Group colorGroup = cp5.addGroup("color")
                           .setPosition(10,100)
                           .setBackgroundHeight(256)
-                          .setWidth(256)
+                          .setWidth(200)
                           .setBackgroundColor(0)
                           .setOpen(false)
                           .setLabel("color stuff");
@@ -21,9 +21,9 @@ class ControlP5Controler implements FreelinerConfig{
        .setGroup(colorGroup);
 
     Group fileIO = cp5.addGroup("fileIO")
-                      .setPosition(267, 100)
-                      .setBackgroundHeight(256)
-                      .setWidth(256)
+                      .setPosition(214, 100)
+                      .setBackgroundHeight(128)
+                      .setWidth(128)
                       .setBackgroundColor(0)
                       .setOpen(false)
                       .setLabel("filez");
@@ -37,11 +37,34 @@ class ControlP5Controler implements FreelinerConfig{
        .setPosition(10,22)
        .setSize(30,10)
        .setGroup(fileIO);
+
+    Group shaderGUI = cp5.addGroup("shaderz")
+                         .setPosition(267+128+4,100)
+                         .setBackgroundHeight(256)
+                         .setWidth(256)
+                         .setBackgroundColor(0)
+                         .setOpen(false);
+
+    cp5.addButton("enable")
+       .setPosition(10,10)
+       .setSize(30,10)
+       .setGroup(shaderGUI);
+
+   cp5.addRadioButton("shaderSelect")
+       .setPosition(10,22)
+       .setSize(10,10)
+       .setItemsPerRow(4)
+       .addItem("0",0)
+       .addItem("1",1)
+       .addItem("2",2)
+       .addItem("3",3);
+
   }
 
   void controlEvent(ControlEvent _ev){
     if(_ev.isGroup()) _ev.getGroup().bringToFront(); // dosent really work
     else {
+      println(_ev.getController().getName());
       switch(_ev.getController().getName()){
         case("colorWheel"):
           freeliner.processCMD("tp color $ "+int(_ev.getValue()));
@@ -53,6 +76,12 @@ class ControlP5Controler implements FreelinerConfig{
         case("load"):
           freeliner.queueCMD("tp load");
           freeliner.queueCMD("geom load");
+          break;
+        case("enable"):
+          freeliner.queueCMD("post shader -3");
+          break;
+        case("shaderSelect"):
+          freeliner.queueCMD("post shader "+int(_ev.getValue()));
           break;
       }
     }

@@ -47,8 +47,6 @@ public class ExternalGUI extends PApplet {
     windowFocus = true;
     widgets = new ArrayList();
     // InfoLine is the same info the regular GUI shows
-
-
     widgets.add(new InfoLine(new PVector(0,0), new PVector(WIDTH, 22), freeliner.getGui()));
     widgets.add(new SequenceGUI(new PVector(0, HEIGHT - 150),
                                 new PVector(WIDTH, 150),
@@ -66,7 +64,7 @@ public class ExternalGUI extends PApplet {
 
   // your traditional sketch settings function
   public void settings(){
-    size(1000, 700, P2D);
+    size(1000, 420, P2D);
     smooth(0);
   }
 

@@ -24,8 +24,6 @@ interface FreelinerConfig{
   final color SEGMENT_COLOR = #BEBEBE;
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
 
-
-
   // If you are using a DLP with no colour wheel
   final boolean BW_BEAMER = false;
   // If you are using a dual head setup
@@ -51,6 +49,31 @@ interface FreelinerConfig{
   final int DEFAULT_LINE_ANGLE = 30;
   final int DEFAULT_LINE_LENGTH = 128;
   final int MOUSE_DEBOUNCE = 100;
+
+  /**
+   * Your color pallette! customize it!
+   * Use hex value or color(0,100,200);
+   */
+  final color[] userPallet = {
+                    #ffff00,
+                    #ffad10,
+                    #ff0000,
+                    #ff00ad,
+                    #f700f7,
+                    #ad00ff,
+                    #0000ff,
+                    #009cff,
+                    #00c6ff,
+                    #00deb5,
+                    #a5ff00,
+                    #f700f7,
+                  };
+
+  final int PALLETTE_COUNT = 12;
+
+  // Freeliner LED options
+  final String LED_SERIAL_PORT = "/dev/ttyACM0";
+  final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2
 
   // Keyboard Section
   // final char ...
@@ -111,26 +134,4 @@ interface FreelinerConfig{
     "m    masking",
     "k    showLEDmap"
   };
-
-  /**
-   * Your color pallette! customize it!
-   * Use hex value or color(0,100,200);
-   */
-  final color[] userPallet = {
-                    #ffff00,
-                    #ffad10,
-                    #ff0000,
-                    #ff00ad,
-                    #f700f7,
-                    #ad00ff,
-                    #0000ff,
-                    #009cff,
-                    #00c6ff,
-                    #00deb5,
-                    #a5ff00,
-                    #f700f7,
-                  };
-
-  final int PALLETTE_COUNT = 12;
-
 }

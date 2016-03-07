@@ -36,7 +36,7 @@ FreeLiner freeliner;
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.4";
+final String VERSION = "0.4.1";
 boolean doSplash = true;
 boolean OSX = false;
 
@@ -60,6 +60,8 @@ void setup() {
   freeliner = new FreeLiner(this);
   //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
   //freeliner = new FreelinerLED(this,"tunnel_map.xml");
+  //freeliner = new FreelinerLED(this,"geometry.xml");
+
 
   surface.setResizable(false);
   surface.setTitle("a!Lc Freeliner");
@@ -125,6 +127,7 @@ void draw() {
 void oscTick(){
  oscP5.send(tickmsg, toPDpatch);
 }
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Input

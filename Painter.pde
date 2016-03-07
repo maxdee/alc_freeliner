@@ -156,6 +156,8 @@ class Painter{
 ////////////////////////////////////////////////////////////////////////////////////
 
 class LineToLine extends Painter{
+	String name = "lineToLine";
+	
   public LineToLine(){
   }
   public void paint(ArrayList<Segment> _segs, RenderableTemplate _rt){

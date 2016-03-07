@@ -424,7 +424,6 @@ class Keyboard implements FreelinerConfig{
     gui.setKeyString("sure");
     gui.setValueGiven(wordMaker);
     wordMaker = "";
-
     enterText = false;
   }
 
