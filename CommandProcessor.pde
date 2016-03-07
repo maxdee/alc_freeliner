@@ -93,6 +93,7 @@ class CommandProcessor implements FreelinerConfig{
    * @param String command
    */
   public void queueCMD(String _cmd){
+    println("adding to queue : "+_cmd);
     commandQueue.add(_cmd);
   }
 
@@ -104,6 +105,7 @@ class CommandProcessor implements FreelinerConfig{
     ArrayList<String> _q = new ArrayList(commandQueue);
     for(String _cmd : _q) processCMD(_cmd);
     commandQueue.clear();
+    //gui.setValueGiven(getValueGiven());
   }
 
   /**

@@ -1,6 +1,16 @@
 
+/**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.4
+ * @since     2014-12-01
+ */
 
-class Easing {
+
+
+class Easing{
 
 	public Easing(){}
 	// passed seperatly cause I may want to ease other things than the unit interval

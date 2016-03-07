@@ -57,7 +57,8 @@ class ControlP5Controler implements FreelinerConfig{
        .addItem("0",0)
        .addItem("1",1)
        .addItem("2",2)
-       .addItem("3",3);
+       .addItem("3",3)
+       .setGroup(shaderGUI);;
 
   }
 
@@ -67,7 +68,7 @@ class ControlP5Controler implements FreelinerConfig{
       println(_ev.getController().getName());
       switch(_ev.getController().getName()){
         case("colorWheel"):
-          freeliner.processCMD("tp color $ "+int(_ev.getValue()));
+          freeliner.queueCMD("tp color $ "+int(_ev.getValue()));
           break;
         case("save"):
           freeliner.queueCMD("tp save");
@@ -91,3 +92,6 @@ class ControlP5Controler implements FreelinerConfig{
   //freeliner.canvasManager.generateMask();
   //groupManager.loadGroups(_fn.getAbsolutePath());
 }
+
+
+// class FilePicker

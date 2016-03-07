@@ -488,6 +488,7 @@ class TemplateManager{
     ArrayList<TweakableTemplate> _tmps = new ArrayList();
     if(_tags.length() == 0) return null;
     else if(_tags.charAt(0) == '$'){
+      if(templateList.getAll() == null) return null;
       if(templateList.getAll().size() == 0) return null;
       for(TweakableTemplate _tw : templateList.getAll()){
         if(_tw != null) _tmps.add(_tw);
