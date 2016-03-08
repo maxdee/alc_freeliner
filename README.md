@@ -68,7 +68,7 @@ The `*` character begins and stops a frame saving process. These `.tiff` images 
 Freeliner can be quit with your systems shortcut to close a window, like `alt-f4` or with `cmd-w` on OSX.
 
 ##### Syphon
-Syphon can be enabled by uncommenting the code in `SyphonFreeliner.pde` and switching from `freeliner = new FreeLiner(this);` to `freeliner = new FreelinerSyphon(this);` in the `alc_freeliner.pde` file. If you have a more elegant way around this, let me know?
+Syphon can be enabled by uncommenting the code in `SyphonFreeliner.pde` and switching from `freeliner = new Freeliner(this);` to `freeliner = new FreelinerSyphon(this);` in the `alc_freeliner.pde` file. If you have a more elegant way around this, let me know?
 
 ## Current Bugs ##
 Report one?
