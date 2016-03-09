@@ -25,7 +25,7 @@ public class ExternalGUI extends PApplet {
   boolean relayKeys = true;
   // externalGUI size, make sure you also change them in the settings() method
   final int WIDTH = 1000;
-  final int HEIGHT = 400;
+  final int HEIGHT = 700;
   // ArrayList of widgets
   ArrayList<Widget> widgets;
   // the selected widget, aka the one that the cursor hovers
@@ -64,13 +64,13 @@ public class ExternalGUI extends PApplet {
 
   // your traditional sketch settings function
   public void settings(){
-    size(1000, 420, P2D);
+    size(1000, 700, P2D);
     smooth(0);
   }
 
   // your traditional sketch setup function
   public void setup() {
-    canvas = createGraphics(width, height, P2D);
+    canvas = createGraphics(WIDTH, HEIGHT, P2D);
     canvas.textFont(font);
     surface.setResizable(false); // keep it pretty
     textMode(CORNER);
@@ -90,7 +90,7 @@ public class ExternalGUI extends PApplet {
       windowFocus = focused;
     }
     if(freeliner instanceof FreelinerLED) background(50,0,0);
-    else background(0,0,50);
+    else background(50,50,50);
     // update the widgets with the mouse position
     if(!mousePressed) selectedWidget = null;
     for(Widget wdgt : widgets){

@@ -21,18 +21,18 @@
  * tp load (coolstuff.xml)
  * /////////////////// Sequencer
  * seq tap (offset)
- * seq edit -1,-2,step
+ * seq edit -1,-2,step ????
  * seq clear (step || AB)
  * seq share A step
  * seq toggle A (step)
  * seq play 0,1
- * seq stop
- * cmd rec
- * cmd play
+ * seq stop // redundent play 0|1
+ * cmd rec  // 0|1
+ * cmd play // 0|1
  * ///////////////////  Tools
- * tools lines
- * tools tags
- * tools capture
+ * tools lines 0|1|-3
+ * tools tags 0|1|-3
+ * tools capture // should be in post????
  * tools snap (dist)
  * tools grid (size)
  * tools ruler (length)
@@ -46,7 +46,6 @@
  * post shader (coolfrag.glsl)
  * post mask (mask.png)
  */
-
 
 /**
  * This distributes events to templates and stuff.
@@ -66,7 +65,7 @@ class CommandProcessor implements FreelinerConfig{
   ArrayList<String> commandQueue;
 
   /**
-   * Constructor, nothing to do here.
+   * Constructor
    */
   public CommandProcessor(){
     commandQueue = new ArrayList();
