@@ -210,13 +210,20 @@ class FastLEDing extends FreeLEDing {
       println(_port+" does not seem to work");
       exit();
     }
+
     delay(100);
-    port.write('?');
-    delay(100);
-    try{
-      ledCount = Integer.parseInt(getMessage());
-    } catch (Exception e){
-      println("Could not get LED count");
+    for(int i = 0; i < 4; i++){
+      port.write('?');
+      delay(300);
+      try{
+        ledCount = Integer.parseInt(getMessage());
+        break;
+      } catch (Exception e){
+        println("Could not get LED count");
+      }
+    }
+    if(ledCount == 0){
+      println("Could not get LED count.");
       exit();
     }
     packetSize = (ledCount*3)+1;

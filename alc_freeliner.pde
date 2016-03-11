@@ -16,8 +16,8 @@ import netP5.*;
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  size(1024, 768, P2D);
-  //size(1024, 683, P2D);
+  //size(1024, 768, P2D);
+  size(400, 400, P2D);
   //fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   // needed for syphon!
@@ -57,9 +57,10 @@ boolean runGui = false;
 void setup() {
 
   // pick your flavour of freeliner
-  freeliner = new FreeLiner(this);
+  //freeliner = new FreeLiner(this);
   //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
   //freeliner = new FreelinerLED(this,"tunnel_map.xml");
+  freeliner = new FreelinerLED(this,"geometry.xml");
   //freeliner = new FreelinerLED(this,"geometry.xml");
 
 

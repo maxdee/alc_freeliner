@@ -23,7 +23,7 @@ class FreelinerLED extends FreeLiner{
 		if(LED_SYSTEM == 1) freeLED = new FastLEDing(_pa, LED_SERIAL_PORT);
 		else if(LED_SYSTEM == 2) freeLED = new OctoLEDing(_pa, LED_SERIAL_PORT);
 		else freeLED = new FreeLEDing();
-		
+
 	  freeLED.parseLEDfile(ledMapFile);
 		showLEDmap = true;
 	}
