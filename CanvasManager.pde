@@ -22,19 +22,15 @@ class CanvasManager implements FreelinerConfig{
   ArrayList<RenderLayer> renderLayers;
   ArrayList<ShaderLayer> shaderLayers;
 
-  // RenderLayer guiLayer;
+  // layers that need access
   Layer maskLayer;
   Layer tracerLayer;
   Layer captureLayer;
-  Layer mergeLayer;
 
-  //graphics buffers
+  // graphics buffers
   PGraphics canvas;
-  PGraphics mergeCanvas;
-
+  // misc
   boolean makeMaskFlag = false;
-
-
 
   public CanvasManager(){
     // init canvases
@@ -99,12 +95,9 @@ class CanvasManager implements FreelinerConfig{
    * End redering process.
    */
   public void endRender(){
-    for(RenderLayer _lyr : renderLayers)
-      if(_lyr != mergeLayer) _lyr.endDraw();
-
+    //for(RenderLayer _lyr : renderLayers) _lyr.endDraw();
     for(Layer _lyr : layerStack) _lyr.apply(canvas);
 
-    ((MergeLayer)mergeLayer).endDraw();
     canvas.endDraw();
     if(makeMaskFlag) ((MaskLayer)maskLayer).makeMask(canvas);
     makeMaskFlag = false;
