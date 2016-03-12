@@ -61,7 +61,7 @@ class OSClistener implements OscEventListener{
         /* parse theOscMessage and extract the values from the osc message arguments. */
         int ind = theOscMessage.get(0).intValue();
         float flt = theOscMessage.get(1).floatValue();
-        freeliner.getCanvasManager().getSelectedShader().setUniforms(ind, flt);
+        //freeliner.getCanvasManager().getSelectedShader().setUniforms(ind, flt);
       }
     }
     // change the colors in the userPallette

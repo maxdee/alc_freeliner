@@ -158,7 +158,7 @@ class ControlP5Controler implements FreelinerConfig{
   }
 
   private void setUni(int _ind, float _val){
-    freeliner.getCanvasManager().getSelectedShader().setUniforms(_ind, _val);
+    //freeliner.getCanvasManager().getSelectedShader().setUniforms(_ind, _val);
   }
 
   //groupManager.saveGroups(_fn.getAbsolutePath());

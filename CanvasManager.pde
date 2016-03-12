@@ -15,255 +15,230 @@
 
   // subclass with different ones?
 
-  class CanvasManager implements FreelinerConfig{
+class CanvasManager implements FreelinerConfig{
 
-    ArrayList<Layer> layers;
-    ArrayList<Layer> layerStack;
-    ArrayList<Layer> renderLayers;
-    ArrayList<Layer> shaderLayers;
+  ArrayList<Layer> layers;
 
-    Layer guiLayer;
-    Layer maskLayer;
-    Layer tracerLayer;
+  ArrayList<RenderLayer> renderLayers;
+  ArrayList<ShaderLayer> shaderLayers;
 
-    //graphics buffers
-    PGraphics canvas;
+  RenderLayer guiLayer;
+  MaskLayer maskLayer;
+  TracerLayer tracerLayer;
+  CaptureLayer captureLayer;
 
-    public CanvasManager(){
-      // init canvases
-      canvas = createGraphics(width, height, P2D);
-      canvas.smooth(0);
+  //graphics buffers
+  PGraphics canvas;
 
-      guiLayer = new RenderLayer();
+  boolean makeMaskFlag = false;
 
-      guiLayer.setName("GUI");
-      maskLayer = new MaskLayer();
+  public CanvasManager(){
+    // init canvases
+    canvas = createGraphics(width, height, P2D);
+    canvas.smooth(0);
 
-      tracerLayer = new TracerLayer();
-      tracerLayer.setEnable(false);
+    layers = new ArrayList();
 
-    }
+    renderLayers = new ArrayList();
+    shaderLayers = new ArrayList();
 
+    //////////////////////////////////////////////////////
 
-    /**
-     * Begin redering process. Make sure to end it with endRender();
-     */
-    public void beginRender(){
-      canvas.beginDraw();
-  	}
+    // tracers
+    tracerLayer = new TracerLayer();
+    tracerLayer.setEnable(false);
+    layers.add(tracerLayer);
+    renderLayers.add((RenderLayer)tracerLayer);
 
-    /**
-     * End redering process.
-     */
-    public void endRender(){
-      // mask, could be applied to fxCanvas or drawingCanvas
-      if(useMask && !makeMask && !useShader) drawingCanvas.image(maskImage,0,0);
-      drawingCanvas.endDraw();
-      if(makeMask) makeMask(drawingCanvas);
+    // regular render
+    RenderLayer _reg = new RenderLayer();
+    _reg.setName("RegularRender");
+    layers.add(_reg);
+    renderLayers.add((RenderLayer)_reg);
 
-      if(useShader) applyFX();
-      else noFX();
+    // mask
+    maskLayer = new MaskLayer();
+    layers.add(maskLayer);
 
-      // // save frame if recording
-      // if(record){
+    // shaders
+    addNewShader("shaders/fragZero.glsl");
+    addNewShader("shaders/fragOne.glsl");
+    addNewShader("shaders/fragTwo.glsl");
+    addNewShader("shaders/fragThree.glsl");
 
-      // }
-    }
+    // layer for the gui
+    guiLayer = new RenderLayer();
+    guiLayer.setName("GUI");
+    layers.add(guiLayer);
 
-    public void applyFX(){
-      // experimental rendering pipeline
-      fxCanvas.beginDraw();
-      fxCanvas.clear();
-      //if(EXPERIMENTAL) useShader();
-      getSelectedShader().useShader(fxCanvas);
-      fxCanvas.image(drawingCanvas, 0, 0);
+    // captureLayer
+    captureLayer = new CaptureLayer();
+    layers.add(captureLayer);
 
-      if(useMask && !makeMask) {
-        fxCanvas.resetShader();
-        fxCanvas.image(maskImage,0,0);
-      }
-      fxCanvas.endDraw();
-    }
-
-    public void noFX(){
-      fxCanvas.beginDraw();
-      fxCanvas.resetShader();
-      fxCanvas.clear();
-      fxCanvas.image(drawingCanvas, 0, 0);
-      fxCanvas.endDraw();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////
-    ///////    Actions
-    ///////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public void screenShot(){
-      // save screenshot to capture/screenshots/datetime.png
-    }
-
-    /**
-     * SetBackground with alpha value
-     * @param PGraphics to draw
-     * @param int alpha value of black
-     */
-    private void alphaBG(PGraphics _pg, int _alpha) {
-      _pg.fill(BACKGROUND_COLOR, _alpha);
-      _pg.stroke(BACKGROUND_COLOR, _alpha);
-      _pg.strokeWeight(1);
-      _pg.rect(0, 0, width, height);
-    }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////
-    ///////    Shaders
-    ///////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    // public void setShader(String _file){
-    //   flShader = new FLShader(_file);
-    // }
-
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////
-    ///////     Masking
-    ///////
-    ////////////////////////////////////////////////////////////////////////////////////
-    /**
-     * Parse a image to make a mask.
-     * @param PImage to make into mask
-     */
-
-    /**
-     * Set a flag to generate mask next render.
-     */
-    public void generateMask(){
-      makeMask = true;
-    }
-
-    public boolean toggleMask(){
-      if(useMask){
-        useMask = false;
-        return useMask;
-      }
-      else {
-        generateMask();
-        return true;
-      }
-    }
-
-    /**
-     * Load a image as the mask (transparent png for now...)
-     * @param String mask png file
-     */
-    public void loadMask(String _file){
-      try {
-        makeMask(loadImage("userdata/background.png"));
-      }
-      catch(Exception _e) {
-        println("Mask file could not be loaded : "+_file);
-        useMask = false;
-      }
-    }
-
-    public void saveMask(String _file){
-      maskImage.save(_file);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////
-    ///////    Modifiers
-    ///////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public void oscSetTrails(int _t){
-      trailmix = _t;
-    }
-
-    public boolean setBackgroundImage(String _file){
-      return false;
-    }
-
-    /**
-     * Toggle the use of background with alpha value
-     * @return boolean value given
-     */
-    public boolean toggleTrails(){
-      trails = !trails;
-      return trails;
-    }
-
-    /**
-     * Set the alpha value of the background
-     * @param int tweaking value
-     * @return int value given
-     */
-
-
-    /**
-     * Toggle the use of shaders
-     * @return boolean value given
-     */
-    public boolean toggleShader(){
-      useShader = !useShader;
-      getSelectedShader().reloadShader();
-      getSelectedShader().passUniforms();
-      return useShader;
-    }
-
-    /**
-     * Shader to use of whatever
-     * @param int tweaking value
-     * @return int value given
-     */
-    public int setShader(int v){
-      shaderIndex = numTweaker(v, shaderIndex);
-      getSelectedShader().reloadShader();
-      getSelectedShader().passUniforms();
-      return shaderIndex;
-    }
-
-    /**
-     * Turn on and off frame capture
-     * @return boolean value given
-     */
-    public boolean toggleRecording(){
-      record = !record;
-      if(record) {
-        clipCount++;
-        frameCount = 0;
-      }
-      return record;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////
-    ///////    Accessors
-    ///////
-    ////////////////////////////////////////////////////////////////////////////////////
-    public FLShader getSelectedShader(){
-      return flShaders[shaderIndex%SHADER_COUNT];
-    }
-
-    /**
-     * Access the drawingCanvas
-     * @return PGraphics
-     */
-  	public final PGraphics getDrawingCanvas(){
-      return drawingCanvas;
-    }
-
-    /**
-     * Access the drawingCanvas
-     * @return PGraphics
-     */
-  	public final PGraphics getFXCanvas(){
-      return fxCanvas;
-    }
+    printLayerStack();
   }
+
+
+  public void addNewShader(String _file){
+    ShaderLayer _shader = new ShaderLayer();
+    _shader.loadFile(_file);
+    if(_shader.isNull()) {
+      println("Failed to load "+_file+" as a shader");
+      return;
+    }
+    layers.add(_shader);
+    shaderLayers.add((ShaderLayer)_shader);
+  }
+
+
+  public void printLayerStack(){
+    println("-----Layer_Stack-----");
+    for(Layer _lyr : layers) println(_lyr.getName());
+  }
+
+  /**
+   * Begin redering process. Make sure to end it with endRender();
+   */
+  public void beginRender(){
+    canvas.beginDraw();
+    canvas.clear();
+	}
+
+  /**
+   * End redering process.
+   */
+  public void endRender(){
+    for(Layer _lyr : layers) _lyr.apply(canvas);
+    canvas.endDraw();
+    if(makeMaskFlag) maskLayer.makeMask(canvas);
+    makeMaskFlag = false;
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    Actions
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void screenShot(){
+    // save screenshot to capture/screenshots/datetime.png
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Masking
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  /**
+   * Parse a image to make a mask.
+   * @param PImage to make into mask
+   */
+
+  /**
+   * Set a flag to generate mask next render.
+   */
+  public void generateMask(){
+    makeMaskFlag = true;
+  }
+
+  public boolean toggleMask(){
+  //   if(useMask){
+  //     useMask = false;
+  //     return useMask;
+  //   }
+  //   else {
+  //     generateMask();
+  //     return true;
+  //   }
+    return false;
+  }
+
+  /**
+   * Load a image as the mask (transparent png for now...)
+   * @param String mask png file
+   */
+  public void loadMask(String _file){
+    maskLayer.loadFile(_file);
+  }
+
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    Modifiers
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void oscSetTrails(int _t){
+    tracerLayer.setTrails(_t);
+  }
+
+  public int setTrails(int _t){
+    return tracerLayer.setTrails(_t);
+  }
+
+
+  /**
+   * Toggle the use of background with alpha value
+   * @return boolean value given
+   */
+  public boolean toggleTrails(){
+    tracerLayer.toggleLayer();
+    return tracerLayer.useLayer();
+  }
+
+  /**
+   * Toggle the use of shaders
+   * @return boolean value given
+   */
+  public boolean toggleShader(){
+    // useShader = !useShader;
+    // getSelectedShader().reloadShader();
+    // getSelectedShader().passUniforms();
+    return false;//useShader;
+  }
+
+  /**
+   * Shader to use of whatever
+   * @param int tweaking value
+   * @return int value given
+   */
+  public int setShader(int v){
+    // shaderIndex = numTweaker(v, shaderIndex);
+    // getSelectedShader().reloadShader();
+    // getSelectedShader().passUniforms();
+
+    return 0;//shaderIndex;
+  }
+
+  /**
+   * Turn on and off frame capture
+   * @return boolean value given
+   */
+  public boolean toggleRecording(){
+    return captureLayer.toggleLayer();
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    Accessors
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  public PGraphics getRenderLayer(int _ind){
+    _ind %= renderLayers.size();
+    return renderLayers.get(_ind).getCanvas();
+  }
+
+  /**
+   * Access the drawingCanvas
+   * @return PGraphics
+   */
+	public final PGraphics getCanvas(){
+    return canvas;
+  }
+}
 
 
 

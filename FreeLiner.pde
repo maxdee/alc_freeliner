@@ -58,8 +58,6 @@ class FreeLiner implements FreelinerConfig{
     commandProcessor.inject(this);
     windowFocus = true;
 
-    // improve this
-    templateRenderer.setCanvas(canvasManager.getDrawingCanvas());
   }
 
 
@@ -68,21 +66,26 @@ class FreeLiner implements FreelinerConfig{
    */
   public void update() {
     autoSave();
+    // windowFocus
     if(windowFocus != focused){
       keyboard.forceRelease();
       windowFocus = focused;
     }
+
     commandProcessor.processQueue();
+
     // update template models
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());
+
     // render animations
     canvasManager.beginRender();
+    templateRenderer.setCanvas(canvasManager.getRenderLayer(1));
     templateRenderer.render(templateManager.getLoops());
     templateRenderer.render(templateManager.getEvents());
     canvasManager.endRender();
 
-    image(canvasManager.getFXCanvas(),0,0);
+    image(canvasManager.getCanvas(),0,0);
     gui.update();
     if(gui.doDraw()){
       resetShader();
@@ -151,7 +154,7 @@ class FreeLiner implements FreelinerConfig{
   }
 
   public PGraphics getCanvas(){
-    return canvasManager.getFXCanvas();
+    return canvasManager.getCanvas();
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

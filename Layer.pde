@@ -32,12 +32,12 @@ class Layer implements FreelinerConfig{
   }
 
   public boolean toggleLayer(){
-    enable = !enable;
-    return enable;
+    setEnable(!enabled);
+    return enabled;
   }
 
   public void setEnable(boolean _b){
-    enable = _b;
+    enabled = _b;
   }
 
 //////////////////////
@@ -47,7 +47,7 @@ class Layer implements FreelinerConfig{
   }
 
   public boolean useLayer(){
-    return enable;
+    return enabled;
   }
 }
 
@@ -59,21 +59,23 @@ class Layer implements FreelinerConfig{
 class RenderLayer extends Layer{
 
   PGraphics canvas;
-
+  boolean used;
   public RenderLayer(){
     canvas = createGraphics(width, height, P2D);
     name = "DrawingLayer";
   }
 
   public void apply(PGraphics _pg){
-    canvas.endDraw();
-    if(!useLayer) return;
-    _pg.image(canvas);
+    if(used)canvas.endDraw();
+    if(!useLayer()) return;
+    _pg.image(canvas, 0, 0);
+    used = false;
   }
 
   public PGraphics getCanvas(){
     canvas.beginDraw();
     canvas.clear();
+    used = true;
     return canvas;
   }
 }
@@ -94,15 +96,17 @@ class TracerLayer extends RenderLayer{
 
   public PGraphics getCanvas(){
     canvas.beginDraw();
-    canvas.fill(0, trailmix);
-    canvas.noStroke();
-    canvas.rect(0,0,width,height);
+    canvas.fill(BACKGROUND_COLOR, trailmix);
+    canvas.stroke(BACKGROUND_COLOR, trailmix);
+    canvas.strokeWeight(1);
+    canvas.rect(0, 0, width, height);
+    return canvas;
   }
 
   public int setTrails(int v){
     trailmix = numTweaker(v, trailmix);
-    if(v == 255) trails = false;
-    else trails = true;
+    if(v >= 253) enabled = false;
+    else enabled = true;
     return trailmix;
   }
 }
@@ -117,27 +121,19 @@ class ImageLayer extends Layer{
 
   public ImageLayer(){
     // try to load a mask if one is provided
-    try { imageToDraw = loadImage("userdata/layer_image.png");}
-    catch(Exception _e) {imageToDraw = null;}
+    loadFile("userdata/layer_image.png");
+    name = "ImageLayer";
   }
 
   public void apply(PGraphics _pg){
-    if(maskImage == null) return;
-    if(!useLayer) return;
-    else _pg.image(maskImage, 0, 0);
+    if(imageToDraw == null) return;
+    if(!useLayer()) return;
+    else _pg.image(imageToDraw, 0, 0);
   }
 
-  // pg.endDraw() -> then this ?
-  void makeMask(PImage _source){
-    maskImage = _source.get();
-    maskImage.loadPixels();
-    for(int i = 0; i< width * height; i++){
-      // check the green pixels.
-      if(((maskImage.pixels[i] >> 8) & 0xFF) > 100) maskImage.pixels[i] = color(100, 0);
-      else maskImage.pixels[i] = color(0,255);
-    }
-    maskImage.updatePixels();
-    saveMask("userdata/mask_image.png"); // auto save mask
+  public void loadFile(String _file){
+    try { imageToDraw = loadImage(_file);}
+    catch(Exception _e) {imageToDraw = null;}
   }
 }
 
@@ -145,54 +141,60 @@ class ImageLayer extends Layer{
  * Take a image and make a mask where all the pixels with green go transparent, everything else black;
  * Needs to be fixed for INVERTED_COLOR...
  */
-class MaskLayer extends Layer{
-
-  PImage maskImage;
+class MaskLayer extends ImageLayer{
 
   public MaskLayer(){
     // try to load a mask if one is provided
-    try { maskImage = loadImage("userdata/mask_image.png");}
-    catch(Exception _e) {maskImage = null;}
-  }
-
-  public void apply(PGraphics _pg){
-    if(maskImage == null) return;
-    if(!useLayer) return;
-    else _pg.image(maskImage, 0, 0);
+    loadFile("userdata/mask_image.png");
+    name = "MaskLayer";
   }
 
   // pg.endDraw() -> then this ?
-  void makeMask(PImage _source){
-    maskImage = _source.get();
-    maskImage.loadPixels();
+  public void makeMask(PGraphics _source){
+    imageToDraw = _source.get();
+    imageToDraw.loadPixels();
+    int _grn = 0;
     for(int i = 0; i< width * height; i++){
       // check the green pixels.
-      if(((maskImage.pixels[i] >> 8) & 0xFF) > 100) maskImage.pixels[i] = color(100, 0);
-      else maskImage.pixels[i] = color(0,255);
+      _grn = ((imageToDraw.pixels[i] >> 8) & 0xFF);
+      if(_grn > 3) imageToDraw.pixels[i] = color(0, _grn);
+      else imageToDraw.pixels[i] = color(100,255);
     }
-    maskImage.updatePixels();
-    saveMask("userdata/mask_image.png"); // auto save mask
+    imageToDraw.updatePixels();
+    saveFile("userdata/mask_image.png"); // auto save mask
+  }
+
+  public void saveFile(String _file){
+    imageToDraw.save(_file);
   }
 }
-
 
 /**
  * Saves frames to userdata/capture
  *
  */
 class CaptureLayer extends Layer{
-  int clipCount;
-  int frameCount;
+  int clipCount = 0;
+  int frameCount = 0;
 
   public CaptureLayer(){
     name = "FrameSaver";
-    enable = false;
+    enabled = false;
   }
 
   public void apply(PGraphics _pg){
+    if(!enabled) return;
     String fn = String.format("%06d", frameCount);
     _pg.save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
     frameCount++;
+  }
+
+  public void setEnable(boolean _b){
+    enabled = _b;
+    if(enabled) {
+      clipCount++;
+      frameCount = 0;
+    }
   }
 }
 
@@ -205,15 +207,19 @@ class ShaderLayer extends Layer{
   PShader shader;
   String fileName;
 
+  // uniforms to control shader params
   float[] uniforms;
 
-  public FLShader(){
+  public ShaderLayer(){
+    enabled = false;
+    name = "ShaderLayer";
     shader = null;
     uniforms = new float[]{0.5, 0.5, 0.5, 0.5};
   }
 
   public void apply(PGraphics _pg){
     if(shader == null) return;
+    if(!enabled) return;
     passUniforms();
     try{_pg.shader(shader);}
     catch(RuntimeException _e){
@@ -224,6 +230,8 @@ class ShaderLayer extends Layer{
 
   public void loadFile(String _file){
     fileName = _file;
+    //String[] _splt = split(fileName, '/');
+    name = _file;//_splt[_splt.length];
     reloadShader();
   }
 
@@ -238,9 +246,12 @@ class ShaderLayer extends Layer{
     }
   }
 
+  public boolean isNull(){
+    return (shader == null);
+  }
+
   public void setUniforms(int _i, float _val){
     uniforms[_i % 4] = _val;
-    valuesUpdated = true;
   }
 
   public void passUniforms(){
@@ -252,8 +263,11 @@ class ShaderLayer extends Layer{
 }
 
 class ResetShaderLayer extends Layer{
-  public ResetShaderLayer(){}
-  public apply(PGraphics _pg){
+  public ResetShaderLayer(){
+    name = "ResetShader";
+  }
+  public void apply(PGraphics _pg){
+    if(!enabled) return;
     _pg.resetShader();
   }
 }
