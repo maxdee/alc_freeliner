@@ -346,6 +346,7 @@ class TemplateManager{
       _tmp.setInt("brushSize", _tp.getBrushSize());
       _tmp.setInt("brushMode", _tp.getBrushMode());
       _tmp.setInt("enablerMode", _tp.getEnablerMode());
+      _tmp.setInt("renderLayer", _tp.getRenderLayer());
     }
     saveXML(_templates, _fn);
   }
@@ -386,6 +387,8 @@ class TemplateManager{
       _tmp.setBrushSize(_tp.getInt("brushSize"));
       _tmp.setBrushMode(_tp.getInt("brushMode"));
       _tmp.setEnablerMode(_tp.getInt("enablerMode"));
+      _tmp.setRenderLayer(_tp.getInt("renderLayer"));
+
     }
   }
 

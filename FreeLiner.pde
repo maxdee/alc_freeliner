@@ -56,6 +56,7 @@ class FreeLiner implements FreelinerConfig{
     templateManager.inject(groupManager);
     groupManager.inject(templateManager);
     commandProcessor.inject(this);
+    templateRenderer.inject(canvasManager);
     windowFocus = true;
 
   }
@@ -80,17 +81,20 @@ class FreeLiner implements FreelinerConfig{
 
     // render animations
     canvasManager.beginRender();
-    templateRenderer.setCanvas(canvasManager.getRenderLayer(1));
+
     templateRenderer.render(templateManager.getLoops());
     templateRenderer.render(templateManager.getEvents());
+
     canvasManager.endRender();
 
     image(canvasManager.getCanvas(),0,0);
+
     gui.update();
     if(gui.doDraw()){
       resetShader();
       image(gui.getCanvas(), 0, 0);
     }
+
   }
 
   // its a dummy for FreelinerLED

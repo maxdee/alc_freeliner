@@ -65,17 +65,21 @@ class RenderLayer extends Layer{
     name = "DrawingLayer";
   }
 
+  public void beginDraw(){
+    canvas.beginDraw();
+    canvas.clear();
+  }
+
+  public void endDraw(){
+    canvas.endDraw();
+  }
+
   public void apply(PGraphics _pg){
-    if(used)canvas.endDraw();
     if(!useLayer()) return;
     _pg.image(canvas, 0, 0);
-    used = false;
   }
 
   public PGraphics getCanvas(){
-    canvas.beginDraw();
-    canvas.clear();
-    used = true;
     return canvas;
   }
 }
@@ -94,13 +98,14 @@ class TracerLayer extends RenderLayer{
     trailmix = 30;
   }
 
-  public PGraphics getCanvas(){
+  public void beginDraw(){
     canvas.beginDraw();
     canvas.fill(BACKGROUND_COLOR, trailmix);
     canvas.stroke(BACKGROUND_COLOR, trailmix);
     canvas.strokeWeight(1);
     canvas.rect(0, 0, width, height);
-    return canvas;
+    canvas.stroke(100);
+    canvas.rect(200, 200, 100, 100);
   }
 
   public int setTrails(int v){

@@ -442,6 +442,7 @@ class CommandProcessor implements FreelinerConfig{
     else if (_k == 'l') valueGiven = str(_template.setFillAlpha(_n));
     else if (_k == 'o') valueGiven = str(_template.setRotationMode(_n));
     else if (_k == 'e') valueGiven = str(_template.setInterpolateMode(_n));
+    else if (_k == 'p') valueGiven = str(_template.setRenderLayer(_n));
     else if (_k == 'q') valueGiven = str(_template.setStrokeMode(_n));
     else if (_k == 'r') valueGiven = str(_template.setRepetitionCount(_n));
     else if (_k == 's') valueGiven = str(_template.setBrushSize(_n));

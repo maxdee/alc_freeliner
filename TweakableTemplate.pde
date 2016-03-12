@@ -158,6 +158,11 @@ class TweakableTemplate extends Template {
     return enablerMode;
   }
 
+  public int setRenderLayer(int _v) {
+    renderLayer = numTweaker(_v, renderLayer);
+    return renderLayer;
+  }
+
   public int setBankIndex(int _v){
     bankIndex = numTweaker(_v, bankIndex);
     if(bankIndex >= bank.size()) bankIndex = bank.size()-1;

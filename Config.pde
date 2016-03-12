@@ -94,7 +94,7 @@ interface FreelinerConfig{
     "m    breakLine",
     "n    newItem",
     "o    rotation",
-    "p    shader",
+    "p    layer",
     "q    strkColor",
     "r    polka",
     "s    size",

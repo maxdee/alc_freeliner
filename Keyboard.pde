@@ -265,7 +265,7 @@ class Keyboard implements FreelinerConfig{
     else if (_k == 't') makeCMD("seq"+" "+"tap"+" "+_n);
     else if (_k == '>') makeCMD("seq"+" "+"edit"+" "+_n);
     else if (_k == 'y') makeCMD("post"+" "+"trails"+" "+_n);
-    else if (_k == 'p') makeCMD("post"+" "+"shader"+" "+_n);
+    //else if (_k == 'p') makeCMD("post"+" "+"shader"+" "+_n);
     else used_ = false;
     if(_vg) gui.setValueGiven(processor.getValueGiven());
     return used_;

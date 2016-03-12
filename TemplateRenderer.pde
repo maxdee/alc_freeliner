@@ -27,6 +27,8 @@ class TemplateRenderer implements FreelinerConfig{
   // drawing surface
   PGraphics canvas;
 
+  CanvasManager canvasManager;
+
   /**
    * Constructor
    */
@@ -56,8 +58,8 @@ class TemplateRenderer implements FreelinerConfig{
     enablers[6] = new RandomEnabler();
 	}
 
-  public void setCanvas(PGraphics _pg){
-    canvas = _pg;
+  public void inject(CanvasManager _cm){
+    canvasManager = _cm;
   }
 
   /**
@@ -82,7 +84,7 @@ class TemplateRenderer implements FreelinerConfig{
     if(_rt.getSegmentGroup() == null) return;
     if(_rt.getSegmentGroup().isEmpty()) return;
     // push canvas to template
-    _rt.setCanvas(canvas);
+    _rt.setCanvas(canvasManager.getRenderLayer(_rt.getRenderLayer()));
     // check the enabler, it may modify the unitInterval
     if(!enablers[_rt.getEnablerMode()%ENABLER_COUNT].enable(_rt)) return;
     // get multiple unit intervals to use

@@ -46,7 +46,6 @@ class CanvasManager implements FreelinerConfig{
 
     // tracers
     tracerLayer = new TracerLayer();
-    tracerLayer.setEnable(false);
     layers.add(tracerLayer);
     renderLayers.add((RenderLayer)tracerLayer);
 
@@ -66,10 +65,16 @@ class CanvasManager implements FreelinerConfig{
     addNewShader("shaders/fragTwo.glsl");
     addNewShader("shaders/fragThree.glsl");
 
+    // regular render
+    RenderLayer _rag = new RenderLayer();
+    _rag.setName("PostShaderRander");
+    layers.add(_rag);
+    renderLayers.add((RenderLayer)_rag);
+
     // layer for the gui
     guiLayer = new RenderLayer();
     guiLayer.setName("GUI");
-    layers.add(guiLayer);
+    // layers.add(guiLayer);
 
     // captureLayer
     captureLayer = new CaptureLayer();
@@ -102,12 +107,14 @@ class CanvasManager implements FreelinerConfig{
   public void beginRender(){
     canvas.beginDraw();
     canvas.clear();
+    for(RenderLayer _lyr : renderLayers) _lyr.beginDraw();
 	}
 
   /**
    * End redering process.
    */
   public void endRender(){
+    for(RenderLayer _lyr : renderLayers) _lyr.endDraw();
     for(Layer _lyr : layers) _lyr.apply(canvas);
     canvas.endDraw();
     if(makeMaskFlag) maskLayer.makeMask(canvas);
@@ -237,6 +244,10 @@ class CanvasManager implements FreelinerConfig{
    */
 	public final PGraphics getCanvas(){
     return canvas;
+  }
+
+  public final PGraphics getGuiLayer(){
+    return guiLayer.getCanvas();
   }
 }
 

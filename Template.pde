@@ -51,6 +51,8 @@ class Template implements FreelinerConfig{
 	int brushMode;
 	// enablers decide if render or not
 	int enablerMode;
+	// which layer to render to
+	int renderLayer;
 
 	// custom shape
   PShape customShape;
@@ -110,6 +112,7 @@ class Template implements FreelinerConfig{
 		customShape = _tp.getCustomShape();
 		enablerMode = _tp.getEnablerMode();
 		customColor = _tp.getCustomColor();
+		renderLayer = _tp.getRenderLayer();
  	}
 
 	/**
@@ -135,6 +138,7 @@ class Template implements FreelinerConfig{
 		brushSize = 20;
 		brushMode = 0;
 		enablerMode = 1;
+		renderLayer = 1;
 		customColor = color(0,0,50,255);
  	}
 
@@ -162,6 +166,7 @@ class Template implements FreelinerConfig{
 		println("beatDivider "+beatDivider);
 		println("strokeWidth "+strokeWidth);
 		println("brushSize "+brushSize );
+		println("renderLayer "+renderLayer);
 		println("++++++++++++++++++++++++");
 	}
 
@@ -254,6 +259,10 @@ class Template implements FreelinerConfig{
 
 	public final int getEnablerMode(){
 		return enablerMode;
+	}
+
+	public final int getRenderLayer(){
+		return renderLayer;
 	}
 
 	public final color getCustomColor(){
