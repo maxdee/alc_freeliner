@@ -148,7 +148,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return;
     if(_args[1].equals("lines")) valueGiven = str(gui.toggleViewLines());
     else if(_args[1].equals("tags")) valueGiven = str(gui.toggleViewLines());
-    else if(_args[1].equals("rec")) valueGiven = str(canvasManager.toggleRecording());
+    //else if(_args[1].equals("rec")) valueGiven = str(canvasManager.toggleRecording());
     else if(_args[1].equals("snap")) snapCMD(_args);
     else if(_args[1].equals("grid")) gridCMD(_args);
     else if(_args[1].equals("ruler")) rulerCMD(_args);
@@ -268,8 +268,8 @@ class CommandProcessor implements FreelinerConfig{
   public void shaderCMD(String[]  _args){
     if(_args.length > 2){
       int _v = stringInt(_args[2]);
-      if(_v == -3) valueGiven = str(canvasManager.toggleShader());
-      else valueGiven = str(canvasManager.setShader(_v));
+      //if(_v == -3) valueGiven = str(canvasManager.toggleShader());
+      //else valueGiven = str(canvasManager.setShader(_v));
     }
   }
 
