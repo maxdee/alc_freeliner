@@ -77,7 +77,7 @@ interface FreelinerConfig{
 
   // Keyboard Section
   // final char ...
-  //provides strings to show what is happening.
+  // provides strings to show what is happening.
   final String KEY_MAP[] = {
     "a    animationMode",
     "b    renderMode",

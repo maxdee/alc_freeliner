@@ -126,7 +126,7 @@ void draw() {
 
 // sync message to other software
 void oscTick(){
- oscP5.send(tickmsg, toPDpatch);
+  oscP5.send(tickmsg, toPDpatch);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

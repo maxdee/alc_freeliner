@@ -16,55 +16,32 @@
   // subclass with different ones?
 
   class CanvasManager implements FreelinerConfig{
+
+    ArrayList<Layer> layers;
+    ArrayList<Layer> layerStack;
+    ArrayList<Layer> renderLayers;
+    ArrayList<Layer> shaderLayers;
+
+    Layer guiLayer;
+    Layer maskLayer;
+    Layer tracerLayer;
+
     //graphics buffers
-    PGraphics drawingCanvas;
-    PGraphics fxCanvas;
-    // optional background image
-    PImage backgroundImage;
-    // Masking
-    PImage maskImage;
-    boolean makeMask = false;
-    boolean useMask = false;
-    //draw a solid or transparent
-    boolean trails;
-    int trailmix;
-    // Shaders
-    FLShader[] flShaders;
-    boolean useShader;
-    int shaderIndex;
-    final int SHADER_COUNT = 4;
-    // for video recording
-    boolean record;
-    int clipCount;
-    int frameCount;
+    PGraphics canvas;
 
     public CanvasManager(){
       // init canvases
-      drawingCanvas = createGraphics(width, height, P2D);
-      fxCanvas = createGraphics(width, height, P2D);
-      drawingCanvas.smooth(0);
-      fxCanvas.smooth(0);
-      // canvas.strokeCap(STROKE_CAP);
-      // canvas.strokeJoin(STROKE_JOIN);
+      canvas = createGraphics(width, height, P2D);
+      canvas.smooth(0);
 
-      // init variables
-      trails = false;
-      trailmix = 30;
-      record = false;
-      frameCount = 0;
+      guiLayer = new RenderLayer();
 
-      // experimental
-      //flShader = new FLShader("shaders/basicFrag.glsl");
-      flShaders = new FLShader[SHADER_COUNT];
-      flShaders[0] = new FLShader("shaders/fragZero.glsl");
-      flShaders[1] = new FLShader("shaders/fragOne.glsl");
-      flShaders[2] = new FLShader("shaders/fragTwo.glsl");
-      flShaders[3] = new FLShader("shaders/fragThree.glsl");
-      shaderIndex = 0;
-      useShader = false;
-      // check for background image, usefull for tracing paterns
-      try { backgroundImage = loadImage("userdata/background.png");}
-      catch(Exception _e) {backgroundImage = null;}
+      guiLayer.setName("GUI");
+      maskLayer = new MaskLayer();
+
+      tracerLayer = new TracerLayer();
+      tracerLayer.setEnable(false);
+
     }
 
 
@@ -72,11 +49,7 @@
      * Begin redering process. Make sure to end it with endRender();
      */
     public void beginRender(){
-      drawingCanvas.beginDraw();
-      // either clear or fade the last frame.
-      if(trails) alphaBG(drawingCanvas, trailmix);
-      else drawingCanvas.clear();
-      if(backgroundImage != null) image(backgroundImage,0,0);
+      canvas.beginDraw();
   	}
 
     /**
@@ -91,12 +64,10 @@
       if(useShader) applyFX();
       else noFX();
 
-      // save frame if recording
-      if(record){
-        String fn = String.format("%06d", frameCount);
-        fxCanvas.save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
-        frameCount++;
-      }
+      // // save frame if recording
+      // if(record){
+
+      // }
     }
 
     public void applyFX(){
@@ -165,21 +136,6 @@
      * Parse a image to make a mask.
      * @param PImage to make into mask
      */
-    void makeMask(PImage _source){
-      useMask = true;
-      makeMask = false;
-      maskImage = null;
-      maskImage = _source.get();
-      maskImage.loadPixels();
-      color _col;
-      for(int i = 0; i< width * height; i++){
-        // check the green pixels.
-        if(((maskImage.pixels[i] >> 8) & 0xFF) > 100) maskImage.pixels[i] = color(100, 0);
-        else maskImage.pixels[i] = color(0,255);
-      }
-      maskImage.updatePixels();
-      saveMask("userdata/mask_image.png");
-    }
 
     /**
      * Set a flag to generate mask next render.
@@ -245,12 +201,7 @@
      * @param int tweaking value
      * @return int value given
      */
-    public int setTrails(int v){
-      trailmix = numTweaker(v, trailmix);
-      if(v == 255) trails = false;
-      else trails = true;
-      return trailmix;
-    }
+
 
     /**
      * Toggle the use of shaders
@@ -317,64 +268,8 @@
 
 
 
-
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////   Shader object
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
-
-class FLShader{
-  PShader shader;
-  String fileName;
-  boolean valuesUpdated;
-  float[] uniforms;
-
-  public FLShader(String _file){
-    fileName = _file;
-    reloadShader();
-    valuesUpdated = true;
-    uniforms = new float[]{0.5, 0.5, 0.5, 0.5};
-  }
-
-  public void useShader(PGraphics _pg){
-    if(shader == null) return;
-    if(valuesUpdated){
-      passUniforms();
-      valuesUpdated = false;
-    }
-    try{_pg.shader(shader);}
-    catch(RuntimeException _e){
-      println("shader no good");
-      _pg.resetShader();
-    }
-  }
-
-  public void setUniforms(int _i, float _val){
-    uniforms[_i % 4] = _val;
-    valuesUpdated = true;
-  }
-
-  public void passUniforms(){
-    shader.set("u1", uniforms[0]);
-    shader.set("u2", uniforms[1]);
-    shader.set("u3", uniforms[2]);
-    shader.set("u4", uniforms[3]);
-  }
-
-  /**
-   * Reload default shader
-   */
-  public void reloadShader(){
-    try{
-      shader = loadShader(fileName);
-    }
-    catch(Exception _e){
-      println("Could not load shader... ");
-      println(_e);
-      shader = null;
-    }
-  }
-}

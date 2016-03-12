@@ -11,7 +11,6 @@ class OSClistener implements OscEventListener{
 
   FreeLiner freeliner;
 
-
   public OSClistener(PApplet _pa, FreeLiner _fl){
     // osc setup
     freeliner = _fl;
