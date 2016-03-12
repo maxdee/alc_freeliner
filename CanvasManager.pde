@@ -17,18 +17,30 @@
 
 class CanvasManager implements FreelinerConfig{
 
-  PGraphics outputCanvas;
   ArrayList<Layer> layers;
   ArrayList<RenderLayer> renderLayers;
+  ArrayList<ShaderLayer> shaderLayers;
+  MergeLayer mergeLayer;
+
+
+
   TemplateRenderer templateRenderer;
 
   public CanvasManager(){
-    outputCanvas = createGraphics(width, height, P2D);
     layers = new ArrayList();
     renderLayers = new ArrayList();
+    shaderLayers = new ArrayList();
 
+    mergeLayer = new MergeLayer();
+    // begin stack
     addLayer(new TracerLayer());
+    addLayer(new ShaderLayer()).loadFile("shaders/fragThree.glsl");
+    addLayer(mergeLayer);
+    //addLayer(new ShaderLayer()).loadFile("userdata/fragTwo.glsl");
     addLayer(new RenderLayer()).setName("Untraced");
+    addLayer(mergeLayer);
+    //addLayer(new ShaderLayer()).loadFile("userdata/fragZero.glsl");
+
     printLayers();
   }
 
@@ -38,7 +50,8 @@ class CanvasManager implements FreelinerConfig{
 
   public Layer addLayer(Layer _lr){
     layers.add(_lr);
-    if(_lr instanceof RenderLayer) renderLayers.add((RenderLayer)_lr);
+    if(_lr instanceof ShaderLayer) shaderLayers.add((ShaderLayer)_lr);
+    else if(_lr instanceof RenderLayer && ! (_lr instanceof MergeLayer)) renderLayers.add((RenderLayer)_lr);
     return _lr;
   }
 
@@ -55,16 +68,15 @@ class CanvasManager implements FreelinerConfig{
       _lr.endDrawing();
       _index++;
     }
-
-    outputCanvas.beginDraw();
-    outputCanvas.clear();
-    for(Layer _lr : renderLayers) outputCanvas.image(_lr.getCanvas(),0,0);
-
-    outputCanvas.endDraw();
+    mergeLayer.beginDrawing();
+    mergeLayer.getCanvas().background(100);
+    PGraphics _prev = null;
+    for(Layer _lr : layers) _prev = _lr.apply(_prev);
+    mergeLayer.endDrawing();
 	}
 
   public final PGraphics getCanvas(){
-    return outputCanvas;
+    return mergeLayer.getCanvas();
   }
 
 
