@@ -27,8 +27,8 @@ class CanvasManager implements FreelinerConfig{
     layers = new ArrayList();
     renderLayers = new ArrayList();
 
-    addLayer(new RenderLayer()).setName("First");
-    addLayer(new RenderLayer()).setName("Second");
+    addLayer(new TracerLayer());
+    addLayer(new RenderLayer()).setName("Untraced");
     printLayers();
   }
 

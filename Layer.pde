@@ -16,7 +16,7 @@
  */
 
 
- class Layer {
+ class Layer implements FreelinerConfig{
    String name;
    PGraphics canvas;
 
@@ -54,5 +54,29 @@
  class RenderLayer extends Layer{
    public RenderLayer(){
      canvas = createGraphics(width,height,P2D);
+     canvas.beginDraw();
+     canvas.background(0);
+     canvas.endDraw();
    }
  }
+
+class TracerLayer extends RenderLayer{
+  int trailmix = 30;
+  public TracerLayer(){
+    super();
+  }
+  public void beginDrawing(){
+    if(canvas != null){
+      canvas.beginDraw();
+      canvas.fill(BACKGROUND_COLOR, trailmix);
+      canvas.stroke(BACKGROUND_COLOR, trailmix);
+      canvas.stroke(1);
+      canvas.rect(0,0,width,height);
+      canvas.text(getName(), getName().charAt(0),100);
+    }
+  }
+}
+
+class ShaderLayer extends RenderLayer{
+  PShader shader;
+}
