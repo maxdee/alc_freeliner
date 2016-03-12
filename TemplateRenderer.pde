@@ -24,11 +24,6 @@ class TemplateRenderer implements FreelinerConfig{
   Enabler[] enablers;
   final int ENABLER_COUNT = 7;
 
-  // drawing surface
-  PGraphics canvas;
-
-  CanvasManager canvasManager;
-
   /**
    * Constructor
    */
@@ -58,36 +53,29 @@ class TemplateRenderer implements FreelinerConfig{
     enablers[6] = new RandomEnabler();
 	}
 
-  public void inject(CanvasManager _cm){
-    canvasManager = _cm;
-  }
-
-  /**
-   * Render a arrayList of renderable templates.
-   * @param ArrayList<RenderableTemplate> to render.
-   */
-  public void render(ArrayList<RenderableTemplate> _toRender){
-    // copy arraylist
-    ArrayList<RenderableTemplate> lst = new ArrayList<RenderableTemplate>(_toRender);
-    // render templates
-    if(lst.size() > 0)
-      for(RenderableTemplate rt : lst)
-        renderTemplate(rt);
-  }
+  // /**
+  //  * Render a arrayList of renderable templates.
+  //  * @param ArrayList<RenderableTemplate> to render.
+  //  */
+  // public void render(ArrayList<RenderableTemplate> _toRender, int _layer){
+  //   // copy arraylist now happens before
+  //   // ArrayList<RenderableTemplate> lst = new ArrayList<RenderableTemplate>(_toRender);
+  //   // render templates
+  //   // if(lst.size() > 0)
+  //   //   for(RenderableTemplate rt : lst)
+  //   //     if(rt.getRenderLayer() == _layer)
+  //   //       renderTemplate(rt);
+  // }
 
   /**
    * Render a renderable template.
    * @param RenderableTemplate to render.
    */
-  public void renderTemplate(RenderableTemplate _rt){
+  public void render(RenderableTemplate _rt, PGraphics _pg){
     if(_rt == null) return;
     if(_rt.getSegmentGroup() == null) return;
     if(_rt.getSegmentGroup().isEmpty()) return;
-    // push canvas to template
-    _rt.setCanvas(canvasManager.getDrawingCanvas(_rt.getRenderLayer()));
-    _rt.getCanvas().stroke(255);
-    _rt.getCanvas().noFill();
-    _rt.getCanvas().rect(100,100+random(300),100,100);
+    _rt.setCanvas(_pg);
 
     // check the enabler, it may modify the unitInterval
     if(!enablers[_rt.getEnablerMode()%ENABLER_COUNT].enable(_rt)) return;

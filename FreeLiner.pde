@@ -56,7 +56,7 @@ class FreeLiner implements FreelinerConfig{
     templateManager.inject(groupManager);
     groupManager.inject(templateManager);
     commandProcessor.inject(this);
-    templateRenderer.inject(canvasManager);
+    canvasManager.inject(templateRenderer);
     windowFocus = true;
 
   }
@@ -79,13 +79,11 @@ class FreeLiner implements FreelinerConfig{
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());
 
-    // render animations
-    canvasManager.beginRender();
+    // get templates to render
+    ArrayList<RenderableTemplate> _toRender = new ArrayList(templateManager.getLoops());
+    _toRender.addAll(templateManager.getEvents());
 
-    templateRenderer.render(templateManager.getLoops());
-    templateRenderer.render(templateManager.getEvents());
-
-    canvasManager.endRender();
+    canvasManager.render(_toRender);
 
     image(canvasManager.getCanvas(),0,0);
 

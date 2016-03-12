@@ -19,45 +19,54 @@ class CanvasManager implements FreelinerConfig{
 
   PGraphics outputCanvas;
   ArrayList<Layer> layers;
+  ArrayList<RenderLayer> renderLayers;
+  TemplateRenderer templateRenderer;
 
   public CanvasManager(){
     outputCanvas = createGraphics(width, height, P2D);
     layers = new ArrayList();
+    renderLayers = new ArrayList();
 
-    layers.add(new RenderLayer());
-    layers.add(new RenderLayer());
+    addLayer(new RenderLayer()).setName("First");
+    addLayer(new RenderLayer()).setName("Second");
+    printLayers();
   }
 
+  public void inject(TemplateRenderer _tr){
+    templateRenderer = _tr;
+  }
+
+  public Layer addLayer(Layer _lr){
+    layers.add(_lr);
+    if(_lr instanceof RenderLayer) renderLayers.add((RenderLayer)_lr);
+    return _lr;
+  }
 
   /**
    * Begin redering process. Make sure to end it with endRender();
    */
-  public void beginRender(){
-    for(Layer _lr : layers) _lr.beginDrawing();
-	}
+  public void render(ArrayList<RenderableTemplate> _toRender){
+    int _index = 0;
+    for(Layer _lr : renderLayers){
+      _lr.beginDrawing();
+      for(RenderableTemplate _rt : _toRender){
+        if(_rt.getRenderLayer() == _index) templateRenderer.render(_rt, _lr.getCanvas());
+      }
+      _lr.endDrawing();
+      _index++;
+    }
 
-  /**
-   * End redering process.
-   */
-  public void endRender(){
-    for(Layer _lr : layers) _lr.endDrawing();
     outputCanvas.beginDraw();
-    outputCanvas.background(100,0,0);
-    outputCanvas.image(layers.get(0).getCanvas(),0,0);
-    outputCanvas.scale(0.7);
-    outputCanvas.image(layers.get(1).getCanvas(),0,0);
+    outputCanvas.clear();
+    for(Layer _lr : renderLayers) outputCanvas.image(_lr.getCanvas(),0,0);
+
     outputCanvas.endDraw();
-    println(layers.get(0).getCanvas()+"  "+layers.get(1).getCanvas());
-  }
+	}
 
   public final PGraphics getCanvas(){
     return outputCanvas;
   }
 
-  public final PGraphics getDrawingCanvas(int _index){
-    _index %= layers.size();
-    return layers.get(_index).getCanvas();
-  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -65,6 +74,13 @@ class CanvasManager implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  public void printLayers(){
+    println("+--------Layers--------+");
+    for(Layer _lr : layers) println(_lr.getName());
+    println("+--------Render--------+");
+    for(Layer _lr : renderLayers) println(_lr.getName());
+    println("+--------END-----------+");
+  }
 
 
 

@@ -29,6 +29,8 @@
      if(canvas != null){
        canvas.beginDraw();
        canvas.clear();
+       canvas.fill(255);
+       canvas.text(getName(), getName().charAt(0),100);
      }
    }
 
