@@ -27,43 +27,41 @@ class CanvasManager implements FreelinerConfig{
   Layer tracerLayer;
   Layer captureLayer;
 
+  Layer second;
+  Layer third;
   // graphics buffers
-  PGraphics canvas;
+  PGraphics outputCanvas;
+
   // misc
   boolean makeMaskFlag = false;
 
   public CanvasManager(){
-    // init canvases
-    canvas = createGraphics(width, height, P2D);
-    canvas.smooth(0);
+    outputCanvas = null;
     // layer lists
     layers = new ArrayList();
     renderLayers = new ArrayList();
     shaderLayers = new ArrayList();
 
-    // merging layer
-    mergeLayer = addLayer(new MergeLayer());
     // tracer layer
     tracerLayer = addLayer(new TracerLayer());
-    // Regular Layer
-    addLayer(new RenderLayer(), "REG_ONE");
-    addLayer(new RenderLayer(), "REG_TWO");
-    // shaders
-    addNewShader("shaders/fragZero.glsl");
-    addNewShader("shaders/fragOne.glsl");
-    addNewShader("shaders/fragTwo.glsl");
-    addNewShader("shaders/fragThree.glsl");
     // mask
     maskLayer = addLayer(new MaskLayer());
     // capture
     captureLayer = addLayer(new CaptureLayer());
+    // Regular Layer
+    second = addLayer(new RenderLayer(), "REG_ONE");
+    third = addLayer(new RenderLayer(), "REG_TWO");
+    // shaders
+    addNewShader("shaders/fragZero.glsl");
+    addNewShader("shaders/fragOne.glsl");
+    // addNewShader("shaders/fragTwo.glsl");
+    // addNewShader("shaders/fragThree.glsl");
+
 
     //////////////////////////////////////////////////
     layerStack = new ArrayList();
-    layerStack.add(renderLayers.get(1));
-    layerStack.add(mergeLayer);
-    layerStack.add(renderLayers.get(2));
-    layerStack.add(mergeLayer);
+    //layerStack.add(renderLayers.get(0));
+    layerStack.add(second);
 
     // layerStack.add(renderLayers.get(1));
     // layerStack.add(mergeLayer);
@@ -74,8 +72,8 @@ class CanvasManager implements FreelinerConfig{
     // layers.add(new ResetShaderLayer());
     // addNewShader("shaders/fragOne.glsl");
 
-    // for(Layer _lyr : layers)
-    //   if(_lyr instanceof RenderLayer) renderLayers.add((RenderLayer)_lyr);
+    // for(Layer _lr : layers)
+    //   if(_lr instanceof RenderLayer) renderLayers.add((RenderLayer)_lr);
 
     printLayerStacks();
   }
@@ -85,21 +83,20 @@ class CanvasManager implements FreelinerConfig{
    * Begin redering process. Make sure to end it with endRender();
    */
   public void beginRender(){
-    canvas.beginDraw();
-    canvas.clear();
-    canvas.resetShader();
-    for(RenderLayer _lyr : renderLayers) _lyr.beginDraw();
+    for(Layer _lr : layers) _lr.beginDrawing();
 	}
 
   /**
    * End redering process.
    */
   public void endRender(){
-    //for(RenderLayer _lyr : renderLayers) _lyr.endDraw();
-    for(Layer _lyr : layerStack) _lyr.apply(canvas);
+    Layer _prev = null;
 
-    canvas.endDraw();
-    if(makeMaskFlag) ((MaskLayer)maskLayer).makeMask(canvas);
+    // for(Layer _lr : layerStack) _prev = _lr.apply(_prev);
+    outputCanvas = second.getImage();//_prev.getImage();
+    for(Layer _lr : layers) _lr.endDrawing();
+
+    if(makeMaskFlag) ((MaskLayer)maskLayer).makeMask(outputCanvas);
     makeMaskFlag = false;
   }
 
@@ -111,16 +108,16 @@ class CanvasManager implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   // add a new layer
-  public Layer addLayer(Layer _lyr){
-    layers.add(_lyr);
-    if(_lyr instanceof RenderLayer) renderLayers.add((RenderLayer)_lyr);
-    else if(_lyr instanceof ShaderLayer) shaderLayers.add((ShaderLayer)_lyr);
-    return _lyr;
+  public Layer addLayer(Layer _lr){
+    layers.add(_lr);
+    if(_lr instanceof ShaderLayer) shaderLayers.add((ShaderLayer)_lr);
+    else if(_lr instanceof RenderLayer) renderLayers.add((RenderLayer)_lr);
+    return _lr;
   }
   // add a newLayer with a custom name
-  public Layer addLayer(Layer _lyr, String _name){
-    _lyr.setName(_name);
-    return addLayer(_lyr);
+  public Layer addLayer(Layer _lr, String _name){
+    _lr.setName(_name);
+    return addLayer(_lr);
   }
 
   public void addNewShader(String _file){
@@ -138,13 +135,13 @@ class CanvasManager implements FreelinerConfig{
 
   public void printLayerStacks(){
     println("-----Layers-----");
-    for(Layer _lyr : layers) println(_lyr.getName());
+    for(Layer _lr : layers) println(_lr.getName());
     println("-----Render-----");
-    for(Layer _lyr : renderLayers) println(_lyr.getName());
+    for(Layer _lr : renderLayers) println(_lr.getName());
     println("-----Shader-----");
-    for(Layer _lyr : shaderLayers) println(_lyr.getName());
+    for(Layer _lr : shaderLayers) println(_lr.getName());
     println("-----Stack-----");
-    for(Layer _lyr : layerStack) println(_lyr.getName());
+    for(Layer _lr : layerStack) println(_lr.getName());
     println("-----END-----");
   }
 
@@ -249,6 +246,7 @@ class CanvasManager implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
   public PGraphics getRenderLayer(int _ind){
     _ind %= renderLayers.size();
+    println(renderLayers.get(_ind).getName());
     return renderLayers.get(_ind).getCanvas();
   }
 
@@ -257,9 +255,7 @@ class CanvasManager implements FreelinerConfig{
    * @return PGraphics
    */
 	public final PGraphics getCanvas(){
-    return canvas;
-
-    // return ((RenderLayer)mergeLayer).getCanvas();
+    return outputCanvas;
   }
 
 }

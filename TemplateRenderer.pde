@@ -84,7 +84,7 @@ class TemplateRenderer implements FreelinerConfig{
     if(_rt.getSegmentGroup() == null) return;
     if(_rt.getSegmentGroup().isEmpty()) return;
     // push canvas to template
-    _rt.setCanvas(canvasManager.getRenderLayer(_rt.getRenderLayer()));
+    _rt.setCanvas(canvasManager.getRenderLayer(_rt.getRenderLayer())  );
     // check the enabler, it may modify the unitInterval
     if(!enablers[_rt.getEnablerMode()%ENABLER_COUNT].enable(_rt)) return;
     // get multiple unit intervals to use

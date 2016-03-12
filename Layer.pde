@@ -24,10 +24,22 @@ class Layer implements FreelinerConfig{
   }
 
   // override
-  public PGraphics apply(PGraphics _pg){
-    // do something
-    return _pg;
+  public Layer apply(Layer _in){
+    // _in.getCanvas(); and do something
+    return _in;
   }
+
+  // Basic layer has no PGraphics
+  public PGraphics getCanvas(){
+    return null;
+  }
+  // in subclasses getImage() will endDraw
+  public PGraphics getImage(){
+    return null;
+  }
+  public void beginDrawing(){}
+  public void endDrawing(){}
+
 
   public void setName(String _name){
     name = _name;
@@ -59,41 +71,43 @@ class Layer implements FreelinerConfig{
 class RenderLayer extends Layer{
 
   PGraphics canvas;
-  boolean ended;
+  boolean ended = true;
 
   public RenderLayer(){
     canvas = createGraphics(width, height, P2D);
     name = "DrawingLayer";
   }
 
-  public void beginDraw(){
+  public void beginDrawing(){
     canvas.beginDraw();
     canvas.clear();
     ended = false;
-
     canvas.fill(200);
     canvas.stroke(200);
-    canvas.text(name,100,(int)name.charAt(0));
+    canvas.text(this.name,100,(int)name.charAt(0));
   }
 
-  public void endDraw(){
+  public void endDrawing(){
     if(!ended) {
       canvas.endDraw();
       ended = true;
     }
   }
 
-  public PGraphics apply(PGraphics _pg){
-    if(!useLayer()) return _pg;
-    endDraw();
-    if(_pg == null) {
-      return canvas;
+  public Layer apply(Layer _lr){
+    if(!useLayer()) return _lr;
+    if(_lr == null) {
+      return this;
     }
-    _pg.image(canvas, 0, 0);
-    return _pg;
+    _lr.getCanvas().image(this.getImage(), 0, 0);
+    return _lr;
   }
 
   public PGraphics getCanvas(){
+    return canvas;
+  }
+  public PGraphics getImage(){
+    endDrawing();
     return canvas;
   }
 }
@@ -120,8 +134,6 @@ class TracerLayer extends RenderLayer{
     canvas.rect(0, 0, width, height);
     canvas.stroke(100);
     canvas.rect(200, 200, 100, 100);
-    canvas.scale(1.3);
-    ended = false;
   }
 
   public int setTrails(int v){
@@ -146,11 +158,11 @@ class ImageLayer extends Layer{
     name = "ImageLayer";
   }
 
-  public PGraphics apply(PGraphics _pg){
-    if(imageToDraw == null) return _pg;
-    if(!useLayer()) return _pg;
-    _pg.image(imageToDraw, 0, 0);
-    return _pg;
+  public Layer apply(Layer _lr){
+    if(imageToDraw == null) return _lr;
+    if(!useLayer()) return _lr;
+    _lr.getCanvas().image(imageToDraw, 0, 0);
+    return _lr;
   }
 
   public void loadFile(String _file){
@@ -204,12 +216,13 @@ class CaptureLayer extends Layer{
     enabled = false;
   }
 
-  public PGraphics apply(PGraphics _pg){
-    if(!enabled) return;
+  public Layer apply(Layer _lr){
+    if(!enabled) return _lr;
     String fn = String.format("%06d", frameCount);
-    _pg.save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
+    // might need to endDraw first?
+    _lr.getCanvas().save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
     frameCount++;
-    return _pg;
+    return _lr;
   }
 
   public void setEnable(boolean _b){
@@ -242,21 +255,20 @@ class ShaderLayer extends RenderLayer{
   }
 
 
-  public PGraphics apply(PGraphics _pg){
-    if(shader == null) return _pg;
-    if(!enabled) return _pg;
+  public Layer apply(Layer _lr){
+    if(shader == null) return _lr;
+    if(!enabled) return _lr;
     try {
       canvas.shader(shader);
       passUniforms();
     }
     catch(RuntimeException _e){
       println("shader no good");
-      return _pg;
+      return _lr;
     }
-    canvas.image(_pg);
+    canvas.image(_lr.getImage(),0,0);
     canvas.resetShader();
-    endDraw();
-    return canvas;
+    return this;
   }
 
   public void loadFile(String _file){
@@ -291,14 +303,5 @@ class ShaderLayer extends RenderLayer{
     shader.set("u2", uniforms[1]);
     shader.set("u3", uniforms[2]);
     shader.set("u4", uniforms[3]);
-  }
-}
-
-class ResetShaderLayer extends Layer{
-  public ResetShaderLayer(){
-    name = "ResetShader";
-  }
-  public void apply(PGraphics _pg){
-    _pg.resetShader();
   }
 }
