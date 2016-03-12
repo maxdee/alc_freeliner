@@ -81,13 +81,13 @@ void setup() {
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
   // perhaps use -> PApplet.platform == MACOSX
+  background(0);
   splash();
   if(runGui) launchGUI();
 }
 
 // splash screen!
 void splash(){
-  background(0);
   stroke(100);
   fill(150);
   //setText(CENTER);
@@ -120,8 +120,8 @@ void closeGUI(){
 // do the things
 void draw() {
   background(0);
-  if(doSplash) splash();
   freeliner.update();
+  if(doSplash) splash();
 }
 
 // sync message to other software

@@ -8,6 +8,7 @@
  */
 
 
+ // ADD TRANSLATION LAYER
 
 /**
  * Something that acts on a PGraphics.
@@ -59,7 +60,7 @@ class Layer implements FreelinerConfig{
 class RenderLayer extends Layer{
 
   PGraphics canvas;
-  boolean used;
+
   public RenderLayer(){
     canvas = createGraphics(width, height, P2D);
     name = "DrawingLayer";
@@ -71,6 +72,9 @@ class RenderLayer extends Layer{
   }
 
   public void endDraw(){
+    canvas.fill(200);
+    canvas.stroke(200);
+    canvas.text(name,(int)name.charAt(0),100);
     canvas.endDraw();
   }
 
@@ -81,6 +85,25 @@ class RenderLayer extends Layer{
 
   public PGraphics getCanvas(){
     return canvas;
+  }
+}
+
+/**
+ * Stuff gets drawn to this when ready
+ *
+ */
+class MergeLayer extends RenderLayer{
+
+  public MergeLayer(){
+    super();
+    name = "MergeLayer";
+  }
+
+  public void apply(PGraphics _pg){
+    // canvas.image(_pg,0,0);
+    // canvas.text(name,(int)name.charAt(0),100);
+    //_pg.resetShader();
+    //_pg.clear();
   }
 }
 
@@ -106,6 +129,7 @@ class TracerLayer extends RenderLayer{
     canvas.rect(0, 0, width, height);
     canvas.stroke(100);
     canvas.rect(200, 200, 100, 100);
+    canvas.scale(1.3);
   }
 
   public int setTrails(int v){
@@ -216,17 +240,19 @@ class ShaderLayer extends Layer{
   float[] uniforms;
 
   public ShaderLayer(){
-    enabled = false;
+    enabled = true;
     name = "ShaderLayer";
     shader = null;
-    uniforms = new float[]{0.5, 0.5, 0.5, 0.5};
+    uniforms = new float[]{0.8, 0.5, 0.5, 0.5};
   }
 
   public void apply(PGraphics _pg){
     if(shader == null) return;
     if(!enabled) return;
-    passUniforms();
-    try{_pg.shader(shader);}
+    try{
+      _pg.shader(shader);
+      passUniforms();
+    }
     catch(RuntimeException _e){
       println("shader no good");
       _pg.resetShader();
@@ -272,7 +298,6 @@ class ResetShaderLayer extends Layer{
     name = "ResetShader";
   }
   public void apply(PGraphics _pg){
-    if(!enabled) return;
     _pg.resetShader();
   }
 }
