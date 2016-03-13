@@ -239,7 +239,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return;
     else if(_args[1].equals("trails")) trailsCMD(_args);
     else if(_args[1].equals("mask")) maskCMD(_args);
-    else if(_args[1].equals("shader")) shaderCMD(_args);
+    else if(_args[1].equals("shader")) canvasManager.reloadShader();//shaderCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
 

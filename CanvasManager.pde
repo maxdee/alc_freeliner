@@ -21,7 +21,8 @@ class CanvasManager implements FreelinerConfig{
   ArrayList<RenderLayer> renderLayers;
   ArrayList<ShaderLayer> shaderLayers;
   MergeLayer mergeLayer;
-
+  TracerLayer tracerLayer;
+  ShaderLayer shaderLayer;
 
 
   TemplateRenderer templateRenderer;
@@ -33,13 +34,12 @@ class CanvasManager implements FreelinerConfig{
 
     mergeLayer = new MergeLayer();
     // begin stack
-    addLayer(new TracerLayer());
-    addLayer(new ShaderLayer()).loadFile("shaders/fragThree.glsl");
+    tracerLayer = (TracerLayer)addLayer(new TracerLayer());
+    shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
+    shaderLayer.loadFile("shaders/mainFrag.glsl");
     addLayer(mergeLayer);
-    //addLayer(new ShaderLayer()).loadFile("userdata/fragTwo.glsl");
     addLayer(new RenderLayer()).setName("Untraced");
     addLayer(mergeLayer);
-    //addLayer(new ShaderLayer()).loadFile("userdata/fragZero.glsl");
 
     printLayers();
   }
@@ -103,6 +103,36 @@ class CanvasManager implements FreelinerConfig{
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
+  ///////    Modifiers
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void oscSetTrails(int _t){
+    tracerLayer.setTrails(_t);
+  }
+
+  public int setTrails(int _t){
+    return tracerLayer.setTrails(_t);
+  }
+
+  public void setUniforms(int _i, float _v){
+    shaderLayer.setUniforms(_i, _v);
+  }
+
+  public void reloadShader(){
+    shaderLayer.reloadShader();
+  }
+  /**
+   * Toggle the use of background with alpha value
+   * @return boolean value given
+   */
+  public boolean toggleTrails(){
+    //tracerLayer.toggleLayer();
+    return false;//tracerLayer.useLayer();
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
   ///////     Masking
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
@@ -125,34 +155,6 @@ class CanvasManager implements FreelinerConfig{
   public void loadMask(String _file){
     //((MaskLayer) maskLayer).loadFile(_file);
   }
-
-
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////    Modifiers
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-
-  public void oscSetTrails(int _t){
-    //((TracerLayer)tracerLayer).setTrails(_t);
-  }
-
-  public int setTrails(int _t){
-    return 0;//((TracerLayer)tracerLayer).setTrails(_t);
-  }
-
-
-  /**
-   * Toggle the use of background with alpha value
-   * @return boolean value given
-   */
-  public boolean toggleTrails(){
-    //tracerLayer.toggleLayer();
-    return false;//tracerLayer.useLayer();
-  }
-
-
 
 
   ////////////////////////////////////////////////////////////////////////////////////

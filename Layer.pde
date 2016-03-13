@@ -95,6 +95,10 @@ class TracerLayer extends RenderLayer{
       canvas.text(getName(), getName().charAt(0),100);
     }
   }
+  public int setTrails(int _v){
+    trailmix = numTweaker(_v, trailmix);
+    return trailmix;
+  }
 }
 
 class MergeLayer extends RenderLayer{
