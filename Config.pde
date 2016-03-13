@@ -73,7 +73,7 @@ interface FreelinerConfig{
 
   // Freeliner LED options
   final String LED_SERIAL_PORT = "/dev/ttyACM0";
-  final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2
+  final int LED_SYSTEM = 2; // FastLEDing 1, OctoLEDing 2
 
   // Keyboard Section
   // final char ...

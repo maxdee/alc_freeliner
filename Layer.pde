@@ -90,9 +90,9 @@ class TracerLayer extends RenderLayer{
       canvas.beginDraw();
       canvas.fill(BACKGROUND_COLOR, trailmix);
       canvas.stroke(BACKGROUND_COLOR, trailmix);
-      canvas.stroke(1);
+      canvas.stroke(10);
+      canvas.noStroke();
       canvas.rect(0,0,width,height);
-      canvas.text(getName(), getName().charAt(0),100);
     }
   }
   public int setTrails(int _v){
