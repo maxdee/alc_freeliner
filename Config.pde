@@ -13,8 +13,8 @@ interface FreelinerConfig{
   final int CURSOR_STROKE_WIDTH = 3;
   final int GUI_TIMEOUT = 1000;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
-  final int NODE_STROKE_WEIGTH = 4;
-  final int NODE_COLOR = #FFFFFF;
+  final int NODE_STROKE_WEIGTH = 8;
+  final int NODE_COLOR = #FFFF00;
   final int PREVIEW_LINE_STROKE_WIDTH = 1;
   final color PREVIEW_LINE_COLOR = #ffffff;
   final color CURSOR_COLOR = #FFFFFF;
@@ -73,7 +73,7 @@ interface FreelinerConfig{
 
   // Freeliner LED options
   final String LED_SERIAL_PORT = "/dev/ttyACM0";
-  final int LED_SYSTEM = 2; // FastLEDing 1, OctoLEDing 2
+  final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2
 
   // Keyboard Section
   // final char ...

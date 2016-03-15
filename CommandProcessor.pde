@@ -250,7 +250,9 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length > 2){
       canvasManager.loadMask(_args[2]);
     }
-    else valueGiven = str(canvasManager.toggleMask());
+    //else valueGiven = str(canvasManager.toggleMask());
+    else canvasManager.generateMask();
+
   }
 
   public void trailsCMD(String[] _args){

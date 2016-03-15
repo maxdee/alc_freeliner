@@ -23,7 +23,9 @@ class CanvasManager implements FreelinerConfig{
   MergeLayer mergeLayer;
   TracerLayer tracerLayer;
   ShaderLayer shaderLayer;
+  MaskLayer maskLayer;
 
+  boolean makeMaskFlag = false;
 
   TemplateRenderer templateRenderer;
 
@@ -33,11 +35,19 @@ class CanvasManager implements FreelinerConfig{
     shaderLayers = new ArrayList();
 
     mergeLayer = new MergeLayer();
+
     // begin stack
-    tracerLayer = (TracerLayer)addLayer(new TracerLayer());
+    tracerLayer = null;// (TracerLayer)addLayer(new TracerLayer());
+    //addLayer(new ImageLayer()).loadFile("userdata/igloobackground.jpg");
+    addLayer(new RenderLayer()).setName("First");
+
     shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
     shaderLayer.loadFile("shaders/mainFrag.glsl");
+
+    maskLayer = (MaskLayer)addLayer(new MaskLayer());
+
     addLayer(mergeLayer);
+
     addLayer(new RenderLayer()).setName("Untraced");
     addLayer(mergeLayer);
 
@@ -73,6 +83,10 @@ class CanvasManager implements FreelinerConfig{
     PGraphics _prev = null;
     for(Layer _lr : layers) _prev = _lr.apply(_prev);
     mergeLayer.endDrawing();
+    if(makeMaskFlag){
+      maskLayer.makeMask(mergeLayer.getCanvas());
+      makeMaskFlag = false;
+    }
 	}
 
   public final PGraphics getCanvas(){
@@ -108,10 +122,12 @@ class CanvasManager implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public void oscSetTrails(int _t){
+    if(tracerLayer == null) return;
     tracerLayer.setTrails(_t);
   }
 
   public int setTrails(int _t){
+    if(tracerLayer == null) return 0;
     return tracerLayer.setTrails(_t);
   }
 
@@ -143,6 +159,7 @@ class CanvasManager implements FreelinerConfig{
 
   // Set a flag to generate mask next render.
   public void generateMask(){
+    makeMaskFlag = true;
   }
   public boolean toggleMask(){
     return false;

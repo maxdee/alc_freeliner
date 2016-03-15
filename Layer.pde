@@ -11,57 +11,59 @@
  // ADD TRANSLATION LAYER
 
 /**
- * Something that acts on a PGraphics.
- * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
- */
+* Something that acts on a PGraphics.
+* Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
+*/
+class Layer implements FreelinerConfig{
+  String name;
+  boolean enabled;
+  PGraphics canvas;
 
+  public Layer(){
+   name = "basicLayer";
+   enabled = true;
+   canvas = null;
+  }
 
- class Layer implements FreelinerConfig{
-   String name;
-   boolean enabled;
-   PGraphics canvas;
+  public PGraphics apply(PGraphics _pg){
+   return _pg;
+  }
 
-   public Layer(){
-     name = "basicLayer";
-     enabled = true;
-     canvas = null;
+  public void beginDrawing(){
+   if(canvas != null){
+     canvas.beginDraw();
+     canvas.clear();
    }
+  }
 
-   public PGraphics apply(PGraphics _pg){
-     return _pg;
-   }
+  public void endDrawing(){
+   if(canvas != null) canvas.endDraw();
+  }
 
-   public void beginDrawing(){
-     if(canvas != null){
-       canvas.beginDraw();
-       canvas.clear();
-     }
-   }
+  public void loadFile(String _file){}
 
-   public void endDrawing(){
-     if(canvas != null) canvas.endDraw();
-   }
+  public PGraphics getCanvas(){
+   return canvas;
+  }
 
-   public void loadFile(String _file){}
+  public void setName(String _n){
+   name = _n;
+  }
 
-   public PGraphics getCanvas(){
-     return canvas;
-   }
+  public boolean useLayer(){
+   return enabled;
+  }
 
-   public void setName(String _n){
-     name = _n;
-   }
+  public String getName(){
+   return name;
+  }
+}
 
-   public boolean useLayer(){
-     return enabled;
-   }
+/**
+* Something that acts on a PGraphics and has a PGraphics.
+*
+*/
 
-   public String getName(){
-     return name;
-   }
- }
-
-// actualy has a PGraphics
 class RenderLayer extends Layer{
    public RenderLayer(){
      canvas = createGraphics(width,height,P2D);
@@ -79,7 +81,9 @@ class RenderLayer extends Layer{
    }
  }
 
-// tracer
+/**
+ * Tracer layer
+ */
 class TracerLayer extends RenderLayer{
   int trailmix = 30;
   public TracerLayer(){
@@ -101,6 +105,10 @@ class TracerLayer extends RenderLayer{
   }
 }
 
+/**
+ * Layer to merge graphics down. should only be one of these.
+ *
+ */
 class MergeLayer extends RenderLayer{
   public MergeLayer(){
     super();
@@ -182,13 +190,96 @@ class ShaderLayer extends RenderLayer{
   }
 }
 
-// class ResetShaderLayer extends Layer{
-//   public ResetShaderLayer(){
-//     name = "ResetShader";
+
+/**
+ * Just draw a image, like a background Image to draw.
+ *
+ */
+class ImageLayer extends Layer{
+
+  PImage imageToDraw;
+
+  public ImageLayer(){
+    // try to load a mask if one is provided
+    loadFile("userdata/layer_image.png");
+    name = "ImageLayer";
+  }
+
+  public PGraphics apply(PGraphics _pg){
+    if(!enabled) return _pg;
+    if(imageToDraw == null) return _pg;
+    if(_pg == null) return null;
+    _pg.beginDraw();
+    _pg.image(imageToDraw,0,0);
+    _pg.endDraw();
+    return _pg;
+  }
+
+  public void loadFile(String _file){
+    try { imageToDraw = loadImage(_file);}
+    catch(Exception _e) {imageToDraw = null;}
+  }
+}
+
+/**
+ * Take a image and make a mask where all the pixels with green go transparent, everything else black;
+ * Needs to be fixed for INVERTED_COLOR...
+ */
+class MaskLayer extends ImageLayer{
+
+  public MaskLayer(){
+    // try to load a mask if one is provided
+    loadFile("userdata/mask_image.png");
+    name = "MaskLayer";
+  }
+
+  // pg.endDraw() -> then this ?
+  public void makeMask(PGraphics _source){
+    imageToDraw = _source.get();
+    imageToDraw.loadPixels();
+    int _grn = 0;
+    for(int i = 0; i< width * height; i++){
+      // check the green pixels.
+      _grn = ((imageToDraw.pixels[i] >> 8) & 0xFF);
+      if(_grn > 3) imageToDraw.pixels[i] = color(0, _grn);
+      else imageToDraw.pixels[i] = color(0,255);
+    }
+    imageToDraw.updatePixels();
+    saveFile("userdata/mask_image.png"); // auto save mask
+  }
+
+  public void saveFile(String _file){
+    imageToDraw.save(_file);
+  }
+}
+
+// /**
+//  * Saves frames to userdata/capture
+//  *
+//  */
+// class CaptureLayer extends Layer{
+//   int clipCount = 0;
+//   int frameCount = 0;
+//
+//   public CaptureLayer(){
+//     name = "FrameSaver";
+//     enabled = false;
 //   }
-//   public PGraphics apply(PGraphics _pg){
-//     if(!enabled) return _pg;
-//     _pg.resetShader();
-//     return _pg;
+//
+//   public Layer apply(Layer _lr){
+//     if(!enabled) return _lr;
+//     String fn = String.format("%06d", frameCount);
+//     // might need to endDraw first?
+//     _lr.getCanvas().save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
+//     frameCount++;
+//     return _lr;
+//   }
+//
+//   public void setEnable(boolean _b){
+//     enabled = _b;
+//     if(enabled) {
+//       clipCount++;
+//       frameCount = 0;
+//     }
 //   }
 // }
