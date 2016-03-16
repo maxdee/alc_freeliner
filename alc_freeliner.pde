@@ -78,8 +78,9 @@ boolean runGui = false;
 void setup() {
 
   // pick your flavour of freeliner
-  freeliner = new FreeLiner(this);
-  //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
+  //freeliner = new FreeLiner(this);
+  //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON
+  freeliner = new FreelinerSpout(this); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this,"tunnel_map.xml");
 
   surface.setResizable(false);

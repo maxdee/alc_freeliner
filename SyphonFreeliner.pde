@@ -7,10 +7,8 @@
  * @since     2015-07-22
  */
 
-// Syphon!!
+// Syphon!! Spout Below!
 // if you are like me and dont have a MAC, keep this commented.
-
-
 
 /* DELETE THIS LINE
 
@@ -31,3 +29,31 @@ class FreelinerSyphon extends FreeLiner{
 }
 
 */ //DELETE THIS LINE
+
+//////////////////////////////////////////////////////////////////////
+///////////////
+///////////////  SPOUT
+///////////////
+//////////////////////////////////////////////////////////////////////
+
+///* DELETE THIS LINE
+
+// IMPORT THE SPOUT LIBRARY
+
+import spout.*;
+
+class FreelinerSpout extends FreeLiner{
+	Spout spout;
+
+	public FreelinerSpout(PApplet _pa){
+		super(_pa);
+    spout = new Spout(_pa);
+	}
+
+	void update(){
+		super.update();
+		spout.sendTexture(canvasManager.getFXCanvas());
+	}
+}
+
+//*/ //DELETE THIS LINE
