@@ -79,8 +79,8 @@ void setup() {
 
   // pick your flavour of freeliner
   freeliner = new FreeLiner(this);
-  //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
-  //freeliner = new FreelinerSpout(this); <- FOR SYPHON
+  //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON
+  //freeliner = new FreelinerSpout(this); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this,"a_led_map.xml");
 
   surface.setResizable(false);
