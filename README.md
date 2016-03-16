@@ -70,6 +70,9 @@ Freeliner can be quit with your systems shortcut to close a window, like `alt-f4
 ##### Syphon
 Syphon can be enabled by uncommenting the code in `SyphonFreeliner.pde` and switching from `freeliner = new FreeLiner(this);` to `freeliner = new FreelinerSyphon(this);` in the `alc_freeliner.pde` file. If you have a more elegant way around this, let me know?
 
+##### Spout
+Pretty much the same as the above but with Spout instead of Syphon.
+
 ## Current Bugs ##
 Report one?
 
