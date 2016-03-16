@@ -81,7 +81,7 @@ void setup() {
   freeliner = new FreeLiner(this);
   //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
   //freeliner = new FreelinerSpout(this); <- FOR SYPHON
-  //freeliner = new FreelinerLED(this,"tunnel_map.xml");
+  //freeliner = new FreelinerLED(this,"a_led_map.xml");
 
   surface.setResizable(false);
   surface.setTitle("a!Lc Freeliner");
