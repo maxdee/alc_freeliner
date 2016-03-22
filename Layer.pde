@@ -229,7 +229,7 @@ class MaskLayer extends ImageLayer{
 
   public MaskLayer(){
     // try to load a mask if one is provided
-    loadFile("userdata/mask_image.png");
+    //loadFile("userdata/mask_image.png");
     name = "MaskLayer";
   }
 
