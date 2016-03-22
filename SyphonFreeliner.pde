@@ -31,7 +31,7 @@ class FreelinerSyphon extends FreeLiner{
 */ //DELETE THIS LINE
 
 
-
+/* //DELETE THIS LINE
 import spout.*;
 
 class FreelinerSpout extends FreeLiner{
@@ -48,3 +48,4 @@ class FreelinerSpout extends FreeLiner{
 		spout.sendTexture(canvasManager.getFXCanvas());
 	}
 }
+*/ //DELETE THIS LINE
