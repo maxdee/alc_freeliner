@@ -20,6 +20,7 @@ class CanvasManager implements FreelinerConfig{
   ArrayList<Layer> layers;
   ArrayList<RenderLayer> renderLayers;
   ArrayList<ShaderLayer> shaderLayers;
+
   MergeLayer mergeLayer;
   TracerLayer tracerLayer;
   ShaderLayer shaderLayer;
@@ -37,15 +38,14 @@ class CanvasManager implements FreelinerConfig{
     mergeLayer = new MergeLayer();
 
     // begin stack
-    tracerLayer = null;// (TracerLayer)addLayer(new TracerLayer());
+    tracerLayer =  (TracerLayer)addLayer(new TracerLayer());
     //addLayer(new ImageLayer()).loadFile("userdata/igloobackground.jpg");
-    addLayer(new RenderLayer()).setName("First");
+    //addLayer(new RenderLayer()).setName("First");
 
     shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
     shaderLayer.loadFile("shaders/mainFrag.glsl");
 
-    maskLayer = (MaskLayer)addLayer(new MaskLayer());
-
+    //maskLayer = (MaskLayer)addLayer(new MaskLayer());
     addLayer(mergeLayer);
 
     addLayer(new RenderLayer()).setName("Untraced");

@@ -63,7 +63,6 @@ class Layer implements FreelinerConfig{
 * Something that acts on a PGraphics and has a PGraphics.
 *
 */
-
 class RenderLayer extends Layer{
    public RenderLayer(){
      canvas = createGraphics(width,height,P2D);
@@ -117,6 +116,15 @@ class MergeLayer extends RenderLayer{
   public PGraphics apply(PGraphics _pg){
     canvas.image(_pg,0,0);
     return null;
+  }
+
+  public void beginDrawing(){
+   if(canvas != null){
+     canvas.beginDraw();
+     canvas.background(BACKGROUND_COLOR);
+     canvas.fill(255);
+     canvas.rect(100,100,100,100);
+   }
   }
 }
 
