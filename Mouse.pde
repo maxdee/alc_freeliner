@@ -130,7 +130,7 @@ class Mouse implements FreelinerConfig{
     if (mouseEnabled) {
       if(invertMouse) mousePos.set(abs(width - _x), mousePos.y);
       if (grid) position = gridMouse(mousePos, gridSize);
-      else if (useFixedLength) position = constrainMouse(mousePos, previousPosition, lineLenght);
+      else if (useFixedLength || useFixedAngle) position = constrainMouse(mousePos, previousPosition, lineLenght);
       else if (keyboard.isCtrled()) position = featherMouse(mousePos, mouseOrigin, 0.2);
       else if (snapping) position = snapMouse(mousePos);
       else position = mousePos.get();
@@ -205,7 +205,11 @@ class Mouse implements FreelinerConfig{
 
     float ang = PVector.sub(_prev, _pos).heading()+PI;
     if (useFixedAngle) ang = radians(int(degrees(ang)/lineAngle)*lineAngle);
-    return new PVector((cos(ang)*_len)+_prev.x, (sin(ang)*_len)+_prev.y, 0);
+    if(useFixedLength) return new PVector((cos(ang)*_len)+_prev.x, (sin(ang)*_len)+_prev.y, 0);
+    else {
+      _len = int(_pos.dist(_prev));
+      return new PVector((cos(ang)*_len)+_prev.x, (sin(ang)*_len)+_prev.y, 0);
+    }
   }
 
   /**
