@@ -298,7 +298,6 @@ class LeafBrush extends Brush {
 		shp.vertex(1.978899, 4.6070557);
 		shp.vertex(-0.193079, 2.8511963);
 		shp.vertex(-0.35807228, 7.8149414);
-
     shp.endShape();
     return shp;
   }

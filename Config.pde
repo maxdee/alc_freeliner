@@ -13,8 +13,8 @@ interface FreelinerConfig{
   final int CURSOR_STROKE_WIDTH = 3;
   final int GUI_TIMEOUT = 1000;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
-  final int NODE_STROKE_WEIGTH = 8;
-  final int NODE_COLOR = #FFFF00;
+  final int NODE_STROKE_WEIGTH = 3;
+  final int NODE_COLOR = #FFFFFF;
   final int PREVIEW_LINE_STROKE_WIDTH = 1;
   final color PREVIEW_LINE_COLOR = #ffffff;
   final color CURSOR_COLOR = #FFFFFF;

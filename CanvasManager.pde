@@ -30,6 +30,8 @@ class CanvasManager implements FreelinerConfig{
 
   TemplateRenderer templateRenderer;
 
+  String[] shaderFiles = {"shaders/mainFrag.glsl", "shaders/fragThree.glsl", "shaders/fragOne.glsl"};
+
   public CanvasManager(){
     layers = new ArrayList();
     renderLayers = new ArrayList();
@@ -42,6 +44,9 @@ class CanvasManager implements FreelinerConfig{
 
     shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
     shaderLayer.loadFile("shaders/mainFrag.glsl");
+
+    // shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
+    // shaderLayer.loadFile("shaders/fragThree.glsl");
 
     //addLayer(new ImageLayer()).loadFile("userdata/grey.png");
     //addLayer(new RenderLayer()).setName("First");
@@ -138,6 +143,15 @@ class CanvasManager implements FreelinerConfig{
   public void reloadShader(){
     shaderLayer.reloadShader();
   }
+
+  public void loadShader(int _n){
+
+    if(_n < shaderFiles.length) {
+      shaderLayer.loadFile(shaderFiles[_n]);
+    }
+    else println("out of shaders");
+  }
+
   /**
    * Toggle the use of background with alpha value
    * @return boolean value given
@@ -179,9 +193,5 @@ class CanvasManager implements FreelinerConfig{
   ///////    Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
 }
