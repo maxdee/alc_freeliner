@@ -39,12 +39,12 @@ class CanvasManager implements FreelinerConfig{
 
     // begin stack
     tracerLayer =  (TracerLayer)addLayer(new TracerLayer());
-    //addLayer(new ImageLayer()).loadFile("userdata/igloobackground.jpg");
-    //addLayer(new RenderLayer()).setName("First");
 
     shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
     shaderLayer.loadFile("shaders/mainFrag.glsl");
 
+    //addLayer(new ImageLayer()).loadFile("userdata/grey.png");
+    //addLayer(new RenderLayer()).setName("First");
     //maskLayer = (MaskLayer)addLayer(new MaskLayer());
     addLayer(mergeLayer);
 

@@ -102,6 +102,14 @@ class EvenlySpacedWithZero extends EvenlySpaced{
 	}
 }
 
+class ExpoSpaced extends EvenlySpaced{
+	public ExpoSpaced(){}
+	public FloatList getFloats(RenderableTemplate _rt){
+		FloatList flts = new FloatList();
+		for(float _f : super.getFloats(_rt))  flts.append(pow(_f,2));
+		return flts;
+	}
+}
 
 /**
  * TwoFull
@@ -114,6 +122,18 @@ class TwoFull extends Repetition{
 		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 		flts.append(lrp);
 		flts.append(lrp*-1.0);
+		return flts;
+	}
+}
+
+class TwoSpaced extends EvenlySpaced{
+	public TwoSpaced(){}
+	public FloatList getFloats(RenderableTemplate _rt){
+		FloatList flts = new FloatList();
+		for(float _f : super.getFloats(_rt)){
+			flts.append(_f);
+			flts.append(-_f+1.0);
+		}
 		return flts;
 	}
 }

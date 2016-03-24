@@ -19,7 +19,7 @@ class TemplateRenderer implements FreelinerConfig{
   final int RENDERER_COUNT = 6;
 
   Repetition[] repeaters;
-  final int REPEATER_COUNT = 4;
+  final int REPEATER_COUNT = 6;
 
   Enabler[] enablers;
   final int ENABLER_COUNT = 7;
@@ -41,7 +41,10 @@ class TemplateRenderer implements FreelinerConfig{
     repeaters[0] = new Single();
     repeaters[1] = new EvenlySpaced();
     repeaters[2] = new EvenlySpacedWithZero();
-    repeaters[3] = new TwoFull();
+    repeaters[3] = new ExpoSpaced();
+    repeaters[4] = new TwoFull();
+    repeaters[5] = new TwoSpaced();
+
     // add enablers
     enablers = new Enabler[ENABLER_COUNT];
     enablers[0] = new Disabler();
