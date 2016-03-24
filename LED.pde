@@ -203,6 +203,7 @@ class FastLEDing extends FreeLEDing {
 
   public FastLEDing(PApplet _pa, String _port){
     super();
+    // connect to port
     try{
       port = new Serial(_pa, _port, 115200);
     }
@@ -210,7 +211,6 @@ class FastLEDing extends FreeLEDing {
       println(_port+" does not seem to work");
       exit();
     }
-
     delay(100);
     for(int i = 0; i < 4; i++){
       port.write('?');
@@ -227,7 +227,6 @@ class FastLEDing extends FreeLEDing {
       exit();
     }
     packetSize = (ledCount*3)+1;
-
     println("Connected to "+_port+" with "+ledCount+" LEDs");
   }
 
@@ -240,26 +239,25 @@ class FastLEDing extends FreeLEDing {
     byte red = 0;
     byte green = 0;
     byte blue = 0;
-    int cutoff = 3;
     for(RGBled led : leds){
       int adr = led.getIndex();
-      if(ledCount != 142) ledCount = 142;
-      //ledCount = 42; // idk whats up
       if(adr < ledCount){
-        red = byte(led.getRed() * redDimmer);
-        green = byte(led.getGreen() * greenDimmer);
-        blue = byte(led.getBlue() * blueDimmer);
+        red = led.getRed();
+        green = led.getGreen();
+        blue = led.getBlue();
 
         red = byte(correctGamma ?  red : gammatable[red]);
         green = byte(correctGamma ?  green : gammatable[green]);
         blue = byte(correctGamma ?  blue : gammatable[blue]);
+
         adr = (adr*3)+1;
-        if ((char)red > cutoff) ledData[adr] = red; else ledData[adr] = 0;
-        if ((char)green > cutoff) ledData[adr+1] = green ; else ledData[adr+1] = 0;
-        if ((char)blue > cutoff) ledData[adr+2] = blue; else ledData[adr+2] = 0;
+        ledData[adr] = red;
+        ledData[adr+1] = green;
+        ledData[adr+2] = blue;
       }
     }
     port.write(ledData);
+    // for debuging
     //println(t+" "+getMessage());
   }
 
@@ -269,59 +267,6 @@ class FastLEDing extends FreeLEDing {
     return buff;
   }
 }
-
-
-
-/**
- * use for teensy / octows11 setup
- */
-class OctoLEDing extends FreeLEDing {
-  Serial port;
-  int packetSize;
-
-  public OctoLEDing(PApplet _pa, String _port){
-    super();
-    try{
-      port = new Serial(_pa, _port, 115200);
-    }
-    catch(Exception e){
-      println(_port+" does not seem to work");
-      exit();
-    }
-    delay(100);
-    port.write('?');
-    delay(100);
-    ledCount = Integer.parseInt(getMessage());
-    packetSize = (ledCount*3)+1;
-    delay(100);
-    println("Connected to "+_port+" with "+ledCount+" LEDs");
-  }
-
-  // make a packet and send it
-  public void output(){
-    byte[] ledData = new byte[packetSize];
-    ledData[0] = '*';
-    for(int i = 1; i < packetSize; i++) ledData[i] = byte(0);
-
-    for(RGBled led : leds){
-      int adr = led.getIndex();
-      if(adr < ledCount){
-        adr = (adr*3)+1;
-        ledData[adr] = led.getRed();
-        ledData[adr+1] = led.getGreen();
-        ledData[adr+2] = led.getBlue();
-      }
-    }
-    port.write(ledData);
-  }
-
-  public String getMessage(){
-    String buff = "";
-    while(port.available() != 0) buff += char(port.read());
-    return buff;
-  }
-}
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -336,13 +281,11 @@ class RGBled{
   int index;
   int xPos;
   int yPos;
-  float gamma = 1.7;
   byte red;
   byte green;
   byte blue;
 
   color col;
-
 
   public RGBled(int _i, int _x, int _y){
     index = _i;
@@ -352,15 +295,10 @@ class RGBled{
 
   public void setColor(color _c){
     col = _c;
-    int threshold = 4;
     red = byte((col >> 16) & 0xFF);
-    //if(red < threshold) red = byte(0);
     green = byte((col >> 8) & 0xFF);
-    //if(green < threshold) green = byte(0);
     blue = byte(col & 0xFF);
-    //if(blue < threshold) blue = byte(0);
   }
-
 
   public color getColor(){
     return col;

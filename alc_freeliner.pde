@@ -57,15 +57,13 @@ boolean runGui = false;
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-
   // pick your flavour of freeliner
-  freeliner = new FreeLiner(this);
+  //freeliner = new FreeLiner(this);
   //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
-  //freeliner = new FreelinerLED(this,"tunnel_map.xml");
+  freeliner = new FreelinerLED(this,"tunnel_map.xml");
   //freeliner = new FreelinerLED(this,"fordmx.xml");
   //freeliner = new FreelinerLED(this,"geometry.xml");
   //freeliner = new FreelinerLED(this,"bunz_triangle.xml");
-
 
   surface.setResizable(false);
   surface.setTitle("a!Lc Freeliner");
