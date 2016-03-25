@@ -30,7 +30,7 @@ class CanvasManager implements FreelinerConfig{
 
   TemplateRenderer templateRenderer;
 
-  String[] shaderFiles = {"shaders/mainFrag.glsl", "shaders/fragThree.glsl", "shaders/fragOne.glsl"};
+  String[] shaderFiles = {"shaders/mainFrag.glsl", "shaders/fragThree.glsl", "shaders/blurShader.glsl"};
 
   public CanvasManager(){
     layers = new ArrayList();
