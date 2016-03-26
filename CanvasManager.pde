@@ -138,6 +138,7 @@ class LayeredCanvasManager extends CanvasManager{
     PGraphics _prev = null;
     for(Layer _lr : layers) _prev = _lr.apply(_prev);
     mergeLayer.endDrawing();
+    image(mergeLayer.getCanvas(),0,0);
     if(makeMaskFlag){
       maskLayer.makeMask(mergeLayer.getCanvas());
       makeMaskFlag = false;

@@ -38,8 +38,13 @@ interface FreelinerConfig{
   final boolean BRUSH_SCALING = false;
 
   // Timing and stuff
-  final int DEFAULT_TEMPO = 1500;
+  final int DEFAULT_TEMPO = 1300;
   final int SEQ_STEP_COUNT = 16; // change not recommended, there in spirit
+
+  // Pick your rendering pipeline,
+  // 0 is lightest, best for older hardware
+  // 1 is fancy, but only good with newer hardware
+  final int RENDERING_PIPELINE = 1;
 
   // to enable / disable experimental parts.
   final boolean EXPERIMENTAL = false;
