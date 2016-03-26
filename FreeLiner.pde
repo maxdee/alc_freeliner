@@ -84,8 +84,8 @@ class FreeLiner implements FreelinerConfig{
     _toRender.addAll(templateManager.getEvents());
 
     canvasManager.render(_toRender);
-
-    image(canvasManager.getCanvas(),0,0);
+  // image(canvasManager.getCanvas(),0,0);
+  //  if(canvasManager instanceof EffectsCanvasManager) image((EffectsCanvasManager)canvasManager.getTopCanvas());
 
     gui.update();
     if(gui.doDraw()){

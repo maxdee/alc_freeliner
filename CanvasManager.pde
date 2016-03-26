@@ -12,10 +12,115 @@
   * Manage the drawing buffer.
   * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
   */
+abstract class CanvasManager implements FreelinerConfig{
+  // Template renderer needed to do the rendering
+  TemplateRenderer templateRenderer;
+  boolean makeMaskFlag = false;
+  int trailmix = 30;
 
-  // subclass with different ones?
+  //  abstract methods
+  abstract public void render(ArrayList<RenderableTemplate> _toRender);
+  abstract public final PGraphics getCanvas();
 
-class CanvasManager implements FreelinerConfig{
+  // dummy methods
+
+
+  // implemented methods
+  public void inject(TemplateRenderer _tr){
+    templateRenderer = _tr;
+  }
+  // not sure this metod is needed...
+  // public void oscSetTrails(int _t){
+  //   trailmix = _t;
+  // }
+
+  public int setTrails(int _v){
+    trailmix = numTweaker(_v, trailmix);
+    return trailmix;
+  }
+}
+
+
+/**
+ * Simple CanvasManager subclass.
+ * Lightest possible for faster performance on older hardware
+ * AKA classic mode.
+ */
+class ClassicCanvasManager extends CanvasManager{
+  PGraphics canvas;
+  PShader shader;
+
+  public ClassicCanvasManager(){
+    canvas = createGraphics(width, height, P2D);
+  }
+
+  public void render(ArrayList<RenderableTemplate> _toRender){
+    canvas.beginDraw();
+    if(trailmix >= 255) canvas.clear();
+    else tracerRect();
+    for(RenderableTemplate _rt : _toRender)
+      templateRenderer.render(_rt, canvas);
+
+    canvas.endDraw();
+    if(shader != null) shader(shader);
+    image(canvas,0,0);
+    if(shader != null) resetShader();
+  }
+
+  public void tracerRect(){
+    canvas.fill(BACKGROUND_COLOR, trailmix);
+    canvas.noStroke();
+    canvas.rect(0,0,width,height);
+  }
+
+  public PGraphics getCanvas(){
+    return canvas;
+  }
+}
+
+/**
+ * CanvasManager with two layers shader support.
+ * AKA Simple Pazaz
+ */
+
+class EffectsCanvasManager extends ClassicCanvasManager{
+
+  PGraphics topCanvas;
+
+  public EffectsCanvasManager(){
+    super();
+    topCanvas = createGraphics(width, height, P2D);
+  }
+
+  public void render(ArrayList<RenderableTemplate> _toRender){
+    canvas.beginDraw();
+    if(trailmix >= 255) canvas.clear();
+    else tracerRect();
+
+    topCanvas.beginDraw();
+    topCanvas.clear();
+
+    for(RenderableTemplate _rt : _toRender){
+      if(_rt.getRenderLayer() == 0) templateRenderer.render(_rt, canvas);
+      else templateRenderer.render(_rt, topCanvas);
+    }
+    topCanvas.endDraw();
+    canvas.endDraw();
+    if(shader != null) shader(shader);
+    image(canvas,0,0);
+    if(shader != null) resetShader();
+    image(topCanvas,0,0);
+  }
+
+}
+
+
+
+ /**
+  * CanvasManager with reconfigurable rendering stack
+  * AKA PRIMO DELUXE
+  */
+class LayeredCanvasManager extends CanvasManager{
 
   ArrayList<Layer> layers;
   ArrayList<RenderLayer> renderLayers;
@@ -26,13 +131,11 @@ class CanvasManager implements FreelinerConfig{
   ShaderLayer shaderLayer;
   MaskLayer maskLayer;
 
-  boolean makeMaskFlag = false;
-
   TemplateRenderer templateRenderer;
 
   String[] shaderFiles = {"shaders/mainFrag.glsl", "shaders/fragThree.glsl", "shaders/blurShader.glsl"};
 
-  public CanvasManager(){
+  public LayeredCanvasManager(){
     layers = new ArrayList();
     renderLayers = new ArrayList();
     shaderLayers = new ArrayList();
@@ -57,10 +160,6 @@ class CanvasManager implements FreelinerConfig{
     addLayer(mergeLayer);
 
     printLayers();
-  }
-
-  public void inject(TemplateRenderer _tr){
-    templateRenderer = _tr;
   }
 
   public Layer addLayer(Layer _lr){
@@ -126,10 +225,10 @@ class CanvasManager implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void oscSetTrails(int _t){
-    if(tracerLayer == null) return;
-    tracerLayer.setTrails(_t);
-  }
+  // public void oscSetTrails(int _t){
+  //   if(tracerLayer == null) return;
+  //   tracerLayer.setTrails(_t);
+  // }
 
   public int setTrails(int _t){
     if(tracerLayer == null) return 0;
@@ -186,8 +285,6 @@ class CanvasManager implements FreelinerConfig{
   public void loadMask(String _file){
     //((MaskLayer) maskLayer).loadFile(_file);
   }
-
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Accessors
