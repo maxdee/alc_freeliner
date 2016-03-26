@@ -52,7 +52,7 @@ class OSClistener implements OscEventListener{
       if(theOscMessage.checkTypetag("i")) {
         /* parse theOscMessage and extract the values from the osc message arguments. */
         int tval = theOscMessage.get(0).intValue();
-        freeliner.getCanvasManager().oscSetTrails(tval);
+        freeliner.getCanvasManager().setTrails(tval);
       }
     }
     else if(theOscMessage.checkAddrPattern("/freeliner/shader")) {

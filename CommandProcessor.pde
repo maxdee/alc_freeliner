@@ -260,8 +260,9 @@ class CommandProcessor implements FreelinerConfig{
     //else if(_args[1].equals("trails")){
       if(_args.length > 2){
         int _v = stringInt(_args[2]);
-        if(_v == -3) valueGiven = str(canvasManager.toggleTrails());
-        else valueGiven = str(canvasManager.setTrails(_v));
+        //if(_v == -3) valueGiven = str(canvasManager.toggleTrails());
+        //else valueGiven = str(canvasManager.setTrails(_v));
+        valueGiven = str(canvasManager.setTrails(_v));
       }
     //}
   }

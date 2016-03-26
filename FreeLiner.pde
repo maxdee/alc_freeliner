@@ -42,7 +42,7 @@ class FreeLiner implements FreelinerConfig{
     // view
     templateRenderer = new TemplateRenderer();
     gui = new Gui();
-    canvasManager = new CanvasManager();
+    canvasManager = new ClassicCanvasManager();
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();

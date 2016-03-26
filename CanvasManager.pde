@@ -16,27 +16,24 @@ abstract class CanvasManager implements FreelinerConfig{
   // Template renderer needed to do the rendering
   TemplateRenderer templateRenderer;
   boolean makeMaskFlag = false;
-  int trailmix = 30;
+
 
   //  abstract methods
-  abstract public void render(ArrayList<RenderableTemplate> _toRender);
-  abstract public final PGraphics getCanvas();
+  abstract void render(ArrayList<RenderableTemplate> _toRender);
+  abstract PGraphics getCanvas();
+  // concrete methods?
+  public void setUniforms(int _i, float _v){}
+  public void reloadShader(){}
+  public void loadShader(int _n){}
+  public void loadMask(String _file){}
+  public void generateMask(){}
 
-  // dummy methods
 
+  public int setTrails(int _t){ return 0;}
 
   // implemented methods
   public void inject(TemplateRenderer _tr){
     templateRenderer = _tr;
-  }
-  // not sure this metod is needed...
-  // public void oscSetTrails(int _t){
-  //   trailmix = _t;
-  // }
-
-  public int setTrails(int _v){
-    trailmix = numTweaker(_v, trailmix);
-    return trailmix;
   }
 }
 
@@ -47,91 +44,45 @@ abstract class CanvasManager implements FreelinerConfig{
  * AKA classic mode.
  */
 class ClassicCanvasManager extends CanvasManager{
-  PGraphics canvas;
-  PShader shader;
-
+  TracerLayer tracerLayer;
   public ClassicCanvasManager(){
-    canvas = createGraphics(width, height, P2D);
+    tracerLayer = new TracerLayer();
   }
 
   public void render(ArrayList<RenderableTemplate> _toRender){
-    canvas.beginDraw();
-    if(trailmix >= 255) canvas.clear();
-    else tracerRect();
+    tracerLayer.beginDrawing();
     for(RenderableTemplate _rt : _toRender)
-      templateRenderer.render(_rt, canvas);
+      templateRenderer.render(_rt, tracerLayer.getCanvas());
 
-    canvas.endDraw();
-    if(shader != null) shader(shader);
-    image(canvas,0,0);
-    if(shader != null) resetShader();
+    tracerLayer.endDrawing();
+    image(tracerLayer.getCanvas(),0,0);
   }
 
-  public void tracerRect(){
-    canvas.fill(BACKGROUND_COLOR, trailmix);
-    canvas.noStroke();
-    canvas.rect(0,0,width,height);
-  }
-
+  // unfortunatly for LEDs wont get the shader effects...
   public PGraphics getCanvas(){
-    return canvas;
+    return tracerLayer.getCanvas();
+  }
+  public int setTrails(int _t){
+    return tracerLayer.setTrails(_t);
   }
 }
 
 /**
- * CanvasManager with two layers shader support.
- * AKA Simple Pazaz
+ * Customizable rendering layer system
+ * AKA custom deluxe
  */
-
-class EffectsCanvasManager extends ClassicCanvasManager{
-
-  PGraphics topCanvas;
-
-  public EffectsCanvasManager(){
-    super();
-    topCanvas = createGraphics(width, height, P2D);
-  }
-
-  public void render(ArrayList<RenderableTemplate> _toRender){
-    canvas.beginDraw();
-    if(trailmix >= 255) canvas.clear();
-    else tracerRect();
-
-    topCanvas.beginDraw();
-    topCanvas.clear();
-
-    for(RenderableTemplate _rt : _toRender){
-      if(_rt.getRenderLayer() == 0) templateRenderer.render(_rt, canvas);
-      else templateRenderer.render(_rt, topCanvas);
-    }
-    topCanvas.endDraw();
-    canvas.endDraw();
-    if(shader != null) shader(shader);
-    image(canvas,0,0);
-    if(shader != null) resetShader();
-    image(topCanvas,0,0);
-  }
-
-}
-
-
-
- /**
-  * CanvasManager with reconfigurable rendering stack
-  * AKA PRIMO DELUXE
-  */
 class LayeredCanvasManager extends CanvasManager{
-
+  // all of the layers?
   ArrayList<Layer> layers;
+  // layers that can be drawn on
   ArrayList<RenderLayer> renderLayers;
+  // multiple shaders?
   ArrayList<ShaderLayer> shaderLayers;
 
   MergeLayer mergeLayer;
+  MaskLayer maskLayer;
   TracerLayer tracerLayer;
   ShaderLayer shaderLayer;
-  MaskLayer maskLayer;
-
-  TemplateRenderer templateRenderer;
 
   String[] shaderFiles = {"shaders/mainFrag.glsl", "shaders/fragThree.glsl", "shaders/blurShader.glsl"};
 
@@ -212,44 +163,15 @@ class LayeredCanvasManager extends CanvasManager{
     println("+--------END-----------+");
   }
 
-
-
   public void screenShot(){
     // save screenshot to capture/screenshots/datetime.png
   }
-
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Modifiers
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
-  // public void oscSetTrails(int _t){
-  //   if(tracerLayer == null) return;
-  //   tracerLayer.setTrails(_t);
-  // }
-
-  public int setTrails(int _t){
-    if(tracerLayer == null) return 0;
-    return tracerLayer.setTrails(_t);
-  }
-
-  public void setUniforms(int _i, float _v){
-    shaderLayer.setUniforms(_i, _v);
-  }
-
-  public void reloadShader(){
-    shaderLayer.reloadShader();
-  }
-
-  public void loadShader(int _n){
-
-    if(_n < shaderFiles.length) {
-      shaderLayer.loadFile(shaderFiles[_n]);
-    }
-    else println("out of shaders");
-  }
 
   /**
    * Toggle the use of background with alpha value
@@ -290,5 +212,21 @@ class LayeredCanvasManager extends CanvasManager{
   ///////    Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+  // set uniform values for shader
+  public void setUniforms(int _i, float _v){
+    if(shaderLayer != null) shaderLayer.setUniforms(_i, _v);
+  }
+  // reload the shader file
+  public void reloadShader(){
+    shaderLayer.reloadShader();
+  }
 
+  // load a different shader from the list
+  public void loadShader(int _n){
+    if(shaderLayer == null) return;
+    if(_n < shaderFiles.length) {
+      shaderLayer.loadFile(shaderFiles[_n]);
+    }
+    else println("out of shaders");
+  }
 }
