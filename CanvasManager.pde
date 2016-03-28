@@ -113,6 +113,9 @@ class LayeredCanvasManager extends CanvasManager{
     printLayers();
   }
 
+  public int setTrails(int _t){
+    return tracerLayer.setTrails(_t);
+  }
   public Layer addLayer(Layer _lr){
     layers.add(_lr);
     if(_lr instanceof ShaderLayer) shaderLayers.add((ShaderLayer)_lr);

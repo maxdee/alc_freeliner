@@ -21,7 +21,7 @@ class Painter{
 	Colorizer[] colorizers;
   final int COLORIZER_COUNT = 31;
 	Interpolator[] posGetters;
-	final int INTERPOLATOR_GETTER_COUNT = 8;
+	final int INTERPOLATOR_GETTER_COUNT = 9;
 
 
   PGraphics canvas;
@@ -39,6 +39,8 @@ class Painter{
 		posGetters[5] = new RandomInterpolator();
 		posGetters[6] = new DiameterInterpolator();
 		posGetters[7] = new RadiusInterpolator();
+		posGetters[8] = new SegmentOffsetInterpolator();
+		
 	}
 
   public void paint(RenderableTemplate _rt){

@@ -60,6 +60,42 @@ class PerSegment extends RenderMode{
 		return segmentPainters[_index];
 	}
 }
+//
+// /**
+//  * Parent class for all rendering that happens per segment.
+//  */
+// class PerSegmentOffset extends PerSegment{
+//
+//
+//
+// 	public PerSegmentOffset(){
+// 		super();
+// 	}
+//
+// 	public void doRender(RenderableTemplate _event){
+// 		ArrayList<Segment> segList = getSelector(_event.getSegmentMode()).getSegments(_event);
+//     int index = 0;
+//     if(segList == null) return;
+//     for(Segment seg : segList){
+//     	_event.setSegmentIndex(index);
+//     	index++;
+//       if(seg != null) getPainter(_event.getAnimationMode()).paintSegment(seg, _event);
+//     }
+// 	}
+//
+// 	public SegmentSelector getSelector(int _index){
+// 		if(_index >= SELECTOR_COUNT) _index = SELECTOR_COUNT - 1;
+// 		return segmentSelectors[_index];
+// 	}
+//
+// 	public SegmentPainter getPainter(int _index){
+// 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+// 		return segmentPainters[_index];
+// 	}
+// }
+//
+
+
 
 // Place brushes on segments
 class BrushSegment extends PerSegment{

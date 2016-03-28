@@ -42,6 +42,19 @@ class Interpolator{
   // }
 }
 
+class SegmentOffsetInterpolator extends Interpolator{
+
+  public SegmentOffsetInterpolator(){
+    super();
+  }
+  public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
+    float offset = _seg.getPointA().x/float(width);
+
+    float _lrp = fltMod(_tp.getLerp()+offset);
+    if(_painter instanceof BrushPutter) return _seg.getBrushPos(_lrp);
+    else return _seg.getStrokePos(_lrp);
+  }
+}
 
 
 // front pointA to the center
