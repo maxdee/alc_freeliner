@@ -4,7 +4,7 @@
  * RenderMode contains the different rendering types, from segement renderers to fill renderers.
  * @param SegmentGroup in question
  */
-class RenderMode {
+class RenderMode implements FreelinerConfig{
 
 	public RenderMode(){
 
@@ -18,15 +18,14 @@ class RenderMode {
  * Parent class for all rendering that happens per segment.
  */
 class PerSegment extends RenderMode{
-
+	// selectorModeCount in Config.pde
 	SegmentSelector[] segmentSelectors;
-	final int SELECTOR_COUNT = 7;
 
 	SegmentPainter[] segmentPainters;
 	final int PAINTER_COUNT = 1;
 
 	public PerSegment(){
-		segmentSelectors = new SegmentSelector[SELECTOR_COUNT];
+		segmentSelectors = new SegmentSelector[SEGMENT_MODE_COUNT];
 		segmentSelectors[0] = new AllSegments();
 		segmentSelectors[1] = new SequentialSegments();
 		segmentSelectors[2] = new RunThroughSegments();
@@ -51,7 +50,7 @@ class PerSegment extends RenderMode{
 	}
 
 	public SegmentSelector getSelector(int _index){
-		if(_index >= SELECTOR_COUNT) _index = SELECTOR_COUNT - 1;
+		if(_index >= SEGMENT_MODE_COUNT) _index = SEGMENT_MODE_COUNT - 1;
 		return segmentSelectors[_index];
 	}
 
@@ -84,7 +83,7 @@ class PerSegment extends RenderMode{
 // 	}
 //
 // 	public SegmentSelector getSelector(int _index){
-// 		if(_index >= SELECTOR_COUNT) _index = SELECTOR_COUNT - 1;
+// 		if(_index >= SEGMENT_MODE_COUNT) _index = SEGMENT_MODE_COUNT - 1;
 // 		return segmentSelectors[_index];
 // 	}
 //

@@ -2,16 +2,15 @@
 // Repetition was iterator
 // returns different unit intervals in relation to
 // unit intervals that are negative means reverse.
-class Repetition {
+class Repetition implements FreelinerConfig {
 	Easing[] easers;
-	final int EASER_COUNT = 10;
 	Reverse[] reversers;
-	final int REVERSER_COUNT = 5;
+	// easer and reversers count in Config.pde
 
 	float rev = 1.0;
 
 	public Repetition(){
-		easers = new Easing[EASER_COUNT];
+		easers = new Easing[EASING_MODE_COUNT];
 		easers[0] = new NoEasing();
 		easers[1] = new Square();
 		easers[2] = new Sine();
@@ -23,7 +22,7 @@ class Repetition {
 		easers[8] = new Fixed(0.5);
 		easers[9] = new Fixed(0.0);
 
-		reversers = new Reverse[REVERSER_COUNT];
+		reversers = new Reverse[REVERSE_MODE_COUNT];
 		reversers[0] = new NotReverse();
 		reversers[1] = new Reverse();
 		reversers[2] = new BackForth();
@@ -41,12 +40,12 @@ class Repetition {
 	}
 
 	public Easing getEaser(int _index){
-		if(_index >= EASER_COUNT) _index = EASER_COUNT - 1;
+		if(_index >= EASING_MODE_COUNT) _index = EASING_MODE_COUNT - 1;
 		return easers[_index];
 	}
 
 	public Reverse getReverser(int _index){
-		if(_index >= REVERSER_COUNT) _index = REVERSER_COUNT - 1;
+		if(_index >= REVERSE_MODE_COUNT) _index = REVERSE_MODE_COUNT - 1;
 		return reversers[_index];
 	}
 }

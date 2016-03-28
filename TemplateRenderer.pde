@@ -15,21 +15,17 @@
 
 class TemplateRenderer implements FreelinerConfig{
   // rendering modes and repetition
+  // arraySizes in config.pde
   RenderMode[] renderModes;
-  final int RENDERER_COUNT = 6;
-
   Repetition[] repeaters;
-  final int REPEATER_COUNT = 6;
-
   Enabler[] enablers;
-  final int ENABLER_COUNT = 7;
 
   /**
    * Constructor
    */
 	public TemplateRenderer(){
     // add renderModes
-    renderModes = new RenderMode[RENDERER_COUNT];
+    renderModes = new RenderMode[RENDER_MODE_COUNT];
     renderModes[0] = new BrushSegment();
     renderModes[1] = new LineSegment();
     renderModes[2] = new WrapLine();
@@ -37,7 +33,7 @@ class TemplateRenderer implements FreelinerConfig{
     renderModes[4] = new TextLine();
     renderModes[5] = new CircularSegment();
     // add repetitionModes
-    repeaters = new Repetition[REPEATER_COUNT];
+    repeaters = new Repetition[REPEATER_MODE_COUNT];
     repeaters[0] = new Single();
     repeaters[1] = new EvenlySpaced();
     repeaters[2] = new EvenlySpacedWithZero();
@@ -46,7 +42,7 @@ class TemplateRenderer implements FreelinerConfig{
     repeaters[5] = new TwoSpaced();
 
     // add enablers
-    enablers = new Enabler[ENABLER_COUNT];
+    enablers = new Enabler[ENABLER_MODE_COUNT];
     enablers[0] = new Disabler();
     enablers[1] = new Enabler();
     enablers[2] = new Triggerable();
@@ -81,7 +77,7 @@ class TemplateRenderer implements FreelinerConfig{
     _rt.setCanvas(_pg);
 
     // check the enabler, it may modify the unitInterval
-    if(!enablers[_rt.getEnablerMode()%ENABLER_COUNT].enable(_rt)) return;
+    if(!enablers[_rt.getEnablerMode()%ENABLER_MODE_COUNT].enable(_rt)) return;
     // get multiple unit intervals to use
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
@@ -137,12 +133,12 @@ class TemplateRenderer implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public RenderMode getRenderer(int _index){
-    if(_index >= RENDERER_COUNT) _index = RENDERER_COUNT - 1;
+    if(_index >= RENDER_MODE_COUNT) _index = RENDER_MODE_COUNT - 1;
     return renderModes[_index];
   }
 
   public Repetition getRepeater(int _index){
-    if(_index >= REPEATER_COUNT) _index = REPEATER_COUNT - 1;
+    if(_index >= REPEATER_MODE_COUNT) _index = REPEATER_MODE_COUNT - 1;
     return repeaters[_index];
   }
 }

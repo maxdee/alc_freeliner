@@ -139,4 +139,29 @@ interface FreelinerConfig{
     "m    masking",
     "k    showLEDmap"
   };
+
+  /**
+   * Limits for parameters / arraySize for rendering objects
+   * Use hex value or color(0,100,200);
+   */
+  final int MAX_REPETITION = 255; // could change
+  final int MAX_BEATDIVIDER = 255;
+  final int MAX_STROKE_WEIGHT = 255;
+  final int MAX_STROKE_ALPHA = 255;
+  final int MAX_FILL_ALPHA = 255;
+  final int MAX_BRUSH_SIZE = 4000;
+
+
+  final int MAX_RENDER_LAYER_COUNT = 3;
+  final int ANIMATION_MODE_MAX = 8; // not a real limit, depends on renderMode...
+  final int ROTATION_MODE_COUNT = 5;
+  final int EASING_MODE_COUNT = 10;
+  final int REVERSE_MODE_COUNT = 5;
+  final int RENDER_MODE_COUNT = 6;
+  final int REPEATER_MODE_COUNT = 6;
+  final int ENABLER_MODE_COUNT = 7;
+  final int BRUSH_COUNT = 10;
+  final int COLOR_MODE_COUNT = 31;
+  final int INTERPOLATOR_MODE_COUNT = 9;
+  final int SEGMENT_MODE_COUNT = 7;
 }

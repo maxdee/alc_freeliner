@@ -15,14 +15,12 @@
 // extract colorizers?
 // gets a reference to one.
 
-class Painter{
+class Painter implements FreelinerConfig{
 
 	// Since we paint we need colors
+	// arraySizes int Config.pde
 	Colorizer[] colorizers;
-  final int COLORIZER_COUNT = 31;
 	Interpolator[] posGetters;
-	final int INTERPOLATOR_GETTER_COUNT = 9;
-
 
   PGraphics canvas;
 	String name = "Painter";
@@ -30,7 +28,7 @@ class Painter{
 
 	public Painter(){
 		initColorizers();
-		posGetters = new Interpolator[INTERPOLATOR_GETTER_COUNT];
+		posGetters = new Interpolator[INTERPOLATOR_MODE_COUNT];
 		posGetters[0] = new Interpolator();
 		posGetters[1] = new CenterSender();
 		posGetters[2] = new CenterSender();
@@ -40,7 +38,6 @@ class Painter{
 		posGetters[6] = new DiameterInterpolator();
 		posGetters[7] = new RadiusInterpolator();
 		posGetters[8] = new SegmentOffsetInterpolator();
-		
 	}
 
   public void paint(RenderableTemplate _rt){
@@ -50,7 +47,7 @@ class Painter{
   }
 
 	public Interpolator getInterpolator(int _index){
-		if(_index >= INTERPOLATOR_GETTER_COUNT) _index = INTERPOLATOR_GETTER_COUNT - 1;
+		if(_index >= INTERPOLATOR_MODE_COUNT) _index = INTERPOLATOR_MODE_COUNT - 1;
 		return posGetters[_index];
 	}
 
@@ -60,7 +57,7 @@ class Painter{
 
 	// color stuffs
 	public void initColorizers(){
-		colorizers = new Colorizer[COLORIZER_COUNT];
+		colorizers = new Colorizer[COLOR_MODE_COUNT];
 		// basic colors
 		colorizers[0] = new SimpleColor(color(0));
     colorizers[1] = new SimpleColor(color(255));
@@ -99,7 +96,7 @@ class Painter{
 	}
 
   public Colorizer getColorizer(int _index){
-    if(_index >= COLORIZER_COUNT) _index = COLORIZER_COUNT - 1;
+    if(_index >= COLOR_MODE_COUNT) _index = COLOR_MODE_COUNT - 1;
     return colorizers[_index];
   }
 

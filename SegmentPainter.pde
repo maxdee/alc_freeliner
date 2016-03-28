@@ -171,7 +171,7 @@ class SegToSeg extends LinePainter{
 class BrushPutter extends SegmentPainter{
 	final String name = "BrusPutter";
 	Brush[] brushes;
-	final int BRUSH_COUNT = 10;
+	// brush count in Config.pde
 
 
 	public BrushPutter(){
