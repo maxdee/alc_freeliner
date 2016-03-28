@@ -84,7 +84,7 @@ class LayeredCanvasManager extends CanvasManager{
   TracerLayer tracerLayer;
   ShaderLayer shaderLayer;
 
-  String[] shaderFiles = {"shaders/mainFrag.glsl", "shaders/fragThree.glsl", "shaders/blurShader.glsl"};
+  String[] shaderFiles = {"shaders/fragZero.glsl", "shaders/fragOne.glsl", "shaders/fragTwo.glsl", "shaders/fragThree.glsl",};
 
   public LayeredCanvasManager(){
     layers = new ArrayList();
@@ -97,7 +97,7 @@ class LayeredCanvasManager extends CanvasManager{
     tracerLayer =  (TracerLayer)addLayer(new TracerLayer());
 
     shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
-    shaderLayer.loadFile("shaders/mainFrag.glsl");
+    shaderLayer.loadFile(shaderFiles[0]);
 
     // shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
     // shaderLayer.loadFile("shaders/fragThree.glsl");

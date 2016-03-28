@@ -16,8 +16,8 @@ import netP5.*;
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  // size(1024, 768, P2D);
-  size(1280, 768, P2D);
+  size(1024, 768, P2D);
+  //size(1280, 768, P2D);
 
   //size(300, 300, P2D);
   //fullScreen(P2D, 2);
