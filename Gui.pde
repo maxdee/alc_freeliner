@@ -488,6 +488,9 @@
   public String[] getAllInfo(){
     return allInfo;
   }
+  public String getInfo(){
+    return allInfo[0]+allInfo[1]+allInfo[2]+allInfo[3]+allInfo[4];
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

@@ -187,7 +187,6 @@ class Mouse implements FreelinerConfig{
     _pos.x += width/2;
     _pos.y += height/2;
     return _pos.get();
-
     //return new PVector(round(_pos.x/_grid)*_grid, round(_pos.y/_grid)*_grid);
   }
 

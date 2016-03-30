@@ -166,6 +166,7 @@ class Keyboard implements FreelinerConfig{
       TemplateList _tl = groupManager.getTemplateList();
       if(_tl == null) _tl = templateManager.getTemplateList();
       if(shifted){
+        // shoudl not be here?
         _tl.toggle(templateManager.getTemplate(_c));
         groupManager.setReferenceGroupTemplateList(_tl); // set ref
         gui.setTemplateString(_tl.getTags());

@@ -60,7 +60,7 @@ class FreeLiner implements FreelinerConfig{
     mouse = new Mouse();
     keyboard = new Keyboard();
     //osc
-    osc = new OSClistener(applet, this);
+    osc = new OSClistener();
     oscP5 = new OscP5(applet, OSC_IN_PORT);
     toPDpatch = new NetAddress(OSC_OUT_IP, OSC_OUT_PORT);
     oscP5.addListener(osc);
@@ -76,11 +76,6 @@ class FreeLiner implements FreelinerConfig{
     canvasManager.inject(templateRenderer);
     osc.inject(commandProcessor);
     windowFocus = true;
-  }
-
-  // sync message to other software
-  void oscTick(){
-    oscP5.send(tickmsg, toPDpatch);
   }
 
   /**
@@ -136,6 +131,21 @@ class FreeLiner implements FreelinerConfig{
 
   public void queueCMD(String _cmd){
     commandProcessor.queueCMD(_cmd);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////    OSC feedback
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  // sync message to other software
+  void oscTick(){
+    oscP5.send(tickmsg, toPDpatch);
+  }
+
+  void oscInfoLine(){
+    oscP5.send(new OscMessage("/freeliner/infoline").add(gui.getInfo()), toPDpatch);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

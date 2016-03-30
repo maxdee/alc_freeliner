@@ -45,6 +45,10 @@
  * post trails (alpha)
  * post shader (coolfrag.glsl)
  * post mask (mask.png)
+ * /////////////////// Information Accessors
+ * fetch infoline
+ * ///////////////////
+ * raw kbd 96 3
  */
 
 /**
@@ -59,6 +63,8 @@ class CommandProcessor implements FreelinerConfig{
   Sequencer sequencer;
   Mouse mouse;
   Gui gui;
+
+  FreeLiner freeliner;
   // this string gets set to whatever value was set
   String valueGiven = "";
 
@@ -76,6 +82,8 @@ class CommandProcessor implements FreelinerConfig{
    * @param FreeLiner
    */
   public void inject(FreeLiner _fl){
+    freeliner = _fl;
+
     templateManager = _fl.getTemplateManager();
     synchroniser = templateManager.getSynchroniser();
     sequencer = templateManager.getSequencer();
@@ -117,6 +125,7 @@ class CommandProcessor implements FreelinerConfig{
   }
 
   public void processCMD(String[] _args){
+    println(_args);
     if(_args.length == 0) return;
     if(_args[0].equals("tw")) templateCMD(_args); // good
     else if(_args[0].equals("tr")) templateCMD(_args); // need to check trigger group
@@ -125,6 +134,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("post")) postCMD(_args);
     else if(_args[0].equals("tools")) toolsCMD(_args);
     else if(_args[0].equals("geom")) geometryCMD(_args);
+    else if(_args[0].equals("fetch")) fetchCMD(_args);
     else println("Unknown CMD : "+join(_args, ' '));
   }
 
@@ -132,6 +142,19 @@ class CommandProcessor implements FreelinerConfig{
   public void processCmdStack(String _cmd){
     // add to stack
     processCMD(_cmd);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     fetchCMD
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  // * tools fetch infoline
+
+  public void fetchCMD(String[] _args){
+    if(_args.length < 2) return;
+    if(_args[1].equals("infoline")) freeliner.oscInfoLine();
+    else println("Unknown CMD : "+join(_args, ' '));
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -344,7 +367,6 @@ class CommandProcessor implements FreelinerConfig{
   // * tp save (cooleffects.xml)
   // * tp load (coolstuff.xml)
   // * tp color AB r g b a
-
 
   public void templateCMD(String[] _args){
     if(_args[0].equals("tw")) tweakTemplates(_args);
