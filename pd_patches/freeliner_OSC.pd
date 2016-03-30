@@ -1,4 +1,4 @@
-#N canvas 62 47 1068 634 10;
+#N canvas 60 43 1068 634 10;
 #X declare -lib mrpeach;
 #X obj 13 8 import mrpeach;
 #X obj 371 408 packOSC;
@@ -23,7 +23,7 @@
 #X obj 392 438 inlet;
 #X obj 392 462 t a b;
 #X obj 503 539 tgl 15 0 empty empty connected 17 7 0 10 -99865 -1 -4160
-1 1;
+0 1;
 #X obj 503 521 tgl 15 0 empty empty enabled 17 7 0 10 -99865 -1 -4160
 1 1;
 #X obj 545 441 loadbang;
@@ -35,7 +35,6 @@
 0 1;
 #X obj 260 451 spigot;
 #X msg 676 376 rk q 0 1;
-#X obj 12 161 s freeliner-\$1;
 #X msg 12 139 beat \$1;
 #X text 696 331 set tracer level;
 #X msg 654 354 tx 2 1 quakeroats;
@@ -50,15 +49,16 @@
 #X text 780 398 shader values;
 #X obj 371 247 l2s /;
 #X obj 371 271 sprintf /%s;
+#X obj 12 161 s fl_sync-\$1;
 #X connect 1 0 2 0;
 #X connect 2 0 22 0;
 #X connect 3 0 4 0;
 #X connect 4 0 5 0;
-#X connect 4 0 39 0;
+#X connect 4 0 38 0;
 #X connect 5 0 6 0;
 #X connect 6 0 5 1;
 #X connect 6 0 8 0;
-#X connect 6 0 33 0;
+#X connect 6 0 32 0;
 #X connect 7 0 30 0;
 #X connect 7 0 1 0;
 #X connect 11 0 9 0;
@@ -73,15 +73,15 @@
 #X connect 24 0 25 0;
 #X connect 25 0 23 0;
 #X connect 26 0 9 0;
-#X connect 27 0 43 0;
+#X connect 27 0 42 0;
 #X connect 29 0 30 1;
 #X connect 30 0 28 0;
 #X connect 31 0 9 0;
-#X connect 33 0 32 0;
-#X connect 35 0 9 0;
-#X connect 39 0 38 0;
-#X connect 40 0 3 0;
-#X connect 41 0 9 0;
-#X connect 43 0 44 0;
-#X connect 44 0 7 0;
+#X connect 32 0 44 0;
+#X connect 34 0 9 0;
+#X connect 38 0 37 0;
+#X connect 39 0 3 0;
+#X connect 40 0 9 0;
+#X connect 42 0 43 0;
+#X connect 43 0 7 0;
 #X coords 0 -1 1 1 100 75 1 500 500;

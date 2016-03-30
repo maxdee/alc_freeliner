@@ -92,7 +92,7 @@ class CommandProcessor implements FreelinerConfig{
    * @param String command
    */
   public void queueCMD(String _cmd){
-    println("adding to queue : "+_cmd);
+    // println("adding to queue : "+_cmd);
     commandQueue.add(_cmd);
   }
 
@@ -117,9 +117,7 @@ class CommandProcessor implements FreelinerConfig{
   }
 
   public void processCMD(String[] _args){
-
     if(_args.length == 0) return;
-    println("haha"+_args[0]);
     if(_args[0].equals("tw")) templateCMD(_args); // good
     else if(_args[0].equals("tr")) templateCMD(_args); // need to check trigger group
     else if(_args[0].equals("tp")) templateCMD(_args);
