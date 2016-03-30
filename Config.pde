@@ -151,7 +151,6 @@ interface FreelinerConfig{
   final int MAX_FILL_ALPHA = 255;
   final int MAX_BRUSH_SIZE = 4000;
 
-
   final int MAX_RENDER_LAYER_COUNT = 3;
   final int ANIMATION_MODE_MAX = 8; // not a real limit, depends on renderMode...
   final int ROTATION_MODE_COUNT = 5;
