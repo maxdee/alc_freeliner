@@ -7,17 +7,14 @@
  * @since     2014-12-01
  */
 
-import oscP5.*;
-import netP5.*;
-
 /**
  * HELLO THERE! WELCOME to FREELINER
  * Here are some settings. There are more settings in the Config.pde file.
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(1024, 768, P2D);
-  size(1280, 768, P2D);
+  size(1024, 768, P2D);
+  //size(1280, 768, P2D);
 
   //size(300, 300, P2D);
   //fullScreen(P2D, 2);
@@ -34,6 +31,7 @@ void settings(){
 ////////////////////////////////////////////////////////////////////////////////////
 
 FreeLiner freeliner;
+
 // fonts
 PFont font;
 PFont introFont;
@@ -41,11 +39,6 @@ PFont introFont;
 final String VERSION = "0.4.1";
 boolean doSplash = true;
 boolean OSX = false;
-
-OscP5 oscP5;
-// where to send a sync message
-NetAddress toPDpatch;
-OscMessage tickmsg = new OscMessage("/freeliner/tick");
 
 ExternalGUI externalGUI = null; // set specific key to init gui
 boolean runGui = false;
@@ -74,10 +67,6 @@ void setup() {
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");
 
-  //osc
-  oscP5 = new OscP5(this, FreelinerConfig.OSC_IN_PORT);
-  toPDpatch = new NetAddress(FreelinerConfig.OSC_OUT_IP, FreelinerConfig.OSC_OUT_PORT);
-  oscP5.addListener(freeliner.osc);
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
@@ -123,11 +112,6 @@ void draw() {
   background(0);
   freeliner.update();
   if(doSplash) splash();
-}
-
-// sync message to other software
-void oscTick(){
-  oscP5.send(tickmsg, toPDpatch);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

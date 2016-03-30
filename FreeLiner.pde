@@ -7,6 +7,8 @@
  * @since     2014-12-01
  */
 
+ import oscP5.*;
+ import netP5.*;
 
 /**
  * Main class for alc_freeliner
@@ -33,9 +35,17 @@ class FreeLiner implements FreelinerConfig{
   boolean windowFocus;
   PApplet applet;
 
+  OscP5 oscP5;
+  // where to send a sync message
+  NetAddress toPDpatch;
+  OscMessage tickmsg = new OscMessage("/freeliner/tick");
+
   public FreeLiner(PApplet _pa) {
     applet = _pa;
     // instantiate
+
+
+
     // model
     groupManager = new GroupManager();
     templateManager =  new TemplateManager();
@@ -49,7 +59,11 @@ class FreeLiner implements FreelinerConfig{
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();
+    //osc
     osc = new OSClistener(applet, this);
+    oscP5 = new OscP5(applet, OSC_IN_PORT);
+    toPDpatch = new NetAddress(OSC_OUT_IP, OSC_OUT_PORT);
+    oscP5.addListener(osc);
 
     commandProcessor = new CommandProcessor();
     // inject dependence
@@ -60,9 +74,14 @@ class FreeLiner implements FreelinerConfig{
     groupManager.inject(templateManager);
     commandProcessor.inject(this);
     canvasManager.inject(templateRenderer);
+    osc.inject(commandProcessor);
     windowFocus = true;
   }
 
+  // sync message to other software
+  void oscTick(){
+    oscP5.send(tickmsg, toPDpatch);
+  }
 
   /**
    * It all starts here...

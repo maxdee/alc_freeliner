@@ -113,8 +113,13 @@ class CommandProcessor implements FreelinerConfig{
    */
   public void processCMD(String _cmd){
     // if(record)
-    String[] _args = split(_cmd, ' ');
+    processCMD(split(_cmd, ' '));
+  }
+
+  public void processCMD(String[] _args){
+
     if(_args.length == 0) return;
+    println("haha"+_args[0]);
     if(_args[0].equals("tw")) templateCMD(_args); // good
     else if(_args[0].equals("tr")) templateCMD(_args); // need to check trigger group
     else if(_args[0].equals("tp")) templateCMD(_args);

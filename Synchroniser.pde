@@ -48,7 +48,7 @@ class Synchroniser implements FreelinerConfig{
     if(lerper > 1.0){
       lerper = 0.0000001;
       periodCount++;
-      oscTick();
+      freeliner.oscTick();
     }
   }
 

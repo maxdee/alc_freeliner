@@ -1,9 +1,9 @@
-#N canvas 300 1202 837 493 10;
+#N canvas 408 1233 837 493 10;
 #X declare -lib mrpeach;
 #X obj 9 -104 r beatcount-1;
 #X floatatom 9 -82 5 0 0 0 - - -;
-#X msg 57 110 tr A;
-#X obj 18 193 s freeliner-1;
+#X msg 124 112 tr A;
+#X obj 195 200 s freeliner-1;
 #X msg 16 258 connect 127.0.0.1 6667;
 #X obj 512 288 + 1;
 #X obj 512 328 s freeliner-1;
@@ -14,8 +14,8 @@
 #X obj 229 338 s freeliner-1;
 #X msg 5 6 tw AB q \$1;
 #X obj 5 -15 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144 -1
--1 2;
-#X msg 56 164 tg AB 2;
+-1 0;
+#X msg 168 156 tg AB 2;
 #X obj 5 29 s freeliner-1;
 #X obj 676 138 s freeliner-1;
 #X obj 676 19 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
@@ -23,10 +23,10 @@
 #X obj 676 66 alternate;
 #X obj 676 41 metro 300;
 #X obj 16 297 freeliner_OSC 1 6668;
-#X msg 57 137 tg D 2;
-#X text 89 109 trigger A;
-#X text 101 137 trigger D on group 2;
-#X text 106 164 trigger AB on group 2;
+#X msg 146 134 tg D 2;
+#X text 156 111 trigger A;
+#X text 190 134 trigger D on group 2;
+#X text 218 156 trigger AB on group 2;
 #X text 702 18 set text!;
 #X msg 691 90 tx 2 0 iLove;
 #X msg 676 113 tx 2 0 freeliner;
@@ -37,6 +37,8 @@
 #X obj 512 268 % 4;
 #X floatatom 512 226 5 0 0 0 - - -;
 #X text 14 371 more documentation here;
+#X msg 102 90 tw A q 3;
+#X text 161 89 set A stroke to 3;
 #X connect 0 0 1 0;
 #X connect 2 0 3 0;
 #X connect 4 0 19 0;
@@ -57,3 +59,4 @@
 #X connect 29 0 30 0;
 #X connect 30 0 32 0;
 #X connect 31 0 5 0;
+#X connect 34 0 3 0;
