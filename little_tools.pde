@@ -33,6 +33,17 @@ int stringInt(String _str){
   }
 }
 
+float stringFloat(String _str){
+  try {
+    return Float.parseFloat(_str);
+  }
+  catch (Exception e){
+    println("Bad number float");
+    return -42.0;
+  }
+}
+
+
 /**
  * Class to collect and average data
  */

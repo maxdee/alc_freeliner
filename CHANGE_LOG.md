@@ -1,5 +1,11 @@
+### Version 0.4.1 ###
+ * Parameter tweaking has limits now.
+ * `p` key is for layers, templates are by default on layer 1.
+ * Rendering pipeline, light or deluxe is set in `Config.pde`.
+ * New OSC syntax for commands. Check the README.md for info.
+
 ### Version 0.4 ###
- * New command system
+ * New command system.
  * Masking, hitting `ctrl-m` will make a mask. Any pixels with some green will be transparent.
  * Fragment shaders. `p` to enable disable set shader.
 

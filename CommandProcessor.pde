@@ -125,7 +125,7 @@ class CommandProcessor implements FreelinerConfig{
   }
 
   public void processCMD(String[] _args){
-    println(_args);
+    // println(_args);
     if(_args.length == 0) return;
     if(_args[0].equals("tw")) templateCMD(_args); // good
     else if(_args[0].equals("tr")) templateCMD(_args); // need to check trigger group
@@ -265,8 +265,8 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return;
     else if(_args[1].equals("trails")) trailsCMD(_args);
     else if(_args[1].equals("mask")) maskCMD(_args);
-    else if(_args[1].equals("shader")) canvasManager.reloadShader();//shaderCMD(_args);
-    else println("Unknown CMD : "+join(_args, ' '));
+    else if(_args[1].equals("shader")) shaderCMD(_args);
+    else println("Unknown post CMD : "+join(_args, ' '));
   }
 
   // needs to be tested with file argument
@@ -297,8 +297,11 @@ class CommandProcessor implements FreelinerConfig{
   public void shaderCMD(String[]  _args){
     if(_args.length > 2){
       int _v = stringInt(_args[2]);
-      //if(_v == -3) valueGiven = str(canvasManager.toggleShader());
-      //else valueGiven = str(canvasManager.setShader(_v));
+      if(_args.length > 3){
+        float _f = stringFloat(_args[3]);
+        canvasManager.setUniforms(_v, _f);
+      }
+      else canvasManager.loadShader(_v);
     }
   }
 
@@ -497,6 +500,39 @@ class CommandProcessor implements FreelinerConfig{
 }
 
 
+// idea for a command class
+//
+class Cmd implements FreelinerConfig{
+  String[] args;
+  //
+  public Cmd(String[] _args){
+    args = _args;
+  }
+
+  public Cmd(String _cmd){
+    args = split(_cmd, ' ');
+  }
+
+  public void append(String _arg){
+    //
+  }
+
+  public int getInt(int _i){}
+  public float gettFloat(float _flt){}
+
+  public int length(){
+    return args.length;
+  }
+
+  // is index equal to string
+  public boolean is(int _i, String _s){
+    if(_i < args.length){
+      return args[_i].equals(_s);
+    }
+    else return false;
+  }
+
+}
 
 // class to create loops of events.
 class Looper {

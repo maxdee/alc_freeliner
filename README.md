@@ -14,7 +14,7 @@ Using a computer mouse cursor the user can create geometric forms composed of li
 
 Templates hold data related to how a segmentGroup will be rendered. There is 26 TweakableTemplates, one per uppercase letter. The parameters are configurable via keys like ‘s’ for size, they can be set by typing a new numerical value or pressing ‘-‘ and ‘+’ (actually ‘-‘ and ‘=’).
 
-Each segmentGroup can have multiple templates. The templateManager then combines segmentGroups with their templates to create RenderableTemplates which then get rendered .
+Each segmentGroup can have multiple templates. The templateManager then combines segmentGroups with their templates to create RenderableTemplates which then get rendered.
 
 ### Philosophy ###
 
@@ -74,12 +74,12 @@ Syphon can be enabled by uncommenting the code in `SyphonFreeliner.pde` and swit
 Report one?
 
 ## SHOUTOUTS ##
--MrStar
--Zap
--Tats
--Quessy
--Jason Lewis
--BunBun
--ClaireLabs
--Bruno/Laika
--potluck crew
+* MrStar
+* Zap
+* Tats
+* Quessy
+* Jason Lewis
+* BunBun
+* ClaireLabs
+* Bruno/Laika
+* potluck crew
