@@ -79,6 +79,9 @@ Freeliner can be quit with your systems shortcut to close a window, like `alt-f4
 ##### Syphon
 Syphon can be enabled by uncommenting the code in `SyphonFreeliner.pde` and switching from `freeliner = new Freeliner(this);` to `freeliner = new FreelinerSyphon(this);` in the `alc_freeliner.pde` file. If you have a more elegant way around this, let me know?
 
+##### AutoDoc
+Freeliner can now compile its own documentation. Due to the extendable nature of freeliner, extensions can get added to documentation automatically. Every template parameter. 
+
 ## Current Bugs ##
 Report one?
 

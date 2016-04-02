@@ -16,8 +16,8 @@ void settings(){
   //size(1024, 768, P2D);
   //size(1280, 768, P2D);
 
-  //size(300, 300, P2D);
-  fullScreen(P2D, 2);
+  size(300, 300, P2D);
+  //fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   // needed for syphon!
   PJOGL.profile=1;
@@ -54,10 +54,12 @@ void setup() {
   documenter = new Documenter();
 
   // pick your flavour of freeliner
-  freeliner = new FreeLiner(this);
+  //freeliner = new FreeLiner(this);
   //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
   //freeliner = new FreelinerLED(this,"tunnel_map.xml");
   //freeliner = new FreelinerLED(this,"tenDMX.xml");
+  freeliner = new FreelinerLED(this,"pds_dmx.xml");
+
   //freeliner = new FreelinerLED(this,"geometry.xml");
   //freeliner = new FreelinerLED(this,"bunz_triangle.xml");
 
