@@ -112,7 +112,6 @@ interface FreelinerConfig{
     //"z    ???????",
     ",    showTags",
     "/    showLines",
-    ";    showCrosshair",
     ".    snapping",
     "|    enterText",
     "]    fixedLenght",
@@ -121,7 +120,6 @@ interface FreelinerConfig{
     "=    increaseValue",
     "$    saveTemplate",
     "%    loadTemplate",
-    "*    record",
     ">    steps",
     "?    clearSeq"
   };

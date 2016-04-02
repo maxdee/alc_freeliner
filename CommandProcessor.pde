@@ -517,8 +517,8 @@ class Cmd implements FreelinerConfig{
     //
   }
 
-  public int getInt(int _i){}
-  public float gettFloat(float _flt){}
+  public int getInt(int _i){return 0;}
+  public float gettFloat(float _flt){return 0.0;}
 
   public int length(){
     return args.length;

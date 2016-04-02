@@ -3,7 +3,6 @@
 
 The new v0.4!! is for Processing 3.
 
-
 ### What is? ###
 
 Also know as a!LcFreeliner. This software is feature-full geometric animation software built for live projection mapping. Development started in fall 2013.
@@ -24,6 +23,16 @@ alcFreeliner must:
 - Content Free, aside from fonts I guess.
 - Remain lightweight for old hardware.
 - Focus on improvisation.
+
+## Installation & Launch ##
+Here are some instructions on how to get started with freeliner.
+
+1. Download and install Processing from <https://processing.org/>, the latest version should be used.
+2. Install the [oscP5](http://www.sojamo.de/libraries/oscP5/) and the [controlP5](http://www.sojamo.de/libraries/controlP5/) libraries. This can be done via the Processing application itself via `Sketch -> Import Library -> Add Library...`.
+3. Download the `.zip` file from this page and extract it to your sketchbook or Processing folder.
+4. //memory up
+5. //settings
+6. //config.pde
 
 ## How to freeLine ##
 
