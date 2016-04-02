@@ -10,7 +10,10 @@
 // PositionGetters are responsible for fetching a position from a segment.
 class Interpolator extends Mode{
 
-  public Interpolator(){}
+  public Interpolator(){
+    name = "Interpolator";
+    description = "Pics a position in relation to a segment";
+  }
 
   /**
    * Fetch a point from a segment
@@ -45,7 +48,9 @@ class Interpolator extends Mode{
 class SegmentOffsetInterpolator extends Interpolator{
 
   public SegmentOffsetInterpolator(){
-    super();
+    //super();
+    name = "SegmentOffsetInterpolator";
+    description = "Prototype thing that offsets the position according to segments X position.";
   }
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
     float offset = _seg.getPointA().x/float(width);
@@ -61,7 +66,9 @@ class SegmentOffsetInterpolator extends Interpolator{
 class CenterSender extends Interpolator{
 
   public CenterSender(){
-    super();
+    //super();
+    name = "CenterSender";
+    description = "Moves between pointA and center";
   }
   // interpolate to center
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
@@ -78,7 +85,9 @@ class CenterSender extends Interpolator{
 class HalfWayInterpolator extends Interpolator{
 
   public HalfWayInterpolator(){
-    super();
+    //super();
+    name = "HalfWayInterpolator";
+    description = "Moves along segment, but halfway to center.";
   }
   // interpolate to center
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
@@ -93,7 +102,9 @@ class HalfWayInterpolator extends Interpolator{
 // on a radius of segment pointA
 class RadiusInterpolator extends Interpolator{
   public RadiusInterpolator(){
-    super();
+    //super();
+    name = "RadiusInterpolator";
+    description = "Rotates with segments as Radius.";
   }
   // interpolate to center
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
@@ -115,7 +126,9 @@ class RadiusInterpolator extends Interpolator{
 // from the middle of a segments
 class DiameterInterpolator extends Interpolator{
   public DiameterInterpolator(){
-    super();
+    //super();
+    name = "DiameterInterpolator";
+    description = "Rotates with segments as diameter.";
   }
   // interpolate to center
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
@@ -137,7 +150,9 @@ class DiameterInterpolator extends Interpolator{
 
 class RandomInterpolator extends Interpolator{
   public RandomInterpolator(){
-    super();
+    //super();
+    name = "RandomInterpolator";
+    description = "Provides random position between segment and center.";
   }
   // interpolate to center
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
@@ -157,7 +172,9 @@ class RandomInterpolator extends Interpolator{
 
 class RandomExpandingInterpolator extends Interpolator{
   public RandomExpandingInterpolator(){
-    super();
+    //super();
+    name = "RandomExpandingInterpolator";
+    description = "Provides an expanding random position between segment and center.";
   }
   // interpolate to center
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){

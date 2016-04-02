@@ -209,6 +209,7 @@ class BrushPutter extends SegmentPainter{
 		brushes[7] = new SprinkleBrush();
 		brushes[8] = new LeafBrush();
 		brushes[9] = new CustomBrush();
+		if(MAKE_DOCUMENTATION) documenter.addDoc(brushes,'d',name);
 	}
 
 	public Brush getBrush(int _index){
