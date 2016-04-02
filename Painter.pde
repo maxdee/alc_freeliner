@@ -15,7 +15,7 @@
 // extract colorizers?
 // gets a reference to one.
 
-class Painter implements FreelinerConfig{
+class Painter extends Mode{
 
 	// Since we paint we need colors
 	// arraySizes int Config.pde
@@ -23,10 +23,12 @@ class Painter implements FreelinerConfig{
 	Interpolator[] posGetters;
 
   PGraphics canvas;
-	String name = "Painter";
 	RenderableTemplate event;
 
 	public Painter(){
+		name = "Painter";
+		description = "Paints stuff";
+
 		initColorizers();
 		posGetters = new Interpolator[INTERPOLATOR_MODE_COUNT];
 		posGetters[0] = new Interpolator();
@@ -38,6 +40,7 @@ class Painter implements FreelinerConfig{
 		posGetters[6] = new DiameterInterpolator();
 		posGetters[7] = new RadiusInterpolator();
 		posGetters[8] = new SegmentOffsetInterpolator();
+		if(MAKE_DOCUMENTATION) documenter.addDoc( (Mode[])posGetters, 'e', "Enterpolators");
 	}
 
   public void paint(RenderableTemplate _rt){
@@ -60,11 +63,17 @@ class Painter implements FreelinerConfig{
 		colorizers = new Colorizer[COLOR_MODE_COUNT];
 		// basic colors
 		colorizers[0] = new SimpleColor(color(0));
+		colorizers[0].setDescrition("None");
     colorizers[1] = new SimpleColor(color(255));
+		colorizers[1].setDescrition("white");
     colorizers[2] = new SimpleColor(color(255, 0, 0));
+		colorizers[2].setDescrition("red");
     colorizers[3] = new SimpleColor(color(0, 255, 0));
+		colorizers[3].setDescrition("green");
     colorizers[4] = new SimpleColor(color(0, 0, 255));
+		colorizers[4].setDescrition("blue");
     colorizers[5] = new SimpleColor(color(0));
+		colorizers[5].setDescrition("black");
 		// userPallet colors
     colorizers[6] = new PalletteColor(0);
     colorizers[7] = new PalletteColor(1);
@@ -85,14 +94,14 @@ class Painter implements FreelinerConfig{
 		colorizers[21] = new HSBFade();
     colorizers[22] = new FlashyPrimaryColor();
     colorizers[23] = new FlashyGray();
-    colorizers[24] = new FlashyRandom();
+    colorizers[24] = new RandomRGB();
     colorizers[25] = new Strobe();
 		colorizers[26] = new Flash();
 		colorizers[27] = new JahColor();
     colorizers[28] = new CustomColor();
 		colorizers[29] = new MillisFade();
 		colorizers[30] = new HSBLerp();
-
+		if(MAKE_DOCUMENTATION) documenter.addDoc( (Mode[])colorizers, 'q', "Colorizers");
 	}
 
   public Colorizer getColorizer(int _index){
@@ -158,6 +167,8 @@ class LineToLine extends Painter{
 	String name = "lineToLine";
 
   public LineToLine(){
+		name = "LineToLine";
+		description = "Draws a line from a point interpolated on a segment to a point interpolated on a different segment, `d` key sets the different segment.";
   }
   public void paint(ArrayList<Segment> _segs, RenderableTemplate _rt){
     super.paint(_rt);

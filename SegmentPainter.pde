@@ -10,11 +10,13 @@
 
 // base class
 class SegmentPainter extends Painter{
-	final String name = "SegmentPainter";
+
 	// reference to the _event being rendered
 	// RenderableTemplate _event;
 
 	public SegmentPainter(){
+		name = "segmentPainter";
+		description = "paints segments";
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
@@ -30,9 +32,10 @@ class SegmentPainter extends Painter{
 
 // base class for line painter
 class LinePainter extends SegmentPainter{
-	final String name = "LinePainter";
 
 	public LinePainter(){
+		name = "LinePainter";
+		description = "base class for making lines";
 	}
 
 	// paint the segment in question
@@ -44,9 +47,10 @@ class LinePainter extends SegmentPainter{
 }
 
 class FunLine extends LinePainter {
-	final String name = "FunLine";
 
 	public FunLine(){
+		name = "FunLine";
+		description = "Makes a line between pointA and a position.";
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
@@ -57,9 +61,10 @@ class FunLine extends LinePainter {
 }
 
 class FullLine extends LinePainter {
-	final String name = "FullLine";
 
 	public FullLine(){
+		name = "FullLine";
+		description = "Draws a line on a segment, not animated.";
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
@@ -69,9 +74,10 @@ class FullLine extends LinePainter {
 }
 
 class TrainLine extends LinePainter {
-	final String name = "MiddleLine";
 
 	public TrainLine(){
+		name = "TrainLine";
+		description = "Line that comes out of point A and exits through pointB";
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
@@ -96,9 +102,10 @@ class TrainLine extends LinePainter {
 
 
 class MiddleLine extends LinePainter {
-	final String name = "MiddleLine";
 
 	public MiddleLine(){
+		name = "MiddleLine";
+		description = "line that expands from the middle of a segment.";
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
@@ -110,7 +117,10 @@ class MiddleLine extends LinePainter {
 }
 
 class Maypole extends LinePainter {
-	public Maypole(){}
+	public Maypole(){
+		name = "Maypole";
+		description = "Draw a line from center to position.";
+	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
@@ -120,7 +130,10 @@ class Maypole extends LinePainter {
 
 
 class Elliptic extends LinePainter {
-	public Elliptic(){}
+	public Elliptic(){
+		name = "Elliptic";
+		description = "Makes a expanding circle with segment as final radius.";
+	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
@@ -130,22 +143,26 @@ class Elliptic extends LinePainter {
 	}
 }
 
-class RadarPainter extends LinePainter {
-	public RadarPainter(){}
-
-	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		super.paintSegment(_seg, _event);
-		float dist = _seg.getLength();
-		float ang = (_event.getLerp()*TAU)+_seg.getAngle(true);
-		PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
-		pos.add(_seg.getStrokeOffsetA());
-		vecLine(_event.getCanvas(), _seg.getStrokeOffsetA(), pos);
-	}
-}
+// deprecated with interpolator
+// class RadarPainter extends LinePainter {
+// 	public RadarPainter(){}
+//
+// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
+// 		super.paintSegment(_seg, _event);
+// 		float dist = _seg.getLength();
+// 		float ang = (_event.getLerp()*TAU)+_seg.getAngle(true);
+// 		PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
+// 		pos.add(_seg.getStrokeOffsetA());
+// 		vecLine(_event.getCanvas(), _seg.getStrokeOffsetA(), pos);
+// 	}
+// }
 
 
 class SegToSeg extends LinePainter{
-	public SegToSeg(){}
+	public SegToSeg(){
+		name = "SegToSeg";
+		description = "Draws a line from a point on a segment to a point on a different segment. Affected by `e`";
+	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
@@ -169,13 +186,15 @@ class SegToSeg extends LinePainter{
 
 // base brush putter
 class BrushPutter extends SegmentPainter{
-	final String name = "BrusPutter";
+
 	Brush[] brushes;
 	// brush count in Config.pde
 
 
 	public BrushPutter(){
 		loadBrushes();
+		name = "BrusPainter";
+		description = "Place brush onto segment. Affected by `e`.";
 	}
 
 	public void loadBrushes(){
@@ -228,7 +247,8 @@ class BrushPutter extends SegmentPainter{
 
 class SimpleBrusher extends BrushPutter{
 
-	public SimpleBrusher(){}
+	public SimpleBrusher(){
+	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
@@ -238,22 +258,27 @@ class SimpleBrusher extends BrushPutter{
 	}
 }
 
-
-class SpiralBrusher extends BrushPutter{
-	final String name = "SpiralBrush";
-	public SpiralBrusher(){
-	}
-
-	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		super.paintSegment(_seg, _event);
-		PVector pv = _seg.getBrushPos(event.getLerp()).get();
-    pv = vecLerp(pv, _seg.getCenter(), event.getLerp()).get();
-		putShape(pv, _seg.getAngle(event.getDirection()));
-	}
-}
+// deprecated with thing
+// class SpiralBrusher extends BrushPutter{
+//
+// 	public SpiralBrusher(){
+// 		name = "SpiralBrush";
+// 		description = "SpiralBrush";
+// 	}
+//
+// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
+// 		super.paintSegment(_seg, _event);
+// 		PVector pv = _seg.getBrushPos(event.getLerp()).get();
+//     pv = vecLerp(pv, _seg.getCenter(), event.getLerp()).get();
+// 		putShape(pv, _seg.getAngle(event.getDirection()));
+// 	}
+// }
 
 class TwoBrusher extends BrushPutter{
-	public TwoBrusher(){}
+	public TwoBrusher(){
+		name = "TwoBrusher";
+		description = "Brushes in twice on segment in oposing directions.";
+	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
@@ -271,38 +296,42 @@ class TwoBrusher extends BrushPutter{
 	// }
 }
 
-
-class InShapeBrusher extends BrushPutter{
-	public InShapeBrusher(){
-
-	}
-
-	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		super.paintSegment(_seg, _event);
-		PVector pA = _seg.getStrokePos(_event.getLerp());
-		PVector cent = _seg.getCenter();
-		putShape(vecLerp(pA, cent, 0.5),  _seg.getAngle(event.getDirection()));
-	}
-}
+// deprecated
+// class InShapeBrusher extends BrushPutter{
+// 	public InShapeBrusher(){
+//
+// 	}
+//
+// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
+// 		super.paintSegment(_seg, _event);
+// 		PVector pA = _seg.getStrokePos(_event.getLerp());
+// 		PVector cent = _seg.getCenter();
+// 		putShape(vecLerp(pA, cent, 0.5),  _seg.getAngle(event.getDirection()));
+// 	}
+// }
 
 // center brusher
+// depracted
+// class CenterBrusher extends BrushPutter{
+//
+// 	public CenterBrusher(){}
+//
+// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
+// 		super.paintSegment(_seg, _event);
+// 		PVector pA = _seg.getBrushPos(0.0);
+// 		PVector cent = _seg.getCenter();
+// 		float ang = atan2(pA.y - cent.y, pA.x - cent.x);
+// 		putShape(vecLerp(pA, cent, event.getLerp()),  ang+(event.getDirection() ? PI : 0) + event.getAngleMod());
+// 	}
+// }
 
-class CenterBrusher extends BrushPutter{
-
-	public CenterBrusher(){}
-
-	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		super.paintSegment(_seg, _event);
-		PVector pA = _seg.getBrushPos(0.0);
-		PVector cent = _seg.getCenter();
-		float ang = atan2(pA.y - cent.y, pA.x - cent.x);
-		putShape(vecLerp(pA, cent, event.getLerp()),  ang+(event.getDirection() ? PI : 0) + event.getAngleMod());
-	}
-}
 
 class OppositeBrusher extends BrushPutter{
 
-	public OppositeBrusher(){}
+	public OppositeBrusher(){
+		name = "OpositeBrusher";
+		description = "Brushing direction alternates each segment.";
+	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
@@ -341,7 +370,10 @@ class OppositeBrusher extends BrushPutter{
 
 class TextWritter extends SegmentPainter{
 
-	public TextWritter(){}
+	public TextWritter(){
+		name = "TextWritter";
+		description = "Simple way of displaying a segment's text";
+	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);

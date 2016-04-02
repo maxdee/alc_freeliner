@@ -55,6 +55,8 @@ interface FreelinerConfig{
   final int DEFAULT_LINE_LENGTH = 128;
   final int MOUSE_DEBOUNCE = 100;
 
+  // generate documentation on startup
+  final boolean MAKE_DOCUMENTATION = true;
   /**
    * Your color pallette! customize it!
    * Use hex value or color(0,100,200);

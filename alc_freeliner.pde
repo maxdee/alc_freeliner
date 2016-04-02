@@ -13,11 +13,11 @@
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(1024, 768, P2D);
+  size(1024, 768, P2D);
   //size(1280, 768, P2D);
 
   //size(300, 300, P2D);
-  fullScreen(P2D, 2);
+  //fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   // needed for syphon!
   PJOGL.profile=1;
@@ -31,7 +31,7 @@ void settings(){
 ////////////////////////////////////////////////////////////////////////////////////
 
 FreeLiner freeliner;
-
+Documenter documenter;
 // fonts
 PFont font;
 PFont introFont;
@@ -50,6 +50,9 @@ boolean runGui = false;
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
+  // before anything else...
+  documenter = new Documenter();
+
   // pick your flavour of freeliner
   freeliner = new FreeLiner(this);
   //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
@@ -72,8 +75,11 @@ void setup() {
   else OSX = false;
   // perhaps use -> PApplet.platform == MACOSX
   background(0);
+
   splash();
   if(runGui) launchGUI();
+  // before anything else...
+  if(FreelinerConfig.MAKE_DOCUMENTATION) documenter.outputDoc();
 }
 
 // splash screen!
@@ -113,6 +119,8 @@ void draw() {
   freeliner.update();
   if(doSplash) splash();
 }
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

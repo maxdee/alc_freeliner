@@ -8,7 +8,7 @@
  */
 
 // PositionGetters are responsible for fetching a position from a segment.
-class Interpolator{
+class Interpolator extends Mode{
 
   public Interpolator(){}
 

@@ -2,8 +2,10 @@
 
 // Segment Selector take a segmentGroup and returns segments to render
 
-class SegmentSelector {
+class SegmentSelector extends Mode {
 	public SegmentSelector(){
+		name = "SegmentSelector";
+		description = "Selects segments to render";
 	}
 
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
@@ -22,6 +24,8 @@ class SegmentSelector {
  */
 class AllSegments extends SegmentSelector {
 	public AllSegments(){
+		name = "AllSegments";
+		description = "Renders all segments";
 	}
 
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
@@ -34,6 +38,8 @@ class AllSegments extends SegmentSelector {
  */
 class SequentialSegments extends SegmentSelector{
 	public SequentialSegments(){
+		name = "SequentialSegments";
+		description = "Renders one segment per beat in order.";
 	}
 
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
@@ -50,6 +56,8 @@ class SequentialSegments extends SegmentSelector{
  */
 class RunThroughSegments extends SegmentSelector{
 	public RunThroughSegments(){
+		name = "RunThroughSegments";
+		description = "Render all segments in order in one beat.";
 	}
 
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
@@ -71,6 +79,8 @@ class RunThroughSegments extends SegmentSelector{
  */
 class RandomSegment extends SegmentSelector{
 	public RandomSegment(){
+		name = "RandomSegment";
+		description = "Render a random segment per beat.";
 	}
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
 		ArrayList<Segment> segs = new ArrayList();
@@ -87,6 +97,8 @@ class RandomSegment extends SegmentSelector{
  */
 class FastRandomSegment extends SegmentSelector{
 	public FastRandomSegment(){
+		name = "FastRandomSegment";
+		description = "Render a different segment per frame";
 	}
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
 		ArrayList<Segment> segs = new ArrayList();
@@ -101,6 +113,8 @@ class FastRandomSegment extends SegmentSelector{
  */
 class SegmentBranch extends SegmentSelector{
 	public SegmentBranch(){
+		name = "SegmentBranch";
+		description = "Renders segment in branch level augmenting every beat";
 	}
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
 		int index = _event.getBeatCount();
@@ -114,6 +128,8 @@ class SegmentBranch extends SegmentSelector{
  */
 class RunThroughBranches extends SegmentSelector{
 	public RunThroughBranches(){
+		name = "RunThroughBranches";
+		description = "Render throught all the branch levels in one beat.";
 	}
 	public ArrayList<Segment> getSegments(RenderableTemplate _event){
 		float _segCount = _event.segmentGroup.treeBranches.size();

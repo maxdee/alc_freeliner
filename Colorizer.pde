@@ -2,11 +2,12 @@
 // base class for color picking
 // add global color pallette to manipulate.
 // then the color cycling modes can hop between pre determined colours.
-class Colorizer implements FreelinerConfig{
+class Colorizer extends Mode{
 	//custom colors?
-	final String name = "Colorizer";
 
   public Colorizer(){
+		name = "Colorizer";
+		description = "Pics a color according to stuff.";
   }
 
   public color get(RenderableTemplate _event, int _alpha){
@@ -45,6 +46,8 @@ class SimpleColor extends Colorizer{
 	color col;
 	public SimpleColor(color _c){
 		col = _c;
+		description = "simpleColor";
+		// set the name when instantiating.
 	}
 	public color get(RenderableTemplate _event, int _alpha){
 		return alphaMod(col , _alpha);
@@ -59,6 +62,8 @@ class PalletteColor extends Colorizer {
 
 	public PalletteColor(int _i){
 		colorIndex = _i;
+		name = "PalletteColor";
+		description = "Color of "+_i+" index in colorPalette";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -70,8 +75,10 @@ class PalletteColor extends Colorizer {
  * Working with primary colors
  */
 class PrimaryColor extends Colorizer {
-	public PrimaryColor(){
 
+	public PrimaryColor(){
+		name = "PrimaryColor";
+		description = "A primary color";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -95,7 +102,8 @@ class PrimaryColor extends Colorizer {
  */
 class RandomPrimaryColor extends PrimaryColor {
 	public RandomPrimaryColor(){
-
+		name = "RandomPrimaryColor";
+		description = "Primary color that should change every beat.";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -108,6 +116,8 @@ class RandomPrimaryColor extends PrimaryColor {
  */
 class PrimaryBeatColor extends PrimaryColor {
 	public PrimaryBeatColor(){
+		name = "PrimaryBeatColor";
+		description = "Cycles through primary colors on beat.";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -120,7 +130,8 @@ class PrimaryBeatColor extends PrimaryColor {
  */
 class FlashyPrimaryColor extends PrimaryColor {
 	public FlashyPrimaryColor(){
-
+		name = "FlashyPrimaryColor";
+		description = "Random primary color every frame.";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -136,7 +147,8 @@ class JahColor extends Colorizer {
 	color[] jah = {#CE000E,#E9FF00,#268E01};
 	final int JAH_COUNT = 3;
 	public JahColor(){
-
+		name = "JahColor";
+		description = "Red Green Yellow";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -154,7 +166,8 @@ class JahColor extends Colorizer {
 class RepetitionColor extends Colorizer {
 
 	public RepetitionColor(){
-
+		name = "RepetitionColor";
+		description = "Cycles through colors of the pallette";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -171,7 +184,8 @@ class RepetitionColor extends Colorizer {
  */
 class FlashyGray extends Colorizer {
 	public FlashyGray(){
-
+		name = "FlashyGray";
+		description = "Random shades of gray.";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -184,9 +198,10 @@ class FlashyGray extends Colorizer {
 /**
  * Constantly changing random color
  */
-class FlashyRandom extends Colorizer {
-	public FlashyRandom(){
-
+class RandomRGB extends Colorizer {
+	public RandomRGB(){
+		name = "RGB";
+		description = "Random red green and blue value every frame.";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -200,6 +215,8 @@ class FlashyRandom extends Colorizer {
  */
 class Strobe extends Colorizer {
 	public Strobe(){
+		name = "Strobe";
+		description = "Strobes white";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -213,6 +230,8 @@ class Strobe extends Colorizer {
  */
 class Flash extends Colorizer {
 	public Flash(){
+		name = "Flash";
+		description = "Flashes once per beat.";
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
@@ -229,6 +248,8 @@ class Flash extends Colorizer {
  */
 class MillisFade extends Colorizer {
 	public MillisFade(){
+		name = "MillisFade";
+		description = "HSB fade goes along with millis.";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
 
@@ -242,6 +263,8 @@ class MillisFade extends Colorizer {
  */
 class HSBLerp extends Colorizer {
 	public HSBLerp(){
+		name = "HSBLerp";
+		description = "HSB fade through beat.";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
 		color c = HSBtoRGB(_event.getLerp(), 1.0, 1.0);
@@ -254,6 +277,8 @@ class HSBLerp extends Colorizer {
  */
 class HSBFade extends Colorizer {
 	public HSBFade(){
+		name = "HSBFade";
+		description = "HSBFade stored on template/event.";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
 		float hue = _event.getHue();
@@ -270,6 +295,8 @@ class HSBFade extends Colorizer {
  */
 class CustomColor extends Colorizer {
 	public CustomColor(){
+		name = "CustomColor";
+		description = "Custom color for template.";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
 		return alphaMod(_event.getCustomColor(), _alpha);
