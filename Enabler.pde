@@ -7,8 +7,11 @@
  * @since     2014-12-01
  */
 
-class Enabler{
-	public Enabler(){}
+class Enabler extends Mode{
+	public Enabler(){
+		name = "loop";
+		description = "always render";
+	}
 
 	public boolean enable(RenderableTemplate _rt){
 		return true;
@@ -16,7 +19,10 @@ class Enabler{
 }
 
 class Disabler extends Enabler{
-	public Disabler(){}
+	public Disabler(){
+		name = "Disabler";
+		description = "Never render";
+	}
 
 	public boolean enable(RenderableTemplate _rt){
 		return false;
@@ -25,6 +31,8 @@ class Disabler extends Enabler{
 
 class Triggerable extends Enabler{
 	public Triggerable(){
+		name = "Triggerable";
+		description = "only render if triggered";
 	}
 	public boolean enable(RenderableTemplate _rt){
 		return false;
@@ -35,7 +43,10 @@ class Triggerable extends Enabler{
 
 
 class RandomEnabler extends Enabler{
-	public RandomEnabler(){}
+	public RandomEnabler(){
+		name = "RandomEnabler";
+		description = "Maybe render";
+	}
 	public boolean enable(RenderableTemplate _rt){
 		if(_rt.getRandomValue()%6 == 1) return true;
 		else return false;
@@ -47,7 +58,8 @@ class RandomEnabler extends Enabler{
 class SweepingEnabler extends Enabler{
 	final float DIST = 200.0;//float(width)/4.0;
 	public SweepingEnabler(){
-		super();
+		name = "SweepingEnabler";
+		description = "render per geometry from left to right";
 	}
 	public boolean enable(RenderableTemplate _rt){
 		float pos = _rt.getSegmentGroup().getCenter().x + DIST/2.0;
@@ -65,7 +77,8 @@ class SweepingEnabler extends Enabler{
 class SwoopingEnabler extends Enabler{
 	final float DIST = 200.0;//float(width)/4.0;
 	public SwoopingEnabler(){
-		super();
+		name = "SwoopingEnabler";
+		description = "render per geometry from right to left";
 	}
 	public boolean enable(RenderableTemplate _rt){
 		float pos = _rt.getSegmentGroup().getCenter().x - DIST/2.0;

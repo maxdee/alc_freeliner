@@ -32,6 +32,7 @@ class TemplateRenderer implements FreelinerConfig{
     renderModes[3] = new Geometry();
     renderModes[4] = new TextLine();
     renderModes[5] = new CircularSegment();
+    if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])renderModes, 'b', "RenderModes");
     // add repetitionModes
     repeaters = new Repetition[REPEATER_MODE_COUNT];
     repeaters[0] = new Single();
@@ -40,6 +41,7 @@ class TemplateRenderer implements FreelinerConfig{
     repeaters[3] = new ExpoSpaced();
     repeaters[4] = new TwoFull();
     repeaters[5] = new TwoSpaced();
+    if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])repeaters, 'i', "Repeaters");
 
     // add enablers
     enablers = new Enabler[ENABLER_MODE_COUNT];
@@ -50,6 +52,8 @@ class TemplateRenderer implements FreelinerConfig{
     enablers[4] = new SweepingEnabler();
     enablers[5] = new SwoopingEnabler();
     enablers[6] = new RandomEnabler();
+    if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])enablers, 'u', "EnablingModes");
+
 	}
 
   // /**

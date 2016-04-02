@@ -2,7 +2,7 @@
 // Repetition was iterator
 // returns different unit intervals in relation to
 // unit intervals that are negative means reverse.
-class Repetition implements FreelinerConfig {
+class Repetition extends Mode {
 	Easing[] easers;
 	Reverse[] reversers;
 	// easer and reversers count in Config.pde
@@ -10,6 +10,8 @@ class Repetition implements FreelinerConfig {
 	float rev = 1.0;
 
 	public Repetition(){
+		name = "repetition";
+		description = "how to darw multiples of one template";
 		easers = new Easing[EASING_MODE_COUNT];
 		easers[0] = new NoEasing();
 		easers[1] = new Square();
@@ -21,6 +23,7 @@ class Repetition implements FreelinerConfig {
 		easers[7] = new Fixed(1.0);
 		easers[8] = new Fixed(0.5);
 		easers[9] = new Fixed(0.0);
+		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])easers, 'h', name);
 
 		reversers = new Reverse[REVERSE_MODE_COUNT];
 		reversers[0] = new NotReverse();
@@ -28,6 +31,7 @@ class Repetition implements FreelinerConfig {
 		reversers[2] = new BackForth();
 		reversers[3] = new TwoTwoReverse();
 		reversers[4] = new RandomReverse();
+		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])reversers, 'j', name);
 
 	}
 
@@ -57,6 +61,8 @@ class Repetition implements FreelinerConfig {
 class Single extends Repetition {
 
 	public Single(){
+		name = "single";
+		description = "only draw template once";
 	}
 
 	public FloatList getFloats(RenderableTemplate _rt){
@@ -72,7 +78,10 @@ class Single extends Repetition {
  * Evenly spaced
  */
 class EvenlySpaced extends Repetition{
-	public EvenlySpaced(){}
+	public EvenlySpaced(){
+		name = "EvenlySpaced";
+		description = "Render things evenly spaced";
+	}
 
 	public FloatList getFloats(RenderableTemplate _rt){
 		rev = getReverser(_rt.getReverseMode()).getDirection(_rt);
@@ -92,7 +101,10 @@ class EvenlySpaced extends Repetition{
 }
 
 class EvenlySpacedWithZero extends EvenlySpaced{
-	public EvenlySpacedWithZero(){}
+	public EvenlySpacedWithZero(){
+		name = "EvenlySpacedWithZero";
+		description = "Render things evenly spaced with a fixed one at the begining and end";
+	}
 	public FloatList getFloats(RenderableTemplate _rt){
 		FloatList flts = super.getFloats(_rt);
 		flts.append(0);
@@ -102,7 +114,10 @@ class EvenlySpacedWithZero extends EvenlySpaced{
 }
 
 class ExpoSpaced extends EvenlySpaced{
-	public ExpoSpaced(){}
+	public ExpoSpaced(){
+		name = "ExpoSpaced";
+		description = "RenderMultiples but make em go faster";
+	}
 	public FloatList getFloats(RenderableTemplate _rt){
 		FloatList flts = new FloatList();
 		for(float _f : super.getFloats(_rt))  flts.append(pow(_f,2));
@@ -114,7 +129,10 @@ class ExpoSpaced extends EvenlySpaced{
  * TwoFull
  */
 class TwoFull extends Repetition{
-	public TwoFull(){}
+	public TwoFull(){
+		name = "TwoFull";
+		description = "Render twice in opposite directions";
+	}
 
 	public FloatList getFloats(RenderableTemplate _rt){
 		FloatList flts = new FloatList();
@@ -126,7 +144,10 @@ class TwoFull extends Repetition{
 }
 
 class TwoSpaced extends EvenlySpaced{
-	public TwoSpaced(){}
+	public TwoSpaced(){
+		name = "TwoFull";
+		description = "Render twice in opposite directions";
+	}
 	public FloatList getFloats(RenderableTemplate _rt){
 		FloatList flts = new FloatList();
 		for(float _f : super.getFloats(_rt)){

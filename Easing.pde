@@ -8,11 +8,12 @@
  * @since     2014-12-01
  */
 
+class Easing extends Mode{
 
-
-class Easing{
-
-	public Easing(){}
+	public Easing(){
+		name = "easing";
+		description = "ease the unti interval";
+	}
 	// passed seperatly cause I may want to ease other things than the unit interval
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return _lrp;
@@ -20,7 +21,10 @@ class Easing{
 }
 
 class NoEasing extends Easing {
-	public NoEasing(){}
+	public NoEasing(){
+		name = "linear";
+		description = "Linear movement";
+	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return _lrp;
@@ -28,7 +32,10 @@ class NoEasing extends Easing {
 }
 
 class Square extends Easing{
-	public Square(){}
+	public Square(){
+		name = "square";
+		description = "Power of 2.";
+	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return pow(_lrp, 2);
@@ -36,7 +43,10 @@ class Square extends Easing{
 }
 
 class Sine extends Easing{
-	public Sine(){}
+	public Sine(){
+		name = "sine";
+		description = "Sine ish";
+	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return sin((_lrp)*PI);
@@ -44,7 +54,10 @@ class Sine extends Easing{
 }
 
 class Cosine extends Easing{
-	public Cosine(){}
+	public Cosine(){
+		name = "cosine";
+		description = "cosine";
+	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return cos(_lrp*PI);
@@ -52,7 +65,10 @@ class Cosine extends Easing{
 }
 
 class Boost extends Easing{
-	public Boost(){}
+	public Boost(){
+		name = "boost";
+		description = "half a sine";
+	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return sin((_lrp)*HALF_PI);
@@ -60,7 +76,10 @@ class Boost extends Easing{
 }
 
 class RandomUnit extends Easing{
-	public RandomUnit(){}
+	public RandomUnit(){
+		name = "random";
+		description = "random unitInterval every frame";
+	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
 		return random(1.0);
@@ -71,6 +90,8 @@ class Fixed extends Easing{
 	float value;
 	public Fixed(float _f){
 		value = _f;
+		name = "fixed";
+		description = "fixed at "+_f;
 	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
@@ -88,6 +109,8 @@ class TargetNoise extends Easing{
 		target = 0;
 		position = 0;
 		frame = 0;
+		name = "targetNoise";
+		description = "fake audio response";
 	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
