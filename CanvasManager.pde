@@ -92,23 +92,24 @@ class LayeredCanvasManager extends CanvasManager{
     shaderLayers = new ArrayList();
 
     mergeLayer = new MergeLayer();
+    mergeLayer.getCanvas().blendMode(LIGHTEST);
+
+
 
     // begin stack
-    tracerLayer =  (TracerLayer)addLayer(new TracerLayer());
-
+    tracerLayer = (TracerLayer)addLayer(new TracerLayer());
     shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
     shaderLayer.loadFile(shaderFiles[0]);
-
-    // shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
-    // shaderLayer.loadFile("shaders/fragThree.glsl");
+    addLayer(mergeLayer);
+    addLayer(new RenderLayer()).setName("Untraced");
+    addLayer(mergeLayer);
 
     //addLayer(new ImageLayer()).loadFile("userdata/grey.png");
     //addLayer(new RenderLayer()).setName("First");
     //maskLayer = (MaskLayer)addLayer(new MaskLayer());
-    addLayer(mergeLayer);
+    //addLayer(mergeLayer);
 
-    addLayer(new RenderLayer()).setName("Untraced");
-    addLayer(mergeLayer);
+
 
     printLayers();
   }
@@ -141,6 +142,7 @@ class LayeredCanvasManager extends CanvasManager{
     PGraphics _prev = null;
     for(Layer _lr : layers) _prev = _lr.apply(_prev);
     mergeLayer.endDrawing();
+    //blendMode(BLEND);
     image(mergeLayer.getCanvas(),0,0);
     if(makeMaskFlag){
       maskLayer.makeMask(mergeLayer.getCanvas());

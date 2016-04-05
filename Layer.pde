@@ -114,6 +114,8 @@ class MergeLayer extends RenderLayer{
     name = "MergeLayer";
   }
   public PGraphics apply(PGraphics _pg){
+    // canvas.blendMode(LIGHTEST);
+    if(_pg == null) return null;
     canvas.image(_pg,0,0);
     return null;
   }
@@ -122,8 +124,6 @@ class MergeLayer extends RenderLayer{
    if(canvas != null){
      canvas.beginDraw();
      canvas.background(BACKGROUND_COLOR);
-     canvas.fill(255);
-     canvas.rect(100,100,100,100);
    }
   }
 }

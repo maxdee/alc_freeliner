@@ -7,22 +7,44 @@
  * @since     2014-12-01
  */
 
+import oscP5.*;
+import netP5.*;
+
 /**
  * HELLO THERE! WELCOME to FREELINER
  * Here are some settings. There are more settings in the Config.pde file.
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(1024, 768, P2D);
-  //size(1280, 768, P2D);
-
-  size(300, 300, P2D);
+  size(1024, 768, P2D);
+  //size(1024, 683, P2D);
   //fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   // needed for syphon!
   PJOGL.profile=1;
   smooth(0);
 }
+
+/**
+ * Your color pallette! customize it!
+ * Use hex value or color(0,100,200);
+ */
+final color[] userPallet = {
+                  #ffff00,
+                  #ffad10,
+                  #ff0000,
+                  #ff00ad,
+                  #f700f7,
+                  #ad00ff,
+                  #0000ff,
+                  #009cff,
+                  #00c6ff,
+                  #00deb5,
+                  #a5ff00,
+                  #f700f7,
+                };
+
+final int PALLETTE_COUNT = 12;
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -31,18 +53,22 @@ void settings(){
 ////////////////////////////////////////////////////////////////////////////////////
 
 FreeLiner freeliner;
-Documenter documenter;
 // fonts
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.4.1";
+final String VERSION = "0.4";
 boolean doSplash = true;
 boolean OSX = false;
 
+OscP5 oscP5;
+// where to send a sync message
+NetAddress toPDpatch;
+OscMessage tickmsg = new OscMessage("/freeliner/tick");
+
 ExternalGUI externalGUI = null; // set specific key to init gui
 boolean runGui = false;
-
+Documenter documenter;
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     Setup
@@ -50,18 +76,12 @@ boolean runGui = false;
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-  // before anything else...
   documenter = new Documenter();
-
   // pick your flavour of freeliner
-  //freeliner = new FreeLiner(this);
-  //freeliner = new FreelinerSyphon(this); <- FOR SYPHON
-  //freeliner = new FreelinerLED(this,"tunnel_map.xml");
-  //freeliner = new FreelinerLED(this,"tenDMX.xml");
-  freeliner = new FreelinerLED(this,"pds_dmx.xml");
-
-  //freeliner = new FreelinerLED(this,"geometry.xml");
-  //freeliner = new FreelinerLED(this,"bunz_triangle.xml");
+  freeliner = new FreeLiner(this);
+  //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON // implement in layer
+  //freeliner = new FreelinerSpout(this); // <- FOR SPOUT
+  //freeliner = new FreelinerLED(this,"a_led_map.xml"); // implement in layer?
 
   surface.setResizable(false);
   surface.setTitle("a!Lc Freeliner");
@@ -72,20 +92,21 @@ void setup() {
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");
 
+  //osc
+  oscP5 = new OscP5(this, FreelinerConfig.OSC_IN_PORT);
+  toPDpatch = new NetAddress(FreelinerConfig.OSC_OUT_IP, FreelinerConfig.OSC_OUT_PORT);
+  oscP5.addListener(freeliner.osc);
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
   // perhaps use -> PApplet.platform == MACOSX
-  background(0);
-
   splash();
   if(runGui) launchGUI();
-  // before anything else...
-  if(FreelinerConfig.MAKE_DOCUMENTATION) documenter.outputDoc();
 }
 
 // splash screen!
 void splash(){
+  background(0);
   stroke(100);
   fill(150);
   //setText(CENTER);
@@ -118,12 +139,14 @@ void closeGUI(){
 // do the things
 void draw() {
   background(0);
-  freeliner.update();
   if(doSplash) splash();
+  freeliner.update();
 }
 
-
-
+// sync message to other software
+void oscTick(){
+ oscP5.send(tickmsg, toPDpatch);
+}
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Input
