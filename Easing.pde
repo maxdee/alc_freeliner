@@ -99,6 +99,21 @@ class Fixed extends Easing{
 	}
 }
 
+class EaseInOut extends Easing{
+
+	public EaseInOut(){
+		name = "EaseInOut";
+		description = "Linera eas in and out";
+	}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+    if(_lrp < 0.5)
+      return _lrp *= 2;
+    else
+      return _lrp = -2*(_lrp-1.0);
+	}
+}
+
 
 class TargetNoise extends Easing{
 	int target;

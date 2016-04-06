@@ -23,15 +23,16 @@ class Repetition extends Mode {
 		easers[7] = new Fixed(1.0);
 		easers[8] = new Fixed(0.5);
 		easers[9] = new Fixed(0.0);
+		easers[10] = new EaseInOut();
+
 		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])easers, 'h', name);
 
 		reversers = new Reverse[REVERSE_MODE_COUNT];
 		reversers[0] = new NotReverse();
 		reversers[1] = new Reverse();
 		reversers[2] = new BackForth();
-		reversers[3] = new InOut();
-		reversers[4] = new TwoTwoReverse();
-		reversers[5] = new RandomReverse();
+		reversers[3] = new TwoTwoReverse();
+		reversers[4] = new RandomReverse();
 		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])reversers, 'j', name);
 
 	}
