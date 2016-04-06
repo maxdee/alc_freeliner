@@ -128,7 +128,7 @@ class BrushSegment extends PerSegment{
 // Make lines on segments
 class LineSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	final int PAINTER_COUNT = 6;
+	final int PAINTER_COUNT = 7;
 
 	public LineSegment(){
 		super();
@@ -139,6 +139,8 @@ class LineSegment extends PerSegment{
 		segmentPainters[3]  = new TrainLine();
     segmentPainters[4] = new Maypole();
     segmentPainters[5] = new SegToSeg();
+		segmentPainters[6] = new AlphaLine();
+
 		name = "LineSegment";
 		description = "Draw lines related to segments";
 		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])segmentPainters, 'a', name);

@@ -29,8 +29,9 @@ class Repetition extends Mode {
 		reversers[0] = new NotReverse();
 		reversers[1] = new Reverse();
 		reversers[2] = new BackForth();
-		reversers[3] = new TwoTwoReverse();
-		reversers[4] = new RandomReverse();
+		reversers[3] = new InOut();
+		reversers[4] = new TwoTwoReverse();
+		reversers[5] = new RandomReverse();
 		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])reversers, 'j', name);
 
 	}
@@ -66,8 +67,8 @@ class Single extends Repetition {
 	}
 
 	public FloatList getFloats(RenderableTemplate _rt){
-		rev = getReverser(_rt.getReverseMode()).getDirection(_rt);
 		FloatList flts = new FloatList();
+		rev = getReverser(_rt.getReverseMode()).getDirection(_rt);
 		float lrp = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
 		flts.append(lrp*rev);
 		return flts;

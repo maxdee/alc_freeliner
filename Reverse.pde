@@ -24,17 +24,36 @@ class NotReverse extends Reverse{
   }
 }
 
+
 class BackForth extends Reverse{
-	public BackForth(){
-    name = "BackForth";
-    description = "Goes back and forth according to beat";
-  }
+	public BackForth(){}
 
 	public float getDirection(RenderableTemplate _rt){
 		if(_rt.getBeatCount() % 2 == 0) return 1.0;
 		else return -1.0;
 	}
 }
+
+
+class InOut extends Reverse{
+	public InOut(){
+    name = "InOut";
+    description = "Goes out and in one beat";
+  }
+
+	public float getDirection(RenderableTemplate _rt){
+    float _lrp = _rt.getUnitInterval();
+    if(_lrp < 0.5) {
+      _rt.setUnitInterval(_lrp *= 2);
+      return 1.0;
+    }
+    else {
+      _rt.setUnitInterval(_lrp = 2*(_lrp-1.0));
+      return -1.0;
+    }
+	}
+}
+
 
 class TwoTwoReverse extends Reverse{
 	public TwoTwoReverse(){

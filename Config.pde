@@ -155,7 +155,7 @@ interface FreelinerConfig{
   final int ANIMATION_MODE_MAX = 8; // not a real limit, depends on renderMode...
   final int ROTATION_MODE_COUNT = 5;
   final int EASING_MODE_COUNT = 10;
-  final int REVERSE_MODE_COUNT = 5;
+  final int REVERSE_MODE_COUNT = 6;
   final int RENDER_MODE_COUNT = 6;
   final int REPEATER_MODE_COUNT = 6;
   final int ENABLER_MODE_COUNT = 7;

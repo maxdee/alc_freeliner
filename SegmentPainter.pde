@@ -73,6 +73,21 @@ class FullLine extends LinePainter {
 	}
 }
 
+class AlphaLine extends LinePainter{
+	public AlphaLine(){
+		name = "AlphaLine";
+		description = "modulates alpha channel, made for LEDs";
+	}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		color _col = getColorizer(event.getStrokeMode()).get(event,int(event.getLerp()*event.getStrokeAlpha()));
+		event.getCanvas().stroke(_col);
+		vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), _seg.getStrokeOffsetB());
+	}
+}
+
+
 class TrainLine extends LinePainter {
 
 	public TrainLine(){
