@@ -91,39 +91,29 @@ class FunFiller extends GroupPainter{
 }
 
 
+
 class InterpolatorShape extends GroupPainter{
 	public InterpolatorShape(){}
 
 	public void paintGroup(RenderableTemplate _rt){
 		super.paintGroup(_rt);
-		float angle = event.getAngleMod();  //getRotationMode()*(event.getLerp()*TWO_PI);
 		float lorp = 1-event.getLerp();
 		lorp*=lorp;
 		PVector center = event.getSegmentGroup().getCenter();
-		PShape shpe = createShape();
-		shpe.beginShape();
+		applyStyle(canvas);
+		canvas.beginShape();
 		PVector pos = new PVector(0,0);
 		PVector pa = new PVector(0,0);
 		boolean first = true;
 		for(Segment _seg : event.getSegmentGroup().getSegments()){
-			//pos = _seg.getPointA().get();
-			pos = getPosition(_seg);//vecLerp(pos, center, random(100)/100);
-			pos.sub(center);
+			pos = getPosition(_seg);
 			if(first){
 				first = false;
 				pa = pos.get();
 			}
-			shpe.vertex(pos.x, pos.y);
+			canvas.vertex(pos.x, pos.y);
 		}
-		shpe.vertex(pa.x, pa.y);
-		shpe.endShape();
-
-		canvas.pushMatrix();
-		applyStyle(shpe);
-		canvas.translate(center.x, center.y);
-		//canvas.scale(lorp);
-		canvas.rotate(angle);
-		canvas.shape(shpe);
-		canvas.popMatrix();
+		canvas.vertex(pa.x, pa.y);
+		canvas.endShape();
 	}
 }
