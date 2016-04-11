@@ -16,7 +16,6 @@ import netP5.*;
  */
 void settings(){
   // set the resolution, or fullscreen and display
-  //size(300,300, P2D);
   //if(FreelinerConfig.FULLSCREEN) fullScreen(P2D,2);
   //else size(FreelinerConfig.WINDOW_WIDTH, FreelinerConfig.WINDOW_HEIGHT, P2D);
   size(1024, 768, P2D);
@@ -60,7 +59,7 @@ FreeLiner freeliner;
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.4";
+final String VERSION = "0.4.1";
 boolean doSplash = true;
 boolean OSX = false;
 
@@ -105,13 +104,13 @@ void setup() {
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
   // perhaps use -> PApplet.platform == MACOSX
+  background(0);
   splash();
   if(runGui) launchGUI();
 }
 
 // splash screen!
 void splash(){
-  background(0);
   stroke(100);
   fill(150);
   //setText(CENTER);
@@ -144,8 +143,8 @@ void closeGUI(){
 // do the things
 void draw() {
   background(0);
-  if(doSplash) splash();
   freeliner.update();
+  if(doSplash) splash();
 }
 
 // sync message to other software
