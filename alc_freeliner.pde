@@ -17,14 +17,15 @@ import netP5.*;
 void settings(){
   // set the resolution, or fullscreen and display
   //size(300,300, P2D);
-  //size(1024, 768, P2D);
-
+  //if(FreelinerConfig.FULLSCREEN) fullScreen(P2D,2);
+  //else size(FreelinerConfig.WINDOW_WIDTH, FreelinerConfig.WINDOW_HEIGHT, P2D);
+  size(1024, 768, P2D);
+  //noSmooth();
   //size(1024, 683, P2D);
-  fullScreen(P2D, 2);
+  //fullScreen(P2D, 2);
   //fullScreen(P2D, SPAN);
   // needed for syphon!
   PJOGL.profile=1;
-  smooth(0);
 }
 
 /**
@@ -83,7 +84,7 @@ void setup() {
   freeliner = new FreeLiner(this);
   //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON // implement in layer
   //freeliner = new FreelinerSpout(this); // <- FOR SPOUT
-  //freeliner = new FreelinerLED(this,"a_led_map.xml"); // implement in layer?
+  //freeliner = new FreelinerLED(this,"tunnel_map_two.xml"); // implement in layer?
   //freeliner = new FreelinerLED(this,"tenDMX.xml"); // implement in layer?
 
 

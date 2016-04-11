@@ -1,5 +1,9 @@
 interface FreelinerConfig{
 
+  final int WINDOW_WIDTH = 1024;
+  final int WINDOW_HEIGHT = 768;
+  final boolean FULLSCREEN = false;
+
   // UDP Port for incomming messages
   final int OSC_IN_PORT = 6667;
   // UDP Port for outgoing sync message
