@@ -21,7 +21,8 @@ class OSClistener implements OscEventListener{
 
   // new OSC messages = /freeliner/tw/A/q 3 ???
   void oscEvent(OscMessage _mess) {  /* check if theOscMessage has the address pattern we are looking for. */
-    String[] _cmd = split(_mess.addrPattern().replaceFirst("/", ""), '/');
-    commandProcessor.processCMD(_cmd);
+    String _cmd = _mess.addrPattern().replaceAll("/", " ").replaceFirst(" ", "");
+    commandProcessor.queueCMD(_cmd);//processCMD(_cmd);
+    //commandProcessor.processCMD(_cmd);
   }
 }
