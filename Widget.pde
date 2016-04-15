@@ -39,6 +39,9 @@ public class Widget implements FreelinerConfig{
   String label = "";
   int inset = 2;
 
+  String command = "";
+  String cmdBuffer = null;
+
   // callback
   // Method callback;
 
@@ -70,7 +73,7 @@ public class Widget implements FreelinerConfig{
 
   public void showLabel(PGraphics _pg){
     _pg.fill(255);
-    _pg.textSize(18);
+    _pg.textSize(14);
     if(label.length()>0) _pg.text(label, pos.x+size.x+2, pos.y + size.y - inset);
   }
 
@@ -126,6 +129,16 @@ public class Widget implements FreelinerConfig{
    */
   public void action(int _button){
     // you can use mouseFloat for info
+    //cmdBuffer = command+" "+1;
+  }
+
+  public String getCmd(){
+    if(cmdBuffer == null) return null;
+    else {
+      String _out = cmdBuffer;
+      cmdBuffer = null;
+      return _out;
+    }
   }
 
   public void setPos(PVector _pos){
@@ -154,9 +167,11 @@ public class Widget implements FreelinerConfig{
  */
 class Button extends Widget {
   int counter;
-  public Button(PVector _pos, PVector _sz){
+  public Button(PVector _pos, PVector _sz, String _cmd){
     super(_pos, _sz);
     counter = 0;
+    label = _cmd;
+    command = _cmd;
   }
 
   public void show(PGraphics _canvas){
@@ -169,6 +184,7 @@ class Button extends Widget {
   }
 
   public void action(int _button){
+    cmdBuffer = command;
   }
 
   public void click(int _mb){
@@ -213,10 +229,11 @@ class Toggle extends Widget {
 class Fader extends Widget {
   float value;
 
-  public Fader(PVector _pos, PVector _sz){
+  public Fader(PVector _pos, PVector _sz, String _cmd){
     super(_pos, _sz);
     value = 0.5;
-    label = "haha";
+    label = _cmd;
+    command = _cmd;
   }
 
   public void show(PGraphics _canvas){
@@ -229,6 +246,7 @@ class Fader extends Widget {
 
   public void action(int _button){
     value = constrain(mouseFloat.x, 0.0, 1.0);
+    cmdBuffer = command+" "+value;
   }
 }
 

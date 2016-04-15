@@ -18,6 +18,7 @@ public class ExternalGUI extends PApplet {
 
   // reference to the freeliner instance to control
   FreeLiner freeliner;
+  CommandProcessor commandProcessor;
   // canvas to draw to, is needed to be passed to objects that need to draw.
   PGraphics canvas;
   // mouse cursor
@@ -41,6 +42,7 @@ public class ExternalGUI extends PApplet {
   public ExternalGUI(FreeLiner _fl){
     super();
     freeliner = _fl;
+    commandProcessor = freeliner.getCommandProcessor();
     cursor = new PVector(0,0);
     windowFocus = true;
     widgets = new ArrayList();
@@ -50,6 +52,19 @@ public class ExternalGUI extends PApplet {
                                 new PVector(GUI_WIDTH, 100),
                                 freeliner.getTemplateManager().getSequencer(),
                                 freeliner.getTemplateManager().getTemplateList()));
+    int _lp = 10;
+    int _sz = 16;
+    widgets.add(new Fader(new PVector(_lp,24+20), new PVector(128,_sz), "post shader 0"));
+    widgets.add(new Fader(new PVector(_lp,48+20), new PVector(128,_sz), "post shader 1"));
+    widgets.add(new Fader(new PVector(_lp,72+20), new PVector(128,_sz), "post shader 2"));
+    widgets.add(new Fader(new PVector(_lp,96+20), new PVector(128,_sz), "post shader 3"));
+
+    widgets.add(new Button(new PVector(256,24+20), new PVector(_sz,_sz), "post shader 0"));
+    widgets.add(new Button(new PVector(256,48+20), new PVector(_sz,_sz), "post shader 1"));
+    widgets.add(new Button(new PVector(256,72+20), new PVector(_sz,_sz), "post shader 2"));
+    widgets.add(new Button(new PVector(256,96+20), new PVector(_sz,_sz), "post shader 3"));
+
+
     selectedWidget = null;
   }
 
@@ -83,9 +98,13 @@ public class ExternalGUI extends PApplet {
     else background(50,50,50);
     // update the widgets with the mouse position
     if(!mousePressed) selectedWidget = null;
-    for(Widget wdgt : widgets){
-      if(!mousePressed && wdgt.update(cursor)) selectedWidget = wdgt;
+    for(Widget _wdgt : widgets){
+      if(!mousePressed && _wdgt.update(cursor)) selectedWidget = _wdgt;
     }
+    for(Widget _wdgt : widgets)
+      commandProcessor.queueCMD(_wdgt.getCmd());
+
+
 
     // draw stuff
     canvas.beginDraw();

@@ -383,7 +383,6 @@ class Keyboard implements FreelinerConfig{
   public void saveStuff(){
     makeCMD("geom"+" "+"save");
     makeCMD("tp"+" "+"save");
-    makeCMD("post"+" "+"shader"+" "+0);
   }
 
   /**

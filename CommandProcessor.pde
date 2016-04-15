@@ -122,6 +122,7 @@ class CommandProcessor implements FreelinerConfig{
    * @param String command
    */
   public void processCMD(String _cmd){
+    if(_cmd == null) return;
     // if(record)
     processCMD(split(_cmd, ' '));
   }
