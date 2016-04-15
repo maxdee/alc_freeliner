@@ -301,9 +301,11 @@ class TemplateManager{
   }
 
   public void resetTemplate(String _tags){
-    if(_tags.length() > 0)
-      for(int i = 0; i < _tags.length(); i++)
-        getTemplate(_tags.charAt(i)).reset();
+    if(_tags == null) return;
+    else if(_tags.length() > 0){
+      ArrayList<TweakableTemplate> _tps = getTemplates(_tags);
+      if(_tps != null) for(TweakableTemplate _tp : _tps) _tp.reset();
+    }
   }
   /**
    * Set a template's custom color, this is done with OSC.

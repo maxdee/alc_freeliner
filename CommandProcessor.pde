@@ -128,7 +128,6 @@ class CommandProcessor implements FreelinerConfig{
   }
 
   public void processCMD(String[] _args){
-    // println(_args);
     boolean _used = false;
     if(_args.length == 0) return;
     if(_args[0].equals("tw")) _used = templateCMD(_args); // good

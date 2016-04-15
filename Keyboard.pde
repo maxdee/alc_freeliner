@@ -111,23 +111,20 @@ class Keyboard implements FreelinerConfig{
   public void keyCodePress(int _kc) {
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
 
-    // make the appropriate char
-    char _k = char(_kc);
-
     // if in text entry mode
     if(processKeyCodes(_kc)) return; // TAB SHIFT and friends
-    else if (enterText) textEntry(_k);
+    else if (enterText) textEntry(char(_kc));
+    else if (_kc >= 48 && _kc <= 57) numMaker(char(_kc)); // grab numbers into the numberMaker
+    else if (isCapsLock() || shifted) processCAPS(char(_kc)); // grab uppercase letters
     else {
-      if (_k >= 48 && _k <= 57) numMaker(_k); // grab numbers into the numberMaker
-      //else if (_k == ENTER) returnNumber(); // grab enter
-      else if (isCapsLock() || shifted) processCAPS(_k); // grab uppercase letters
-      else if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
-      else if (_k == '-') distributor(editKey, -2, true); //decrease value
-      else if (_k == '=') distributor(editKey, -1, true); //increase value
-      else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
+      // prevent caps here.
+      if(_kc >= 65 && _kc <= 90) _kc+=32;
+      if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
+      else if (_kc == '-') distributor(editKey, -2, true); //decrease value
+      else if (_kc == '=') distributor(editKey, -1, true); //increase value
+      else if (_kc == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
       else{
-        if(_k >= 65 && _k <= 90) _k+=32;
-        setEditKey(_k, KEY_MAP);
+        setEditKey(char(_kc), KEY_MAP);
         distributor(editKey, -3, true);
       }
     }
@@ -208,7 +205,7 @@ class Keyboard implements FreelinerConfig{
  * @param int ascii value of the key
  */
   public void modCommands(char _k){
-    //println("Mod : "+_k);
+    println("Mod : "+_k);
     // quick fix for ctrl-alt in OSX
     boolean _ctrl = isCtrled();
     if (_k == 'a') focusAll();
