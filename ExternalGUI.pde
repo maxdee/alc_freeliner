@@ -9,9 +9,10 @@
 
 import processing.core.PApplet;
 import processing.core.PSurface;
-import controlP5.*;
+
 /**
  * ExternalGUI is a seperate PApplet launched by freeliner
+ * aka the old gui, but we are keping it around because why not.
  */
 public class ExternalGUI extends PApplet {
 
@@ -24,17 +25,14 @@ public class ExternalGUI extends PApplet {
   // send keys from externalGUI to freeliner keyboard input
   boolean relayKeys = true;
   // externalGUI size, make sure you also change them in the settings() method
-  final int WIDTH = 1000;
-  final int HEIGHT = 700;
+  final int GUI_WIDTH = 800;
+  final int GUI_HEIGHT = 320;
   // ArrayList of widgets
   ArrayList<Widget> widgets;
   // the selected widget, aka the one that the cursor hovers
   Widget selectedWidget;
 
   boolean windowFocus;
-
-  ControlP5 cp5;
-  ControlP5Controler flcp5;
 
   /**
    * Constructor,
@@ -47,13 +45,12 @@ public class ExternalGUI extends PApplet {
     windowFocus = true;
     widgets = new ArrayList();
     // InfoLine is the same info the regular GUI shows
-    widgets.add(new InfoLine(new PVector(0,0), new PVector(WIDTH, 22), freeliner.getGui()));
-    widgets.add(new SequenceGUI(new PVector(0, HEIGHT - 150),
-                                new PVector(WIDTH, 150),
+    widgets.add(new InfoLine(new PVector(0,0), new PVector(GUI_WIDTH, 22), freeliner.getGui()));
+    widgets.add(new SequenceGUI(new PVector(0, GUI_HEIGHT - 100),
+                                new PVector(GUI_WIDTH, 100),
                                 freeliner.getTemplateManager().getSequencer(),
                                 freeliner.getTemplateManager().getTemplateList()));
     selectedWidget = null;
-
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -64,24 +61,17 @@ public class ExternalGUI extends PApplet {
 
   // your traditional sketch settings function
   public void settings(){
-    size(1000, 700, P2D);
-    smooth(0);
+    size(GUI_WIDTH, GUI_HEIGHT, P2D);
+    noSmooth();
   }
 
   // your traditional sketch setup function
   public void setup() {
-    canvas = createGraphics(WIDTH, HEIGHT, P2D);
+    canvas = createGraphics(GUI_WIDTH, GUI_HEIGHT, P2D);
     canvas.textFont(font);
     surface.setResizable(false); // keep it pretty
     textMode(CORNER);
     hint(ENABLE_KEY_REPEAT); // usefull for performance
-    //frameRate(10); // keep it fast?
-    cp5 = new ControlP5(this);
-    flcp5 = new ControlP5Controler(cp5, freeliner);
-  }
-
-  void controlEvent(ControlEvent _ev){
-    flcp5.controlEvent(_ev);
   }
 
   public void draw(){

@@ -38,6 +38,10 @@ public class Widget implements FreelinerConfig{
   // label
   String label = "";
   int inset = 2;
+
+  // callback
+  // Method callback;
+
   /**
    * Constructor
    * @param PVector position of top left corner of widget
