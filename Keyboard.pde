@@ -93,22 +93,34 @@ class Keyboard implements FreelinerConfig{
 
   public void processKey(char _k, int _kc) {
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
+    // rules
+    if(_kc == 173) _k = '-';
+    if(_kc == 13) _kc = 10;
     // if in text entry mode
     if(processKeyCodes(_kc)) return; // TAB SHIFT and friends
     else if (enterText) textEntry(_k);
     else {
       if (_k >= 48 && _k <= 57) numMaker(_k); // grab numbers into the numberMaker
-      else if (_k == ENTER) returnNumber(); // grab enter
-      else if (_k >= 65 && _k <= 90) processCAPS(_k); // grab uppercase letters
+      //else if (_k == ENTER) returnNumber(); // grab enter
+      else if ((_k >= 65 && _k <= 90) && shifted) processCAPS(_k); // grab uppercase letters
       else if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
       else if (_k == '-') distributor(editKey, -2, true); //decrease value
       else if (_k == '=') distributor(editKey, -1, true); //increase value
       else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
       else{
+        if(_k >= 65 && _k <= 90) _k+=32;
         setEditKey(_k, KEY_MAP);
         distributor(editKey, -3, true);
       }
     }
+  }
+
+  public void processKeyCode(int _code){
+    processKey(char(_code), _code);
+  }
+
+  public void processKeyCodeRelease(int _code){
+    processRelease(char(_code), _code);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -123,6 +135,7 @@ class Keyboard implements FreelinerConfig{
    */
   public boolean processKeyCodes(int kc) {
     if (kc == SHIFT) shifted = true;
+    else if (kc == ENTER) returnNumber(); // grab enter
     else if (kc == ESC || kc == 27) unSelectThings();
     else if (kc==CONTROL) setCtrled(true);
     else if (kc==ALT) setAlted(true);
@@ -281,7 +294,7 @@ class Keyboard implements FreelinerConfig{
    * @param boolean display the valueGiven in the gui.
    * @return boolean if the key was used.
    */
-   // #needswork
+   // #needswork put to command processor...
   public boolean segmentGroupDispatch(SegmentGroup _sg, char _k, int _n, boolean _vg) {
     boolean used_ = true;
     String valueGiven_ = null;

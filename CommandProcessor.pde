@@ -48,7 +48,7 @@
  * /////////////////// Information Accessors
  * fetch infoline
  * ///////////////////
- * raw kbd 96 3
+ * raw kbd 'keyCode'
  */
 
 /**
@@ -62,6 +62,7 @@ class CommandProcessor implements FreelinerConfig{
   Synchroniser synchroniser;
   Sequencer sequencer;
   Mouse mouse;
+  Keyboard keyboard;
   Gui gui;
 
   FreeLiner freeliner;
@@ -91,6 +92,7 @@ class CommandProcessor implements FreelinerConfig{
     canvasManager = _fl.getCanvasManager();
     groupManager = _fl.getGroupManager();
     mouse = _fl.getMouse();
+    keyboard = _fl.getKeyboard();
     gui = _fl.getGui();
   }
 
@@ -136,6 +138,8 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("tools")) _used = toolsCMD(_args);
     else if(_args[0].equals("geom")) _used = geometryCMD(_args);
     else if(_args[0].equals("fetch")) _used = fetchCMD(_args);
+    else if(_args[0].equals("raw")) _used = rawCMD(_args);
+
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
   }
@@ -156,6 +160,16 @@ class CommandProcessor implements FreelinerConfig{
   public boolean fetchCMD(String[] _args){
     if(_args.length < 2) return false;
     if(_args[1].equals("infoline")) freeliner.oscInfoLine();
+    else if(_args[1].equals("infoweb")) freeliner.webInfoLine();
+    else return false;
+    return true;
+  }
+
+  public boolean rawCMD(String[] _args){
+    if(_args.length < 3) return false;
+    if(_args[1].equals("press")) keyboard.processKeyCode(stringInt(_args[2]));
+    else if(_args[1].equals("release")) keyboard.processKeyCodeRelease(stringInt(_args[2]));
+
     else return false;
     return true;
   }

@@ -63,10 +63,7 @@ final String VERSION = "0.4.1";
 boolean doSplash = true;
 boolean OSX = false;
 
-OscP5 oscP5;
-// where to send a sync message
-NetAddress toPDpatch;
-OscMessage tickmsg = new OscMessage("/freeliner/tick");
+
 
 ExternalGUI externalGUI = null; // set specific key to init gui
 boolean runGui = false;
@@ -96,10 +93,6 @@ void setup() {
   introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
   font = loadFont("Arial-BoldMT-48.vlw");
 
-  //osc
-  oscP5 = new OscP5(this, FreelinerConfig.OSC_IN_PORT);
-  toPDpatch = new NetAddress(FreelinerConfig.OSC_OUT_IP, FreelinerConfig.OSC_OUT_PORT);
-  oscP5.addListener(freeliner.osc);
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else OSX = false;
@@ -147,15 +140,15 @@ void draw() {
   if(doSplash) splash();
 }
 
-// sync message to other software
-void oscTick(){
- oscP5.send(tickmsg, toPDpatch);
-}
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Input
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
+
+void webSocketServerEvent(String _cmd){
+  freeliner.getCommandProcessor().queueCMD(_cmd);
+}
 
 // relay the inputs to the mapper
 void keyPressed() {

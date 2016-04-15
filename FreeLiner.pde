@@ -7,9 +7,6 @@
  * @since     2014-12-01
  */
 
- import oscP5.*;
- import netP5.*;
-
 /**
  * Main class for alc_freeliner
  * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
@@ -21,30 +18,22 @@ class FreeLiner implements FreelinerConfig{
   // view
   TemplateRenderer templateRenderer;
   CanvasManager canvasManager; // new!
-
-  // int trailmix = -1;
   Gui gui;
-
   // control
   Mouse mouse;
   Keyboard keyboard;
-  OSClistener osc;
-  // new part
+  // new parts
   CommandProcessor commandProcessor;
+  FreelinerCommunicator oscComs;
+  WebSocketCommunicator webComs;
+
   // misc
   boolean windowFocus;
   PApplet applet;
 
-  OscP5 oscP5;
-  // where to send a sync message
-  NetAddress toPDpatch;
-  OscMessage tickmsg = new OscMessage("/freeliner/tick");
-
   public FreeLiner(PApplet _pa) {
     applet = _pa;
     // instantiate
-
-
 
     // model
     groupManager = new GroupManager();
@@ -55,17 +44,15 @@ class FreeLiner implements FreelinerConfig{
     // pick a rendering system
     if(RENDERING_PIPELINE == 0) canvasManager = new ClassicCanvasManager();
     else if(RENDERING_PIPELINE == 1) canvasManager = new LayeredCanvasManager();
-
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();
-    //osc
-    osc = new OSClistener();
-    oscP5 = new OscP5(applet, OSC_IN_PORT);
-    toPDpatch = new NetAddress(OSC_OUT_IP, OSC_OUT_PORT);
-    oscP5.addListener(osc);
-
     commandProcessor = new CommandProcessor();
+
+    // osc + webSocket
+    oscComs = new OSCCommunicator(applet, commandProcessor);
+    webComs = new WebSocketCommunicator(applet, commandProcessor);
+
     // inject dependence
     mouse.inject(groupManager, keyboard);
     keyboard.inject(this);
@@ -74,10 +61,21 @@ class FreeLiner implements FreelinerConfig{
     groupManager.inject(templateManager);
     commandProcessor.inject(this);
     canvasManager.inject(templateRenderer);
-    osc.inject(commandProcessor);
     windowFocus = true;
   }
 
+  // sync message to other software
+  void oscTick(){
+    oscComs.send("freeliner tick");
+  }
+
+  void oscInfoLine(){
+    oscComs.send(gui.getInfo());
+  }
+
+  void webInfoLine(){
+    webComs.send(gui.getInfo());
+  }
   /**
    * It all starts here...
    */
@@ -140,13 +138,13 @@ class FreeLiner implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   // sync message to other software
-  void oscTick(){
-    oscP5.send(tickmsg, toPDpatch);
-  }
-
-  void oscInfoLine(){
-    oscP5.send(new OscMessage("/freeliner/infoline").add(gui.getInfo()), toPDpatch);
-  }
+  // void oscTick(){
+  //   oscP5.send(tickmsg, toPDpatch);
+  // }
+  //
+  // void oscInfoLine(){
+  //   oscP5.send(new OscMessage("/freeliner/infoline").add(gui.getInfo()), toPDpatch);
+  // }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
