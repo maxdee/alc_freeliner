@@ -208,15 +208,14 @@ class Keyboard implements FreelinerConfig{
  * @param int ascii value of the key
  */
   public void modCommands(char _k){
-    println("Mod : "+_k);
+    //println("Mod : "+_k);
     // quick fix for ctrl-alt in OSX
     boolean _ctrl = isCtrled();
-    _k += 32;
     if (_k == 'a') focusAll();
-    else if(_k == 'c') makeCMD("tp"+" "+"copy"+" "+templateManager.getTemplateList().getTags());
-    else if(_k == 'v') makeCMD("tp"+" "+"paste"+" "+templateManager.getTemplateList().getTags());
-    else if(_k == 'b') makeCMD("tp"+" "+"share"+" "+templateManager.getTemplateList().getTags());
-    else if(_k == 'r') makeCMD("tp"+" "+"reset"+" "+templateManager.getTemplateList().getTags());
+    else if(_k == 'c') makeCMD("tp"+" "+"copy"+" $");
+    else if(_k == 'v') makeCMD("tp"+" "+"paste"+" $");
+    else if(_k == 'b') makeCMD("tp"+" "+"share"+" $");
+    else if(_k == 'r') makeCMD("tp"+" "+"reset"+" $");
     else if(_k == 'm') makeCMD("post"+" "+"mask");
 
     else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape needs a cmd

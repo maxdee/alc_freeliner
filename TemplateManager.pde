@@ -240,11 +240,12 @@ class TemplateManager{
 
   // for ABCD (A->BCD)
   public void copyTemplate(String _tags){
-    if(_tags.length() == 0) return;
-    if(_tags.length() == 1) copyTemplate(getTemplate(_tags.charAt(0)), null);
+    ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+    if(_tmps == null) return;
+    if(_tmps.size() == 1) copyTemplate(_tmps.get(0), null);
     else
-      for(int i = 1; i < _tags.length(); i++)
-        copyTemplate(getTemplate(_tags.charAt(0)), getTemplate(_tags.charAt(i)));
+      for(int i = 1; i < _tmps.size(); i++)
+        copyTemplate(_tmps.get(0), _tmps.get(i));
   }
 
   public void copyTemplate(TweakableTemplate _toCopy, TweakableTemplate _toPaste){
@@ -260,9 +261,12 @@ class TemplateManager{
   }
 
   public void pasteTemplate(String _tags){
-    if(_tags.length() > 0)
-      for(int i = 0; i < _tags.length(); i++)
-        pasteTemplate(getTemplate(_tags.charAt(i)));
+    ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+    if(_tmps == null) return;
+    if(_tmps.size() == 1) pasteTemplate(_tmps.get(0));
+    else
+      for(int i = 0; i < _tmps.size(); i++)
+        pasteTemplate(_tmps.get(i));
   }
 
   public void pasteTemplate(TweakableTemplate _pasteInto){
@@ -277,9 +281,12 @@ class TemplateManager{
   }
 
   public void groupAddTemplate(String _tags){
-    if(_tags.length() > 0)
-      for(int i = 1; i < _tags.length(); i++)
-        groupAddTemplate(getTemplate(_tags.charAt(0)), getTemplate(_tags.charAt(i)));
+    ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+    if(_tmps == null) return;
+    if(_tmps.size() == 1) return;
+    else
+      for(int i = 1; i < _tmps.size(); i++)
+        groupAddTemplate(_tmps.get(0), _tmps.get(i));
   }
 
   public void groupAddTemplate(TweakableTemplate _a, TweakableTemplate _b){
