@@ -7,6 +7,10 @@
  * @since     2014-12-01
  */
 
+// imports for detecting capslock state
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+
 /**
  * Manage a keyboard
  * <p>
@@ -17,7 +21,6 @@
  * TAB tab through segmentGroups, SHIFT to reverse
  * BACKSPACE remove selected segment
  */
-
 class Keyboard implements FreelinerConfig{
 
   // dependecy injection
@@ -84,25 +87,40 @@ class Keyboard implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  // local keyboard keypress
+  public void keyPressed(int _kc){
+    // first turn the keyCode to caps if needed
+    if(_kc >= 65 && _kc <= 90)
+      if(isCapsLock() == shifted) _kc += 32;
+    keyCodePress(_kc);
+  }
+
+  // local keyboard keyrelease
+  public void keyReleased(int _kc){
+    if(_kc >= 65 && _kc <= 90)
+      if(isCapsLock() == shifted) _kc += 32;
+    keyCodeRelease(_kc);
+  }
+
   /**
    * receive and key and keycode from papplet.keyPressed();
    *
    * @param char key that was press
    * @param int the keyCode
    */
-
-  public void processKey(char _k, int _kc) {
+  public void keyCodePress(int _kc) {
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
-    // rules
-    if(_kc == 173) _k = '-';
-    if(_kc == 13) _kc = 10;
+
+    // make the appropriate char
+    char _k = char(_kc);
+
     // if in text entry mode
     if(processKeyCodes(_kc)) return; // TAB SHIFT and friends
     else if (enterText) textEntry(_k);
     else {
       if (_k >= 48 && _k <= 57) numMaker(_k); // grab numbers into the numberMaker
       //else if (_k == ENTER) returnNumber(); // grab enter
-      else if ((_k >= 65 && _k <= 90) && shifted) processCAPS(_k); // grab uppercase letters
+      else if (isCapsLock() || shifted) processCAPS(_k); // grab uppercase letters
       else if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
       else if (_k == '-') distributor(editKey, -2, true); //decrease value
       else if (_k == '=') distributor(editKey, -1, true); //increase value
@@ -115,14 +133,16 @@ class Keyboard implements FreelinerConfig{
     }
   }
 
-  public void processKeyCode(int _code){
-    processKey(char(_code), _code);
+  /**
+   * Process key release, mostly affecting coded keys.
+   * @param char the key
+   * @param int the keyCode
+   */
+  public void keyCodeRelease(int _kc) {
+    if (_kc==16) shifted = false;
+    else if (_kc==17) ctrled = false;
+    else if (_kc==18) alted = false;
   }
-
-  public void processKeyCodeRelease(int _code){
-    processRelease(char(_code), _code);
-  }
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Interpretation
@@ -150,19 +170,6 @@ class Keyboard implements FreelinerConfig{
     return true;
     //else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
   }
-
-/**
- * Process key release, mostly affecting coded keys.
- * @param char the key
- * @param int the keyCode
- */
-  public void processRelease(char k, int kc) {
-    if (kc==16) shifted = false;
-    else if (kc==17) ctrled = false;
-    else if (kc==18) alted = false;
-  }
-
-
 
 /**
  * Process capital letters. A trick is applied here, different actions happen if caps-lock is on or shift is pressed.
@@ -284,7 +291,6 @@ class Keyboard implements FreelinerConfig{
     if(_vg) gui.setValueGiven(processor.getValueGiven());
     return used_;
   }
-
 
   /**
    * Distribute parameters for segmentGroups, such as place center, set scalar, or grab as cutom shape
@@ -556,6 +562,10 @@ class Keyboard implements FreelinerConfig{
 
   public boolean isShifted(){
     return shifted;
+  }
+
+  public boolean isCapsLock(){
+    return Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
   }
 
 }

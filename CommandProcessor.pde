@@ -167,8 +167,8 @@ class CommandProcessor implements FreelinerConfig{
 
   public boolean rawCMD(String[] _args){
     if(_args.length < 3) return false;
-    if(_args[1].equals("press")) keyboard.processKeyCode(stringInt(_args[2]));
-    else if(_args[1].equals("release")) keyboard.processKeyCodeRelease(stringInt(_args[2]));
+    if(_args[1].equals("press")) keyboard.keyCodePress(stringInt(_args[2]));
+    else if(_args[1].equals("release")) keyboard.keyCodeRelease(stringInt(_args[2]));
 
     else return false;
     return true;
