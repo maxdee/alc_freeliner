@@ -306,14 +306,6 @@ class GroupManager{
   }
 
 /**
- * Unselect selected group
- */
-  // public int setSelectedGroupIndex(int _i) {
-  //   selectedIndex = _i % groupCount;
-  //   return selectedIndex;
-  // }
-
-/**
  * Adjust the snapping distance.
  * @param int adjustement to make
  * @return int new value
@@ -420,7 +412,6 @@ class GroupManager{
     return _groups;
   }
 
-
 /**
  * Get the snappedSegment
  * @return Segment
@@ -428,8 +419,6 @@ class GroupManager{
   public Segment getSnappedSegment(){
     return snappedSegment;
   }
-
-
 
 /**
  * Get the last point of a group

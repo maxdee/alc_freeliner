@@ -11,32 +11,41 @@
  import netP5.*;
  import websockets.*;
 
- // handles communication to and from freeliner
- class FreelinerCommunicator implements FreelinerConfig{
-
-   CommandProcessor commandProcessor;
-   PApplet applet;
-
-   public FreelinerCommunicator(PApplet _pa, CommandProcessor _cp){
-     commandProcessor = _cp;
-     applet = _pa;
-   }
-
-   // pass commands to commandProcessor
-   public void receive(String _cmd){
-     commandProcessor.queueCMD(_cmd);
-   }
-   // send a string to something
-   public void send(String _s){
-     println("Sending : "+_s);
-   }
- }
-
-
-
  /**
-  * OSC communicator, send and receive messages with freeliner!
+  * The FreelinerCommunicator handles communication with other programs over various protocols.
   */
+class FreelinerCommunicator implements FreelinerConfig{
+
+  CommandProcessor commandProcessor;
+  PApplet applet;
+
+  public FreelinerCommunicator(PApplet _pa, CommandProcessor _cp){
+    commandProcessor = _cp;
+    applet = _pa;
+  }
+
+  /**
+  * Pass commands to the command processor
+  * @param String cmd
+  */
+  public void receive(String _cmd){
+    commandProcessor.queueCMD(_cmd);
+  }
+
+  /**
+  * Send info to the communicating end.
+  * @param String stuff
+  */
+  public void send(String _s){
+    println("Sending : "+_s);
+  }
+}
+
+
+
+/**
+ * OSC communicator, send and receive messages with freeliner!
+ */
 class OSCCommunicator extends FreelinerCommunicator implements OscEventListener{
   // network
   OscP5 oscP5;
@@ -85,17 +94,3 @@ class WebSocketCommunicator extends FreelinerCommunicator{
     receive(_cmd);
   }
 }
-
-// class CustomWebsocketServer extends WebsocketServer{
-//   Method alternativeCallback;
-//   public CustomWebsocketServer(PApplet _pa, int _port, String _uri){
-//     super(_pa, _port, _uri);
-//   }
-//   public void setNewCallback(Object _obj){
-//     try {
-//       alternativeCallback = _obj.getClass().getMethod("webSocketServerEvent", String.class);
-//     } catch (Exception e) {
-//       // no such method, or an error.. which is fine, just ignore
-//     }
-//   }
-// }

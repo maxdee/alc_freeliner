@@ -64,12 +64,7 @@ class Keyboard implements FreelinerConfig{
 /**
  * Dependency injection
  * Receives references to the groupManager, templateManager, GUI and mouse.
- *
- * @param GroupManager reference
- * @param TemplateManager reference
- * @param TemplateRenderer reference
- * @param Gui reference
- * @param Mouse reference
+ * @param Freeliner reference
  */
   public void inject(FreeLiner _fl){
     freeliner = _fl;
@@ -87,7 +82,10 @@ class Keyboard implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  // local keyboard keypress
+  /**
+   * Receive local keypress
+   * @param int keyCode
+   */
   public void keyPressed(int _kc){
     // first turn the keyCode to caps if needed
     if(_kc >= 65 && _kc <= 90)
@@ -95,7 +93,10 @@ class Keyboard implements FreelinerConfig{
     keyCodePress(_kc);
   }
 
-  // local keyboard keyrelease
+  /**
+   * Receive local keyrelease
+   * @param int keyCode
+   */
   public void keyReleased(int _kc){
     if(_kc >= 65 && _kc <= 90)
       if(isCapsLock() == shifted) _kc += 32;
@@ -104,8 +105,6 @@ class Keyboard implements FreelinerConfig{
 
   /**
    * receive and key and keycode from papplet.keyPressed();
-   *
-   * @param char key that was press
    * @param int the keyCode
    */
   public void keyCodePress(int _kc) {
@@ -178,7 +177,7 @@ class Keyboard implements FreelinerConfig{
  */
   public void processCAPS(char _c) {
     // if editing steps
-    if(editKey == '>' && shifted) makeCMD("seq"+" "+"toggle"+" "+_c);
+    if(editKey == '>' && shifted) makeCMD("seq toggle"+" "+_c);
     else{
       TemplateList _tl = groupManager.getTemplateList();
       if(_tl == null) _tl = templateManager.getTemplateList();
@@ -189,7 +188,7 @@ class Keyboard implements FreelinerConfig{
         gui.setTemplateString(_tl.getTags());
       }
       else {
-        makeCMD("tr"+" "+_c);
+        makeCMD("tr "+_c);
         if(_tl != groupManager.getTemplateList()){
           _tl.clear();
           _tl.toggle(templateManager.getTemplate(_c));
