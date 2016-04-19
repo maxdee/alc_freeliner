@@ -1,0 +1,66 @@
+body {
+    background-color: darkgray;
+    padding: 16px 16px 16px 16px;
+}
+
+.infoline {
+    font-family: monospace;
+    background-color: #875267;
+    color: #FFFFFF;
+    font-size: 18pt;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+}
+
+.sequencer {
+  width: 100%;
+	/*overflow:hidden;*/
+	margin-top: auto;
+	margin-right: auto;
+	margin-bottom: auto;
+	margin-left: auto;
+  position: fixed;
+  bottom: 50px;
+}
+
+.sequencer .seqstep {
+  float: left;
+  margin: 2px;
+  height: 42px;
+  width: 100px;
+  line-width: 100px;
+  border:2px solid red;
+  background-color: #005267;
+  color: #FFFFFF;
+  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+  font-size:18px;
+  text-align: center;
+  vertical-align: middle;
+  /*writing-mode:tb-rl;
+  -webkit-transform:rotate(90deg);
+  -moz-transform:rotate(90deg);
+  -o-transform:rotate(90deg);*/
+  white-space:nowrap;
+}
+
+.sequencer .seqstep:hover {
+  background-color: #885267;
+}
+
+.oldstep {
+	color:#333;
+
+  padding: 10px;
+  color: #FFFFFF;
+  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+  font-size:18px;
+  font-weight:normal;
+  position: fixed;
+  bottom: 16px;
+	writing-mode:tb-rl;
+	-webkit-transform:rotate(90deg);
+	-moz-transform:rotate(90deg);
+	-o-transform:rotate(90deg);
+	white-space:nowrap;
+}
