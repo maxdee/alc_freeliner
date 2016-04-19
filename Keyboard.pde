@@ -541,7 +541,6 @@ class Keyboard implements FreelinerConfig{
     return "not mapped?";
   }
 
-
   /**
    * Is the ctrl key pressed? In OSX the ctrl key behavior is given to the alt key...
    * @return boolean valueGiven

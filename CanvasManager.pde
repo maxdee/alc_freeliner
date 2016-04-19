@@ -90,9 +90,8 @@ class LayeredCanvasManager extends CanvasManager{
     layers = new ArrayList();
     renderLayers = new ArrayList();
     shaderLayers = new ArrayList();
-
     mergeLayer = new MergeLayer();
-    mergeLayer.getCanvas().blendMode(LIGHTEST);
+    //mergeLayer.getCanvas().blendMode(LIGHTEST);
 
 
 
@@ -109,14 +108,13 @@ class LayeredCanvasManager extends CanvasManager{
     //maskLayer = (MaskLayer)addLayer(new MaskLayer());
     //addLayer(mergeLayer);
 
-
-
     printLayers();
   }
 
   public int setTrails(int _t){
     return tracerLayer.setTrails(_t);
   }
+
   public Layer addLayer(Layer _lr){
     layers.add(_lr);
     if(_lr instanceof ShaderLayer) shaderLayers.add((ShaderLayer)_lr);

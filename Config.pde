@@ -31,7 +31,7 @@ interface FreelinerConfig{
   // If you are using a DLP with no colour wheel
   final boolean BW_BEAMER = false;
   // If you are using a dual head setup
-  final boolean DUAL_HEAD = false;//true;
+  final boolean DUAL_HEAD = false;
   // invert colors
   final boolean INVERTED_COLOR = false;
 

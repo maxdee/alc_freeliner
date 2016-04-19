@@ -19,6 +19,7 @@
  * tp reset (AB)
  * tp save (cooleffects.xml)
  * tp load (coolstuff.xml)
+ * ADD -> tp swap //ctrl-x swap parameters and geometry associated
  * /////////////////// Sequencer
  * seq tap (offset)
  * seq edit -1,-2,step ????

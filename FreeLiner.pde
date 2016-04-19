@@ -70,7 +70,7 @@ class FreeLiner implements FreelinerConfig{
   }
 
   void oscInfoLine(){
-    oscComs.send(gui.getInfo());
+    oscComs.send("info "+gui.getInfo());
   }
 
   void webInfoLine(){
