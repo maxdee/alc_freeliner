@@ -123,7 +123,7 @@ class Painter extends Mode{
     }
 		else _s.setFill(false);
 
-    if(strokeMode != 0) {
+    if(strokeMode != 0 && strokeAlpha != 0) {
 			_s.setStroke(true);
       _s.setStroke(getColorizer(strokeMode).get(event, strokeAlpha)); // _s.getStyle().stroke = getColorizer(strokeMode).get(event);//
       _s.setStrokeWeight(strokeWidth);
@@ -144,7 +144,7 @@ class Painter extends Mode{
     }
     else _g.noFill();
 
-    if(strokeMode != 0) {
+    if(strokeMode != 0 && strokeAlpha != 0) {
       _g.stroke(getColorizer(strokeMode).get(event, strokeAlpha));
       _g.strokeWeight(strokeWidth);
     }

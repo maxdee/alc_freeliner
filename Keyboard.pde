@@ -209,11 +209,11 @@ class Keyboard implements FreelinerConfig{
     // quick fix for ctrl-alt in OSX
     boolean _ctrl = isCtrled();
     if (_k == 'a') focusAll();
-    else if(_k == 'c') makeCMD("tp"+" "+"copy"+" $");
-    else if(_k == 'v') makeCMD("tp"+" "+"paste"+" $");
-    else if(_k == 'b') makeCMD("tp"+" "+"share"+" $");
-    else if(_k == 'r') makeCMD("tp"+" "+"reset"+" $");
-    else if(_k == 'm') makeCMD("post"+" "+"mask");
+    else if(_k == 'c') makeCMD("tp copy $");
+    else if(_k == 'v') makeCMD("tp paste $");
+    else if(_k == 'b') makeCMD("tp share $");
+    else if(_k == 'r') makeCMD("tp reset $");
+    else if(_k == 'm') makeCMD("post mask");
 
     else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape needs a cmd
     else if(_k == 'i') gui.setValueGiven( str(mouse.toggleInvertMouse()) ); // invert X
@@ -278,7 +278,7 @@ class Keyboard implements FreelinerConfig{
     else if (_k == ']') makeCMD("tools"+" "+"ruler"+" "+_n);
     else if (_k == '[') makeCMD("tools"+" "+"angle"+" "+_n);
     else if (_k == '.') makeCMD("tools"+" "+"snap"+" "+_n);
-    else if (_k == '?') makeCMD("seq"+" "+"clear"+" "+templateManager.getTemplateList().getTags());
+    else if (_k == '?') makeCMD("seq"+" "+"clear"+" ?");//+templateManager.getTemplateList().getTags());
     else if (_k == 't') makeCMD("seq"+" "+"tap"+" "+_n);
     else if (_k == '>') makeCMD("seq"+" "+"edit"+" "+_n);
     else if (_k == 'y') makeCMD("post"+" "+"trails"+" "+_n);

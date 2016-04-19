@@ -43,7 +43,6 @@ float stringFloat(String _str){
   }
 }
 
-
 /**
  * Class to collect and average data
  */
