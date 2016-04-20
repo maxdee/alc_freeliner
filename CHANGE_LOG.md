@@ -3,6 +3,8 @@
  * `p` key is for layers, templates are by default on layer 1.
  * Rendering pipeline, light or deluxe is set in `Config.pde`.
  * New OSC syntax for commands. Check the README.md for info.
+ * New websocket for webgui, install the processing_websockets library.
+ * Autodocumentation system
 
 ### Version 0.4 ###
  * New command system.

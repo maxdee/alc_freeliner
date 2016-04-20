@@ -31,7 +31,7 @@ void main(void) {
 	dis -= 0.5;
 	dis = rot(dis, 0.0);
 	dis += 0.5;
-	dis.x = (sign(u3-0.5)*(dis.x - 0.5)/(u2*200.0))+dis.x;
+	dis.x = (sign(u3-0.5)*(dis.x - 0.7)/(u2*200.0))+dis.x;
 	dis.y = (sign(u3-0.5)*(dis.y - 0.5)/(u2*200.0))+dis.y;
 
 	// if(mod(floor(dis.x * 768.0), 2) == 1)dis.xy+=0.4;
