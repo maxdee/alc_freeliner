@@ -44,6 +44,9 @@ class SegmentGroup {
   //for roations
   boolean clockwise = false;
 
+  // new string
+  String groupText = "";
+
   /**
    * Create an new SegmentGroup
    * @param  identification interger
@@ -68,6 +71,7 @@ class SegmentGroup {
     centerPutting = false;
     seperated = false;
     generateShape();
+    groupText = "hi, im geometry "+ID;
   }
 
   public void updateGeometry(){
@@ -454,6 +458,10 @@ class SegmentGroup {
     templateList.copy(_tl);
   }
 
+  public void setText(String _txt){
+    groupText = _txt;
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Accessors
@@ -510,6 +518,10 @@ class SegmentGroup {
 
   public final float getBrushScaler(){
     return brushScaler;
+  }
+
+  public final String getText(){
+    return groupText;
   }
 
 }

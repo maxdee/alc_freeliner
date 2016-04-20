@@ -277,25 +277,29 @@ class CommandProcessor implements FreelinerConfig{
   // geom txt (2 3) ahah yes
   // geom txt yes no
   public boolean textCMD(String[] _args){
-    println("made it here");
     if(_args.length == 3) groupManager.setText(_args[2]);
     else if(_args.length == 4) groupManager.setText(_args[2]+" "+_args[3]);
     else if(_args.length > 3){
       int _grp = stringInt(_args[2]);
       int _seg = stringInt(_args[3]);
-      if(_grp != -42 && _seg != -42){
-        String _txt = "";
-        for(int i = 4; i < _args.length; i++) _txt += _args[i]+" ";
-        groupManager.setText(_grp, _seg, _txt);
+      if(_grp != -42){
+        if(_seg != -42)
+          groupManager.setText(_grp, _seg, remainingText(4, _args));
+        else
+          groupManager.setText(_grp, remainingText(3, _args));
       }
       else {
-        String _txt = "";
-        for(int i = 2; i < _args.length; i++) _txt += _args[i]+" ";
-        groupManager.setText(_txt);
+        groupManager.setText(remainingText(2, _args));
       }
     }
     else return false;
     return true;
+  }
+
+  String remainingText(int _start, String[] _args){
+    String _txt = "";
+    for(int i = _start; i < _args.length; i++) _txt += _args[i]+" ";
+    return _txt;
   }
 
   ///////////////////////////////////////////////////////////////////////////////////

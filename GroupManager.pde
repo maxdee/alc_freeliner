@@ -234,6 +234,7 @@ class GroupManager{
       if(grp.isEmpty()) continue;
       XML xgroup = groupData.addChild("group");
       xgroup.setInt("ID", grp.getID());
+      xgroup.setString("text", grp.getText());
 
       if(grp.getID() == 0) xgroup.setString("type", "gui");
       else if(grp.getID() == 1) xgroup.setString("type", "ref");
@@ -302,6 +303,8 @@ class GroupManager{
           getSelectedGroup().getTemplateList().toggle(templateManager.getTemplate(_tags.charAt(i)));
         }
       }
+      String _txt = xgroup.getString("text");
+      if(_txt != null) getSelectedGroup().setText(_txt);
       // bug with centering? seems ok...
       //println(getSelectedGroup().sortedSegments.size());
       if(abs(posA.x - getSelectedGroup().getSegment(0).getPointB().x) > 2) getSelectedGroup().placeCenter(posA);
@@ -343,8 +346,15 @@ class GroupManager{
     seg.setText(_txt);
   }
 
+  public void setText(int _grp, String _txt){
+    SegmentGroup group = getGroup(_grp);
+    if(group == null) return;
+    group.setText(_txt);
+  }
+
   public void setText(String _txt){
     if(getSnappedSegment() != null) getSnappedSegment().setText(_txt);
+    else if(getSelectedGroup() != null) getSelectedGroup().setText(_txt);
   }
 
   public void setReferenceGroupTemplateList(TemplateList _tl){
