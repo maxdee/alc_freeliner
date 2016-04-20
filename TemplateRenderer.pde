@@ -30,7 +30,7 @@ class TemplateRenderer implements FreelinerConfig{
     renderModes[1] = new LineSegment();
     renderModes[2] = new WrapLine();
     renderModes[3] = new Geometry();
-    renderModes[4] = new TextLine();
+    renderModes[4] = new TextRenderMode();
     renderModes[5] = new CircularSegment();
     if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])renderModes, 'b', "RenderModes");
     // add repetitionModes

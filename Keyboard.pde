@@ -121,7 +121,7 @@ class Keyboard implements FreelinerConfig{
       if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
       else if (_kc == '-') distributor(editKey, -2, true); //decrease value
       else if (_kc == '=') distributor(editKey, -1, true); //increase value
-      else if (_kc == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
+      //else if (_kc == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
       else{
         setEditKey(char(_kc), KEY_MAP);
         distributor(editKey, -3, true);
@@ -151,7 +151,8 @@ class Keyboard implements FreelinerConfig{
    */
   public boolean processKeyCodes(int kc) {
     if (kc == SHIFT) shifted = true;
-    else if (kc == ENTER) returnNumber(); // grab enter
+    else if (kc == ENTER && enterText) returnWord();
+    else if (kc == ENTER && !enterText) returnNumber(); // grab enter
     else if (kc == ESC || kc == 27) unSelectThings();
     else if (kc==CONTROL) setCtrled(true);
     else if (kc==ALT) setAlted(true);
@@ -176,8 +177,10 @@ class Keyboard implements FreelinerConfig{
  * @param char the capital key to process
  */
   public void processCAPS(char _c) {
+    println(_c);
     // if editing steps
     if(editKey == '>' && shifted) makeCMD("seq toggle"+" "+_c);
+    else if (_c == 92 && shifted) gui.setValueGiven(str(toggleEnterText())); // acts localy
     else{
       TemplateList _tl = groupManager.getTemplateList();
       if(_tl == null) _tl = templateManager.getTemplateList();
@@ -397,8 +400,7 @@ class Keyboard implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   private void textEntry(char _k){
-    if (_k==ENTER) returnWord();
-    else if (_k!=65535) wordMaker(_k);
+    if (_k!=65535) wordMaker(_k);
     println("Making word:  "+wordMaker);
     gui.setValueGiven(wordMaker);
   }
@@ -436,9 +438,11 @@ class Keyboard implements FreelinerConfig{
   private void returnWord() {
     if(groupManager.getSnappedSegment() != null)
         makeCMD("geom"+" "+"text"+" "+wordMaker);
-    else makeCMD(wordMaker);
-    gui.setKeyString("sure");
-    gui.setValueGiven(wordMaker);
+    else {
+      makeCMD(wordMaker);
+      gui.setKeyString("sure");
+      gui.setValueGiven(wordMaker);
+    }
     wordMaker = "";
     enterText = false;
   }

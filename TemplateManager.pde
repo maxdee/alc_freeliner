@@ -315,7 +315,6 @@ class TemplateManager{
     if(_a != null && _b !=null) groupManager.groupSwapTemplate(_a, _b);
   }
 
-
   /**
    * ResetTemplate
    */

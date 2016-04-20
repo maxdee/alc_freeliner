@@ -28,7 +28,7 @@ int stringInt(String _str){
     return Integer.parseInt(_str);
   }
   catch (Exception e){
-    println("Bad number string");
+    //println("Bad number string");
     return -42;
   }
 }
@@ -38,7 +38,7 @@ float stringFloat(String _str){
     return Float.parseFloat(_str);
   }
   catch (Exception e){
-    println("Bad number float");
+    //println("Bad number float");
     return -42.0;
   }
 }

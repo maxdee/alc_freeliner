@@ -19,7 +19,8 @@
  * tp reset (AB)
  * tp save (cooleffects.xml)
  * tp load (coolstuff.xml)
- * ADD -> tp swap //ctrl-x swap parameters and geometry associated
+ * tp swap AB
+ * // add tp setshape (geometryIndex | char | .svg)
  * /////////////////// Sequencer
  * seq tap (offset)
  * seq edit -1,-2,step ????
@@ -39,7 +40,7 @@
  * tools ruler (length)
  * tools angle (angle)
  * ///////////////////  Geometry
- * geom txt word (2 3)
+ * geom txt (2 3) bunch of words
  * geom save (coolMap.xml)
  * geom load (coolMap.xml)
  * ///////////////////  Post processing
@@ -246,7 +247,7 @@ class CommandProcessor implements FreelinerConfig{
   ///////     geomCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-  // * geom txt word (2 3)
+  // * geom txt (2 3) word
   // * geom save (coolMap.xml)
   // * geom load (coolMap.xml)
 
@@ -272,21 +273,29 @@ class CommandProcessor implements FreelinerConfig{
     return true;
   }
 
+
+  // geom txt (2 3) ahah yes
+  // geom txt yes no
   public boolean textCMD(String[] _args){
-    if(_args.length == 3){
-      if(groupManager.getSnappedSegment() != null)
-        groupManager.getSnappedSegment().setText(_args[2]);
-      return true;
-    }
-    else if(_args.length == 5){
-      SegmentGroup _sg = groupManager.getGroup(stringInt(_args[3]));
-      if(_sg != null){
-        Segment _seg = _sg.getSegment(stringInt(_args[4]));
-        if(_seg != null) _seg.setText(_args[2]);
+    println("made it here");
+    if(_args.length == 3) groupManager.setText(_args[2]);
+    else if(_args.length == 4) groupManager.setText(_args[2]+" "+_args[3]);
+    else if(_args.length > 3){
+      int _grp = stringInt(_args[2]);
+      int _seg = stringInt(_args[3]);
+      if(_grp != -42 && _seg != -42){
+        String _txt = "";
+        for(int i = 4; i < _args.length; i++) _txt += _args[i]+" ";
+        groupManager.setText(_grp, _seg, _txt);
       }
-      return true;
+      else {
+        String _txt = "";
+        for(int i = 2; i < _args.length; i++) _txt += _args[i]+" ";
+        groupManager.setText(_txt);
+      }
     }
-    return false;
+    else return false;
+    return true;
   }
 
   ///////////////////////////////////////////////////////////////////////////////////

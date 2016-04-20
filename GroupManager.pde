@@ -343,6 +343,10 @@ class GroupManager{
     seg.setText(_txt);
   }
 
+  public void setText(String _txt){
+    if(getSnappedSegment() != null) getSnappedSegment().setText(_txt);
+  }
+
   public void setReferenceGroupTemplateList(TemplateList _tl){
     groups.get(1).setTemplateList(_tl);
   }
