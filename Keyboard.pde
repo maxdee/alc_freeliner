@@ -210,6 +210,7 @@ class Keyboard implements FreelinerConfig{
     if (_k == 'a') focusAll();
     else if(_k == 'c') makeCMD("tp copy $");
     else if(_k == 'v') makeCMD("tp paste $");
+    else if(_k == 'x') makeCMD("tp swap $");
     else if(_k == 'b') makeCMD("tp share $");
     else if(_k == 'r') makeCMD("tp reset $");
     else if(_k == 'm') makeCMD("post mask");

@@ -294,6 +294,29 @@ class TemplateManager{
   }
 
   /**
+   * Swap Templates (AB), swaps their related geometry also
+   */
+  public void swapTemplates(String _tags){
+    ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+    if(_tmps.size() < 2) return;
+    else swapTemplates(_tmps.get(0), _tmps.get(1));
+  }
+
+  // might remove the copy? not sure.
+  public void swapTemplates(TweakableTemplate _a, TweakableTemplate _b){
+    TweakableTemplate _c = new TweakableTemplate();
+    _c.copyParameters(_a);
+    _a.copyParameters(_b);
+    _b.copyParameters(_c);
+    groupSwapTemplate(_a, _b);
+  }
+
+  public void groupSwapTemplate(TweakableTemplate _a, TweakableTemplate _b){
+    if(_a != null && _b !=null) groupManager.groupSwapTemplate(_a, _b);
+  }
+
+
+  /**
    * ResetTemplate
    */
   public void resetTemplate(){

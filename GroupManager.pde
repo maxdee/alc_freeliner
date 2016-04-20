@@ -99,6 +99,26 @@ class GroupManager{
   }
 
 /**
+ * Similar to groupAddTemplate, but a direct swap.
+ * @param Template to swap
+ * @param renderer to swap with
+ */
+  public void groupSwapTemplate(TweakableTemplate _a, TweakableTemplate _b){
+    if(groups.size() > 0 && _a != null && _b != null){
+      for (SegmentGroup sg : groups) {
+        TemplateList tl = sg.getTemplateList();
+        if(tl != null){
+          if(tl.contains(_a) || tl.contains(_b)){
+            tl.toggle(_a);
+            tl.toggle(_b);
+          }
+        }
+      }
+    }
+  }
+
+
+/**
  * Snap puts all the PVectors that are near the position given into a arrayList.
  * The snapDist can be adjusted like anything else.
  * It returns the place it snapped to to adjust cursor.

@@ -422,6 +422,7 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("paste")) pasteCMD(_args);
       else if(_args[1].equals("reset")) resetCMD(_args);
       else if(_args[1].equals("share")) addCMD(_args);
+      else if(_args[1].equals("swap")) swapCMD(_args);
       else if(_args[1].equals("save")) saveTemplateCMD(_args);
       else if(_args[1].equals("load")) loadTemplateCMD(_args);
       else if(_args[1].equals("color")) colorCMD(_args);
@@ -448,6 +449,10 @@ class CommandProcessor implements FreelinerConfig{
   public void pasteCMD(String[] _args){
     if(_args.length == 3) templateManager.pasteTemplate(_args[2]);
     else templateManager.pasteTemplate();
+  }
+
+  public void swapCMD(String[] _args){
+    if(_args.length == 3) templateManager.swapTemplates(_args[2]);
   }
 
   public void resetCMD(String[] _args){

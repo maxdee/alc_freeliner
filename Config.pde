@@ -141,7 +141,8 @@ interface FreelinerConfig{
     "o    loadStuff",
     "l    loadLED",
     "m    masking",
-    "k    showLEDmap"
+    "k    showLEDmap",
+    "x    swap"
   };
 
   /**
