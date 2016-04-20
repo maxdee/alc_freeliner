@@ -175,12 +175,14 @@ class CircularSegment extends PerSegment{
 // text rendering
 class TextRenderMode extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	final int PAINTER_COUNT = 1;
+	final int PAINTER_COUNT = 2;
 
 	public TextRenderMode(){
 		super();
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
 		segmentPainters[0] = new TextWritter();
+		segmentPainters[1] = new ScrollingText();
+
 		name = "TextRenderMode";
 		description = "Stuff that draws text";
 		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])segmentPainters, 'a', name);

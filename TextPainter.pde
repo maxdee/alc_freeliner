@@ -34,16 +34,13 @@ class TextWritter extends BasicText{
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		String _txt = _seg.getText();
-		float _ang = _seg.getAngle(_event.getDirection());
 		canvas.textFont(font);
 		canvas.textSize(_event.getScaledBrushSize());
 		char[] carr = _txt.toCharArray();
 		int l = _txt.length();
-		PVector pos = new PVector(0,0);
 		for(int i = 0; i < l; i++){
       _event.setLerp(-((float)i/(l+1) + 1.0/(l+1))+1);
-			pos = getPosition(_seg);
-			putChar(carr[i], pos, getAngle(_seg, _event));
+			putChar(carr[i], getPosition(_seg), getAngle(_seg, _event));
 		}
 	}
 }
@@ -54,4 +51,28 @@ class ScrollingText extends BasicText{
     description = "Scrolls text, acording to enterpolator";
   }
 
+  public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		String _txt = _seg.getText();
+    canvas.textFont(font);
+    canvas.textSize(_event.getScaledBrushSize());
+    char[] _chars = _txt.toCharArray();
+
+    float _textWidth = _chars.length * _event.getScaledBrushSize();//canvas.textWidth(_txt);
+    float _distance = _textWidth+_seg.getLength();
+
+
+    float  _covered = 0;
+    float _lrp = _event.getLerp();
+    for(int i = 0; i < _chars.length; i++){
+      _covered += _event.getScaledBrushSize()*0.666;//canvas.textWidth(_chars[i]);
+      float place = ((_distance*_lrp)-_covered)/_seg.getLength();
+      if(place > 0.0 && place < 1.0) {
+        _event.setLerp(place);
+        putChar(_chars[i], getPosition(_seg), getAngle(_seg, _event));
+      }
+    }
+    _event.setLerp(_lrp);
+
+	}
 }
