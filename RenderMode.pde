@@ -13,7 +13,6 @@ class RenderMode extends Mode{
 	public void doRender(RenderableTemplate _rt){}
 }
 
-
 /**
  * Parent class for all rendering that happens per segment.
  */
@@ -102,17 +101,18 @@ class PerSegment extends RenderMode{
 // Place brushes on segments
 class BrushSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
-  final int PAINTER_COUNT = 3;
+  final int PAINTER_COUNT = 1;
 
   public BrushSegment(){
   	super();
   	segmentPainters = new SegmentPainter[PAINTER_COUNT];
     segmentPainters[0] = new SimpleBrusher();
-    segmentPainters[1] = new TwoBrusher();
+		// all moved to interpolator
+    //segmentPainters[1] = new TwoBrusher();
     // segmentPainters[2] = new SpiralBrusher();
     // segmentPainters[3] = new InShapeBrusher();
     // segmentPainters[4] = new CenterBrusher();
-		segmentPainters[2] = new OppositeBrusher();
+		//segmentPainters[2] = new OppositeBrusher();
 
 		name = "BrushSegment";
 		description = "Render mode for drawing with brushes";

@@ -45,6 +45,23 @@ class Interpolator extends Mode{
   // }
 }
 
+class OppositInterpolator extends Interpolator{
+  public OppositInterpolator(){
+    name = "OppositInterpolator";
+    description = "invert direction every segment";
+  }
+  public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
+    float _lrp = _tp.getLerp();
+    if(_seg.getID()%2 == 0) _lrp = 1.0-_lrp;
+    if(_painter instanceof BrushPutter) return _seg.getBrushPos(_lrp);
+    else return _seg.getStrokePos(_lrp);
+  }
+
+  public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
+    return _seg.getAngle(_seg.getID()%2 == 0);
+  }
+}
+
 class SegmentOffsetInterpolator extends Interpolator{
 
   public SegmentOffsetInterpolator(){
@@ -111,20 +128,20 @@ class RadiusInterpolator extends Interpolator{
 	  float dist = 0;
     if(_painter instanceof BrushPutter) dist = _seg.getLength()-(_tp.getScaledBrushSize()/2.0);
     else dist = _seg.getLength()-(_tp.getStrokeWeight()/2.0);
-  	float ang = (_tp.getLerp()*TAU)+_seg.getAngle(true);//getAngle(_seg, _tp, _painter);
-
+    // good we got dist.
+  	float ang = getAngle(_seg, _tp, _painter)-HALF_PI;
   	PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
   	pos.add(_seg.getPointA());
     return pos;
   }
 
   public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
-    return (_tp.getLerp()*TAU)+_seg.getAngle(true)+HALF_PI;
+    return -(_tp.getLerp()*TAU)+_seg.getAngle(true)+HALF_PI;
   }
 }
 
 // from the middle of a segments
-class DiameterInterpolator extends Interpolator{
+class DiameterInterpolator extends RadiusInterpolator{
   public DiameterInterpolator(){
     //super();
     name = "DiameterInterpolator";
@@ -135,16 +152,11 @@ class DiameterInterpolator extends Interpolator{
 	  float dist = 0;
     if(_painter instanceof BrushPutter) dist = (_seg.getLength()-(_tp.getScaledBrushSize()/2.0))/2.0;
     else dist = (_seg.getLength()-(_tp.getStrokeWeight()/2.0))/2.0;
-  	float ang = (_tp.getLerp()*TAU)+_seg.getAngle(true);//getAngle(_seg, _tp, _painter);
+  	float ang = getAngle(_seg, _tp, _painter)-HALF_PI;
 
   	PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
   	pos.add(_seg.getMidPoint());
     return pos;
-  }
-
-
-  public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
-    return (_tp.getLerp()*TAU)+_seg.getAngle(true)+HALF_PI;
   }
 }
 

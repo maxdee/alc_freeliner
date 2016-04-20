@@ -40,6 +40,8 @@ class Painter extends Mode{
 		posGetters[6] = new DiameterInterpolator();
 		posGetters[7] = new RadiusInterpolator();
 		posGetters[8] = new SegmentOffsetInterpolator();
+		posGetters[9] = new OppositInterpolator();
+
 		if(MAKE_DOCUMENTATION) documenter.addDoc( (Mode[])posGetters, 'e', "Enterpolators");
 	}
 
@@ -56,6 +58,12 @@ class Painter extends Mode{
 
 	public PVector getPosition(Segment _seg){
 		return getInterpolator(event.getInterpolateMode()).getPosition(_seg, event, this);
+	}
+	public float getAngle(Segment _seg, RenderableTemplate _event){
+		float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
+		if(_event.getDirection()) ang += PI;
+		if(_seg.isClockWise()) return ang + _event.getAngleMod();
+		else return ang + (-_event.getAngleMod());
 	}
 
 	// color stuffs

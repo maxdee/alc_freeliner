@@ -40,6 +40,7 @@ class Segment {
   boolean centered;
   boolean clockWise;
   float ranFloat;
+  int id;
 
   String segmentText;
 
@@ -135,6 +136,10 @@ class Segment {
 
   public void setText(String w){
     segmentText = w;
+  }
+
+  public void setID(int _id){
+    id =_id;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -323,5 +328,8 @@ class Segment {
 
   public final Segment getPrev(){
     return neighbA;
+  }
+  public final int getID(){
+    return id;
   }
 }

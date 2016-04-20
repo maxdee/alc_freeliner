@@ -17,11 +17,10 @@ class BasicText extends SegmentPainter{
   public void putChar(char _chr, PVector _p, float _a){
 		canvas.pushMatrix();
 		canvas.translate(_p.x, _p.y);
-		canvas.rotate(_a + event.getAngleMod());
+		canvas.rotate(_a);
 		canvas.text(_chr, 0, event.getScaledBrushSize()/3.0);
 		canvas.popMatrix();
 	}
-
 }
 
 
@@ -42,8 +41,17 @@ class TextWritter extends BasicText{
 		int l = _txt.length();
 		PVector pos = new PVector(0,0);
 		for(int i = 0; i < l; i++){
-			pos = _seg.getStrokePos(-((float)i/(l+1) + 1.0/(l+1))+1);
-			putChar(carr[i], pos, _ang);
+      _event.setLerp(-((float)i/(l+1) + 1.0/(l+1))+1);
+			pos = getPosition(_seg);
+			putChar(carr[i], pos, getAngle(_seg, _event));
 		}
 	}
+}
+
+class ScrollingText extends BasicText{
+  public ScrollingText(){
+    name = "ScrollingText";
+    description = "Scrolls text, acording to enterpolator";
+  }
+
 }

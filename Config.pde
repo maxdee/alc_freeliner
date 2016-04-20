@@ -166,6 +166,6 @@ interface FreelinerConfig{
   final int ENABLER_MODE_COUNT = 7;
   final int BRUSH_COUNT = 10;
   final int COLOR_MODE_COUNT = 31;
-  final int INTERPOLATOR_MODE_COUNT = 9;
+  final int INTERPOLATOR_MODE_COUNT = 10;
   final int SEGMENT_MODE_COUNT = 7;
 }

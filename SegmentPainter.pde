@@ -158,19 +158,6 @@ class Elliptic extends LinePainter {
 	}
 }
 
-// deprecated with interpolator
-// class RadarPainter extends LinePainter {
-// 	public RadarPainter(){}
-//
-// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-// 		super.paintSegment(_seg, _event);
-// 		float dist = _seg.getLength();
-// 		float ang = (_event.getLerp()*TAU)+_seg.getAngle(true);
-// 		PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
-// 		pos.add(_seg.getStrokeOffsetA());
-// 		vecLine(_event.getCanvas(), _seg.getStrokeOffsetA(), pos);
-// 	}
-// }
 
 
 class SegToSeg extends LinePainter{
@@ -239,13 +226,6 @@ class BrushPutter extends SegmentPainter{
 		//if(event.doUpdateBrush()) event.setBrushShape(getBrush(event.getBrushMode()).getShape(event));
 	}
 
-	public float getAngle(Segment _seg, RenderableTemplate _event){
-		float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
-		if(_event.getDirection()) ang += PI;
-		if(_seg.isClockWise()) return ang + _event.getAngleMod();
-		else return ang + (-_event.getAngleMod());
-	}
-
 	// regular putShape
 	public void putShape(PVector _p, float _a){
 		PShape shape_;
@@ -274,92 +254,26 @@ class SimpleBrusher extends BrushPutter{
 	}
 }
 
-// deprecated with thing
-// class SpiralBrusher extends BrushPutter{
+
+
+// class OppositeBrusher extends BrushPutter{
 //
-// 	public SpiralBrusher(){
-// 		name = "SpiralBrush";
-// 		description = "SpiralBrush";
+// 	public OppositeBrusher(){
+// 		name = "OpositeBrusher";
+// 		description = "Brushing direction alternates each segment.";
 // 	}
 //
 // 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 // 		super.paintSegment(_seg, _event);
-// 		PVector pv = _seg.getBrushPos(event.getLerp()).get();
-//     pv = vecLerp(pv, _seg.getCenter(), event.getLerp()).get();
-// 		putShape(pv, _seg.getAngle(event.getDirection()));
+// 		boolean _dir = _event.getDirection();
+// 		float _lerp = _event.getLerp();
+// 		if(_event.getSegmentIndex() % 2 == 1){
+// 			_dir = !_dir;
+// 			_lerp = -_lerp+1;
+// 		}
+// 		putShape(_seg.getBrushPos(_lerp), _seg.getAngle(_dir) + _event.getAngleMod());
 // 	}
 // }
-
-class TwoBrusher extends BrushPutter{
-	public TwoBrusher(){
-		name = "TwoBrusher";
-		description = "Brushes in twice on segment in oposing directions.";
-	}
-
-	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		super.paintSegment(_seg, _event);
-		float lrp = _event.getLerp();
-		PVector pv = _seg.getBrushPos(lrp).get();
-		putShape(pv, _seg.getAngle(false));
-		pv = _seg.getBrushPos(-lrp+1).get();
-		putShape(pv, _seg.getAngle(true));
-	}
-	// public float getAngle(Segment _seg, RenderableTemplate _event){
-	// 	float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
-	// 	if(_event.getDirection()) ang += PI;
-	// 	if(_seg.isClockWise()) return ang + _event.getAngleMod();
-	// 	else return ang + (-_event.getAngleMod());
-	// }
-}
-
-// deprecated
-// class InShapeBrusher extends BrushPutter{
-// 	public InShapeBrusher(){
-//
-// 	}
-//
-// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-// 		super.paintSegment(_seg, _event);
-// 		PVector pA = _seg.getStrokePos(_event.getLerp());
-// 		PVector cent = _seg.getCenter();
-// 		putShape(vecLerp(pA, cent, 0.5),  _seg.getAngle(event.getDirection()));
-// 	}
-// }
-
-// center brusher
-// depracted
-// class CenterBrusher extends BrushPutter{
-//
-// 	public CenterBrusher(){}
-//
-// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-// 		super.paintSegment(_seg, _event);
-// 		PVector pA = _seg.getBrushPos(0.0);
-// 		PVector cent = _seg.getCenter();
-// 		float ang = atan2(pA.y - cent.y, pA.x - cent.x);
-// 		putShape(vecLerp(pA, cent, event.getLerp()),  ang+(event.getDirection() ? PI : 0) + event.getAngleMod());
-// 	}
-// }
-
-
-class OppositeBrusher extends BrushPutter{
-
-	public OppositeBrusher(){
-		name = "OpositeBrusher";
-		description = "Brushing direction alternates each segment.";
-	}
-
-	public void paintSegment(Segment _seg, RenderableTemplate _event){
-		super.paintSegment(_seg, _event);
-		boolean _dir = _event.getDirection();
-		float _lerp = _event.getLerp();
-		if(_event.getSegmentIndex() % 2 == 1){
-			_dir = !_dir;
-			_lerp = -_lerp+1;
-		}
-		putShape(_seg.getBrushPos(_lerp), _seg.getAngle(_dir) + _event.getAngleMod());
-	}
-}
 
 
 // class PolkaBrusher extends BrushPutter{

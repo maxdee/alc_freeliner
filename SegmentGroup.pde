@@ -327,9 +327,14 @@ class SegmentGroup {
    */
   private void sortSegments(){
     sortedSegments.clear();
-    for(ArrayList<Segment> brnch : treeBranches)
-      for(Segment seg : brnch)
+    int _index = 0;
+    for(ArrayList<Segment> brnch : treeBranches){
+      for(Segment seg : brnch){
         sortedSegments.add(seg);
+        seg.setID(_index);
+      }
+      _index++;
+    }
     sortedSegCount = sortedSegments.size();
     if(sortedSegCount != segCount){
       sortedSegments.clear();
