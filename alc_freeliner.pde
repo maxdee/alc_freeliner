@@ -64,8 +64,6 @@ final String VERSION = "0.4.1";
 boolean doSplash = true;
 boolean OSX = false;
 
-
-
 ExternalGUI externalGUI = null; // set specific key to init gui
 boolean runGui = false;
 Documenter documenter;
