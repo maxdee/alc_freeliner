@@ -93,7 +93,7 @@ interface FreelinerConfig{
     "a    animationMode",
     "b    renderMode",
     "c    placeCenter",
-    "d    setShape",
+    "d    breakLine",
     "e    enterpolator",
     "f    fillColor",
     "g    grid/size",
@@ -102,7 +102,7 @@ interface FreelinerConfig{
     "j    reverseMode",
     "k    strokeAlpha",
     "l    fillAlpha",
-    "m    breakLine",
+    "m    miscValue",
     "n    newItem",
     "o    rotation",
     "p    layer",
@@ -157,7 +157,7 @@ interface FreelinerConfig{
   final int MAX_BRUSH_SIZE = 4000;
 
   final int MAX_RENDER_LAYER_COUNT = 3;
-  final int ANIMATION_MODE_MAX = 8; // not a real limit, depends on renderMode...
+  final int ANIMATION_MODE_MAX = 14; // not a real limit, depends on renderMode...
   final int ROTATION_MODE_COUNT = 5;
   final int EASING_MODE_COUNT = 11;
   final int REVERSE_MODE_COUNT = 5;

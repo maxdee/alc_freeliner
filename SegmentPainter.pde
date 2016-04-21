@@ -158,8 +158,6 @@ class Elliptic extends LinePainter {
 	}
 }
 
-
-
 class SegToSeg extends LinePainter{
 	public SegToSeg(){
 		name = "SegToSeg";
@@ -168,7 +166,7 @@ class SegToSeg extends LinePainter{
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		Segment secondSeg = getNextSegment(_seg, _event.getBrushMode());
+		Segment secondSeg = getNextSegment(_seg, _event.getMiscValue());
 		vecLine(event.getCanvas(), getPosition(_seg), getPosition(secondSeg));
 		//vecLine(event.getCanvas(), _seg.getStrokePos(_event.getLerp()), secondSeg.getStrokePos(_event.getLerp()));
 	}
@@ -229,7 +227,7 @@ class BrushPutter extends SegmentPainter{
 	// regular putShape
 	public void putShape(PVector _p, float _a){
 		PShape shape_;
-    shape_ = getBrush(event.getBrushMode()).getShape(event);//event.getBrushShape(); //
+    shape_ = getBrush(event.getAnimationMode()).getShape(event);//event.getBrushShape(); //
 		if(shape_ == null) return;
     applyStyle(shape_);
     canvas.pushMatrix();

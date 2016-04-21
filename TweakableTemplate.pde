@@ -175,10 +175,10 @@ class TweakableTemplate extends Template {
     return brushSize;
   }
 
-  public int setBrushMode(int _v) {
-    brushMode = numTweaker(_v, brushMode);
-    if(brushMode >= BRUSH_COUNT) brushMode = BRUSH_COUNT - 1;
-    return brushMode;
+  public int setMiscValue(int _v) {
+    miscValue = numTweaker(_v, miscValue);
+    //if(miscValue >= BRUSH_COUNT) miscValue = BRUSH_COUNT - 1;
+    return miscValue;
   }
 
   public int setEnablerMode(int _v) {

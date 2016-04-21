@@ -1,4 +1,6 @@
 ### Version 0.4.1 ###
+ * `m` is now for miscValue, `d` is for breakLine.
+ * Deprecated brushMode, use `a` for animationMode to switch brushes.
  * Parameter tweaking has limits now.
  * `p` key is for layers, templates are by default on layer 1.
  * Rendering pipeline, light or deluxe is set in `Config.pde`.

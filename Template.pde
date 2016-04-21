@@ -47,8 +47,8 @@ class Template implements FreelinerConfig{
 	int strokeWidth;
 	// Size of brush
 	int brushSize;
-	// Which brush
-	int brushMode;
+	// a general purpose value
+  int miscValue;
 	// enablers decide if render or not
 	int enablerMode;
 	// which layer to render to
@@ -108,7 +108,7 @@ class Template implements FreelinerConfig{
 		beatDivider = _tp.getBeatDivider();
 		strokeWidth = _tp.getStrokeWeight();
 		brushSize = _tp.getBrushSize();
-		brushMode = _tp.getBrushMode();
+		miscValue = _tp.getMiscValue();
 		customShape = _tp.getCustomShape();
 		enablerMode = _tp.getEnablerMode();
 		customColor = _tp.getCustomColor();
@@ -136,7 +136,6 @@ class Template implements FreelinerConfig{
 		beatDivider = 1;
 		strokeWidth = 3;
 		brushSize = 20;
-		brushMode = 0;
 		enablerMode = 1;
 		renderLayer = 1;
 		customColor = color(0,0,50,255);
@@ -229,8 +228,8 @@ class Template implements FreelinerConfig{
 		return strokeWidth;
 	}
 
-	public final int getBrushMode(){
-		return brushMode;
+	public final int getMiscValue(){
+		return miscValue;
 	}
 
 	public final int getBrushSize(){

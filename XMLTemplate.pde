@@ -29,7 +29,7 @@ class XMLTemplate extends Template{
     _tpXML.setInt("beatDivider", beatDivider);
     _tpXML.setInt("strokeWidth", strokeWidth);
     _tpXML.setInt("brushSize", brushSize);
-    _tpXML.setInt("brushMode", brushMode);
+    _tpXML.setInt("miscValue", miscValue);
     _tpXML.setInt("enablerMode", enablerMode);
     //String _name = str(renderMode)+str(segmentMode)+str(animationMode)+str(strokeMode)+str(fillMode)
     //_tpXML.setString("name", _name);
@@ -52,7 +52,7 @@ class XMLTemplate extends Template{
     beatDivider = _tpXML.getInt("beatDivider");
     strokeWidth = _tpXML.getInt("strokeWidth");
     brushSize = _tpXML.getInt("brushSize");
-    brushMode = _tpXML.getInt("brushMode");
+    miscValue = _tpXML.getInt("miscValue");
     enablerMode = _tpXML.getInt("enablerMode");
   }
 }

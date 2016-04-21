@@ -375,7 +375,7 @@ class TemplateManager{
       _tmp.setInt("beatDivider", _tp.getBeatDivider());
       _tmp.setInt("strokeWidth", _tp.getStrokeWeight());
       _tmp.setInt("brushSize", _tp.getBrushSize());
-      _tmp.setInt("brushMode", _tp.getBrushMode());
+      _tmp.setInt("miscValue", _tp.getMiscValue());
       _tmp.setInt("enablerMode", _tp.getEnablerMode());
       _tmp.setInt("renderLayer", _tp.getRenderLayer());
     }
@@ -416,7 +416,7 @@ class TemplateManager{
       _tmp.setBeatDivider(_tp.getInt("beatDivider"));
       _tmp.setStrokeWidth(_tp.getInt("strokeWidth"));
       _tmp.setBrushSize(_tp.getInt("brushSize"));
-      _tmp.setBrushMode(_tp.getInt("brushMode"));
+      _tmp.setMiscValue(_tp.getInt("miscValue"));
       _tmp.setEnablerMode(_tp.getInt("enablerMode"));
       _tmp.setRenderLayer(_tp.getInt("renderLayer"));
 

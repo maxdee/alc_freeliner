@@ -135,9 +135,9 @@ class Keyboard implements FreelinerConfig{
    * @param int the keyCode
    */
   public void keyCodeRelease(int _kc) {
-    if (_kc==16) shifted = false;
-    else if (_kc==17) ctrled = false;
-    else if (_kc==18) alted = false;
+    if (_kc == 16) shifted = false;
+    else if (_kc == 17) ctrled = false;
+    else if (_kc == 18) alted = false;
   }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -154,15 +154,15 @@ class Keyboard implements FreelinerConfig{
     else if (kc == ENTER && enterText) returnWord();
     else if (kc == ENTER && !enterText) returnNumber(); // grab enter
     else if (kc == ESC || kc == 27) unSelectThings();
-    else if (kc==CONTROL) setCtrled(true);
-    else if (kc==ALT) setAlted(true);
-    else if (kc==UP) groupManager.nudger(false, -1, shifted);
-    else if (kc==DOWN) groupManager.nudger(false, 1, shifted);
-    else if (kc==LEFT) groupManager.nudger(true, -1, shifted);
-    else if (kc==RIGHT) groupManager.nudger(true, 1, shifted);
+    else if (kc == CONTROL) setCtrled(true);
+    else if (kc == ALT) setAlted(true);
+    else if (kc == UP) groupManager.nudger(false, -1, shifted);
+    else if (kc == DOWN) groupManager.nudger(false, 1, shifted);
+    else if (kc == LEFT) groupManager.nudger(true, -1, shifted);
+    else if (kc == RIGHT) groupManager.nudger(true, 1, shifted);
     //tab and shift tab throug groups
-    else if (kc==TAB) groupManager.tabThrough(shifted);
-    else if (kc==BACKSPACE) backspaceAction();
+    else if (kc == TAB) groupManager.tabThrough(shifted);
+    else if (kc == BACKSPACE) backspaceAction();
     else return false;
     return true;
     //else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
@@ -179,7 +179,7 @@ class Keyboard implements FreelinerConfig{
   public void processCAPS(char _c) {
     println(_c);
     // if editing steps
-    if(editKey == '>' && shifted) makeCMD("seq toggle"+" "+_c);
+    if(editKey == '>' && shifted) makeCMD("seq toggle "+_c);
     else if (_c == 92 && shifted) gui.setValueGiven(str(toggleEnterText())); // acts localy
     else{
       TemplateList _tl = groupManager.getTemplateList();
@@ -273,18 +273,18 @@ class Keyboard implements FreelinerConfig{
       groupManager.newGroup();
       gui.updateReference();
     }
-    else if (_k == 'm') mouse.press(3);
-    else if (_k == '*') makeCMD("tools"+" "+"rec");
-    else if (_k == ',') makeCMD("tools"+" "+"tags");
-    else if (_k == '/') makeCMD("tools"+" "+"lines");
-    else if (_k == 'g') makeCMD("tools"+" "+"grid"+" "+_n);
-    else if (_k == ']') makeCMD("tools"+" "+"ruler"+" "+_n);
-    else if (_k == '[') makeCMD("tools"+" "+"angle"+" "+_n);
-    else if (_k == '.') makeCMD("tools"+" "+"snap"+" "+_n);
-    else if (_k == '?') makeCMD("seq"+" "+"clear"+" ?");//+templateManager.getTemplateList().getTags());
-    else if (_k == 't') makeCMD("seq"+" "+"tap"+" "+_n);
-    else if (_k == '>') makeCMD("seq"+" "+"edit"+" "+_n);
-    else if (_k == 'y') makeCMD("post"+" "+"trails"+" "+_n);
+    else if (_k == 'd') mouse.press(3);
+    else if (_k == '*') makeCMD("tools rec");
+    else if (_k == ',') makeCMD("tools tags");
+    else if (_k == '/') makeCMD("tools lines");
+    else if (_k == 'g') makeCMD("tools grid "+_n);
+    else if (_k == ']') makeCMD("tools ruler "+_n);
+    else if (_k == '[') makeCMD("tools angle "+_n);
+    else if (_k == '.') makeCMD("tools snap "+_n);
+    else if (_k == '?') makeCMD("seq clear $ "+_n);//+templateManager.getTemplateList().getTags());
+    else if (_k == 't') makeCMD("seq tap "+_n);
+    else if (_k == '>') makeCMD("seq edit "+_n);
+    else if (_k == 'y') makeCMD("post trails "+_n);
     //else if (_k == 'p') makeCMD("post"+" "+"shader"+" "+_n);
     else used_ = false;
     if(_vg) gui.setValueGiven(processor.getValueGiven());
@@ -381,16 +381,16 @@ class Keyboard implements FreelinerConfig{
    * Save geometry and templates to default file.
    */
   public void saveStuff(){
-    makeCMD("geom"+" "+"save");
-    makeCMD("tp"+" "+"save");
+    makeCMD("geom save");
+    makeCMD("tp save");
   }
 
   /**
    * Load geometry and templates from default file.
    */
   public void loadStuff(){
-    makeCMD("geom"+" "+"load");
-    makeCMD("tp"+" "+"load");
+    makeCMD("geom load");
+    makeCMD("tp load");
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -437,7 +437,7 @@ class Keyboard implements FreelinerConfig{
    */
   private void returnWord() {
     if(groupManager.getSnappedSegment() != null)
-        makeCMD("geom"+" "+"text"+" "+wordMaker);
+        makeCMD("geom text"+" "+wordMaker);
     else {
       makeCMD(wordMaker);
       gui.setKeyString("sure");

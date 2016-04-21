@@ -198,10 +198,10 @@ class RenderableTemplate extends TweakableTemplate{
 		return super.setBrushSize(_s);
 	}
 
-	public int setBrushMode(int _m){
-		updateBrush = true;
-		return super.setBrushMode(_m);
-	}
+	// public int setBrushMode(int _m){
+	// 	updateBrush = true;
+	// 	return super.setBrushMode(_m);
+	// }
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Accessors
