@@ -1,16 +1,39 @@
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
   <title> a!Lc freeliner webGUI </title>
-  ??adds space
-  <!-- javascripts -->
-  <script language="javascript" type="text/javascript" src="freelinerWebGUI.js"></script>
   <!-- css -->
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
 <body>
-  <p id="infoline" class="infoline"> start freeliner and refresh to connect </p>
+  <div title="standard freeliner info">
+    <p id="infoline" class="infoline"> start freeliner and refresh to connect </p>
+  </div>
+
+  <div class="colorPicker" title="Select some template (A-Z) then pick a color!">
+    <input type="color" name="colorPicker" value="#ff0000" id="colorPicker">
+    <button id="pickColor"> pick </button>
+  </div>
+
+  <div class="cmdInput" title="type a freeliner command">
+    <input type="text" name="cmd" id="prompt">
+  </div>
+
+  <div class="shaderInput" title="set the uX floats of the shader">
+    <input type="radio" name=shaderSelect id="shaderSelect0">
+    <input type="radio" name=shaderSelect id="shaderSelect1">
+    <input type="radio" name=shaderSelect id="shaderSelect2">
+    <input type="radio" name=shaderSelect id="shaderSelect3"> <br>
+    <input type="range" id="shaderFader0" min="0" max="100" /> <br>
+    <input type="range" id="shaderFader1" min="0" max="100" /> <br>
+    <input type="range" id="shaderFader2" min="0" max="100" /> <br>
+    <input type="range" id="shaderFader3" min="0" max="100" /> <br>
+  </div>
+
+  <!-- javascripts -->
+  <script language="javascript" type="text/javascript" src="freelinerWebGUI.js"></script>
 </body>
 
 </html>

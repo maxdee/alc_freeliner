@@ -1,5 +1,5 @@
 body {
-    background-color: darkgray;
+    background-color: gray;
     padding: 16px 16px 16px 16px;
 }
 
@@ -12,6 +12,38 @@ body {
     position: fixed;
     top: 0;
 }
+
+.colorPicker {
+    font-family: monospace;
+    background-color: #875267;
+    color: #FFFFFF;
+    font-size: 10pt;
+    padding: 10px;
+    position: fixed;
+    bottom: 20px;
+}
+
+.cmdInput {
+    font-family: monospace;
+    background-color: #875267;
+    color: #FFFFFF;
+    font-size: 10pt;
+    padding: 10px;
+    position: fixed;
+    bottom: 80px;
+}
+
+.shaderInput {
+    vertical-align: middle;
+    font-family: monospace;
+    background-color: #875267;
+    color: #FFFFFF;
+    font-size: 10pt;
+    padding: 10px;
+    position: fixed;
+    bottom: 140px;
+}
+
 
 .sequencer {
   width: 100%;

@@ -187,6 +187,7 @@ class ShaderLayer extends RenderLayer{
   }
 
   public void setUniforms(int _i, float _val){
+    if(_i < 0) return;
     uniforms[_i % 4] = _val;
   }
 

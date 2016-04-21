@@ -12,7 +12,7 @@
  * /////////////////// Playing
  * tw AB q 3
  * tr AB (3 4 5)
- * tp color AB color || r g b a
+ * tp color AB #ff0000
  * tp copy (AB)
  * tp paste (AB)
  * tp add (AB)
@@ -480,7 +480,8 @@ class CommandProcessor implements FreelinerConfig{
 
   public void colorCMD(String[] _args){
     if(_args.length < 4) return;
-    int _v = stringInt(_args[3]);
+    String _hex = _args[3];
+    int _v = unhex(_hex.replaceAll("#",""));
     if(_v != -3) templateManager.setCustomColor(_args[2], _v);
   }
 
