@@ -163,9 +163,11 @@ class Mouse implements FreelinerConfig{
    * @param int positive or negative value depending on direction
    */
   public void wheeled(int _n) {
-    //println(n);
+    if(SCROLLWHEEL_SELECTOR){
+      if(_n == -1) keyboard.keyPressed(45);
+      else keyboard.keyPressed(61);
+    }
   }
-
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

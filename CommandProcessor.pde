@@ -73,6 +73,52 @@ class CommandProcessor implements FreelinerConfig{
 
   ArrayList<String> commandQueue;
 
+  String[] commandList = {
+    // for adressing templates use ABCD, or * for all, or $ for selected
+    "tw AB q 3",
+    "tr AB (3 4 5)",
+    "tp color AB #ff0000",
+    "tp copy (AB)",
+    "tp paste (AB)",
+    "tp add (AB)",
+    "tp reset (AB)",
+    "tp save (cooleffects.xml)",
+    "tp load (coolstuff.xml)",
+    "tp swap AB",
+    // add tp setshape (geometryIndex | char | .svg)
+    /////////////////// Sequencer
+    "seq tap (offset)",
+    "seq edit -1,-2,step ????",
+    "seq clear (step || AB)",
+    "seq share A step",
+    "seq toggle A (step)",
+    "seq play 0,1",
+    "seq stop // redundent play 0|1",
+    "cmd rec  // 0|1",
+    "cmd play // 0|1",
+    ///////////////////  Tools
+    "tools lines 0|1|-3",
+    "tools tags 0|1|-3",
+    "tools capture // should be in post????",
+    "tools snap (dist)",
+    "tools grid (size)",
+    "tools ruler (length)",
+    "tools angle (angle)",
+    ///////////////////  Geometry
+    "geom txt (2 3) bunch of words",
+    "geom save (coolMap.xml)",
+    "geom load (coolMap.xml)",
+    ///////////////////  Post processing
+    "post trails (alpha)",
+    "post shader (coolfrag.glsl)",
+    "post mask (mask.png)",
+    /////////////////// Information Accessors
+    "fetch infoline",
+    "fetch webinfo",
+    ///////////////////
+    "raw kbd 'keyCode'"
+  };
+
   /**
    * Constructor
    */

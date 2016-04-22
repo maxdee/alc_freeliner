@@ -58,6 +58,8 @@ interface FreelinerConfig{
   final int DEFAULT_LINE_ANGLE = 30;
   final int DEFAULT_LINE_LENGTH = 128;
   final int MOUSE_DEBOUNCE = 100;
+  // use scrollwheel as - +
+  final boolean SCROLLWHEEL_SELECTOR = true;
 
   // generate documentation on startup
   final boolean MAKE_DOCUMENTATION = true;
