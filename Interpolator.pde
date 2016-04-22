@@ -23,6 +23,7 @@ class Interpolator extends Mode{
    * @return PVector the resulting coordinate
    */
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
+    _tp.setLastPosition(_seg.getBrushPos(_tp.getLerp()));
     if(useOffset(_painter)) return _seg.getBrushPos(_tp.getLerp());
     else return _seg.getStrokePos(_tp.getLerp());
   }

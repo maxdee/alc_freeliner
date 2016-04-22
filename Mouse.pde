@@ -140,7 +140,6 @@ class Mouse implements FreelinerConfig{
 
   /**
    * Handles mouse dragging, currently works with the useFixedLength mode to draw curve approximations.
-   *
    * @param int mouseButton
    * @param int X axis (mouseX)
    * @param int Y axis (mouseY)
@@ -155,7 +154,6 @@ class Mouse implements FreelinerConfig{
       groupManager.drag(position);
     }
   }
-
 
   /**
    * Scroll wheel input, currently unused, oooooh possibilities :)

@@ -7,52 +7,6 @@
  * @since     2014-12-01
  */
 
-/** LIST OF COMMMANDS !!! () means optional arguments
- * for adressing templates use ABCD, or * for all, or $ for selected
- * /////////////////// Playing
- * tw AB q 3
- * tr AB (3 4 5)
- * tp color AB #ff0000
- * tp copy (AB)
- * tp paste (AB)
- * tp add (AB)
- * tp reset (AB)
- * tp save (cooleffects.xml)
- * tp load (coolstuff.xml)
- * tp swap AB
- * // add tp setshape (geometryIndex | char | .svg)
- * /////////////////// Sequencer
- * seq tap (offset)
- * seq edit -1,-2,step ????
- * seq clear (step || AB)
- * seq share A step
- * seq toggle A (step)
- * seq play 0,1
- * seq stop // redundent play 0|1
- * cmd rec  // 0|1
- * cmd play // 0|1
- * ///////////////////  Tools
- * tools lines 0|1|-3
- * tools tags 0|1|-3
- * tools capture // should be in post????
- * tools snap (dist)
- * tools grid (size)
- * tools ruler (length)
- * tools angle (angle)
- * ///////////////////  Geometry
- * geom txt (2 3) bunch of words
- * geom save (coolMap.xml)
- * geom load (coolMap.xml)
- * ///////////////////  Post processing
- * post trails (alpha)
- * post shader (coolfrag.glsl)
- * post mask (mask.png)
- * /////////////////// Information Accessors
- * fetch infoline
- * ///////////////////
- * raw kbd 'keyCode'
- */
-
 /**
  * This distributes events to templates and stuff.
  */
@@ -115,6 +69,7 @@ class CommandProcessor implements FreelinerConfig{
     /////////////////// Information Accessors
     "fetch infoline",
     "fetch webinfo",
+    "fetch tracker A",
     ///////////////////
     "raw kbd 'keyCode'"
   };
@@ -209,8 +164,14 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return false;
     if(_args[1].equals("infoline")) freeliner.oscInfoLine();
     else if(_args[1].equals("infoweb")) freeliner.webInfoLine();
+    else if(_args[1].equals("tracker")) trackerCMD(_args);
     else return false;
     return true;
+  }
+
+  public void trackerCMD(String[] _args){
+    if(_args.length < 3) return;
+    freeliner.tracker(_args[2]);
   }
 
   public boolean rawCMD(String[] _args){

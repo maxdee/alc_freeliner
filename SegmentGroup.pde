@@ -441,6 +441,16 @@ class SegmentGroup {
     if (segCount >= 1 && v == -1) segments.get(segCount-1).setText(w);
     else if (v<segCount) segments.get(v).setText(w);
   }
+  // set text gor group
+  public void setText(String _txt){
+    groupText = _txt;
+    distributeText(groupText);
+  }
+
+  private void distributeText(String _txt){
+    // split text up to fit segments?
+  }
+
 
   public void newRan(){
     for (int i = 0; i < segCount; i++) {
@@ -463,9 +473,6 @@ class SegmentGroup {
     templateList.copy(_tl);
   }
 
-  public void setText(String _txt){
-    groupText = _txt;
-  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

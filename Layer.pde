@@ -25,58 +25,97 @@ class Layer implements FreelinerConfig{
    canvas = null;
   }
 
+ /**
+  * The apply method takes and resturns a PGraphics.
+  * @param PGraphics source
+  * @return PGraphics output
+  */
   public PGraphics apply(PGraphics _pg){
    return _pg;
   }
 
+  /**
+   * Default operation for beginDrawing
+   */
   public void beginDrawing(){
-   if(canvas != null){
-     canvas.beginDraw();
-     canvas.clear();
-   }
+    if(canvas != null){
+      canvas.beginDraw();
+      canvas.clear();
+    }
   }
 
+  /**
+   * Default operation for endDrawing
+   */
   public void endDrawing(){
    if(canvas != null) canvas.endDraw();
   }
 
+  /**
+   * Load a file, used with shaders masks images...
+   * @param String filename
+   */
   public void loadFile(String _file){}
 
+  /**
+   * Get the canvas
+   * @return PGraphics
+   */
   public PGraphics getCanvas(){
    return canvas;
   }
 
+  /**
+   * Set the name of the layer, like "shader fx.glsl"
+   * @param String name
+   */
   public void setName(String _n){
    name = _n;
   }
 
+  /**
+   * Whether of not the layer is used.
+   * @return Boolean
+   */
   public boolean useLayer(){
    return enabled;
   }
 
+  /**
+   * Get layer name.
+   * @return String name
+   */
   public String getName(){
    return name;
   }
 }
 
 /**
-* Something that acts on a PGraphics and has a PGraphics.
-*
-*/
+ * Simple layer that can be drawn on by the rendering system.
+ */
 class RenderLayer extends Layer{
-   public RenderLayer(){
-     canvas = createGraphics(width,height,P2D);
-     canvas.beginDraw();
-     canvas.background(0);
-     canvas.endDraw();
-   }
-   public PGraphics apply(PGraphics _pg){
-     if(!enabled) return _pg;
-     if(_pg == null) return canvas;
-     _pg.beginDraw();
-     _pg.image(canvas,0,0);
-     _pg.endDraw();
-     return _pg;
+  /**
+   * Actualy make a PGraphics.
+   */
+  public RenderLayer(){
+    canvas = createGraphics(width,height,P2D);
+    canvas.beginDraw();
+    canvas.background(0);
+    canvas.endDraw();
+    enabled = true;
+    name = "RenderLayer";
+  }
+
+  /**
+   * This layer's PG gets applied onto the incoming PG
+   */
+  public PGraphics apply(PGraphics _pg){
+    if(!enabled) return _pg;
+    if(_pg == null) return canvas;
+    _pg.beginDraw();
+    _pg.image(canvas,0,0);
+    _pg.endDraw();
+    return _pg;
    }
  }
 
@@ -88,6 +127,9 @@ class TracerLayer extends RenderLayer{
   public TracerLayer(){
     super();
   }
+  /**
+   * Override parent's beginDrawing to draw a transparent background.
+   */
   public void beginDrawing(){
     if(canvas != null){
       canvas.beginDraw();
@@ -105,14 +147,14 @@ class TracerLayer extends RenderLayer{
 }
 
 /**
- * Layer to merge graphics down. should only be one of these.
- *
+ * Layer to merge graphics down. should only be one of these
  */
 class MergeLayer extends RenderLayer{
   public MergeLayer(){
     super();
     name = "MergeLayer";
   }
+
   public PGraphics apply(PGraphics _pg){
     // canvas.blendMode(LIGHTEST);
     if(_pg == null) return null;

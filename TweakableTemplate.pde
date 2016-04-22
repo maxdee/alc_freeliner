@@ -10,16 +10,31 @@ class TweakableTemplate extends Template {
   // track launches, will replace the beat count in killable templates
   int launchCount;
 
+  /*
+   * data that can be read post render
+   */
+  PVector lastPosition;
+
+
 	public TweakableTemplate(char _id){
 		super(_id);
     bank = new ArrayList();
     bankIndex = 0;
     launchCount = 0;
+    lastPosition = new PVector(0,0);
 	}
 
   public TweakableTemplate(){
     super();
   }
+
+  public void setLastPosition(PVector _pv){
+		lastPosition = _pv.get();
+	}
+
+  public final PVector getLastPosition(){
+		return lastPosition.get();
+	}
 
   public void launch(){
     launchCount++;

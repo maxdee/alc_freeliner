@@ -25,7 +25,7 @@
 // the data structure shared between a SegmentGroup and Renderer
 class RenderableTemplate extends TweakableTemplate{
 	//
-	Template sourceTemplate;
+	TweakableTemplate sourceTemplate;
 
 	SegmentGroup segmentGroup;
 
@@ -61,6 +61,7 @@ class RenderableTemplate extends TweakableTemplate{
 	float hue;
 	PShape brushShape;
 	boolean updateBrush;
+
 /*
  * Variable for internal use.
  */
@@ -89,7 +90,7 @@ class RenderableTemplate extends TweakableTemplate{
  * Constructor
  * @param SegmentGroup in question
  */
-	public RenderableTemplate(Template _te, SegmentGroup _sg){
+	public RenderableTemplate(TweakableTemplate _te, SegmentGroup _sg){
 		super(_te.getTemplateID());
 		//println(_te.getStrokeMode());
 		sourceTemplate = _te;
@@ -145,7 +146,9 @@ class RenderableTemplate extends TweakableTemplate{
 		else return (_lrp+1) - timeStamp; // _lrp < timestamp
 	}
 
-
+	public void setLastPosition(PVector _pv){
+		sourceTemplate.setLastPosition(_pv);
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Mutators
@@ -197,6 +200,8 @@ class RenderableTemplate extends TweakableTemplate{
 		updateBrush = true;
 		return super.setBrushSize(_s);
 	}
+
+
 
 	// public int setBrushMode(int _m){
 	// 	updateBrush = true;
@@ -293,6 +298,7 @@ class RenderableTemplate extends TweakableTemplate{
 	public final PShape getBrushShape(){
 		return brushShape;
 	}
+
 	// // ask if the brush needs updating
 	// public final boolean updateBrush(){
 	// 	if(updateBrush || brush == null){
