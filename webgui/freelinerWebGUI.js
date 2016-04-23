@@ -36,6 +36,7 @@ function connectSocket(_adr){
     var mess = evt.data;
     var nfo = document.getElementById("infoline").innerHTML = mess;
   }
+  if(connected == 0) document.getElementById("infoline").innerHTML = "could not connect";
 }
 
 /*
@@ -43,6 +44,11 @@ function connectSocket(_adr){
  * gui input!
  * /////////////////////////////////////////////////////////////
  */
+
+document.getElementById("fileInput").onchange = function (){
+  var _file = document.getElementById('fileInput').value;
+  socket.send('geom load '+_file);
+}
 
 document.getElementById("pickColor").onclick = function (){
   var _c = document.getElementById('colorPicker').value;
