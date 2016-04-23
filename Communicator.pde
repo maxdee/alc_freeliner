@@ -81,7 +81,7 @@ class WebSocketCommunicator extends FreelinerCommunicator{
 
   public WebSocketCommunicator(PApplet _pa, CommandProcessor _cp){
     super(_pa, _cp);
-    webSock = new WebsocketServer(applet,8025,"/freeliner");
+    webSock = new WebsocketServer(applet, WEBSOCKET_PORT,"/freeliner");
     //webSock.setNewCallback(this);
   }
 

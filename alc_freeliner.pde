@@ -18,7 +18,8 @@ void settings(){
   // set the resolution, or fullscreen and display
   //if(FreelinerConfig.FULLSCREEN) fullScreen(P2D,2);
   //else size(FreelinerConfig.WINDOW_WIDTH, FreelinerConfig.WINDOW_HEIGHT, P2D);
-  size(1024, 768, P2D);
+  //size(1024, 768, P2D);
+  size(200, 768, P2D);
 
   //noSmooth();
   //size(1024, 683, P2D);
@@ -65,7 +66,7 @@ boolean doSplash = true;
 boolean OSX = false;
 
 ExternalGUI externalGUI = null; // set specific key to init gui
-boolean runGui = false;
+// documentation compiler
 Documenter documenter;
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -98,7 +99,7 @@ void setup() {
   // perhaps use -> PApplet.platform == MACOSX
   background(0);
   splash();
-  if(runGui) launchGUI();
+  if(FreelinerConfig.MAKE_DOCUMENTATION) documenter.outputMarkdown();
 }
 
 // splash screen!

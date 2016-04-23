@@ -11,9 +11,23 @@ setInterval(function() { if(connected) socket.send('fetch infoweb');}, 100);
  */
 var socket;
 var connected = 0;
-// start the websocket
+var DEFAULT_WEBSOCKET_ADDR = 'ws://localhost:8025/freeliner';
+
+// start the websocket with default adress on page load
 window.onload = function (){
-  socket = new WebSocket('ws://localhost:8025/freeliner');
+  socketPrompt();
+}
+
+function socketPrompt() {
+    var _addr = prompt("connect to", DEFAULT_WEBSOCKET_ADDR);
+    if (_addr != null) connectSocket(_addr);
+    else connectSocket(DEFAULT_WEBSOCKET_ADDR);
+}
+
+// connect to a websocket
+function connectSocket(_adr){
+  socket = new WebSocket(_adr);
+  connected = 0;
   socket.onopen = function() {
     console.log("Socket has been opened!");
     connected = 1;
@@ -56,7 +70,6 @@ document.getElementById("shaderSelect2").onclick = function(){
 document.getElementById("shaderSelect3").onclick = function(){
   socket.send("post shader 3");
 };
-
 document.getElementById("shaderFader0").oninput = function(){
   socket.send("post shader 0 "+(document.getElementById("shaderFader0").value/100.0));
 };

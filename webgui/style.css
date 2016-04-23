@@ -3,24 +3,22 @@ body {
     padding: 16px 16px 16px 16px;
 }
 
+toppart {
+
+  position: fixed;
+  width:100%;
+  top: 0;
+  border: 2px;
+}
+
 .infoline {
     font-family: monospace;
     background-color: #875267;
     color: #FFFFFF;
     font-size: 18pt;
     padding: 10px;
-    position: fixed;
-    top: 0;
-}
-
-.colorPicker {
-    font-family: monospace;
-    background-color: #875267;
-    color: #FFFFFF;
-    font-size: 10pt;
-    padding: 10px;
-    position: fixed;
-    bottom: 20px;
+    /*position: fixed;
+    top: 0;*/
 }
 
 .cmdInput {
@@ -28,10 +26,34 @@ body {
     background-color: #875267;
     color: #FFFFFF;
     font-size: 10pt;
-    padding: 10px;
-    position: fixed;
-    bottom: 80px;
+    padding: 2px;
+    width: 100%;
+    /*position: fixed;
+    bottom: 80px;*/
 }
+.prompt {
+  width:80%;
+}
+
+.bottompart {
+  position: fixed;
+  padding: 5px;
+  bottom: 10px;
+}
+
+
+
+
+.colorPicker {
+    font-family: monospace;
+    background-color: #875267;
+    color: #FFFFFF;
+    font-size: 10pt;
+    padding: 10px;
+    /*position: fixed;
+    bottom: 20px;*/
+}
+
 
 .shaderInput {
     vertical-align: middle;
@@ -40,59 +62,18 @@ body {
     color: #FFFFFF;
     font-size: 10pt;
     padding: 10px;
-    position: fixed;
-    bottom: 140px;
+    /*position: fixed;
+    bottom: 140px;*/
 }
 
-
-.sequencer {
-  width: 100%;
-	/*overflow:hidden;*/
-	margin-top: auto;
-	margin-right: auto;
-	margin-bottom: auto;
-	margin-left: auto;
-  position: fixed;
-  bottom: 50px;
-}
-
-.sequencer .seqstep {
-  float: left;
-  margin: 2px;
-  height: 42px;
-  width: 100px;
-  line-width: 100px;
-  border:2px solid red;
-  background-color: #005267;
-  color: #FFFFFF;
-  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
-  font-size:18px;
-  text-align: center;
+.modes {
+  /*width:48px;*/
   vertical-align: middle;
-  /*writing-mode:tb-rl;
-  -webkit-transform:rotate(90deg);
-  -moz-transform:rotate(90deg);
-  -o-transform:rotate(90deg);*/
-  white-space:nowrap;
-}
-
-.sequencer .seqstep:hover {
-  background-color: #885267;
-}
-
-.oldstep {
-	color:#333;
-
-  padding: 10px;
+  font-family: monospace;
+  background-color: #875267;
   color: #FFFFFF;
-  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
-  font-size:18px;
-  font-weight:normal;
-  position: fixed;
-  bottom: 16px;
-	writing-mode:tb-rl;
-	-webkit-transform:rotate(90deg);
-	-moz-transform:rotate(90deg);
-	-o-transform:rotate(90deg);
-	white-space:nowrap;
+  font-size: 10pt;
+  padding: 10px;
+  /*position: fixed;
+  bottom: 310px;*/
 }

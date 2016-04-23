@@ -10,6 +10,8 @@ interface FreelinerConfig{
   final int OSC_OUT_PORT = 6668;
   // IP address to send sync messages to
   final String OSC_OUT_IP = "127.0.0.1";
+  // Websocket port
+  final int WEBSOCKET_PORT = 8025;
 
   // GUI options
   final int CURSOR_SIZE = 18;

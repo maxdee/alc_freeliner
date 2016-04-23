@@ -8,29 +8,51 @@
 </head>
 
 <body>
-  <div title="standard freeliner info">
-    <p id="infoline" class="infoline"> start freeliner and refresh to connect </p>
+  <div class="toppart">
+    <div title="standard freeliner info">
+      <p id="infoline" class="infoline"> start freeliner and refresh to connect </p>
+    </div>
+
+    <div class="cmdInput" title="type a freeliner command">
+      cmd:
+      <input type="text" name="cmd" id="prompt" class="prompt">
+    </div>
+
   </div>
 
-  <div class="colorPicker" title="Select some template (A-Z) then pick a color!">
-    <input type="color" name="colorPicker" value="#ff0000" id="colorPicker">
-    <button id="pickColor"> pick </button>
+  <div class="bottompart">
+
+    <div class="colorPicker" title="Select some template (A-Z) then pick a color!">
+      <input type="color" name="colorPicker" value="#ff0000" id="colorPicker">
+      <button id="pickColor"> pick </button>
+    </div>
+
+    <div class="shaderInput" title="set the uX floats of the shader">
+      Pick shader
+      <input type="radio" name=shaderSelect id="shaderSelect0" title="pick shader 0">
+      <input type="radio" name=shaderSelect id="shaderSelect1" title="pick shader 1">
+      <input type="radio" name=shaderSelect id="shaderSelect2" title="pick shader 2">
+      <input type="radio" name=shaderSelect id="shaderSelect3" title="pick shader 3"> <br>
+      u0<input type="range" id="shaderFader0" min="0" max="100" /> <br>
+      u1<input type="range" id="shaderFader1" min="0" max="100" /> <br>
+      u2<input type="range" id="shaderFader2" min="0" max="100" /> <br>
+      u3<input type="range" id="shaderFader3" min="0" max="100" /> <br>
+    </div>
+
+    <div class="modes">
+      <!-- <input type="number" id="renderMode" value="0"> -->
+      Render Mode
+      <select id="renderSlecter">
+        <option value="0">brush</option>
+        <option value="1">line</option>
+        <option value="2">fill</option>
+        <option value="3">text</option>
+      </select>
+    </div>
+
   </div>
 
-  <div class="cmdInput" title="type a freeliner command">
-    <input type="text" name="cmd" id="prompt">
-  </div>
 
-  <div class="shaderInput" title="set the uX floats of the shader">
-    <input type="radio" name=shaderSelect id="shaderSelect0">
-    <input type="radio" name=shaderSelect id="shaderSelect1">
-    <input type="radio" name=shaderSelect id="shaderSelect2">
-    <input type="radio" name=shaderSelect id="shaderSelect3"> <br>
-    <input type="range" id="shaderFader0" min="0" max="100" /> <br>
-    <input type="range" id="shaderFader1" min="0" max="100" /> <br>
-    <input type="range" id="shaderFader2" min="0" max="100" /> <br>
-    <input type="range" id="shaderFader3" min="0" max="100" /> <br>
-  </div>
 
   <!-- javascripts -->
   <script language="javascript" type="text/javascript" src="freelinerWebGUI.js"></script>
