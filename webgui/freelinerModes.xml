@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<freelinerModes>
+  <parameter key="v">
+    <mode description="Renders all segments" index="0" name="AllSegments"/>
+    <mode description="Renders one segment per beat in order." index="1" name="SequentialSegments"/>
+    <mode description="Render all segments in order in one beat." index="2" name="RunThroughSegments"/>
+    <mode description="Render a random segment per beat." index="3" name="RandomSegment"/>
+    <mode description="Render a different segment per frame" index="4" name="FastRandomSegment"/>
+    <mode description="Renders segment in branch level augmenting every beat" index="5" name="SegmentBranch"/>
+    <mode description="Render throught all the branch levels in one beat." index="6" name="RunThroughBranches"/>
+  </parameter>
+  <parameter key="q">
+    <mode description="None" index="0" name="Colorizer"/>
+    <mode description="white" index="1" name="Colorizer"/>
+    <mode description="red" index="2" name="Colorizer"/>
+    <mode description="green" index="3" name="Colorizer"/>
+    <mode description="blue" index="4" name="Colorizer"/>
+    <mode description="black" index="5" name="Colorizer"/>
+    <mode description="Color of 0 index in colorPalette" index="6" name="PalletteColor"/>
+    <mode description="Color of 1 index in colorPalette" index="7" name="PalletteColor"/>
+    <mode description="Color of 2 index in colorPalette" index="8" name="PalletteColor"/>
+    <mode description="Color of 3 index in colorPalette" index="9" name="PalletteColor"/>
+    <mode description="Color of 4 index in colorPalette" index="10" name="PalletteColor"/>
+    <mode description="Color of 5 index in colorPalette" index="11" name="PalletteColor"/>
+    <mode description="Color of 6 index in colorPalette" index="12" name="PalletteColor"/>
+    <mode description="Color of 7 index in colorPalette" index="13" name="PalletteColor"/>
+    <mode description="Color of 8 index in colorPalette" index="14" name="PalletteColor"/>
+    <mode description="Color of 9 index in colorPalette" index="15" name="PalletteColor"/>
+    <mode description="Color of 10 index in colorPalette" index="16" name="PalletteColor"/>
+    <mode description="Color of 11 index in colorPalette" index="17" name="PalletteColor"/>
+    <mode description="Cycles through colors of the pallette" index="18" name="RepetitionColor"/>
+    <mode description="Primary color that should change every beat." index="19" name="RandomPrimaryColor"/>
+    <mode description="Cycles through primary colors on beat." index="20" name="PrimaryBeatColor"/>
+    <mode description="HSBFade stored on template/event." index="21" name="HSBFade"/>
+    <mode description="Random primary color every frame." index="22" name="FlashyPrimaryColor"/>
+    <mode description="Random shades of gray." index="23" name="FlashyGray"/>
+    <mode description="Random red green and blue value every frame." index="24" name="RGB"/>
+    <mode description="Strobes white" index="25" name="Strobe"/>
+    <mode description="Flashes once per beat." index="26" name="Flash"/>
+    <mode description="Red Green Yellow" index="27" name="JahColor"/>
+    <mode description="Custom color for template." index="28" name="CustomColor"/>
+    <mode description="HSB fade goes along with millis." index="29" name="MillisFade"/>
+    <mode description="HSB fade through beat." index="30" name="HSBLerp"/>
+  </parameter>
+  <parameter key="e">
+    <mode description="Pics a position in relation to a segment" index="0" name="Interpolator"/>
+    <mode description="Moves between pointA and center" index="1" name="CenterSender"/>
+    <mode description="Moves between pointA and center" index="2" name="CenterSender"/>
+    <mode description="Moves along segment, but halfway to center." index="3" name="HalfWayInterpolator"/>
+    <mode description="Provides an expanding random position between segment and center." index="4" name="RandomExpandingInterpolator"/>
+    <mode description="Provides random position between segment and center." index="5" name="RandomInterpolator"/>
+    <mode description="Rotates with segments as diameter." index="6" name="DiameterInterpolator"/>
+    <mode description="Rotates with segments as Radius." index="7" name="RadiusInterpolator"/>
+    <mode description="Prototype thing that offsets the position according to segments X position." index="8" name="SegmentOffsetInterpolator"/>
+    <mode description="invert direction every segment" index="9" name="OppositInterpolator"/>
+  </parameter>
+  <parameter key="d">
+    <mode description="Adjust its size with `w`." index="0" name="PointBrush"/>
+    <mode description="Perpendicular line brush" index="1" name="line"/>
+    <mode description="Brush witha circular appearance." index="2" name="circle"/>
+    <mode description="Chevron v shaped style brush" index="3" name="chevron"/>
+    <mode description="Square shaped brush" index="4" name="square"/>
+    <mode description="+ shaped brush" index="5" name="+"/>
+    <mode description="Triangular brush." index="6" name="triangle"/>
+    <mode description="ms paint grafiti style" index="7" name="sprinkle"/>
+    <mode description="legalize it" index="8" name="leaf"/>
+    <mode description="Template custom shape, add template to geometryGroup and press `ctrl-d` to set as custom shape." index="9" name="custom"/>
+  </parameter>
+  <parameter key="a">
+    <mode description="Place brush onto segment. Affected by `e`." index="0" name="BrusPainter"/>
+  </parameter>
+  <parameter key="a">
+    <mode description="Makes a line between pointA and a position." index="0" name="FunLine"/>
+    <mode description="Draws a line on a segment, not animated." index="1" name="FullLine"/>
+    <mode description="line that expands from the middle of a segment." index="2" name="MiddleLine"/>
+    <mode description="Line that comes out of point A and exits through pointB" index="3" name="TrainLine"/>
+    <mode description="Draw a line from center to position." index="4" name="Maypole"/>
+    <mode description="Draws a line from a point on a segment to a point on a different segment. Affected by `e`" index="5" name="SegToSeg"/>
+    <mode description="modulates alpha channel, made for LEDs" index="6" name="AlphaLine"/>
+  </parameter>
+  <parameter key="a">
+    <mode description="Paints stuff" index="0" name="Painter"/>
+    <mode description="Paints stuff" index="1" name="Painter"/>
+  </parameter>
+  <parameter key="a">
+    <mode description="Fit a bunch of text on a segment" index="0" name="TextWritter"/>
+    <mode description="Scrolls text, acording to enterpolator" index="1" name="ScrollingText"/>
+  </parameter>
+  <parameter key="a">
+    <mode description="Makes a expanding circle with segment as final radius." index="0" name="Elliptic"/>
+  </parameter>
+  <parameter key="b">
+    <mode description="Render mode for drawing with brushes" index="0" name="BrushSegment"/>
+    <mode description="Draw lines related to segments" index="1" name="LineSegment"/>
+    <mode description="Things that render per each segment" index="2" name="PersegmentRender"/>
+    <mode description="RenderModes that involve all segments." index="3" name="GeometryRender"/>
+    <mode description="Stuff that draws text" index="4" name="TextRenderMode"/>
+    <mode description="Circles and stuff" index="5" name="CircularSegment"/>
+  </parameter>
+  <parameter key="h">
+    <mode description="Linear movement" index="0" name="linear"/>
+    <mode description="Power of 2." index="1" name="square"/>
+    <mode description="Sine ish" index="2" name="sine"/>
+    <mode description="cosine" index="3" name="cosine"/>
+    <mode description="half a sine" index="4" name="boost"/>
+    <mode description="random unitInterval every frame" index="5" name="random"/>
+    <mode description="fake audio response" index="6" name="targetNoise"/>
+    <mode description="fixed at 1.0" index="7" name="fixed"/>
+    <mode description="fixed at 0.5" index="8" name="fixed"/>
+    <mode description="fixed at 0.0" index="9" name="fixed"/>
+    <mode description="Linera eas in and out" index="10" name="EaseInOut"/>
+  </parameter>
+  <parameter key="i">
+    <mode description="only draw template once" index="0" name="single"/>
+    <mode description="Render things evenly spaced" index="1" name="EvenlySpaced"/>
+    <mode description="Render things evenly spaced with a fixed one at the begining and end" index="2" name="EvenlySpacedWithZero"/>
+    <mode description="RenderMultiples but make em go faster" index="3" name="ExpoSpaced"/>
+    <mode description="Render twice in opposite directions" index="4" name="TwoFull"/>
+    <mode description="Render twice in opposite directions" index="5" name="TwoFull"/>
+  </parameter>
+  <parameter key="u">
+    <mode description="Never render" index="0" name="Disabler"/>
+    <mode description="always render" index="1" name="loop"/>
+    <mode description="only render if triggered" index="2" name="Triggerable"/>
+    <mode description="only render if triggered" index="3" name="Triggerable"/>
+    <mode description="render per geometry from left to right" index="4" name="SweepingEnabler"/>
+    <mode description="render per geometry from right to left" index="5" name="SwoopingEnabler"/>
+    <mode description="Maybe render" index="6" name="RandomEnabler"/>
+  </parameter>
+</freelinerModes>
