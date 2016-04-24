@@ -15,6 +15,7 @@ class Documenter implements FreelinerConfig{
   ArrayList<ArrayList<Mode>> docBuffer;
   ArrayList<String> sections;
   PrintWriter output;
+  XML freelinerModes;
 
   /**
    * Constructor
@@ -23,9 +24,10 @@ class Documenter implements FreelinerConfig{
     docBuffer = new ArrayList();
     sections = new ArrayList();
     sections.add("First");
-    output = createWriter("doc/autodoc.md");
+    output = createWriter("../doc/autodoc.md");
     output.flush();
     documentKeys();
+    freelinerModes = new XML("freelinerModes");
   }
 
   /**
@@ -64,6 +66,24 @@ class Documenter implements FreelinerConfig{
       //for(Mode _m : _modes) _buff.add(_m);
       //docBuffer.add(_buff);
       addDocToFile(_modes,_key,_section);
+      addDocToXML(_modes,_key,_section);
+    }
+  }
+
+  /**
+   * Format mode arrays to nice markdown tables
+   * @param String cmd
+   */
+  void addDocToXML(Mode[] _modes, char _key, String _parent){
+    XML _param = freelinerModes.addChild("parameter");
+    _param.setString("key", str(_key));
+    int _index = 0;
+    for(Mode _m : _modes){
+      XML _mode = _param.addChild("mode");
+      _mode.setInt("index", _index);
+      _mode.setString("name", _m.getName());
+      _mode.setString("description", _m.getDescription());
+      _index++;
     }
   }
 
@@ -81,12 +101,11 @@ class Documenter implements FreelinerConfig{
    * Output markdown file
    */
   void outputMarkdown(){
-    // output.flush();
-    // for(ArrayList<Mode> _section : docBuffer){
-    //   addDocToFile(_section);
-    // }
     output.close();
     println("Saved doc to : doc/autodoc.md");
+  }
+  void outputXML(){
+    saveXML(freelinerModes, "../webgui/freelinerModes.xml");
   }
 
   /**

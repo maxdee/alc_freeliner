@@ -225,7 +225,7 @@ class GroupManager{
 
   // argumentless
   public void saveGroups(){
-    saveGroups("userdata/geometry.xml");
+    saveGroups("geometry.xml");
   }
 
   public void saveGroups(String _fn){
@@ -253,13 +253,12 @@ class GroupManager{
         // for leds and such
         xseg.setString("txt",seg.getText());
       }
-      saveXML(groupData, _fn);
+      saveXML(groupData, "../userdata/"+_fn);
     }
   }
 
-
   public void loadGroups(){
-    loadGroups("userdata/geometry.xml");
+    loadGroups("geometry.xml");
   }
   // what a mess what a mess
   // we cant have that we cant have that
@@ -267,7 +266,7 @@ class GroupManager{
   public void loadGroups(String _fn){
     XML file;
     try {
-      file = loadXML(_fn);
+      file = loadXML("../userdata/"+_fn);
     }
     catch (Exception e){
       println(_fn+" cant be loaded");

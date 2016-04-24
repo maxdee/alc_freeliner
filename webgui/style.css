@@ -3,12 +3,12 @@ body {
     padding: 16px 16px 16px 16px;
 }
 
-toppart {
-
-  position: fixed;
+.toppart {
   width:100%;
+  position: fixed;
   top: 0;
   border: 2px;
+  margin: 10px;
 }
 
 .infoline {
@@ -16,64 +16,85 @@ toppart {
     background-color: #875267;
     color: #FFFFFF;
     font-size: 18pt;
-    padding: 10px;
-    /*position: fixed;
-    top: 0;*/
+    padding: 12px;
 }
 
 .cmdInput {
+    margin: 10px;
     font-family: monospace;
     background-color: #875267;
     color: #FFFFFF;
     font-size: 10pt;
     padding: 2px;
-    width: 100%;
-    /*position: fixed;
-    bottom: 80px;*/
+    width: auto;
 }
+
 .prompt {
-  width:80%;
+  margin: 2px;
+  width:500px;
 }
 
 .bottompart {
+  margin: 10px;
   position: fixed;
-  padding: 5px;
-  bottom: 10px;
+  bottom: 130px;
 }
-
-
-
 
 .colorPicker {
-    font-family: monospace;
-    background-color: #875267;
-    color: #FFFFFF;
-    font-size: 10pt;
-    padding: 10px;
-    /*position: fixed;
-    bottom: 20px;*/
+  width: auto;
+  font-family: monospace;
+  background-color: #875267;
+  color: #FFFFFF;
+  font-size: 10pt;
+  padding: 10px;
+  margin: 10px;
 }
 
-
 .shaderInput {
+    margin: 10px;
     vertical-align: middle;
     font-family: monospace;
     background-color: #875267;
     color: #FFFFFF;
     font-size: 10pt;
     padding: 10px;
-    /*position: fixed;
-    bottom: 140px;*/
 }
 
 .modes {
-  /*width:48px;*/
+  margin: 10px;
   vertical-align: middle;
   font-family: monospace;
   background-color: #875267;
   color: #FFFFFF;
   font-size: 10pt;
   padding: 10px;
-  /*position: fixed;
-  bottom: 310px;*/
+}
+
+.sequencer {
+  width: 100%;
+	background-color: #000000;
+  padding: 16px;
+	margin:auto;
+  position: fixed;
+  bottom: 10px;
+}
+
+.sequencer .seqstep {
+  float: left;
+  margin: 4px;
+  height: 128px;
+  width: 42px;
+  border:1px solid lightgray;
+  background-color: #005267;
+  color: #FFFFFF;
+  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+  font-size:18px;
+  text-align: center;
+  text-rendering:
+  vertical-align: middle;
+  white-space:nowrap;
+}
+
+.sequencer .seqstep:hover {
+  background-color: #880000;
 }

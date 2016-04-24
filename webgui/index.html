@@ -18,13 +18,10 @@
       <input type="text" name="cmd" id="prompt" class="prompt">
     </div>
 
-    <div>
+    <div class="cmdInput">
       loadFile
       <input type="file" id="fileInput"/>
     </div>
-  </div>
-
-  <div class="bottompart">
 
     <div class="colorPicker" title="Select some template (A-Z) then pick a color!">
       <input type="color" name="colorPicker" value="#ff0000" id="colorPicker">
@@ -53,13 +50,32 @@
         <option value="3">text</option>
       </select>
     </div>
-
   </div>
 
-
+  <div class="sequencer" id="seq">
+    <div id="step0" class="seqstep" > </div>
+    <div id="step1" class="seqstep" > </div>
+    <div id="step2" class="seqstep" > </div>
+    <div id="step3" class="seqstep" > </div>
+    <div id="step4" class="seqstep" > </div>
+    <div id="step5" class="seqstep" > </div>
+    <div id="step6" class="seqstep" > </div>
+    <div id="step7" class="seqstep" > </div>
+    <div id="step8" class="seqstep" > </div>
+    <div id="step9" class="seqstep" > </div>
+    <div id="step10" class="seqstep" > </div>
+    <div id="step11" class="seqstep" > </div>
+    <div id="step12" class="seqstep" > </div>
+    <div id="step13" class="seqstep" > </div>
+    <div id="step14" class="seqstep" > </div>
+    <div id="step15" class="seqstep" > </div>
+  </div>
 
   <!-- javascripts -->
+  <xml id="freelinerModes" type="text/xml" src="freelinerModes.xml"></xml>
   <script language="javascript" type="text/javascript" src="freelinerWebGUI.js"></script>
+  <script language="javascript" type="text/javascript" src="guiGenerator.js"></script>
+
 </body>
 
 </html>

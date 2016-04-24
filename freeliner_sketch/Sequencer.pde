@@ -146,6 +146,14 @@ class Sequencer implements FreelinerConfig{
     else return null;
   }
 
+  public String getStatusString(){
+    String _buff = "";
+    for(TemplateList _tl : lists){
+      _buff += "/"+_tl.getTags();
+    }
+    return _buff;
+  }
+
   public TemplateList[] getStepLists(){
     return lists;
   }

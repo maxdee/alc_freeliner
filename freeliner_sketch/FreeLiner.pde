@@ -74,8 +74,14 @@ class FreeLiner implements FreelinerConfig{
   }
 
   void webInfoLine(){
-    webComs.send(gui.getInfo());
+    webComs.send("info "+gui.getInfo());
   }
+
+  void webseq(){
+    String _stps = templateManager.getSequencer().getStatusString();
+    webComs.send("webseq "+_stps);
+  }
+
   /**
    * It all starts here...
    */

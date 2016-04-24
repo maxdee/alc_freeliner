@@ -70,6 +70,7 @@ class CommandProcessor implements FreelinerConfig{
     "fetch infoline",
     "fetch webinfo",
     "fetch tracker A",
+    "fetch webseq",
     ///////////////////
     "raw kbd 'keyCode'"
   };
@@ -165,6 +166,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args[1].equals("infoline")) freeliner.oscInfoLine();
     else if(_args[1].equals("infoweb")) freeliner.webInfoLine();
     else if(_args[1].equals("tracker")) trackerCMD(_args);
+    else if(_args[1].equals("webseq")) freeliner.webseq();
     else return false;
     return true;
   }
@@ -279,7 +281,6 @@ class CommandProcessor implements FreelinerConfig{
     else return false;
     return true;
   }
-
 
   // geom txt (2 3) ahah yes
   // geom txt yes no
@@ -411,7 +412,9 @@ class CommandProcessor implements FreelinerConfig{
 
   public void toggleStep(String[] _args){
     if(_args.length > 2){
-      for(TweakableTemplate _tw : templateManager.getTemplates(_args[2]))
+      ArrayList<TweakableTemplate> _tp = templateManager.getTemplates(_args[2]);
+      if(_tp == null) return;
+      for(TweakableTemplate _tw : _tp)
         sequencer.toggle(_tw);
     }
     gui.setTemplateString(sequencer.getStepToEdit().getTags());

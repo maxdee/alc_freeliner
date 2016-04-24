@@ -16,6 +16,7 @@ var DEFAULT_WEBSOCKET_ADDR = 'ws://localhost:8025/freeliner';
 // start the websocket with default adress on page load
 window.onload = function (){
   socketPrompt();
+  // makeGui();
 }
 
 function socketPrompt() {
@@ -33,10 +34,17 @@ function connectSocket(_adr){
     connected = 1;
   }
   socket.onmessage = function (evt) {
-    var mess = evt.data;
-    var nfo = document.getElementById("infoline").innerHTML = mess;
+    // var mess =
+    parseInfo(evt.data);
+    // var nfo = document.getElementById("infoline").innerHTML = mess;
   }
   if(connected == 0) document.getElementById("infoline").innerHTML = "could not connect";
+}
+
+function parseInfo(_info){
+  var _splt = _info.split(" ",1);
+  if(_splt[0] == "info") setInfo(_info);
+  else if(_splt[0] == "webseq") setSeqTags(_info);
 }
 
 /*
@@ -44,6 +52,30 @@ function connectSocket(_adr){
  * gui input!
  * /////////////////////////////////////////////////////////////
  */
+
+function setInfo(_info){
+  document.getElementById("infoline").innerHTML = _info.replace('info', '');
+}
+
+function setSeqTags(tags){
+  var _steps = tags.replace('webseq /', '').split('/');
+  console.log(_steps);
+  for(var i = 0; i < _steps.length; i++){
+    document.getElementById('step'+i).innerHTML = _steps[i];
+  }
+}
+
+function labelStep(i, s){
+  document.getElementById('step'+i).innerHTML = _steps[i];
+}
+
+document.getElementById("seq").onclick = function (e){
+  var _step = e.target.id;
+  _step = _step.replace('step', '');
+  console.log(_step);
+  socket.send("seq toggle $ "+_step);
+  socket.send("fetch webseq");
+}
 
 document.getElementById("fileInput").onchange = function (){
   var _file = document.getElementById('fileInput').value;

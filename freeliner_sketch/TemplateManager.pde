@@ -348,7 +348,7 @@ class TemplateManager{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public void saveTemplates(){
-    saveTemplates("userdata/templates.xml");
+    saveTemplates("../userdata/templates.xml");
   }
 
   /**
@@ -379,17 +379,17 @@ class TemplateManager{
       _tmp.setInt("enablerMode", _tp.getEnablerMode());
       _tmp.setInt("renderLayer", _tp.getRenderLayer());
     }
-    saveXML(_templates, _fn);
+    saveXML(_templates, "../userdata/"+_fn);
   }
 
   public void loadTemplates(){
-    loadTemplates("userdata/templates.xml");
+    loadTemplates("templates.xml");
   }
 
   public void loadTemplates(String _fn){
     XML file;
     try {
-      file = loadXML(_fn);
+      file = loadXML("../userdata/"+_fn);
     }
     catch (Exception e){
       println(_fn+" cant be loaded");
@@ -419,7 +419,6 @@ class TemplateManager{
       _tmp.setMiscValue(_tp.getInt("miscValue"));
       _tmp.setEnablerMode(_tp.getInt("enablerMode"));
       _tmp.setRenderLayer(_tp.getInt("renderLayer"));
-
     }
   }
 
