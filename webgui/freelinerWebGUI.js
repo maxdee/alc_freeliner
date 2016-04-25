@@ -146,16 +146,16 @@ function kbdRules(_event){
 
 // prevent keyboard default behaviors, for ctrl-_ tab
 document.addEventListener("keydown", function(e) {
+  console.log(e.keyCode);
   // catch ctrlKey
   if ((navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) e.preventDefault();
   // prevent default for tab key
   else if(e.keyCode == 9) e.preventDefault();
   if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
-  else socket.send('raw press '+kbdRules(e));
+  else socket.send('hid press '+kbdRules(e)+" "+e.key);
 
   //send keyPress to freeliner
 }, false);
-
 
 document.addEventListener("keyup", function(e) {
   // catch ctrlKey
@@ -163,5 +163,5 @@ document.addEventListener("keyup", function(e) {
   // prevent default for tab key
   else if(e.keyCode == 9) e.preventDefault();
   //send keyRelease to freeliner
-  socket.send('raw release '+kbdRules(e));
+  socket.send('hid release '+kbdRules(e)+" "+e.key);
 }, false);
