@@ -399,14 +399,16 @@ class CommandProcessor implements FreelinerConfig{
 
   public void clearSeq(String[] _args){
     if(_args.length == 2) sequencer.clear();
-    if(_args.length == 3){
-      int _v = stringInt(_args[2]);
-      if(_v != -42) sequencer.clear(_v);
-      else {
-        ArrayList<TweakableTemplate> _tps =  templateManager.getTemplates(_args[2]);
-        if(_tps == null) return;
+    if(_args.length > 2){
+      ArrayList<TweakableTemplate> _tps =  templateManager.getTemplates(_args[2]);
+      if(_tps != null){
         for(TweakableTemplate _tw : _tps)
           sequencer.clear(_tw);
+      }
+      else {
+        int _v = stringInt(_args[2]);
+        if(_v != -42 && _v >= 0) sequencer.clear(_v);
+        else sequencer.clear();
       }
     }
   }
