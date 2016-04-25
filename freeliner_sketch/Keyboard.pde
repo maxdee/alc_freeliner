@@ -132,6 +132,8 @@ class Keyboard implements FreelinerConfig{
    * @param char the capital key to process
    */
   public void processCapslocked(char _k) {
+    // for some reason OSX had inconsistent caps handling...
+    if(OSX && _k >= 97 && _k <=122) _k -= 32;
     // if its a letter, trigger the template.
     if(_k >= 65 && _k <=90) {
       makeCMD("tr "+_k);
