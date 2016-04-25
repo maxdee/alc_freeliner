@@ -151,13 +151,13 @@ void webSocketServerEvent(String _cmd){
 
 // relay the inputs to the mapper
 void keyPressed() {
-  freeliner.getKeyboard().keyPressed(keyCode);
+  freeliner.getKeyboard().keyPressed(keyCode, key);
   if(key == '~') launchGUI();
   if (key == 27) key = 0;       // dont let escape key, we need it :)
 }
 
 void keyReleased() {
-  freeliner.getKeyboard().keyReleased(keyCode);
+  freeliner.getKeyboard().keyReleased(keyCode, key);
 }
 
 void mousePressed(MouseEvent event) {

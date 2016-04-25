@@ -117,7 +117,6 @@ class GroupManager{
     }
   }
 
-
 /**
  * Snap puts all the PVectors that are near the position given into a arrayList.
  * The snapDist can be adjusted like anything else.

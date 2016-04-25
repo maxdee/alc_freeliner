@@ -162,8 +162,8 @@ class Mouse implements FreelinerConfig{
    */
   public void wheeled(int _n) {
     if(SCROLLWHEEL_SELECTOR){
-      if(_n == -1) keyboard.keyPressed(45);
-      else keyboard.keyPressed(61);
+      if(_n == -1) keyboard.keyPressed(45, char(45));
+      else keyboard.keyPressed(61, char(61));
     }
   }
 

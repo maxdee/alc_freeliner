@@ -135,18 +135,18 @@ interface FreelinerConfig{
   };
 
   final String CTRL_KEY_MAP[] = {
-    "a    selectAll",
-    "c    clone",
-    "b    groupAddTemplate",
-    "d    customShape",
-    "i    reverseMouse",
-    "r    resetTemplate",
-    "s    saveStuff",
-    "o    loadStuff",
-    "l    loadLED",
-    "m    masking",
-    "k    showLEDmap",
-    "x    swap"
+    "A    selectAll",
+    "C    clone",
+    "B    groupAddTemplate",
+    "D    customShape",
+    "I    reverseMouse",
+    "R    resetTemplate",
+    "S    saveStuff",
+    "O    loadStuff",
+    "L    loadLED",
+    "M    masking",
+    "K    showLEDmap",
+    "X    swap"
   };
 
   /**

@@ -134,11 +134,11 @@ public class ExternalGUI extends PApplet {
   }
 
   public void keyPressed(){
-    if(relayKeys) freeliner.getKeyboard().keyPressed(keyCode);
+    if(relayKeys) freeliner.getKeyboard().keyPressed(keyCode, key);
     if (key == 27) key = 0;       // dont let escape key, we need it :)
   }
 
   public void keyReleased(){
-    if(relayKeys) freeliner.getKeyboard().keyReleased(keyCode);
+    if(relayKeys) freeliner.getKeyboard().keyReleased(keyCode, key);
   }
 }

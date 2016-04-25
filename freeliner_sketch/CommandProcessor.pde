@@ -39,6 +39,7 @@ class CommandProcessor implements FreelinerConfig{
     "tp save (cooleffects.xml)",
     "tp load (coolstuff.xml)",
     "tp swap AB",
+    "tp select AB", // not implemented
     // add tp setshape (geometryIndex | char | .svg)
     /////////////////// Sequencer
     "seq tap (offset)",
@@ -62,6 +63,7 @@ class CommandProcessor implements FreelinerConfig{
     "geom txt (2 3) bunch of words",
     "geom save (coolMap.xml)",
     "geom load (coolMap.xml)",
+    "geom toggle ABC (2 3 4)", // not implemented yet
     ///////////////////  Post processing
     "post trails (alpha)",
     "post shader (coolfrag.glsl)",
@@ -72,7 +74,7 @@ class CommandProcessor implements FreelinerConfig{
     "fetch tracker A",
     "fetch webseq",
     ///////////////////
-    "raw kbd 'keyCode'"
+    "hid kbd 'keyCode' 'char'"
   };
 
   /**
@@ -142,7 +144,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("tools")) _used = toolsCMD(_args);
     else if(_args[0].equals("geom")) _used = geometryCMD(_args);
     else if(_args[0].equals("fetch")) _used = fetchCMD(_args);
-    else if(_args[0].equals("raw")) _used = rawCMD(_args);
+    else if(_args[0].equals("hid")) _used = hidCMD(_args);
 
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -176,11 +178,10 @@ class CommandProcessor implements FreelinerConfig{
     freeliner.tracker(_args[2]);
   }
 
-  public boolean rawCMD(String[] _args){
-    if(_args.length < 3) return false;
-    if(_args[1].equals("press")) keyboard.keyCodePress(stringInt(_args[2]));
-    else if(_args[1].equals("release")) keyboard.keyCodeRelease(stringInt(_args[2]));
-
+  public boolean hidCMD(String[] _args){
+    if(_args.length < 4) return false;
+    if(_args[1].equals("press")) keyboard.keyPressed(stringInt(_args[2]), _args[3].charAt(0) );
+    else if(_args[1].equals("release")) keyboard.keyReleased(stringInt(_args[2]), _args[3].charAt(0) );
     else return false;
     return true;
   }

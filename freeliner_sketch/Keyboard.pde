@@ -51,9 +51,9 @@ class Keyboard implements FreelinerConfig{
   String numberMaker = "";
   String wordMaker = "";
 
-/**
- * Constructor inits default values
- */
+  /**
+   * Constructor inits default values
+   */
   public Keyboard(){
     shifted = false;
     ctrled = false;
@@ -83,47 +83,27 @@ class Keyboard implements FreelinerConfig{
   ////////////////////////////////////////////////////////////////////////////////////
 
   /**
-   * Receive local keypress
-   * @param int keyCode
-   */
-  public void keyPressed(int _kc){
-    // first turn the keyCode to caps if needed
-    if(_kc >= 65 && _kc <= 90)
-      if(isCapsLock() == shifted) _kc += 32;
-    keyCodePress(_kc);
-  }
-
-  /**
-   * Receive local keyrelease
-   * @param int keyCode
-   */
-  public void keyReleased(int _kc){
-    if(_kc >= 65 && _kc <= 90)
-      if(isCapsLock() == shifted) _kc += 32;
-    keyCodeRelease(_kc);
-  }
-
-  /**
    * receive and key and keycode from papplet.keyPressed();
    * @param int the keyCode
    */
-  public void keyCodePress(int _kc) {
+  public void keyPressed(int _kc, char _k) {
     gui.resetTimeOut(); // was in update, but cant rely on got input due to ordering
 
     // if in text entry mode
     if(processKeyCodes(_kc)) return; // TAB SHIFT and friends
-    else if (enterText) textEntry(char(_kc));
-    else if (_kc >= 48 && _kc <= 57) numMaker(char(_kc)); // grab numbers into the numberMaker
-    else if (isCapsLock() || shifted) processCAPS(char(_kc)); // grab uppercase letters
+    else if (enterText) textEntry(_k);
+    else if (_kc >= 48 && _kc <= 57) numMaker(_k); // grab numbers into the numberMaker
+    else if (isCapsLock()) processCapslocked(_k);
+    // else if (shifted) processShiftedKey(_k); // grab uppercase letters
     else {
       // prevent caps here.
-      if(_kc >= 65 && _kc <= 90) _kc+=32;
-      if (ctrled || alted) modCommands(char(_kc)); // alternate mappings related to ctrl and alt combos
-      else if (_kc == '-') distributor(editKey, -2, true); //decrease value
-      else if (_kc == '=') distributor(editKey, -1, true); //increase value
-      //else if (_kc == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
+      if (ctrled || alted) modCommands(_kc); // alternate mappings related to ctrl and alt combos
+      else if (_k == '-') distributor(editKey, -2, true); //decrease value
+      else if (_k == '=') distributor(editKey, -1, true); //increase value
+      else if (_k >= 65 && _k <=90) templateSelection(_k);
+      else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
       else{
-        setEditKey(char(_kc), KEY_MAP);
+        setEditKey(_k, KEY_MAP);
         distributor(editKey, -3, true);
       }
     }
@@ -134,16 +114,51 @@ class Keyboard implements FreelinerConfig{
    * @param char the key
    * @param int the keyCode
    */
-  public void keyCodeRelease(int _kc) {
+  public void keyReleased(int _kc, char _k) {
     if (_kc == 16) shifted = false;
     else if (_kc == 17) ctrled = false;
     else if (_kc == 18) alted = false;
   }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Interpretation
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Process key when capslock is on.
+   * Basicaly just triggers templates
+   * @param char the capital key to process
+   */
+  public void processCapslocked(char _k) {
+    // if its a letter, trigger the template.
+    if(_k >= 65 && _k <=90) {
+      makeCMD("tr "+_k);
+      // select it?
+    }
+  }
+
+  /**
+   * Do template selection.
+   * Basicaly just triggers templates
+   * @param char the template tag to select
+   */
+  public void templateSelection(char _k){
+    if(editKey == '>' && shifted) makeCMD("seq toggle "+_k);
+    else if(groupManager.isFocused()){ //makeCMD("geom toggle "_k+" $");
+      TemplateList _tl = groupManager.getTemplateList();
+      if(_tl != null){
+        _tl.toggle(templateManager.getTemplate(_k));
+        groupManager.setReferenceGroupTemplateList(_tl); // set ref
+        gui.setTemplateString(_tl.getTags());
+      }
+    }
+    else {
+      templateManager.getTemplateList().toggle(templateManager.getTemplate(_k));
+      gui.setTemplateString(templateManager.getTemplateList().getTags());
+    }
+  }
 
   /**
    * Process keycode for keys like ENTER or ESC
@@ -169,65 +184,31 @@ class Keyboard implements FreelinerConfig{
   }
 
 /**
- * Process capital letters. A trick is applied here, different actions happen if caps-lock is on or shift is pressed.
- * <p>
- * When shift is used it will toggle the renderer from a segment group or from the list.
- * When caps lock is used, it triggers the renderer. This way you can mash your keyboard with capslock on to perform.
- *
- * @param char the capital key to process
- */
-  public void processCAPS(char _c) {
-    println(_c);
-    // if editing steps
-    if(editKey == '>' && shifted) makeCMD("seq toggle "+_c);
-    else if (_c == 92 && shifted) gui.setValueGiven(str(toggleEnterText())); // acts localy
-    else{
-      TemplateList _tl = groupManager.getTemplateList();
-      if(_tl == null) _tl = templateManager.getTemplateList();
-      if(shifted){
-        // shoudl not be here?
-        _tl.toggle(templateManager.getTemplate(_c));
-        groupManager.setReferenceGroupTemplateList(_tl); // set ref
-        gui.setTemplateString(_tl.getTags());
-      }
-      else {
-        makeCMD("tr "+_c);
-        if(_tl != groupManager.getTemplateList()){
-          _tl.clear();
-          _tl.toggle(templateManager.getTemplate(_c));
-          gui.setTemplateString(_tl.getTags());
-        }
-      }
-    }
-  }
-
-
-/**
  * Process a key differently if ctrl or alt is pressed.
  * @param int ascii value of the key
  */
-  public void modCommands(char _k){
-    println("Mod : "+_k);
+  public void modCommands(int _kc){
+    println("Mod : "+_kc);
     // quick fix for ctrl-alt in OSX
     boolean _ctrl = isCtrled();
-    if (_k == 'a') focusAll();
-    else if(_k == 'c') makeCMD("tp copy $");
-    else if(_k == 'v') makeCMD("tp paste $");
-    else if(_k == 'x') makeCMD("tp swap $");
-    else if(_k == 'b') makeCMD("tp share $");
-    else if(_k == 'r') makeCMD("tp reset $");
-    else if(_k == 'm') makeCMD("post mask");
+    if (_kc == 'A') focusAll();
+    else if(_kc == 'C') makeCMD("tp copy $");
+    else if(_kc == 'V') makeCMD("tp paste $");
+    else if(_kc == 'X') makeCMD("tp swap $");
+    else if(_kc == 'B') makeCMD("tp share $");
+    else if(_kc == 'R') makeCMD("tp reset $");
+    else if(_kc == 'M') makeCMD("post mask");
 
-    else if(_k == 'd') distributor(char(504), -3, false);  // set custom shape needs a cmd
-    else if(_k == 'i') gui.setValueGiven( str(mouse.toggleInvertMouse()) ); // invert X
+    else if(_kc == 'D') distributor(char(504), -3, false);  // set custom shape needs a cmd
+    else if(_kc == 'I') gui.setValueGiven( str(mouse.toggleInvertMouse()) ); // invert X
 
-    else if(_k == 'k') freeliner.toggleExtraGraphics(); // show extra graphics
-    else if(_k == 'l') freeliner.reParse(); // reparse for LED map
+    else if(_kc == 'K') freeliner.toggleExtraGraphics(); // show extra graphics
+    else if(_kc == 'L') freeliner.reParse(); // reparse for LED map
 
-    else if(_k == 's') saveStuff();
-    else if(_k == 'o') loadStuff();
+    else if(_kc == 'S') saveStuff();
+    else if(_kc == 'O') loadStuff();
     else return;
-    gui.setKeyString(getKeyString(_k, CTRL_KEY_MAP));
+    gui.setKeyString(getKeyString(char(_kc), CTRL_KEY_MAP));
   }
 
 
