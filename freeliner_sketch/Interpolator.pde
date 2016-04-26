@@ -10,7 +10,8 @@
 // PositionGetters are responsible for fetching a position from a segment.
 class Interpolator extends Mode{
 
-  public Interpolator(){
+  public Interpolator(int _ind){
+    super(_ind);
     name = "Interpolator";
     description = "Pics a position in relation to a segment";
   }
@@ -52,7 +53,8 @@ class Interpolator extends Mode{
 }
 
 class OppositInterpolator extends Interpolator{
-  public OppositInterpolator(){
+  public OppositInterpolator(int _ind){
+    super(_ind);
     name = "OppositInterpolator";
     description = "invert direction every segment";
   }
@@ -70,7 +72,8 @@ class OppositInterpolator extends Interpolator{
 
 class SegmentOffsetInterpolator extends Interpolator{
 
-  public SegmentOffsetInterpolator(){
+  public SegmentOffsetInterpolator(int _ind){
+    super(_ind);
     //super();
     name = "SegmentOffsetInterpolator";
     description = "Prototype thing that offsets the position according to segments X position.";
@@ -88,7 +91,8 @@ class SegmentOffsetInterpolator extends Interpolator{
 // front pointA to the center
 class CenterSender extends Interpolator{
 
-  public CenterSender(){
+  public CenterSender(int _ind){
+    super(_ind);
     //super();
     name = "CenterSender";
     description = "Moves between pointA and center";
@@ -107,7 +111,8 @@ class CenterSender extends Interpolator{
 // interpolated halfway to the center
 class HalfWayInterpolator extends Interpolator{
 
-  public HalfWayInterpolator(){
+  public HalfWayInterpolator(int _ind){
+    super(_ind);
     //super();
     name = "HalfWayInterpolator";
     description = "Moves along segment, but halfway to center.";
@@ -124,7 +129,8 @@ class HalfWayInterpolator extends Interpolator{
 
 // on a radius of segment pointA
 class RadiusInterpolator extends Interpolator{
-  public RadiusInterpolator(){
+  public RadiusInterpolator(int _ind){
+    super(_ind);
     //super();
     name = "RadiusInterpolator";
     description = "Rotates with segments as Radius.";
@@ -148,7 +154,8 @@ class RadiusInterpolator extends Interpolator{
 
 // from the middle of a segments
 class DiameterInterpolator extends RadiusInterpolator{
-  public DiameterInterpolator(){
+  public DiameterInterpolator(int _ind){
+    super(_ind);
     //super();
     name = "DiameterInterpolator";
     description = "Rotates with segments as diameter.";
@@ -167,7 +174,8 @@ class DiameterInterpolator extends RadiusInterpolator{
 }
 
 class RandomInterpolator extends Interpolator{
-  public RandomInterpolator(){
+  public RandomInterpolator(int _ind){
+    super(_ind);
     //super();
     name = "RandomInterpolator";
     description = "Provides random position between segment and center.";
@@ -189,7 +197,8 @@ class RandomInterpolator extends Interpolator{
 
 
 class RandomExpandingInterpolator extends Interpolator{
-  public RandomExpandingInterpolator(){
+  public RandomExpandingInterpolator(int _ind){
+    super(_ind);
     //super();
     name = "RandomExpandingInterpolator";
     description = "Provides an expanding random position between segment and center.";

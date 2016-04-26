@@ -14,7 +14,8 @@ class SegmentPainter extends Painter{
 	// reference to the _event being rendered
 	// RenderableTemplate _event;
 
-	public SegmentPainter(){
+	public SegmentPainter(int _ind){
+		super(_ind);
 		name = "segmentPainter";
 		description = "paints segments";
 	}
@@ -33,7 +34,8 @@ class SegmentPainter extends Painter{
 // base class for line painter
 class LinePainter extends SegmentPainter{
 
-	public LinePainter(){
+	public LinePainter(int _ind){
+		super(_ind);
 		name = "LinePainter";
 		description = "base class for making lines";
 	}
@@ -48,7 +50,8 @@ class LinePainter extends SegmentPainter{
 
 class FunLine extends LinePainter {
 
-	public FunLine(){
+	public FunLine(int _ind){
+		super(_ind);
 		name = "FunLine";
 		description = "Makes a line between pointA and a position.";
 	}
@@ -62,7 +65,8 @@ class FunLine extends LinePainter {
 
 class FullLine extends LinePainter {
 
-	public FullLine(){
+	public FullLine(int _ind){
+		super(_ind);
 		name = "FullLine";
 		description = "Draws a line on a segment, not animated.";
 	}
@@ -74,7 +78,8 @@ class FullLine extends LinePainter {
 }
 
 class AlphaLine extends LinePainter{
-	public AlphaLine(){
+	public AlphaLine(int _ind){
+		super(_ind);
 		name = "AlphaLine";
 		description = "modulates alpha channel, made for LEDs";
 	}
@@ -90,7 +95,8 @@ class AlphaLine extends LinePainter{
 
 class TrainLine extends LinePainter {
 
-	public TrainLine(){
+	public TrainLine(int _ind){
+		super(_ind);
 		name = "TrainLine";
 		description = "Line that comes out of point A and exits through pointB";
 	}
@@ -118,7 +124,8 @@ class TrainLine extends LinePainter {
 
 class MiddleLine extends LinePainter {
 
-	public MiddleLine(){
+	public MiddleLine(int _ind){
+		super(_ind);
 		name = "MiddleLine";
 		description = "line that expands from the middle of a segment.";
 	}
@@ -132,7 +139,8 @@ class MiddleLine extends LinePainter {
 }
 
 class Maypole extends LinePainter {
-	public Maypole(){
+	public Maypole(int _ind){
+		super(_ind);
 		name = "Maypole";
 		description = "Draw a line from center to position.";
 	}
@@ -145,7 +153,8 @@ class Maypole extends LinePainter {
 
 
 class Elliptic extends LinePainter {
-	public Elliptic(){
+	public Elliptic(int _ind){
+		super(_ind);
 		name = "Elliptic";
 		description = "Makes a expanding circle with segment as final radius.";
 	}
@@ -159,7 +168,8 @@ class Elliptic extends LinePainter {
 }
 
 class SegToSeg extends LinePainter{
-	public SegToSeg(){
+	public SegToSeg(int _ind){
+		super(_ind);
 		name = "SegToSeg";
 		description = "Draws a line from a point on a segment to a point on a different segment. Affected by `e`";
 	}
@@ -191,25 +201,26 @@ class BrushPutter extends SegmentPainter{
 	// brush count in Config.pde
 
 
-	public BrushPutter(){
+	public BrushPutter(int _ind){
+		super(_ind);
 		loadBrushes();
-		name = "BrusPainter";
+		name = "BrushPainter";
 		description = "Place brush onto segment. Affected by `e`.";
 	}
 
 	public void loadBrushes(){
 		brushes = new Brush[BRUSH_COUNT];
-		brushes[0] = new PointBrush();
-		brushes[1] = new LineBrush();
-		brushes[2] = new CircleBrush();
-		brushes[3] = new ChevronBrush();
-		brushes[4] = new SquareBrush();
-		brushes[5] = new XBrush();
-		brushes[6] = new TriangleBrush();
-		brushes[7] = new SprinkleBrush();
-		brushes[8] = new LeafBrush();
-		brushes[9] = new CustomBrush();
-		if(MAKE_DOCUMENTATION) documenter.addDoc(brushes,'d',name);
+		brushes[0] = new PointBrush(0);
+		brushes[1] = new LineBrush(1);
+		brushes[2] = new CircleBrush(2);
+		brushes[3] = new ChevronBrush(3);
+		brushes[4] = new SquareBrush(4);
+		brushes[5] = new XBrush(5);
+		brushes[6] = new TriangleBrush(6);
+		brushes[7] = new SprinkleBrush(7);
+		brushes[8] = new LeafBrush(8);
+		brushes[9] = new CustomBrush(9);
+		if(MAKE_DOCUMENTATION) documenter.documentModes(brushes,'a', this);
 	}
 
 	public Brush getBrush(int _index){
@@ -241,7 +252,8 @@ class BrushPutter extends SegmentPainter{
 
 class SimpleBrusher extends BrushPutter{
 
-	public SimpleBrusher(){
+	public SimpleBrusher(int _ind){
+		super(_ind);
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
@@ -260,7 +272,8 @@ class SimpleBrusher extends BrushPutter{
 
 class BasicText extends SegmentPainter{
 
-  public BasicText(){
+  public BasicText(int _ind){
+		super(_ind);
     name = "BasicText";
     description = "Extendable object fo text displaying";
   }
@@ -277,7 +290,8 @@ class BasicText extends SegmentPainter{
 
 class TextWritter extends BasicText{
 
-	public TextWritter(){
+	public TextWritter(int _ind){
+		super(_ind);
 		name = "TextWritter";
 		description = "Fit a bunch of text on a segment";
 	}
@@ -297,7 +311,8 @@ class TextWritter extends BasicText{
 }
 
 class ScrollingText extends BasicText{
-  public ScrollingText(){
+  public ScrollingText(int _ind){
+		super(_ind);
     name = "ScrollingText";
     description = "Scrolls text, acording to enterpolator";
   }
@@ -327,39 +342,3 @@ class ScrollingText extends BasicText{
 
 	}
 }
-
-// class OppositeBrusher extends BrushPutter{
-//
-// 	public OppositeBrusher(){
-// 		name = "OpositeBrusher";
-// 		description = "Brushing direction alternates each segment.";
-// 	}
-//
-// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-// 		super.paintSegment(_seg, _event);
-// 		boolean _dir = _event.getDirection();
-// 		float _lerp = _event.getLerp();
-// 		if(_event.getSegmentIndex() % 2 == 1){
-// 			_dir = !_dir;
-// 			_lerp = -_lerp+1;
-// 		}
-// 		putShape(_seg.getBrushPos(_lerp), _seg.getAngle(_dir) + _event.getAngleMod());
-// 	}
-// }
-
-
-// class PolkaBrusher extends BrushPutter{
-//
-// 	public PolkaBrusher(){}
-//
-// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-// 		super.paintSegment(_seg, _event);
-//
-// 		float dist = _seg.getLength();
-// 		int gap = _event.getRepetitionCount()*10;
-// 		for(int i = 0; i < cnt; i++){
-// 			putShape(getPosition(_seg), getAngle(_seg, _event));
-// 		}
-// 	}
-// }
-//

@@ -2,7 +2,10 @@
 
 class GroupPainter extends Painter{
 
-	public GroupPainter(){}
+	public GroupPainter(int _ind){
+		super(_ind);
+
+	}
 
 	public void paintGroup(RenderableTemplate _rt){
 		super.paint(_rt);
@@ -12,7 +15,10 @@ class GroupPainter extends Painter{
 
 
 class Filler extends GroupPainter{
-	public Filler(){}
+	public Filler(int _ind){
+		super(_ind);
+
+	}
 
 	public void paintGroup(RenderableTemplate _rt){
 		super.paintGroup(_rt);
@@ -38,7 +44,10 @@ class Filler extends GroupPainter{
 // filler with moving center
 class FunFiller extends GroupPainter{
 
-	public FunFiller(){}
+	public FunFiller(int _ind){
+		super(_ind);
+
+	}
 
 	public void paintGroup(RenderableTemplate _rt){
 		super.paintGroup(_rt);
@@ -64,7 +73,10 @@ class FunFiller extends GroupPainter{
 
 
 class InterpolatorShape extends GroupPainter{
-	public InterpolatorShape(){}
+	public InterpolatorShape(int _ind){
+		super(_ind);
+
+	}
 
 	public void paintGroup(RenderableTemplate _rt){
 		super.paintGroup(_rt);

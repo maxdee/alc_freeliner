@@ -10,7 +10,8 @@
 
 class Easing extends Mode{
 
-	public Easing(){
+	public Easing(int _ind){
+		super(_ind);
 		name = "easing";
 		description = "ease the unti interval";
 	}
@@ -21,7 +22,8 @@ class Easing extends Mode{
 }
 
 class NoEasing extends Easing {
-	public NoEasing(){
+	public NoEasing(int _ind){
+		super(_ind);
 		name = "linear";
 		description = "Linear movement";
 	}
@@ -32,7 +34,8 @@ class NoEasing extends Easing {
 }
 
 class Square extends Easing{
-	public Square(){
+	public Square(int _ind){
+		super(_ind);
 		name = "square";
 		description = "Power of 2.";
 	}
@@ -43,7 +46,8 @@ class Square extends Easing{
 }
 
 class Sine extends Easing{
-	public Sine(){
+	public Sine(int _ind){
+		super(_ind);
 		name = "sine";
 		description = "Sine ish";
 	}
@@ -54,7 +58,8 @@ class Sine extends Easing{
 }
 
 class Cosine extends Easing{
-	public Cosine(){
+	public Cosine(int _ind){
+		super(_ind);
 		name = "cosine";
 		description = "cosine";
 	}
@@ -65,7 +70,8 @@ class Cosine extends Easing{
 }
 
 class Boost extends Easing{
-	public Boost(){
+	public Boost(int _ind){
+		super(_ind);
 		name = "boost";
 		description = "half a sine";
 	}
@@ -76,7 +82,8 @@ class Boost extends Easing{
 }
 
 class RandomUnit extends Easing{
-	public RandomUnit(){
+	public RandomUnit(int _ind){
+		super(_ind);
 		name = "random";
 		description = "random unitInterval every frame";
 	}
@@ -88,7 +95,8 @@ class RandomUnit extends Easing{
 
 class Fixed extends Easing{
 	float value;
-	public Fixed(float _f){
+	public Fixed(float _f, int _ind){
+		super(_ind);
 		value = _f;
 		name = "fixed";
 		description = "fixed at "+_f;
@@ -101,7 +109,8 @@ class Fixed extends Easing{
 
 class EaseInOut extends Easing{
 
-	public EaseInOut(){
+	public EaseInOut(int _ind){
+		super(_ind);
 		name = "EaseInOut";
 		description = "Linera eas in and out";
 	}
@@ -120,7 +129,8 @@ class TargetNoise extends Easing{
 	int position;
 	int frame;
 
-	public TargetNoise(){
+	public TargetNoise(int _ind){
+		super(_ind);
 		target = 0;
 		position = 0;
 		frame = 0;

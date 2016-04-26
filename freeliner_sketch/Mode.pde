@@ -18,10 +18,13 @@
 
 
 abstract class Mode implements FreelinerConfig{
+  int modeIndex;
   String name = "mode";
   String description = "abstract";
 
-  public Mode(){}
+  public Mode(int _ind){
+    modeIndex = _ind;
+  }
 
 
   public void setName(String _name){
@@ -32,6 +35,9 @@ abstract class Mode implements FreelinerConfig{
     description = _d;
   }
 
+  public int getIndex(){
+    return modeIndex;
+  }
 
   public String getName(){
     return name;

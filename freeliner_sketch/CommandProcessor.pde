@@ -180,6 +180,7 @@ class CommandProcessor implements FreelinerConfig{
 
   public boolean hidCMD(String[] _args){
     if(_args.length < 4) return false;
+    if(_args[3].length() < 1) return true; // catches the SPACEBAR
     if(_args[1].equals("press")) keyboard.keyPressed(stringInt(_args[2]), _args[3].charAt(0) );
     else if(_args[1].equals("release")) keyboard.keyReleased(stringInt(_args[2]), _args[3].charAt(0) );
     else return false;
@@ -394,7 +395,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length == 3) valueGiven = str(sequencer.setEditStep(stringInt(_args[2])));
     gui.setTemplateString(sequencer.getStepToEdit().getTags());
     // valueGiven = sequencer.getStepToEdit().getTags();
-    println("tags   "+sequencer.getStepToEdit().getTags());
+    //println("tags   "+sequencer.getStepToEdit().getTags());
   }
 
   public void clearSeq(String[] _args){

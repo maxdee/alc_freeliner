@@ -23,7 +23,8 @@ abstract class Brush extends Mode{
   /**
    * Constructor, generates the shape
    */
-  Brush(){
+  public Brush(int _ind){
+		super(_ind);
     brushShape = generateBrush();
     scaledBrush = brushShape;
     scaledBrushSize = BASE_SIZE;
@@ -67,7 +68,8 @@ abstract class Brush extends Mode{
  */
 class PointBrush extends Brush {
 
-  public PointBrush(){
+  public PointBrush(int _ind){
+		super(_ind);
 		name =  "PointBrush";//brush
 		description = "Adjust its size with `w`.";
   }
@@ -88,7 +90,8 @@ class PointBrush extends Brush {
  */
 class LineBrush extends Brush {
 
-  public LineBrush(){
+  public LineBrush(int _ind){
+		super(_ind);
 		name =  "line";
 		description = "Perpendicular line brush";
   }
@@ -108,7 +111,8 @@ class LineBrush extends Brush {
 class ChevronBrush extends Brush {
 
 
-  public ChevronBrush(){
+  public ChevronBrush(int _ind){
+		super(_ind);
 		name =  "chevron";//brush
 		description = "Chevron v shaped style brush";
   }
@@ -128,7 +132,8 @@ class ChevronBrush extends Brush {
  */
 class SquareBrush extends Brush {
 
-  public SquareBrush(){
+  public SquareBrush(int _ind){
+		super(_ind);
 		name = "square";
 		description = "Square shaped brush";
   }
@@ -154,7 +159,8 @@ class CustomBrush extends Brush {
   /**
    * Constructor will generate a null shape.
    */
-  public CustomBrush(){
+  public CustomBrush(int _ind){
+		super(_ind);
 		name = "custom";//brush
 		description = "Template custom shape, add template to geometryGroup and press `ctrl-d` to set as custom shape.";
   }
@@ -190,7 +196,8 @@ class CustomBrush extends Brush {
  */
 class CircleBrush extends Brush {
 
-  public CircleBrush(){
+  public CircleBrush(int _ind){
+		super(_ind);
 		name =  "circle";//brush
 		description = "Brush witha circular appearance.";
   }
@@ -214,7 +221,8 @@ class CircleBrush extends Brush {
  */
 class TriangleBrush extends Brush {
 
-  public TriangleBrush(){
+  public TriangleBrush(int _ind){
+		super(_ind);
 		name = "triangle";
 		description = "Triangular brush.";
   }
@@ -233,7 +241,8 @@ class TriangleBrush extends Brush {
  */
 class XBrush extends Brush {
 
-  public XBrush(){
+  public XBrush(int _ind){
+		super(_ind);
 		name = "+";//brush
 		description = "+ shaped brush";
   }
@@ -254,7 +263,8 @@ class XBrush extends Brush {
  */
 class LeafBrush extends Brush {
 
-  public LeafBrush(){
+  public LeafBrush(int _ind){
+		super(_ind);
 		name =  "leaf";
 		description = "legalize it";
   }
@@ -303,7 +313,8 @@ class LeafBrush extends Brush {
  */
 class SprinkleBrush extends Brush {
 
-  public SprinkleBrush(){
+  public SprinkleBrush(int _ind){
+		super(_ind);
 		name =  "sprinkle";//brush
 		description = "ms paint grafiti style";
 	}

@@ -13,7 +13,7 @@
  * The template renderer is where the rendering process begins.
  */
 
-class TemplateRenderer implements FreelinerConfig{
+class TemplateRenderer extends Mode{
   // rendering modes and repetition
   // arraySizes in config.pde
   RenderMode[] renderModes;
@@ -24,35 +24,36 @@ class TemplateRenderer implements FreelinerConfig{
    * Constructor
    */
 	public TemplateRenderer(){
+    super(0);
     // add renderModes
     renderModes = new RenderMode[RENDER_MODE_COUNT];
-    renderModes[0] = new BrushSegment();
-    renderModes[1] = new LineSegment();
-    renderModes[2] = new WrapLine();
-    renderModes[3] = new Geometry();
-    renderModes[4] = new TextRenderMode();
-    renderModes[5] = new CircularSegment();
-    if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])renderModes, 'b', "RenderModes");
+    renderModes[0] = new BrushSegment(0);
+    renderModes[1] = new LineSegment(1);
+    renderModes[2] = new WrapLine(2);
+    renderModes[3] = new Geometry(3);
+    renderModes[4] = new TextRenderMode(4);
+    renderModes[5] = new CircularSegment(5);
+    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])renderModes, 'b', this);
     // add repetitionModes
     repeaters = new Repetition[REPEATER_MODE_COUNT];
-    repeaters[0] = new Single();
-    repeaters[1] = new EvenlySpaced();
-    repeaters[2] = new EvenlySpacedWithZero();
-    repeaters[3] = new ExpoSpaced();
-    repeaters[4] = new TwoFull();
-    repeaters[5] = new TwoSpaced();
-    if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])repeaters, 'i', "Repeaters");
+    repeaters[0] = new Single(0);
+    repeaters[1] = new EvenlySpaced(1);
+    repeaters[2] = new EvenlySpacedWithZero(2);
+    repeaters[3] = new ExpoSpaced(3);
+    repeaters[4] = new TwoFull(4);
+    repeaters[5] = new TwoSpaced(5);
+    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])repeaters, 'i', this);
 
     // add enablers
     enablers = new Enabler[ENABLER_MODE_COUNT];
-    enablers[0] = new Disabler();
-    enablers[1] = new Enabler();
-    enablers[2] = new Triggerable();
-    enablers[3] = new Triggerable();
-    enablers[4] = new SweepingEnabler();
-    enablers[5] = new SwoopingEnabler();
-    enablers[6] = new RandomEnabler();
-    if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])enablers, 'u', "EnablingModes");
+    enablers[0] = new Disabler(0);
+    enablers[1] = new Enabler(1);
+    enablers[2] = new Triggerable(2);
+    enablers[3] = new Triggerable(3);
+    enablers[4] = new SweepingEnabler(4);
+    enablers[5] = new SwoopingEnabler(5);
+    enablers[6] = new RandomEnabler(6);
+    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])enablers, 'u', this);
 
 	}
 

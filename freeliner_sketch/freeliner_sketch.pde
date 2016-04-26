@@ -18,7 +18,8 @@ void settings(){
   // set the resolution, or fullscreen and display
   //if(FreelinerConfig.FULLSCREEN) fullScreen(P2D,2);
   //else size(FreelinerConfig.WINDOW_WIDTH, FreelinerConfig.WINDOW_HEIGHT, P2D);
-  size(1024, 768, P2D);
+  //size(1024, 768, P2D);
+  size(500, 500, P2D);
 
   //noSmooth();
   //size(1024, 683, P2D);
@@ -80,7 +81,6 @@ void setup() {
   //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON // implement in layer
   //freeliner = new FreelinerSpout(this); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this,"led_fullstrips.xml");//tunnel_map_two.xml"); // implement in layer?
-  //freeliner = new FreelinerLED(this,"tenDMX.xml"); // implement in layer?
 
   surface.setResizable(false);
   surface.setTitle("a!Lc Freeliner");
@@ -97,8 +97,8 @@ void setup() {
   // perhaps use -> PApplet.platform == MACOSX
   background(0);
   splash();
-  if(FreelinerConfig.MAKE_DOCUMENTATION) documenter.outputMarkdown();
-  documenter.outputXML();
+
+  documenter.doDocumentation();
 }
 
 // splash screen!

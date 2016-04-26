@@ -6,7 +6,8 @@
  */
 class RenderMode extends Mode{
 
-	public RenderMode(){
+	public RenderMode(int _ind){
+		super(_ind);
 
 	}
 
@@ -23,21 +24,22 @@ class PerSegment extends RenderMode{
 	SegmentPainter[] segmentPainters;
 	final int PAINTER_COUNT = 1;
 
-	public PerSegment(){
+	public PerSegment(int _ind){
+		super(_ind);
 		name = "PersegmentRender";
 		description = "Things that render per each segment";
 		segmentSelectors = new SegmentSelector[SEGMENT_MODE_COUNT];
-		segmentSelectors[0] = new AllSegments();
-		segmentSelectors[1] = new SequentialSegments();
-		segmentSelectors[2] = new RunThroughSegments();
-		segmentSelectors[3] = new RandomSegment();
-		segmentSelectors[4] = new FastRandomSegment();
-		segmentSelectors[5] = new SegmentBranch();
-		segmentSelectors[6] = new RunThroughBranches();
-		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])segmentSelectors, 'v', name);
+		segmentSelectors[0] = new AllSegments(0);
+		segmentSelectors[1] = new SequentialSegments(1);
+		segmentSelectors[2] = new RunThroughSegments(2);
+		segmentSelectors[3] = new RandomSegment(3);
+		segmentSelectors[4] = new FastRandomSegment(4);
+		segmentSelectors[5] = new SegmentBranch(5);
+		segmentSelectors[6] = new RunThroughBranches(6);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentSelectors, 'v', this);
 		// place holder for painter
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
-    segmentPainters[0] = new SimpleBrusher();
+    segmentPainters[0] = new SimpleBrusher(0);
 	}
 
 	public void doRender(RenderableTemplate _event){
@@ -70,7 +72,7 @@ class PerSegment extends RenderMode{
 //
 //
 // 	public PerSegmentOffset(){
-// 		super();
+//
 // 	}
 //
 // 	public void doRender(RenderableTemplate _event){
@@ -103,10 +105,10 @@ class BrushSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
   final int PAINTER_COUNT = 1;
 
-  public BrushSegment(){
-  	super();
+  public BrushSegment(int _ind){
+		super(_ind);
   	segmentPainters = new SegmentPainter[PAINTER_COUNT];
-    segmentPainters[0] = new SimpleBrusher();
+    segmentPainters[0] = new SimpleBrusher(0);
 		// all moved to interpolator
     //segmentPainters[1] = new TwoBrusher();
     // segmentPainters[2] = new SpiralBrusher();
@@ -116,7 +118,7 @@ class BrushSegment extends PerSegment{
 
 		name = "BrushSegment";
 		description = "Render mode for drawing with brushes";
-		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])segmentPainters, 'a', name);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this);
     // segmentPainters[6] = new CircularBrusher();
   }
 	public SegmentPainter getPainter(int _index){
@@ -130,20 +132,21 @@ class LineSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
 	final int PAINTER_COUNT = 7;
 
-	public LineSegment(){
-		super();
+	public LineSegment(int _ind){
+
+		super(_ind);
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
-    segmentPainters[0] = new FunLine();
-    segmentPainters[1] = new FullLine();
-    segmentPainters[2] = new MiddleLine();
-		segmentPainters[3]  = new TrainLine();
-    segmentPainters[4] = new Maypole();
-    segmentPainters[5] = new SegToSeg();
-		segmentPainters[6] = new AlphaLine();
+    segmentPainters[0] = new FunLine(0);
+    segmentPainters[1] = new FullLine(1);
+    segmentPainters[2] = new MiddleLine(2);
+		segmentPainters[3]  = new TrainLine(3);
+    segmentPainters[4] = new Maypole(4);
+    segmentPainters[5] = new SegToSeg(5);
+		segmentPainters[6] = new AlphaLine(6);
 
 		name = "LineSegment";
 		description = "Draw lines related to segments";
-		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])segmentPainters, 'a', name);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this);
 	}
 	public SegmentPainter getPainter(int _index){
 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
@@ -156,14 +159,15 @@ class CircularSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
 	final int PAINTER_COUNT = 1;
 
-	public CircularSegment(){
-		super();
+	public CircularSegment(int _ind){
+
+		super(_ind);
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
-		segmentPainters[0] = new Elliptic();
+		segmentPainters[0] = new Elliptic(0);
     // segmentPainters[1] = new RadarPainter();
 		name = "CircularSegment";
 		description = "Circles and stuff";
-		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])segmentPainters, 'a', name);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this);
 	}
 	public SegmentPainter getPainter(int _index){
 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
@@ -177,15 +181,16 @@ class TextRenderMode extends PerSegment{
 	SegmentPainter[] segmentPainters;
 	final int PAINTER_COUNT = 2;
 
-	public TextRenderMode(){
-		super();
+	public TextRenderMode(int _ind){
+
+		super(_ind);
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
-		segmentPainters[0] = new TextWritter();
-		segmentPainters[1] = new ScrollingText();
+		segmentPainters[0] = new TextWritter(0);
+		segmentPainters[1] = new ScrollingText(1);
 
 		name = "TextRenderMode";
 		description = "Stuff that draws text";
-		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])segmentPainters, 'a', name);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this);
 	}
 
 	public SegmentPainter getPainter(int _index){
@@ -198,8 +203,9 @@ class TextRenderMode extends PerSegment{
 class WrapLine extends PerSegment{
 	LineToLine painter;
 
-	public WrapLine(){
-		painter = new LineToLine();
+	public WrapLine(int _ind){
+		super(_ind);
+		painter = new LineToLine(0);
 	}
 	public void doRender(RenderableTemplate _rt) {
 		//super.doRender(_rt);
@@ -235,13 +241,15 @@ class WrapLine extends PerSegment{
 class Geometry extends RenderMode{
 	GroupPainter[] groupPainters;
 	final int PAINTER_COUNT = 2;
-	public Geometry(){
+
+	public Geometry(int _ind){
+		super(_ind);
 		name = "GeometryRender";
 		description = "RenderModes that involve all segments.";
 		groupPainters = new GroupPainter[PAINTER_COUNT];
-		groupPainters[0] = new Filler();
-		groupPainters[1] = new InterpolatorShape();
-		if(MAKE_DOCUMENTATION) documenter.addDoc(groupPainters, 'a', name);
+		groupPainters[0] = new Filler(0);
+		groupPainters[1] = new InterpolatorShape(1);
+		if(MAKE_DOCUMENTATION) documenter.documentModes(groupPainters, 'a', this);
 		//groupPainters[2] = new FlashFiller();
 	}
 

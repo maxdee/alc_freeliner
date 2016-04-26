@@ -2,7 +2,8 @@
 
 class Reverse extends Mode {
 
-  public Reverse(){
+  public Reverse(int _ind){
+    super(_ind);
     name = "Reverse";
     description = "Goes reverse";
   }
@@ -14,7 +15,8 @@ class Reverse extends Mode {
 
 class NotReverse extends Reverse{
 
-  public NotReverse(){
+  public NotReverse(int _ind){
+    super(_ind);
     name = "NotReverse";
     description = "Goes forward";
   }
@@ -26,7 +28,8 @@ class NotReverse extends Reverse{
 
 
 class BackForth extends Reverse{
-	public BackForth(){}
+	public BackForth(int _ind){
+  super(_ind);}
 
 	public float getDirection(RenderableTemplate _rt){
 		if(_rt.getBeatCount() % 2 == 0) return 1.0;
@@ -36,7 +39,8 @@ class BackForth extends Reverse{
 
 
 class TwoTwoReverse extends Reverse{
-	public TwoTwoReverse(){
+	public TwoTwoReverse(int _ind){
+    super(_ind);
     name = "TwoTwoReverse";
     description = "Goes twice forward then twice in reverse";
   }
@@ -47,7 +51,8 @@ class TwoTwoReverse extends Reverse{
 }
 
 class RandomReverse extends Reverse{
-	public RandomReverse(){
+	public RandomReverse(int _ind){
+    super(_ind);
     name = "RandomReverse";
     description = "Might go forward, might go backwards";
   }

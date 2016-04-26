@@ -9,31 +9,32 @@ class Repetition extends Mode {
 
 	float rev = 1.0;
 
-	public Repetition(){
+	public Repetition(int _ind){
+		super(_ind);
 		name = "repetition";
 		description = "how to darw multiples of one template";
 		easers = new Easing[EASING_MODE_COUNT];
-		easers[0] = new NoEasing();
-		easers[1] = new Square();
-		easers[2] = new Sine();
-		easers[3] = new Cosine();
-		easers[4] = new Boost();
-		easers[5] = new RandomUnit();
-		easers[6] = new TargetNoise();
-		easers[7] = new Fixed(1.0);
-		easers[8] = new Fixed(0.5);
-		easers[9] = new Fixed(0.0);
-		easers[10] = new EaseInOut();
+		easers[0] = new NoEasing(0);
+		easers[1] = new Square(1);
+		easers[2] = new Sine(2);
+		easers[3] = new Cosine(3);
+		easers[4] = new Boost(4);
+		easers[5] = new RandomUnit(5);
+		easers[6] = new TargetNoise(6);
+		easers[7] = new Fixed(1.0, 7);
+		easers[8] = new Fixed(0.5, 8);
+		easers[9] = new Fixed(0.0, 9);
+		easers[10] = new EaseInOut(10);
 
-		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])easers, 'h', name);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])easers, 'h', this);
 
 		reversers = new Reverse[REVERSE_MODE_COUNT];
-		reversers[0] = new NotReverse();
-		reversers[1] = new Reverse();
-		reversers[2] = new BackForth();
-		reversers[3] = new TwoTwoReverse();
-		reversers[4] = new RandomReverse();
-		if(MAKE_DOCUMENTATION) documenter.addDoc((Mode[])reversers, 'j', name);
+		reversers[0] = new NotReverse(0);
+		reversers[1] = new Reverse(1);
+		reversers[2] = new BackForth(2);
+		reversers[3] = new TwoTwoReverse(3);
+		reversers[4] = new RandomReverse(4);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])reversers, 'j', this);
 
 	}
 
@@ -62,7 +63,8 @@ class Repetition extends Mode {
  */
 class Single extends Repetition {
 
-	public Single(){
+	public Single(int _ind){
+		super(_ind);
 		name = "single";
 		description = "only draw template once";
 	}
@@ -80,7 +82,8 @@ class Single extends Repetition {
  * Evenly spaced
  */
 class EvenlySpaced extends Repetition{
-	public EvenlySpaced(){
+	public EvenlySpaced(int _ind){
+		super(_ind);
 		name = "EvenlySpaced";
 		description = "Render things evenly spaced";
 	}
@@ -103,7 +106,8 @@ class EvenlySpaced extends Repetition{
 }
 
 class EvenlySpacedWithZero extends EvenlySpaced{
-	public EvenlySpacedWithZero(){
+	public EvenlySpacedWithZero(int _ind){
+		super(_ind);
 		name = "EvenlySpacedWithZero";
 		description = "Render things evenly spaced with a fixed one at the begining and end";
 	}
@@ -116,7 +120,8 @@ class EvenlySpacedWithZero extends EvenlySpaced{
 }
 
 class ExpoSpaced extends EvenlySpaced{
-	public ExpoSpaced(){
+	public ExpoSpaced(int _ind){
+		super(_ind);
 		name = "ExpoSpaced";
 		description = "RenderMultiples but make em go faster";
 	}
@@ -131,7 +136,8 @@ class ExpoSpaced extends EvenlySpaced{
  * TwoFull
  */
 class TwoFull extends Repetition{
-	public TwoFull(){
+	public TwoFull(int _ind){
+		super(_ind);
 		name = "TwoFull";
 		description = "Render twice in opposite directions";
 	}
@@ -146,7 +152,8 @@ class TwoFull extends Repetition{
 }
 
 class TwoSpaced extends EvenlySpaced{
-	public TwoSpaced(){
+	public TwoSpaced(int _ind){
+		super(_ind);
 		name = "TwoFull";
 		description = "Render twice in opposite directions";
 	}

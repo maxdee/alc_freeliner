@@ -383,6 +383,7 @@ class GroupManager{
  * @return boolean
  */
   boolean isFocused(){
+    // if(!focused) return false;
     if(snappedIndex != -1 || selectedIndex != -1) return true;
     else return false;
   }

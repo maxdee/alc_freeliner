@@ -25,24 +25,25 @@ class Painter extends Mode{
   PGraphics canvas;
 	RenderableTemplate event;
 
-	public Painter(){
+	public Painter(int _ind){
+		super(_ind);
 		name = "Painter";
 		description = "Paints stuff";
 
 		initColorizers();
 		posGetters = new Interpolator[INTERPOLATOR_MODE_COUNT];
-		posGetters[0] = new Interpolator();
-		posGetters[1] = new CenterSender();
-		posGetters[2] = new CenterSender();
-		posGetters[3] = new HalfWayInterpolator();
-		posGetters[4] = new RandomExpandingInterpolator();
-		posGetters[5] = new RandomInterpolator();
-		posGetters[6] = new DiameterInterpolator();
-		posGetters[7] = new RadiusInterpolator();
-		posGetters[8] = new SegmentOffsetInterpolator();
-		posGetters[9] = new OppositInterpolator();
+		posGetters[0] = new Interpolator(0);
+		posGetters[1] = new CenterSender(1);
+		posGetters[2] = new CenterSender(2);
+		posGetters[3] = new HalfWayInterpolator(3);
+		posGetters[4] = new RandomExpandingInterpolator(4);
+		posGetters[5] = new RandomInterpolator(5);
+		posGetters[6] = new DiameterInterpolator(6);
+		posGetters[7] = new RadiusInterpolator(7);
+		posGetters[8] = new SegmentOffsetInterpolator(8);
+		posGetters[9] = new OppositInterpolator(9);
 
-		if(MAKE_DOCUMENTATION) documenter.addDoc( (Mode[])posGetters, 'e', "Enterpolators");
+		if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])posGetters, 'e', this);
 	}
 
   public void paint(RenderableTemplate _rt){
@@ -70,46 +71,46 @@ class Painter extends Mode{
 	public void initColorizers(){
 		colorizers = new Colorizer[COLOR_MODE_COUNT];
 		// basic colors
-		colorizers[0] = new SimpleColor(color(0));
+		colorizers[0] = new SimpleColor(color(0), 0);
 		colorizers[0].setDescrition("None");
-    colorizers[1] = new SimpleColor(color(255));
+    colorizers[1] = new SimpleColor(color(255), 1);
 		colorizers[1].setDescrition("white");
-    colorizers[2] = new SimpleColor(color(255, 0, 0));
+    colorizers[2] = new SimpleColor(color(255, 0, 0), 2);
 		colorizers[2].setDescrition("red");
-    colorizers[3] = new SimpleColor(color(0, 255, 0));
+    colorizers[3] = new SimpleColor(color(0, 255, 0), 3);
 		colorizers[3].setDescrition("green");
-    colorizers[4] = new SimpleColor(color(0, 0, 255));
+    colorizers[4] = new SimpleColor(color(0, 0, 255), 4);
 		colorizers[4].setDescrition("blue");
-    colorizers[5] = new SimpleColor(color(0));
+    colorizers[5] = new SimpleColor(color(0), 5);
 		colorizers[5].setDescrition("black");
 		// userPallet colors
-    colorizers[6] = new PalletteColor(0);
-    colorizers[7] = new PalletteColor(1);
-    colorizers[8] = new PalletteColor(2);
-    colorizers[9] = new PalletteColor(3);
-    colorizers[10] = new PalletteColor(4);
-		colorizers[11] = new PalletteColor(5);
-		colorizers[12] = new PalletteColor(6);
-		colorizers[13] = new PalletteColor(7);
-		colorizers[14] = new PalletteColor(8);
-		colorizers[15] = new PalletteColor(9);
-		colorizers[16] = new PalletteColor(10);
-		colorizers[17] = new PalletteColor(11);
+    colorizers[6] = new PalletteColor(0, 6);
+    colorizers[7] = new PalletteColor(1, 7);
+    colorizers[8] = new PalletteColor(2, 8);
+    colorizers[9] = new PalletteColor(3, 9);
+    colorizers[10] = new PalletteColor(4, 10);
+		colorizers[11] = new PalletteColor(5, 11);
+		colorizers[12] = new PalletteColor(6, 12);
+		colorizers[13] = new PalletteColor(7, 13);
+		colorizers[14] = new PalletteColor(8, 14);
+		colorizers[15] = new PalletteColor(9, 15);
+		colorizers[16] = new PalletteColor(10, 16);
+		colorizers[17] = new PalletteColor(11, 17);
 		// changing color modes
-		colorizers[18] = new RepetitionColor();
-		colorizers[19] = new RandomPrimaryColor();
-    colorizers[20] = new PrimaryBeatColor();
-		colorizers[21] = new HSBFade();
-    colorizers[22] = new FlashyPrimaryColor();
-    colorizers[23] = new FlashyGray();
-    colorizers[24] = new RandomRGB();
-    colorizers[25] = new Strobe();
-		colorizers[26] = new Flash();
-		colorizers[27] = new JahColor();
-    colorizers[28] = new CustomColor();
-		colorizers[29] = new MillisFade();
-		colorizers[30] = new HSBLerp();
-		if(MAKE_DOCUMENTATION) documenter.addDoc( (Mode[])colorizers, 'q', "Colorizers");
+		colorizers[18] = new RepetitionColor(18);
+		colorizers[19] = new RandomPrimaryColor(19);
+    colorizers[20] = new PrimaryBeatColor(20);
+		colorizers[21] = new HSBFade(21);
+    colorizers[22] = new FlashyPrimaryColor(22);
+    colorizers[23] = new FlashyGray(23);
+    colorizers[24] = new RandomRGB(24);
+    colorizers[25] = new Strobe(25);
+		colorizers[26] = new Flash(26);
+		colorizers[27] = new JahColor(27);
+    colorizers[28] = new CustomColor(28);
+		colorizers[29] = new MillisFade(29);
+		colorizers[30] = new HSBLerp(30);
+		if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])colorizers, 'q', this);
 	}
 
   public Colorizer getColorizer(int _index){
@@ -174,7 +175,8 @@ class Painter extends Mode{
 class LineToLine extends Painter{
 	String name = "lineToLine";
 
-  public LineToLine(){
+  public LineToLine(int _ind){
+		super(_ind);
 		name = "LineToLine";
 		description = "Draws a line from a point interpolated on a segment to a point interpolated on a different segment, `d` key sets the different segment.";
   }
