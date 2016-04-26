@@ -15,7 +15,7 @@ import java.lang.reflect.Field;
  */
 class Documenter implements FreelinerConfig{
   ArrayList<ArrayList<Mode>> docBuffer;
-  ArrayList<Mode> parentModes;
+  ArrayList<String> sections;
   PrintWriter markDown;
   PrintWriter javaScript;
   XML freelinerModes;
@@ -25,7 +25,7 @@ class Documenter implements FreelinerConfig{
    */
   public Documenter(){
     docBuffer = new ArrayList();
-    parentModes = new ArrayList();
+    sections = new ArrayList();
     // sections.add("First");
 
     markDown = createWriter("../doc/autodoc.md");
@@ -43,9 +43,9 @@ class Documenter implements FreelinerConfig{
    * @param char key associated with mode slection (q for stroke color)
    * @param String section name (ColorModes)
    */
-  void documentModes(Mode[] _modes, char _key, Mode _parent){
-    if(!hasParent(_parent)){
-      parentModes.add(_parent);
+  void documentModes(Mode[] _modes, char _key, Mode _parent, String _section){
+    if(!hasSection(_section)){
+      sections.add(_section);
       addModesToMarkDown(_modes,_key,_parent);
       addModesToJS(_modes,_key,_parent);
       // addDocToXML(_modes,_key,_section);
@@ -56,12 +56,13 @@ class Documenter implements FreelinerConfig{
    * As many things get instatiated we need to make sure we only add a section once
    * @param String sectionName
    */
-  boolean hasParent(Mode _parent){
-    for(Mode _m : parentModes)
-      if(_m.getName().equals(_parent.getName())) return true;
+  boolean hasSection(String _section){
+    for(String _s : sections){
+      if(_section.equals(_s)) return true;
+      //else println(_parent.getName()+"  "+_m.getName());
+    }
     return false;
   }
-
 
   public void doDocumentation(){
     documentKeysMarkDown();

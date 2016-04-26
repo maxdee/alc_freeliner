@@ -13,9 +13,9 @@ class SegmentPainter extends Painter{
 
 	// reference to the _event being rendered
 	// RenderableTemplate _event;
-
+	public SegmentPainter(){}
 	public SegmentPainter(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "segmentPainter";
 		description = "paints segments";
 	}
@@ -33,9 +33,9 @@ class SegmentPainter extends Painter{
 
 // base class for line painter
 class LinePainter extends SegmentPainter{
-
+	public LinePainter(){}
 	public LinePainter(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "LinePainter";
 		description = "base class for making lines";
 	}
@@ -51,7 +51,7 @@ class LinePainter extends SegmentPainter{
 class FunLine extends LinePainter {
 
 	public FunLine(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "FunLine";
 		description = "Makes a line between pointA and a position.";
 	}
@@ -66,7 +66,7 @@ class FunLine extends LinePainter {
 class FullLine extends LinePainter {
 
 	public FullLine(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "FullLine";
 		description = "Draws a line on a segment, not animated.";
 	}
@@ -79,7 +79,7 @@ class FullLine extends LinePainter {
 
 class AlphaLine extends LinePainter{
 	public AlphaLine(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "AlphaLine";
 		description = "modulates alpha channel, made for LEDs";
 	}
@@ -96,7 +96,7 @@ class AlphaLine extends LinePainter{
 class TrainLine extends LinePainter {
 
 	public TrainLine(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "TrainLine";
 		description = "Line that comes out of point A and exits through pointB";
 	}
@@ -125,7 +125,7 @@ class TrainLine extends LinePainter {
 class MiddleLine extends LinePainter {
 
 	public MiddleLine(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "MiddleLine";
 		description = "line that expands from the middle of a segment.";
 	}
@@ -140,7 +140,7 @@ class MiddleLine extends LinePainter {
 
 class Maypole extends LinePainter {
 	public Maypole(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "Maypole";
 		description = "Draw a line from center to position.";
 	}
@@ -154,7 +154,7 @@ class Maypole extends LinePainter {
 
 class Elliptic extends LinePainter {
 	public Elliptic(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "Elliptic";
 		description = "Makes a expanding circle with segment as final radius.";
 	}
@@ -169,7 +169,7 @@ class Elliptic extends LinePainter {
 
 class SegToSeg extends LinePainter{
 	public SegToSeg(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "SegToSeg";
 		description = "Draws a line from a point on a segment to a point on a different segment. Affected by `e`";
 	}
@@ -200,9 +200,7 @@ class BrushPutter extends SegmentPainter{
 	Brush[] brushes;
 	// brush count in Config.pde
 
-
-	public BrushPutter(int _ind){
-		super(_ind);
+	public BrushPutter(){
 		loadBrushes();
 		name = "BrushPainter";
 		description = "Place brush onto segment. Affected by `e`.";
@@ -220,7 +218,7 @@ class BrushPutter extends SegmentPainter{
 		brushes[7] = new SprinkleBrush(7);
 		brushes[8] = new LeafBrush(8);
 		brushes[9] = new CustomBrush(9);
-		if(MAKE_DOCUMENTATION) documenter.documentModes(brushes,'a', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes(brushes,'a', this, "Brushes");
 	}
 
 	public Brush getBrush(int _index){
@@ -253,7 +251,7 @@ class BrushPutter extends SegmentPainter{
 class SimpleBrusher extends BrushPutter{
 
 	public SimpleBrusher(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 	}
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
@@ -272,8 +270,9 @@ class SimpleBrusher extends BrushPutter{
 
 class BasicText extends SegmentPainter{
 
+	public BasicText(){}
   public BasicText(int _ind){
-		super(_ind);
+		modeIndex = _ind;
     name = "BasicText";
     description = "Extendable object fo text displaying";
   }
@@ -291,7 +290,7 @@ class BasicText extends SegmentPainter{
 class TextWritter extends BasicText{
 
 	public TextWritter(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "TextWritter";
 		description = "Fit a bunch of text on a segment";
 	}
@@ -312,7 +311,7 @@ class TextWritter extends BasicText{
 
 class ScrollingText extends BasicText{
   public ScrollingText(int _ind){
-		super(_ind);
+		modeIndex = _ind;
     name = "ScrollingText";
     description = "Scrolls text, acording to enterpolator";
   }

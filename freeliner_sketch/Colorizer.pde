@@ -5,8 +5,7 @@
 class Colorizer extends Mode{
 	//custom colors?
 
-  public Colorizer(int _ind){
-    super(_ind);
+  public Colorizer(){
 		name = "Colorizer";
 		description = "Pics a color according to stuff.";
   }
@@ -46,7 +45,7 @@ class Colorizer extends Mode{
 class SimpleColor extends Colorizer{
 	color col;
 	public SimpleColor(color _c, int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		col = _c;
 		description = "simpleColor";
 		// set the name when instantiating.
@@ -63,7 +62,7 @@ class PalletteColor extends Colorizer {
 	int colorIndex;
 
 	public PalletteColor(int _i, int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		colorIndex = _i;
 		name = "PalletteColor";
 		description = "Color of "+_i+" index in colorPalette";
@@ -79,8 +78,9 @@ class PalletteColor extends Colorizer {
  */
 class PrimaryColor extends Colorizer {
 
+  public PrimaryColor(){}
 	public PrimaryColor(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "PrimaryColor";
 		description = "A primary color";
 	}
@@ -106,7 +106,7 @@ class PrimaryColor extends Colorizer {
  */
 class RandomPrimaryColor extends PrimaryColor {
 	public RandomPrimaryColor(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "RandomPrimaryColor";
 		description = "Primary color that should change every beat.";
 	}
@@ -121,7 +121,7 @@ class RandomPrimaryColor extends PrimaryColor {
  */
 class PrimaryBeatColor extends PrimaryColor {
 	public PrimaryBeatColor(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "PrimaryBeatColor";
 		description = "Cycles through primary colors on beat.";
 	}
@@ -136,7 +136,7 @@ class PrimaryBeatColor extends PrimaryColor {
  */
 class FlashyPrimaryColor extends PrimaryColor {
 	public FlashyPrimaryColor(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "FlashyPrimaryColor";
 		description = "Random primary color every frame.";
 	}
@@ -154,7 +154,7 @@ class JahColor extends Colorizer {
 	color[] jah = {#CE000E,#E9FF00,#268E01};
 	final int JAH_COUNT = 3;
 	public JahColor(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "JahColor";
 		description = "Red Green Yellow";
 	}
@@ -174,7 +174,7 @@ class JahColor extends Colorizer {
 class RepetitionColor extends Colorizer {
 
 	public RepetitionColor(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "RepetitionColor";
 		description = "Cycles through colors of the pallette";
 	}
@@ -193,7 +193,7 @@ class RepetitionColor extends Colorizer {
  */
 class FlashyGray extends Colorizer {
 	public FlashyGray(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "FlashyGray";
 		description = "Random shades of gray.";
 	}
@@ -210,7 +210,7 @@ class FlashyGray extends Colorizer {
  */
 class RandomRGB extends Colorizer {
 	public RandomRGB(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "RGB";
 		description = "Random red green and blue value every frame.";
 	}
@@ -226,7 +226,7 @@ class RandomRGB extends Colorizer {
  */
 class Strobe extends Colorizer {
 	public Strobe(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "Strobe";
 		description = "Strobes white";
 	}
@@ -242,7 +242,7 @@ class Strobe extends Colorizer {
  */
 class Flash extends Colorizer {
 	public Flash(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "Flash";
 		description = "Flashes once per beat.";
 	}
@@ -261,7 +261,7 @@ class Flash extends Colorizer {
  */
 class MillisFade extends Colorizer {
 	public MillisFade(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "MillisFade";
 		description = "HSB fade goes along with millis.";
 	}
@@ -277,7 +277,7 @@ class MillisFade extends Colorizer {
  */
 class HSBLerp extends Colorizer {
 	public HSBLerp(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "HSBLerp";
 		description = "HSB fade through beat.";
 	}
@@ -292,7 +292,7 @@ class HSBLerp extends Colorizer {
  */
 class HSBFade extends Colorizer {
 	public HSBFade(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "HSBFade";
 		description = "HSBFade stored on template/event.";
 	}
@@ -311,7 +311,7 @@ class HSBFade extends Colorizer {
  */
 class CustomColor extends Colorizer {
 	public CustomColor(int _ind){
-    super(_ind);
+    modeIndex = _ind;
 		name = "CustomColor";
 		description = "Custom color for template.";
 	}

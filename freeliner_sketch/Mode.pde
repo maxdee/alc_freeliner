@@ -22,8 +22,7 @@ abstract class Mode implements FreelinerConfig{
   String name = "mode";
   String description = "abstract";
 
-  public Mode(int _ind){
-    modeIndex = _ind;
+  public Mode(){
   }
 
 

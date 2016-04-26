@@ -3,8 +3,9 @@
 // Segment Selector take a segmentGroup and returns segments to render
 
 class SegmentSelector extends Mode {
+	public SegmentSelector(){}
 	public SegmentSelector(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "SegmentSelector";
 		description = "Selects segments to render";
 	}
@@ -25,7 +26,7 @@ class SegmentSelector extends Mode {
  */
 class AllSegments extends SegmentSelector {
 	public AllSegments(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "AllSegments";
 		description = "Renders all segments";
 	}
@@ -40,7 +41,7 @@ class AllSegments extends SegmentSelector {
  */
 class SequentialSegments extends SegmentSelector{
 	public SequentialSegments(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "SequentialSegments";
 		description = "Renders one segment per beat in order.";
 	}
@@ -59,7 +60,7 @@ class SequentialSegments extends SegmentSelector{
  */
 class RunThroughSegments extends SegmentSelector{
 	public RunThroughSegments(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "RunThroughSegments";
 		description = "Render all segments in order in one beat.";
 	}
@@ -83,7 +84,7 @@ class RunThroughSegments extends SegmentSelector{
  */
 class RandomSegment extends SegmentSelector{
 	public RandomSegment(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "RandomSegment";
 		description = "Render a random segment per beat.";
 	}
@@ -102,7 +103,7 @@ class RandomSegment extends SegmentSelector{
  */
 class FastRandomSegment extends SegmentSelector{
 	public FastRandomSegment(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "FastRandomSegment";
 		description = "Render a different segment per frame";
 	}
@@ -119,7 +120,7 @@ class FastRandomSegment extends SegmentSelector{
  */
 class SegmentBranch extends SegmentSelector{
 	public SegmentBranch(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "SegmentBranch";
 		description = "Renders segment in branch level augmenting every beat";
 	}
@@ -135,7 +136,7 @@ class SegmentBranch extends SegmentSelector{
  */
 class RunThroughBranches extends SegmentSelector{
 	public RunThroughBranches(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "RunThroughBranches";
 		description = "Render throught all the branch levels in one beat.";
 	}

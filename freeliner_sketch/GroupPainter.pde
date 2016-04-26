@@ -2,8 +2,7 @@
 
 class GroupPainter extends Painter{
 
-	public GroupPainter(int _ind){
-		super(_ind);
+	public GroupPainter(){
 
 	}
 
@@ -16,7 +15,7 @@ class GroupPainter extends Painter{
 
 class Filler extends GroupPainter{
 	public Filler(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 
 	}
 
@@ -45,7 +44,7 @@ class Filler extends GroupPainter{
 class FunFiller extends GroupPainter{
 
 	public FunFiller(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 
 	}
 
@@ -74,7 +73,7 @@ class FunFiller extends GroupPainter{
 
 class InterpolatorShape extends GroupPainter{
 	public InterpolatorShape(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 
 	}
 

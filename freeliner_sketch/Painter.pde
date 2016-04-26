@@ -25,8 +25,7 @@ class Painter extends Mode{
   PGraphics canvas;
 	RenderableTemplate event;
 
-	public Painter(int _ind){
-		super(_ind);
+	public Painter(){
 		name = "Painter";
 		description = "Paints stuff";
 
@@ -43,7 +42,7 @@ class Painter extends Mode{
 		posGetters[8] = new SegmentOffsetInterpolator(8);
 		posGetters[9] = new OppositInterpolator(9);
 
-		if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])posGetters, 'e', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])posGetters, 'e', this, "Enterpolator");
 	}
 
   public void paint(RenderableTemplate _rt){
@@ -110,7 +109,7 @@ class Painter extends Mode{
     colorizers[28] = new CustomColor(28);
 		colorizers[29] = new MillisFade(29);
 		colorizers[30] = new HSBLerp(30);
-		if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])colorizers, 'q', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])colorizers, 'q', this, "Colorizers");
 	}
 
   public Colorizer getColorizer(int _index){
@@ -176,7 +175,7 @@ class LineToLine extends Painter{
 	String name = "lineToLine";
 
   public LineToLine(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "LineToLine";
 		description = "Draws a line from a point interpolated on a segment to a point interpolated on a different segment, `d` key sets the different segment.";
   }

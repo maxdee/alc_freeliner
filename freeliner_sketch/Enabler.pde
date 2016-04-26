@@ -8,8 +8,9 @@
  */
 
 class Enabler extends Mode{
+	public Enabler(){}
 	public Enabler(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "loop";
 		description = "always render";
 	}
@@ -21,7 +22,7 @@ class Enabler extends Mode{
 
 class Disabler extends Enabler{
 	public Disabler(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "Disabler";
 		description = "Never render";
 	}
@@ -33,7 +34,7 @@ class Disabler extends Enabler{
 
 class Triggerable extends Enabler{
 	public Triggerable(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "Triggerable";
 		description = "only render if triggered";
 	}
@@ -47,7 +48,7 @@ class Triggerable extends Enabler{
 
 class RandomEnabler extends Enabler{
 	public RandomEnabler(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "RandomEnabler";
 		description = "Maybe render";
 	}
@@ -62,7 +63,7 @@ class RandomEnabler extends Enabler{
 class SweepingEnabler extends Enabler{
 	final float DIST = 200.0;//float(width)/4.0;
 	public SweepingEnabler(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "SweepingEnabler";
 		description = "render per geometry from left to right";
 	}
@@ -82,7 +83,7 @@ class SweepingEnabler extends Enabler{
 class SwoopingEnabler extends Enabler{
 	final float DIST = 200.0;//float(width)/4.0;
 	public SwoopingEnabler(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "SwoopingEnabler";
 		description = "render per geometry from right to left";
 	}

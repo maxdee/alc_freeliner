@@ -6,8 +6,7 @@
  */
 class RenderMode extends Mode{
 
-	public RenderMode(int _ind){
-		super(_ind);
+	public RenderMode(){
 
 	}
 
@@ -24,8 +23,7 @@ class PerSegment extends RenderMode{
 	SegmentPainter[] segmentPainters;
 	final int PAINTER_COUNT = 1;
 
-	public PerSegment(int _ind){
-		super(_ind);
+	public PerSegment(){
 		name = "PersegmentRender";
 		description = "Things that render per each segment";
 		segmentSelectors = new SegmentSelector[SEGMENT_MODE_COUNT];
@@ -36,7 +34,7 @@ class PerSegment extends RenderMode{
 		segmentSelectors[4] = new FastRandomSegment(4);
 		segmentSelectors[5] = new SegmentBranch(5);
 		segmentSelectors[6] = new RunThroughBranches(6);
-		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentSelectors, 'v', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentSelectors, 'v', this, "SegmentSelector");
 		// place holder for painter
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
     segmentPainters[0] = new SimpleBrusher(0);
@@ -63,40 +61,6 @@ class PerSegment extends RenderMode{
 		return segmentPainters[_index];
 	}
 }
-//
-// /**
-//  * Parent class for all rendering that happens per segment.
-//  */
-// class PerSegmentOffset extends PerSegment{
-//
-//
-//
-// 	public PerSegmentOffset(){
-//
-// 	}
-//
-// 	public void doRender(RenderableTemplate _event){
-// 		ArrayList<Segment> segList = getSelector(_event.getSegmentMode()).getSegments(_event);
-//     int index = 0;
-//     if(segList == null) return;
-//     for(Segment seg : segList){
-//     	_event.setSegmentIndex(index);
-//     	index++;
-//       if(seg != null) getPainter(_event.getAnimationMode()).paintSegment(seg, _event);
-//     }
-// 	}
-//
-// 	public SegmentSelector getSelector(int _index){
-// 		if(_index >= SEGMENT_MODE_COUNT) _index = SEGMENT_MODE_COUNT - 1;
-// 		return segmentSelectors[_index];
-// 	}
-//
-// 	public SegmentPainter getPainter(int _index){
-// 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
-// 		return segmentPainters[_index];
-// 	}
-// }
-//
 
 
 
@@ -106,19 +70,14 @@ class BrushSegment extends PerSegment{
   final int PAINTER_COUNT = 1;
 
   public BrushSegment(int _ind){
-		super(_ind);
+		super();
+		modeIndex = _ind;
   	segmentPainters = new SegmentPainter[PAINTER_COUNT];
     segmentPainters[0] = new SimpleBrusher(0);
-		// all moved to interpolator
-    //segmentPainters[1] = new TwoBrusher();
-    // segmentPainters[2] = new SpiralBrusher();
-    // segmentPainters[3] = new InShapeBrusher();
-    // segmentPainters[4] = new CenterBrusher();
-		//segmentPainters[2] = new OppositeBrusher();
 
 		name = "BrushSegment";
 		description = "Render mode for drawing with brushes";
-		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "None?");
     // segmentPainters[6] = new CircularBrusher();
   }
 	public SegmentPainter getPainter(int _index){
@@ -133,8 +92,8 @@ class LineSegment extends PerSegment{
 	final int PAINTER_COUNT = 7;
 
 	public LineSegment(int _ind){
-
-		super(_ind);
+		super();
+		modeIndex = _ind;
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
     segmentPainters[0] = new FunLine(0);
     segmentPainters[1] = new FullLine(1);
@@ -146,7 +105,7 @@ class LineSegment extends PerSegment{
 
 		name = "LineSegment";
 		description = "Draw lines related to segments";
-		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "LineModes");
 	}
 	public SegmentPainter getPainter(int _index){
 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
@@ -160,14 +119,14 @@ class CircularSegment extends PerSegment{
 	final int PAINTER_COUNT = 1;
 
 	public CircularSegment(int _ind){
-
-		super(_ind);
+		super();
+		modeIndex = _ind;
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
 		segmentPainters[0] = new Elliptic(0);
     // segmentPainters[1] = new RadarPainter();
 		name = "CircularSegment";
 		description = "Circles and stuff";
-		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "CicularModes");
 	}
 	public SegmentPainter getPainter(int _index){
 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
@@ -182,15 +141,15 @@ class TextRenderMode extends PerSegment{
 	final int PAINTER_COUNT = 2;
 
 	public TextRenderMode(int _ind){
-
-		super(_ind);
+		super();
+		modeIndex = _ind;
 		segmentPainters = new SegmentPainter[PAINTER_COUNT];
 		segmentPainters[0] = new TextWritter(0);
 		segmentPainters[1] = new ScrollingText(1);
 
 		name = "TextRenderMode";
 		description = "Stuff that draws text";
-		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "TextModes");
 	}
 
 	public SegmentPainter getPainter(int _index){
@@ -204,7 +163,8 @@ class WrapLine extends PerSegment{
 	LineToLine painter;
 
 	public WrapLine(int _ind){
-		super(_ind);
+		super();
+		modeIndex = _ind;
 		painter = new LineToLine(0);
 	}
 	public void doRender(RenderableTemplate _rt) {
@@ -243,13 +203,13 @@ class Geometry extends RenderMode{
 	final int PAINTER_COUNT = 2;
 
 	public Geometry(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "GeometryRender";
 		description = "RenderModes that involve all segments.";
 		groupPainters = new GroupPainter[PAINTER_COUNT];
 		groupPainters[0] = new Filler(0);
 		groupPainters[1] = new InterpolatorShape(1);
-		if(MAKE_DOCUMENTATION) documenter.documentModes(groupPainters, 'a', this);
+		if(MAKE_DOCUMENTATION) documenter.documentModes(groupPainters, 'a', this, "FillModes");
 		//groupPainters[2] = new FlashFiller();
 	}
 
@@ -263,3 +223,39 @@ class Geometry extends RenderMode{
 		return groupPainters[_index];
 	}
 }
+
+
+//
+// /**
+//  * Parent class for all rendering that happens per segment.
+//  */
+// class PerSegmentOffset extends PerSegment{
+//
+//
+//
+// 	public PerSegmentOffset(){
+//
+// 	}
+//
+// 	public void doRender(RenderableTemplate _event){
+// 		ArrayList<Segment> segList = getSelector(_event.getSegmentMode()).getSegments(_event);
+//     int index = 0;
+//     if(segList == null) return;
+//     for(Segment seg : segList){
+//     	_event.setSegmentIndex(index);
+//     	index++;
+//       if(seg != null) getPainter(_event.getAnimationMode()).paintSegment(seg, _event);
+//     }
+// 	}
+//
+// 	public SegmentSelector getSelector(int _index){
+// 		if(_index >= SEGMENT_MODE_COUNT) _index = SEGMENT_MODE_COUNT - 1;
+// 		return segmentSelectors[_index];
+// 	}
+//
+// 	public SegmentPainter getPainter(int _index){
+// 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+// 		return segmentPainters[_index];
+// 	}
+// }
+//

@@ -24,7 +24,8 @@ class TemplateRenderer extends Mode{
    * Constructor
    */
 	public TemplateRenderer(){
-    super(0);
+    name="TemplateRenderer";
+    description="regular template renderer";
     // add renderModes
     renderModes = new RenderMode[RENDER_MODE_COUNT];
     renderModes[0] = new BrushSegment(0);
@@ -33,7 +34,7 @@ class TemplateRenderer extends Mode{
     renderModes[3] = new Geometry(3);
     renderModes[4] = new TextRenderMode(4);
     renderModes[5] = new CircularSegment(5);
-    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])renderModes, 'b', this);
+    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])renderModes, 'b', this, "RenderModes");
     // add repetitionModes
     repeaters = new Repetition[REPEATER_MODE_COUNT];
     repeaters[0] = new Single(0);
@@ -42,7 +43,7 @@ class TemplateRenderer extends Mode{
     repeaters[3] = new ExpoSpaced(3);
     repeaters[4] = new TwoFull(4);
     repeaters[5] = new TwoSpaced(5);
-    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])repeaters, 'i', this);
+    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])repeaters, 'i', this, "RepetitionModes");
 
     // add enablers
     enablers = new Enabler[ENABLER_MODE_COUNT];
@@ -53,7 +54,7 @@ class TemplateRenderer extends Mode{
     enablers[4] = new SweepingEnabler(4);
     enablers[5] = new SwoopingEnabler(5);
     enablers[6] = new RandomEnabler(6);
-    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])enablers, 'u', this);
+    if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])enablers, 'u', this, "Enablers");
 
 	}
 

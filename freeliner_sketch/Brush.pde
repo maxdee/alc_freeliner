@@ -23,8 +23,7 @@ abstract class Brush extends Mode{
   /**
    * Constructor, generates the shape
    */
-  public Brush(int _ind){
-		super(_ind);
+  public Brush(){
     brushShape = generateBrush();
     scaledBrush = brushShape;
     scaledBrushSize = BASE_SIZE;
@@ -69,7 +68,7 @@ abstract class Brush extends Mode{
 class PointBrush extends Brush {
 
   public PointBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name =  "PointBrush";//brush
 		description = "Adjust its size with `w`.";
   }
@@ -91,7 +90,7 @@ class PointBrush extends Brush {
 class LineBrush extends Brush {
 
   public LineBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name =  "line";
 		description = "Perpendicular line brush";
   }
@@ -112,7 +111,7 @@ class ChevronBrush extends Brush {
 
 
   public ChevronBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name =  "chevron";//brush
 		description = "Chevron v shaped style brush";
   }
@@ -133,7 +132,7 @@ class ChevronBrush extends Brush {
 class SquareBrush extends Brush {
 
   public SquareBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "square";
 		description = "Square shaped brush";
   }
@@ -160,7 +159,7 @@ class CustomBrush extends Brush {
    * Constructor will generate a null shape.
    */
   public CustomBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "custom";//brush
 		description = "Template custom shape, add template to geometryGroup and press `ctrl-d` to set as custom shape.";
   }
@@ -197,7 +196,7 @@ class CustomBrush extends Brush {
 class CircleBrush extends Brush {
 
   public CircleBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name =  "circle";//brush
 		description = "Brush witha circular appearance.";
   }
@@ -222,7 +221,7 @@ class CircleBrush extends Brush {
 class TriangleBrush extends Brush {
 
   public TriangleBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "triangle";
 		description = "Triangular brush.";
   }
@@ -242,7 +241,7 @@ class TriangleBrush extends Brush {
 class XBrush extends Brush {
 
   public XBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name = "+";//brush
 		description = "+ shaped brush";
   }
@@ -264,7 +263,7 @@ class XBrush extends Brush {
 class LeafBrush extends Brush {
 
   public LeafBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name =  "leaf";
 		description = "legalize it";
   }
@@ -314,7 +313,7 @@ class LeafBrush extends Brush {
 class SprinkleBrush extends Brush {
 
   public SprinkleBrush(int _ind){
-		super(_ind);
+		modeIndex = _ind;
 		name =  "sprinkle";//brush
 		description = "ms paint grafiti style";
 	}
