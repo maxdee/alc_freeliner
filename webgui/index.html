@@ -2,80 +2,21 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title> a!Lc freeliner webGUI </title>
+  <title> aziz!Light Crew FREELINER webgui launcher </title>
   <!-- css -->
   <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-<body>
-  <div class="toppart">
-    <div title="standard freeliner info">
-      <p id="infoline" class="infoline"> start freeliner and refresh to connect </p>
-    </div>
-
-    <div class="cmdInput" title="type a freeliner command">
-      cmd:
-      <input type="text" name="cmd" id="prompt" class="prompt">
-    </div>
-
-    <div class="cmdInput">
-      loadFile
-      <input type="file" id="fileInput"/>
-    </div>
-
-    <div class="colorPicker" title="Select some template (A-Z) then pick a color!">
-      <input type="color" name="colorPicker" value="#ff0000" id="colorPicker">
-      <button id="pickColor"> pick </button>
-    </div>
-
-    <div class="shaderInput" title="set the uX floats of the shader">
-      Pick shader
-      <input type="radio" name=shaderSelect id="shaderSelect0" title="pick shader 0">
-      <input type="radio" name=shaderSelect id="shaderSelect1" title="pick shader 1">
-      <input type="radio" name=shaderSelect id="shaderSelect2" title="pick shader 2">
-      <input type="radio" name=shaderSelect id="shaderSelect3" title="pick shader 3"> <br>
-      u0<input type="range" id="shaderFader0" min="0" max="100" /> <br>
-      u1<input type="range" id="shaderFader1" min="0" max="100" /> <br>
-      u2<input type="range" id="shaderFader2" min="0" max="100" /> <br>
-      u3<input type="range" id="shaderFader3" min="0" max="100" /> <br>
-    </div>
-
-    <div class="modes">
-      <!-- <input type="number" id="renderMode" value="0"> -->
-      Render Mode
-      <select id="renderSlecter">
-        <option value="0">brush</option>
-        <option value="1">line</option>
-        <option value="2">fill</option>
-        <option value="3">text</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="sequencer" id="seq">
-    <div id="step0" class="seqstep" > </div>
-    <div id="step1" class="seqstep" > </div>
-    <div id="step2" class="seqstep" > </div>
-    <div id="step3" class="seqstep" > </div>
-    <div id="step4" class="seqstep" > </div>
-    <div id="step5" class="seqstep" > </div>
-    <div id="step6" class="seqstep" > </div>
-    <div id="step7" class="seqstep" > </div>
-    <div id="step8" class="seqstep" > </div>
-    <div id="step9" class="seqstep" > </div>
-    <div id="step10" class="seqstep" > </div>
-    <div id="step11" class="seqstep" > </div>
-    <div id="step12" class="seqstep" > </div>
-    <div id="step13" class="seqstep" > </div>
-    <div id="step14" class="seqstep" > </div>
-    <div id="step15" class="seqstep" > </div>
-  </div>
-
-  <!-- javascripts -->
-  <xml id="freelinerModes" type="text/xml" src="freelinerModes.xml"></xml>
-  <script language="javascript" type="text/javascript" src="freelinerWebGUI.js"></script>
-  <script language="javascript" type="text/javascript" src="guiGenerator.js"></script>
-
+<body style="background:black;">
+  <style>
+  a {
+    color: lightblue;
+    font-size: 24pt;
+  }
+  </style>
+  <a href="https://github.com/maxdee/alc_freeliner">to the source!</a>
+  <script>
+    window.open("webGui.html", "Freeliner WEBGUI", "width=1000,height=700");
+  </script>
 </body>
-
 </html>

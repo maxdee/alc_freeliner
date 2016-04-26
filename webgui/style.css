@@ -1,53 +1,58 @@
 body {
-    background-color: gray;
-    padding: 16px 16px 16px 16px;
+  background-color: #5D5D5D;
 }
 
-.toppart {
-  width:100%;
+.wrapper {
   position: fixed;
-  top: 0;
-  border: 2px;
-  margin: 10px;
+  top:0;
+  left:0;
+  width:100%;
 }
 
-.infoline {
+.widget {
+  margin:4px;
+  font-family: monospace;
+  background-color: #1D1D1D;
+  color: #FFFFFF;
+  font-size: 10pt;
+  padding: 2px;
+  overflow: auto;
+}
+
+.widget:hover {
+  background-color: #333333;
+}
+
+input[type=select]{
+  width:42px;
+  float:right;
+}
+
+.selecta {
+  width:50%;
+  float:right;
+}
+
+#infoline {
+    margin:0px;
     font-family: monospace;
-    background-color: #875267;
+    background-color: #0E0E0E;
     color: #FFFFFF;
     font-size: 18pt;
-    padding: 12px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.cmdInput {
-    margin: 10px;
-    font-family: monospace;
-    background-color: #875267;
-    color: #FFFFFF;
-    font-size: 10pt;
-    padding: 2px;
-    width: auto;
+#prompt {
+  width:80%;
 }
 
-.prompt {
-  margin: 2px;
-  width:500px;
-}
 
 .bottompart {
   margin: 10px;
   position: fixed;
   bottom: 130px;
-}
-
-.colorPicker {
-  width: auto;
-  font-family: monospace;
-  background-color: #875267;
-  color: #FFFFFF;
-  font-size: 10pt;
-  padding: 10px;
-  margin: 10px;
 }
 
 .shaderInput {

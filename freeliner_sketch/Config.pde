@@ -154,22 +154,38 @@ interface FreelinerConfig{
    * Use hex value or color(0,100,200);
    */
   final int MAX_REPETITION = 255; // could change
+  final int r_MAX = 255;
   final int MAX_BEATDIVIDER = 255;
+  final int x_MAX = 255;
   final int MAX_STROKE_WEIGHT = 255;
+  final int w_MAX = 255;
   final int MAX_STROKE_ALPHA = 255;
+  final int k_MAX = 255;
   final int MAX_FILL_ALPHA = 255;
+  final int l_MAX = 255;
   final int MAX_BRUSH_SIZE = 4000;
+  final int s_MAX = 4000;
 
-  final int MAX_RENDER_LAYER_COUNT = 3;
+  final int MAX_RENDER_LAYER_COUNT = 2;
+  final int p_MAX = 2;
   final int ANIMATION_MODE_MAX = 14; // not a real limit, depends on renderMode...
+  final int a_MAX = 14;
   final int ROTATION_MODE_COUNT = 5;
+  final int o_MAX = 5;
   final int EASING_MODE_COUNT = 11;
+  final int h_MAX = 11;
   final int REVERSE_MODE_COUNT = 5;
+  final int j_MAX = 5;
   final int RENDER_MODE_COUNT = 6;
+  final int b_MAX = 6;
   final int REPEATER_MODE_COUNT = 6;
+  final int i_MAX = 6;
   final int ENABLER_MODE_COUNT = 7;
-  final int BRUSH_COUNT = 10;
+  final int u_MAX = 7;
   final int COLOR_MODE_COUNT = 31;
+  final int q_MAX = 31;
   final int INTERPOLATOR_MODE_COUNT = 10;
+  final int e_MAX = 10;
   final int SEGMENT_MODE_COUNT = 7;
+  final int v_MAX = 7;
 }

@@ -59,7 +59,6 @@ class Documenter implements FreelinerConfig{
   boolean hasSection(String _section){
     for(String _s : sections){
       if(_section.equals(_s)) return true;
-      //else println(_parent.getName()+"  "+_m.getName());
     }
     return false;
   }
@@ -132,16 +131,15 @@ class Documenter implements FreelinerConfig{
   }
 
   void addModesToJS(Mode[] _modes, char _key, Mode _parent){
-    int _index = 0;
-    ArrayList<String> _modeBuffer = new ArrayList();
+    // int _index = 0;
     for(Mode _m : _modes){
-      _modeBuffer.add("var "+_key+_index+"_NAME_"+_parent+" = '"+_m.getName()+"';");
-      _modeBuffer.add("var "+_key+_index+"_DESCRIPTION_"+_parent+" = '"+_m.getDescription()+"';");
-      _index++;
+      String _index = _key+str(_m.getIndex());
+      if(_key == 'a') _index += "_b"+str(_parent.getIndex());
+      javaScript.println("var "+_index+"_NAME = '"+_m.getName()+"';");
+      javaScript.println("var "+_index+"_DESCRIPTION_ = '"+_m.getDescription()+"';");
+      // _index++;
     }
-    // for(String _str : _modeBuffer){
-    //   // _str
-    // }
+
   }
 }
 

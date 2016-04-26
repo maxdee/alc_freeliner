@@ -196,7 +196,7 @@ class SegToSeg extends LinePainter{
 
 // base brush putter
 class BrushPutter extends SegmentPainter{
-
+	final int BRUSH_COUNT = 10;
 	Brush[] brushes;
 	// brush count in Config.pde
 

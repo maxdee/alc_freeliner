@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title> a!Lc freeliner webGUI </title>
+  <!-- css -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <div class="wrapper pagewrapper">
+    <p id="infoline" title="standard freeliner info"> start freeliner and refresh to connect </p>
+
+    <div class="leftpane" style="width:50%; float:left;">
+      <div class="widget" title="type a freeliner command and press enter">
+        cmd:
+        <input type="text" name="cmd" id="prompt">
+      </div>
+      <div class="widget" title="must be in alc_freeliner/userdata">
+        load geometry : <input type="file" id="fileInput"/>
+      </div>
+      <div class="widget" title="must be in alc_freeliner/userdata">
+        load template : <input type="file" id="fileInput"/>
+      </div>
+    </div>
+
+    <div class="rightpane" style="width:50%; float:right;">
+      <div class="widget" title="Select some template (A-Z) then pick a color!">
+        stroke <input type="color" value="#ff0000" id="strokePicker">
+        fill <input type="color" value="#ff0000" id="fillPicker">
+      </div>
+
+      <!-- <div class="widget" title="set the render mode">
+        renderMode <input type="number" id="renderMode" min="0">
+      </div>
+      <div class="widget" title="pick renderLayer">
+        renderLayer <input type="number" id="renderLayer" min="0">
+      </div> -->
+      <div class="widget" title="pick renderMode">
+        renderMode <select class="selecta" id="b_key"> </select>
+      </div>
+      <div class="widget" title="animationMode">
+        animationMode <select class="selecta" id="a_key"> </select>
+      </div>
+      <div class="widget" title="enterpolator">
+        enterpolator <select class="selecta" id="e_key"> </select>
+      </div>
+      <div class="widget" title="fillcolor">
+        fillColor <select class="selecta" id="f_key"> </select>
+      </div>
+      <div class="widget" title="easing">
+        easing <select class="selecta" id="h_key"> </select>
+      </div>
+      <div class="widget" title="iterator">
+        iteration <select class="selecta" id="i_key"> </select>
+      </div>
+      <div class="widget" title="reverse">
+        reverseMode <select class="selecta" id="j_key"> </select>
+      </div>
+      <div class="widget" title="rotation">
+        rotation <select class="selecta" id="o_key"> </select>
+      </div>
+      <div class="widget" title="select layer for render">
+        layer <select class="selecta" id="p_key"> </select>
+      </div>
+      <div class="widget" title="stroke color">
+        strokeColor <select class="selecta" id="q_key"> </select>
+      </div>
+      <div class="widget" title="polka">
+        polka <select class="selecta" id="r_key"> </select>
+      </div>
+      <div class="widget" title="to render or not">
+        enabler <select class="selecta" id="u_key"> </select>
+      </div>
+      <div class="widget" title="decides which segments get rendered">
+        segmentSelector <select class="selecta" id="v_key"> </select>
+      </div>
+    </div>
+
+  </div>
+  <!-- javascripts -->
+  <script language="javascript" type="text/javascript" src="freelinerConfig.js"></script>
+  <script language="javascript" type="text/javascript" src="freelinerWebGUI.js"></script>
+
+</body>
+
+</html>
