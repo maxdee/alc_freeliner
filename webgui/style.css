@@ -28,6 +28,13 @@ input[type=select]{
   float:right;
 }
 
+/*input[type=range] {
+  position: absolute;
+  top: 40%;
+  transform: rotate(270deg);
+}*/
+
+
 .selecta {
   width:50%;
   float:right;

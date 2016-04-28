@@ -22,6 +22,20 @@
       <div class="widget" title="must be in alc_freeliner/userdata">
         load template : <input type="file" id="fileInput"/>
       </div>
+      <div class="widget" title="open reference image">
+        <button id="openRef">open reference</button>
+      </div>
+      <div class="widget" title="set the uX floats of the shader">
+        Pick shader
+        <input type="radio" name=shaderSelect id="shaderSelect0" title="pick shader 0">
+        <input type="radio" name=shaderSelect id="shaderSelect1" title="pick shader 1">
+        <input type="radio" name=shaderSelect id="shaderSelect2" title="pick shader 2">
+        <input type="radio" name=shaderSelect id="shaderSelect3" title="pick shader 3"> <br>
+        u0<input type="range" id="shaderFader0" min="0" max="100" /> <br>
+        u1<input type="range" id="shaderFader1" min="0" max="100" /> <br>
+        u2<input type="range" id="shaderFader2" min="0" max="100" /> <br>
+        u3<input type="range" id="shaderFader3" min="0" max="100" /> <br>
+      </div>
     </div>
 
     <div class="rightpane" style="width:50%; float:right;">
@@ -42,11 +56,14 @@
       <div class="widget" title="animationMode">
         animationMode <select class="selecta" id="a_key"> </select>
       </div>
-      <div class="widget" title="enterpolator">
-        enterpolator <select class="selecta" id="e_key"> </select>
+      <div class="widget" title="stroke color">
+        strokeColor <select class="selecta" id="q_key"> </select>
       </div>
       <div class="widget" title="fillcolor">
         fillColor <select class="selecta" id="f_key"> </select>
+      </div>
+      <div class="widget" title="enterpolator">
+        enterpolator <select class="selecta" id="e_key"> </select>
       </div>
       <div class="widget" title="easing">
         easing <select class="selecta" id="h_key"> </select>
@@ -63,9 +80,6 @@
       <div class="widget" title="select layer for render">
         layer <select class="selecta" id="p_key"> </select>
       </div>
-      <div class="widget" title="stroke color">
-        strokeColor <select class="selecta" id="q_key"> </select>
-      </div>
       <div class="widget" title="polka">
         polka <select class="selecta" id="r_key"> </select>
       </div>
@@ -75,7 +89,14 @@
       <div class="widget" title="decides which segments get rendered">
         segmentSelector <select class="selecta" id="v_key"> </select>
       </div>
+      <div class="widget" title="size of shape">
+        size <input type="number" id="brushSize"> </input>
+      </div>
+      <div class="widget" title="weight of stroke">
+        strokeWeight <input type="number" id="strokeWeight"> </input>
+      </div>
     </div>
+
 
   </div>
   <!-- javascripts -->

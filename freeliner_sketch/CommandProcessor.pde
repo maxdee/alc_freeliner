@@ -64,6 +64,7 @@ class CommandProcessor implements FreelinerConfig{
     "geom save (coolMap.xml)",
     "geom load (coolMap.xml)",
     "geom toggle ABC (2 3 4)", // not implemented yet
+    "geom webref",
     ///////////////////  Post processing
     "post trails (alpha)",
     "post shader (coolfrag.glsl)",
@@ -267,7 +268,9 @@ class CommandProcessor implements FreelinerConfig{
     if(_args[1].equals("save")) return saveGeometryCMD(_args);
     else if(_args[1].equals("load")) return loadGeometryCMD(_args);
     else if(_args[1].equals("text")) return textCMD(_args);
+    else if(_args[1].equals("webref")) gui.updateReference("../webgui/reference.png");
     else return false;
+    return true;
   }
 
   public boolean saveGeometryCMD(String[] _args){

@@ -109,7 +109,7 @@ class FreeLiner implements FreelinerConfig{
 
     gui.update();
     if(gui.doDraw()){
-      resetShader();
+      // resetShader();
       image(gui.getCanvas(), 0, 0);
     }
 

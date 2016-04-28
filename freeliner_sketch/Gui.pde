@@ -397,12 +397,16 @@
    */
    // disable cause too slooooow?
   private void updateReference() {
+    updateReference("userdata/reference.jpg");
+  }
+
+  private void updateReference(String _file) {
     boolean tgs = viewTags;
     boolean lns = viewLines;
     viewLines = true;
     viewTags = true;
     update();
-    canvas.save("userdata/reference.jpg");
+    canvas.save(_file);
     viewTags = tgs;
     viewLines = lns;
   }

@@ -135,6 +135,26 @@ function labelStep(i, s){
 //   socket.send("fetch webseq");
 // }
 
+document.getElementById("brushSize").min = 1;
+document.getElementById("brushSize").max = MAX_BRUSH_SIZE;
+document.getElementById("brushSize").onchange = function(){
+  socket.send('tw $ s '+document.getElementById("brushSize").value);
+}
+
+document.getElementById("strokeWeight").min = 1;
+document.getElementById("strokeWeight").max = MAX_BRUSH_SIZE;
+document.getElementById("strokeWeight").onchange = function(){
+  socket.send('tw $ w '+document.getElementById("strokeWeight").value);
+}
+
+
+
+document.getElementById("openRef").onclick = function (){
+  socket.send('geom webref');
+  window.open("reference.png", "geometry reference", "width=1000,height=700");
+}
+
+
 document.getElementById("fileInput").onchange = function (){
   var _file = document.getElementById('fileInput').value;
   socket.send('geom load '+_file);
@@ -160,30 +180,30 @@ function cmdPrompt(e){
   }
 }
 //
-// document.getElementById("shaderSelect0").onclick = function(){
-//   socket.send("post shader 0");
-// };
-// document.getElementById("shaderSelect1").onclick = function(){
-//   socket.send("post shader 1");
-// };
-// document.getElementById("shaderSelect2").onclick = function(){
-//   socket.send("post shader 2");
-// };
-// document.getElementById("shaderSelect3").onclick = function(){
-//   socket.send("post shader 3");
-// };
-// document.getElementById("shaderFader0").oninput = function(){
-//   socket.send("post shader 0 "+(document.getElementById("shaderFader0").value/100.0));
-// };
-// document.getElementById("shaderFader1").oninput = function(){
-//   socket.send("post shader 1 "+(document.getElementById("shaderFader1").value/100.0));
-// };
-// document.getElementById("shaderFader2").oninput = function(){
-//   socket.send("post shader 2 "+(document.getElementById("shaderFader2").value/100.0));
-// };
-// document.getElementById("shaderFader3").oninput = function(){
-//   socket.send("post shader 3 "+(document.getElementById("shaderFader3").value/100.0));
-// };
+document.getElementById("shaderSelect0").onclick = function(){
+  socket.send("post shader 0");
+};
+document.getElementById("shaderSelect1").onclick = function(){
+  socket.send("post shader 1");
+};
+document.getElementById("shaderSelect2").onclick = function(){
+  socket.send("post shader 2");
+};
+document.getElementById("shaderSelect3").onclick = function(){
+  socket.send("post shader 3");
+};
+document.getElementById("shaderFader0").oninput = function(){
+  socket.send("post shader 0 "+(document.getElementById("shaderFader0").value/100.0));
+};
+document.getElementById("shaderFader1").oninput = function(){
+  socket.send("post shader 1 "+(document.getElementById("shaderFader1").value/100.0));
+};
+document.getElementById("shaderFader2").oninput = function(){
+  socket.send("post shader 2 "+(document.getElementById("shaderFader2").value/100.0));
+};
+document.getElementById("shaderFader3").oninput = function(){
+  socket.send("post shader 3 "+(document.getElementById("shaderFader3").value/100.0));
+};
 /*
  * /////////////////////////////////////////////////////////////
  * mouse section!

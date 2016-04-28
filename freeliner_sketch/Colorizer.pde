@@ -47,7 +47,9 @@ class SimpleColor extends Colorizer{
 	public SimpleColor(color _c, int _ind){
     modeIndex = _ind;
 		col = _c;
-		description = "simpleColor";
+    name = "#"+hex(_c,6);
+    description = "simpleColor";
+
 		// set the name when instantiating.
 	}
 	public color get(RenderableTemplate _event, int _alpha){
@@ -64,7 +66,7 @@ class PalletteColor extends Colorizer {
 	public PalletteColor(int _i, int _ind){
     modeIndex = _ind;
 		colorIndex = _i;
-		name = "PalletteColor";
+		name = "pallette "+_i;
 		description = "Color of "+_i+" index in colorPalette";
 	}
 
@@ -81,7 +83,7 @@ class PrimaryColor extends Colorizer {
   public PrimaryColor(){}
 	public PrimaryColor(int _ind){
     modeIndex = _ind;
-		name = "PrimaryColor";
+		name = "PrimaryColor "+hex(getPrimary(_ind));
 		description = "A primary color";
 	}
 
