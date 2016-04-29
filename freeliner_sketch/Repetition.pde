@@ -8,11 +8,13 @@ class Repetition extends Mode {
 	// easer and reversers count in Config.pde
 
 	float rev = 1.0;
+	int easingModeCount = 11;
+	int reverseModeCount = 5;
 
 	public Repetition(){
 		name = "repetition";
 		description = "how to darw multiples of one template";
-		easers = new Easing[EASING_MODE_COUNT];
+		easers = new Easing[easingModeCount];
 		easers[0] = new NoEasing(0);
 		easers[1] = new Square(1);
 		easers[2] = new Sine(2);
@@ -27,7 +29,7 @@ class Repetition extends Mode {
 
 		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])easers, 'h', this, "EasingModes");
 
-		reversers = new Reverse[REVERSE_MODE_COUNT];
+		reversers = new Reverse[reverseModeCount];
 		reversers[0] = new NotReverse(0);
 		reversers[1] = new Reverse(1);
 		reversers[2] = new BackForth(2);
@@ -46,12 +48,12 @@ class Repetition extends Mode {
 	}
 
 	public Easing getEaser(int _index){
-		if(_index >= EASING_MODE_COUNT) _index = EASING_MODE_COUNT - 1;
+		if(_index >= easingModeCount) _index = easingModeCount - 1;
 		return easers[_index];
 	}
 
 	public Reverse getReverser(int _index){
-		if(_index >= REVERSE_MODE_COUNT) _index = REVERSE_MODE_COUNT - 1;
+		if(_index >= reverseModeCount) _index = reverseModeCount - 1;
 		return reversers[_index];
 	}
 }

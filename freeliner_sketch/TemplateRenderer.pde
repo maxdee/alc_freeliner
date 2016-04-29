@@ -19,7 +19,9 @@ class TemplateRenderer extends Mode{
   RenderMode[] renderModes;
   Repetition[] repeaters;
   Enabler[] enablers;
-
+  int renderModeCount = 6;
+  int repetitionModeCount = 6;
+  int enablerModeCount = 7;
   /**
    * Constructor
    */
@@ -27,7 +29,7 @@ class TemplateRenderer extends Mode{
     name="TemplateRenderer";
     description="regular template renderer";
     // add renderModes
-    renderModes = new RenderMode[RENDER_MODE_COUNT];
+    renderModes = new RenderMode[renderModeCount];
     renderModes[0] = new BrushSegment(0);
     renderModes[1] = new LineSegment(1);
     renderModes[2] = new WrapLine(2);
@@ -36,7 +38,7 @@ class TemplateRenderer extends Mode{
     renderModes[5] = new CircularSegment(5);
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])renderModes, 'b', this, "RenderModes");
     // add repetitionModes
-    repeaters = new Repetition[REPEATER_MODE_COUNT];
+    repeaters = new Repetition[repetitionModeCount];
     repeaters[0] = new Single(0);
     repeaters[1] = new EvenlySpaced(1);
     repeaters[2] = new EvenlySpacedWithZero(2);
@@ -46,7 +48,7 @@ class TemplateRenderer extends Mode{
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])repeaters, 'i', this, "RepetitionModes");
 
     // add enablers
-    enablers = new Enabler[ENABLER_MODE_COUNT];
+    enablers = new Enabler[enablerModeCount];
     enablers[0] = new Disabler(0);
     enablers[1] = new Enabler(1);
     enablers[2] = new Triggerable(2);
@@ -83,7 +85,7 @@ class TemplateRenderer extends Mode{
     _rt.setCanvas(_pg);
 
     // check the enabler, it may modify the unitInterval
-    if(!enablers[_rt.getEnablerMode()%ENABLER_MODE_COUNT].enable(_rt)) return;
+    if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
     // get multiple unit intervals to use
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
@@ -139,12 +141,12 @@ class TemplateRenderer extends Mode{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public RenderMode getRenderer(int _index){
-    if(_index >= RENDER_MODE_COUNT) _index = RENDER_MODE_COUNT - 1;
+    if(_index >= renderModeCount) _index = renderModeCount - 1;
     return renderModes[_index];
   }
 
   public Repetition getRepeater(int _index){
-    if(_index >= REPEATER_MODE_COUNT) _index = REPEATER_MODE_COUNT - 1;
+    if(_index >= repetitionModeCount) _index = repetitionModeCount - 1;
     return repeaters[_index];
   }
 }

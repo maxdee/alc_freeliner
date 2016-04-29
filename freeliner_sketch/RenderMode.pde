@@ -21,12 +21,13 @@ class PerSegment extends RenderMode{
 	SegmentSelector[] segmentSelectors;
 
 	SegmentPainter[] segmentPainters;
-	final int PAINTER_COUNT = 1;
+	int painterCount = 1;
+	int segmentModeCount = 7;
 
 	public PerSegment(){
 		name = "PersegmentRender";
 		description = "Things that render per each segment";
-		segmentSelectors = new SegmentSelector[SEGMENT_MODE_COUNT];
+		segmentSelectors = new SegmentSelector[segmentModeCount];
 		segmentSelectors[0] = new AllSegments(0);
 		segmentSelectors[1] = new SequentialSegments(1);
 		segmentSelectors[2] = new RunThroughSegments(2);
@@ -36,7 +37,7 @@ class PerSegment extends RenderMode{
 		segmentSelectors[6] = new RunThroughBranches(6);
 		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentSelectors, 'v', this, "SegmentSelector");
 		// place holder for painter
-		segmentPainters = new SegmentPainter[PAINTER_COUNT];
+		segmentPainters = new SegmentPainter[painterCount];
     segmentPainters[0] = new SimpleBrusher(0);
 	}
 
@@ -52,12 +53,12 @@ class PerSegment extends RenderMode{
 	}
 
 	public SegmentSelector getSelector(int _index){
-		if(_index >= SEGMENT_MODE_COUNT) _index = SEGMENT_MODE_COUNT - 1;
+		if(_index >= segmentModeCount) _index = segmentModeCount - 1;
 		return segmentSelectors[_index];
 	}
 
 	public SegmentPainter getPainter(int _index){
-		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		if(_index >= painterCount) _index = painterCount - 1;
 		return segmentPainters[_index];
 	}
 }
@@ -67,12 +68,12 @@ class PerSegment extends RenderMode{
 // Place brushes on segments
 class BrushSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
-  final int PAINTER_COUNT = 1;
+  int painterCount = 1;
 
   public BrushSegment(int _ind){
 		super();
 		modeIndex = _ind;
-  	segmentPainters = new SegmentPainter[PAINTER_COUNT];
+  	segmentPainters = new SegmentPainter[painterCount];
     segmentPainters[0] = new SimpleBrusher(0);
 
 		name = "BrushSegment";
@@ -81,7 +82,7 @@ class BrushSegment extends PerSegment{
     // segmentPainters[6] = new CircularBrusher();
   }
 	public SegmentPainter getPainter(int _index){
-		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		if(_index >= painterCount) _index = painterCount - 1;
 		return segmentPainters[_index];
 	}
 }
@@ -89,12 +90,12 @@ class BrushSegment extends PerSegment{
 // Make lines on segments
 class LineSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	final int PAINTER_COUNT = 7;
+	int painterCount = 7;
 
 	public LineSegment(int _ind){
 		super();
 		modeIndex = _ind;
-		segmentPainters = new SegmentPainter[PAINTER_COUNT];
+		segmentPainters = new SegmentPainter[painterCount];
     segmentPainters[0] = new FunLine(0);
     segmentPainters[1] = new FullLine(1);
     segmentPainters[2] = new MiddleLine(2);
@@ -108,7 +109,7 @@ class LineSegment extends PerSegment{
 		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "LineModes");
 	}
 	public SegmentPainter getPainter(int _index){
-		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		if(_index >= painterCount) _index = painterCount - 1;
 		return segmentPainters[_index];
 	}
 }
@@ -116,12 +117,12 @@ class LineSegment extends PerSegment{
 // Make circles on segments
 class CircularSegment extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	final int PAINTER_COUNT = 1;
+	int painterCount = 1;
 
 	public CircularSegment(int _ind){
 		super();
 		modeIndex = _ind;
-		segmentPainters = new SegmentPainter[PAINTER_COUNT];
+		segmentPainters = new SegmentPainter[painterCount];
 		segmentPainters[0] = new Elliptic(0);
     // segmentPainters[1] = new RadarPainter();
 		name = "CircularSegment";
@@ -129,7 +130,7 @@ class CircularSegment extends PerSegment{
 		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "CicularModes");
 	}
 	public SegmentPainter getPainter(int _index){
-		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		if(_index >= painterCount) _index = painterCount - 1;
 		return segmentPainters[_index];
 	}
 }
@@ -137,12 +138,12 @@ class CircularSegment extends PerSegment{
 // text rendering
 class TextRenderMode extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	final int PAINTER_COUNT = 2;
+	int painterCount = 2;
 
 	public TextRenderMode(int _ind){
 		super();
 		modeIndex = _ind;
-		segmentPainters = new SegmentPainter[PAINTER_COUNT];
+		segmentPainters = new SegmentPainter[painterCount];
 		segmentPainters[0] = new TextWritter(0);
 		segmentPainters[1] = new ScrollingText(1);
 
@@ -152,7 +153,7 @@ class TextRenderMode extends PerSegment{
 	}
 
 	public SegmentPainter getPainter(int _index){
-		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		if(_index >= painterCount) _index = painterCount - 1;
 		return segmentPainters[_index];
 	}
 }
@@ -199,13 +200,13 @@ class WrapLine extends PerSegment{
  */
 class Geometry extends RenderMode{
 	GroupPainter[] groupPainters;
-	final int PAINTER_COUNT = 2;
+	int painterCount = 2;
 
 	public Geometry(int _ind){
 		modeIndex = _ind;
 		name = "GeometryRender";
 		description = "RenderModes that involve all segments.";
-		groupPainters = new GroupPainter[PAINTER_COUNT];
+		groupPainters = new GroupPainter[painterCount];
 		groupPainters[0] = new Filler(0);
 		groupPainters[1] = new InterpolatorShape(1);
 		if(MAKE_DOCUMENTATION) documenter.documentModes(groupPainters, 'a', this, "FillModes");
@@ -218,7 +219,7 @@ class Geometry extends RenderMode{
 	}
 
 	public GroupPainter getPainter(int _index){
-		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+		if(_index >= painterCount) _index = painterCount - 1;
 		return groupPainters[_index];
 	}
 }
@@ -253,7 +254,7 @@ class Geometry extends RenderMode{
 // 	}
 //
 // 	public SegmentPainter getPainter(int _index){
-// 		if(_index >= PAINTER_COUNT) _index = PAINTER_COUNT - 1;
+// 		if(_index >= painterCount) _index = PAINTER_COUNT - 1;
 // 		return segmentPainters[_index];
 // 	}
 // }

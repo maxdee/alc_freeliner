@@ -98,7 +98,7 @@ void setup() {
   background(0);
   splash();
 
-  documenter.doDocumentation();
+
 }
 
 // splash screen!

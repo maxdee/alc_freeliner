@@ -90,78 +90,37 @@ interface FreelinerConfig {
   // Freeliner LED options
   final String LED_SERIAL_PORT = "/dev/ttyACM0";
   final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2
-
-
-  /**
-   * Limits for parameters / arraySize for rendering objects
-   * Use hex value or color(0,100,200);
-   */
-  final int MAX_REPETITION = 255; // could change
-  final String r_NAME = "polka";
-  final int r_MAX = 255;
-  final String r_DESCRIPTION = "number of times something gets repeated, pick a repetition mode with `i`";
-  final String r_CMD = "tw";
-
-  // final int r_MAX = 255;
-  // final String r_NAME = "polka";
-  // final String r_DESCRIPTION = "number of times something gets repeated, pick a repetition mode with `i`";
-  // final String r_CMD = "tw";
-
-  final int MAX_BEATDIVIDER = 255;
-  final int x_MAX = 255;
-  final int MAX_STROKE_WEIGHT = 255;
-  final int w_MAX = 255;
-  final int MAX_STROKE_ALPHA = 255;
-  final int k_MAX = 255;
-  final int MAX_FILL_ALPHA = 255;
-  final int l_MAX = 255;
-  final int MAX_BRUSH_SIZE = 4000;
-  final int s_MAX = 4000;
-
-  final int MAX_RENDER_LAYER_COUNT = 2;
-  final int p_MAX = 2;
-  final int ANIMATION_MODE_MAX = 14; // not a real limit, depends on renderMode...
-  final int a_MAX = 14;
-  final int ROTATION_MODE_COUNT = 5;
-  final int o_MAX = 5;
-  final int EASING_MODE_COUNT = 11;
-  final int h_MAX = 11;
-  final int REVERSE_MODE_COUNT = 5;
-  final int j_MAX = 5;
-  final int RENDER_MODE_COUNT = 6;
-  final int b_MAX = 6;
-  final int REPEATER_MODE_COUNT = 6;
-  final int i_MAX = 6;
-  final int ENABLER_MODE_COUNT = 7;
-  final int u_MAX = 7;
-  final int COLOR_MODE_COUNT = 31;
-  final int q_MAX = 31;
-  final int INTERPOLATOR_MODE_COUNT = 10;
-  final int e_MAX = 10;
-  final int SEGMENT_MODE_COUNT = 7;
-  final int v_MAX = 7;
 }
 
 
 
-class Keymap {
+class KeyMap {
   ParameterKey[] keymap;
 
-  public Keymap(){
+  public KeyMap(){
     keymap = new ParameterKey[255];
     // animationMode
+    loadKeys();
+  }
+
+  public void setLimits(IntDict _limits){
+    for(String _s : _limits.keys()){
+      keymap[_s.charAt(0)].setMax(_limits.get(_s));
+    }
+    for(ParameterKey _pk : keymap) if(_pk != null) println(_pk.getKey()+" "+_pk.getMax());
+  }
+
+  public void loadKeys(){
     keymap['a'] = new ParameterKey('a');
     keymap['a'].setName("animation");
     keymap['a'].setDescription("animate stuff");
     keymap['a'].setCMD("tw $ a");
-    keymap['a'].setMax(14);//documenter.getMax('b'));
 
     // renderMode
     keymap['b'] = new ParameterKey('b');
     keymap['b'].setName("renderMode");
     keymap['b'].setDescription("picks the renderMode");
     keymap['b'].setCMD("tw $ b");
-    keymap['b'].setMax(6);//documenter.getMax('b'));
 
     // placeCenter
     keymap['c'] = new ParameterKey('c');
@@ -217,18 +176,24 @@ class Keymap {
     keymap['k'].setName("strokeAlpha");
     keymap['k'].setDescription("Alpha value of stroke.");
     keymap['k'].setCMD("tw $ k"); //
+    keymap['k'].setMax(256); //
+
 
     // fillAlpha
     keymap['l'] = new ParameterKey('l');
     keymap['l'].setName("fillAlpha");
     keymap['l'].setDescription("Alpha value of fill.");
     keymap['l'].setCMD("tw $ l"); //
+    keymap['l'].setMax(256); //
+
 
     // miscValue
     keymap['m'] = new ParameterKey('m');
     getKey('m').setName("miscValue");
     getKey('m').setDescription("A extra value that can be used by modes.");
     getKey('m').setCMD("tw $ m"); //
+    keymap['l'].setMax(1000); //
+
 
     // new geometry
     keymap['n'] = new ParameterKey('n');
@@ -246,7 +211,9 @@ class Keymap {
     keymap['p'] = new ParameterKey('p');
     getKey('p').setName("layer");
     getKey('p').setDescription("Pick which layer to render on.");
-    getKey('p').setCMD("tw $ p"); //
+    getKey('p').setCMD("tw $ p");
+    getKey('p').setMax(3); // need to fix this
+
 
     // strokeColor
     keymap['q'] = new ParameterKey('q');
@@ -265,12 +232,16 @@ class Keymap {
     getKey('s').setName("size");
     getKey('s').setDescription("Sets the brush size for `b-0`");
     getKey('s').setCMD("tw $ s"); //
+    getKey('s').setMax(5000);
+
 
     // tapTempo
     keymap['t'] = new ParameterKey('t');
     getKey('t').setName("tap");
     getKey('t').setDescription("Tap tempo, tweaking nudges time.");
     getKey('t').setCMD("seq tap");
+    getKey('t').setMax(1000);
+
 
     // enabler
     keymap['u'] = new ParameterKey('u');
@@ -295,12 +266,15 @@ class Keymap {
     getKey('x').setName("beatMultiplier");
     getKey('x').setDescription("Set how many beats the animation will take.");
     getKey('x').setCMD("tw $ x"); //
+    getKey('x').setMax(5000);
 
     // enterpolator
     keymap['y'] = new ParameterKey('y');
     getKey('y').setName("tracers");
     getKey('y').setDescription("Set tracer level for tracer layer.");
     getKey('y').setCMD("post tracers"); //
+    getKey('y').setMax(256);
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
@@ -323,6 +297,8 @@ class Keymap {
     getKey('D').setName("customShape");
     getKey('D').setDescription("Set a template's customShape.");
     getKey('D').setCMD("tp shape $"); //
+    getKey('D').setMax(1000);
+
     // reverseMouse
     keymap['I'] = new ParameterKey('I');
     getKey('I').setName("revMouseX");
@@ -375,7 +351,7 @@ class Keymap {
     keymap['.'].setName("snapping");
     keymap['.'].setDescription("enable/disable snapping or set the snapping distance");
     keymap['.'].setCMD("tools snap"); // then check for selected segment, or execute cmd
-    keymap['.'].setMax(42);
+    keymap['.'].setMax(255);
     // fixed angle
     keymap['['] = new ParameterKey('[');
     keymap['['].setName("fixedAngle");
@@ -387,7 +363,7 @@ class Keymap {
     keymap[']'].setName("fixedLength");
     keymap[']'].setDescription("enable/disable fixed length for the mouse");
     keymap[']'].setCMD("tools ruler"); // then check for selected segment, or execute cmd
-    keymap[']'].setMax(1000);
+    keymap[']'].setMax(5000);
     // showLines
     keymap['/'] = new ParameterKey('/');
     getKey('/').setName("showLines");
@@ -405,7 +381,6 @@ class Keymap {
     keymap['|'].setName("enterText");
     keymap['|'].setDescription("enable text entry, type text and press return");
     keymap['|'].setCMD("text"); // then check for selected segment, or execute cmd
-    keymap['|'].setMax(-42);
 
     // sequencer
     keymap['<'] = new ParameterKey('<');

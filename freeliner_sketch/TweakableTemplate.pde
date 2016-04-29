@@ -79,132 +79,125 @@ class TweakableTemplate extends Template {
    * @return int value given to parameter
    */
 
-   public int setBankIndex(int _v){
+   public int setBankIndex(int _v, int _max){
      bankIndex = numTweaker(_v, bankIndex);
      if(bankIndex >= bank.size()) bankIndex = bank.size()-1;
      loadFromBank(bankIndex);
      return bankIndex;
    }
 
-	public int setProbability(int v){
-    // probability = numTweaker(v, probability);
-    // if(probability > 100) probability = 100;
-    // return probability;
-    return 0;
-  }
-
-  public int setReverseMode(int _v){
+  public int setReverseMode(int _v, int _max){
     reverseMode = numTweaker(_v, reverseMode);
-    if(reverseMode >= REVERSE_MODE_COUNT) reverseMode = REVERSE_MODE_COUNT - 1;
+    if(reverseMode >= _max) reverseMode = _max - 1;
     return reverseMode;
   }
 
-  public int setAnimationMode(int _v) {
+  public int setAnimationMode(int _v, int _max) {
     animationMode = numTweaker(_v, animationMode);
-    if(animationMode >= ANIMATION_MODE_MAX) animationMode = ANIMATION_MODE_MAX - 1;
+    if(animationMode >= _max) animationMode = _max - 1;
     return animationMode;
   }
 
-  public int setInterpolateMode(int _v) {
+  public int setInterpolateMode(int _v, int _max) {
     interpolateMode = numTweaker(_v, interpolateMode);
-    if(interpolateMode >= INTERPOLATOR_MODE_COUNT) interpolateMode = INTERPOLATOR_MODE_COUNT - 1;
+    if(interpolateMode >= _max) interpolateMode = _max - 1;
     return interpolateMode;
   }
 
-  public int setRenderMode(int _v) {
+  public int setRenderMode(int _v, int _max) {
     renderMode = numTweaker(_v, renderMode);
-    if(renderMode >= RENDER_MODE_COUNT) renderMode = RENDER_MODE_COUNT - 1;
+    if(renderMode >= _max) renderMode = _max - 1;
     return renderMode;
   }
 
-  public int setSegmentMode(int _v){
+  public int setSegmentMode(int _v, int _max){
     segmentMode = numTweaker(_v, segmentMode);
-    if(segmentMode >= SEGMENT_MODE_COUNT) segmentMode = SEGMENT_MODE_COUNT - 1;
+    if(segmentMode >= _max) segmentMode = _max - 1;
     return segmentMode;
   }
 
-  public int setEasingMode(int v){
-    easingMode = numTweaker(v, easingMode);
-    if(easingMode >= EASING_MODE_COUNT) easingMode = EASING_MODE_COUNT - 1;
+  public int setEasingMode(int _v, int _max){
+    easingMode = numTweaker(_v, easingMode);
+    if(easingMode >= _max) easingMode = _max - 1;
     return easingMode;
   }
 
-  public int setRepetitionMode(int _v){
+  public int setRepetitionMode(int _v, int _max){
     repetitionMode = numTweaker(_v, repetitionMode);
-    if(repetitionMode >= REPEATER_MODE_COUNT) repetitionMode = REPEATER_MODE_COUNT - 1;
+    if(repetitionMode >= _max) repetitionMode = _max - 1;
     return repetitionMode;
   }
 
-  public int setRepetitionCount(int _v) {
+  public int setRepetitionCount(int _v, int _max) {
     repetitionCount = numTweaker(_v, repetitionCount);
-    if(repetitionCount >= MAX_REPETITION) repetitionCount = MAX_REPETITION - 1;
+    if(repetitionCount >= _max) repetitionCount = _max - 1;
     return repetitionCount;
   }
 
-  public int setBeatDivider(int _v) {
+  public int setBeatDivider(int _v, int _max) {
     beatDivider = numTweaker(_v, beatDivider);
-    if(beatDivider >= MAX_BEATDIVIDER) beatDivider = MAX_BEATDIVIDER - 1;
+    if(beatDivider >= _max) beatDivider = _max - 1;
     return beatDivider;
   }
 
-  public int setRotationMode(int _v){
+  public int setRotationMode(int _v, int _max){
     rotationMode = numTweaker(_v, rotationMode);
-    if(rotationMode >= ROTATION_MODE_COUNT) rotationMode = ROTATION_MODE_COUNT - 1;
+    if(rotationMode >= _max) rotationMode = _max - 1;
     return rotationMode;
   }
 
-	public int setStrokeMode(int _v) {
+	public int setStrokeMode(int _v, int _max) {
     strokeMode = numTweaker(_v, strokeMode);
-    if(strokeMode >= COLOR_MODE_COUNT) strokeMode = COLOR_MODE_COUNT - 1;
+    if(strokeMode >= _max) strokeMode = _max - 1;
     return strokeMode;
   }
 
-  public int setFillMode(int _v) {
+  public int setFillMode(int _v, int _max) {
     fillMode = numTweaker(_v, fillMode);
-    if(fillMode >= COLOR_MODE_COUNT) fillMode = COLOR_MODE_COUNT - 1;
+    if(fillMode >= _max) fillMode = _max - 1;
     return fillMode;
   }
 
-  public int setStrokeWidth(int _v) {
+  public int setStrokeWidth(int _v, int _max) {
     strokeWidth = numTweaker(_v, strokeWidth);
-    if(strokeWidth >= MAX_STROKE_WEIGHT) strokeWidth = MAX_STROKE_WEIGHT - 1;
+    if(strokeWidth >= _max) strokeWidth = _max - 1;
     if(strokeWidth <= 0) strokeWidth = 1;
     return strokeWidth;
   }
 
-  public int setStrokeAlpha(int _v){
+  public int setStrokeAlpha(int _v, int _max){
     strokeAlpha = numTweaker(_v, strokeAlpha);
-    if(strokeAlpha >= MAX_STROKE_ALPHA) strokeAlpha = MAX_STROKE_ALPHA - 1;
+    if(strokeAlpha >= _max) strokeAlpha = _max - 1;
     return strokeAlpha;
   }
 
-  public int setFillAlpha(int _v){
+  public int setFillAlpha(int _v, int _max){
     fillAlpha = numTweaker(_v, fillAlpha);
-    if(strokeAlpha >= MAX_FILL_ALPHA) strokeAlpha = MAX_FILL_ALPHA - 1;
+    if(strokeAlpha >= _max) strokeAlpha = _max - 1;
     return fillAlpha;
   }
 
-  public int setBrushSize(int v) {
-    brushSize = numTweaker(v, brushSize);
-    if(brushSize >= MAX_BRUSH_SIZE) brushSize = MAX_BRUSH_SIZE - 1;
+  public int setBrushSize(int _v, int _max) {
+    brushSize = numTweaker(_v, brushSize);
+    if(brushSize >= _max) brushSize = _max - 1;
     return brushSize;
   }
 
-  public int setMiscValue(int _v) {
+  public int setMiscValue(int _v, int _max) {
     miscValue = numTweaker(_v, miscValue);
-    //if(miscValue >= BRUSH_COUNT) miscValue = BRUSH_COUNT - 1;
+    if(miscValue >= _max) miscValue = _max - 1;
     return miscValue;
   }
 
-  public int setEnablerMode(int _v) {
+  public int setEnablerMode(int _v, int _max) {
     enablerMode = numTweaker(_v, enablerMode);
-    if(enablerMode >= ENABLER_MODE_COUNT) enablerMode = ENABLER_MODE_COUNT - 1;
+    if(enablerMode >= _max) enablerMode = _max - 1;
     return enablerMode;
   }
 
-  public int setRenderLayer(int _v) {
+  public int setRenderLayer(int _v, int _max) {
     renderLayer = numTweaker(_v, renderLayer);
-    if(renderLayer >= MAX_RENDER_LAYER_COUNT) renderLayer = MAX_RENDER_LAYER_COUNT - 1;
+    if(renderLayer >= _max) renderLayer = _max - 1;
     return renderLayer;
   }
 }

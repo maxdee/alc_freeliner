@@ -20,7 +20,7 @@ class CommandProcessor implements FreelinerConfig{
   Mouse mouse;
   Keyboard keyboard;
   Gui gui;
-
+  KeyMap keyMap;
   FreeLiner freeliner;
   // this string gets set to whatever value was set
   String valueGiven = "";
@@ -101,6 +101,7 @@ class CommandProcessor implements FreelinerConfig{
     mouse = _fl.getMouse();
     keyboard = _fl.getKeyboard();
     gui = _fl.getGui();
+    keyMap = freeliner.getKeyMap();
   }
 
   /**
@@ -131,6 +132,7 @@ class CommandProcessor implements FreelinerConfig{
   public void processCMD(String _cmd){
     if(_cmd == null) return;
     // if(record)
+    valueGiven = "_";
     processCMD(split(_cmd, ' '));
   }
 
@@ -296,6 +298,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[1].equals("new")) valueGiven = str(groupManager.newGroup());
     else if(_args[1].equals("center")) valueGiven = str(groupManager.toggleCenterPutting());
     else if(_args[1].equals("webref")) gui.updateReference("../webgui/reference.png");
+    else if(_args[1].equals("breakline")) mouse.press(3);
     else return false;
     return true;
   }
@@ -568,27 +571,27 @@ class CommandProcessor implements FreelinerConfig{
     //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
     if(_template == null) return;
 
-    if (_k == 'a') valueGiven = str(_template.setAnimationMode(_n));
-    else if (_k == 'b') valueGiven = str(_template.setRenderMode(_n));
-    else if (_k == 'f') valueGiven = str(_template.setFillMode(_n));
-    else if (_k == 'h') valueGiven = str(_template.setEasingMode(_n));
-    else if (_k == 'i') valueGiven = str(_template.setRepetitionMode(_n));
-    else if (_k == 'j') valueGiven = str(_template.setReverseMode(_n));
-    else if (_k == 'k') valueGiven = str(_template.setStrokeAlpha(_n));
-    else if (_k == 'l') valueGiven = str(_template.setFillAlpha(_n));
-    else if (_k == 'm') valueGiven = str(_template.setMiscValue(_n));
-    else if (_k == 'o') valueGiven = str(_template.setRotationMode(_n));
-    else if (_k == 'e') valueGiven = str(_template.setInterpolateMode(_n));
-    else if (_k == 'p') valueGiven = str(_template.setRenderLayer(_n));
-    else if (_k == 'q') valueGiven = str(_template.setStrokeMode(_n));
-    else if (_k == 'r') valueGiven = str(_template.setRepetitionCount(_n));
-    else if (_k == 's') valueGiven = str(_template.setBrushSize(_n));
-    else if (_k == 'u') valueGiven = str(_template.setEnablerMode(_n));
-    else if (_k == 'v') valueGiven = str(_template.setSegmentMode(_n));
-    else if (_k == 'w') valueGiven = str(_template.setStrokeWidth(_n));
-    else if (_k == 'x') valueGiven = str(_template.setBeatDivider(_n));
-    else if (_k == '%') valueGiven = str(_template.setBankIndex(_n));
-    else if (_k == '$') valueGiven = str(_template.saveToBank()); // could take an _n to set bank index?
+    if (_k == 'a') valueGiven = str(_template.setAnimationMode(_n, keyMap.getMax('a')));
+    else if (_k == 'b') valueGiven = str(_template.setRenderMode(_n, keyMap.getMax('b')));
+    else if (_k == 'f') valueGiven = str(_template.setFillMode(_n, keyMap.getMax('f')));
+    else if (_k == 'h') valueGiven = str(_template.setEasingMode(_n, keyMap.getMax('h')));
+    else if (_k == 'i') valueGiven = str(_template.setRepetitionMode(_n, keyMap.getMax('i')));
+    else if (_k == 'j') valueGiven = str(_template.setReverseMode(_n, keyMap.getMax('j')));
+    else if (_k == 'k') valueGiven = str(_template.setStrokeAlpha(_n, keyMap.getMax('k')));
+    else if (_k == 'l') valueGiven = str(_template.setFillAlpha(_n, keyMap.getMax('l')));
+    else if (_k == 'm') valueGiven = str(_template.setMiscValue(_n, keyMap.getMax('m')));
+    else if (_k == 'o') valueGiven = str(_template.setRotationMode(_n, keyMap.getMax('o')));
+    else if (_k == 'e') valueGiven = str(_template.setInterpolateMode(_n, keyMap.getMax('e')));
+    else if (_k == 'p') valueGiven = str(_template.setRenderLayer(_n, keyMap.getMax('p')));
+    else if (_k == 'q') valueGiven = str(_template.setStrokeMode(_n, keyMap.getMax('q')));
+    else if (_k == 'r') valueGiven = str(_template.setRepetitionCount(_n, keyMap.getMax('r')));
+    else if (_k == 's') valueGiven = str(_template.setBrushSize(_n, keyMap.getMax('s')));
+    else if (_k == 'u') valueGiven = str(_template.setEnablerMode(_n, keyMap.getMax('u')));
+    else if (_k == 'v') valueGiven = str(_template.setSegmentMode(_n, keyMap.getMax('v')));
+    else if (_k == 'w') valueGiven = str(_template.setStrokeWidth(_n, keyMap.getMax('w')));
+    else if (_k == 'x') valueGiven = str(_template.setBeatDivider(_n, keyMap.getMax('x')));
+    // else if (_k == '%') valueGiven = str(_template.setBankIndex(_n));
+    // else if (_k == '$') valueGiven = str(_template.saveToBank()); // could take an _n to set bank index?
     // mod commands
     else if (int(_k) == 518) _template.reset();
   }

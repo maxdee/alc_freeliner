@@ -400,25 +400,25 @@ class TemplateManager{
     for(XML _tp : _templateData){
       _tmp = getTemplate(_tp.getString("ID").charAt(0));
       if(_tmp == null) continue;
-      _tmp.setRenderMode(_tp.getInt("renderMode"));
-      _tmp.setSegmentMode(_tp.getInt("segmentMode"));
-      _tmp.setAnimationMode(_tp.getInt("animationMode"));
-      _tmp.setInterpolateMode(_tp.getInt("interpolateMode"));
-      _tmp.setStrokeMode(_tp.getInt("strokeMode"));
-      _tmp.setFillMode(_tp.getInt("fillMode"));
-      _tmp.setStrokeAlpha(_tp.getInt("strokeAlpha"));
-      _tmp.setFillAlpha(_tp.getInt("fillAlpha"));
-      _tmp.setRotationMode(_tp.getInt("rotationMode"));
-      _tmp.setEasingMode(_tp.getInt("easingMode"));
-      _tmp.setReverseMode(_tp.getInt("reverseMode"));
-      _tmp.setRepetitionMode(_tp.getInt("repetitionMode"));
-      _tmp.setRepetitionCount(_tp.getInt("repetitionCount"));
-      _tmp.setBeatDivider(_tp.getInt("beatDivider"));
-      _tmp.setStrokeWidth(_tp.getInt("strokeWidth"));
-      _tmp.setBrushSize(_tp.getInt("brushSize"));
-      _tmp.setMiscValue(_tp.getInt("miscValue"));
-      _tmp.setEnablerMode(_tp.getInt("enablerMode"));
-      _tmp.setRenderLayer(_tp.getInt("renderLayer"));
+      _tmp.setRenderMode(_tp.getInt("renderMode"), 50000);
+      _tmp.setSegmentMode(_tp.getInt("segmentMode"), 50000);
+      _tmp.setAnimationMode(_tp.getInt("animationMode"), 50000);
+      _tmp.setInterpolateMode(_tp.getInt("interpolateMode"), 50000);
+      _tmp.setStrokeMode(_tp.getInt("strokeMode"), 50000);
+      _tmp.setFillMode(_tp.getInt("fillMode"), 50000);
+      _tmp.setStrokeAlpha(_tp.getInt("strokeAlpha"), 50000);
+      _tmp.setFillAlpha(_tp.getInt("fillAlpha"), 50000);
+      _tmp.setRotationMode(_tp.getInt("rotationMode"), 50000);
+      _tmp.setEasingMode(_tp.getInt("easingMode"), 50000);
+      _tmp.setReverseMode(_tp.getInt("reverseMode"), 50000);
+      _tmp.setRepetitionMode(_tp.getInt("repetitionMode"), 50000);
+      _tmp.setRepetitionCount(_tp.getInt("repetitionCount"), 50000);
+      _tmp.setBeatDivider(_tp.getInt("beatDivider"), 50000);
+      _tmp.setStrokeWidth(_tp.getInt("strokeWidth"), 50000);
+      _tmp.setBrushSize(_tp.getInt("brushSize"), 50000);
+      _tmp.setMiscValue(_tp.getInt("miscValue"), 50000);
+      _tmp.setEnablerMode(_tp.getInt("enablerMode"), 50000);
+      _tmp.setRenderLayer(_tp.getInt("renderLayer"), 50000);
     }
   }
 

@@ -22,7 +22,7 @@ class FreeLiner implements FreelinerConfig{
   // control
   Mouse mouse;
   Keyboard keyboard;
-  Keymap keyMap;
+  KeyMap keyMap;
 
   // new parts
   CommandProcessor commandProcessor;
@@ -54,7 +54,7 @@ class FreeLiner implements FreelinerConfig{
     oscComs = new OSCCommunicator(applet, commandProcessor);
     webComs = new WebSocketCommunicator(applet, commandProcessor);
 
-    keyMap = new Keymap();
+    keyMap = new KeyMap();
 
     // inject dependence
     mouse.inject(groupManager, keyboard);
@@ -65,6 +65,9 @@ class FreeLiner implements FreelinerConfig{
     commandProcessor.inject(this);
     canvasManager.inject(templateRenderer);
     windowFocus = true;
+
+    keyMap.setLimits(documenter.modeLimits);
+    documenter.doDocumentation();
   }
 
   // sync message to other software
@@ -168,6 +171,10 @@ class FreeLiner implements FreelinerConfig{
   ///////    Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+  public KeyMap getKeyMap(){
+    return keyMap;
+  }
 
   public Mouse getMouse(){
     return mouse;

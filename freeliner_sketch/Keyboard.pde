@@ -51,7 +51,7 @@ class Keyboard implements FreelinerConfig{
   String numberMaker = "";
   String wordMaker = "";
 
-  Keymap keyMap;
+  KeyMap keyMap;
   /**
    * Constructor inits default values
    */

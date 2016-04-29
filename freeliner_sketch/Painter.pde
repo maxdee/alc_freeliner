@@ -24,13 +24,16 @@ class Painter extends Mode{
 
   PGraphics canvas;
 	RenderableTemplate event;
+	int interpolatorCount;
+	int colorizerCount;
 
 	public Painter(){
 		name = "Painter";
 		description = "Paints stuff";
 
 		initColorizers();
-		posGetters = new Interpolator[INTERPOLATOR_MODE_COUNT];
+		interpolatorCount = 10;
+		posGetters = new Interpolator[interpolatorCount];
 		posGetters[0] = new Interpolator(0);
 		posGetters[1] = new CenterSender(1);
 		posGetters[2] = new CenterSender(2);
@@ -52,7 +55,7 @@ class Painter extends Mode{
   }
 
 	public Interpolator getInterpolator(int _index){
-		if(_index >= INTERPOLATOR_MODE_COUNT) _index = INTERPOLATOR_MODE_COUNT - 1;
+		if(_index >= interpolatorCount) _index = interpolatorCount - 1;
 		return posGetters[_index];
 	}
 
@@ -68,7 +71,8 @@ class Painter extends Mode{
 
 	// color stuffs
 	public void initColorizers(){
-		colorizers = new Colorizer[COLOR_MODE_COUNT];
+		colorizerCount = 31;
+		colorizers = new Colorizer[colorizerCount];
 		// basic colors
 		colorizers[0] = new SimpleColor(color(0), 0);
 		colorizers[0].setDescrition("None");
@@ -113,7 +117,7 @@ class Painter extends Mode{
 	}
 
   public Colorizer getColorizer(int _index){
-    if(_index >= COLOR_MODE_COUNT) _index = COLOR_MODE_COUNT - 1;
+    if(_index >= colorizerCount) _index = colorizerCount - 1;
     return colorizers[_index];
   }
 
