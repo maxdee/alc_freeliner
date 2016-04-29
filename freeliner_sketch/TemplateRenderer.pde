@@ -60,20 +60,6 @@ class TemplateRenderer extends Mode{
 
 	}
 
-  // /**
-  //  * Render a arrayList of renderable templates.
-  //  * @param ArrayList<RenderableTemplate> to render.
-  //  */
-  // public void render(ArrayList<RenderableTemplate> _toRender, int _layer){
-  //   // copy arraylist now happens before
-  //   // ArrayList<RenderableTemplate> lst = new ArrayList<RenderableTemplate>(_toRender);
-  //   // render templates
-  //   // if(lst.size() > 0)
-  //   //   for(RenderableTemplate rt : lst)
-  //   //     if(rt.getRenderLayer() == _layer)
-  //   //       renderTemplate(rt);
-  // }
-
   /**
    * Render a renderable template.
    * @param RenderableTemplate to render.

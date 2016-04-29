@@ -67,7 +67,7 @@ class FreeLiner implements FreelinerConfig{
     windowFocus = true;
 
     keyMap.setLimits(documenter.modeLimits);
-    documenter.doDocumentation();
+    documenter.doDocumentation(keyMap);
   }
 
   // sync message to other software

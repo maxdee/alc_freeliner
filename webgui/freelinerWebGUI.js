@@ -54,36 +54,65 @@ function parseInfo(_info){
  * /////////////////////////////////////////////////////////////
  */
 function setupMenus(){
-  menuCallbacks('b');
+  // menuCallbacks('b');
 }
 
-var i, menu_keys = ['a', 'b', 'e','f','h','i','j','o','p','q','r','u','v'];
-for ( i = 0; i < menu_keys.length; i++) {
-  (function(_key) {
-    setTimeout(function() {
-      // alert(color);
-      document.getElementById(_key+"_key").onchange = function(){
-        var _v = document.getElementById(_key+"_key").value;
-        console.log('tw $ '+_key+' '+_v);
-        socket.send('tw $ '+_key+' '+_v);
-      }
-      updateParam(_key);
-    }, i);
-  })(menu_keys[i]);
+var i;//, menu_keys = ['a', 'b', 'e','f','h','i','j','o','p','q','r','u','v'];
+for ( i = 0; i < 255; i++) {
+  if(typeof keyMap[i] != 'undefined'){
+    (function(_param) {
+      setTimeout(function() {
+        addKey(_param);
+      }, i);
+    })(keyMap[i]);
+  }
 }
 
 
+function addKey(_param){
+  var _input;
+  if(_param["max"] < 127){
+    _input = document.createElement("select");
+    _input.setAttribute("id", _param["key"]+"_SELECT");
+    _input.setAttribute("title", _param["desc"]);
+  }
+  else{
+    _input = document.createElement("input");
+    _input.setAttribute("type", "number");
+    _input.setAttribute("min", 0);
+    _input.setAttribute("max", _param["max"]);
+    _input.setAttribute("id", _param["key"]+"_NUM");
+  }
+
+  var _desc = document.createTextNode(_param["desc"]);
+  _input.appendChild(_desc);
+
+  _input.onchange = function(){
+    var _v = _input.value;
+    console.log(_param["cmd"]+" "+_v);
+    socket.send(_param["cmd"]+" "+_v);
+  }
+  var _wrapper = document.getElementById(_param["key"]+"_KEY");
+  if(_wrapper != null) _wrapper.appendChild(_input);
+  //
+  // updateParam(_key);
+}
 
 function updateMenus(){
-  updateParam('b');
-  updateParam('v');
+  var i;
+  for(i = 0; i < 255; i++) updateParam(keyMap[i]);
 }
 // window[a1_NAME_ParentMode]
-function updateParam(_key){
-  var _select = document.getElementById(_key+"_key");
+function updateParam(_param){
+  if(_param == null) return;
+  var _key = _param["key"];
+  var _select = document.getElementById(_key+"_SELECT");
+  if(_select == null) return;
+  console.log(_key);
+
   if(_key == 'f') _key = 'q';
   removeOptions(_select);
-  for(var i = 0; i < window[_key+"_MAX"]; i++){
+  for(var i = 0; i < _param["max"]; i++){
     var _option = document.createElement("option");
     _option.text = window[_key+i+"_NAME"];
     _option.value = i;
@@ -91,13 +120,9 @@ function updateParam(_key){
   }
 }
 
-
 function removeOptions(selectbox){
   var i;
-  for(i=selectbox.options.length-1;i>=0;i--)
-  {
-    selectbox.remove(i);
-  }
+  for(i=selectbox.options.length-1;i>=0;i--) selectbox.remove(i);
 }
 // document.getElementById("renderMode").setAttribute("max", RENDER_MODE_COUNT);
 // document.getElementById("renderMode").onchange = function (){
@@ -134,19 +159,19 @@ function labelStep(i, s){
 //   socket.send("seq toggle $ "+_step);
 //   socket.send("fetch webseq");
 // }
-
-document.getElementById("brushSize").min = 1;
-document.getElementById("brushSize").max = MAX_BRUSH_SIZE;
-document.getElementById("brushSize").onchange = function(){
-  socket.send('tw $ s '+document.getElementById("brushSize").value);
-}
-
-document.getElementById("strokeWeight").min = 1;
-document.getElementById("strokeWeight").max = MAX_BRUSH_SIZE;
-document.getElementById("strokeWeight").onchange = function(){
-  socket.send('tw $ w '+document.getElementById("strokeWeight").value);
-}
-
+//
+// document.getElementById("brushSize").min = 1;
+// document.getElementById("brushSize").max = MAX_BRUSH_SIZE;
+// document.getElementById("brushSize").onchange = function(){
+//   socket.send('tw $ s '+document.getElementById("brushSize").value);
+// }
+//
+// document.getElementById("strokeWeight").min = 1;
+// document.getElementById("strokeWeight").max = MAX_BRUSH_SIZE;
+// document.getElementById("strokeWeight").onchange = function(){
+//   socket.send('tw $ w '+document.getElementById("strokeWeight").value);
+// }
+//
 
 
 document.getElementById("openRef").onclick = function (){

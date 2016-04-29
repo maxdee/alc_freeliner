@@ -29,14 +29,13 @@ abstract class CanvasManager implements FreelinerConfig{
   public void generateMask(){}
 
 
-  public int setTrails(int _t){ return 0;}
+  public int setTrails(int _t, int _max){ return 0;}
 
   // implemented methods
   public void inject(TemplateRenderer _tr){
     templateRenderer = _tr;
   }
 }
-
 
 /**
  * Simple CanvasManager subclass.
@@ -62,8 +61,8 @@ class ClassicCanvasManager extends CanvasManager{
   public PGraphics getCanvas(){
     return tracerLayer.getCanvas();
   }
-  public int setTrails(int _t){
-    return tracerLayer.setTrails(_t);
+  public int setTrails(int _t, int _max){
+    return tracerLayer.setTrails(_t, _max);
   }
 }
 
@@ -111,8 +110,8 @@ class LayeredCanvasManager extends CanvasManager{
     printLayers();
   }
 
-  public int setTrails(int _t){
-    return tracerLayer.setTrails(_t);
+  public int setTrails(int _t, int _max){
+    return tracerLayer.setTrails(_t, _max);
   }
 
   public Layer addLayer(Layer _lr){

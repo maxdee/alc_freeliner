@@ -76,17 +76,44 @@ class Documenter implements FreelinerConfig{
     return false;
   }
 
-  public void doDocumentation(){
-    
+  public void doDocumentation(KeyMap _km){
+
     documentKeysMarkDown();
     markDown.flush();
     markDown.close();
     println(modeLimits);
+
+    keyMapToJS(_km);
     updateJSVariables();
     javaScript.flush();
     javaScript.close();
     println("**** Documentation Updated ****");
   }
+
+  public void keyMapToJS(KeyMap _km){
+    javaScript.println("var keyMap = new Array(255);");
+    for(ParameterKey _pk : _km.getKeyMap()){
+      if(_pk != null){
+        javaScript.print("keyMap["+int(_pk.getKey())+"] = {");
+        javaScript.print("key:\""+_pk.getKey());
+        javaScript.print("\", name:\""+_pk.getName());
+        javaScript.print("\", cmd:\""+_pk.getCMD());
+        javaScript.print("\", max:\""+_pk.getMax());
+        javaScript.println("\", desc:\""+_pk.getDescription()+"\"};");
+        // javaScript.println("var "+_pk.getKey()+"_CMD = '"+_pk.getCMD()+"';");
+      }
+    }
+  }
+
+
+  // public void keyMapToJS(KeyMap _km){
+  //   for(ParameterKey _pk : _km.getKeyMap()){
+  //     if(_pk != null){
+  //       if(_pk.getKey()>)
+  //       javaScript.println("var "+_pk.getKey()+"_CMD = '"+_pk.getCMD()+"';");
+  //     }
+  //   }
+  // }
 
   /**
    * Creates markdown for keyboard shortcuts!

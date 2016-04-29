@@ -381,7 +381,7 @@ class CommandProcessor implements FreelinerConfig{
         int _v = stringInt(_args[2]);
         //if(_v == -3) valueGiven = str(canvasManager.toggleTrails());
         //else valueGiven = str(canvasManager.setTrails(_v));
-        valueGiven = str(canvasManager.setTrails(_v));
+        valueGiven = str(canvasManager.setTrails(_v, keyMap.getMax('y')));
         return true;
       }
       return false;

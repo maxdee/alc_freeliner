@@ -140,8 +140,9 @@ class TracerLayer extends RenderLayer{
       canvas.rect(0,0,width,height);
     }
   }
-  public int setTrails(int _v){
+  public int setTrails(int _v, int _max){
     trailmix = numTweaker(_v, trailmix);
+    if(trailmix >= _max) trailmix = _max - 1;
     return trailmix;
   }
 }

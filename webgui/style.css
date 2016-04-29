@@ -23,6 +23,18 @@ body {
   background-color: #333333;
 }
 
+.widget {
+  margin:4px;
+  font-family: monospace;
+  background-color: #1D1D1D;
+  color: #FFFFFF;
+  font-size: 10pt;
+  padding: 2px;
+  overflow: auto;
+}
+
+
+
 input[type=select]{
   width:42px;
   float:right;
