@@ -1,4 +1,5 @@
-interface FreelinerConfig{
+
+interface FreelinerConfig {
 
   final int WINDOW_WIDTH = 1024;
   final int WINDOW_HEIGHT = 768;
@@ -90,71 +91,22 @@ interface FreelinerConfig{
   final String LED_SERIAL_PORT = "/dev/ttyACM0";
   final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2
 
-  // Keyboard Section
-  // final char ...
-  // provides strings to show what is happening.
-  final String KEY_MAP[] = {
-    "a    animationMode",
-    "b    renderMode",
-    "c    placeCenter",
-    "d    breakLine",
-    "e    enterpolator",
-    "f    fillColor",
-    "g    grid/size",
-    "h    easingMode",
-    "i    repetitonMode",
-    "j    reverseMode",
-    "k    strokeAlpha",
-    "l    fillAlpha",
-    "m    miscValue",
-    "n    newItem",
-    "o    rotation",
-    "p    layer",
-    "q    strkColor",
-    "r    polka",
-    "s    size",
-    "t    tempo",
-    "u    enabler",
-    "v    segmentSelector",
-    "w    strkWeigth",
-    "x    beatMultiplier",
-    "y    tracers",
-    //"z    ???????",
-    ",    showTags",
-    "/    showLines",
-    ".    snapping",
-    "|    enterText",
-    "]    fixedLenght",
-    "[    fixedAngle",
-    "-    decreaseValue",
-    "=    increaseValue",
-    "$    saveTemplate",
-    "%    loadTemplate",
-    ">    steps",
-    "?    clearSeq"
-  };
-
-  final String CTRL_KEY_MAP[] = {
-    "A    selectAll",
-    "C    clone",
-    "B    groupAddTemplate",
-    "D    customShape",
-    "I    reverseMouse",
-    "R    resetTemplate",
-    "S    saveStuff",
-    "O    loadStuff",
-    "L    loadLED",
-    "M    masking",
-    "K    showLEDmap",
-    "X    swap"
-  };
 
   /**
    * Limits for parameters / arraySize for rendering objects
    * Use hex value or color(0,100,200);
    */
   final int MAX_REPETITION = 255; // could change
+  final String r_NAME = "polka";
   final int r_MAX = 255;
+  final String r_DESCRIPTION = "number of times something gets repeated, pick a repetition mode with `i`";
+  final String r_CMD = "tw";
+
+  // final int r_MAX = 255;
+  // final String r_NAME = "polka";
+  // final String r_DESCRIPTION = "number of times something gets repeated, pick a repetition mode with `i`";
+  // final String r_CMD = "tw";
+
   final int MAX_BEATDIVIDER = 255;
   final int x_MAX = 255;
   final int MAX_STROKE_WEIGHT = 255;
@@ -188,4 +140,361 @@ interface FreelinerConfig{
   final int e_MAX = 10;
   final int SEGMENT_MODE_COUNT = 7;
   final int v_MAX = 7;
+}
+
+
+
+class Keymap {
+  ParameterKey[] keymap;
+
+  public Keymap(){
+    keymap = new ParameterKey[255];
+    // animationMode
+    keymap['a'] = new ParameterKey('a');
+    keymap['a'].setName("animation");
+    keymap['a'].setDescription("animate stuff");
+    keymap['a'].setCMD("tw $ a");
+    keymap['a'].setMax(14);//documenter.getMax('b'));
+
+    // renderMode
+    keymap['b'] = new ParameterKey('b');
+    keymap['b'].setName("renderMode");
+    keymap['b'].setDescription("picks the renderMode");
+    keymap['b'].setCMD("tw $ b");
+    keymap['b'].setMax(6);//documenter.getMax('b'));
+
+    // placeCenter
+    keymap['c'] = new ParameterKey('c');
+    keymap['c'].setName("placeCenter");
+    keymap['c'].setDescription("Place the center of geometry on next left click, right click uncenters the geometry, middle click sets scene center.");
+    keymap['c'].setCMD("geom center"); // -3 toggles other args for setting center?
+
+    // breakline
+    keymap['d'] = new ParameterKey('d');
+    keymap['d'].setName("breakline");
+    keymap['d'].setDescription("Detach line to new starting position.");
+    keymap['d'].setCMD("geom breakline"); //
+
+    // enterpolator
+    keymap['e'] = new ParameterKey('e');
+    keymap['e'].setName("enterpolator");
+    keymap['e'].setDescription("Enterpolator picks a position along a segment");
+    keymap['e'].setCMD("tw $ e"); //
+
+    // fillColor
+    keymap['f'] = new ParameterKey('f');
+    keymap['f'].setName("fill");
+    keymap['f'].setDescription("Pick fill color");
+    keymap['f'].setCMD("tw $ f"); //
+
+    // the grid
+    keymap['g'] = new ParameterKey('g');
+    keymap['g'].setName("grid");
+    keymap['g'].setDescription("use snappable grid");
+    keymap['g'].setCMD("tools grid"); // argument
+    keymap['g'].setMax(255);
+
+    // easing
+    keymap['h'] = new ParameterKey('h');
+    keymap['h'].setName("easing");
+    keymap['h'].setDescription("Set the easing mode.");
+    keymap['h'].setCMD("tw $ h");
+
+    // iteration
+    keymap['i'] = new ParameterKey('i');
+    keymap['i'].setName("iteration");
+    keymap['i'].setDescription("Iterate animation in different ways, `r` sets the amount.");
+    keymap['i'].setCMD("tw $ i");
+
+    // reverseMode
+    keymap['j'] = new ParameterKey('j');
+    keymap['j'].setName("reverse");
+    keymap['j'].setDescription("Pick different reverse modes");
+    keymap['j'].setCMD("tw $ j"); //
+
+    // strokeAlpha
+    keymap['k'] = new ParameterKey('k');
+    keymap['k'].setName("strokeAlpha");
+    keymap['k'].setDescription("Alpha value of stroke.");
+    keymap['k'].setCMD("tw $ k"); //
+
+    // fillAlpha
+    keymap['l'] = new ParameterKey('l');
+    keymap['l'].setName("fillAlpha");
+    keymap['l'].setDescription("Alpha value of fill.");
+    keymap['l'].setCMD("tw $ l"); //
+
+    // miscValue
+    keymap['m'] = new ParameterKey('m');
+    getKey('m').setName("miscValue");
+    getKey('m').setDescription("A extra value that can be used by modes.");
+    getKey('m').setCMD("tw $ m"); //
+
+    // new geometry
+    keymap['n'] = new ParameterKey('n');
+    keymap['n'].setName("new");
+    keymap['n'].setDescription("make a new geometry group");
+    keymap['n'].setCMD("geom new");
+
+    // rotationMode
+    keymap['o'] = new ParameterKey('o');
+    getKey('o').setName("rotation");
+    getKey('o').setDescription("Rotate stuff.");
+    getKey('o').setCMD("tw $ o"); //
+
+    // layer
+    keymap['p'] = new ParameterKey('p');
+    getKey('p').setName("layer");
+    getKey('p').setDescription("Pick which layer to render on.");
+    getKey('p').setCMD("tw $ p"); //
+
+    // strokeColor
+    keymap['q'] = new ParameterKey('q');
+    getKey('q').setName("strokeColor");
+    getKey('q').setDescription("Pick the stroke Color.");
+    getKey('q').setCMD("tw $ q"); //
+
+    // polka
+    keymap['r'] = new ParameterKey('r');
+    getKey('r').setName("polka");
+    getKey('r').setDescription("Number of iterations for the iterator, related to `i`.");
+    getKey('r').setCMD("tw $ r"); //
+
+    // Size
+    keymap['s'] = new ParameterKey('s');
+    getKey('s').setName("size");
+    getKey('s').setDescription("Sets the brush size for `b-0`");
+    getKey('s').setCMD("tw $ s"); //
+
+    // tapTempo
+    keymap['t'] = new ParameterKey('t');
+    getKey('t').setName("tap");
+    getKey('t').setDescription("Tap tempo, tweaking nudges time.");
+    getKey('t').setCMD("seq tap");
+
+    // enabler
+    keymap['u'] = new ParameterKey('u');
+    getKey('u').setName("enabler");
+    getKey('u').setDescription("Enablers decide if a render happens or not.");
+    getKey('u').setCMD("tw $ u"); //
+
+    // segmentSelcetor
+    keymap['v'] = new ParameterKey('v');
+    getKey('v').setName("segSelect");
+    getKey('v').setDescription("Picks which segments get rendered.");
+    getKey('v').setCMD("tw $ v"); //
+
+    // strokeWeight
+    keymap['w'] = new ParameterKey('w');
+    getKey('w').setName("strokeWeight");
+    getKey('w').setDescription("Stroke weight.");
+    getKey('w').setCMD("tw $ w"); //
+
+    // beatDivider
+    keymap['x'] = new ParameterKey('x');
+    getKey('x').setName("beatMultiplier");
+    getKey('x').setDescription("Set how many beats the animation will take.");
+    getKey('x').setCMD("tw $ x"); //
+
+    // enterpolator
+    keymap['y'] = new ParameterKey('y');
+    getKey('y').setName("tracers");
+    getKey('y').setDescription("Set tracer level for tracer layer.");
+    getKey('y').setCMD("post tracers"); //
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////    controlKeys (also capital letters, but they dont need to know this)
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    // selectAll
+    keymap['A'] = new ParameterKey('A');
+    getKey('A').setName("selectAll");
+    getKey('A').setDescription("Select ALL the templates.");
+    getKey('A').setCMD("??set*??"); //
+    // copy
+    keymap['C'] = new ParameterKey('C');
+    getKey('C').setName("copy");
+    getKey('C').setDescription("Copy first selected template into second selected.");
+    getKey('C').setCMD("tp copy $"); //
+    // customShape
+    keymap['D'] = new ParameterKey('D');
+    getKey('D').setName("customShape");
+    getKey('D').setDescription("Set a template's customShape.");
+    getKey('D').setCMD("tp shape $"); //
+    // reverseMouse
+    keymap['I'] = new ParameterKey('I');
+    getKey('I').setName("revMouseX");
+    getKey('I').setDescription("Reverse the X axis of mouse, trust me its handy.");
+    getKey('I').setCMD("tools revx"); //
+    // enterpolator
+    keymap['O'] = new ParameterKey('O');
+    getKey('O').setName("open");
+    getKey('O').setDescription("Open stuff");
+    getKey('O').setCMD("fl open"); //
+    // enterpolator
+    keymap['M'] = new ParameterKey('M');
+    getKey('M').setName("mask");
+    getKey('M').setDescription("Generate mask for maskLayer, or set mask.");
+    getKey('M').setCMD("layer mask"); //
+    // resetTamplate
+    keymap['R'] = new ParameterKey('R');
+    getKey('R').setName("reset");
+    getKey('R').setDescription("Reset template.");
+    getKey('R').setCMD("tp reset $"); //
+    // saveStuff
+    keymap['S'] = new ParameterKey('S');
+    getKey('S').setName("save");
+    getKey('S').setDescription("Save stuff.");
+    getKey('S').setCMD("fl save");
+    // swap
+    keymap['X'] = new ParameterKey('X');
+    getKey('X').setName("swap");
+    getKey('X').setDescription("Completely swap template tag, with `AB` A becomes B and B becomes A.");
+    getKey('X').setCMD("tp swap $");
+
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////    other keys
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    // increase
+    keymap['='] = new ParameterKey('=');
+    getKey('=').setName("increase");
+    getKey('=').setDescription("Increase value of selectedKey.");
+    // decrease
+    keymap['-'] = new ParameterKey('-');
+    getKey('-').setName("decrease");
+    getKey('-').setDescription("Decrease value of selectedKey.");
+
+    // snapping
+    keymap['.'] = new ParameterKey('.');
+    keymap['.'].setName("snapping");
+    keymap['.'].setDescription("enable/disable snapping or set the snapping distance");
+    keymap['.'].setCMD("tools snap"); // then check for selected segment, or execute cmd
+    keymap['.'].setMax(42);
+    // fixed angle
+    keymap['['] = new ParameterKey('[');
+    keymap['['].setName("fixedAngle");
+    keymap['['].setDescription("enable/disable fixed angles for the mouse");
+    keymap['['].setCMD("tools angle"); // then check for selected segment, or execute cmd
+    keymap['['].setMax(360);
+    // fixed length
+    keymap[']'] = new ParameterKey(']');
+    keymap[']'].setName("fixedLength");
+    keymap[']'].setDescription("enable/disable fixed length for the mouse");
+    keymap[']'].setCMD("tools ruler"); // then check for selected segment, or execute cmd
+    keymap[']'].setMax(1000);
+    // showLines
+    keymap['/'] = new ParameterKey('/');
+    getKey('/').setName("showLines");
+    getKey('/').setDescription("Showlines of all geometry.");
+    getKey('/').setCMD("tools lines");
+    // showTags
+    keymap[','] = new ParameterKey(',');
+    getKey(',').setName("showTags");
+    getKey(',').setDescription("showTags of all groups");
+    getKey(',').setCMD("tools tags");
+
+
+    // text entry
+    keymap['|'] = new ParameterKey('|');
+    keymap['|'].setName("enterText");
+    keymap['|'].setDescription("enable text entry, type text and press return");
+    keymap['|'].setCMD("text"); // then check for selected segment, or execute cmd
+    keymap['|'].setMax(-42);
+
+    // sequencer
+    keymap['<'] = new ParameterKey('<');
+    keymap['<'].setName("sequencer");
+    keymap['<'].setDescription("select sequencer steps to add or remove templates");
+    keymap['<'].setCMD("seq select"); // tweak value select step
+    keymap['<'].setMax(16);
+    // play pause
+    keymap['>'] = new ParameterKey('>');
+    keymap['>'].setName("play");
+    keymap['>'].setDescription("toggle auto loops and sequencer"); // ?
+    keymap['>'].setCMD("seq play"); // toggle sequencer playing or specify step to play from
+    // seq clear
+    keymap['^'] = new ParameterKey('^');
+    keymap['^'].setName("clear");
+    keymap['^'].setDescription("clear sequencer");
+    keymap['^'].setCMD("seq clear $");
+
+    // randomAction
+    keymap['?'] = new ParameterKey('?');
+    keymap['?'].setName("???");
+    keymap['?'].setDescription("~:)"); // ?
+    keymap['?'].setCMD("fl random"); // toggle sequencer playing or specify step to play from
+
+  }
+
+  public ParameterKey getKey(int _ascii){
+    return keymap[_ascii];
+  }
+
+  // safe accessors
+  public String getName(char _k){
+    if(keymap[_k] == null) return "not_mapped";
+    else return keymap[_k].getName();
+  }
+  public String getDescription(char _k){
+    if(keymap[_k] == null) return "not_mapped";
+    else return keymap[_k].getDescription();
+  }
+  public String getCMD(char _k){
+    if(keymap[_k] == null) return "nope";
+    else return keymap[_k].getCMD();
+  }
+  public int getMax(char _k){
+    if(keymap[_k] == null) return -42;
+    else return keymap[_k].getMax();
+  }
+}
+
+
+class ParameterKey{
+  char thekey;
+  String name;
+  String description;
+  String cmd = "nope";
+  int maxVal = -42; // for no max
+
+  public ParameterKey(char _k){
+    thekey = _k;
+  }
+
+
+  public final void setName(String _n){
+    name = _n;
+  }
+  public final void setDescription(String _d){
+    description = _d;
+  }
+  public final void setCMD(String _c){
+    cmd = _c;
+  }
+  public final void setMax(int _i){
+    maxVal = _i;
+  }
+
+
+  public final char getKey(){
+    return thekey;
+  }
+  public final String getName(){
+    return name;
+  }
+  public final String getDescription(){
+    return description;
+  }
+  public final String getCMD(){
+    return cmd;
+  }
+  public final int getMax(){
+    return maxVal;
+  }
 }

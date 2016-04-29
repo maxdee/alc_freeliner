@@ -348,7 +348,7 @@ class TemplateManager{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public void saveTemplates(){
-    saveTemplates("../userdata/templates.xml");
+    saveTemplates("templates.xml");
   }
 
   /**
@@ -515,23 +515,33 @@ class TemplateManager{
     return templates;
   }
 
-  // a fancier accessor, supports "ANCD" "*"
+  public ArrayList<TweakableTemplate> getSelected(){
+    ArrayList<TweakableTemplate> _tmps = new ArrayList();
+    if(templateList.getAll() == null) return null;
+    if(templateList.getAll().size() == 0) return null;
+    for(TweakableTemplate _tw : templateList.getAll()){
+      if(_tw != null) _tmps.add(_tw);
+    }
+    return _tmps;
+  }
+
+  public ArrayList<TweakableTemplate> getGroupTemplates(){
+    TemplateList _tl = groupManager.getTemplateList();
+    if(_tl == null) return null;
+    return _tl.getAll();
+  }
+
+
+  // a fancier accessor, supports "ANCD" "*" "$" "$$"
   public ArrayList<TweakableTemplate> getTemplates(String _tags){
     if(_tags.length() < 1) return null;
     ArrayList<TweakableTemplate> _tmps = new ArrayList();
     if(_tags.length() == 0) return null;
     else if(_tags.charAt(0) == '$'){
-      if(templateList.getAll() == null) return null;
-      if(templateList.getAll().size() == 0) return null;
-      for(TweakableTemplate _tw : templateList.getAll()){
-        if(_tw != null) _tmps.add(_tw);
-      }
+      if(_tags.length() > 1) return getGroupTemplates();
+      else return getSelected();
     }
-    else if(_tags.charAt(0) == '*'){
-      for(TweakableTemplate _tw : getTemplates()){
-        if( _tw != null) _tmps.add(_tw);
-      }
-    }
+    else if(_tags.charAt(0) == '*') return getTemplates();
     else {
       for(int i = 0; i < _tags.length(); i++){
         TweakableTemplate _tw = getTemplate(_tags.charAt(i));

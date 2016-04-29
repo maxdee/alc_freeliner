@@ -22,6 +22,8 @@ class FreeLiner implements FreelinerConfig{
   // control
   Mouse mouse;
   Keyboard keyboard;
+  Keymap keyMap;
+
   // new parts
   CommandProcessor commandProcessor;
   FreelinerCommunicator oscComs;
@@ -34,7 +36,6 @@ class FreeLiner implements FreelinerConfig{
   public FreeLiner(PApplet _pa) {
     applet = _pa;
     // instantiate
-
     // model
     groupManager = new GroupManager();
     templateManager =  new TemplateManager();
@@ -52,6 +53,8 @@ class FreeLiner implements FreelinerConfig{
     // osc + webSocket
     oscComs = new OSCCommunicator(applet, commandProcessor);
     webComs = new WebSocketCommunicator(applet, commandProcessor);
+
+    keyMap = new Keymap();
 
     // inject dependence
     mouse.inject(groupManager, keyboard);
@@ -86,7 +89,8 @@ class FreeLiner implements FreelinerConfig{
    * It all starts here...
    */
   public void update() {
-    autoSave();
+    //autoSave();
+
     // windowFocus
     if(windowFocus != focused){
       keyboard.forceRelease();

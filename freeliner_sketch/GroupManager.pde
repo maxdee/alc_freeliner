@@ -61,10 +61,11 @@ class GroupManager{
 /**
  * Create a new group.
  */
-  public void newGroup() {
+  public int newGroup() {
     groups.add(new SegmentGroup(groupCount));
     selectedIndex = groupCount;
     groupCount++;
+    return selectedIndex;
   }
 
 /**
@@ -358,6 +359,12 @@ class GroupManager{
   public void setReferenceGroupTemplateList(TemplateList _tl){
     groups.get(1).setTemplateList(_tl);
   }
+
+  public boolean toggleCenterPutting(){
+    if(!isFocused()) return false;
+    else return getSelectedGroup().toggleCenterPutting();
+  }
+
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

@@ -134,7 +134,6 @@ class CircularSegment extends PerSegment{
 	}
 }
 
-
 // text rendering
 class TextRenderMode extends PerSegment{
 	SegmentPainter[] segmentPainters;

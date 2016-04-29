@@ -15,8 +15,6 @@
  *
  */
 
-
-
 abstract class Mode implements FreelinerConfig{
   int modeIndex;
   String name = "mode";
@@ -46,3 +44,7 @@ abstract class Mode implements FreelinerConfig{
     return description;
   }
 }
+//
+// class ModeSelector {
+//   char thekey;
+// }

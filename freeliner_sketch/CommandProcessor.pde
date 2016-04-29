@@ -140,6 +140,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args[0].equals("tw")) _used = templateCMD(_args); // good
     else if(_args[0].equals("tr")) _used = templateCMD(_args); // need to check trigger group
     else if(_args[0].equals("tp")) _used = templateCMD(_args);
+    else if(_args[0].equals("fl")) _used = flCMD(_args);
     else if(_args[0].equals("seq")) _used = sequencerCMD(_args);
     else if(_args[0].equals("post")) _used = postCMD(_args);
     else if(_args[0].equals("tools")) _used = toolsCMD(_args);
@@ -157,6 +158,30 @@ class CommandProcessor implements FreelinerConfig{
     processCMD(_cmd);
   }
 
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     fl stuff load and such
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public boolean flCMD(String[] _args){
+    if(_args.length < 2) return false;
+    else if(_args[1].equals("save")) saveCMD(_args);
+    else if(_args[1].equals("open")) openCMD(_args);
+    else return false;
+    return true;
+  }
+  public void saveCMD(String[] _args){
+    processCMD("tp save");
+    processCMD("geom save");
+    valueGiven = "sure";
+  }
+  public void openCMD(String[] _args){
+    processCMD("tp load");
+    processCMD("geom load");
+    valueGiven = "sure";
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     fetchCMD
@@ -268,6 +293,8 @@ class CommandProcessor implements FreelinerConfig{
     if(_args[1].equals("save")) return saveGeometryCMD(_args);
     else if(_args[1].equals("load")) return loadGeometryCMD(_args);
     else if(_args[1].equals("text")) return textCMD(_args);
+    else if(_args[1].equals("new")) valueGiven = str(groupManager.newGroup());
+    else if(_args[1].equals("center")) valueGiven = str(groupManager.toggleCenterPutting());
     else if(_args[1].equals("webref")) gui.updateReference("../webgui/reference.png");
     else return false;
     return true;
@@ -323,7 +350,7 @@ class CommandProcessor implements FreelinerConfig{
 
   public boolean postCMD(String[] _args){
     if(_args.length < 2) return false;
-    else if(_args[1].equals("trails")) trailsCMD(_args);
+    else if(_args[1].equals("tracers")) trailsCMD(_args);
     else if(_args[1].equals("mask")) maskCMD(_args);
     else if(_args[1].equals("shader")) shaderCMD(_args);
     else return false;
@@ -387,14 +414,14 @@ class CommandProcessor implements FreelinerConfig{
     //if(_args.length < 3) return;
     if(_args.length < 2) return false;
     else if(_args[1].equals("tap")) synchroniser.tap();
-    else if(_args[1].equals("edit")) editStep(_args); // up down or specific
+    else if(_args[1].equals("select")) selectStep(_args); // up down or specific
     else if(_args[1].equals("clear")) clearSeq(_args); //
     else if(_args[1].equals("toggle")) toggleStep(_args);
     else return false;
     return true;
   }
 
-  public void editStep(String[] _args){
+  public void selectStep(String[] _args){
     if(_args.length == 3) valueGiven = str(sequencer.setEditStep(stringInt(_args[2])));
     gui.setTemplateString(sequencer.getStepToEdit().getTags());
     // valueGiven = sequencer.getStepToEdit().getTags();
