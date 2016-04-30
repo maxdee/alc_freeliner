@@ -15,8 +15,8 @@ var DEFAULT_WEBSOCKET_ADDR = 'ws://localhost:8025/freeliner';
 var guiWindow;
 // start the websocket with default adress on page load
 window.onload = function (){
+  loadKeys();
   socketPrompt();
-  updateMenus();
   // updateGuiParams();
 }
 
@@ -53,62 +53,108 @@ function parseInfo(_info){
  * gui input!
  * /////////////////////////////////////////////////////////////
  */
-function setupMenus(){
-  // menuCallbacks('b');
-}
 
-var i;//, menu_keys = ['a', 'b', 'e','f','h','i','j','o','p','q','r','u','v'];
-for ( i = 0; i < 255; i++) {
-  if(typeof keyMap[i] != 'undefined'){
-    (function(_param) {
-      setTimeout(function() {
-        addKey(_param);
-      }, i);
-    })(keyMap[i]);
+// iterate over the keyMap provided by freeliner
+function loadKeys(){
+  var i;
+  for ( i = 0; i < 255; i++) {
+    if(typeof keyMap[i] != 'undefined'){
+      (function(_param) {
+        setTimeout(function() {
+          addKey(_param);
+        }, 0);
+      })(keyMap[i]);
+    }
   }
+  setTimeout(function() { updateMenus(); }, 200);
 }
 
-
+// add a parameterKey configuration
 function addKey(_param){
+  // console.log("adding "+_param["name"]);
   var _input;
-  if(_param["max"] < 127){
-    _input = document.createElement("select");
-    _input.setAttribute("id", _param["key"]+"_SELECT");
-    _input.setAttribute("title", _param["desc"]);
+  if(_param["type"] == 0){
+    _input = document.createElement("input");
+    _input.setAttribute("id", _param["key"]+"_BUTTON");
+    _input.setAttribute("type", "button");
+    _input.setAttribute("name", _param["desc"]);
+    _input.setAttribute("innerHTML", _param["name"]);
   }
-  else{
+  else if(_param["type"] == 1){
+    _input = document.createElement("input");
+    _input.setAttribute("id", _param["key"]+"_CHECKBOX");
+    _input.setAttribute("type", "checkbox");
+    _input.setAttribute("name", _param["desc"]);
+  }
+  else if(_param["type"] == 2){
     _input = document.createElement("input");
     _input.setAttribute("type", "number");
     _input.setAttribute("min", 0);
     _input.setAttribute("max", _param["max"]);
     _input.setAttribute("id", _param["key"]+"_NUM");
   }
+  else if(_param["type"] == 3){
+    _input = document.createElement("input");
+    _input.setAttribute("type", "number");
+    _input.setAttribute("min", 0);
+    _input.setAttribute("max", _param["max"]);
+    _input.setAttribute("id", _param["key"]+"_NUM");
+  }
+  else if(_param["type"] == 4){
+    _input = document.createElement("input");
+    _input.setAttribute("type", "range");
+    _input.setAttribute("min", 0);
+    _input.setAttribute("max", _param["max"]);
+    _input.setAttribute("id", _param["key"]+"_NUM");
+  }
+  else  if(_param["type"] == 5){
+    _input = document.createElement("select");
+    _input.setAttribute("id", _param["key"]+"_SELECT");
+    _input.setAttribute("title", _param["desc"]);
+    _input.setAttribute("class", "selecta");
+  }
 
-  var _desc = document.createTextNode(_param["desc"]);
-  _input.appendChild(_desc);
-
-  _input.onchange = function(){
+  // _input.setAttribute("class", "selecta");
+  if(typeof _input == 'undefined') return;
+  var _cb = function(){
     var _v = _input.value;
     console.log(_param["cmd"]+" "+_v);
     socket.send(_param["cmd"]+" "+_v);
   }
+  if(_param["type"] == 0) _input.onclick = _cb;
+  else if(_param["type"] == 4) _input.oninput = _cb;
+  else if(_param["type"] == 5) _input.onchange = _cb;
+  else _input.onchange = _cb;
+
+
   var _wrapper = document.getElementById(_param["key"]+"_KEY");
-  if(_wrapper != null) _wrapper.appendChild(_input);
-  //
-  // updateParam(_key);
+  var _name;
+  var _k = _param["key"].charCodeAt(0);
+  if(_k >= 65 && _k <= 90) {
+    _name = document.createTextNode("(ctrl-"+_param["key"]+")"+_param["name"]);
+  }
+  else _name = document.createTextNode("("+_param["key"]+")"+_param["name"]);
+  if(_wrapper != null){
+    _wrapper.appendChild(_name);
+    _wrapper.appendChild(_input);
+    _wrapper.setAttribute("title", _param["desc"]);
+  }
 }
 
 function updateMenus(){
   var i;
   for(i = 0; i < 255; i++) updateParam(keyMap[i]);
 }
-// window[a1_NAME_ParentMode]
+
 function updateParam(_param){
   if(_param == null) return;
+  if(_param["max"] >= 127) return;
+
   var _key = _param["key"];
-  var _select = document.getElementById(_key+"_SELECT");
+  var _id = _param["key"]+"_SELECT";
+  var _select = document.getElementById(_id);
+  // console.log(_id+" "+_select);
   if(_select == null) return;
-  console.log(_key);
 
   if(_key == 'f') _key = 'q';
   removeOptions(_select);

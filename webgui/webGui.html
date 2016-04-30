@@ -10,7 +10,7 @@
 <body>
   <div class="wrapper pagewrapper">
     <p id="infoline" title="standard freeliner info"> start freeliner and refresh to connect </p>
-
+    <button id="reload" title="reload this page" onclick="window.location.reload(true)">R</button>
     <div class="leftpane" style="width:50%; float:left;">
       <div class="widget" title="type a freeliner command and press enter">
         cmd:
@@ -36,6 +36,15 @@
         u2<input type="range" id="shaderFader2" min="0" max="100" /> <br>
         u3<input type="range" id="shaderFader3" min="0" max="100" /> <br>
       </div>
+      <div class="widget" id='C_KEY'> </div>
+      <div class="widget" id='V_KEY'> </div>
+      <div class="widget" id='B_KEY'> </div>
+      <div class="widget" id='X_KEY'> </div>
+      <div class="widget" id='A_KEY'> </div>
+      <div class="widget" id='R_KEY'> </div>
+      <div class="widget" id='O_KEY'> </div>
+      <div class="widget" id='S_KEY'> </div>
+      <div class="widget" id='I_KEY'> </div>
     </div>
 
     <div class="rightpane" style="width:50%; float:right;">
@@ -50,21 +59,24 @@
       <div class="widget" title="pick renderLayer">
         renderLayer <input type="number" id="renderLayer" min="0">
       </div> -->
-      <div class="widget" id='b_KEY'> </div>
-      <div class="widget" id='a_KEY'> </div>
       <div class="widget" id='q_KEY'> </div>
       <div class="widget" id='f_KEY'> </div>
       <div class="widget" id='k_KEY'> </div>
       <div class="widget" id='l_KEY'> </div>
-      <div class="widget" id='o_KEY'> </div>
-      <div class="widget" id='p_KEY'> </div>
+      <div class="widget" id='b_KEY'> </div>
+      <div class="widget" id='a_KEY'> </div>
+      <div class="widget" id='h_KEY'> </div>
       <div class="widget" id='i_KEY'> </div>
       <div class="widget" id='r_KEY'> </div>
-      <div class="widget" id='u_KEY'> </div>
       <div class="widget" id='v_KEY'> </div>
-      <div class="widget" id='h_KEY'> </div>
       <div class="widget" id='j_KEY'> </div>
+      <div class="widget" id='o_KEY'> </div>
+      <div class="widget" id='p_KEY'> </div>
+      <div class="widget" id='u_KEY'> </div>
       <div class="widget" id='s_KEY'> </div>
+      <div class="widget" id='w_KEY'> </div>
+
+
     </div>
 
 

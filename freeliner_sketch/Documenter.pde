@@ -96,6 +96,7 @@ class Documenter implements FreelinerConfig{
       if(_pk != null){
         javaScript.print("keyMap["+int(_pk.getKey())+"] = {");
         javaScript.print("key:\""+_pk.getKey());
+        javaScript.print("\", type:\""+_pk.getType());
         javaScript.print("\", name:\""+_pk.getName());
         javaScript.print("\", cmd:\""+_pk.getCMD());
         javaScript.print("\", max:\""+_pk.getMax());
