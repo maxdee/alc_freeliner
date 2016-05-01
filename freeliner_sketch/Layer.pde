@@ -293,11 +293,11 @@ class MaskLayer extends ImageLayer{
     for(int i = 0; i< width * height; i++){
       // check the green pixels.
       _grn = ((imageToDraw.pixels[i] >> 8) & 0xFF);
-      if(_grn > 3) imageToDraw.pixels[i] = color(0, _grn);
+      if(_grn > 3) imageToDraw.pixels[i] = color(0, 255-_grn);
       else imageToDraw.pixels[i] = color(0,255);
     }
     imageToDraw.updatePixels();
-    saveFile("userdata/mask_image.png"); // auto save mask
+    saveFile("../userdata/mask_image.png"); // auto save mask
   }
 
   public void saveFile(String _file){

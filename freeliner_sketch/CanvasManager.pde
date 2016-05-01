@@ -100,11 +100,12 @@ class LayeredCanvasManager extends CanvasManager{
     shaderLayer.loadFile(shaderFiles[0]);
     addLayer(mergeLayer);
     addLayer(new RenderLayer()).setName("Untraced");
+    maskLayer = (MaskLayer)addLayer(new MaskLayer());
     addLayer(mergeLayer);
 
     //addLayer(new ImageLayer()).loadFile("userdata/grey.png");
     //addLayer(new RenderLayer()).setName("First");
-    //maskLayer = (MaskLayer)addLayer(new MaskLayer());
+    //
     //addLayer(mergeLayer);
 
     printLayers();

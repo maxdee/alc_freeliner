@@ -276,7 +276,7 @@ class KeyMap {
     keymap['M'].setType(0);
     keymap['M'].setName("mask");
     keymap['M'].setDescription("Generate mask for maskLayer, or set mask.");
-    keymap['M'].setCMD("layer mask"); //
+    keymap['M'].setCMD("layer mask make"); //
     // resetTamplate
     keymap['R'] = new ParameterKey('R');
     keymap['R'].setType(0);
@@ -391,6 +391,8 @@ class KeyMap {
   }
 
   public ParameterKey getKey(int _ascii){
+    // fix a
+    if(_ascii > keymap.length) return null;
     return keymap[_ascii];
   }
 

@@ -149,6 +149,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("geom")) _used = geometryCMD(_args);
     else if(_args[0].equals("fetch")) _used = fetchCMD(_args);
     else if(_args[0].equals("hid")) _used = hidCMD(_args);
+    else if(_args[0].equals("layer")) _used = layerCMD(_args);
 
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -161,6 +162,23 @@ class CommandProcessor implements FreelinerConfig{
   }
 
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     layer
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  public boolean layerCMD(String[] _args){
+    if(_args.length < 2) return false;
+    else if(_args[1].equals("mask")) maskCMD(_args);
+    // else if(_args[1].equals("open")) openCMD(_args);
+    else return false;
+    return true;
+  }
+
+  public void maskCMD(String[] _args){
+    if(_args.length < 3) return;
+    else if(_args[2].equals("make")) canvasManager.generateMask();
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     fl stuff load and such
@@ -354,25 +372,25 @@ class CommandProcessor implements FreelinerConfig{
   public boolean postCMD(String[] _args){
     if(_args.length < 2) return false;
     else if(_args[1].equals("tracers")) trailsCMD(_args);
-    else if(_args[1].equals("mask")) maskCMD(_args);
+    //else if(_args[1].equals("mask")) maskCMD(_args);
     else if(_args[1].equals("shader")) shaderCMD(_args);
     else return false;
     return true;
   }
 
-  // needs to be tested with file argument
-  public boolean maskCMD(String[] _args){
-    //if(_args.length < 2) return;
-    //else if(_args[1].equals("mask")){
-    if(_args.length > 2){
-      canvasManager.loadMask(_args[2]);
-    }
-    //else valueGiven = str(canvasManager.toggleMask());
-    else {
-      canvasManager.generateMask();
-    }
-    return true;
-  }
+  // // needs to be tested with file argument
+  // public boolean maskCMD(String[] _args){
+  //   //if(_args.length < 2) return;
+  //   //else if(_args[1].equals("mask")){
+  //   if(_args.length > 2){
+  //     canvasManager.loadMask(_args[2]);
+  //   }
+  //   //else valueGiven = str(canvasManager.toggleMask());
+  //   else {
+  //     canvasManager.generateMask();
+  //   }
+  //   return true;
+  // }
 
   public boolean trailsCMD(String[] _args){
     //if(_args.length < 2) return;
