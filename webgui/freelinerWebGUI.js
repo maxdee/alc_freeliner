@@ -2,7 +2,7 @@
 
 
 // fetch the info at 100 ms intervals
-setInterval(function() { if(connected) socket.send('fetch-ws infoline');}, 100);
+setInterval(function() { if(connected) socket.send('fetch-ws infoline');}, 200);
 
 /*
  * /////////////////////////////////////////////////////////////
@@ -56,9 +56,9 @@ function setTemplateStat(_info){
   var _keys = _parts.slice(2);
   for(var i in _keys){
     var _kv = _keys[i].split("-");
-    var _id = _kv[0]+"_SELECT";
-    var _select = document.getElementById(_id);
-    if(_select) _select.value = parseInt(_kv[1]);
+    var _id = _kv[0]+"_KEY";
+    var _div = document.getElementById(_id);
+    if(_div) _div.firstElementChild.value = parseInt(_kv[1]);
   }
 }
 
