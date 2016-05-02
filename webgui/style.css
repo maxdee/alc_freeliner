@@ -65,6 +65,21 @@ input[type=button]{
   width:80%;
 }
 
+#templateSelector {
+  width:100%;
+}
+
+.tpCell {
+  border: 1px solid white;
+}
+.tpCell:hover {
+  background-color: red;
+}
+.tpSelected {
+  background-color: white;
+  color: black;
+}
+
 #reload {
   position:absolute;
   right:10pt;

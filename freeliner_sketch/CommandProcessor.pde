@@ -22,6 +22,8 @@ class CommandProcessor implements FreelinerConfig{
   Gui gui;
   KeyMap keyMap;
   FreeLiner freeliner;
+  OSCCommunicator oscComs;
+  WebSocketCommunicator webComs;
   // this string gets set to whatever value was set
   String valueGiven = "";
 
@@ -40,6 +42,7 @@ class CommandProcessor implements FreelinerConfig{
     "tp load (coolstuff.xml)",
     "tp swap AB",
     "tp select AB", // not implemented
+    "tp select *",  // not implemented
     // add tp setshape (geometryIndex | char | .svg)
     /////////////////// Sequencer
     "seq tap (offset)",
@@ -49,12 +52,12 @@ class CommandProcessor implements FreelinerConfig{
     "seq toggle A (step)",
     "seq play 0,1",
     "seq stop // redundent play 0|1",
-    "cmd rec  // 0|1",
-    "cmd play // 0|1",
+    "cmd rec 0|1|-3", // not implemented
+    "cmd play 0|1|-3", // not implemented
     ///////////////////  Tools
     "tools lines 0|1|-3",
     "tools tags 0|1|-3",
-    "tools capture // should be in post????",
+    "tools capture", // not implemented should be in post????
     "tools snap (dist)",
     "tools grid (size)",
     "tools ruler (length)",
@@ -70,10 +73,10 @@ class CommandProcessor implements FreelinerConfig{
     "post shader (coolfrag.glsl)",
     "post mask (mask.png)",
     /////////////////// Information Accessors
-    "fetch infoline",
-    "fetch webinfo",
-    "fetch tracker A",
-    "fetch webseq",
+    "fetch-osc|fetch-ws infoline",
+    "fetch-osc|fetch-ws tracker A",
+    "fetch-osc|fetch-ws template A",
+    "fetch-osc|fetch-ws seq",
     ///////////////////
     "hid kbd 'keyCode' 'char'"
   };
@@ -102,6 +105,8 @@ class CommandProcessor implements FreelinerConfig{
     keyboard = _fl.getKeyboard();
     gui = _fl.getGui();
     keyMap = freeliner.getKeyMap();
+    oscComs = freeliner.getOscCommunicator();
+    webComs = freeliner.getWebCommunicator();
   }
 
   /**
@@ -147,7 +152,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("post")) _used = postCMD(_args);
     else if(_args[0].equals("tools")) _used = toolsCMD(_args);
     else if(_args[0].equals("geom")) _used = geometryCMD(_args);
-    else if(_args[0].equals("fetch")) _used = fetchCMD(_args);
+    else if(_args[0].equals("fetch-osc") || _args[0].equals("fetch-ws")) _used = fetchCMD(_args);
     else if(_args[0].equals("hid")) _used = hidCMD(_args);
     else if(_args[0].equals("layer")) _used = layerCMD(_args);
 
@@ -207,22 +212,59 @@ class CommandProcessor implements FreelinerConfig{
   ///////     fetchCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-  // * tools fetch infoline
 
   public boolean fetchCMD(String[] _args){
     if(_args.length < 2) return false;
-    if(_args[1].equals("infoline")) freeliner.oscInfoLine();
-    else if(_args[1].equals("infoweb")) freeliner.webInfoLine();
+    if(_args[1].equals("infoline")) infoLineCMD(_args);
+    else if(_args[1].equals("template")) templateStatCMD(_args);
     else if(_args[1].equals("tracker")) trackerCMD(_args);
-    else if(_args[1].equals("webseq")) freeliner.webseq();
+    else if(_args[1].equals("seq")) seqStatCMD(_args);
     else return false;
     return true;
   }
 
+  public void infoLineCMD(String[] _args){
+    String _info = "info "+gui.getInfo();
+    fetchSend(_args, _info);
+  }
+
+  public void templateStatCMD(String[] _args){
+    if(_args.length < 3) return;
+    TweakableTemplate _tp = templateManager.getTemplate(_args[2].charAt(0));
+    if(_tp == null) return;
+    String _info = _tp.getStatusString();
+    fetchSend(_args, "template "+_info);
+  }
+
   public void trackerCMD(String[] _args){
     if(_args.length < 3) return;
-    freeliner.tracker(_args[2]);
+    TweakableTemplate _tp = templateManager.getTemplate(_args[2].charAt(0));
+    if(_tp == null) return;
+    PVector _pos = _tp.getLastPosition();
+    fetchSend(_args, "tracker "+_tp.getTemplateID()+" "+_pos.x/width+" "+_pos.y/height);
   }
+
+  void seqStatCMD(String[] _args){
+    String _stps = templateManager.getSequencer().getStatusString();
+    fetchSend(_args, "seq "+_stps);
+  }
+
+  // send to apropriate destination
+  public void fetchSend(String[] _args, String _mess){
+    if(_args[0].equals("fetch-osc")){
+      oscComs.send(_mess);
+    }
+    else if(_args[0].equals("fetch-ws")){
+      webComs.send(_mess);
+    }
+  }
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     HID input
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
   public boolean hidCMD(String[] _args){
     if(_args.length < 4) return false;
@@ -588,7 +630,6 @@ class CommandProcessor implements FreelinerConfig{
   public void templateDispatch(TweakableTemplate _template, char _k, int _n) {
     //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
     if(_template == null) return;
-
     if (_k == 'a') valueGiven = str(_template.setAnimationMode(_n, keyMap.getMax('a')));
     else if (_k == 'b') valueGiven = str(_template.setRenderMode(_n, keyMap.getMax('b')));
     else if (_k == 'f') valueGiven = str(_template.setFillMode(_n, keyMap.getMax('f')));

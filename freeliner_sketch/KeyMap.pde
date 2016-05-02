@@ -30,9 +30,6 @@ class KeyMap {
     for(ParameterKey _pk : keymap) if(_pk != null) println(_pk.getKey()+" "+_pk.getMax());
   }
 
-
-
-
   public void loadKeys(){
     keymap['a'] = new ParameterKey('a');
     keymap['a'].setType(5);

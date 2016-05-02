@@ -170,7 +170,7 @@ class TwoSpaced extends EvenlySpaced{
 		FloatList flts = new FloatList();
 		for(float _f : super.getFloats(_rt)){
 			flts.append(_f);
-			flts.append(-_f+1.0);
+			flts.append(_f*-1.0);
 		}
 		return flts;
 	}

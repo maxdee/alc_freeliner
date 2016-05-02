@@ -42,6 +42,33 @@ class TweakableTemplate extends Template {
   public int getLaunchCount(){
     return launchCount;
   }
+  public String getStatusString(){
+    String _stat = str(templateID);
+    _stat += " a-"+animationMode;
+    _stat += " b-"+renderMode;
+    _stat += " j-"+reverseMode;
+    _stat += " e-"+interpolateMode;
+    _stat += " f-"+fillMode;
+    _stat += " h-"+easingMode;
+    _stat += " i-"+repetitionMode;
+    _stat += " j-"+reverseMode;
+    _stat += " k-"+strokeAlpha;
+    _stat += " l-"+fillAlpha;
+    _stat += " m-"+miscValue;
+    _stat += " j-"+reverseMode;
+    _stat += " j-"+reverseMode;
+    _stat += " j-"+reverseMode;
+    _stat += " o-"+rotationMode;
+    _stat += " p-"+renderLayer;
+    _stat += " q-"+strokeMode;
+    _stat += " r-"+repetitionCount;
+    _stat += " s-"+brushSize;
+    _stat += " u-"+enablerMode;
+    _stat += " v-"+segmentMode;
+    _stat += " w-"+strokeWidth;
+    _stat += " x-"+beatDivider;
+    return _stat;
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

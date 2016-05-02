@@ -26,7 +26,7 @@ class FreeLiner implements FreelinerConfig{
 
   // new parts
   CommandProcessor commandProcessor;
-  FreelinerCommunicator oscComs;
+  OSCCommunicator oscComs;
   WebSocketCommunicator webComs;
 
   // misc
@@ -75,18 +75,7 @@ class FreeLiner implements FreelinerConfig{
     oscComs.send("freeliner tick");
   }
 
-  void oscInfoLine(){
-    oscComs.send("info "+gui.getInfo());
-  }
 
-  void webInfoLine(){
-    webComs.send("info "+gui.getInfo());
-  }
-
-  void webseq(){
-    String _stps = templateManager.getSequencer().getStatusString();
-    webComs.send("webseq "+_stps);
-  }
 
   /**
    * It all starts here...
@@ -144,12 +133,6 @@ class FreeLiner implements FreelinerConfig{
     commandProcessor.queueCMD(_cmd);
   }
 
-  public void tracker(String _tag){
-    TweakableTemplate _tp = templateManager.getTemplate(_tag.charAt(0));
-    if(_tp == null) return;
-    PVector _pos = _tp.getLastPosition();
-    oscComs.send("freeliner tracker "+_tag.charAt(0)+" "+_pos.x/width+" "+_pos.y/height);
-  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -211,7 +194,12 @@ class FreeLiner implements FreelinerConfig{
   public PGraphics getCanvas(){
     return canvasManager.getCanvas();
   }
-
+  public OSCCommunicator getOscCommunicator(){
+    return oscComs;
+  }
+  public WebSocketCommunicator getWebCommunicator(){
+    return webComs;
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Debug

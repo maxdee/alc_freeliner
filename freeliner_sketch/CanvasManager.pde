@@ -93,7 +93,6 @@ class LayeredCanvasManager extends CanvasManager{
     //mergeLayer.getCanvas().blendMode(LIGHTEST);
 
 
-
     // begin stack
     tracerLayer = (TracerLayer)addLayer(new TracerLayer());
     shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());

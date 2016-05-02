@@ -15,16 +15,9 @@ import netP5.*;
  * Here are some settings. There are more settings in the Config.pde file.
  */
 void settings(){
-  // set the resolution, or fullscreen and display
-  //if(FreelinerConfig.FULLSCREEN) fullScreen(P2D,2);
-  //else size(FreelinerConfig.WINDOW_WIDTH, FreelinerConfig.WINDOW_HEIGHT, P2D);
-  //size(1024, 768, P2D);
-  size(300, 300, P2D);
-
-  //noSmooth();
-  //size(1024, 683, P2D);
-  //fullScreen(P2D, 2);
-  //fullScreen(P2D, SPAN);
+  // Set the screen preferences in Config.pde
+  if(FreelinerConfig.FULLSCREEN) fullScreen(P2D, FreelinerConfig.FULLSCREEN_TYPE);
+  else size(FreelinerConfig.WINDOW_WIDTH, FreelinerConfig.WINDOW_HEIGHT, P2D);
   // needed for syphon!
   PJOGL.profile=1;
 }

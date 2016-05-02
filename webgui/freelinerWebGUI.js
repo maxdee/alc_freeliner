@@ -2,7 +2,7 @@
 
 
 // fetch the info at 100 ms intervals
-setInterval(function() { if(connected) socket.send('fetch infoweb');}, 100);
+setInterval(function() { if(connected) socket.send('fetch-ws infoline');}, 100);
 
 /*
  * /////////////////////////////////////////////////////////////
@@ -16,6 +16,7 @@ var guiWindow;
 // start the websocket with default adress on page load
 window.onload = function (){
   loadKeys();
+  makeTemplateSelector();
   socketPrompt();
   // updateGuiParams();
 }
@@ -45,7 +46,20 @@ function connectSocket(_adr){
 function parseInfo(_info){
   var _splt = _info.split(" ",1);
   if(_splt[0] == "info") setInfo(_info);
-  else if(_splt[0] == "webseq") setSeqTags(_info);
+  else if(_splt[0] == "seq") setSeqTags(_info);
+  else if(_splt[0] == "template") setTemplateStat(_info);
+  else console.log("Received ? :"+_info);
+}
+
+function setTemplateStat(_info){
+  var _parts = _info.split(" ");
+  var _keys = _parts.slice(2);
+  for(var i in _keys){
+    var _kv = _keys[i].split("-");
+    var _id = _kv[0]+"_SELECT";
+    var _select = document.getElementById(_id);
+    if(_select) _select.value = parseInt(_kv[1]);
+  }
 }
 
 /*
@@ -53,6 +67,42 @@ function parseInfo(_info){
  * gui input!
  * /////////////////////////////////////////////////////////////
  */
+var selectedTemplate = '_';
+function makeTemplateSelector(){
+  var _table = document.getElementById("templateSelector");
+  var _row = _table.insertRow(0);
+  for(var i = 65; i <= 90; i++){
+    var _cell = _row.insertCell(i-65);
+    _cell.innerHTML = String.fromCharCode(i);
+    _cell.setAttribute("class", "tpCell");
+  }
+  _table.onclick = function(e){selectTemplateCell(e)};
+  document.getElementById("alphabetWidget").appendChild(_table);
+}
+
+function selectTemplateCell(_event){
+  _event = _event || window.event;
+  var _target = _event.srcElement || _event.target;
+  if(_target.className != 'tpCell') return;
+  var _table = document.getElementById("templateSelector").getElementsByTagName('td');
+  var _cell;
+  for(_cell in _table){
+    _table[_cell].className = "tpCell";
+  }
+  _target.className = "tpSelected";
+  selectTemplate(_target.innerHTML);
+}
+
+function selectTemplate(_tag){
+  selectedTemplate = _tag;
+  // socket.send("fetch-ws template "+selectedTemplate);
+  // socket.send("hid press 27 27"); // unselect
+  // socket.send("hid press 15 15");
+  // socket.send("hid press "+_tag.charCodeAt(0)+" "+_tag.charCodeAt(0));
+  // socket.send("hid release 15 15");
+  socket.send("fetch-ws template "+selectedTemplate);
+}
+
 
 // iterate over the keyMap provided by freeliner
 function loadKeys(){
@@ -118,8 +168,8 @@ function addKey(_param){
   if(typeof _input == 'undefined') return;
   var _cb = function(){
     var _v = _input.value;
-    console.log(_param["cmd"]+" "+_v);
-    socket.send(_param["cmd"]+" "+_v);
+    var _cmd = _param["cmd"].replace("$", selectedTemplate)+" "+_v;
+    socket.send(_cmd);
   }
   if(_param["type"] == 0) _input.onclick = _cb;
   else if(_param["type"] == 4) _input.oninput = _cb;
@@ -197,27 +247,6 @@ function setSeqTags(tags){
 function labelStep(i, s){
   document.getElementById('step'+i).innerHTML = _steps[i];
 }
-
-// document.getElementById("seq").onclick = function (e){
-//   var _step = e.target.id;
-//   _step = _step.replace('step', '');
-//   console.log(_step);
-//   socket.send("seq toggle $ "+_step);
-//   socket.send("fetch webseq");
-// }
-//
-// document.getElementById("brushSize").min = 1;
-// document.getElementById("brushSize").max = MAX_BRUSH_SIZE;
-// document.getElementById("brushSize").onchange = function(){
-//   socket.send('tw $ s '+document.getElementById("brushSize").value);
-// }
-//
-// document.getElementById("strokeWeight").min = 1;
-// document.getElementById("strokeWeight").max = MAX_BRUSH_SIZE;
-// document.getElementById("strokeWeight").onchange = function(){
-//   socket.send('tw $ w '+document.getElementById("strokeWeight").value);
-// }
-//
 
 
 document.getElementById("openRef").onclick = function (){
