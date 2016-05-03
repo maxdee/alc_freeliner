@@ -60,6 +60,7 @@ function setTemplateStat(_info){
     var _div = document.getElementById(_id);
     if(_div) _div.firstElementChild.value = parseInt(_kv[1]);
   }
+  updateAnimationOptions();
 }
 
 /*
@@ -95,11 +96,6 @@ function selectTemplateCell(_event){
 
 function selectTemplate(_tag){
   selectedTemplate = _tag;
-  // socket.send("fetch-ws template "+selectedTemplate);
-  // socket.send("hid press 27 27"); // unselect
-  // socket.send("hid press 15 15");
-  // socket.send("hid press "+_tag.charCodeAt(0)+" "+_tag.charCodeAt(0));
-  // socket.send("hid release 15 15");
   socket.send("fetch-ws template "+selectedTemplate);
 }
 
@@ -170,6 +166,7 @@ function addKey(_param){
     var _v = _input.value;
     var _cmd = _param["cmd"].replace("$", selectedTemplate)+" "+_v;
     socket.send(_cmd);
+    if(_param["key"]=="b") updateAnimationOptions();
   }
   if(_param["type"] == 0) _input.onclick = _cb;
   else if(_param["type"] == 4) _input.oninput = _cb;
@@ -208,9 +205,34 @@ function updateParam(_param){
 
   if(_key == 'f') _key = 'q';
   removeOptions(_select);
-  for(var i = 0; i < _param["max"]; i++){
+  var i;
+  for(i = 0; i < _param["max"]; i++){
     var _option = document.createElement("option");
+    if(_key == 'a'){
+      _bKey = document.getElementById("b_KEY").firstElementChild.value;
+      console.log( window[_key+i+"_b"+_bKey+"_NAME"]);
+      _option.text = window[_key+i+"_b"+_bKey+"_NAME"];
+    }
     _option.text = window[_key+i+"_NAME"];
+    _option.value = i;
+    _select.add(_option);
+  }
+}
+
+function updateAnimationOptions(){
+  var _param = keyMap[97];
+  if(_param == null) return;
+  if(_param["max"] >= 127) return;
+  var _key = _param["key"];
+  var _id = _param["key"]+"_SELECT";
+  var _select = document.getElementById(_id);
+  removeOptions(_select);
+  var i;
+  for(i = 0; i < _param["max"]; i++){
+    var _option = document.createElement("option");
+    _bKey = document.getElementById("b_KEY").firstElementChild.value;
+    console.log( window[_key+i+"_b"+_bKey+"_NAME"]);
+    _option.text = window[_key+i+"_b"+_bKey+"_NAME"];
     _option.value = i;
     _select.add(_option);
   }

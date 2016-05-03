@@ -2,8 +2,8 @@
 interface FreelinerConfig {
 
   // Display preferences
-  final int WINDOW_WIDTH = 1024;
-  final int WINDOW_HEIGHT = 768;
+  final int WINDOW_WIDTH = 200;
+  final int WINDOW_HEIGHT = 200;
   final boolean FULLSCREEN = false;
   final int FULLSCREEN_TYPE = 2; // or 1-2
 
