@@ -210,7 +210,7 @@ function updateParam(_param){
     var _option = document.createElement("option");
     if(_key == 'a'){
       _bKey = document.getElementById("b_KEY").firstElementChild.value;
-      console.log( window[_key+i+"_b"+_bKey+"_NAME"]);
+      //console.log( window[_key+i+"_b"+_bKey+"_NAME"]);
       _option.text = window[_key+i+"_b"+_bKey+"_NAME"];
     }
     _option.text = window[_key+i+"_NAME"];
@@ -218,7 +218,7 @@ function updateParam(_param){
     _select.add(_option);
   }
 }
-
+// what a mess!!!
 function updateAnimationOptions(){
   var _param = keyMap[97];
   if(_param == null) return;
@@ -231,7 +231,7 @@ function updateAnimationOptions(){
   for(i = 0; i < _param["max"]; i++){
     var _option = document.createElement("option");
     _bKey = document.getElementById("b_KEY").firstElementChild.value;
-    console.log( window[_key+i+"_b"+_bKey+"_NAME"]);
+    //console.log( window[_key+i+"_b"+_bKey+"_NAME"]);
     _option.text = window[_key+i+"_b"+_bKey+"_NAME"];
     _option.value = i;
     _select.add(_option);
@@ -242,17 +242,7 @@ function removeOptions(selectbox){
   var i;
   for(i=selectbox.options.length-1;i>=0;i--) selectbox.remove(i);
 }
-// document.getElementById("renderMode").setAttribute("max", RENDER_MODE_COUNT);
-// document.getElementById("renderMode").onchange = function (){
-//   socket.send('tw $ b '+document.getElementById("renderMode").value);
-// }
-//
-// document.getElementById("renderLayer").setAttribute("max", MAX_RENDER_LAYER_COUNT);
-// document.getElementById("renderLayer").onchange = function (){
-//   socket.send('tw $ p '+document.getElementById("renderLayer").value);
-// }
-// if(RENDERING_PIPELINE == 0) document.getElementById("renderLayer").disabled = true;
-//
+
 
 
 function setInfo(_info){
