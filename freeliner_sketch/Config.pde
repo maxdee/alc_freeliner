@@ -5,7 +5,7 @@ interface FreelinerConfig {
   final int WINDOW_WIDTH = 400;
   final int WINDOW_HEIGHT = 400;
   final boolean FULLSCREEN = false;
-  final int FULLSCREEN_TYPE = 2; // or 1-2
+  final int FULLSCREEN_TYPE = 1; // or 1-2
 
 
   // UDP Port for incomming messages

@@ -78,7 +78,7 @@ class BrushSegment extends PerSegment{
 
 		name = "BrushSegment";
 		description = "Render mode for drawing with brushes";
-		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "None?");
+		//if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "None?");
     // segmentPainters[6] = new CircularBrusher();
   }
 	public SegmentPainter getPainter(int _index){

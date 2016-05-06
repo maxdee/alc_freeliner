@@ -19,6 +19,7 @@ abstract class Mode implements FreelinerConfig{
   int modeIndex;
   String name = "mode";
   String description = "abstract";
+  char relatedKey = '_';
 
   public Mode(){
   }
@@ -32,6 +33,10 @@ abstract class Mode implements FreelinerConfig{
     description = _d;
   }
 
+  public void setRelateKey(char _k){
+    relatedKey = _k;
+  }
+
   public int getIndex(){
     return modeIndex;
   }
@@ -42,6 +47,10 @@ abstract class Mode implements FreelinerConfig{
 
   public String getDescription(){
     return description;
+  }
+
+  public char getRelatedKey(){
+    return relatedKey;
   }
 }
 //
