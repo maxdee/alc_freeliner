@@ -48,7 +48,15 @@ input[type=button]{
 .selecta {
   width:50%;
   float:right;
+  background-color:black;
 }
+
+/*.selecta:hover {
+  border-radius:1px;
+  background-color:black;
+}*/
+
+
 
 #infoline {
     margin:0px;
@@ -70,14 +78,17 @@ input[type=button]{
 }
 
 .tpCell {
-  border: 1px solid white;
+  border: 1px solid grey;
+  text-align: center;
 }
 .tpCell:hover {
-  background-color: red;
+  background-color: #0E108A;
+  border-color: #333333;
 }
 .tpSelected {
-  background-color: white;
-  color: black;
+  background-color: #0E108A;
+  border: 1px solid #333333;
+  text-align: center;
 }
 
 #reload {

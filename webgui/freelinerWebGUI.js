@@ -16,7 +16,7 @@ selectedTemplate = '_';
 setInterval(function() { sendCMD('fetch-ws infoline');}, 200);
 
 window.onload = function (){
-
+  // if(typeof InstallTrigger == 'undefined') setInfo("browser not supported, plz use firefox or ?");
 }
 
 /*
@@ -32,7 +32,7 @@ sendCMD = (function () {
   _addr = prompt("connect to", DEFAULT_WEBSOCKET_ADDR);
   if (_addr != null) socket = makeSocket(_addr);
   else socket = makeSocket(DEFAULT_WEBSOCKET_ADDR);
-  return function (_cmd) { if(socket.readyState) socket.send(_cmd); }
+  return function (_cmd) { if(socket.readyState) socket.send(_cmd);}
 })();
 
 // make a websocket
@@ -296,7 +296,6 @@ function removeOptions(selectbox){
 function setInfo(_info){
   document.getElementById("infoline").innerHTML = _info.replace('info', '');
 }
-
 
 /*
  * /////////////////////////////////////////////////////////////
