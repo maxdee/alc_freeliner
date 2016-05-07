@@ -32,7 +32,10 @@ sendCMD = (function () {
   _addr = prompt("connect to", DEFAULT_WEBSOCKET_ADDR);
   if (_addr != null) socket = makeSocket(_addr);
   else socket = makeSocket(DEFAULT_WEBSOCKET_ADDR);
-  return function (_cmd) { if(socket.readyState) socket.send(_cmd);}
+  return function (_cmd) {
+    if(socket.readyState) socket.send(_cmd);
+    // console.log(_cmd);
+  }
 })();
 
 // make a websocket
@@ -90,6 +93,8 @@ function populateGUI(){
      loadKeys();
      // loads options into menus
      updateMenus();
+     // add callbacks to other misc
+     otherInputCallbacks();
   });
 }
 
@@ -199,8 +204,8 @@ function addKey(_keyConfig){
   }
   else _name = document.createTextNode("("+_keyConfig["key"]+")"+_keyConfig["name"]);
   if(_wrapper != null){
-    _wrapper.appendChild(_name);
     _wrapper.appendChild(_input);
+    _wrapper.appendChild(_name);
     _wrapper.setAttribute("title", _keyConfig["description"]);
   }
 }
@@ -320,61 +325,76 @@ function labelStep(i, s){
  * Other widget callbacks
  * /////////////////////////////////////////////////////////////
  */
+function otherInputCallbacks() {
+  var _element;
 
-document.getElementById("openRef").onclick = function (){
-  sendCMD('geom webref');
-  window.open("reference.png", "geometry reference", "width=1000,height=700");
-}
-
-document.getElementById("fileInput").onchange = function (){
-  var _file = document.getElementById('fileInput').value;
-  sendCMD('geom load '+_file);
-}
-
-document.getElementById("strokePicker").onchange = function (){
-  var _c = document.getElementById("strokePicker").value;
-  sendCMD('tw $ q 28');
-  sendCMD('tp color $ '+_c);
-}
-
-document.getElementById("fillPicker").onchange = function (){
-  var _c = document.getElementById("fillPicker").value;
-  sendCMD('tw $ f 28');
-  sendCMD('tp color $ '+_c);
-}
-
-// gets called from eventListener
-function cmdPrompt(e){
-  if(e.keyCode == 13) {
-    sendCMD(document.getElementById("prompt").value);
-    document.getElementById("prompt").value = "";
+  _element = document.getElementById("openRef");
+  if(_element) _element.onclick = function (){
+    sendCMD('geom webref');
+    window.open("reference.png", "geometry reference", "width=1000,height=700");
   }
-}
 
-document.getElementById("shaderSelect0").onclick = function(){
-  sendCMD("post shader 0");
-};
-document.getElementById("shaderSelect1").onclick = function(){
-  sendCMD("post shader 1");
-};
-document.getElementById("shaderSelect2").onclick = function(){
-  sendCMD("post shader 2");
-};
-document.getElementById("shaderSelect3").onclick = function(){
-  sendCMD("post shader 3");
-};
-document.getElementById("shaderFader0").oninput = function(){
-  sendCMD("post shader 0 "+(document.getElementById("shaderFader0").value/100.0));
-};
-document.getElementById("shaderFader1").oninput = function(){
-  sendCMD("post shader 1 "+(document.getElementById("shaderFader1").value/100.0));
-};
-document.getElementById("shaderFader2").oninput = function(){
-  sendCMD("post shader 2 "+(document.getElementById("shaderFader2").value/100.0));
-};
-document.getElementById("shaderFader3").oninput = function(){
-  sendCMD("post shader 3 "+(document.getElementById("shaderFader3").value/100.0));
-};
+  _element = document.getElementById("fileInput")
+  if(_element) _element.onchange = function (){
+    var _file = document.getElementById('fileInput').value;
+    sendCMD('geom load '+_file);
+  }
+
+  _element = document.getElementById("strokePicker");
+  if(_element) _element.onchange = function (){
+    var _c = document.getElementById("strokePicker").value;
+    sendCMD('tw '+selectedTemplate+' q 28');
+    sendCMD('tp color '+selectedTemplate+' '+_c);
+  }
+
+  _element = document.getElementById("fillPicker");
+  if(_element) _element.onchange = function (){
+    var _c = document.getElementById("fillPicker").value;
+    sendCMD('tw '+selectedTemplate+' f 28');
+    sendCMD('tp color '+selectedTemplate+' '+_c);
+  }
+
+  // gets called from eventListener
+  function cmdPrompt(e){
+    if(e.keyCode == 13) {
+      sendCMD(document.getElementById("prompt").value);
+      document.getElementById("prompt").value = "";
+    }
+  }
+
+  _element = document.getElementById("shaderSelect0");
+  if(_element) _element.onclick = function(){
+    sendCMD("post shader 0");
+  };
+  _element = document.getElementById("shaderSelect1");
+  if(_element) _element.onclick = function(){
+    sendCMD("post shader 1");
+  };
+  _element = document.getElementById("shaderSelect2");
+  if(_element) _element.onclick = function(){
+    sendCMD("post shader 2");
+  };
+  _element = document.getElementById("shaderSelect3");
+  if(_element) _element.onclick = function(){
+    sendCMD("post shader 3");
+  };
+  _element = document.getElementById("shaderFader0");
+  if(_element) _element.oninput = function(){
+    sendCMD("post shader 0 "+(document.getElementById("shaderFader0").value/100.0));
+  };
+  _element = document.getElementById("shaderFader1");
+  if(_element) _element.oninput = function(){
+    sendCMD("post shader 1 "+(document.getElementById("shaderFader1").value/100.0));
+  };
+  _element = document.getElementById("shaderFader2");
+  if(_element) _element.oninput = function(){
+    sendCMD("post shader 2 "+(document.getElementById("shaderFader2").value/100.0));
+  };
+  _element = document.getElementById("shaderFader3");
+  if(_element) _element.oninput = function(){
+    sendCMD("post shader 3 "+(document.getElementById("shaderFader3").value/100.0));
+  };
+}
 
 /*
  * /////////////////////////////////////////////////////////////
@@ -404,7 +424,6 @@ function kbdRules(_event){
 
 // prevent keyboard default behaviors, for ctrl-_ tab
 document.addEventListener("keydown", function(e) {
-
   // catch ctrlKey
   if ((navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) e.preventDefault();
   // prevent default for tab key

@@ -23,20 +23,24 @@ body {
   background-color: #333333;
 }
 
-
-input[type=select]{
+/*input[type=select]{
   width:42px;
-  float:right;
-}
+  float:left;
+}*/
 
 input[type=number]{
-  width:42px;
-  float:right;
+  width:50%;
+  float:left;
 }
 
 input[type=button]{
   width:42px;
-  float:right;
+  float:left;
+}
+
+input[type=range]{
+  /*width:42px;*/
+  float:left;
 }
 
 
@@ -47,7 +51,7 @@ input[type=button]{
 }*/
 .selecta {
   width:50%;
-  float:right;
+  float:left;
   background-color:black;
 }
 
@@ -105,7 +109,7 @@ input[type=button]{
 
 .shaderInput {
     margin: 10px;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
     font-family: monospace;
     background-color: #875267;
     color: #FFFFFF;
