@@ -69,13 +69,13 @@ function setTemplateStat(_info){
     _kv = _keys[i].split("-");
     _id = _kv[0]+"_KEY";
     _div = document.getElementById(_id);
-    if(_div) _div.firstElementChild.value = parseInt(_kv[1]);
+    if(_div) _div.lastChild.value = parseInt(_kv[1]);
   }
   // update animation menu
   _div = document.getElementById("a_KEY");
   _aVal = _div.firstElementChild.value;
   updateKeyMenu('a');
-  _div.firstElementChild.value = _aVal;
+  _div.lastChild.value = _aVal;
 }
 
 /*
@@ -184,8 +184,8 @@ function addKey(_keyConfig){
     _v = _input.value;
     _cmd = _keyConfig["cmd"].replace("$", selectedTemplate)+" "+_v;
     sendCMD(_cmd);
-    // maybe update animation menu
-    if(_keyConfig["key"]=="b") updateKeyMenu('a');
+    // maybe sendCMD animation menu
+    if(_keyConfig["key"]=="b") sendCMDKeyMenu('a');
   }
   // connect callback to appropriate event
   if(_keyConfig["type"] == 0) _input.onclick = _cb;
@@ -200,12 +200,16 @@ function addKey(_keyConfig){
   _k = _keyConfig["key"].charCodeAt(0);
   // if capital letter, is a control-key option
   if(_k >= 65 && _k <= 90) {
-    _name = document.createTextNode("(ctrl-"+_keyConfig["key"]+")"+_keyConfig["name"]);
+    _name = document.createElement("span");
+    _name.innerHTML = "(ctrl-"+_keyConfig["key"]+")"+_keyConfig["name"];
   }
-  else _name = document.createTextNode("("+_keyConfig["key"]+")"+_keyConfig["name"]);
+  else {
+    _name = document.createElement("span");
+    _name.innerHTML = "("+_keyConfig["key"]+")"+_keyConfig["name"];
+  }
   if(_wrapper != null){
-    _wrapper.appendChild(_input);
     _wrapper.appendChild(_name);
+    _wrapper.appendChild(_input);
     _wrapper.setAttribute("title", _keyConfig["description"]);
   }
 }
@@ -278,7 +282,7 @@ function updateKeyMenu(_key){
   removeOptions(_select);
   var i, _modeArray, _option, _bValue;
   if(_key == 'a'){
-    _bValue = document.getElementById("b_KEY").firstElementChild.value;
+    _bValue = document.getElementById("b_KEY").lastChild.value;
     _modeArray = flData["modes"]["a_b"+_bValue];
   }
   else _modeArray = flData["modes"][_key];

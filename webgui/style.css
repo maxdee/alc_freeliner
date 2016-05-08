@@ -1,9 +1,31 @@
 body {
   background-color: #5D5D5D;
+  font-family: monospace;
+  cursor:default;
 }
 
+input {
+  width:128px;
+  margin-left: auto;
+}
+
+input[type=color] {
+  width: 42px;
+  margin:0;
+}
+
+input[type=radio] {
+  width: 24px;
+  margin:0;
+}
+
+input[type=range] {
+  height: 2px;
+}
+
+
 .wrapper {
-  position: fixed;
+  position: absolute;
   top:0;
   left:0;
   width:100%;
@@ -11,11 +33,13 @@ body {
 
 .widget {
   margin:4px;
-  font-family: monospace;
+  min-height: 24px;
   background-color: #1D1D1D;
   color: #FFFFFF;
   font-size: 10pt;
   padding: 2px;
+  display: flex;
+  align-items: center;
   overflow: auto;
 }
 
@@ -23,48 +47,17 @@ body {
   background-color: #333333;
 }
 
-/*input[type=select]{
-  width:42px;
-  float:left;
-}*/
-
-input[type=number]{
-  width:50%;
-  float:left;
-}
-
-input[type=button]{
-  width:42px;
-  float:left;
-}
-
-input[type=range]{
-  /*width:42px;*/
-  float:left;
-}
-
-
-/*input[type=range] {
-  position: absolute;
-  top: 40%;
-  transform: rotate(270deg);
-}*/
 .selecta {
-  width:50%;
-  float:left;
-  background-color:black;
+  width:128px;
+  margin-left: auto;
+  background-color:#0E0E0E;
 }
-
-/*.selecta:hover {
-  border-radius:1px;
-  background-color:black;
-}*/
-
-
+.shaderSlider {
+  width:80%;
+}
 
 #infoline {
     margin:0px;
-    font-family: monospace;
     background-color: #0E0E0E;
     color: #FFFFFF;
     font-size: 18pt;
@@ -81,50 +74,24 @@ input[type=range]{
   width:100%;
 }
 
-.tpCell {
-  border: 1px solid grey;
-  text-align: center;
-}
-.tpCell:hover {
-  background-color: #0E108A;
-  border-color: #333333;
-}
-.tpSelected {
-  background-color: #0E108A;
-  border: 1px solid #333333;
-  text-align: center;
-}
-
 #reload {
   position:absolute;
   right:10pt;
   top:10pt;
 }
 
-.bottompart {
-  margin: 10px;
-  position: fixed;
-  bottom: 130px;
+.tpCell {
+  border: 1px solid grey;
+  text-align: center;
 }
-
-.shaderInput {
-    margin: 10px;
-    /*vertical-align: middle;*/
-    font-family: monospace;
-    background-color: #875267;
-    color: #FFFFFF;
-    font-size: 10pt;
-    padding: 10px;
+.tpCell:hover {
+  background-color: #060757;
+  border-color: #333333;
 }
-
-.modes {
-  margin: 10px;
-  vertical-align: middle;
-  font-family: monospace;
-  background-color: #875267;
-  color: #FFFFFF;
-  font-size: 10pt;
-  padding: 10px;
+.tpSelected {
+  background-color: #0E108A;
+  border: 1px solid #333333;
+  text-align: center;
 }
 
 .sequencer {
@@ -144,7 +111,6 @@ input[type=range]{
   border:1px solid lightgray;
   background-color: #005267;
   color: #FFFFFF;
-  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
   font-size:18px;
   text-align: center;
   text-rendering:
