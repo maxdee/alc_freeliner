@@ -9,18 +9,60 @@
 
 import oscP5.*;
 import netP5.*;
+import http.*;
 
 /**
  * HELLO THERE! WELCOME to FREELINER
  * There is a bunch of settings in the Config.pde file.
  */
-
 // for loading configuration
 int configuredWidth = 1024;
 int configuredHeight = 768;
 int useFullscreen = 0;
 int useDisplay = 1; // SPAN is 0
 int usePipeline = 0;
+
+/**
+ * Your color pallette! customize it!
+ * Use hex value or color(0,100,200);
+ */
+final color[] userPallet = {
+                  #ffff00,
+                  #ffad10,
+                  #ff0000,
+                  #ff00ad,
+                  #f700f7,
+                  #ad00ff,
+                  #0000ff,
+                  #009cff,
+                  #00c6ff,
+                  #00deb5,
+                  #a5ff00,
+                  #f700f7,
+                };
+
+final int PALLETTE_COUNT = 12;
+
+
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////     Not Options
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
+FreeLiner freeliner;
+// fonts
+PFont font;
+PFont introFont;
+
+final String VERSION = "0.4.1";
+boolean doSplash = true;
+boolean OSX = false;
+
+ExternalGUI externalGUI = null; // set specific key to init gui
+// documentation compiler
+Documenter documenter;
+SimpleHTTPServer server;
 
 void settings(){
   fetchConfiguration();
@@ -45,7 +87,7 @@ void fetchConfiguration(){
   }
   if(_file == null) {
     try{
-      _file = loadXML("data/defaultConfig.xml");
+      _file = loadXML("defaultConfig.xml");
     }
     catch(Exception e) { }
   }
@@ -56,45 +98,6 @@ void fetchConfiguration(){
   usePipeline = _file.getInt("pipeline");
 }
 
-/**
- * Your color pallette! customize it!
- * Use hex value or color(0,100,200);
- */
-final color[] userPallet = {
-                  #ffff00,
-                  #ffad10,
-                  #ff0000,
-                  #ff00ad,
-                  #f700f7,
-                  #ad00ff,
-                  #0000ff,
-                  #009cff,
-                  #00c6ff,
-                  #00deb5,
-                  #a5ff00,
-                  #f700f7,
-                };
-
-final int PALLETTE_COUNT = 12;
-
-////////////////////////////////////////////////////////////////////////////////////
-///////
-///////     Not Options
-///////
-////////////////////////////////////////////////////////////////////////////////////
-
-FreeLiner freeliner;
-// fonts
-PFont font;
-PFont introFont;
-
-final String VERSION = "0.4.1";
-boolean doSplash = true;
-boolean OSX = false;
-
-ExternalGUI externalGUI = null; // set specific key to init gui
-// documentation compiler
-Documenter documenter;
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     Setup
@@ -102,6 +105,11 @@ Documenter documenter;
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
+  // create a server
+  server = new SimpleHTTPServer(this);
+  // serve all files recursively in the data folder with the base uri path ""
+  server.serveAll("");
+
   documenter = new Documenter();
   //pick your flavour of freeliner
   freeliner = new FreeLiner(this, usePipeline);
@@ -116,8 +124,8 @@ void setup() {
   hint(ENABLE_KEY_REPEAT); // usefull for performance
 
   // load fonts
-  introFont = loadFont("MiniKaliberSTTBRK-48.vlw");
-  font = loadFont("Arial-BoldMT-48.vlw");
+  introFont = loadFont(sketchPath()+"/fonts/MiniKaliberSTTBRK-48.vlw");
+  font = loadFont(sketchPath()+"/fonts/Arial-BoldMT-48.vlw");
 
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;

@@ -28,14 +28,16 @@ void main(void) {
 	vec2 pos = vertTexCoord.xy;
   vec4 col = texture2D(texture, pos);
 	vec2 dis = pos;
-	dis -= 0.5;
-	dis = rot(dis, 0.0);
-	dis += 0.5;
-	dis.x = (sign(u3-0.5)*(dis.x - 0.7)/(u2*200.0))+dis.x;
-	dis.y = (sign(u3-0.5)*(dis.y - 0.5)/(u2*200.0))+dis.y;
+	// dis -= 0.5;
+	// dis = rot(dis, 0.0);
+	// dis += 0.5;
+	dis.x = fract((dis.x-0.5)*5.333*u3);
 
-	// if(mod(floor(dis.x * 768.0), 2) == 1)dis.xy+=0.4;
-	// else dis.xy-=0.4;
+	dis.y += col.r;
+	if(dis.y>0.5) dis.y = 1.0-(dis.y-0.5);
+	if(mod(floor(dis.x * 768.0), 3) == 1) dis.xy+=u4;
+	else dis.xy-=0.4;
+
 	vec4 tracers = texture2D(ppixels, dis);
 	vec4 ref = vec4(0.0);
 
