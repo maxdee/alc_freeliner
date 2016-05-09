@@ -39,7 +39,6 @@
       </div>
     </div>
 
-
     <div class="rightpane" style="width:40%; float:right;">
       <div class="widget" title="Select some template (A-Z) then pick a color!">
         custom color <input type="color" value="#ff0000" id="strokePicker">
@@ -66,6 +65,11 @@
       <div class="widget">
         u3<input type="range" class="shaderSlider" id="shaderFader3" min="0" max="100" /> <br>
       </div>
+      <div class="widget" id='y_KEY'>  </div>
+      <div class="widget">
+        <button id="configureDisplay">configureDisplay</div>
+      </div>
+
       <!-- <div class="widget" id='C_KEY'> </div>
       <div class="widget" id='V_KEY'> </div>
       <div class="widget" id='B_KEY'> </div>
@@ -77,10 +81,22 @@
       <div class="widget" id='I_KEY'> </div>
       <div class="widget" id='y_KEY'> </div> -->
     </div>
+    <div class="widget" id="configPopup" title="save and restart freeliner to apply">
+        <input type="number" value="1024" id="configWidth"> width </input> <br>
+        <input type="number" value="768" id="configHeight"> height </input> <br>
+        <input type="radio" name=displayRadio value="0" id="displaySpan" title="SPAN">
+        <input type="radio" name=displayRadio value="1" id="displayOne" title="display 1">
+        <input type="radio" name=displayRadio value="2" id="displayTwo" title="display 2">
+        display <br>
+        <input type="checkbox" id="fullscreenCheckBox"> fullscreen </input> <br>
+        <input type="checkbox" id="pipelineCheckBox"> shaders </input> <br>
+        <input type="button" id="saveConfig" value="save" >
+        <input type="button" id="cancelConfig" value="cancel" >
+    </div>
+
 
   </div>
   <!-- javascripts -->
-  <script language="javascript" type="text/javascript" src="freelinerConfig.js"></script>
   <script language="javascript" type="text/javascript" src="freelinerWebGUI.js"></script>
 
 </body>

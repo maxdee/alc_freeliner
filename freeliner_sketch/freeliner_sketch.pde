@@ -12,14 +12,48 @@ import netP5.*;
 
 /**
  * HELLO THERE! WELCOME to FREELINER
- * Here are some settings. There are more settings in the Config.pde file.
+ * There is a bunch of settings in the Config.pde file.
  */
+
+// for loading configuration
+int configuredWidth = 1024;
+int configuredHeight = 768;
+int useFullscreen = 0;
+int useDisplay = 1; // SPAN is 0
+int usePipeline = 0;
+
 void settings(){
-  // Set the screen preferences in Config.pde
-  if(FreelinerConfig.FULLSCREEN) fullScreen(P2D, FreelinerConfig.FULLSCREEN_TYPE);
-  else size(FreelinerConfig.WINDOW_WIDTH, FreelinerConfig.WINDOW_HEIGHT, P2D);
+  fetchConfiguration();
+  if(useFullscreen == 1){
+    fullScreen(P2D, useDisplay);
+  }
+  else {
+    size(configuredWidth, configuredHeight, P2D);
+  }
   // needed for syphon!
   PJOGL.profile=1;
+}
+
+// single configuration file for the moment.
+void fetchConfiguration(){
+  XML _file = null;
+  try{
+    _file = loadXML("../userdata/configuration.xml");
+  }
+  catch(Exception e) {
+    println("No configuration.xml file found.");
+  }
+  if(_file == null) {
+    try{
+      _file = loadXML("data/defaultConfig.xml");
+    }
+    catch(Exception e) { }
+  }
+  configuredWidth = _file.getInt("width");
+  configuredHeight = _file.getInt("height");
+  useFullscreen = _file.getInt("fullscreen");
+  useDisplay = _file.getInt("display");
+  usePipeline = _file.getInt("pipeline");
 }
 
 /**
@@ -70,7 +104,7 @@ Documenter documenter;
 void setup() {
   documenter = new Documenter();
   //pick your flavour of freeliner
-  freeliner = new FreeLiner(this);
+  freeliner = new FreeLiner(this, usePipeline);
   //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON // implement in layer
   //freeliner = new FreelinerSpout(this); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this,"led_fullstrips.xml");//tunnel_map_two.xml"); // implement in layer?

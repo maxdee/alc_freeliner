@@ -34,6 +34,7 @@ sendCMD = (function () {
   else socket = makeSocket(DEFAULT_WEBSOCKET_ADDR);
   return function (_cmd) {
     if(socket.readyState) socket.send(_cmd);
+    else setInfo("start freeliner and refresh to connect");
     // console.log(_cmd);
   }
 })();
@@ -95,6 +96,7 @@ function populateGUI(){
      updateMenus();
      // add callbacks to other misc
      otherInputCallbacks();
+     popupCallbacks();
   });
 }
 
@@ -329,6 +331,46 @@ function labelStep(i, s){
  * Other widget callbacks
  * /////////////////////////////////////////////////////////////
  */
+ function popupCallbacks() {
+   var _element;
+   _element = document.getElementById("configureDisplay");
+   if(!_element) return;
+   _element.onclick = function (){
+     document.getElementById("configPopup").style.display = 'block';
+   }
+
+   _element = document.getElementById("saveConfig");
+   if(_element) _element.onclick = function (){
+     var _width, _height, _fullscreen, _display, _pipeline;
+
+     _width = document.getElementById("configWidth").value;
+     _height = document.getElementById("configHeight").value;
+     if(_width > 10) sendCMD("config width "+_width);
+     if(_height > 10) sendCMD("config height "+_height);
+
+     _fullscreen = 0;
+     if(document.getElementById("fullscreenCheckBox").checked) _fullscreen = 1;
+     sendCMD("config fullscreen "+ _fullscreen);
+
+     _pipeline = 0;
+     if(document.getElementById("pipelineCheckBox").checked) _pipeline = 1;
+     sendCMD("config pipeline "+ _pipeline);
+
+     _display = 1;
+     if(document.getElementById("displaySpan").checked) _display = 0;
+     else if(document.getElementById("displayOne").checked) _display = 1;
+     else if(document.getElementById("displayTwo").checked) _display = 2;
+     sendCMD("config display "+ _display);
+     document.getElementById("configPopup").style.display = 'none';
+     alert("restart freeliner!");
+   }
+   _element = document.getElementById("cancelConfig");
+   if(_element) _element.onclick = function (){
+     document.getElementById("configPopup").style.display = 'none';
+   }
+
+ }
+
 function otherInputCallbacks() {
   var _element;
 

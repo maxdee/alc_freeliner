@@ -1,13 +1,8 @@
 
 interface FreelinerConfig {
 
-  // Display preferences
-  final int WINDOW_WIDTH = 400;
-  final int WINDOW_HEIGHT = 400;
-  final boolean FULLSCREEN = false;
-  final int FULLSCREEN_TYPE = 1; // or 1-2
 
-
+  // make these defaults? will be changed with configuration files...
   // UDP Port for incomming messages
   final int OSC_IN_PORT = 6667;
   // UDP Port for outgoing sync message
@@ -21,7 +16,7 @@ interface FreelinerConfig {
   final int CURSOR_SIZE = 18;
   final int CURSOR_GAP_SIZE = 6;
   final int CURSOR_STROKE_WIDTH = 3;
-  final int GUI_TIMEOUT = 1000;
+  final int GUI_TIMEOUT = 10000;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
   final int NODE_STROKE_WEIGTH = 5;
   final int NODE_COLOR = #FFFFFF;
@@ -65,9 +60,9 @@ interface FreelinerConfig {
   final int DEFAULT_LINE_LENGTH = 128;
   final int MOUSE_DEBOUNCE = 100;
   // use scrollwheel as - +
-  final boolean SCROLLWHEEL_SELECTOR = true;
+  final boolean SCROLLWHEEL_SELECTOR = false;
 
-  // generate documentation on startup
+  // generate documentation on startup, pretty much mandatory now.
   final boolean MAKE_DOCUMENTATION = true;
   /**
    * Your color pallette! customize it!

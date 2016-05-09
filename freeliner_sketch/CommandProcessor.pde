@@ -77,6 +77,11 @@ class CommandProcessor implements FreelinerConfig{
     "fetch-osc|fetch-ws tracker A",
     "fetch-osc|fetch-ws template A",
     "fetch-osc|fetch-ws seq",
+    /////////////////// Configure
+    "config width 1024",
+    "config height 1024",
+    "config fullScreen 0",
+    "config display 1",
     ///////////////////
     "hid kbd 'keyCode' 'char'"
   };
@@ -155,6 +160,8 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("fetch-osc") || _args[0].equals("fetch-ws")) _used = fetchCMD(_args);
     else if(_args[0].equals("hid")) _used = hidCMD(_args);
     else if(_args[0].equals("layer")) _used = layerCMD(_args);
+    else if(_args[0].equals("config")) _used = configCMD(_args);
+
 
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -164,6 +171,27 @@ class CommandProcessor implements FreelinerConfig{
   public void processCmdStack(String _cmd){
     // add to stack
     processCMD(_cmd);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     config
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public boolean configCMD(String[] _args){
+    if(_args.length < 2) return false;
+    int _v = stringInt(_args[2]);
+    if(_v == -42) return false;
+    else if(_args[1].equals("width")) freeliner.configure(_args[1], _v);
+    else if(_args[1].equals("height")) freeliner.configure(_args[1], _v);
+    else if(_args[1].equals("fullscreen")) freeliner.configure(_args[1], _v);
+    else if(_args[1].equals("display")) freeliner.configure(_args[1], _v);
+    else if(_args[1].equals("pipeline")) freeliner.configure(_args[1], _v);
+
+    // else if(_args[1].equals("open")) openCMD(_args);
+    else return false;
+    return true;
   }
 
 

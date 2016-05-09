@@ -33,7 +33,7 @@ class FreeLiner implements FreelinerConfig{
   boolean windowFocus;
   PApplet applet;
 
-  public FreeLiner(PApplet _pa) {
+  public FreeLiner(PApplet _pa, int _pipeline) {
     applet = _pa;
     // instantiate
     // model
@@ -43,8 +43,8 @@ class FreeLiner implements FreelinerConfig{
     templateRenderer = new TemplateRenderer();
     gui = new Gui();
     // pick a rendering system
-    if(RENDERING_PIPELINE == 0) canvasManager = new ClassicCanvasManager();
-    else if(RENDERING_PIPELINE == 1) canvasManager = new LayeredCanvasManager();
+    if(_pipeline == 0) canvasManager = new ClassicCanvasManager();
+    else if(_pipeline == 1) canvasManager = new LayeredCanvasManager();
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();
@@ -136,18 +136,22 @@ class FreeLiner implements FreelinerConfig{
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
-  ///////    OSC feedback
+  ///////    Configure stuff
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  // sync message to other software
-  // void oscTick(){
-  //   oscP5.send(tickmsg, toPDpatch);
-  // }
-  //
-  // void oscInfoLine(){
-  //   oscP5.send(new OscMessage("/freeliner/infoline").add(gui.getInfo()), toPDpatch);
-  // }
+
+  public void configure(String _param, int _v){
+    XML _file;
+    try{
+      _file = loadXML("../userdata/configuration.xml");
+    }
+    catch(Exception e) {
+      _file = new XML("freelinerConfiguration");
+    }
+    _file.setInt(_param, _v);
+    saveXML(_file, "../userdata/configuration.xml");
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
