@@ -1,7 +1,6 @@
 
 interface FreelinerConfig {
 
-
   // make these defaults? will be changed with configuration files...
   // UDP Port for incomming messages
   final int OSC_IN_PORT = 6667;

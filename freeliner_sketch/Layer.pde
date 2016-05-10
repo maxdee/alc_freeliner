@@ -253,7 +253,7 @@ class ImageLayer extends Layer{
 
   public ImageLayer(){
     // try to load a mask if one is provided
-    loadFile("userdata/layer_image.png");
+    loadFile(sketchPath()+"/data/userdata/layer_image.png");
     name = "ImageLayer";
   }
 
@@ -297,7 +297,7 @@ class MaskLayer extends ImageLayer{
       else imageToDraw.pixels[i] = color(0,255);
     }
     imageToDraw.updatePixels();
-    saveFile("../userdata/mask_image.png"); // auto save mask
+    saveFile(sketchPath()+"/data/userdata/mask_image.png"); // auto save mask
   }
 
   public void saveFile(String _file){

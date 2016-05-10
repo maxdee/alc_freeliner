@@ -9,7 +9,6 @@
 
 import oscP5.*;
 import netP5.*;
-import http.*;
 
 /**
  * HELLO THERE! WELCOME to FREELINER
@@ -55,14 +54,13 @@ FreeLiner freeliner;
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.4.1";
+final String VERSION = "0.4.2";
 boolean doSplash = true;
 boolean OSX = false;
 
 ExternalGUI externalGUI = null; // set specific key to init gui
 // documentation compiler
 Documenter documenter;
-SimpleHTTPServer server;
 
 void settings(){
   fetchConfiguration();
@@ -80,14 +78,14 @@ void settings(){
 void fetchConfiguration(){
   XML _file = null;
   try{
-    _file = loadXML("../userdata/configuration.xml");
+    _file = loadXML(sketchPath()+"/data/userdata/configuration.xml");
   }
   catch(Exception e) {
     println("No configuration.xml file found.");
   }
   if(_file == null) {
     try{
-      _file = loadXML("defaultConfig.xml");
+      _file = loadXML(sketchPath()+"/data/config/defaultConfig.xml");
     }
     catch(Exception e) { }
   }
@@ -105,11 +103,6 @@ void fetchConfiguration(){
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-  // create a server
-  server = new SimpleHTTPServer(this);
-  // serve all files recursively in the data folder with the base uri path ""
-  server.serveAll("");
-
   documenter = new Documenter();
   //pick your flavour of freeliner
   freeliner = new FreeLiner(this, usePipeline);
@@ -121,11 +114,12 @@ void setup() {
   surface.setResizable(false);
   surface.setTitle("a!Lc Freeliner");
   noCursor();
-  hint(ENABLE_KEY_REPEAT); // usefull for performance
+  // add in keyboard, as hold - or = to repeat. beginners tend to hold keys down which is problematic
+  //hint(ENABLE_KEY_REPEAT); // usefull for performance
 
   // load fonts
-  introFont = loadFont(sketchPath()+"/fonts/MiniKaliberSTTBRK-48.vlw");
-  font = loadFont(sketchPath()+"/fonts/Arial-BoldMT-48.vlw");
+  introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");
+  font = loadFont("fonts/Arial-BoldMT-48.vlw");
 
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
@@ -133,8 +127,6 @@ void setup() {
   // perhaps use -> PApplet.platform == MACOSX
   background(0);
   splash();
-
-
 }
 
 // splash screen!

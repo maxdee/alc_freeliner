@@ -19,6 +19,7 @@ class FreeLiner implements FreelinerConfig{
   TemplateRenderer templateRenderer;
   CanvasManager canvasManager; // new!
   Gui gui;
+  GUIWebServer guiWebServer;
   // control
   Mouse mouse;
   Keyboard keyboard;
@@ -49,7 +50,7 @@ class FreeLiner implements FreelinerConfig{
     mouse = new Mouse();
     keyboard = new Keyboard();
     commandProcessor = new CommandProcessor();
-
+    guiWebServer = new GUIWebServer(applet);
     // osc + webSocket
     oscComs = new OSCCommunicator(applet, commandProcessor);
     webComs = new WebSocketCommunicator(applet, commandProcessor);

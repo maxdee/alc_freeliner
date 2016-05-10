@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups>
+  <group ID="0" centerX="315.0" centerY="216.0" centered="0" tags="" type="gui">
+    <segment aX="166.0" aY="29.0" bX="58.0" bY="34.0" txt="[Geom : ]"/>
+    <segment aX="166.0" aY="49.0" bX="46.0" bY="62.0" txt="[Rndr :  ]"/>
+    <segment aX="195.0" aY="71.0" bX="40.0" bY="90.0" txt="[s saveStuff: true]"/>
+    <segment aX="202.0" aY="113.0" bX="135.0" bY="105.0" txt="[0:10:47]"/>
+    <segment aX="135.0" aY="105.0" bX="64.0" bY="119.0" txt="[FPS 48]"/>
+  </group>
+  <group ID="2" centerX="609.0" centerY="411.0" centered="0" tags="D" type="map">
+    <segment aX="524.0" aY="195.0" bX="556.0" bY="195.0" txt="freeliner!"/>
+    <segment aX="893.0" aY="216.0" bX="930.0" bY="214.0" txt="freeliner!"/>
+    <segment aX="522.0" aY="258.0" bX="559.0" bY="257.0" txt="freeliner!"/>
+    <segment aX="742.0" aY="258.0" bX="780.0" bY="259.0" txt="freeliner!"/>
+    <segment aX="840.0" aY="251.0" bX="878.0" bY="251.0" txt="freeliner!"/>
+    <segment aX="468.0" aY="287.6" bX="501.0" bY="288.0" txt="freeliner!"/>
+    <segment aX="359.6" aY="287.4" bX="393.0" bY="288.0" txt="freeliner!"/>
+    <segment aX="520.0" aY="318.0" bX="555.0" bY="319.0" txt="freeliner!"/>
+    <segment aX="580.0" aY="291.0" bX="612.6" bY="290.6" txt="freeliner!"/>
+    <segment aX="628.0" aY="319.0" bX="662.0" bY="319.0" txt="freeliner!"/>
+    <segment aX="681.0" aY="287.0" bX="717.0" bY="286.0" txt="freeliner!"/>
+    <segment aX="843.6" aY="313.4" bX="883.0" bY="312.0" txt="freeliner!"/>
+    <segment aX="358.0" aY="351.0" bX="394.0" bY="351.0" txt="freeliner!"/>
+    <segment aX="248.0" aY="354.0" bX="283.0" bY="352.0" txt="freeliner!"/>
+    <segment aX="140.6" aY="353.2" bX="177.4" bY="353.0" txt="freeliner!"/>
+    <segment aX="81.0" aY="381.0" bX="119.2" bY="381.4" txt="freeliner!"/>
+    <segment aX="135.2" aY="414.0" bX="173.6" bY="413.8" txt="freeliner!"/>
+    <segment aX="193.0" aY="385.0" bX="231.0" bY="383.0" txt="freeliner!"/>
+    <segment aX="83.8" aY="443.8" bX="121.4" bY="443.8" txt="freeliner!"/>
+    <segment aX="249.4" aY="415.6" bX="286.0" bY="414.4" txt="freeliner!"/>
+    <segment aX="302.0" aY="382.0" bX="338.0" bY="383.0" txt="freeliner!"/>
+    <segment aX="410.4" aY="382.4" bX="449.0" bY="382.0" txt="freeliner!"/>
+    <segment aX="467.0" aY="350.0" bX="500.0" bY="350.0" txt="freeliner!"/>
+    <segment aX="413.0" aY="321.0" bX="448.0" bY="321.0" txt="freeliner!"/>
+    <segment aX="520.0" aY="381.0" bX="555.0" bY="381.0" txt="freeliner!"/>
+    <segment aX="573.0" aY="350.0" bX="608.0" bY="350.0" txt="freeliner!"/>
+    <segment aX="626.0" aY="381.0" bX="665.0" bY="380.0" txt="freeliner!"/>
+    <segment aX="683.0" aY="350.0" bX="722.0" bY="349.0" txt="freeliner!"/>
+    <segment aX="682.0" aY="412.0" bX="720.0" bY="412.0" txt="freeliner!"/>
+    <segment aX="737.0" aY="381.0" bX="773.0" bY="380.0" txt="freeliner!"/>
+    <segment aX="790.0" aY="347.0" bX="826.0" bY="345.0" txt="freeliner!"/>
+    <segment aX="793.0" aY="410.0" bX="830.0" bY="407.0" txt="freeliner!"/>
+    <segment aX="847.0" aY="375.0" bX="882.0" bY="374.0" txt="freeliner!"/>
+    <segment aX="902.0" aY="402.0" bX="939.0" bY="401.0" txt="freeliner!"/>
+    <segment aX="900.0" aY="342.0" bX="938.0" bY="340.0" txt="freeliner!"/>
+    <segment aX="956.0" aY="369.0" bX="995.0" bY="369.0" txt="freeliner!"/>
+    <segment aX="897.0" aY="279.0" bX="935.0" bY="277.0" txt="freeliner!"/>
+    <segment aX="739.0" aY="320.0" bX="777.0" bY="319.0" txt="freeliner!"/>
+    <segment aX="957.0" aY="430.0" bX="993.0" bY="430.0" txt="freeliner!"/>
+    <segment aX="849.0" aY="436.0" bX="884.0" bY="436.0" txt="freeliner!"/>
+    <segment aX="905.0" aY="464.4" bX="945.0" bY="467.0" txt="freeliner!"/>
+    <segment aX="958.0" aY="492.0" bX="991.0" bY="489.0" txt="freeliner!"/>
+    <segment aX="960.2" aY="551.2" bX="996.0" bY="550.0" txt="freeliner!"/>
+    <segment aX="907.4" aY="524.6" bX="940.2" bY="523.4" txt="freeliner!"/>
+    <segment aX="851.0" aY="498.0" bX="887.0" bY="497.0" txt="freeliner!"/>
+    <segment aX="794.0" aY="470.6" bX="832.0" bY="468.0" txt="freeliner!"/>
+    <segment aX="738.0" aY="442.0" bX="776.0" bY="442.0" txt="freeliner!"/>
+    <segment aX="682.4" aY="473.6" bX="720.0" bY="472.0" txt="freeliner!"/>
+    <segment aX="628.0" aY="442.0" bX="664.0" bY="443.0" txt="freeliner!"/>
+    <segment aX="574.6" aY="472.2" bX="609.6" bY="472.0" txt="freeliner!"/>
+    <segment aX="467.6" aY="472.2" bX="500.2" bY="472.6" txt="freeliner!"/>
+    <segment aX="465.8" aY="412.4" bX="501.0" bY="411.0" txt="freeliner!"/>
+    <segment aX="355.2" aY="412.8" bX="393.0" bY="412.0" txt="freeliner!"/>
+    <segment aX="302.0" aY="443.0" bX="338.0" bY="443.0" txt="freeliner!"/>
+    <segment aX="192.0" aY="445.0" bX="230.0" bY="445.0" txt="freeliner!"/>
+    <segment aX="138.6" aY="475.6" bX="174.2" bY="475.0" txt="freeliner!"/>
+    <segment aX="249.2" aY="474.4" bX="284.6" bY="474.8" txt="freeliner!"/>
+    <segment aX="194.2" aY="505.6" bX="229.4" bY="505.6" txt="freeliner!"/>
+    <segment aX="196.2" aY="566.2" bX="232.0" bY="566.2" txt="freeliner!"/>
+    <segment aX="249.0" aY="536.0" bX="288.0" bY="537.0" txt="freeliner!"/>
+    <segment aX="303.0" aY="505.0" bX="339.0" bY="504.0" txt="freeliner!"/>
+    <segment aX="357.6" aY="474.8" bX="394.8" bY="473.6" txt="freeliner!"/>
+    <segment aX="412.2" aY="503.4" bX="448.4" bY="503.6" txt="freeliner!"/>
+    <segment aX="412.2" aY="565.8" bX="448.8" bY="565.6" txt="freeliner!"/>
+    <segment aX="466.2" aY="534.0" bX="500.0" bY="534.0" txt="freeliner!"/>
+    <segment aX="519.0" aY="502.8" bX="555.0" bY="503.0" txt="freeliner!"/>
+    <segment aX="411.0" aY="443.0" bX="448.0" bY="442.0" txt="freeliner!"/>
+    <segment aX="520.0" aY="441.0" bX="555.0" bY="442.0" txt="freeliner!"/>
+    <segment aX="518.2" aY="565.4" bX="554.2" bY="564.6" txt="freeliner!"/>
+    <segment aX="521.4" aY="626.0" bX="554.6" bY="625.2" txt="freeliner!"/>
+    <segment aX="572.0" aY="533.0" bX="608.0" bY="533.0" txt="freeliner!"/>
+    <segment aX="626.0" aY="503.0" bX="664.0" bY="503.0" txt="freeliner!"/>
+    <segment aX="627.4" aY="563.6" bX="663.8" bY="563.6" txt="freeliner!"/>
+    <segment aX="740.0" aY="503.0" bX="778.0" bY="502.0" txt="freeliner!"/>
+    <segment aX="742.2" aY="563.8" bX="778.8" bY="563.2" txt="freeliner!"/>
+    <segment aX="797.0" aY="531.0" bX="832.4" bY="530.6" txt="freeliner!"/>
+    <segment aX="797.0" aY="591.8" bX="833.0" bY="590.0" txt="freeliner!"/>
+    <segment aX="852.4" aY="557.4" bX="885.0" bY="556.0" txt="freeliner!"/>
+    <segment aX="855.2" aY="618.6" bX="888.2" bY="617.6" txt="freeliner!"/>
+    <segment aX="574.0" aY="411.0" bX="609.2" bY="410.2" txt="freeliner!"/>
+  </group>
+</groups>

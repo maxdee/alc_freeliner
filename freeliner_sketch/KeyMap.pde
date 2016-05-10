@@ -27,7 +27,7 @@ class KeyMap {
       keymap[_s.charAt(0)].setMax(_limits.get(_s));
     }
     keymap['f'].setMax(keymap['q'].getMax());
-    for(ParameterKey _pk : keymap) if(_pk != null) println(_pk.getKey()+" "+_pk.getMax());
+    // for(ParameterKey _pk : keymap) if(_pk != null) println(_pk.getKey()+" "+_pk.getMax());
   }
 
   public void loadKeys(){

@@ -253,7 +253,7 @@ class GroupManager{
         // for leds and such
         xseg.setString("txt",seg.getText());
       }
-      saveXML(groupData, "../userdata/"+_fn);
+      saveXML(groupData, sketchPath()+"/data/userdata/"+_fn);
     }
   }
 
@@ -266,7 +266,7 @@ class GroupManager{
   public void loadGroups(String _fn){
     XML file;
     try {
-      file = loadXML("../userdata/"+_fn);
+      file = loadXML(sketchPath()+"/data/userdata/"+_fn);
     }
     catch (Exception e){
       println(_fn+" cant be loaded");

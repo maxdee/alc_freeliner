@@ -83,7 +83,7 @@ class LayeredCanvasManager extends CanvasManager{
   TracerLayer tracerLayer;
   ShaderLayer shaderLayer;
 
-  String[] shaderFiles = {"shaders/fragZero.glsl", "shaders/fragOne.glsl", "shaders/fragTwo.glsl", "shaders/fragThree.glsl",};
+  String[] shaderFiles = {"fragZero.glsl", "fragOne.glsl", "fragTwo.glsl", "fragThree.glsl",};
 
   public LayeredCanvasManager(){
     layers = new ArrayList();
@@ -102,7 +102,7 @@ class LayeredCanvasManager extends CanvasManager{
     maskLayer = (MaskLayer)addLayer(new MaskLayer());
     addLayer(mergeLayer);
 
-    //addLayer(new ImageLayer()).loadFile("userdata/grey.png");
+    //addLayer(new ImageLayer()).loadFile(sketchPath()+"/data/userdata/grey.png");
     //addLayer(new RenderLayer()).setName("First");
     //
     //addLayer(mergeLayer);
@@ -228,7 +228,7 @@ class LayeredCanvasManager extends CanvasManager{
   public void loadShader(int _n){
     if(shaderLayer == null) return;
     if(_n < shaderFiles.length) {
-      shaderLayer.loadFile(shaderFiles[_n]);
+      shaderLayer.loadFile(sketchPath()+"/data/shaders/"+shaderFiles[_n]);
     }
     else println("out of shaders");
   }

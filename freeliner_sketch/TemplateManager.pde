@@ -379,7 +379,7 @@ class TemplateManager{
       _tmp.setInt("enablerMode", _tp.getEnablerMode());
       _tmp.setInt("renderLayer", _tp.getRenderLayer());
     }
-    saveXML(_templates, "../userdata/"+_fn);
+    saveXML(_templates, sketchPath()+"/data/userdata/"+_fn);
   }
 
   public void loadTemplates(){
@@ -389,7 +389,7 @@ class TemplateManager{
   public void loadTemplates(String _fn){
     XML file;
     try {
-      file = loadXML("../userdata/"+_fn);
+      file = loadXML(sketchPath()+"/data/userdata/"+_fn);
     }
     catch (Exception e){
       println(_fn+" cant be loaded");

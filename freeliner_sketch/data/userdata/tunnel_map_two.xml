@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups>
+  <group ID="0" centerX="64.0" centerY="64.0" centered="0" tags="" type="gui">
+    <segment aX="960.0" aY="64.0" bX="832.0" bY="64.0" txt="[Geom : ]"/>
+    <segment aX="832.0" aY="64.0" bX="640.0" bY="64.0" txt="[Rndr :  ]"/>
+    <segment aX="640.0" aY="64.0" bX="320.0" bY="64.0" txt="[s saveStuff: ]"/>
+    <segment aX="320.0" aY="64.0" bX="192.0" bY="64.0" txt="[0:6:59]"/>
+    <segment aX="192.0" aY="64.0" bX="64.0" bY="64.0" txt="[FPS 59]"/>
+  </group>
+  <group ID="2" centerX="832.0" centerY="576.0" centered="0" tags="A" type="map">
+    <segment aX="72.0" aY="104.0" bX="328.0" bY="104.0" txt="/led 0 119"/> // 1
+    <segment aX="72.0" aY="168.0" bX="328.0" bY="168.0" txt="/led 120 239"/> // 2
+    <segment aX="72.0" aY="40.0" bX="328.0" bY="40.0"  txt="/led 240 359"/> // 0
+    <segment aX="64.0" aY="704.0" bX="64.0" bY="640.0" txt="/led 360 479"/>
+    <segment aX="72.0" aY="232.0" bX="328.0" bY="232.0" txt="/led 480 599"/> // 3
+    <segment aX="72.0" aY="296.0" bX="328.0" bY="296.0" txt="/led 600 719"/> // 4
+    <segment aX="72.0" aY="360.0" bX="328.0" bY="360.0" txt="/led 720 839"/>  // 6
+    <segment aX="72.0" aY="360.0" bX="328.0" bY="360.0" txt="/led 840 959"/> //5
+  </group>
+</groups>

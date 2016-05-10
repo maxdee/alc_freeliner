@@ -397,7 +397,7 @@
    */
    // disable cause too slooooow?
   private void updateReference() {
-    updateReference("../userdata/reference.jpg");
+    updateReference(sketchPath()+"/data/userdata/reference.jpg");
   }
 
   private void updateReference(String _file) {

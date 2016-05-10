@@ -7,6 +7,8 @@ body {
 input {
   width:128px;
   margin-left: auto;
+  background-color:#0E0E0E;
+  color: #98A7FF;
 }
 
 input[type=color] {
@@ -31,12 +33,13 @@ input[type=range] {
 }
 
 .widget {
-  margin:4px;
+  margin: 4px;
   min-height: 24px;
   background-color: #1D1D1D;
   color: #FFFFFF;
   font-size: 10pt;
   padding: 2px;
+  padding-left: 4px;
   display: flex;
   align-items: center;
   overflow: auto;

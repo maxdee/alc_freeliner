@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups>
+  <group ID="0" centerX="930.0" centerY="709.0" centered="0" tags="" type="gui">
+    <segment aX="930.0" aY="709.0" bX="743.0" bY="720.0" txt="[Geom : ]"/>
+    <segment aX="743.0" aY="720.0" bX="607.0" bY="722.0" txt="[Rndr : DE]"/>
+    <segment aX="607.0" aY="722.0" bX="488.0" bY="713.0" txt="[w strkWeigth: 28]"/>
+    <segment aX="488.0" aY="713.0" bX="370.0" bY="719.0" txt="[0:17:23]"/>
+    <segment aX="370.0" aY="719.0" bX="201.0" bY="723.0" txt="[FPS 46]"/>
+  </group>
+  <group ID="2" centerX="512.0" centerY="383.99994" centered="1" tags="AC" type="map">
+    <segment aX="512.0" aY="128.0" bX="290.2975" bY="256.0" txt="freeliner!"/>
+    <segment aX="290.2975" aY="256.0" bX="290.2975" bY="512.0" txt="freeliner!"/>
+    <segment aX="290.2975" aY="512.0" bX="512.0" bY="640.0" txt="freeliner!"/>
+    <segment aX="512.0" aY="640.0" bX="733.7025" bY="511.99988" txt="freeliner!"/>
+    <segment aX="733.7025" aY="511.99988" bX="733.7025" bY="255.99994" txt="freeliner!"/>
+    <segment aX="733.7025" aY="255.99994" bX="512.0" bY="127.99995" txt="freeliner!"/>
+  </group>
+  <group ID="3" centerX="512.0" centerY="127.99995" centered="0" tags="" type="map">
+    <segment aX="512.0" aY="127.99995" bX="768.0" bY="127.99995" txt="freeliner!"/>
+    <segment aX="768.0" aY="127.99995" bX="989.7025" bY="255.99994" txt="freeliner!"/>
+    <segment aX="989.7025" aY="255.99994" bX="989.7025" bY="511.99994" txt="freeliner!"/>
+    <segment aX="989.7025" aY="511.99994" bX="768.0" bY="639.99994" txt="freeliner!"/>
+    <segment aX="768.0" aY="639.99994" bX="512.0" bY="639.99994" txt="freeliner!"/>
+    <segment aX="512.0" aY="639.99994" bX="733.7025" bY="511.99988" txt="freeliner!"/>
+    <segment aX="733.7025" aY="511.99988" bX="733.7025" bY="255.99988" txt="freeliner!"/>
+    <segment aX="733.7025" aY="255.99988" bX="512.0" bY="127.999886" txt="freeliner!"/>
+  </group>
+  <group ID="4" centerX="512.0" centerY="127.999886" centered="0" tags="" type="map">
+    <segment aX="512.0" aY="127.999886" bX="256.0" bY="127.99986" txt="freeliner!"/>
+    <segment aX="256.0" aY="127.99986" bX="34.2975" bY="255.99988" txt="freeliner!"/>
+    <segment aX="34.2975" aY="255.99988" bX="34.29749" bY="511.99988" txt="freeliner!"/>
+    <segment aX="34.29749" aY="511.99988" bX="255.99998" bY="639.9999" txt="freeliner!"/>
+    <segment aX="255.99998" aY="639.9999" bX="512.0" bY="639.9999" txt="freeliner!"/>
+    <segment aX="512.0" aY="639.9999" bX="290.2975" bY="511.99988" txt="freeliner!"/>
+    <segment aX="290.2975" aY="511.99988" bX="290.2975" bY="255.99988" txt="freeliner!"/>
+    <segment aX="290.2975" aY="255.99988" bX="511.99997" bY="127.99983" txt="freeliner!"/>
+  </group>
+  <group ID="5" centerX="511.99997" centerY="127.99983" centered="0" tags="B" type="map">
+    <segment aX="511.99997" aY="127.99983" bX="290.2975" bY="255.99988" txt="freeliner!"/>
+    <segment aX="256.0" aY="127.99986" bX="34.2975" bY="255.99988" txt="freeliner!"/>
+    <segment aX="290.2975" aY="255.99988" bX="290.2975" bY="511.99988" txt="freeliner!"/>
+    <segment aX="34.2975" aY="255.99988" bX="34.29749" bY="511.99988" txt="freeliner!"/>
+    <segment aX="290.2975" aY="511.99988" bX="512.0" bY="639.9999" txt="freeliner!"/>
+    <segment aX="34.29749" aY="511.99988" bX="255.99998" bY="639.9999" txt="freeliner!"/>
+  </group>
+  <group ID="6" centerX="511.99997" centerY="127.99983" centered="0" tags="B" type="map">
+    <segment aX="511.99997" aY="127.99983" bX="733.7025" bY="255.99988" txt="freeliner!"/>
+    <segment aX="768.0" aY="127.99995" bX="989.7025" bY="255.99994" txt="freeliner!"/>
+    <segment aX="733.7025" aY="255.99988" bX="733.7025" bY="511.99988" txt="freeliner!"/>
+    <segment aX="989.7025" aY="255.99994" bX="989.7025" bY="511.99994" txt="freeliner!"/>
+    <segment aX="733.7025" aY="511.99988" bX="512.0" bY="639.9999" txt="freeliner!"/>
+    <segment aX="989.7025" aY="511.99994" bX="768.0" bY="639.99994" txt="freeliner!"/>
+  </group>
+  <group ID="7" centerX="511.99997" centerY="127.99983" centered="0" tags="D" type="map">
+    <segment aX="511.99997" aY="127.99983" bX="34.2975" bY="255.99988" txt="freeliner!"/>
+    <segment aX="511.99997" aY="127.99983" bX="989.7025" bY="255.99994" txt="freeliner!"/>
+    <segment aX="512.0" aY="639.9999" bX="34.29749" bY="511.99988" txt="freeliner!"/>
+    <segment aX="512.0" aY="639.9999" bX="989.7025" bY="511.99994" txt="freeliner!"/>
+    <segment aX="34.2975" aY="255.99988" bX="290.2975" bY="511.99988" txt="freeliner!"/>
+    <segment aX="989.7025" aY="255.99994" bX="733.7025" bY="511.99988" txt="freeliner!"/>
+    <segment aX="34.29749" aY="511.99988" bX="290.2975" bY="255.99988" txt="freeliner!"/>
+    <segment aX="989.7025" aY="511.99994" bX="733.7025" bY="255.99988" txt="freeliner!"/>
+    <segment aX="290.2975" aY="511.99988" bX="255.99998" bY="639.9999" txt="freeliner!"/>
+    <segment aX="733.7025" aY="511.99988" bX="768.0" bY="639.99994" txt="freeliner!"/>
+    <segment aX="290.2975" aY="255.99988" bX="256.0" bY="127.99986" txt="freeliner!"/>
+    <segment aX="733.7025" aY="255.99988" bX="768.0" bY="127.99995" txt="freeliner!"/>
+  </group>
+  <group ID="8" centerX="512.0" centerY="383.99994" centered="1" tags="E" type="map">
+    <segment aX="290.2975" aY="255.99988" bX="290.2975" bY="511.99988" txt="freeliner!"/>
+    <segment aX="290.2975" aY="511.99988" bX="512.0" bY="639.9999" txt="freeliner!"/>
+    <segment aX="512.0" aY="639.9999" bX="733.7025" bY="511.99988" txt="freeliner!"/>
+    <segment aX="733.7025" aY="511.99988" bX="733.7025" bY="255.99988" txt="freeliner!"/>
+    <segment aX="733.7025" aY="255.99988" bX="511.99997" bY="127.99983" txt="freeliner!"/>
+    <segment aX="511.99997" aY="127.99983" bX="290.2975" bY="255.99988" txt="freeliner!"/>
+  </group>
+</groups>

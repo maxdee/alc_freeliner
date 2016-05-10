@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups>
+  <group ID="0" centerX="181.0" centerY="26.0" centered="0" tags="" text="hi, im geometry 0" type="gui">
+    <segment aX="181.0" aY="26.0" bX="28.0" bY="25.0" txt="[Geom : ]"/>
+    <segment aX="184.0" aY="59.0" bX="19.0" bY="58.0" txt="[Rndr :  ]"/>
+    <segment aX="170.0" aY="91.0" bX="12.0" bY="91.0" txt="[u nselect:  ]"/>
+    <segment aX="158.0" aY="168.0" bX="20.0" bY="145.0" txt="[0:1:45]"/>
+    <segment aX="162.0" aY="219.0" bX="24.0" bY="203.0" txt="[FPS 59]"/>
+    <segment aX="181.0" aY="26.0" bX="28.0" bY="25.0" txt="[Geom : ]"/>
+    <segment aX="184.0" aY="59.0" bX="19.0" bY="58.0" txt="[Rndr : A]"/>
+    <segment aX="170.0" aY="91.0" bX="12.0" bY="91.0" txt="[s saveStuff: 4]"/>
+    <segment aX="158.0" aY="168.0" bX="20.0" bY="145.0" txt="[0:0:48]"/>
+    <segment aX="162.0" aY="219.0" bX="24.0" bY="203.0" txt="[FPS 60]"/>
+    <segment aX="24.0" aY="203.0" bX="24.0" bY="203.0" txt="freeliner!"/>
+  </group>
+  <group ID="2" centerX="28.0" centerY="649.0" centered="0" tags="A" text="hi, im geometry 2" type="map">
+    <segment aX="681.0" aY="175.0" bX="289.0" bY="527.0" txt="freeliner!"/>
+    <segment aX="289.0" aY="527.0" bX="733.0" bY="597.0" txt="freeliner!"/>
+    <segment aX="733.0" aY="597.0" bX="386.0" bY="107.0" txt="freeliner!"/>
+    <segment aX="386.0" aY="107.0" bX="681.0" bY="175.0" txt="freeliner!"/>
+  </group>
+  <group ID="3" centerX="28.0" centerY="649.0" centered="0" tags="A" text="hi, im geometry 2" type="map">
+    <segment aX="28.0" aY="649.0" bX="86.0" bY="237.0" txt="freeliner!"/>
+    <segment aX="86.0" aY="237.0" bX="114.0" bY="670.0" txt="freeliner!"/>
+  </group>
+</groups>

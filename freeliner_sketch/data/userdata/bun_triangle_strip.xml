@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups>
+  <group ID="0" centerX="930.0" centerY="702.0" centered="0" tags="" type="gui">
+    <segment aX="930.0" aY="702.0" bX="707.0" bY="704.0" txt="[Geom : 2]"/>
+    <segment aX="204.0" aY="668.0" bX="33.0" bY="673.0" txt="[FPS 20]"/>
+    <segment aX="707.0" aY="704.0" bX="512.0" bY="701.0" txt="[Rndr : ]"/>
+    <segment aX="512.0" aY="701.0" bX="309.0" bY="708.0" txt="[s saveStuff: ]"/>
+    <segment aX="309.0" aY="708.0" bX="84.0" bY="706.0" txt="[0:0:54]"/>
+  </group>
+  <group ID="2" centerX="871.0" centerY="300.0" centered="0" tags="" type="map">
+    <segment aX="871.0" aY="300.0" bX="34.0" bY="326.0" txt="/led 851 1063"/>
+    <segment aX="966.0" aY="119.0" bX="836.0" bY="96.0" txt="/led 0 850"/>
+    <segment aX="984.0" aY="70.0" bX="858.0" bY="40.0" txt="/led 1064 1703"/>
+  </group>
+</groups>
