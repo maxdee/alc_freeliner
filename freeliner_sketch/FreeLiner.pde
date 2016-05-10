@@ -145,13 +145,13 @@ class FreeLiner implements FreelinerConfig{
   public void configure(String _param, int _v){
     XML _file;
     try{
-      _file = loadXML("../userdata/configuration.xml");
+      _file = loadXML(sketchPath()+"/data/userdata/configuration.xml");
     }
     catch(Exception e) {
       _file = new XML("freelinerConfiguration");
     }
     _file.setInt(_param, _v);
-    saveXML(_file, "../userdata/configuration.xml");
+    saveXML(_file, sketchPath()+"/data/userdata/configuration.xml");
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
