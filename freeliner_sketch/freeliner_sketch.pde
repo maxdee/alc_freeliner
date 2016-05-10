@@ -83,17 +83,13 @@ void fetchConfiguration(){
   catch(Exception e) {
     println("No configuration.xml file found.");
   }
-  if(_file == null) {
-    try{
-      _file = loadXML(sketchPath()+"/data/config/defaultConfig.xml");
-    }
-    catch(Exception e) { }
+  if(_file != null) {
+    configuredWidth = _file.getInt("width");
+    configuredHeight = _file.getInt("height");
+    useFullscreen = _file.getInt("fullscreen");
+    useDisplay = _file.getInt("display");
+    usePipeline = _file.getInt("pipeline");
   }
-  configuredWidth = _file.getInt("width");
-  configuredHeight = _file.getInt("height");
-  useFullscreen = _file.getInt("fullscreen");
-  useDisplay = _file.getInt("display");
-  usePipeline = _file.getInt("pipeline");
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
