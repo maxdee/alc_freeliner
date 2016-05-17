@@ -35,6 +35,7 @@ class PerSegment extends RenderMode{
 		segmentSelectors[4] = new FastRandomSegment(4);
 		segmentSelectors[5] = new SegmentBranch(5);
 		segmentSelectors[6] = new RunThroughBranches(6);
+		
 		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentSelectors, 'v', this, "SegmentSelector");
 		// place holder for painter
 		segmentPainters = new SegmentPainter[painterCount];

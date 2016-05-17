@@ -11,6 +11,17 @@ interface FreelinerConfig {
   // Websocket port
   final int WEBSOCKET_PORT = 8025;
 
+  // bad for beginners but crucial
+  boolean final ENABLE_KEY_REPEAT = true;
+
+  // Mouse options
+  final int DEFAULT_GRID_SIZE = 64;
+  final int DEFAULT_LINE_ANGLE = 30;
+  final int DEFAULT_LINE_LENGTH = 128;
+  final int MOUSE_DEBOUNCE = 100;
+  // use scrollwheel as - +
+  final boolean SCROLLWHEEL_SELECTOR = false;
+
   // GUI options
   final int CURSOR_SIZE = 18;
   final int CURSOR_GAP_SIZE = 6;
@@ -52,14 +63,6 @@ interface FreelinerConfig {
 
   // to enable / disable experimental parts.
   final boolean EXPERIMENTAL = false;
-
-  // Mouse options
-  final int DEFAULT_GRID_SIZE = 64;
-  final int DEFAULT_LINE_ANGLE = 30;
-  final int DEFAULT_LINE_LENGTH = 128;
-  final int MOUSE_DEBOUNCE = 100;
-  // use scrollwheel as - +
-  final boolean SCROLLWHEEL_SELECTOR = false;
 
   // generate documentation on startup, pretty much mandatory now.
   final boolean MAKE_DOCUMENTATION = true;

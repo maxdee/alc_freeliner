@@ -14,7 +14,11 @@ import netP5.*;
  * HELLO THERE! WELCOME to FREELINER
  * There is a bunch of settings in the Config.pde file.
  */
+
 // for loading configuration
+// false -> use following parameters
+// true -> use the configuration saved in data/userdata/configuration.xml
+boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 1024;
 int configuredHeight = 768;
 int useFullscreen = 0;
@@ -25,22 +29,22 @@ int usePipeline = 0;
  * Your color pallette! customize it!
  * Use hex value or color(0,100,200);
  */
-final color[] userPallet = {
-                  #ffff00,
-                  #ffad10,
-                  #ff0000,
-                  #ff00ad,
-                  #f700f7,
-                  #ad00ff,
-                  #0000ff,
-                  #009cff,
-                  #00c6ff,
-                  #00deb5,
-                  #a5ff00,
-                  #f700f7,
-                };
+// final color[] userPallet = {
+//                   #ffff00,
+//                   #ffad10,
+//                   #ff0000,
+//                   #ff00ad,
+//                   #f700f7,
+//                   #ad00ff,
+//                   #0000ff,
+//                   #009cff,
+//                   #00c6ff,
+//                   #00deb5,
+//                   #a5ff00,
+//                   #f700f7,
+//                 };
 
-final int PALLETTE_COUNT = 12;
+// final int PALLETTE_COUNT = 12;
 
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -63,9 +67,9 @@ ExternalGUI externalGUI = null; // set specific key to init gui
 Documenter documenter;
 
 void settings(){
-  fetchConfiguration();
+  if( fetchConfig ) fetchConfiguration();
   if(useFullscreen == 1){
-    fullScreen(P2D, useDisplay);
+    fullScreen(P2D,2);
   }
   else {
     size(configuredWidth, configuredHeight, P2D);
@@ -101,7 +105,7 @@ void fetchConfiguration(){
 void setup() {
   documenter = new Documenter();
   //pick your flavour of freeliner
-  freeliner = new FreeLiner(this, usePipeline);
+  freeliner = new FreeLiner(this, 1);//usePipeline);
   //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON // implement in layer
   //freeliner = new FreelinerSpout(this); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this,"led_fullstrips.xml");//tunnel_map_two.xml"); // implement in layer?
@@ -111,7 +115,7 @@ void setup() {
   surface.setTitle("a!Lc Freeliner");
   noCursor();
   // add in keyboard, as hold - or = to repeat. beginners tend to hold keys down which is problematic
-  //hint(ENABLE_KEY_REPEAT); // usefull for performance
+  if(FreelinerConfig.ENABLE_KEY_REPEAT) hint(ENABLE_KEY_REPEAT); // usefull for performance
 
   // load fonts
   introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");

@@ -6,9 +6,10 @@ class GUIWebServer implements FreelinerConfig {
 
   public GUIWebServer(PApplet _parent){
     // create a server
+    SimpleHTTPServer.useIndexHtml = false;
     server = new SimpleHTTPServer(_parent);
     // serveAppropriateFiles();
-    server.serveAll("");
+    server.serveAll("",sketchPath()+"/data/webgui");
   }
 
   // dosent work
@@ -23,6 +24,8 @@ class GUIWebServer implements FreelinerConfig {
         else if(_file[1].equals("css")) server.serve(_files[i].getPath());
         else if(_file[1].equals("json")) server.serve(_files[i].getPath());
         else if(_file[1].equals("js")) server.serve(_files[i].getPath());
+        else if(_file[1].equals("jpg")) server.serve(_files[i].getPath());
+
       }
     }
   }

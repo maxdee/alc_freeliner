@@ -228,6 +228,7 @@ class CommandProcessor implements FreelinerConfig{
   public void saveCMD(String[] _args){
     processCMD("tp save");
     processCMD("geom save");
+    gui.updateReference(sketchPath()+"/data/webgui/reference.jpg");
     valueGiven = "sure";
   }
   public void openCMD(String[] _args){

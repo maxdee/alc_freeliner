@@ -376,8 +376,8 @@ function otherInputCallbacks() {
 
   _element = document.getElementById("openRef");
   if(_element) _element.onclick = function (){
-    sendCMD('geom webref');
-    window.open("reference.png", "geometry reference", "width=1000,height=700");
+    // sendCMD('geom webref');
+    window.open("reference.jpg", "geometry reference", "width=1000,height=700");
   }
 
   _element = document.getElementById("fileInput")
