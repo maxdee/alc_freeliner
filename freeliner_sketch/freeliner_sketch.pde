@@ -18,7 +18,7 @@ import netP5.*;
 // for loading configuration
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
-boolean fetchConfig = false; // set to true for #packaging
+boolean fetchConfig = true; // set to true for #packaging
 int configuredWidth = 1024;
 int configuredHeight = 768;
 int useFullscreen = 0;
@@ -105,7 +105,7 @@ void fetchConfiguration(){
 void setup() {
   documenter = new Documenter();
   //pick your flavour of freeliner
-  freeliner = new FreeLiner(this, 1);//usePipeline);
+  freeliner = new FreeLiner(this, usePipeline);
   //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON // implement in layer
   //freeliner = new FreelinerSpout(this); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this,"led_fullstrips.xml");//tunnel_map_two.xml"); // implement in layer?
