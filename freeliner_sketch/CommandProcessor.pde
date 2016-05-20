@@ -226,6 +226,13 @@ class CommandProcessor implements FreelinerConfig{
     else return false;
     return true;
   }
+
+  public void quitCMD(){
+    // do a backup save?
+    println("Freeliner quit via ctrl-Q, goodbye!");
+    exit();
+  }
+
   public void saveCMD(String[] _args){
     processCMD("tp save");
     processCMD("geom save");
