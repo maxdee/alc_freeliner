@@ -18,34 +18,12 @@ import netP5.*;
 // for loading configuration
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
-boolean fetchConfig = true; // set to true for #packaging
+boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 1024;
 int configuredHeight = 768;
 int useFullscreen = 0;
 int useDisplay = 1; // SPAN is 0
 int usePipeline = 0;
-
-/**
- * Your color pallette! customize it!
- * Use hex value or color(0,100,200);
- */
-// final color[] userPallet = {
-//                   #ffff00,
-//                   #ffad10,
-//                   #ff0000,
-//                   #ff00ad,
-//                   #f700f7,
-//                   #ad00ff,
-//                   #0000ff,
-//                   #009cff,
-//                   #00c6ff,
-//                   #00deb5,
-//                   #a5ff00,
-//                   #f700f7,
-//                 };
-
-// final int PALLETTE_COUNT = 12;
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

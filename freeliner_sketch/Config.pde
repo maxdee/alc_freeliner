@@ -12,7 +12,7 @@ interface FreelinerConfig {
   final int WEBSOCKET_PORT = 8025;
 
   // bad for beginners but crucial
-  boolean final ENABLE_KEY_REPEAT = true;
+  boolean ENABLE_KEY_REPEAT = true;
 
   // Mouse options
   final int DEFAULT_GRID_SIZE = 64;

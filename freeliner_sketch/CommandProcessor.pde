@@ -222,6 +222,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return false;
     else if(_args[1].equals("save")) saveCMD(_args);
     else if(_args[1].equals("open")) openCMD(_args);
+    else if(_args[1].equals("quit")) exit();
     else return false;
     return true;
   }

@@ -262,18 +262,24 @@ class KeyMap {
     keymap['I'].setName("revMouseX");
     keymap['I'].setDescription("Reverse the X axis of mouse, trust me its handy.");
     keymap['I'].setCMD("tools revx"); //
-    // enterpolator
+    // masking
+    keymap['M'] = new ParameterKey('M');
+    keymap['M'].setType(0);
+    keymap['M'].setName("mask");
+    keymap['M'].setDescription("Generate mask for maskLayer, or set mask.");
+    keymap['M'].setCMD("layer mask make"); //
+    // open
     keymap['O'] = new ParameterKey('O');
     keymap['O'].setType(6);
     keymap['O'].setName("open");
     keymap['O'].setDescription("Open stuff");
     keymap['O'].setCMD("fl open"); //
     // enterpolator
-    keymap['M'] = new ParameterKey('M');
-    keymap['M'].setType(0);
-    keymap['M'].setName("mask");
-    keymap['M'].setDescription("Generate mask for maskLayer, or set mask.");
-    keymap['M'].setCMD("layer mask make"); //
+    keymap['Q'] = new ParameterKey('Q');
+    keymap['Q'].setType(0);
+    keymap['Q'].setName("quit");
+    keymap['Q'].setDescription("quit freeliner!");
+    keymap['Q'].setCMD("fl quit"); //
     // resetTamplate
     keymap['R'] = new ParameterKey('R');
     keymap['R'].setType(0);
