@@ -283,10 +283,10 @@ class TemplateManager{
   public void groupAddTemplate(String _tags){
     ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
     if(_tmps == null) return;
-    if(_tmps.size() == 1) return;
+    if(_tmps.size() < 2) return;
     else
-      for(int i = 1; i < _tmps.size(); i++)
-        groupAddTemplate(_tmps.get(0), _tmps.get(i));
+      // for(int i = 1; i < ; i++)
+        groupAddTemplate(_tmps.get(1), _tmps.get(0));
   }
 
   public void groupAddTemplate(TweakableTemplate _a, TweakableTemplate _b){

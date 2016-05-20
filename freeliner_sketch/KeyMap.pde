@@ -241,7 +241,7 @@ class KeyMap {
     keymap['B'].setType(0);
     keymap['B'].setName("add");
     keymap['B'].setDescription("Toggle second template on all geometry with first template.");
-    keymap['B'].setCMD("tp add $"); //
+    keymap['B'].setCMD("tp groupadd $"); //
     // copy
     keymap['C'] = new ParameterKey('C');
     keymap['C'].setType(0);

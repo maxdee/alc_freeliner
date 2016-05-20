@@ -41,8 +41,7 @@ class CommandProcessor implements FreelinerConfig{
     "tp save (cooleffects.xml)",
     "tp load (coolstuff.xml)",
     "tp swap AB",
-    "tp select AB",
-    "tp select *",  // not implemented
+    "tp select AB*",
     // add tp setshape (geometryIndex | char | .svg)
     /////////////////// Sequencer
     "seq tap (offset)",
@@ -578,7 +577,7 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("copy")) copyCMD(_args);
       else if(_args[1].equals("paste")) pasteCMD(_args);
       else if(_args[1].equals("reset")) resetCMD(_args);
-      else if(_args[1].equals("share")) addCMD(_args);
+      else if(_args[1].equals("groupadd")) addCMD(_args);
       else if(_args[1].equals("swap")) swapCMD(_args);
       else if(_args[1].equals("save")) saveTemplateCMD(_args);
       else if(_args[1].equals("load")) loadTemplateCMD(_args);
