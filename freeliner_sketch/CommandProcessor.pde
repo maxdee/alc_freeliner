@@ -41,7 +41,7 @@ class CommandProcessor implements FreelinerConfig{
     "tp save (cooleffects.xml)",
     "tp load (coolstuff.xml)",
     "tp swap AB",
-    "tp select AB", // not implemented
+    "tp select AB",
     "tp select *",  // not implemented
     // add tp setshape (geometryIndex | char | .svg)
     /////////////////// Sequencer
@@ -583,9 +583,24 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("save")) saveTemplateCMD(_args);
       else if(_args[1].equals("load")) loadTemplateCMD(_args);
       else if(_args[1].equals("color")) colorCMD(_args);
+      else if(_args[1].equals("select")) tpSelectCMD(_args);
     }
     else return false;
     return true;
+  }
+
+  public void tpSelectCMD(String[] _args){
+    if(_args.length < 3) return;
+    else if(_args[2].equals("*")) {
+      templateManager.focusAll();
+      gui.setTemplateString("*All*");
+    }
+    else {
+      templateManager.unSelect();
+      for(int i = 0; i < _args[2].length(); i++){
+        templateManager.toggle(_args[2].charAt(i));
+      }
+    }
   }
 
   public void saveTemplateCMD(String[] _args){

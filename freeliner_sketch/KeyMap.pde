@@ -235,7 +235,7 @@ class KeyMap {
     keymap['A'].setType(0);
     keymap['A'].setName("selectAll");
     keymap['A'].setDescription("Select ALL the templates.");
-    keymap['A'].setCMD("??set*??"); //
+    keymap['A'].setCMD("tp select *"); //
     // share
     keymap['B'] = new ParameterKey('B');
     keymap['B'].setType(0);
