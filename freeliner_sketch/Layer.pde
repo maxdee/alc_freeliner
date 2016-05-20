@@ -177,7 +177,7 @@ class MergeLayer extends RenderLayer{
 class ShaderLayer extends RenderLayer{
   PShader shader;
   String fileName;
-
+  PVector center;// implements this
   // uniforms to control shader params
   float[] uniforms;
 
@@ -185,7 +185,7 @@ class ShaderLayer extends RenderLayer{
     enabled = true;
     name = "ShaderLayer";
     shader = null;
-    uniforms = new float[]{0.5, 0.5, 0.5, 0.5};
+    uniforms = new float[]{0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5};
   }
 
   public PGraphics apply(PGraphics _pg){
@@ -231,7 +231,7 @@ class ShaderLayer extends RenderLayer{
 
   public void setUniforms(int _i, float _val){
     if(_i < 0) return;
-    uniforms[_i % 4] = _val;
+    uniforms[_i % 8] = _val;
   }
 
   public void passUniforms(){
@@ -239,6 +239,10 @@ class ShaderLayer extends RenderLayer{
     shader.set("u2", uniforms[1]);
     shader.set("u3", uniforms[2]);
     shader.set("u4", uniforms[3]);
+    shader.set("u5", uniforms[4]);
+    shader.set("u6", uniforms[5]);
+    shader.set("u7", uniforms[6]);
+    shader.set("u8", uniforms[7]);
   }
 }
 
