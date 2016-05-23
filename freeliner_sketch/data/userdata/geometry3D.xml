@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<groups>
-  <group ID="2" centerX="512.0" centerY="256.0" centered="0" tags="" type="map">
-    <segment aX="512.0" aY="448.0" aZ="0.0" bX="512.0" bY="256.0" bZ="0.0" txt="freeliner!"/>
-    <segment aX="512.0" aY="448.0" aZ="-100.0" bX="512.0" bY="256.0" bZ="-100.0" txt="freeliner!"/>
-    <segment aX="512.0" aY="448.0" aZ="-200.0" bX="512.0" bY="256.0" bZ="-200.0" txt="freeliner!"/>
-    <segment aX="512.0" aY="448.0" aZ="-300.0" bX="512.0" bY="256.0" bZ="-300.0" txt="freeliner!"/>
-  </group>
-</groups>
