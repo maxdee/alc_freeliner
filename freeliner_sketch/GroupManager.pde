@@ -257,13 +257,21 @@ class GroupManager{
     }
   }
 
-  public void loadGroups(){
-    loadGroups("geometry.xml");
+  public void loadGeometry(){
+    loadGeometry("geometry.xml");
   }
+
+  public void loadGeometry(String _file){
+    String[] _fn = split(_file, '.');
+    if(_fn.length < 2) println("I dont know what kind of file this is : "+_file);
+    else if(_fn[1].equals("svg")) loadGeometrySVG(_file);
+    else if(_fn[1].equals("xml")) loadGeometryXML(_file);
+  }
+
   // what a mess what a mess
   // we cant have that we cant have that
   // clean it up clean it up
-  public void loadGroups(String _fn){
+  public void loadGeometryXML(String _fn){
     XML file;
     try {
       file = loadXML(sketchPath()+"/data/userdata/"+_fn);
@@ -311,6 +319,74 @@ class GroupManager{
     }
   }
 
+  ///////////////////////// SVG
+
+  public void loadGeometrySVG(String _fn){
+    PShape _shp;
+    try {
+      _shp = loadShape(sketchPath()+"/data/userdata/"+_fn);
+    }
+    catch (Exception e){
+      println(_fn+" cant be loaded");
+      return;
+    }
+    PVector _offset = getInkscapeTransform(sketchPath()+"/data/userdata/"+_fn);
+    addSvgShapes(_shp, _offset);
+  }
+
+  // recursively add children
+  void addSvgShapes(PShape _shp, PVector _offset){
+    for(PShape _child : _shp.getChildren()){
+      if(_child.getVertexCount() != 0)
+        if(_child.getFamily() == PShape.PATH)
+          if(_child.getKind() == 0)
+            shapeToGroup(_child, _offset);
+
+      if(_child.getChildCount() != 0) addSvgShapes(_child, _offset);
+    }
+  }
+
+  void shapeToGroup(PShape _shp, PVector _offset){
+    newGroup();
+    println("------------addingShape with "+_shp.getVertexCount()+" vertices------------");
+    Segment _seg;
+    PVector posA = new PVector(0,0);
+    PVector posB = new PVector(0,0);
+    for(int i = 0; i < _shp.getVertexCount()-1; i++){
+      posA = _shp.getVertex(i).get();
+      posB = _shp.getVertex(i+1).get();
+      posA.add(_offset);
+      posB.add(_offset);
+      _seg = new Segment(posA.get(), posB.get());
+      getSelectedGroup().addSegment(_seg);
+      print(posA.x+","+posA.y+" to "+posB.x+","+posB.y);
+    }
+    posA = posB.get();
+    posB = _shp.getVertex(0).get();
+    posB.add(_offset);
+    _seg = new Segment(posA.get(), posB.get());
+    getSelectedGroup().addSegment(_seg);
+    getSelectedGroup().getTemplateList().toggle(templateManager.getTemplate('Z'));
+    println();
+  }
+
+  // inkscape had an annoying transform thing
+  PVector getInkscapeTransform(String _fn){
+    PVector _offset = new PVector(0,0);
+    XML _xml = loadXML(_fn);
+    for(XML _child : _xml.getChildren()){
+      String _tf = _child.getString("transform");
+      if(_tf != null){
+        String[] _splt = split(_tf, "(");
+        if(_splt[0].equals("translate")){
+          _tf = _splt[1].replaceAll("\\)", "");
+          String[] _xy = split(_tf, ',');
+          _offset.set(stringFloat(_xy[0]), stringFloat(_xy[1]));
+        }
+      }
+    }
+    return _offset;
+  }
 
 
   ////////////////////////////////////////////////////////////////////////////////////

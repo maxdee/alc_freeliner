@@ -407,8 +407,8 @@ class CommandProcessor implements FreelinerConfig{
   }
 
   public boolean loadGeometryCMD(String[] _args){
-    if(_args.length == 2) groupManager.loadGroups();
-    else if(_args.length == 3) groupManager.loadGroups(_args[2]);
+    if(_args.length == 2) groupManager.loadGeometry();
+    else if(_args.length == 3) groupManager.loadGeometry(_args[2]);
     else return false;
     return true;
   }
