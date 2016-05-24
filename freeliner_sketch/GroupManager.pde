@@ -350,6 +350,7 @@ class GroupManager{
     newGroup();
     println("------------addingShape with "+_shp.getVertexCount()+" vertices------------");
     Segment _seg;
+    ArrayList<PVector> _vertices = new ArrayList();
     PVector posA = new PVector(0,0);
     PVector posB = new PVector(0,0);
     for(int i = 0; i < _shp.getVertexCount()-1; i++){
@@ -357,17 +358,33 @@ class GroupManager{
       posB = _shp.getVertex(i+1).get();
       posA.add(_offset);
       posB.add(_offset);
+      _vertices.add(posA);
       _seg = new Segment(posA.get(), posB.get());
       getSelectedGroup().addSegment(_seg);
       print(posA.x+","+posA.y+" to "+posB.x+","+posB.y);
     }
-    posA = posB.get();
-    posB = _shp.getVertex(0).get();
-    posB.add(_offset);
-    _seg = new Segment(posA.get(), posB.get());
-    getSelectedGroup().addSegment(_seg);
+    _vertices.add(posB);
+
+    if(_shp.isClosed()){
+      posA = posB.get();
+      posB = _shp.getVertex(0).get();
+      posB.add(_offset);
+      _seg = new Segment(posA.get(), posB.get());
+      getSelectedGroup().addSegment(_seg);
+      // getSelectedGroup().placeCenter(posB);
+    }
+    //place center
+    getSelectedGroup().placeCenter(shapeCenter(_vertices));
+    if(!_shp.isClosed()) getSelectedGroup().unCenter();
     getSelectedGroup().getTemplateList().toggle(templateManager.getTemplate('Z'));
     println();
+  }
+
+  PVector shapeCenter(ArrayList<PVector> _vertices){
+    PVector _adder = new PVector(0,0);
+    for(PVector _pv : _vertices) _adder.add(_pv);
+    _adder.div(_vertices.size());
+    return _adder;
   }
 
   // inkscape had an annoying transform thing

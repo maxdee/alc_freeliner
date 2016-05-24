@@ -83,7 +83,7 @@ class Documenter implements FreelinerConfig{
     keyMapToJSON(_km);
     // addConfigToJSON();
     freelinerJSON.setJSONObject("modes", modesJSON);
-    saveJSONObject(freelinerJSON, sketchPath()+"/data/freelinerData.json");
+    saveJSONObject(freelinerJSON, sketchPath()+"/data/webgui/freelinerData.json");
     println("**** Documentation Updated ****");
   }
 
