@@ -84,8 +84,8 @@ void setup() {
   documenter = new Documenter();
   //pick your flavour of freeliner
   freeliner = new FreeLiner(this, usePipeline);
-  //freeliner = new FreelinerSyphon(this); // <- FOR SYPHON // implement in layer
-  //freeliner = new FreelinerSpout(this); // <- FOR SPOUT
+  //freeliner = new FreelinerSyphon(this, usePipeline); // <- FOR SYPHON // implement in layer
+  //freeliner = new FreelinerSpout(this, usePipeline); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this,"led_fullstrips.xml");//tunnel_map_two.xml"); // implement in layer?
   //freeliner = new FreelinerLED(this,"catpartyDMX.xml");//tunnel_map_two.xml"); // implement in layer?
 

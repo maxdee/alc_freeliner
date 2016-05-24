@@ -17,15 +17,15 @@ import spout.*;
 class FreelinerSpout extends FreeLiner{
 	Spout spout;
 
-	public FreelinerSpout(PApplet _pa){
-		super(_pa);
+	public FreelinerSpout(PApplet _pa, int _pipeline){
+		super(_pa, _pipeline);
     spout = new Spout(_pa);
 		spout.createSender("alc_freeliner", width, height);
 	}
 
 	void update(){
 		super.update();
-		spout.sendTexture(canvasManager.getFXCanvas());
+		spout.sendTexture(canvasManager.getCanvas());
 	}
 }
 
