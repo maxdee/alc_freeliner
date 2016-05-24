@@ -177,6 +177,11 @@ class Template implements FreelinerConfig{
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
 
+	// public boolean equals(Object _obj){
+	// 	println(templateID+" "+((Template)_obj).getTemplateID());
+	// 	return (templateID == ((Template)_obj).getTemplateID());
+	// }
+
   public PShape getCustomShape(){
     return customShape;
   }

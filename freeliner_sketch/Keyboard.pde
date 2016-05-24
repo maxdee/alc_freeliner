@@ -214,7 +214,7 @@ class Keyboard implements FreelinerConfig{
  * @param int ascii value of the key
  */
   public void modCommands(int _kc){
-    println("Mod : "+_kc);
+    // println("Mod : "+_kc);
     ParameterKey _pk = keyMap.getKey(_kc);
     if(_pk == null) return;
     makeCMD(_pk.getCMD());

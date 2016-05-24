@@ -286,7 +286,7 @@ class TemplateManager{
     if(_tmps.size() < 2) return;
     else
       // for(int i = 1; i < ; i++)
-        groupAddTemplate(_tmps.get(1), _tmps.get(0));
+        groupAddTemplate(_tmps.get(0), _tmps.get(1));
   }
 
   public void groupAddTemplate(TweakableTemplate _a, TweakableTemplate _b){
@@ -545,6 +545,7 @@ class TemplateManager{
     else {
       for(int i = 0; i < _tags.length(); i++){
         TweakableTemplate _tw = getTemplate(_tags.charAt(i));
+        println(_tw);
         if( _tw != null) _tmps.add(_tw);
       }
     }

@@ -24,7 +24,6 @@ class FreeLiner implements FreelinerConfig{
   Mouse mouse;
   Keyboard keyboard;
   KeyMap keyMap;
-
   // new parts
   CommandProcessor commandProcessor;
   OSCCommunicator oscComs;
@@ -76,8 +75,6 @@ class FreeLiner implements FreelinerConfig{
   void oscTick(){
     oscComs.send("freeliner tick");
   }
-
-
 
   /**
    * It all starts here...

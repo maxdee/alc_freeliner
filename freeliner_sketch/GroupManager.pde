@@ -91,10 +91,10 @@ class GroupManager{
   public void groupAddTemplate(TweakableTemplate _toMatch, TweakableTemplate _toAdd){
     if(groups.size() > 0 && _toAdd != null && _toMatch != null){
       for (SegmentGroup sg : groups) {
-        TemplateList tl = sg.getTemplateList();
-        if(tl != null)
-          if(tl.contains(_toMatch))
-            tl.toggle(_toAdd);
+        TemplateList _tl = sg.getTemplateList();
+        if(_tl != null)
+          if(_tl.contains(_toMatch))
+            _tl.toggle(_toAdd);
       }
     }
   }
