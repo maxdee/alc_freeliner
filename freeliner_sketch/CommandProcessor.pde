@@ -42,6 +42,7 @@ class CommandProcessor implements FreelinerConfig{
     "tp load (coolstuff.xml)",
     "tp swap AB",
     "tp select AB*",
+    "tp translate AB 0.5 0.5 0.5",
     // add tp setshape (geometryIndex | char | .svg)
     /////////////////// Sequencer
     "seq tap (offset)",
@@ -583,6 +584,8 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("load")) loadTemplateCMD(_args);
       else if(_args[1].equals("color")) colorCMD(_args);
       else if(_args[1].equals("select")) tpSelectCMD(_args);
+      else if(_args[1].equals("translate")) tpTranslateCMD(_args);
+
     }
     else return false;
     return true;
@@ -652,6 +655,16 @@ class CommandProcessor implements FreelinerConfig{
       for(int i = 0; i < _args[1].length(); i++)
         for(int j = 2; j < _args.length; j++) templateManager.trigger(_args[1].charAt(i), stringInt(_args[j]));
     }
+  }
+
+ // tp translate AB 0.5 0.5 0.5
+  public void tpTranslateCMD(String[] _args){
+    if(_args.length < 5) return;
+    float x = stringFloat(_args[3]);
+    float y = stringFloat(_args[4]);
+    float z = 0;
+    if(_args.length > 5) z = stringFloat(_args[5]);
+    templateRenderer.translate(_args[2], x,y,z);
   }
 
   /**

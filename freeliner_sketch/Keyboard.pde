@@ -219,15 +219,6 @@ class Keyboard implements FreelinerConfig{
     if(_pk == null) return;
     makeCMD(_pk.getCMD());
     gui.setKeyString(_pk.getName());
-
-    // else if(_kc == 'D') distributor(char(504), -3, false);  // set custom shape needs a cmd
-    // else if(_kc == 'I') gui.setValueGiven( str(mouse.toggleInvertMouse()) ); // invert X
-    //
-    // else if(_kc == 'K') freeliner.toggleExtraGraphics(); // show extra graphics
-    // else if(_kc == 'L') freeliner.reParse(); // reparse for LED map
-    //
-    // else if(_kc == 'S') saveStuff();
-    // else if(_kc == 'O') loadStuff();
   }
 
 

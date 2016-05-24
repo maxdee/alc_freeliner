@@ -126,12 +126,12 @@ class LayeredCanvasManager extends CanvasManager{
    */
   public void render(ArrayList<RenderableTemplate> _toRender){
     int _index = 0;
-    for(Layer _lr : renderLayers){
-      _lr.beginDrawing();
+    for(Layer _rl : renderLayers){
+      _rl.beginDrawing();
       for(RenderableTemplate _rt : _toRender){
-        if(_rt.getRenderLayer() == _index) templateRenderer.render(_rt, _lr.getCanvas());
+        if(_rt.getRenderLayer() == _index) templateRenderer.render(_rt, _rl.getCanvas());
       }
-      _lr.endDrawing();
+      _rl.endDrawing();
       _index++;
     }
     mergeLayer.beginDrawing();

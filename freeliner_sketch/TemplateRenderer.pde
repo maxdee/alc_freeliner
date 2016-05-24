@@ -19,6 +19,7 @@ class TemplateRenderer extends Mode{
   RenderMode[] renderModes;
   Repetition[] repeaters;
   Enabler[] enablers;
+  PVector[] translations;
   int renderModeCount = 6;
   int repetitionModeCount = 6;
   int enablerModeCount = 7;
@@ -58,6 +59,8 @@ class TemplateRenderer extends Mode{
     enablers[6] = new RandomEnabler(6);
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])enablers, 'u', this, "Enablers");
 
+    translations = new PVector[26];
+    for(int i = 0; i < 26; i++) translations[i] = new PVector(0,0,0);
 	}
 
   /**
@@ -76,6 +79,9 @@ class TemplateRenderer extends Mode{
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
 
+    _pg.pushMatrix(); // new
+    PVector _trans = getTranslation(_rt.getTemplateID());
+    _pg.translate(_trans.x*width, _trans.y*height);
     for(float flt : flts){
       // Repition object return arrayList of unit intervals.
       // negative values indicates going in reverse
@@ -95,7 +101,23 @@ class TemplateRenderer extends Mode{
       // pass template to renderer
       getRenderer(_rt.getRenderMode()).doRender(_rt);
     }
+
+    _pg.popMatrix();
   }
+
+  public void translate(String _tags, float x, float y, float z){
+    int _index = 0;
+    for(int i = 0; i < _tags.length(); i++){
+      getTranslation(_tags.charAt(i)).set(x,y,z);
+    }
+  }
+
+  public PVector getTranslation(char _c){
+    int _index = int(_c)-65;
+    if(_index >= 0 && _index < 26) return translations[_index];
+    else return new PVector(0,0,0);
+  }
+
 
   //needs work
   /**
