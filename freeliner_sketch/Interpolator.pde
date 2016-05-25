@@ -26,6 +26,8 @@ class Interpolator extends Mode{
   public PVector getPosition(Segment _seg, RenderableTemplate _tp, Painter _painter){
     PVector _pos = findPosition(_seg, _tp, _painter);
     _tp.setLastPosition(_pos);
+    // catch NaN or Infinit
+    if(_pos.x != _pos.x || _pos.y!=_pos.y) _pos.set(0,0);
     return _pos;
   }
 
