@@ -19,9 +19,9 @@ import netP5.*;
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 1024;
-int configuredHeight = 768;
-int useFullscreen = 1;
+int configuredWidth = 600;
+int configuredHeight = 600;
+int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 0;
 
@@ -86,7 +86,7 @@ void setup() {
   freeliner = new FreeLiner(this, usePipeline);
   //freeliner = new FreelinerSyphon(this, usePipeline); // <- FOR SYPHON // implement in layer
   //freeliner = new FreelinerSpout(this, usePipeline); // <- FOR SPOUT
-  //freeliner = new FreelinerLED(this,"led_fullstrips.xml");//tunnel_map_two.xml"); // implement in layer?
+  //freeliner = new FreelinerLED(this, usePipeline, "newHoops.xml");//tunnel_map_two.xml"); // implement in layer?
   //freeliner = new FreelinerLED(this,"catpartyDMX.xml");//tunnel_map_two.xml"); // implement in layer?
 
   surface.setResizable(false);

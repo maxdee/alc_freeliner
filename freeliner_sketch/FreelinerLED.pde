@@ -18,7 +18,7 @@ class FreelinerLED extends FreeLiner{
 
 	public FreelinerLED(PApplet _pa,int _pipeline, String _file){
 		super(_pa, _pipeline);
-		ledMapFile = "../userdata/"+_file;
+		ledMapFile = sketchPath()+"/data/userdata/"+_file;
 		// pick your led system
 		if(LED_SYSTEM == 1) freeLED = new FastLEDing(_pa, LED_SERIAL_PORT);
 		else freeLED = new FreeLEDing();
