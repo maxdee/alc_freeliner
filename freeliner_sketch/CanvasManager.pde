@@ -83,7 +83,7 @@ class LayeredCanvasManager extends CanvasManager{
   TracerLayer tracerLayer;
   ShaderLayer shaderLayer;
 
-  String[] shaderFiles = {"fragZero.glsl", "springTime.glsl", "fragTwo.glsl", "fragThree.glsl",};
+  String[] shaderFiles = {"fragZero.glsl", "fragOne.glsl", "fragTwo.glsl", "fragThree.glsl",};
 
   public LayeredCanvasManager(){
     layers = new ArrayList();

@@ -1,4 +1,4 @@
-/**
+ /**
  * ##copyright##
  * See LICENSE.md
  *
@@ -75,13 +75,16 @@ class TemplateRenderer extends Mode{
 
     // check the enabler, it may modify the unitInterval
     if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
+
+    // translate, beta...
+    _pg.pushMatrix(); // new
+    PVector _trans = getTranslation(_rt.getTemplateID());
+    _pg.translate(_trans.x*width, _trans.y*height);
+
     // get multiple unit intervals to use
     FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
     int repetitionCount = 0;
 
-    _pg.pushMatrix(); // new
-    PVector _trans = getTranslation(_rt.getTemplateID());
-    _pg.translate(_trans.x*width, _trans.y*height);
     for(float flt : flts){
       // Repition object return arrayList of unit intervals.
       // negative values indicates going in reverse
@@ -101,7 +104,6 @@ class TemplateRenderer extends Mode{
       // pass template to renderer
       getRenderer(_rt.getRenderMode()).doRender(_rt);
     }
-
     _pg.popMatrix();
   }
 

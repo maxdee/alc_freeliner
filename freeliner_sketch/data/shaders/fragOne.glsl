@@ -26,7 +26,11 @@ vec2 rot(vec2 p, float a) {
 		p.x * cos(a) - p.y * sin(a),
 		p.x * sin(a) + p.y * cos(a));
 }
-
+float ranger(float _f){
+	if(_f>1.0)return _f-1.0;
+	else if(_f<0.0) return _f+1.0;
+	else return _f;
+}
 void main(void) {
 	vec2 pos = vertTexCoord.xy;
 	vec4 col = texture2D(texture, pos);
@@ -41,6 +45,9 @@ void main(void) {
 	else pos.x += amount*sign(u4-0.5);
 	if(pos.y > 0.5) pos.y += amount;
 	else pos.y -= amount;
+
+	// pos.x = ranger(pos.x);
+	// pos.y = ranger(pos.y);
 
 	col += texture2D(ppixels, pos)*u1;
 	if(pos.x < 0.0 || pos.x >1.0) col = vec4(vec3(0.0),1.0);
