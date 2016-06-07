@@ -41,6 +41,7 @@ class Segment {
   boolean clockWise;
   float ranFloat;
   int id;
+  float length;
   float lerp;
 
   String segmentText;
@@ -59,6 +60,7 @@ class Segment {
     strokeWidth  = 3;
     centered = false;
     lerp = 0;
+    length = 0;
     updateAngle();
     segmentText = "freeliner!";
   }
@@ -72,6 +74,7 @@ class Segment {
     }
     else if(pointA.y > pointB.y) clockWise = true;
     else clockWise = false;
+    length = dist(pointA.x, pointA.y, pointB.x, pointB.y);
   }
 
 
@@ -313,7 +316,7 @@ class Segment {
   }
 
   public final float getLength() {
-    return dist(pointA.x, pointA.y, pointB.x, pointB.y);
+    return length;
   }
 
   public final float getLerp(){

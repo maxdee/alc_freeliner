@@ -85,6 +85,28 @@ class RunThroughSegments extends SegmentSelector{
 }
 
 /**
+ * Get the segments in order of creation
+ */
+class ConstantSpeed extends SegmentSelector{
+	public ConstantSpeed(int _ind){
+		modeIndex = _ind;
+		name = "ConstantSpeed";
+		description = "Runs through segments at a consistant speed.";
+	}
+
+	public ArrayList<Segment> getSegments(RenderableTemplate _event){
+		ArrayList<Segment> _segs = new ArrayList();
+		float _segCount = _event.segmentGroup.getCount();
+		float _unit = _event.getLerp();
+		Segment _seg = _event.segmentGroup.getSegmentByTotalLength(_unit);
+		_segs.add(_seg);
+		return _segs;
+	}
+}
+
+
+
+/**
  * Get a random segment
  */
 class RandomSegment extends SegmentSelector{

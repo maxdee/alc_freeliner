@@ -401,6 +401,22 @@ class SegmentGroup {
     return null;
   }
 
+  public Segment getSegmentByTotalLength(float _lerp){
+    // _lerp
+    float _totalLength = 0;
+    for(Segment _seg : segments) _totalLength += _seg.getLength();
+    float _target = _totalLength*_lerp;
+    float _tracker = 0;
+    for(Segment _seg : segments){
+      _tracker += _seg.getLength();
+      if(_tracker >= _target){
+        float _dst = _tracker - _target;
+        _seg.setLerp((_seg.getLength()-_dst)/_seg.getLength());
+        return _seg;
+      }
+    }
+    return null;
+  }
 
   public ArrayList<ArrayList<Segment>> getBranches(){
     return treeBranches;
