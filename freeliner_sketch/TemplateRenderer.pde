@@ -19,7 +19,14 @@ class TemplateRenderer extends Mode{
   RenderMode[] renderModes;
   Repetition[] repeaters;
   Enabler[] enablers;
+  Easing[] easers;
+  Reverse[] reversers;
+
   PVector[] translations;
+
+    // easer and reversers count in Config.pde
+  int easingModeCount = 11;
+  int reverseModeCount = 5;
   int renderModeCount = 6;
   int repetitionModeCount = 6;
   int enablerModeCount = 7;
@@ -59,6 +66,29 @@ class TemplateRenderer extends Mode{
     enablers[6] = new RandomEnabler(6);
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])enablers, 'u', this, "Enablers");
 
+    description = "how to darw multiples of one template";
+		easers = new Easing[easingModeCount];
+		easers[0] = new NoEasing(0);
+		easers[1] = new Square(1);
+		easers[2] = new Sine(2);
+		easers[3] = new Cosine(3);
+		easers[4] = new Boost(4);
+		easers[5] = new RandomUnit(5);
+		easers[6] = new TargetNoise(6);
+		easers[7] = new Fixed(1.0, 7);
+		easers[8] = new Fixed(0.5, 8);
+		easers[9] = new Fixed(0.0, 9);
+		easers[10] = new EaseInOut(10);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])easers, 'h', this, "EasingModes");
+
+		reversers = new Reverse[reverseModeCount];
+		reversers[0] = new NotReverse(0);
+		reversers[1] = new Reverse(1);
+		reversers[2] = new BackForth(2);
+		reversers[3] = new TwoTwoReverse(3);
+		reversers[4] = new RandomReverse(4);
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])reversers, 'j', this, "ReverseModes");
+
     translations = new PVector[26];
     for(int i = 0; i < 26; i++) translations[i] = new PVector(0,0,0);
 	}
@@ -82,10 +112,13 @@ class TemplateRenderer extends Mode{
     _pg.translate(_trans.x*width, _trans.y*height);
 
     // get multiple unit intervals to use
-    FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt);
+    float _eased = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
+    FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt, _eased);
+    float _rev = getReverser(_rt.getReverseMode()).getDirection(_rt);
     int repetitionCount = 0;
 
     for(float flt : flts){
+      flt *= _rev;
       // Repition object return arrayList of unit intervals.
       // negative values indicates going in reverse
       if(flt < 0){
@@ -93,7 +126,7 @@ class TemplateRenderer extends Mode{
         _rt.setDirection(true);
       }
       else {
-        _rt.setLerp(abs(flt));
+        _rt.setLerp(flt);
         _rt.setDirection(false);
       }
       // push the repetition count to template
@@ -158,5 +191,15 @@ class TemplateRenderer extends Mode{
   public Repetition getRepeater(int _index){
     if(_index >= repetitionModeCount) _index = repetitionModeCount - 1;
     return repeaters[_index];
+  }
+
+  public Easing getEaser(int _index){
+    if(_index >= easingModeCount) _index = easingModeCount - 1;
+    return easers[_index];
+  }
+
+  public Reverse getReverser(int _index){
+    if(_index >= reverseModeCount) _index = reverseModeCount - 1;
+    return reversers[_index];
   }
 }

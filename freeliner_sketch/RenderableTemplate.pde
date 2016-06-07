@@ -46,7 +46,7 @@ class RenderableTemplate extends TweakableTemplate{
  * Third tier, data that changes every render
  */
  	// unitInterval of animation, aka lerper
-	float unitInterval;
+	protected float unitInterval;
 	float lerp;
 
 /*

@@ -41,6 +41,7 @@ class Segment {
   boolean clockWise;
   float ranFloat;
   int id;
+  float lerp;
 
   String segmentText;
 
@@ -57,6 +58,7 @@ class Segment {
     scaledSize = 10;
     strokeWidth  = 3;
     centered = false;
+    lerp = 0;
     updateAngle();
     segmentText = "freeliner!";
   }
@@ -199,6 +201,10 @@ class Segment {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  public void setLerp(float _lrp){
+    lerp = _lrp;
+  }
+
   /**
    * POINT POSITIONS
    */
@@ -308,6 +314,10 @@ class Segment {
 
   public final float getLength() {
     return dist(pointA.x, pointA.y, pointB.x, pointB.y);
+  }
+
+  public final float getLerp(){
+    return lerp;
   }
 
   public final PVector getCenter() {
