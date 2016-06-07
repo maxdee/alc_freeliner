@@ -104,7 +104,6 @@ class LayeredCanvasManager extends CanvasManager{
 
     //addLayer(new ImageLayer()).loadFile(sketchPath()+"/data/userdata/grey.png");
     //addLayer(new RenderLayer()).setName("First");
-    //
     //addLayer(mergeLayer);
 
     printLayers();
