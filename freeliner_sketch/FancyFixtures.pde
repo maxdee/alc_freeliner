@@ -43,25 +43,29 @@ class FancyFixtures extends FreeLiner {
     fixtures = new ArrayList<Fixture>();
 
     // construct fixtures here.
-    Fixture _fix = new ColorFlexWAUV(401);
+    Fixture _fix = new ColorFlexWAUV(2);
     _fix.setPosition(width/2, height/2);
     _fix.drawFixtureOverlay(overLay);
     fixtures.add(_fix);
-
+    _fix = new ColorFlexWAUV(12);
+    _fix.setPosition(width/2, 64+(height/2));
+    _fix.drawFixtureOverlay(overLay);
+    fixtures.add(_fix);
     // _fix = new RGBStrip(32, 25, 20, 20, width-20, 20);
     // _fix.setPosition(width/2, height/2);
     // _fix.drawFixtureOverlay(overLay);
     // fixtures.add(_fix);
 
-    _fix = new MPanel(11, 50,50);
+    _fix = new MPanel(22, 50,50);
     _fix.drawFixtureOverlay(overLay);
     fixtures.add(_fix);
 
-    _fix = new MPanel(141, 250,50);
+    _fix = new MPanel(152, 250,50);
     _fix.drawFixtureOverlay(overLay);
     fixtures.add(_fix);
 
     overLay.endDraw();
+    listFixtures();
   }
 
   public void update(){
@@ -87,6 +91,19 @@ class FancyFixtures extends FreeLiner {
     println("|---------------------------------------------------=");
   }
 
+
+  void listFixtures(){
+    println("|--------DMX FIXTURES---------|");
+    int _cnt = 0;
+    for(Fixture _fix : fixtures){
+      println("============ "+(_cnt++)+" ==============");
+      println("Address : "+_fix.getAddress());
+      println("Name : "+_fix.getName());
+      println("description : "+_fix.getDescription());
+      println("=============================");
+
+    }
+  }
   void parseGraphics(PGraphics _pg){
     _pg.loadPixels();
     for(Fixture _fix : fixtures)
@@ -96,6 +113,11 @@ class FancyFixtures extends FreeLiner {
   void updateBuffer(){
     for(Fixture _fix : fixtures)
       _fix.bufferChannels(dmxBuffer);
+  }
+
+  public Fixture getFixture(int _ind){
+    if(_ind < fixtures.size() && _ind >= 0) return fixtures.get(_ind);
+    else return null;
   }
 
   /**

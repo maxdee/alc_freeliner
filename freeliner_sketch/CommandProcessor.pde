@@ -83,6 +83,8 @@ class CommandProcessor implements FreelinerConfig{
     "config fullScreen 0",
     "config display 1",
     ///////////////////
+    "fixture setchan 0 3 255", // fixture, channel, value
+    /////////////////// Configure
     "hid kbd 'keyCode' 'char'"
   };
 
@@ -161,6 +163,8 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("hid")) _used = hidCMD(_args);
     else if(_args[0].equals("layer")) _used = layerCMD(_args);
     else if(_args[0].equals("config")) _used = configCMD(_args);
+    else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
+
 
 
     if(!_used) println("CMD fail : "+join(_args, ' '));
@@ -295,7 +299,29 @@ class CommandProcessor implements FreelinerConfig{
       webComs.send(_mess);
     }
   }
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     fixtureCMD
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
+  public boolean fixtureCMD(String[] _args){
+    if(_args.length < 2) return false;
+    if(_args[1].equals("setchan")) setChanCMD(_args);
+    else return false;
+    return true;
+  }
+
+  public void setChanCMD(String[] _args){
+    if(_args.length < 5) return;
+    else {
+      int _ind = stringInt(_args[2]);
+      int _chan = stringInt(_args[3]);
+      int _val = stringInt(_args[4]);
+      Fixture _fix = ((FancyFixtures)freeliner).getFixture(_ind);
+      if(_fix != null) _fix.setChannel(_chan, _val);
+    }
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

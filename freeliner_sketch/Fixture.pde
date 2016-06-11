@@ -48,8 +48,20 @@ class Fixture {
     position.set(_x, _y);
   }
 
+  void setChannel(int _chan, int _val){
+    if(_chan < channelCount && _chan >= 0) buffer[_chan] = byte(_val);
+  }
+
   int getAddress(){
     return address;
+  }
+
+  String getName(){
+    return name;
+  }
+
+  String getDescription(){
+    return description;
   }
 
   PVector getPosition(){
@@ -114,11 +126,12 @@ class MPanel extends Fixture{
   }
 
   public void mpanelRules(){
-    buffer[0] = byte(map(mouseX, 0, width, 0, 255));
-    buffer[2] = byte(map(mouseY, 0, height, 0, 255));
+    // buffer[0] = byte(map(mouseX, 0, width, 0, 255));
+    // buffer[2] = byte(map(mouseY, 0, height, 0, 255));
 
     buffer[1] = byte(127);
     buffer[15] = byte(255);
+    println("tilt "+int(buffer[TILT_CHANNEL]));
     // buffer[19] = byte(255);
 
     // buffer[118] = byte(255);
