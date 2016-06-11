@@ -257,6 +257,7 @@ class FastLEDing extends FreeLEDing {
       }
     }
     port.write(ledData);
+    // println(ledData);
     // for debuging
     //println(t+" "+getMessage());
   }
@@ -267,6 +268,71 @@ class FastLEDing extends FreeLEDing {
     return buff;
   }
 }
+
+// ////////////////////////////////////////////////////////////////////////////////////
+// ///////
+// ///////     OSCLEDing
+// ///////
+// ////////////////////////////////////////////////////////////////////////////////////
+//
+// /**
+//  * use for duino / FastLED library
+//  */
+// class OSCLEDing extends FreeLEDing {
+//   final int OSCLED_OUT_PORT = 5555;
+//   final int OSCLED_IN_PORT = 5554;
+//
+//   final String OSCLED_IP = "127.0.0.1";
+//
+//   OscP5 oscP5;
+//   NetAddress clientAddress;
+//
+//   public OSCLEDing(PApplet _pa){
+//     super();
+//     oscP5 = new OscP5(_pa, OSCLED_IN_PORT);
+//     toPDpatch = new NetAddress(OSCLED_IP, OSCLED_OUT_PORT);
+//     packetSize = 0;
+//     println("OSCLED server sending to "+OSCLED_IP+":"+OSCLED_OUT_PORT);
+//   }
+//
+//   // make a packet and send it
+//   public void output(){
+//     byte[] ledData = new byte[packetSize];
+//     ledData[0] = '*';
+//     for(int i = 1; i < packetSize; i++) ledData[i] = byte(0);
+//
+//     byte red = 0;
+//     byte green = 0;
+//     byte blue = 0;
+//     for(RGBled led : leds){
+//       int adr = led.getIndex();
+//       if(adr < ledCount){
+//         red = led.getRed();
+//         green = led.getGreen();
+//         blue = led.getBlue();
+//
+//         red = byte(correctGamma ?  red : gammatable[red]);
+//         green = byte(correctGamma ?  green : gammatable[green]);
+//         blue = byte(correctGamma ?  blue : gammatable[blue]);
+//
+//         adr = (adr*3)+1;
+//         ledData[adr] = red;
+//         ledData[adr+1] = green;
+//         ledData[adr+2] = blue;
+//       }
+//     }
+//     port.write(ledData);
+//     // println(ledData);
+//     // for debuging
+//     //println(t+" "+getMessage());
+//   }
+//
+//   public String getMessage(){
+//     String buff = "";
+//     while(port.available() != 0) buff += char(port.read());
+//     return buff;
+//   }
+// }
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
