@@ -42,6 +42,8 @@ class CommandProcessor implements FreelinerConfig{
     "tp load (coolstuff.xml)",
     "tp swap AB",
     "tp select AB*",
+    "tp toggle A 3",
+
     "tp translate AB 0.5 0.5 0.5",
     // add tp setshape (geometryIndex | char | .svg)
     /////////////////// Sequencer
@@ -611,10 +613,19 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("color")) colorCMD(_args);
       else if(_args[1].equals("select")) tpSelectCMD(_args);
       else if(_args[1].equals("translate")) tpTranslateCMD(_args);
+      else if(_args[1].equals("toggle")) toggleCMD(_args);
+
 
     }
     else return false;
     return true;
+  }
+
+
+  public void toggleCMD(String[] _args){
+    ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+    int _ind = stringInt(_args[3]);
+    for(TweakableTemplate _tp : _tmps) groupManager.toggleTemplate(_tp, _ind);
   }
 
   public void tpSelectCMD(String[] _args){

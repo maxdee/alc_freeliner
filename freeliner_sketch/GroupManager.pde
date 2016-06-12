@@ -118,6 +118,11 @@ class GroupManager{
     }
   }
 
+  public void toggleTemplate(TweakableTemplate _tp, int _ind){
+    SegmentGroup _sg = getGroup(_ind);
+    if(_sg != null && _tp != null) _sg.getTemplateList().toggle(_tp);
+  }
+
 /**
  * Snap puts all the PVectors that are near the position given into a arrayList.
  * The snapDist can be adjusted like anything else.

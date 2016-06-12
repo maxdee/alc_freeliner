@@ -44,23 +44,30 @@ class FancyFixtures extends FreeLiner {
 
     // construct fixtures here.
     Fixture _fix = new ColorFlexWAUV(2);
-    _fix.setPosition(width/2, height/2);
+    _fix.setPosition(448, 64);
     _fix.drawFixtureOverlay(overLay);
     fixtures.add(_fix);
+
+    _fix = new RGBFixture(2);
+    _fix.setPosition(448, 128);
+    _fix.drawFixtureOverlay(overLay);
+    fixtures.add(_fix);
+
     _fix = new ColorFlexWAUV(12);
-    _fix.setPosition(width/2, 64+(height/2));
-    _fix.drawFixtureOverlay(overLay);
-    fixtures.add(_fix);
-    // _fix = new RGBStrip(32, 25, 20, 20, width-20, 20);
-    // _fix.setPosition(width/2, height/2);
-    // _fix.drawFixtureOverlay(overLay);
-    // fixtures.add(_fix);
-
-    _fix = new MPanel(22, 50,50);
+    _fix.setPosition(480, 64);
     _fix.drawFixtureOverlay(overLay);
     fixtures.add(_fix);
 
-    _fix = new MPanel(152, 250,50);
+    _fix = new RGBFixture(12);
+    _fix.setPosition(480, 128);
+    _fix.drawFixtureOverlay(overLay);
+    fixtures.add(_fix);
+
+    _fix = new MPanel(22, 64, 64);
+    _fix.drawFixtureOverlay(overLay);
+    fixtures.add(_fix);
+
+    _fix = new MPanel(152, 256, 64);
     _fix.drawFixtureOverlay(overLay);
     fixtures.add(_fix);
 

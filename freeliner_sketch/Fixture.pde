@@ -80,7 +80,7 @@ class MPanel extends Fixture{
   ArrayList<Fixture> subFixtures;
   final int PAN_CHANNEL = 0;
   final int TILT_CHANNEL = 2;
-  final int MPANEL_SIZE = 128;
+  final int MPANEL_SIZE = 160;
 
   public MPanel(int _adr, int _x, int _y){
     super(_adr);
@@ -131,7 +131,7 @@ class MPanel extends Fixture{
 
     buffer[1] = byte(127);
     buffer[15] = byte(255);
-    println("tilt "+int(buffer[TILT_CHANNEL]));
+    // println("tilt "+int(buffer[TILT_CHANNEL]));
     // buffer[19] = byte(255);
 
     // buffer[118] = byte(255);
