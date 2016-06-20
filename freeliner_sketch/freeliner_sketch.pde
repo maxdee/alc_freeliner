@@ -87,8 +87,8 @@ void fetchConfiguration(){
 void setup() {
   documenter = new Documenter();
   //pick your flavour of freeliner
-  freeliner = new FreeLiner(this, usePipeline);
-  // freeliner = new FancyFixtures(this, usePipeline, "/dev/ttyACM0");
+  //freeliner = new FreeLiner(this, usePipeline);
+  freeliner = new FancyFixtures(this, usePipeline, "/dev/ttyACM0");
   //freeliner = new FreelinerSyphon(this, usePipeline); // <- FOR SYPHON // implement in layer
   //freeliner = new FreelinerSpout(this, usePipeline); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this, usePipeline, "newHoops.xml");//tunnel_map_two.xml"); // implement in layer?

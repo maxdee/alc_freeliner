@@ -9,7 +9,6 @@
 
 // DMX fixture objects
 
-
 class Fixture {
   String name;
   String description;
@@ -138,8 +137,6 @@ class MPanel extends Fixture{
     //
     // buffer[118] = byte(255);
     // buffer[119] = byte(255);
-
-
   }
 }
 
@@ -149,6 +146,7 @@ class MPanel extends Fixture{
 ///////     Strip
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
+
 // class for RGB ledStrips
 class RGBWStrip extends RGBStrip{
 

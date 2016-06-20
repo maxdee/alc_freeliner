@@ -23,7 +23,6 @@ class FancyFixtures extends FreeLiner {
 
   PGraphics overLay;
   boolean showOverlay = true;
-  // ledCount is the channel Count...
 
   public FancyFixtures(PApplet _pa, int _pipeline, String _port){
     super(_pa, _pipeline);
@@ -34,6 +33,13 @@ class FancyFixtures extends FreeLiner {
     populateFixtures();
   }
 
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     FixtureCreation
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+
   // will take a xml file later ;)
   public void populateFixtures(){
     overLay = createGraphics(width, height, P2D);
@@ -43,37 +49,68 @@ class FancyFixtures extends FreeLiner {
     fixtures = new ArrayList<Fixture>();
 
     // construct fixtures here.
-    Fixture _fix = new ColorFlexWAUV(2);
-    _fix.setPosition(448, 64);
-    _fix.drawFixtureOverlay(overLay);
-    fixtures.add(_fix);
-
-    _fix = new RGBFixture(2);
-    _fix.setPosition(448, 128);
-    _fix.drawFixtureOverlay(overLay);
-    fixtures.add(_fix);
-
-    _fix = new ColorFlexWAUV(12);
-    _fix.setPosition(480, 64);
-    _fix.drawFixtureOverlay(overLay);
-    fixtures.add(_fix);
-
-    _fix = new RGBFixture(12);
-    _fix.setPosition(480, 128);
-    _fix.drawFixtureOverlay(overLay);
-    fixtures.add(_fix);
-
-    _fix = new MPanel(22, 64, 64);
-    _fix.drawFixtureOverlay(overLay);
-    fixtures.add(_fix);
-
-    _fix = new MPanel(152, 256, 64);
-    _fix.drawFixtureOverlay(overLay);
-    fixtures.add(_fix);
+    // Fixture _fix = new ColorFlexWAUV(2);
+    // _fix.setPosition(448, 64);
+    // _fix.drawFixtureOverlay(overLay);
+    // fixtures.add(_fix);
+    parseXMLfile("dmxSetup.xml");
 
     overLay.endDraw();
     listFixtures();
   }
+
+  public void parseXMLfile(String _file){
+    XML file = null;
+    try {
+      file = loadXML("userdata/"+_file);
+    }
+    catch(Exception e){
+      println("LEDmap XML file "+_file+" not found");
+      exit();
+    }
+    if(file != null){
+      println("file found "+_file);
+      XML[] groupData = file.getChildren("group");
+      PVector posA = new PVector(0,0);
+      PVector posB = new PVector(0,0);
+      int from = 0;
+      int to = 0;
+      for(XML xgroup : groupData){
+        XML[] xseg = xgroup.getChildren("segment");
+        Segment _seg;
+        for(XML seg : xseg) segmentStrip(seg);
+      }
+    }
+  }
+
+  // XML segment to RGBStrip fixture
+  // in this case its /led START_ADR LED_COUNT
+  void segmentStrip(XML _seg){
+    String[] cmd = split(_seg.getString("txt"), " ");
+    if(cmd[0].equals("/led") && cmd.length>2){
+      println(cmd[1]);
+      int addr = int(cmd[1]);
+      int count = int(cmd[2]);
+      // println("Adding LEDs from: "+from+"  to: "+to);
+      RGBStrip _fix;
+      _fix = new RGBStrip(addr, count,
+                          (int)_seg.getFloat("aX"),
+                          (int)_seg.getFloat("aY"),
+                          (int)_seg.getFloat("bX"),
+                          (int)_seg.getFloat("bY"));
+      fixtures.add(_fix);
+      _fix.drawFixtureOverlay(overLay);
+    }
+  }
+
+  void addFixture(Fixture _fix){
+
+  }
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Operation
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
 
   public void update(){
     super.update();
@@ -87,6 +124,7 @@ class FancyFixtures extends FreeLiner {
     // println(getMessage());
     if(showOverlay) image(overLay,0,0);
   }
+
 
   void debugBuffer(){
     println("|---------------------------------------------------=");
@@ -108,9 +146,9 @@ class FancyFixtures extends FreeLiner {
       println("Name : "+_fix.getName());
       println("description : "+_fix.getDescription());
       println("=============================");
-
     }
   }
+
   void parseGraphics(PGraphics _pg){
     _pg.loadPixels();
     for(Fixture _fix : fixtures)
@@ -157,6 +195,7 @@ class FancyFixtures extends FreeLiner {
     }
   }
 
+  // gets message from the serialPort
   public String getMessage(){
     String buff = "";
     while(port.available() != 0) buff += char(port.read());
@@ -168,3 +207,56 @@ class FancyFixtures extends FreeLiner {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+/*
+// will take a xml file later ;)
+public void populateFixturesISM(){
+  overLay = createGraphics(width, height, P2D);
+  overLay.beginDraw();
+  overLay.clear();
+
+  fixtures = new ArrayList<Fixture>();
+
+  // construct fixtures here.
+  Fixture _fix = new ColorFlexWAUV(2);
+  _fix.setPosition(448, 64);
+  _fix.drawFixtureOverlay(overLay);
+  fixtures.add(_fix);
+
+  _fix = new RGBFixture(2);
+  _fix.setPosition(448, 128);
+  _fix.drawFixtureOverlay(overLay);
+  fixtures.add(_fix);
+
+  _fix = new ColorFlexWAUV(12);
+  _fix.setPosition(480, 64);
+  _fix.drawFixtureOverlay(overLay);
+  fixtures.add(_fix);
+
+  _fix = new RGBFixture(12);
+  _fix.setPosition(480, 128);
+  _fix.drawFixtureOverlay(overLay);
+  fixtures.add(_fix);
+
+  _fix = new MPanel(22, 64, 64);
+  _fix.drawFixtureOverlay(overLay);
+  fixtures.add(_fix);
+
+  _fix = new MPanel(152, 256, 64);
+  _fix.drawFixtureOverlay(overLay);
+  fixtures.add(_fix);
+
+  overLay.endDraw();
+  listFixtures();
+}
+*/
