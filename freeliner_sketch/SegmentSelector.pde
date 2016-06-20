@@ -53,6 +53,7 @@ class SequentialSegments extends SegmentSelector{
 		int index = _event.getBeatCount();
 		if(_event.getDirection()) index = 10000 - (index % 9999);
 		Segment _seg = _event.segmentGroup.getSegmentSequence(index);
+		if(_seg == null) return null;
 		_seg.setLerp(_event.getLerp());
 		_segs.add(_seg);
 		return _segs;
