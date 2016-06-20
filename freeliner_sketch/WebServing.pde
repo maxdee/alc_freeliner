@@ -5,7 +5,7 @@ class GUIWebServer implements FreelinerConfig {
   SimpleHTTPServer server;
 
   public GUIWebServer(PApplet _parent){
-    // create a server
+    // // create a server
     SimpleHTTPServer.useIndexHtml = false;
     server = new SimpleHTTPServer(_parent);
     // serveAppropriateFiles();

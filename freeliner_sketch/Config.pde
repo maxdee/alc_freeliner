@@ -3,9 +3,9 @@ interface FreelinerConfig {
 
   // make these defaults? will be changed with configuration files...
   // UDP Port for incomming messages
-  final int OSC_IN_PORT = 6667;
+  final int OSC_IN_PORT = 6668;
   // UDP Port for outgoing sync message
-  final int OSC_OUT_PORT = 6668;
+  final int OSC_OUT_PORT = 6669;
   // IP address to send sync messages to
   final String OSC_OUT_IP = "127.0.0.1";
   // Websocket port
