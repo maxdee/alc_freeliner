@@ -632,6 +632,12 @@
         "index": 6,
         "description": "Render throught all the branch levels in one beat.",
         "key": "v"
+      },
+      {
+        "name": "ConstantSpeed",
+        "index": 7,
+        "description": "Runs through segments at a consistant speed.",
+        "key": "v"
       }
     ],
     "a_b5": [{
@@ -732,7 +738,7 @@
       "max": -42,
       "name": "selectAll",
       "description": "Select ALL the templates.",
-      "cmd": "??set*??",
+      "cmd": "tp select *",
       "type": 0,
       "ascii": 65,
       "key": "A"
@@ -741,7 +747,7 @@
       "max": -42,
       "name": "add",
       "description": "Toggle second template on all geometry with first template.",
-      "cmd": "tp add $",
+      "cmd": "tp groupadd $",
       "type": 0,
       "ascii": 66,
       "key": "B"
@@ -790,6 +796,15 @@
       "type": 6,
       "ascii": 79,
       "key": "O"
+    },
+    {
+      "max": -42,
+      "name": "quit",
+      "description": "quit freeliner!",
+      "cmd": "fl quit",
+      "type": 0,
+      "ascii": 81,
+      "key": "Q"
     },
     {
       "max": -42,
@@ -1044,7 +1059,7 @@
       "key": "u"
     },
     {
-      "max": 7,
+      "max": 8,
       "name": "segSelect",
       "description": "Picks which segments get rendered.",
       "cmd": "tw $ v",

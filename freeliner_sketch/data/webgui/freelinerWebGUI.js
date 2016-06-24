@@ -400,13 +400,6 @@ function otherInputCallbacks() {
     sendCMD('tp color '+selectedTemplate+' '+_c);
   }
 
-  // gets called from eventListener
-  function cmdPrompt(e){
-    if(e.keyCode == 13) {
-      sendCMD(document.getElementById("prompt").value);
-      document.getElementById("prompt").value = "";
-    }
-  }
 
   _element = document.getElementById("shaderSelect0");
   if(_element) _element.onclick = function(){
@@ -440,6 +433,15 @@ function otherInputCallbacks() {
   if(_element) _element.oninput = function(){
     sendCMD("post shader 3 "+(document.getElementById("shaderFader3").value/100.0));
   };
+}
+
+// gets called from eventListener
+function cmdPrompt(e){
+  console.log(e.keyCode);
+  if(e.keyCode == 13) {
+    sendCMD(document.getElementById("prompt").value);
+    document.getElementById("prompt").value = "";
+  }
 }
 
 /*
