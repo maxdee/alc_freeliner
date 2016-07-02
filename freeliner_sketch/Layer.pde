@@ -113,6 +113,7 @@ class RenderLayer extends Layer{
     if(!enabled) return _pg;
     if(_pg == null) return canvas;
     _pg.beginDraw();
+    _pg.clear();
     _pg.image(canvas,0,0);
     _pg.endDraw();
     return _pg;
@@ -157,18 +158,12 @@ class MergeLayer extends RenderLayer{
   }
 
   public PGraphics apply(PGraphics _pg){
-    // canvas.blendMode(LIGHTEST);
     if(_pg == null) return null;
+    canvas.blendMode(LIGHTEST);
     canvas.image(_pg,0,0);
     return null;
   }
 
-  public void beginDrawing(){
-   if(canvas != null){
-     canvas.beginDraw();
-     canvas.background(BACKGROUND_COLOR);
-   }
-  }
 }
 
 /**
@@ -182,6 +177,7 @@ class ShaderLayer extends RenderLayer{
   float[] uniforms;
 
   public ShaderLayer(){
+    super();
     enabled = true;
     name = "ShaderLayer";
     shader = null;

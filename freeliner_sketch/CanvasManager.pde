@@ -105,7 +105,7 @@ class LayeredCanvasManager extends CanvasManager{
     //addLayer(new ImageLayer()).loadFile(sketchPath()+"/data/userdata/grey.png");
     //addLayer(new RenderLayer()).setName("First");
     //addLayer(mergeLayer);
-
+    loadShader(0);
     printLayers();
   }
 
@@ -119,7 +119,7 @@ class LayeredCanvasManager extends CanvasManager{
     else if(_lr instanceof RenderLayer && ! (_lr instanceof MergeLayer)) renderLayers.add((RenderLayer)_lr);
     return _lr;
   }
-
+  int rtest = 0;
   /**
    * Begin redering process. Make sure to end it with endRender();
    */
@@ -133,13 +133,14 @@ class LayeredCanvasManager extends CanvasManager{
       _rl.endDrawing();
       _index++;
     }
+
     mergeLayer.beginDrawing();
-    mergeLayer.getCanvas().background(100);
+
     PGraphics _prev = null;
     for(Layer _lr : layers) _prev = _lr.apply(_prev);
     mergeLayer.endDrawing();
-    //blendMode(BLEND);
     image(mergeLayer.getCanvas(),0,0);
+
     if(makeMaskFlag){
       maskLayer.makeMask(mergeLayer.getCanvas());
       makeMaskFlag = false;
