@@ -75,7 +75,7 @@ function setTemplateStat(_info){
   // update animation menu
   _div = document.getElementById("a_KEY");
   _aVal = _div.firstElementChild.value;
-  updateKeyMenu('a');
+  updateKeyMenu('a');//xxx
   _div.lastChild.value = _aVal;
 }
 
@@ -187,7 +187,9 @@ function addKey(_keyConfig){
     _cmd = _keyConfig["cmd"].replace("$", selectedTemplate)+" "+_v;
     sendCMD(_cmd);
     // maybe sendCMD animation menu
-    if(_keyConfig["key"]=="b") sendCMDKeyMenu('a');
+    if(_keyConfig["key"]=="b") {
+      updateKeyMenu('a');// xxx
+    }
   }
   // connect callback to appropriate event
   if(_keyConfig["type"] == 0) _input.onclick = _cb;
@@ -273,11 +275,12 @@ function updateMenus(){
 
 // update a input select element with corresponding modes
 function updateKeyMenu(_key){
-  var _id, _select;
+  var _id, _select, _val;
   _id = _key+"_SELECT";
   _select = document.getElementById(_id);
   // key might not be in html
   if(_select == null) return;
+  _val = _select.value;
   // fill has same options as stroke
   if(_key == 'f') _key = 'q';
   // clear the menu
@@ -296,6 +299,7 @@ function updateKeyMenu(_key){
     _option.title = _modeArray[i]["description"];
     _select.add(_option);
   }
+  _select.value = _val;
 }
 
 // clear a select
@@ -399,7 +403,6 @@ function otherInputCallbacks() {
     sendCMD('tw '+selectedTemplate+' f 28');
     sendCMD('tp color '+selectedTemplate+' '+_c);
   }
-
 
   _element = document.getElementById("shaderSelect0");
   if(_element) _element.onclick = function(){
