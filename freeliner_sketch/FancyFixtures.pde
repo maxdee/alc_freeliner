@@ -59,6 +59,13 @@ class FancyFixtures extends FreeLiner {
     listFixtures();
   }
 
+  public void addRGBFixture(int _adr, int _x, int _y){
+    Fixture _fix = new RGBFixture(_adr);
+    _fix.setPosition(_x, _y);
+    _fix.drawFixtureOverlay(overLay);
+    fixtures.add(_fix);
+  }
+
   public void parseXMLfile(String _file){
     XML file = null;
     try {
@@ -87,7 +94,13 @@ class FancyFixtures extends FreeLiner {
   // in this case its /led START_ADR LED_COUNT
   void segmentStrip(XML _seg){
     String[] cmd = split(_seg.getString("txt"), " ");
-    if(cmd[0].equals("/led") && cmd.length>2){
+    if(cmd[0].equals("/rgb") && cmd.length>1){
+      println(cmd[1]);
+      int addr = int(cmd[1]);
+      // println("Adding LEDs from: "+from+"  to: "+to);
+      addRGBFixture(addr, (int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
+    }
+    else if(cmd[0].equals("/led") && cmd.length>2){
       println(cmd[1]);
       int addr = int(cmd[1]);
       int count = int(cmd[2]);

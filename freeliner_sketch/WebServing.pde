@@ -6,12 +6,19 @@ class GUIWebServer implements FreelinerConfig {
 
   public GUIWebServer(PApplet _parent){
     // // create a server
-    SimpleHTTPServer.useIndexHtml = false;
-    server = new SimpleHTTPServer(_parent);
-    // serveAppropriateFiles();
-    server.serveAll("",sketchPath()+"/data/webgui");
+    if(SERVE_HTTP){
+      SimpleHTTPServer.useIndexHtml = false;
+      server = new SimpleHTTPServer(_parent);
+      // serveAppropriateFiles();
+      server.serveAll("",sketchPath()+"/data/webgui");
+    }
+    else println("HTTP Webserver disabled!");
   }
 
+  public void refreshFiles(){
+    if(SERVE_HTTP)
+      server.serveAll("",sketchPath()+"/data/webgui");
+  }
   // dosent work
   public void serveAppropriateFiles(){
     File _folder = new File(sketchPath()+"/data");

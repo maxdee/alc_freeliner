@@ -10,6 +10,9 @@ interface FreelinerConfig {
   final String OSC_OUT_IP = "127.0.0.1";
   // Websocket port
   final int WEBSOCKET_PORT = 8025;
+  // Disbale Webserving
+  final boolean SERVE_HTTP = true;
+
 
   // bad for beginners but crucial
   boolean ENABLE_KEY_REPEAT = true;

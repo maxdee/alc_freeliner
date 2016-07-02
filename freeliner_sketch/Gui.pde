@@ -106,6 +106,10 @@
     if(mouse.hasMoved()) resetTimeOut();
     if(!doDraw()) return;
 
+    doUpdate();
+  }
+
+  private void doUpdate(){
     // prep canvas
     canvas.beginDraw();
     canvas.clear();
@@ -405,7 +409,7 @@
     boolean lns = viewLines;
     viewLines = true;
     viewTags = true;
-    update();
+    doUpdate();
     canvas.save(_file);
     viewTags = tgs;
     viewLines = lns;

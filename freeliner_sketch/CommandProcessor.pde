@@ -242,7 +242,7 @@ class CommandProcessor implements FreelinerConfig{
   public void saveCMD(String[] _args){
     processCMD("tp save");
     processCMD("geom save");
-    gui.updateReference(sketchPath()+"/data/webgui/reference.jpg");
+    gui.updateReference();//sketchPath()+"/data/webgui/reference.jpg");
     valueGiven = "sure";
   }
   public void openCMD(String[] _args){
@@ -422,10 +422,15 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[1].equals("text")) return textCMD(_args);
     else if(_args[1].equals("new")) valueGiven = str(groupManager.newGroup());
     else if(_args[1].equals("center")) valueGiven = str(groupManager.toggleCenterPutting());
-    else if(_args[1].equals("webref")) gui.updateReference("../webgui/reference.png");
+    else if(_args[1].equals("webref")) webrefCMD();
     else if(_args[1].equals("breakline")) mouse.press(3);
     else return false;
     return true;
+  }
+
+  public void webrefCMD(){
+    gui.updateReference(sketchPath()+"/data/webgui/reference.jpg");
+    freeliner.getGUIWebServer().refreshFiles();
   }
 
   public boolean saveGeometryCMD(String[] _args){

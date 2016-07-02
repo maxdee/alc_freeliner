@@ -203,6 +203,9 @@ class FreeLiner implements FreelinerConfig{
   public WebSocketCommunicator getWebCommunicator(){
     return webComs;
   }
+  public GUIWebServer getGUIWebServer(){
+    return guiWebServer;
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Debug
