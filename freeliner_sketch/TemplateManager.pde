@@ -545,7 +545,7 @@ class TemplateManager{
     else {
       for(int i = 0; i < _tags.length(); i++){
         TweakableTemplate _tw = getTemplate(_tags.charAt(i));
-        println(_tw);
+        // println(_tw);
         if( _tw != null) _tmps.add(_tw);
       }
     }

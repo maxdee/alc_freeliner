@@ -82,6 +82,8 @@ class LayeredCanvasManager extends CanvasManager{
   MaskLayer maskLayer;
   TracerLayer tracerLayer;
   ShaderLayer shaderLayer;
+  ShaderLayer shaderTwo;
+
 
   String[] shaderFiles = {"fragZero.glsl", "fragOne.glsl", "fragTwo.glsl", "fragThree.glsl",};
 
@@ -90,8 +92,6 @@ class LayeredCanvasManager extends CanvasManager{
     renderLayers = new ArrayList();
     shaderLayers = new ArrayList();
     mergeLayer = new MergeLayer();
-    //mergeLayer.getCanvas().blendMode(LIGHTEST);
-
 
     // begin stack
     tracerLayer = (TracerLayer)addLayer(new TracerLayer());
@@ -99,7 +99,11 @@ class LayeredCanvasManager extends CanvasManager{
     shaderLayer.loadFile(shaderFiles[0]);
     addLayer(mergeLayer);
     addLayer(new RenderLayer()).setName("Untraced");
+    shaderTwo = (ShaderLayer)addLayer(new ShaderLayer());
+    shaderTwo.loadFile(sketchPath()+"/data/shaders/fragTwo.glsl");
     maskLayer = (MaskLayer)addLayer(new MaskLayer());
+    addLayer(mergeLayer);
+    addLayer(new RenderLayer()).setName("Untraced2");
     addLayer(mergeLayer);
 
     //addLayer(new ImageLayer()).loadFile(sketchPath()+"/data/userdata/grey.png");
@@ -217,7 +221,11 @@ class LayeredCanvasManager extends CanvasManager{
   ////////////////////////////////////////////////////////////////////////////////////
   // set uniform values for shader
   public void setUniforms(int _i, float _v){
-    if(shaderLayer != null) shaderLayer.setUniforms(_i, _v);
+
+    if(_i < 8 && shaderLayer != null)
+      shaderLayer.setUniforms(_i, _v);
+    else if(shaderTwo != null)
+      shaderTwo.setUniforms(_i-8, _v);
   }
   // reload the shader file
   public void reloadShader(){

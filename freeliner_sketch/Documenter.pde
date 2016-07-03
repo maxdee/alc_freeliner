@@ -10,6 +10,7 @@
 // for detecting fields
 import java.lang.reflect.Field;
 
+
 /**
  * The FreelinerCommunicator handles communication with other programs over various protocols.
  */
@@ -82,12 +83,24 @@ class Documenter implements FreelinerConfig{
 
     keyMapToJSON(_km);
     // addConfigToJSON();
+    // miscInfoJSON();
     freelinerJSON.setJSONObject("modes", modesJSON);
     saveJSONObject(freelinerJSON, sketchPath()+"/data/webgui/freelinerData.json");
     println("**** Documentation Updated ****");
   }
 
-
+  // void miscInfoJSON(){
+  //   // int _index = 0;
+  //   JSONArray stuffArray = new JSONArray();
+  //   JSONObject misc = new JSONObject();
+  //   misc.setString("ip", getIP());
+  //   stuffArray.append(misc);
+  //   freelinerJSON.setJSONArray("misc", stuffArray);
+  // }
+  //
+  // String getIP(){
+  //   return Server.ip();
+  // }
 
   // add modes to JSON data
   void addModesToJSON(Mode[] _modes, char _key, Mode _parent){
