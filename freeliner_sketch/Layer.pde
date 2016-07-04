@@ -262,7 +262,7 @@ class ShaderLayer extends RenderLayer{
 
   public ShaderLayer(){
     super();
-    commandList.add("layer name uniforms 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 (sorry)");
+    commandList.add("layer name uniforms 0 0.5");
     commandList.add("layer name loadFile fragShader.glsl");
     enabled = true;
     name = "ShaderLayer";
@@ -273,18 +273,18 @@ class ShaderLayer extends RenderLayer{
   }
 
 
+  public void beginDrawing(){
 
+  }
   /**
    * Override parent's
    */
   public boolean parseCMD(String[] _args){
     boolean _parsed = super.parseCMD(_args);
     if(_parsed) return true;
-    else if(_args.length > 10) {
+    else if(_args.length > 4) {
       if(_args[2].equals("uniforms")){
-        for(int i = 0; i < 8; i++){
-          uniforms[i] = stringFloat(_args[i+3]);
-        }
+        setUniforms(stringInt(_args[3]), stringFloat(_args[4]));
       }
     }
     else return false;

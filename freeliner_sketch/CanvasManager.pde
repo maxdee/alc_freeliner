@@ -108,17 +108,19 @@ class LayeredCanvasManager extends CanvasManager{
     // addLayer(mergeLayer);
 
     addLayer(new TracerLayer()).setName("tracerOne");
+    addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
+    // addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
     addLayer(mergeLayer);
+
     addLayer(new RenderLayer()).setName("untraced");
-    //addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
+    // addLayer(new ShaderLayer()).setName("thirdShader").loadFile("fragTwo.glsl");
     // addLayer(new MaskLayer());
     addLayer(mergeLayer);
-    addLayer(new RenderLayer()).setName("untraced2");
-    addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
 
-    addLayer(mergeLayer);
+    // addLayer(new RenderLayer()).setName("untraced2");
+    // addLayer(mergeLayer);
 
-    loadShader(0);
+    // loadShader(0);
     printLayers();
   }
 
