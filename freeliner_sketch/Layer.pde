@@ -9,6 +9,7 @@
 
 
  // ADD TRANSLATION LAYER
+// add layer opacity!!
 
 /**
 * Something that acts on a PGraphics.
@@ -16,13 +17,21 @@
 */
 class Layer implements FreelinerConfig{
   String name;
+  String description;
+  String filename;
   boolean enabled;
   PGraphics canvas;
+  ArrayList<String> commandList;
 
   public Layer(){
    name = "basicLayer";
+   description = "a basic layer that does not do anything";
+   commandList = new ArrayList<String>();
+   commandList.add("enable (-3|0|1)");
+   commandList.add("setName layerName");
    enabled = true;
    canvas = null;
+   filename = "none";
   }
 
  /**
@@ -52,10 +61,31 @@ class Layer implements FreelinerConfig{
   }
 
   /**
+   * Since each layer are quite specific and require various inputs,
+   * layers are just going to have to parse the CMDs themselve.
+   * overiding this should include super
+   * @param String[] arguments
+   * @return boolean weather or not the CMD was parsed.
+   */
+  public boolean parseCMD(String[] _args){
+    if(_args.length > 3){
+      if(_args[2].equals("loadFile")) loadFile(_args[3]);
+      else if(_args[2].equals("enable")) setEnable(stringInt(_args[3]));
+      else if(_args[2].equals("setName")) setName(_args[3]);
+      else return false;
+      return true;
+    }
+    else return false;
+  }
+
+  /**
    * Load a file, used with shaders masks images...
    * @param String filename
    */
-  public void loadFile(String _file){}
+  public Layer loadFile(String _file){
+    filename = _file;
+    return this;
+  }
 
   /**
    * Get the canvas
@@ -65,12 +95,27 @@ class Layer implements FreelinerConfig{
    return canvas;
   }
 
+  public String getFilename(){
+    return filename;
+  }
+
+  /**
+   * Set or toggle the enabled boolean
+   * @param String name
+   */
+  public void setEnable(int _v){
+   if(_v == -3) enabled = !enabled;
+   else if(_v == 0) enabled = false;
+   else if(_v == 1) enabled = true;
+  }
+
   /**
    * Set the name of the layer, like "shader fx.glsl"
    * @param String name
    */
-  public void setName(String _n){
+  public Layer setName(String _n){
    name = _n;
+   return this;
   }
 
   /**
@@ -88,7 +133,22 @@ class Layer implements FreelinerConfig{
   public String getName(){
    return name;
   }
+
+  /**
+   * Get layer description.
+   * @return String description
+   */
+  public String getDescription(){
+   return description;
+  }
+
+  public ArrayList<String> getCMDList(){
+   return commandList;
+  }
 }
+
+////////////////////////////////////////////////////////////////////////////////////////////
+
 
 /**
  * Simple layer that can be drawn on by the rendering system.
@@ -104,6 +164,7 @@ class RenderLayer extends Layer{
     canvas.endDraw();
     enabled = true;
     name = "RenderLayer";
+    description = "a layer that freeliner renders onto, set a template's layer with [p]";
   }
 
   /**
@@ -127,6 +188,23 @@ class TracerLayer extends RenderLayer{
   int trailmix = 30;
   public TracerLayer(){
     super();
+    commandList.add("layer name setTracers 30");
+    name = "tracerLayer";
+    description = "renderLayer with tracers, set a template's layer with [p]";
+  }
+
+  /**
+   * Override parent's
+   */
+  public boolean parseCMD(String[] _args){
+    boolean _parsed = super.parseCMD(_args);
+    if(_parsed) return true;
+    else if(_args.length > 3) {
+      if(_args[2].equals("setTracers")) setTrails(stringInt(_args[3]), 255);
+      else return false;
+    }
+    else return false;
+    return true;
   }
   /**
    * Override parent's beginDrawing to draw a transparent background.
@@ -141,11 +219,14 @@ class TracerLayer extends RenderLayer{
       canvas.rect(0,0,width,height);
     }
   }
+
   public int setTrails(int _v, int _max){
+    if(_v == -42) _v = trailmix;
     trailmix = numTweaker(_v, trailmix);
     if(trailmix >= _max) trailmix = _max - 1;
     return trailmix;
   }
+
 }
 
 /**
@@ -155,7 +236,11 @@ class MergeLayer extends RenderLayer{
   public MergeLayer(){
     super();
     name = "MergeLayer";
+    description = "used to merge layers together";
   }
+
+  // set canvas method ?
+  // setBlend ?
 
   public PGraphics apply(PGraphics _pg){
     if(_pg == null) return null;
@@ -163,7 +248,6 @@ class MergeLayer extends RenderLayer{
     canvas.image(_pg,0,0);
     return null;
   }
-
 }
 
 /**
@@ -178,15 +262,40 @@ class ShaderLayer extends RenderLayer{
 
   public ShaderLayer(){
     super();
+    commandList.add("layer name uniforms 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 (sorry)");
+    commandList.add("layer name loadFile fragShader.glsl");
     enabled = true;
     name = "ShaderLayer";
+    description = "a layer with a fragment shader";
+
     shader = null;
     uniforms = new float[]{0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5};
+  }
+
+
+
+  /**
+   * Override parent's
+   */
+  public boolean parseCMD(String[] _args){
+    boolean _parsed = super.parseCMD(_args);
+    if(_parsed) return true;
+    else if(_args.length > 10) {
+      if(_args[2].equals("uniforms")){
+        for(int i = 0; i < 8; i++){
+          uniforms[i] = stringFloat(_args[i+3]);
+        }
+      }
+    }
+    else return false;
+    return true;
   }
 
   public PGraphics apply(PGraphics _pg){
     if(shader == null) return _pg;
     if(!enabled) return _pg;
+    if(_pg == null) return null;
+
     try {
       canvas.shader(shader);
     }
@@ -203,15 +312,15 @@ class ShaderLayer extends RenderLayer{
     return canvas;
   }
 
-  public void loadFile(String _file){
+  public Layer loadFile(String _file){
     fileName = _file;
-    name = _file;//_splt[_splt.length];
     reloadShader();
+    return this;
   }
 
   public void reloadShader(){
     try{
-      shader = loadShader(fileName);
+      shader = loadShader(sketchPath()+"/data/shaders/"+fileName);
       println("Loaded shader "+fileName);
     }
     catch(Exception _e){
@@ -252,24 +361,29 @@ class ImageLayer extends Layer{
   PImage imageToDraw;
 
   public ImageLayer(){
+    super();
+    commandList.add("layer name loadFile .jpg .png .???");
     // try to load a mask if one is provided
     loadFile(sketchPath()+"/data/userdata/layer_image.png");
     name = "ImageLayer";
+    description = "put an image as a layer";
   }
 
   public PGraphics apply(PGraphics _pg){
     if(!enabled) return _pg;
     if(imageToDraw == null) return _pg;
-    if(_pg == null) return null;
+    if(_pg == null) return null; // maybe cast image to a PG???
     _pg.beginDraw();
     _pg.image(imageToDraw,0,0);
     _pg.endDraw();
     return _pg;
   }
 
-  public void loadFile(String _file){
+  public Layer loadFile(String _file){
+    filename = _file;
     try { imageToDraw = loadImage(_file);}
     catch(Exception _e) {imageToDraw = null;}
+    return this;
   }
 }
 
@@ -278,11 +392,29 @@ class ImageLayer extends Layer{
  * Needs to be fixed for INVERTED_COLOR...
  */
 class MaskLayer extends ImageLayer{
-
+  boolean maskFlag = false;
   public MaskLayer(){
+    super();
+    commandList.add("layer name loadFile mask.png");
+    commandList.add("layer name makeMask");
     // try to load a mask if one is provided
     //loadFile("userdata/mask_image.png");
     name = "MaskLayer";
+    description = "a configurable mask layer";
+  }
+
+  /**
+   * Override parent's
+   */
+  public boolean parseCMD(String[] _args){
+    boolean _parsed = super.parseCMD(_args);
+    if(_parsed) return true;
+    else if(_args.length > 2) {
+      if(_args[2].equals("makeMask")) maskFlag = true;
+      else return false;
+    }
+    else return false;
+    return true;
   }
 
   // pg.endDraw() -> then this ?
@@ -302,6 +434,14 @@ class MaskLayer extends ImageLayer{
 
   public void saveFile(String _file){
     imageToDraw.save(_file);
+  }
+
+  public boolean checkMakeMask(){
+    if(maskFlag) {
+      maskFlag = false;
+      return true;
+    }
+    else return false;
   }
 }
 

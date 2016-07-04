@@ -15,7 +15,7 @@
 abstract class CanvasManager implements FreelinerConfig{
   // Template renderer needed to do the rendering
   TemplateRenderer templateRenderer;
-  boolean makeMaskFlag = false;
+  // boolean makeMaskFlag = false;
 
 
   //  abstract methods
@@ -35,6 +35,8 @@ abstract class CanvasManager implements FreelinerConfig{
   public void inject(TemplateRenderer _tr){
     templateRenderer = _tr;
   }
+  // no commands available
+  public boolean parseCMD(String[] _args){ return false; }
 }
 
 /**
@@ -61,6 +63,7 @@ class ClassicCanvasManager extends CanvasManager{
   public PGraphics getCanvas(){
     return tracerLayer.getCanvas();
   }
+
   public int setTrails(int _t, int _max){
     return tracerLayer.setTrails(_t, _max);
   }
@@ -75,14 +78,12 @@ class LayeredCanvasManager extends CanvasManager{
   ArrayList<Layer> layers;
   // layers that can be drawn on
   ArrayList<RenderLayer> renderLayers;
-  // multiple shaders?
-  ArrayList<ShaderLayer> shaderLayers;
 
   MergeLayer mergeLayer;
-  MaskLayer maskLayer;
-  TracerLayer tracerLayer;
-  ShaderLayer shaderLayer;
-  ShaderLayer shaderTwo;
+  // MaskLayer maskLayer;
+  // TracerLayer tracerLayer;
+  // ShaderLayer shaderLayer;
+  // ShaderLayer shaderTwo;
 
 
   String[] shaderFiles = {"fragZero.glsl", "fragOne.glsl", "fragTwo.glsl", "fragThree.glsl",};
@@ -90,37 +91,48 @@ class LayeredCanvasManager extends CanvasManager{
   public LayeredCanvasManager(){
     layers = new ArrayList();
     renderLayers = new ArrayList();
-    shaderLayers = new ArrayList();
     mergeLayer = new MergeLayer();
 
     // begin stack
-    tracerLayer = (TracerLayer)addLayer(new TracerLayer());
-    shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
-    shaderLayer.loadFile(shaderFiles[0]);
+    // tracerLayer = (TracerLayer)addLayer(new TracerLayer());
+    // shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
+    // shaderLayer.loadFile(shaderFiles[0]);
+    // addLayer(mergeLayer);
+    // addLayer(new RenderLayer()).setName("Untraced");
+    // shaderTwo = (ShaderLayer)addLayer(new ShaderLayer());
+    // shaderTwo.loadFile(sketchPath()+"/data/shaders/fragTwo.glsl");
+    // maskLayer = (MaskLayer)addLayer(new MaskLayer());
+    //
+    // addLayer(mergeLayer);
+    // addLayer(new RenderLayer()).setName("Untraced2");
+    // addLayer(mergeLayer);
+
+    addLayer(new TracerLayer()).setName("tracerOne");
     addLayer(mergeLayer);
-    addLayer(new RenderLayer()).setName("Untraced");
-    shaderTwo = (ShaderLayer)addLayer(new ShaderLayer());
-    shaderTwo.loadFile(sketchPath()+"/data/shaders/fragTwo.glsl");
-    maskLayer = (MaskLayer)addLayer(new MaskLayer());
+    addLayer(new RenderLayer()).setName("untraced");
+    //addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
+    // addLayer(new MaskLayer());
     addLayer(mergeLayer);
-    addLayer(new RenderLayer()).setName("Untraced2");
+    addLayer(new RenderLayer()).setName("untraced2");
+    addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
+
     addLayer(mergeLayer);
 
-    //addLayer(new ImageLayer()).loadFile(sketchPath()+"/data/userdata/grey.png");
-    //addLayer(new RenderLayer()).setName("First");
-    //addLayer(mergeLayer);
     loadShader(0);
     printLayers();
   }
 
   public int setTrails(int _t, int _max){
-    return tracerLayer.setTrails(_t, _max);
+    int _ret = 0;
+    for(Layer _lyr : layers)
+      if(_lyr instanceof TracerLayer)
+        _ret = ((TracerLayer)_lyr).setTrails(_t, _max);
+    return _ret;
   }
 
   public Layer addLayer(Layer _lr){
     layers.add(_lr);
-    if(_lr instanceof ShaderLayer) shaderLayers.add((ShaderLayer)_lr);
-    else if(_lr instanceof RenderLayer && ! (_lr instanceof MergeLayer)) renderLayers.add((RenderLayer)_lr);
+    if(_lr instanceof RenderLayer && ! (_lr instanceof MergeLayer)) renderLayers.add((RenderLayer)_lr);
     return _lr;
   }
   int rtest = 0;
@@ -145,9 +157,10 @@ class LayeredCanvasManager extends CanvasManager{
     mergeLayer.endDrawing();
     image(mergeLayer.getCanvas(),0,0);
 
-    if(makeMaskFlag){
-      maskLayer.makeMask(mergeLayer.getCanvas());
-      makeMaskFlag = false;
+    for(Layer _lr : layers){
+      if(_lr instanceof MaskLayer){
+        if(((MaskLayer)_lr).checkMakeMask()) ((MaskLayer)_lr).makeMask(mergeLayer.getCanvas());
+      }
     }
 	}
 
@@ -164,10 +177,16 @@ class LayeredCanvasManager extends CanvasManager{
 
   public void printLayers(){
     println("+--------Layers--------+");
-    for(Layer _lr : layers) println(_lr.getName());
-    println("+--------Render--------+");
-    for(Layer _lr : renderLayers) println(_lr.getName());
+    for(Layer _lr : layers) printLayer(_lr);
     println("+--------END-----------+");
+  }
+
+  public void printLayer(Layer _lyr){
+    println("_________"+_lyr.getName()+"_________");
+    println(_lyr.getDescription());
+    for(String _cmd : _lyr.getCMDList() ) println(_cmd);
+    println("enable "+_lyr.useLayer());
+    println("-------------------------------------------");
   }
 
   public void screenShot(){
@@ -179,6 +198,20 @@ class LayeredCanvasManager extends CanvasManager{
   ///////    Modifiers
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+  // add cmd : layer layerName order (-2|-1|n)
+  public boolean parseCMD(String[] _args){
+    if(_args.length < 2) return false;
+    Layer _lyr = getLayer(_args[1]);
+    if(_lyr == null) return false;
+    else return _lyr.parseCMD(_args);
+  }
+
+  public Layer getLayer(String _name){
+    for(Layer _lyr : layers)
+      if(_lyr.getName().equals(_name)) return _lyr;
+    return null;
+  }
 
   /**
    * Toggle the use of background with alpha value
@@ -200,9 +233,11 @@ class LayeredCanvasManager extends CanvasManager{
    */
 
   // Set a flag to generate mask next render.
+  //DPREACET
   public void generateMask(){
-    makeMaskFlag = true;
+    //makeMaskFlag = true;
   }
+  //DPREACET
   public boolean toggleMask(){
     return false;
   }
@@ -220,24 +255,24 @@ class LayeredCanvasManager extends CanvasManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   // set uniform values for shader
-  public void setUniforms(int _i, float _v){
-
-    if(_i < 8 && shaderLayer != null)
-      shaderLayer.setUniforms(_i, _v);
-    else if(shaderTwo != null)
-      shaderTwo.setUniforms(_i-8, _v);
-  }
+  // public void setUniforms(int _i, float _v){
+  //   //
+  //   // if(_i < 8 && shaderLayer != null)
+  //   //   shaderLayer.setUniforms(_i, _v);
+  //   // else if(shaderTwo != null)
+  //   //   shaderTwo.setUniforms(_i-8, _v);
+  // }
   // reload the shader file
-  public void reloadShader(){
-    shaderLayer.reloadShader();
-  }
+  // public void reloadShader(){
+  //   // shaderLayer.reloadShader();
+  // }
 
   // load a different shader from the list
-  public void loadShader(int _n){
-    if(shaderLayer == null) return;
-    if(_n < shaderFiles.length) {
-      shaderLayer.loadFile(sketchPath()+"/data/shaders/"+shaderFiles[_n]);
-    }
-    else println("out of shaders");
-  }
+  // public void loadShader(int _n){
+  //   if(shaderLayer == null) return;
+  //   if(_n < shaderFiles.length) {
+  //     shaderLayer.loadFile(sketchPath()+"/data/shaders/"+shaderFiles[_n]);
+  //   }
+  //   else println("out of shaders");
+  // }
 }

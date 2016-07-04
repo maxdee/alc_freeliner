@@ -71,14 +71,19 @@ class CommandProcessor implements FreelinerConfig{
     "geom toggle ABC (2 3 4)", // not implemented yet
     "geom webref",
     ///////////////////  Post processing
-    "post trails (alpha)",
-    "post shader (coolfrag.glsl)",
-    "post mask (mask.png)",
+    "post tracers (alpha)", // to be deprecated
+    "post shader (coolfrag.glsl)", // to be deprecated
+    "post mask (mask.png)", // to be deprecated
+    "layer layerName cmd args",
     /////////////////// Information Accessors
     "fetch-osc|fetch-ws infoline",
     "fetch-osc|fetch-ws tracker A",
     "fetch-osc|fetch-ws template A",
     "fetch-osc|fetch-ws seq",
+    "fetch-osc|fetch-ws fileList", // to implement
+    "fetch-osc|fetch-ws layerList", // to implement
+
+
     /////////////////// Configure
     "config width 1024",
     "config height 1024",
@@ -163,9 +168,10 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("geom")) _used = geometryCMD(_args);
     else if(_args[0].equals("fetch-osc") || _args[0].equals("fetch-ws")) _used = fetchCMD(_args);
     else if(_args[0].equals("hid")) _used = hidCMD(_args);
-    else if(_args[0].equals("layer")) _used = layerCMD(_args);
+    else if(_args[0].equals("layer")) _used = canvasManager.parseCMD(_args);
     else if(_args[0].equals("config")) _used = configCMD(_args);
     else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
+
 
 
 
@@ -207,17 +213,19 @@ class CommandProcessor implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   public boolean layerCMD(String[] _args){
-    if(_args.length < 2) return false;
-    else if(_args[1].equals("mask")) maskCMD(_args);
-    // else if(_args[1].equals("open")) openCMD(_args);
-    else return false;
-    return true;
+    return canvasManager.parseCMD(_args);
+
+    // if(_args.length < 2) return false;
+    // else if(_args[1].equals("mask")) maskCMD(_args);
+    // // else if(_args[1].equals("open")) openCMD(_args);
+    // else return false;
+    // return true;
   }
 
-  public void maskCMD(String[] _args){
-    if(_args.length < 3) return;
-    else if(_args[2].equals("make")) canvasManager.generateMask();
-  }
+  // public void maskCMD(String[] _args){
+  //   if(_args.length < 3) return;
+  //   else if(_args[2].equals("make")) canvasManager.generateMask();
+  // }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     fl stuff load and such
