@@ -147,24 +147,27 @@ class Layer implements FreelinerConfig{
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////
-
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////    subaclasses
+///////
+////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Simple layer that can be drawn on by the rendering system.
+ * Simple layer twith a real PGraphics
  */
-class RenderLayer extends Layer{
+class CanvasLayer extends Layer{
   /**
    * Actualy make a PGraphics.
    */
-  public RenderLayer(){
+  public CanvasLayer(){
     canvas = createGraphics(width,height,P2D);
     canvas.beginDraw();
     canvas.background(0);
     canvas.endDraw();
     enabled = true;
-    name = "RenderLayer";
-    description = "a layer that freeliner renders onto, set a template's layer with [p]";
+    name = "CanvasLayer";
+    description = "a layer with a buffer";
   }
 
   /**
@@ -179,6 +182,18 @@ class RenderLayer extends Layer{
     _pg.endDraw();
     return _pg;
    }
+ }
+
+/**
+ * Simple layer that can be drawn on by the rendering system.
+ */
+class RenderLayer extends CanvasLayer{
+  public RenderLayer(){
+    super();
+    enabled = true;
+    name = "RenderLayer";
+    description = "a layer that freeliner renders onto, set a template's layer with [p]";
+  }
  }
 
 /**
@@ -232,7 +247,7 @@ class TracerLayer extends RenderLayer{
 /**
  * Layer to merge graphics down. should only be one of these
  */
-class MergeLayer extends RenderLayer{
+class MergeLayer extends CanvasLayer{
   public MergeLayer(){
     super();
     name = "MergeLayer";
@@ -253,7 +268,7 @@ class MergeLayer extends RenderLayer{
 /**
  * For fragment shaders!
  */
-class ShaderLayer extends RenderLayer{
+class ShaderLayer extends CanvasLayer{
   PShader shader;
   String fileName;
   PVector center;// implements this

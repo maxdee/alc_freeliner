@@ -93,34 +93,22 @@ class LayeredCanvasManager extends CanvasManager{
     renderLayers = new ArrayList();
     mergeLayer = new MergeLayer();
 
-    // begin stack
-    // tracerLayer = (TracerLayer)addLayer(new TracerLayer());
-    // shaderLayer = (ShaderLayer)addLayer(new ShaderLayer());
-    // shaderLayer.loadFile(shaderFiles[0]);
-    // addLayer(mergeLayer);
-    // addLayer(new RenderLayer()).setName("Untraced");
-    // shaderTwo = (ShaderLayer)addLayer(new ShaderLayer());
-    // shaderTwo.loadFile(sketchPath()+"/data/shaders/fragTwo.glsl");
-    // maskLayer = (MaskLayer)addLayer(new MaskLayer());
-    //
-    // addLayer(mergeLayer);
-    // addLayer(new RenderLayer()).setName("Untraced2");
-    // addLayer(mergeLayer);
-
     addLayer(new TracerLayer()).setName("tracerOne");
     addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
-    // addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
+    addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
     addLayer(mergeLayer);
 
     addLayer(new RenderLayer()).setName("untraced");
-    // addLayer(new ShaderLayer()).setName("thirdShader").loadFile("fragTwo.glsl");
+    addLayer(new ShaderLayer()).setName("thirdShader").loadFile("fragTwo.glsl");
+    addLayer(new ShaderLayer()).setName("fourthShader").loadFile("fragTwo.glsl");
+
     // addLayer(new MaskLayer());
     addLayer(mergeLayer);
 
     // addLayer(new RenderLayer()).setName("untraced2");
     // addLayer(mergeLayer);
-
     // loadShader(0);
+
     printLayers();
   }
 
@@ -134,7 +122,8 @@ class LayeredCanvasManager extends CanvasManager{
 
   public Layer addLayer(Layer _lr){
     layers.add(_lr);
-    if(_lr instanceof RenderLayer && ! (_lr instanceof MergeLayer)) renderLayers.add((RenderLayer)_lr);
+    if(_lr instanceof RenderLayer)
+      renderLayers.add((RenderLayer)_lr);
     return _lr;
   }
   int rtest = 0;
@@ -179,6 +168,8 @@ class LayeredCanvasManager extends CanvasManager{
 
   public void printLayers(){
     println("+--------Layers--------+");
+    for(Layer _lr : layers) println(_lr.getName());
+    println("+--------details--------+");
     for(Layer _lr : layers) printLayer(_lr);
     println("+--------END-----------+");
   }
@@ -188,7 +179,7 @@ class LayeredCanvasManager extends CanvasManager{
     println(_lyr.getDescription());
     for(String _cmd : _lyr.getCMDList() ) println(_cmd);
     println("enable "+_lyr.useLayer());
-    println("-------------------------------------------");
+    println("||||||||||||||||||||||||||||||||||||||||||||");
   }
 
   public void screenShot(){
@@ -215,6 +206,18 @@ class LayeredCanvasManager extends CanvasManager{
     return null;
   }
 
+  public void swapOrder(Layer _lyr, int _dir){
+    // swap(layers, i, j);
+  }
+
+  public void deleteLayer(Layer _lyr){
+
+  }
+
+  public void addLayer(String _type, String _name){
+
+  }
+
   /**
    * Toggle the use of background with alpha value
    * @return boolean value given
@@ -224,33 +227,33 @@ class LayeredCanvasManager extends CanvasManager{
     return false;//tracerLayer.useLayer();
   }
 
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     Masking
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-  /**
-   * Parse a image to make a mask.
-   * @param PImage to make into mask
-   */
-
-  // Set a flag to generate mask next render.
-  //DPREACET
-  public void generateMask(){
-    //makeMaskFlag = true;
-  }
-  //DPREACET
-  public boolean toggleMask(){
-    return false;
-  }
-
-  /**
-   * Load a image as the mask (transparent png for now...)
-   * @param String mask png file
-   */
-  public void loadMask(String _file){
-    //((MaskLayer) maskLayer).loadFile(_file);
-  }
+  // ////////////////////////////////////////////////////////////////////////////////////
+  // ///////
+  // ///////     Masking
+  // ///////
+  // ////////////////////////////////////////////////////////////////////////////////////
+  // /**
+  //  * Parse a image to make a mask.
+  //  * @param PImage to make into mask
+  //  */
+  //
+  // // Set a flag to generate mask next render.
+  // //DPREACET
+  // public void generateMask(){
+  //   //makeMaskFlag = true;
+  // }
+  // //DPREACET
+  // public boolean toggleMask(){
+  //   return false;
+  // }
+  //
+  // /**
+  //  * Load a image as the mask (transparent png for now...)
+  //  * @param String mask png file
+  //  */
+  // public void loadMask(String _file){
+  //   //((MaskLayer) maskLayer).loadFile(_file);
+  // }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Accessors
