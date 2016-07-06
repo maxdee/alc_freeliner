@@ -158,6 +158,21 @@ class FreeLiner implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
+  public String getFileNames(){
+    File userData = new File(sketchPath()+"/data/userdata");
+    File[] listOfFiles = userData.listFiles();
+    String _out = "";
+    for (int i = 0; i < listOfFiles.length; i++) {
+      if (listOfFiles[i].isFile()) {
+        _out +=  listOfFiles[i].getName()+" ";
+        // System.out.println("File " + listOfFiles[i].getName());
+      } else if (listOfFiles[i].isDirectory()) {
+        // System.out.println("Directory " + listOfFiles[i].getName());
+      }
+    }
+    return _out;
+  }
+
   public KeyMap getKeyMap(){
     return keyMap;
   }

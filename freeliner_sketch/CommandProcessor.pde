@@ -253,6 +253,7 @@ class CommandProcessor implements FreelinerConfig{
     gui.updateReference();//sketchPath()+"/data/webgui/reference.jpg");
     valueGiven = "sure";
   }
+
   public void openCMD(String[] _args){
     processCMD("tp load");
     processCMD("geom load");
@@ -270,6 +271,9 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[1].equals("template")) templateStatCMD(_args);
     else if(_args[1].equals("tracker")) trackerCMD(_args);
     else if(_args[1].equals("seq")) seqStatCMD(_args);
+    else if(_args[1].equals("files")) fileListCMD(_args);
+    else if(_args[1].equals("layers")) layerInfoCMD(_args);
+
     else return false;
     return true;
   }
@@ -298,6 +302,16 @@ class CommandProcessor implements FreelinerConfig{
   void seqStatCMD(String[] _args){
     String _stps = templateManager.getSequencer().getStatusString();
     fetchSend(_args, "seq "+_stps);
+  }
+
+  void fileListCMD(String[] _args){
+    String _files = freeliner.getFileNames();
+    fetchSend(_args, "filenames "+_files);
+  }
+
+  void layerInfoCMD(String[] _args){
+    String _info = canvasManager.getLayerInfo();
+    fetchSend(_args, "layers "+_info);
   }
 
   // send to apropriate destination

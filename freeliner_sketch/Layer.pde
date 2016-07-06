@@ -16,7 +16,9 @@
 * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
 */
 class Layer implements FreelinerConfig{
+  String type;
   String name;
+
   String description;
   String filename;
   boolean enabled;
@@ -24,14 +26,15 @@ class Layer implements FreelinerConfig{
   ArrayList<String> commandList;
 
   public Layer(){
-   name = "basicLayer";
-   description = "a basic layer that does not do anything";
-   commandList = new ArrayList<String>();
-   commandList.add("enable (-3|0|1)");
-   commandList.add("setName layerName");
-   enabled = true;
-   canvas = null;
-   filename = "none";
+    type = "basicLayer";
+    name = type;
+    description = "a basic layer that does not do anything";
+    commandList = new ArrayList<String>();
+    commandList.add("enable (-3|0|1)");
+    commandList.add("setName layerName");
+    enabled = true;
+    canvas = null;
+    filename = "none";
   }
 
  /**
@@ -97,6 +100,10 @@ class Layer implements FreelinerConfig{
 
   public String getFilename(){
     return filename;
+  }
+
+  public String getType(){
+    return type;
   }
 
   /**
@@ -166,7 +173,8 @@ class CanvasLayer extends Layer{
     canvas.background(0);
     canvas.endDraw();
     enabled = true;
-    name = "CanvasLayer";
+    type = "CanvasLayer";
+    name = type;
     description = "a layer with a buffer";
   }
 
@@ -191,7 +199,8 @@ class RenderLayer extends CanvasLayer{
   public RenderLayer(){
     super();
     enabled = true;
-    name = "RenderLayer";
+    type = "RenderLayer";
+    name = type;
     description = "a layer that freeliner renders onto, set a template's layer with [p]";
   }
  }
@@ -204,7 +213,8 @@ class TracerLayer extends RenderLayer{
   public TracerLayer(){
     super();
     commandList.add("layer name setTracers 30");
-    name = "tracerLayer";
+    type = "tracerLayer";
+    name = type;
     description = "renderLayer with tracers, set a template's layer with [p]";
   }
 
@@ -250,7 +260,8 @@ class TracerLayer extends RenderLayer{
 class MergeLayer extends CanvasLayer{
   public MergeLayer(){
     super();
-    name = "MergeLayer";
+    type = "MergeLayer";
+    name = type;
     description = "used to merge layers together";
   }
 
@@ -280,7 +291,8 @@ class ShaderLayer extends CanvasLayer{
     commandList.add("layer name uniforms 0 0.5");
     commandList.add("layer name loadFile fragShader.glsl");
     enabled = true;
-    name = "ShaderLayer";
+    type = "ShaderLayer";
+    name = type;
     description = "a layer with a fragment shader";
 
     shader = null;
@@ -291,6 +303,7 @@ class ShaderLayer extends CanvasLayer{
   public void beginDrawing(){
 
   }
+
   /**
    * Override parent's
    */
@@ -380,7 +393,8 @@ class ImageLayer extends Layer{
     commandList.add("layer name loadFile .jpg .png .???");
     // try to load a mask if one is provided
     loadFile(sketchPath()+"/data/userdata/layer_image.png");
-    name = "ImageLayer";
+    type = "ImageLayer";
+    name = type;
     description = "put an image as a layer";
   }
 
@@ -414,7 +428,8 @@ class MaskLayer extends ImageLayer{
     commandList.add("layer name makeMask");
     // try to load a mask if one is provided
     //loadFile("userdata/mask_image.png");
-    name = "MaskLayer";
+    type = "MaskLayer";
+    name = type;
     description = "a configurable mask layer";
   }
 
@@ -469,8 +484,9 @@ class MaskLayer extends ImageLayer{
 //   int frameCount = 0;
 //
 //   public CaptureLayer(){
-//     name = "FrameSaver";
-//     enabled = false;
+//     type = "FrameSaver";
+//     name = type;
+      // enabled = false;
 //   }
 //
 //   public Layer apply(Layer _lr){

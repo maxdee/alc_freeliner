@@ -37,6 +37,7 @@ abstract class CanvasManager implements FreelinerConfig{
   }
   // no commands available
   public boolean parseCMD(String[] _args){ return false; }
+  public String getLayerInfo(){return "none";}
 }
 
 /**
@@ -94,16 +95,16 @@ class LayeredCanvasManager extends CanvasManager{
     mergeLayer = new MergeLayer();
 
     addLayer(new TracerLayer()).setName("tracerOne");
-    addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
-    addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
+    // addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
+    // addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
     addLayer(mergeLayer);
-
-    addLayer(new RenderLayer()).setName("untraced");
-    addLayer(new ShaderLayer()).setName("thirdShader").loadFile("fragTwo.glsl");
-    addLayer(new ShaderLayer()).setName("fourthShader").loadFile("fragTwo.glsl");
-
-    // addLayer(new MaskLayer());
-    addLayer(mergeLayer);
+    //
+    // addLayer(new RenderLayer()).setName("untraced");
+    // addLayer(new ShaderLayer()).setName("thirdShader").loadFile("fragTwo.glsl");
+    // addLayer(new ShaderLayer()).setName("fourthShader").loadFile("fragTwo.glsl");
+    //
+    // // addLayer(new MaskLayer());
+    // addLayer(mergeLayer);
 
     // addLayer(new RenderLayer()).setName("untraced2");
     // addLayer(mergeLayer);
@@ -172,6 +173,21 @@ class LayeredCanvasManager extends CanvasManager{
     println("+--------details--------+");
     for(Layer _lr : layers) printLayer(_lr);
     println("+--------END-----------+");
+  }
+
+  // type-layerName
+  // the rest can be figured out in JS
+  public String getLayerInfo(){
+    String _out = "";
+    for(Layer _lyr : layers){
+      _out += _lyr.getType()+"-";
+      _out += _lyr.getName()+"-";
+      _out += _lyr.getFilename()+"-";
+      _out += str(_lyr.useLayer())+"-";
+      // _out += _lyr.getType()+"-";
+      _out += " ";
+    }
+    return _out;
   }
 
   public void printLayer(Layer _lyr){
