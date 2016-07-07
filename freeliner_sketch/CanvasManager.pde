@@ -79,15 +79,7 @@ class LayeredCanvasManager extends CanvasManager{
   ArrayList<Layer> layers;
   // layers that can be drawn on
   ArrayList<RenderLayer> renderLayers;
-
   MergeLayer mergeLayer;
-  // MaskLayer maskLayer;
-  // TracerLayer tracerLayer;
-  // ShaderLayer shaderLayer;
-  // ShaderLayer shaderTwo;
-
-
-  String[] shaderFiles = {"fragZero.glsl", "fragOne.glsl", "fragTwo.glsl", "fragThree.glsl",};
 
   public LayeredCanvasManager(){
     layers = new ArrayList();
@@ -96,19 +88,14 @@ class LayeredCanvasManager extends CanvasManager{
 
     addLayer(new TracerLayer()).setID("tracerOne");
     addLayer(new ShaderLayer()).setID("firstShader").loadFile("fragZero.glsl");
-    // addLayer(new ShaderLayer()).setID("secondShader").loadFile("fragTwo.glsl");
     addLayer(mergeLayer);
 
     addLayer(new RenderLayer()).setID("untraced");
-    addLayer(new ShaderLayer()).setID("thirdShader").loadFile("fragTwo.glsl");
-    addLayer(new ShaderLayer()).setID("fourthShader").loadFile("fragTwo.glsl");
-
-    // addLayer(new MaskLayer());
+    addLayer(new ShaderLayer()).setID("secondShader").loadFile("fragTwo.glsl");
     addLayer(mergeLayer);
 
-    addLayer(new RenderLayer()).setID("untraced2");
-    addLayer(mergeLayer);
-    // loadShader(0);
+    // addLayer(new ShaderLayer()).setID("thirdShader").loadFile("fragTwo.glsl");
+    // addLayer(new ShaderLayer()).setID("fourthShader").loadFile("fragTwo.glsl");
 
     printLayers();
   }

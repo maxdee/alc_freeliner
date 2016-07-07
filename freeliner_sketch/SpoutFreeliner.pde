@@ -25,7 +25,9 @@ class FreelinerSpout extends FreeLiner{
 
 	void update(){
 		super.update();
-		spout.sendTexture(canvasManager.getCanvas());
+		//spout.sendTexture(canvasManager.getCanvas());
+    spout.sendTexture();
+
 	}
 }
 
