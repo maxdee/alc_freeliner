@@ -345,7 +345,7 @@ class ShaderLayer extends CanvasLayer{
 
   public void reloadShader(){
     try{
-      shader = loadShader(sketchPath()+"/data/shaders/"+fileName);
+      shader = loadShader(sketchPath()+"/data/userdata/"+fileName);
       println("Loaded shader "+fileName);
     }
     catch(Exception _e){

@@ -13,6 +13,7 @@ interface FreelinerConfig {
   // Disbale Webserving
   final boolean SERVE_HTTP = true;
 
+  final boolean DOME_MODE = true;
 
   // bad for beginners but crucial
   boolean ENABLE_KEY_REPEAT = true;

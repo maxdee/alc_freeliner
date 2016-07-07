@@ -33,6 +33,8 @@ class FreeLiner implements FreelinerConfig{
   boolean windowFocus;
   PApplet applet;
 
+  PShader fisheye;
+
   public FreeLiner(PApplet _pa, int _pipeline) {
     applet = _pa;
     // instantiate
@@ -69,6 +71,11 @@ class FreeLiner implements FreelinerConfig{
 
     keyMap.setLimits(documenter.modeLimits);
     documenter.doDocumentation(keyMap);
+    if(DOME_MODE){
+      fisheye = loadShader(sketchPath()+"/data/userdata/fisheye.glsl");
+      fisheye.set("aperture", 180.0);
+      shader(fisheye);
+    }
   }
 
   // sync message to other software
