@@ -74,19 +74,19 @@ class CommandProcessor implements FreelinerConfig{
     "post tracers (alpha)", // to be deprecated
     // "post shader (coolfrag.glsl)", // to be deprecated
     // "post mask (mask.png)", // to be deprecated
-    "layer layerName cmd args",
-    "layer layerName swap -1|1",
-    "layer layerName load file.thing",
-    "layer layerName enable (-3|0|1)",
-    "layer layerName name newName",
+    "layer layerID cmd args",
+    "layer layerID swap -1|1",
+    "layer layerID load file.thing",
+    "layer layerID enable (-3|0|1)",
+    "layer layerID setID newID",
 
     /////////////////// Information Accessors
     "fetch-osc|fetch-ws infoline",
     "fetch-osc|fetch-ws tracker A",
     "fetch-osc|fetch-ws template A",
     "fetch-osc|fetch-ws seq",
-    "fetch-osc|fetch-ws fileList", // to implement
-    "fetch-osc|fetch-ws layerList", // to implement
+    "fetch-osc|fetch-ws fileList",
+    "fetch-osc|fetch-ws layers",
 
 
     /////////////////// Configure
@@ -311,7 +311,7 @@ class CommandProcessor implements FreelinerConfig{
 
   void fileListCMD(String[] _args){
     String _files = freeliner.getFileNames();
-    fetchSend(_args, "filenames "+_files);
+    fetchSend(_args, "files "+_files);
   }
 
   void layerInfoCMD(String[] _args){

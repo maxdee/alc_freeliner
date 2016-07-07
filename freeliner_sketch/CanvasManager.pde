@@ -94,19 +94,19 @@ class LayeredCanvasManager extends CanvasManager{
     renderLayers = new ArrayList();
     mergeLayer = new MergeLayer();
 
-    addLayer(new TracerLayer()).setName("tracerOne");
-    addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
-    // addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
+    addLayer(new TracerLayer()).setID("tracerOne");
+    addLayer(new ShaderLayer()).setID("firstShader").loadFile("fragZero.glsl");
+    // addLayer(new ShaderLayer()).setID("secondShader").loadFile("fragTwo.glsl");
     addLayer(mergeLayer);
 
-    addLayer(new RenderLayer()).setName("untraced");
-    addLayer(new ShaderLayer()).setName("thirdShader").loadFile("fragTwo.glsl");
-    addLayer(new ShaderLayer()).setName("fourthShader").loadFile("fragTwo.glsl");
+    addLayer(new RenderLayer()).setID("untraced");
+    addLayer(new ShaderLayer()).setID("thirdShader").loadFile("fragTwo.glsl");
+    addLayer(new ShaderLayer()).setID("fourthShader").loadFile("fragTwo.glsl");
 
     // addLayer(new MaskLayer());
     addLayer(mergeLayer);
 
-    addLayer(new RenderLayer()).setName("untraced2");
+    addLayer(new RenderLayer()).setID("untraced2");
     addLayer(mergeLayer);
     // loadShader(0);
 
@@ -169,7 +169,7 @@ class LayeredCanvasManager extends CanvasManager{
 
   public void printLayers(){
     println("+--------Layers--------+");
-    for(Layer _lr : layers) println(_lr.getName());
+    for(Layer _lr : layers) println(_lr.getID());
     println("+--------details--------+");
     for(Layer _lr : layers) printLayer(_lr);
     println("+--------END-----------+");
@@ -180,10 +180,12 @@ class LayeredCanvasManager extends CanvasManager{
   public String getLayerInfo(){
     String _out = "";
     for(Layer _lyr : layers){
-      _out += _lyr.getType()+"-";
+      _out += _lyr.getID()+"-";
       _out += _lyr.getName()+"-";
       _out += _lyr.getFilename()+"-";
-      _out += str(_lyr.useLayer())+"-";
+      if(_lyr.useLayer()) _out += str(1);
+      else _out += str(0);
+
       // _out += _lyr.getType()+"-";
       _out += " ";
     }
@@ -191,7 +193,7 @@ class LayeredCanvasManager extends CanvasManager{
   }
 
   public void printLayer(Layer _lyr){
-    println("_________"+_lyr.getName()+"_________");
+    println("_________"+_lyr.getID()+"_________");
     println(_lyr.getDescription());
     for(String _cmd : _lyr.getCMDList() ) println(_cmd);
     println("enable "+_lyr.useLayer());
@@ -208,39 +210,58 @@ class LayeredCanvasManager extends CanvasManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  // add cmd : layer layerName swap (-1,1)
   public boolean parseCMD(String[] _args){
     if(_args.length < 3) return false;
-    else if(_args[2].equals("swap") ) swapOrder(_args[1], stringInt(_args[3]));
+    else if(_args[2].equals("swap") ) {
+      swapOrder(_args[1], stringInt(_args[3]));
+      return true;
+    }
 
     Layer _lyr = getLayer(_args[1]);
     if(_lyr == null) return false;
     else return _lyr.parseCMD(_args);
   }
 
-  public Layer getLayer(String _name){
+  public Layer getLayer(String _id){
     for(Layer _lyr : layers)
-      if(_lyr.getName().equals(_name)) return _lyr;
+      if(_lyr.getID().equals(_id)) return _lyr;
     return null;
   }
 
-  public void swapOrder(String _name, int _dir){
+  // seem to work!
+  public void swapOrder(String _id, int _dir){
     for(int i = 0; i < layers.size(); i++){
-      if(layers.get(i).getName().equals(_name)){
+      if(layers.get(i).getID().equals(_id)){
         if(i + _dir >= 0 && i + _dir < layers.size()){
           Collections.swap(layers, i, i + _dir);
         }
       }
     }
-    //swap(layers, i, j);
   }
 
   public void deleteLayer(Layer _lyr){
     layers.remove(_lyr);
   }
 
-  public void addLayer(String _type, String _name){
+  public void addLayer(String _id){
+    addLayer(new Layer()).setID(_id);
+  }
 
+  public void castLayer(String _id, String _type){
+    Layer _lyr = getLayer(_id);
+    if(_lyr == null) _lyr = addLayer(new Layer()).setID(_id);
+    switch(_type){
+      case "merge":
+        _lyr = mergeLayer;
+      case "render":
+        _lyr = new RenderLayer().setID(_lyr.getID());
+      case "tracer":
+        _lyr = new TracerLayer().setID(_lyr.getID());
+      case "mask":
+        _lyr = new MaskLayer().setID(_lyr.getID());
+      case "shader":
+        _lyr = new ShaderLayer().setID(_lyr.getID());
+    }
   }
 
   /**

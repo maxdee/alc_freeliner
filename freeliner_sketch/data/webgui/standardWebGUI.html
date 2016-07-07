@@ -18,6 +18,7 @@
       cmd:
       <input type="text" name="cmd" id="prompt">
     </div>
+
     <div style="width:60%; float:left;">
       <div style="width:50%; float:left;">
         <div class="widget" id='b_KEY'>  </div>
@@ -29,6 +30,11 @@
         <div class="widget" id='q_KEY'>  </div>
         <div class="widget" id='f_KEY'>  </div>
         <div class="widget" id='u_KEY'>  </div>
+        <div class="widget" title="Select some template (A-Z) then pick a color!">
+          custom color &nbsp; <input type="color" value="#ff0000" id="strokePicker">
+          <button id="customStroke">stroke</button>
+          <button id="customStroke">fill</button>
+        </div>
       </div>
       <div style="width:50%; float:right;">
         <div class="widget" id='a_KEY'>  </div>
@@ -39,54 +45,25 @@
         <div class="widget" id='w_KEY'>  </div>
         <div class="widget" id='k_KEY'>  </div>
         <div class="widget" id='l_KEY'>  </div>
+        <div class="widget" id='y_KEY'>  </div>
+        <div class="widget" id='x_KEY'>  </div>
       </div>
     </div>
 
     <div class="rightpane" style="width:40%; float:right;">
-      <div class="widget" title="Select some template (A-Z) then pick a color!">
-        custom color &nbsp; <input type="color" value="#ff0000" id="strokePicker">
-        <button id="customStroke">stroke</button>
-        <button id="customStroke">fill</button>
-      </div>
-      <div class="widget" title="Pick a shader">
-        Pick shader
-        <input type="radio" name=shaderSelect id="shaderSelect0" title="pick shader 0">
-        <input type="radio" name=shaderSelect id="shaderSelect1" title="pick shader 1">
-        <input type="radio" name=shaderSelect id="shaderSelect2" title="pick shader 2">
-        <input type="radio" name=shaderSelect id="shaderSelect3" title="pick shader 3"> <br>
-      </div>
-
       <div class="widget">
-        u0<input type="range" class="shaderSlider" id="shaderFader0" min="0" max="100" /> <br>
-      </div>
-      <div class="widget">
-        u1<input type="range" class="shaderSlider" id="shaderFader1" min="0" max="100" /> <br>
-      </div>
-      <div class="widget">
-        u2<input type="range" class="shaderSlider" id="shaderFader2" min="0" max="100" /> <br>
-      </div>
-      <div class="widget">
-        u3<input type="range" class="shaderSlider" id="shaderFader3" min="0" max="100" /> <br>
-      </div>
-      <div class="widget" id='y_KEY'>  </div>
-      <div class="widget">
-        <button id="configureDisplay">configureDisplay</div>
-      </div>
-      <div class="widget" title="open reference image">
+        <button id="configureDisplay">configureDisplay</button>
         <button id="openRef">open reference</button>
-      </div>
+        <button id="refreshfiles">refresh files</button>
 
-      <!-- <div class="widget" id='C_KEY'> </div>
-      <div class="widget" id='V_KEY'> </div>
-      <div class="widget" id='B_KEY'> </div>
-      <div class="widget" id='X_KEY'> </div>
-      <div class="widget" id='A_KEY'> </div>
-      <div class="widget" id='R_KEY'> </div>
-      <div class="widget" id='O_KEY'> </div>
-      <div class="widget" id='S_KEY'> </div>
-      <div class="widget" id='I_KEY'> </div>
-      <div class="widget" id='y_KEY'> </div> -->
+      </div>
+      <div id="layerStack" title="layerStack">
+        <div class="widget">
+          <!-- <button id="updateLayers" -->
+        </div>
+      </div>
     </div>
+
     <div class="widget" id="configPopup" title="save and restart freeliner to apply">
         <input type="number" value="1024" id="configWidth"> width </input> <br>
         <input type="number" value="768" id="configHeight"> height </input> <br>

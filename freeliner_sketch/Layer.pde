@@ -15,19 +15,16 @@
 * Something that acts on a PGraphics.
 * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
 */
-class Layer implements FreelinerConfig{
-  String type;
-  String name;
-
-  String description;
+class Layer extends Mode{
+  String id;
   String filename;
   boolean enabled;
   PGraphics canvas;
   ArrayList<String> commandList;
 
   public Layer(){
-    type = "basicLayer";
-    name = type;
+    name = "basicLayer";
+    id = name;
     description = "a basic layer that does not do anything";
     commandList = new ArrayList<String>();
     commandList.add("enable (-3|0|1)");
@@ -102,10 +99,6 @@ class Layer implements FreelinerConfig{
     return filename;
   }
 
-  public String getType(){
-    return type;
-  }
-
   /**
    * Set or toggle the enabled boolean
    * @param String name
@@ -120,9 +113,9 @@ class Layer implements FreelinerConfig{
    * Set the name of the layer, like "shader fx.glsl"
    * @param String name
    */
-  public Layer setName(String _n){
-   name = _n;
-   return this;
+  public Layer setID(String _id){
+    id = _id;
+    return this;
   }
 
   /**
@@ -133,20 +126,24 @@ class Layer implements FreelinerConfig{
    return enabled;
   }
 
-  /**
-   * Get layer name.
-   * @return String name
-   */
-  public String getName(){
-   return name;
-  }
+  // /**
+  //  * Get layer name.
+  //  * @return String name
+  //  */
+  // public String getName(){
+  //  return name;
+  // }
+  //
+  // /**
+  //  * Get layer description.
+  //  * @return String description
+  //  */
+  // public String getDescription(){
+  //  return description;
+  // }
 
-  /**
-   * Get layer description.
-   * @return String description
-   */
-  public String getDescription(){
-   return description;
+  public String getID(){
+    return id;
   }
 
   public ArrayList<String> getCMDList(){
@@ -173,8 +170,8 @@ class CanvasLayer extends Layer{
     canvas.background(0);
     canvas.endDraw();
     enabled = true;
-    type = "CanvasLayer";
-    name = type;
+    name = "CanvasLayer";
+    id = name;
     description = "a layer with a buffer";
   }
 
@@ -199,8 +196,8 @@ class RenderLayer extends CanvasLayer{
   public RenderLayer(){
     super();
     enabled = true;
-    type = "RenderLayer";
-    name = type;
+    name = "RenderLayer";
+    id = name;
     description = "a layer that freeliner renders onto, set a template's layer with [p]";
   }
  }
@@ -213,8 +210,8 @@ class TracerLayer extends RenderLayer{
   public TracerLayer(){
     super();
     commandList.add("layer name setTracers 30");
-    type = "tracerLayer";
-    name = type;
+    name = "tracerLayer";
+    id = name;
     description = "renderLayer with tracers, set a template's layer with [p]";
   }
 
@@ -260,8 +257,8 @@ class TracerLayer extends RenderLayer{
 class MergeLayer extends CanvasLayer{
   public MergeLayer(){
     super();
-    type = "MergeLayer";
-    name = type;
+    name = "MergeLayer";
+    id = name;
     description = "used to merge layers together";
   }
 
@@ -291,8 +288,8 @@ class ShaderLayer extends CanvasLayer{
     commandList.add("layer name uniforms 0 0.5");
     commandList.add("layer name loadFile fragShader.glsl");
     enabled = true;
-    type = "ShaderLayer";
-    name = type;
+    name = "ShaderLayer";
+    id = name;
     description = "a layer with a fragment shader";
 
     shader = null;
@@ -393,8 +390,8 @@ class ImageLayer extends Layer{
     commandList.add("layer name loadFile .jpg .png .???");
     // try to load a mask if one is provided
     loadFile(sketchPath()+"/data/userdata/layer_image.png");
-    type = "ImageLayer";
-    name = type;
+    name = "ImageLayer";
+    id = name;
     description = "put an image as a layer";
   }
 
@@ -428,8 +425,8 @@ class MaskLayer extends ImageLayer{
     commandList.add("layer name makeMask");
     // try to load a mask if one is provided
     //loadFile("userdata/mask_image.png");
-    type = "MaskLayer";
-    name = type;
+    name = "MaskLayer";
+    id = name;
     description = "a configurable mask layer";
   }
 
@@ -484,8 +481,8 @@ class MaskLayer extends ImageLayer{
 //   int frameCount = 0;
 //
 //   public CaptureLayer(){
-//     type = "FrameSaver";
-//     name = type;
+//     name = "FrameSaver";
+//     id = name;
       // enabled = false;
 //   }
 //

@@ -25,6 +25,13 @@ input[type=range] {
   height: 2px;
 }
 
+input[type=button] {
+  width:auto;
+}
+input[type=checkbox] {
+  width:auto;
+}
+
 .wrapper {
   position: absolute;
   top:0;
@@ -42,6 +49,20 @@ input[type=range] {
   padding-left: 4px;
   display: flex;
   align-items: center;
+  overflow: auto;
+}
+
+.layerwidget {
+  margin: 4px;
+  min-height: 24px;
+  background-color: #1D1D1D;
+  color: #FFFFFF;
+  font-size: 10pt;
+  padding: 2px;
+  padding-left: 4px;
+  /*display: flex;*/
+  /*align-items: baseline;*/
+  /*float: right;*/
   overflow: auto;
 }
 
@@ -95,6 +116,10 @@ input[type=range] {
   right: 0;
   margin: auto;
   display: none;
+}
+
+#layerStack {
+  border: 2px solid white;
 }
 
 

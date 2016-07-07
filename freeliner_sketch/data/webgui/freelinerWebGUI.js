@@ -1,7 +1,7 @@
 // A lightweight(?) javascript gui for freeliner!
 
 // globals
-var sendCMD, flData, selectedTemplate;
+var sendCMD, flData, selectedTemplate, availableFiles;
 
 // the selected template is the template selected by clicking on the alphabetWidget
 selectedTemplate = '_';
@@ -59,6 +59,9 @@ function parseInfo(_info){
   if(_splt[0] == "info") setInfo(_info);
   else if(_splt[0] == "seq") setSeqTags(_info);
   else if(_splt[0] == "template") setTemplateStat(_info);
+  else if(_splt[0] == "layers") parseLayerInfo(_info);
+  else if(_splt[0] == "files") parseAvailableFiles(_info);
+
   else console.log("Received ? :"+_info);
 }
 
@@ -79,6 +82,11 @@ function setTemplateStat(_info){
   _div.lastChild.value = _aVal;
 }
 
+function parseAvailableFiles(_info){
+  availableFiles = _info.split(" ").slice(1);
+  // console.log(availableFiles);
+}
+
 /*
  * /////////////////////////////////////////////////////////////
  * Interface loading
@@ -89,6 +97,7 @@ function setTemplateStat(_info){
 function populateGUI(){
   loadJSON(function(response) {
      flData = JSON.parse(response);
+     sendCMD("fetch-ws files");
      makeTemplateSelector();
      // creates appropriate input elements for keys present in html
      loadKeys();
@@ -97,6 +106,8 @@ function populateGUI(){
      // add callbacks to other misc
      otherInputCallbacks();
      popupCallbacks();
+
+     updateLayerStack();
   });
 }
 
@@ -314,6 +325,116 @@ function setInfo(_info){
 
 /*
  * /////////////////////////////////////////////////////////////
+ * LayerLoading
+ * /////////////////////////////////////////////////////////////
+ */
+
+function updateLayerStack(){
+  sendCMD("fetch-ws layers");
+}
+
+function parseLayerInfo(_info){
+  var _layerStack;
+  _layerStack = document.getElementById("layerStack");
+  // clear old
+  while (_layerStack.hasChildNodes()) {
+    _layerStack.removeChild(_layerStack.lastChild);
+  }
+  // parse
+  _layers = _info.split(" ").slice(1);
+  for(var i in _layers){
+    _params = _layers[i].split("-");
+    console.log(_params);
+    _layerStack.appendChild(makeLayerDiv(_params));
+  }
+}
+
+function makeLayerDiv(_params){
+  var _layerDiv;
+  _layerDiv = document.createElement("div");
+  _layerDiv.id = _params[0];
+  _layerDiv.className = "layerwidget";
+  _layerDiv.innerHTML = _params[0];
+  // enable checkbox
+  _layerDiv.appendChild(layerEnableCheckBox(_params));
+  _layerDiv.appendChild(layerUpButton(_params));
+  _layerDiv.appendChild(layerDownButton(_params));
+  _layerDiv.appendChild(layerFileList(_params));
+
+
+
+  // _layerDiv.title = description
+  return _layerDiv;
+}
+
+function layerFileList(_params){
+  var _input, _fileType, i;
+  _input = document.createElement("select");
+  _input.type = "select";
+  _input.title = "select file to load";
+  _input.style = "float: right;";
+
+
+  for(i in availableFiles){
+    _option = document.createElement("option");
+    _option.text = availableFiles[i];
+    _fileType = availableFiles[i].split(".").slice(1);
+    if(_params[1] == "ShaderLayer" && _fileType == "glsl") _input.add(_option);
+    else if((_params[1] == "MaskLayer" && _fileType == "png"))_input.add(_option);
+    else if((_params[1] == "ImageLayer" && _fileType == "png"))_input.add(_option);
+  }
+  _input.onchange = function (){
+    sendCMD("layer "+_params[0]+" load "+_input.value);
+  }
+  return _input;
+}
+
+function layerEnableCheckBox(_params){
+  var _input = document.createElement("input");
+  _input.type = "checkbox";
+  _input.title = "enable/disable layer";
+  _input.style = "float: right;";
+
+  if(_params[3] == 1) _input.checked="checked";
+  _input.onclick = function (){
+    if(_input.checked) sendCMD("layer "+_params[0]+" enable 1");
+    else sendCMD("layer "+_params[0]+" enable 0");
+  }
+  return _input;
+}
+
+function layerUpButton(_params){
+  var _input = document.createElement("input");
+  _input.type = "button";
+  _input.class = "pushlayer";
+  _input.style = "float: right;";
+
+
+  _input.title = "push layer up";
+  _input.onclick = function (){
+    sendCMD("layer "+_params[0]+" swap -1");
+    updateLayerStack();
+  }
+  return _input;
+}
+
+function layerDownButton(_params){
+  var _input = document.createElement("input");
+  _input.type = "button";
+  _input.title = "push layer down";
+  _input.class = "pushlayer";
+
+  _input.style = "float: right;";
+
+  _input.onclick = function (){
+    sendCMD("layer "+_params[0]+" swap 1");
+    updateLayerStack();
+  }
+  return _input;
+}
+
+/*
+ * /////////////////////////////////////////////////////////////
  * Sequencer callbacks
  * /////////////////////////////////////////////////////////////
  */
@@ -380,8 +501,13 @@ function otherInputCallbacks() {
 
   _element = document.getElementById("openRef");
   if(_element) _element.onclick = function (){
-    // sendCMD('geom webref');
-    window.open("reference.jpg", "geometry reference", "width=1000,height=700");
+    sendCMD('geom webref');
+    window.open("referenceImage.html", "geometry reference", "width=1000,height=700");
+  }
+
+  _element = document.getElementById("refreshfiles");
+  if(_element) _element.onclick = function (){
+    sendCMD('fetch-ws files');
   }
 
   _element = document.getElementById("fileInput")
@@ -403,39 +529,6 @@ function otherInputCallbacks() {
     sendCMD('tw '+selectedTemplate+' f 28');
     sendCMD('tp color '+selectedTemplate+' '+_c);
   }
-
-  _element = document.getElementById("shaderSelect0");
-  if(_element) _element.onclick = function(){
-    sendCMD("post shader 0");
-  };
-  _element = document.getElementById("shaderSelect1");
-  if(_element) _element.onclick = function(){
-    sendCMD("post shader 1");
-  };
-  _element = document.getElementById("shaderSelect2");
-  if(_element) _element.onclick = function(){
-    sendCMD("post shader 2");
-  };
-  _element = document.getElementById("shaderSelect3");
-  if(_element) _element.onclick = function(){
-    sendCMD("post shader 3");
-  };
-  _element = document.getElementById("shaderFader0");
-  if(_element) _element.oninput = function(){
-    sendCMD("post shader 0 "+(document.getElementById("shaderFader0").value/100.0));
-  };
-  _element = document.getElementById("shaderFader1");
-  if(_element) _element.oninput = function(){
-    sendCMD("post shader 1 "+(document.getElementById("shaderFader1").value/100.0));
-  };
-  _element = document.getElementById("shaderFader2");
-  if(_element) _element.oninput = function(){
-    sendCMD("post shader 2 "+(document.getElementById("shaderFader2").value/100.0));
-  };
-  _element = document.getElementById("shaderFader3");
-  if(_element) _element.oninput = function(){
-    sendCMD("post shader 3 "+(document.getElementById("shaderFader3").value/100.0));
-  };
 }
 
 // gets called from eventListener
