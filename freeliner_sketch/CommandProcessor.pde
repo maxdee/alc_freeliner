@@ -72,9 +72,14 @@ class CommandProcessor implements FreelinerConfig{
     "geom webref",
     ///////////////////  Post processing
     "post tracers (alpha)", // to be deprecated
-    "post shader (coolfrag.glsl)", // to be deprecated
-    "post mask (mask.png)", // to be deprecated
+    // "post shader (coolfrag.glsl)", // to be deprecated
+    // "post mask (mask.png)", // to be deprecated
     "layer layerName cmd args",
+    "layer layerName swap -1|1",
+    "layer layerName load file.thing",
+    "layer layerName enable (-3|0|1)",
+    "layer layerName name newName",
+
     /////////////////// Information Accessors
     "fetch-osc|fetch-ws infoline",
     "fetch-osc|fetch-ws tracker A",
@@ -507,7 +512,7 @@ class CommandProcessor implements FreelinerConfig{
     if(_args.length < 2) return false;
     else if(_args[1].equals("tracers")) trailsCMD(_args);
     //else if(_args[1].equals("mask")) maskCMD(_args);
-    else if(_args[1].equals("shader")) shaderCMD(_args);
+    // else if(_args[1].equals("shader")) shaderCMD(_args);
     else return false;
     return true;
   }

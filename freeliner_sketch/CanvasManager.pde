@@ -6,7 +6,7 @@
  * @version   0.4
  * @since     2015-01-22
  */
-
+import java.util.Collections;
 
  /**
   * Manage the drawing buffer.
@@ -95,19 +95,19 @@ class LayeredCanvasManager extends CanvasManager{
     mergeLayer = new MergeLayer();
 
     addLayer(new TracerLayer()).setName("tracerOne");
-    // addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
+    addLayer(new ShaderLayer()).setName("firstShader").loadFile("fragZero.glsl");
     // addLayer(new ShaderLayer()).setName("secondShader").loadFile("fragTwo.glsl");
     addLayer(mergeLayer);
-    //
-    // addLayer(new RenderLayer()).setName("untraced");
-    // addLayer(new ShaderLayer()).setName("thirdShader").loadFile("fragTwo.glsl");
-    // addLayer(new ShaderLayer()).setName("fourthShader").loadFile("fragTwo.glsl");
-    //
-    // // addLayer(new MaskLayer());
-    // addLayer(mergeLayer);
 
-    // addLayer(new RenderLayer()).setName("untraced2");
-    // addLayer(mergeLayer);
+    addLayer(new RenderLayer()).setName("untraced");
+    addLayer(new ShaderLayer()).setName("thirdShader").loadFile("fragTwo.glsl");
+    addLayer(new ShaderLayer()).setName("fourthShader").loadFile("fragTwo.glsl");
+
+    // addLayer(new MaskLayer());
+    addLayer(mergeLayer);
+
+    addLayer(new RenderLayer()).setName("untraced2");
+    addLayer(mergeLayer);
     // loadShader(0);
 
     printLayers();
@@ -208,9 +208,11 @@ class LayeredCanvasManager extends CanvasManager{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  // add cmd : layer layerName order (-2|-1|n)
+  // add cmd : layer layerName swap (-1,1)
   public boolean parseCMD(String[] _args){
-    if(_args.length < 2) return false;
+    if(_args.length < 3) return false;
+    else if(_args[2].equals("swap") ) swapOrder(_args[1], stringInt(_args[3]));
+
     Layer _lyr = getLayer(_args[1]);
     if(_lyr == null) return false;
     else return _lyr.parseCMD(_args);
@@ -222,12 +224,19 @@ class LayeredCanvasManager extends CanvasManager{
     return null;
   }
 
-  public void swapOrder(Layer _lyr, int _dir){
-    // swap(layers, i, j);
+  public void swapOrder(String _name, int _dir){
+    for(int i = 0; i < layers.size(); i++){
+      if(layers.get(i).getName().equals(_name)){
+        if(i + _dir >= 0 && i + _dir < layers.size()){
+          Collections.swap(layers, i, i + _dir);
+        }
+      }
+    }
+    //swap(layers, i, j);
   }
 
   public void deleteLayer(Layer _lyr){
-
+    layers.remove(_lyr);
   }
 
   public void addLayer(String _type, String _name){

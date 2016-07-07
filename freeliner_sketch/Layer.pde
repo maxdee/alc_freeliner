@@ -72,9 +72,9 @@ class Layer implements FreelinerConfig{
    */
   public boolean parseCMD(String[] _args){
     if(_args.length > 3){
-      if(_args[2].equals("loadFile")) loadFile(_args[3]);
+      if(_args[2].equals("load")) loadFile(_args[3]);
       else if(_args[2].equals("enable")) setEnable(stringInt(_args[3]));
-      else if(_args[2].equals("setName")) setName(_args[3]);
+      else if(_args[2].equals("name")) setName(_args[3]);
       else return false;
       return true;
     }
