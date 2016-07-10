@@ -1,3 +1,9 @@
+### Version 0.4.3 ###
+ * Many changes, mostly around layering system and LED/DMX stuff.
+ * Layer commands go something like `layer layerName enable 1` or `layer layerName load file.type`.
+
+
+
 ### Version 0.4.1 ###
  * `m` is now for miscValue, `d` is for breakLine.
  * Deprecated brushMode, use `a` for animationMode to switch brushes.
