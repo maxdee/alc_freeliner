@@ -1,8 +1,7 @@
 // A lightweight(?) javascript gui for freeliner!
 
 // globals
-var sendCMD, flData, selectedTemplate, availableFiles;
-
+var sendCMD, cmdPrompt, flData, selectedTemplate, availableFiles;
 // the selected template is the template selected by clicking on the alphabetWidget
 selectedTemplate = '_';
 
@@ -35,7 +34,6 @@ sendCMD = (function () {
   return function (_cmd) {
     if(socket.readyState) socket.send(_cmd);
     else setInfo("start freeliner and refresh to connect");
-    // console.log(_cmd);
   }
 })();
 
@@ -344,7 +342,6 @@ function parseLayerInfo(_info){
   _layers = _info.split(" ").slice(1);
   for(var i in _layers){
     _params = _layers[i].split("-");
-    console.log(_params);
     _layerStack.appendChild(makeLayerDiv(_params));
   }
 }
@@ -373,7 +370,6 @@ function layerFileList(_params){
   _input.type = "select";
   _input.title = "select file to load";
   _input.style = "float: right;";
-
 
   for(i in availableFiles){
     _option = document.createElement("option");
@@ -532,13 +528,45 @@ function otherInputCallbacks() {
 }
 
 // gets called from eventListener
-function cmdPrompt(e){
-  console.log(e.keyCode);
-  if(e.keyCode == 13) {
-    sendCMD(document.getElementById("prompt").value);
-    document.getElementById("prompt").value = "";
+// function cmdPrompt(e){
+//   console.log(e.keyCode);
+//   if(e.keyCode == 13) {
+//     sendCMD(document.getElementById("prompt").value);
+//     document.getElementById("prompt").value = "";
+//   }
+//   else if(e.keyCode == 38){
+//     document.getElementById("prompt").value = cmdHistory[cmdHistory.length-1];
+//   }
+//   else if(e.keyCode == 40){
+//
+//   }
+// }
+
+cmdPrompt = (function () {
+  var cmdIndex, cmdHistory, cmdPrompt;
+  cmdHistory = ["no previous cmd"];
+  prompt = document.getElementById("prompt");
+  return function (e) {
+    if(e.keyCode == 13) {
+      sendCMD(prompt.value);
+      cmdHistory.push(prompt.value);
+      prompt.value = "";
+      cmdIndex = 0;
+    }
+    else if(e.keyCode == 38){
+      cmdIndex++;
+      if(cmdIndex >= cmdHistory.length) cmdIndex = cmdHistory.length-1;
+      prompt.value = cmdHistory[cmdHistory.length-1];
+      prompt.value = cmdHistory[cmdHistory.length - cmdIndex];
+    }
+    else if(e.keyCode == 40){
+      cmdIndex--;
+      if(cmdIndex < 1) cmdIndex = 1;
+      prompt.value = cmdHistory[cmdHistory.length - cmdIndex];
+    }
   }
-}
+})();
+
 
 /*
  * /////////////////////////////////////////////////////////////
