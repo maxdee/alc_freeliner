@@ -13,6 +13,7 @@ interface FreelinerConfig {
   // Disbale Webserving
   final boolean SERVE_HTTP = true;
 
+  // very beta
   final boolean DOME_MODE = false;
 
   // bad for beginners but crucial
