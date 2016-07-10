@@ -257,7 +257,7 @@ class TracerLayer extends RenderLayer{
 class MergeLayer extends CanvasLayer{
   public MergeLayer(){
     super();
-    name = "MergeLayer";
+    name = "mergeLayer";
     id = name;
     description = "used to merge layers together";
   }

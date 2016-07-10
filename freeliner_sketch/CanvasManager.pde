@@ -223,6 +223,7 @@ class LayeredCanvasManager extends CanvasManager{
       if(layers.get(i).getID().equals(_id)){
         if(i + _dir >= 0 && i + _dir < layers.size()){
           Collections.swap(layers, i, i + _dir);
+          return;
         }
       }
     }

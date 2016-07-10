@@ -352,13 +352,13 @@ function makeLayerDiv(_params){
   _layerDiv.id = _params[0];
   _layerDiv.className = "layerwidget";
   _layerDiv.innerHTML = _params[0];
+  if(_params[1] == "mergeLayer") _layerDiv.innerHTML = _params[0]+"++++++++++";
+
   // enable checkbox
   _layerDiv.appendChild(layerEnableCheckBox(_params));
   _layerDiv.appendChild(layerUpButton(_params));
   _layerDiv.appendChild(layerDownButton(_params));
   _layerDiv.appendChild(layerFileList(_params));
-
-
 
   // _layerDiv.title = description
   return _layerDiv;
@@ -369,7 +369,7 @@ function layerFileList(_params){
   _input = document.createElement("select");
   _input.type = "select";
   _input.title = "select file to load";
-  _input.style = "float: right;";
+  _input.style = "float: right;   background-color:#0E0E0E; color: #98A7FF;";
 
   for(i in availableFiles){
     _option = document.createElement("option");
