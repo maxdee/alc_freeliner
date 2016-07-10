@@ -54,6 +54,7 @@ class CommandProcessor implements FreelinerConfig{
     "seq toggle A (step)",
     "seq play 0,1",
     "seq stop // redundent play 0|1",
+    "seq speed 0.5",
     "cmd rec 0|1|-3", // not implemented
     "cmd play 0|1|-3", // not implemented
     ///////////////////  Tools
@@ -577,6 +578,8 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[1].equals("select")) selectStep(_args); // up down or specific
     else if(_args[1].equals("clear")) clearSeq(_args); //
     else if(_args[1].equals("toggle")) toggleStep(_args);
+    else if(_args[1].equals("speed") && _args.length > 2) synchroniser.setTimeScaler(stringFloat(_args[2]));
+
     else return false;
     return true;
   }

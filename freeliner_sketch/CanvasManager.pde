@@ -94,6 +94,8 @@ class LayeredCanvasManager extends CanvasManager{
     addLayer(new ShaderLayer()).setID("secondShader").loadFile("fragTwo.glsl");
     addLayer(mergeLayer);
 
+    // add a FINAL OUTPUT layer, that way dome shader can go before.
+
     // addLayer(new ShaderLayer()).setID("thirdShader").loadFile("fragTwo.glsl");
     // addLayer(new ShaderLayer()).setID("fourthShader").loadFile("fragTwo.glsl");
 

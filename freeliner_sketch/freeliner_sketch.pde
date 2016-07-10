@@ -20,7 +20,7 @@ import netP5.*;
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 1024;
-int configuredHeight = 1024;
+int configuredHeight = 768;
 int useFullscreen = 0;
 int useDisplay = 1; // SPAN is 0
 int usePipeline = 0;

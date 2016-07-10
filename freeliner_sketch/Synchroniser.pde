@@ -31,6 +31,9 @@ class Synchroniser implements FreelinerConfig{
   float lerper = 0;
   int periodCount = 0;
 
+  // new time scaler!
+  float timeScaler = 1.0;
+
 	public Synchroniser(){
     tapTimer = new FloatSmoother(5, 350);
     intervalTimer = new FloatSmoother(5, 34);
@@ -43,11 +46,17 @@ class Synchroniser implements FreelinerConfig{
       renderIncrement = intervalTimer.addF(float(millis()-lastRender))/tempo;
       lastRender = millis();
     }
-    lerper += renderIncrement;
+    lerper += renderIncrement*timeScaler;
 
     if(lerper > 1.0){
       lerper = 0.0000001;
       periodCount++;
+      freeliner.oscTick();
+    }
+    else if(lerper < 0.0){
+      lerper = 0.99999999;
+      periodCount--;
+      if(periodCount < 1) periodCount = 9999;
       freeliner.oscTick();
     }
   }
@@ -71,6 +80,10 @@ class Synchroniser implements FreelinerConfig{
   // for frame capture to loc rendertime
   public void setRecording(boolean _r) {
    record = _r;
+  }
+
+  public void setTimeScaler(float _f){
+    timeScaler = _f;
   }
 
   public float getLerp(int _div){
