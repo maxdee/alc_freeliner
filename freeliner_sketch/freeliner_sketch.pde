@@ -92,7 +92,6 @@ void setup() {
   //freeliner = new FreelinerSyphon(this, usePipeline); // <- FOR SYPHON // implement in layer
   //freeliner = new FreelinerSpout(this, usePipeline); // <- FOR SPOUT
   //freeliner = new FreelinerLED(this, usePipeline, "newHoops.xml");//tunnel_map_two.xml"); // implement in layer?
-  //freeliner = new FreelinerLED(this, usePipeline, "catpartyDMX.xml");//tunnel_map_two.xml"); // implement in layer?
 
   surface.setResizable(false);
   surface.setTitle("freeliner");

@@ -95,6 +95,8 @@ class CommandProcessor implements FreelinerConfig{
     "config height 1024",
     "config fullScreen 0",
     "config display 1",
+    /////////////////// Window
+    "window location 10 10",
     ///////////////////
     "fixture setchan 0 3 255", // fixture, channel, value
     /////////////////// Configure
@@ -177,6 +179,8 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("layer")) _used = canvasManager.parseCMD(_args);
     else if(_args[0].equals("config")) _used = configCMD(_args);
     else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
+    else if(_args[0].equals("window")) _used = windowCMD(_args);
+
 
 
 
@@ -189,6 +193,26 @@ class CommandProcessor implements FreelinerConfig{
   public void processCmdStack(String _cmd){
     // add to stack
     processCMD(_cmd);
+  }
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Window
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public boolean windowCMD(String[] _args){
+    if(_args.length < 2) return false;
+    else if(_args[1].equals("location")) return locationCMD(_args);
+    else return false;
+  }
+
+  public boolean locationCMD(String[] _args){
+    if(_args.length < 4) return false;
+    int _x = stringInt(_args[2]);
+    int _y = stringInt(_args[3]);
+    surface.setLocation(_x, _y);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
