@@ -182,7 +182,7 @@ class RunThroughBranches extends SegmentSelector{
 		float _inc = 1.0/_segCount;
 		float _lrp = (_unit - (_index * _inc))/_inc;
 		ArrayList<Segment> _segs = _event.segmentGroup.getBranch(_index);
-		for(Segment _seg : _segs) _seg.setLerp(_event.getLerp());
+		for(Segment _seg : _segs) _seg.setLerp(_lrp);
 		return _segs;
 	}
 }
