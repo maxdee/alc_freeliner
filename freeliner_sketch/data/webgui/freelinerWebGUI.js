@@ -342,6 +342,7 @@ function parseLayerInfo(_info){
   _layers = _info.split(" ").slice(1);
   for(var i in _layers){
     _params = _layers[i].split("-");
+    // console.log(_params);
     if(_params != "")
       _layerStack.appendChild(makeLayerDiv(_params));
   }
@@ -360,29 +361,28 @@ function makeLayerDiv(_params){
   _layerDiv.appendChild(layerUpButton(_params));
   _layerDiv.appendChild(layerDownButton(_params));
   _layerDiv.appendChild(layerDeleteButton(_params));
-  _layerDiv.appendChild(layerFileList(_params));
+  _layerDiv.appendChild(layerOptionList(_params));
 
   // _layerDiv.title = description
   return _layerDiv;
 }
 
-function layerFileList(_params){
+function layerOptionList(_params){
   var _input, _fileType, i;
   _input = document.createElement("select");
   _input.type = "select";
   _input.title = "select file to load";
   _input.style = "float: right;   background-color:#0E0E0E; color: #98A7FF;";
 
-  for(i in availableFiles){
+  for(i = 4; i < _params.length; i++){
     _option = document.createElement("option");
-    _option.text = availableFiles[i];
-    _fileType = availableFiles[i].split(".").slice(1);
-    if(_params[1] == "ShaderLayer" && _fileType == "glsl") _input.add(_option);
-    else if((_params[1] == "MaskLayer" && _fileType == "png"))_input.add(_option);
-    else if((_params[1] == "ImageLayer" && _fileType == "png"))_input.add(_option);
+    _option.text = _params[i];
+    _input.add(_option);
   }
+  // _params[3] is selected option
+  _input.value = _params[3];
   _input.onchange = function (){
-    sendCMD("layer "+_params[0]+" load "+_input.value);
+    sendCMD("layer "+_params[0]+" option "+_input.value);
   }
   return _input;
 }
@@ -393,7 +393,7 @@ function layerEnableCheckBox(_params){
   _input.title = "enable/disable layer";
   _input.style = "float: right;";
 
-  if(_params[3] == 1) _input.checked="checked";
+  if(_params[2] == 1) _input.checked="checked";
   _input.onclick = function (){
     if(_input.checked) sendCMD("layer "+_params[0]+" enable 1");
     else sendCMD("layer "+_params[0]+" enable 0");

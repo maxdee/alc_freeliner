@@ -174,6 +174,9 @@ class LayeredCanvasManager extends CanvasManager{
     return false;
   }
 
+  /**
+   * makes a different name for a same layer so the layer can be tapped at different places.
+   */
   private String getNewCloneName(String _s){
     for(Layer _l : layers){
       if(_l.getID().equals(_s))
@@ -214,12 +217,34 @@ class LayeredCanvasManager extends CanvasManager{
     return mergeCanvas;// mergeLayer.getCanvas();
   }
 
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Actions
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+  public void updateOptions(){
+    println();
+    String[] _files = split(freeliner.getFileNames(), ' ');
+    ArrayList<String> _images = new ArrayList();
+    ArrayList<String> _shaders = new ArrayList();
+    String[] _tmp;
+    for(String _s : _files){
+      _tmp = split(_s, '.');
+      if(_tmp.length > 1){
+        if(_tmp[1].equals("png")) _images.add(_s);
+        else if(_tmp[1].equals("glsl")) _shaders.add(_s);
+      }
+    }
+    String[] _glsl = _shaders.toArray(new String[_shaders.size()]);
+    String[] _png = _images.toArray(new String[_images.size()]);
+
+    for(Layer _lyr : layers){
+      if(_lyr instanceof ImageLayer) _lyr.setOptions(_png);
+      else if(_lyr instanceof ShaderLayer) _lyr.setOptions(_glsl);
+    }
+  }
+
 
   public void printLayers(){
     println("+--------Layers--------+");
@@ -232,14 +257,15 @@ class LayeredCanvasManager extends CanvasManager{
   // type-layerName
   // the rest can be figured out in JS
   public String getLayerInfo(){
+    updateOptions();
     String _out = "";
     for(Layer _lyr : layers){
       _out += _lyr.getID()+"-";
       _out += _lyr.getName()+"-";
-      _out += _lyr.getFilename()+"-";
-      if(_lyr.useLayer()) _out += str(1);
-      else _out += str(0);
-
+      if(_lyr.useLayer()) _out += str(1)+"-";
+      else _out += str(0)+"-";
+      _out += _lyr.getSelectedOption()+"-";
+      for(String _s : _lyr.getOptions()) _out += _s+"-";
       // _out += _lyr.getType()+"-";
       _out += " ";
     }
@@ -247,11 +273,11 @@ class LayeredCanvasManager extends CanvasManager{
   }
 
   public void printLayer(Layer _lyr){
-    println("_________"+_lyr.getID()+"_________");
+    println(".............."+_lyr.getID()+"..............");
     println(_lyr.getDescription());
     for(String _cmd : _lyr.getCMDList() ) println(_cmd);
     println("enable "+_lyr.useLayer());
-    println("||||||||||||||||||||||||||||||||||||||||||||");
+    println("............................................");
   }
 
   public void screenShot(){
@@ -307,23 +333,6 @@ class LayeredCanvasManager extends CanvasManager{
   public void addLayer(String _id){
     addLayer(new Layer()).setID(_id);
   }
-
-  // public void castLayer(String _id, String _type){
-  //   Layer _lyr = getLayer(_id);
-  //   if(_lyr == null) _lyr = addLayer(new Layer()).setID(_id);
-  //   switch(_type){
-  //     case "merge":
-  //       _lyr = mergeLayer;
-  //     case "render":
-  //       _lyr = new RenderLayer().setID(_lyr.getID());
-  //     case "tracer":
-  //       _lyr = new TracerLayer().setID(_lyr.getID());
-  //     case "mask":
-  //       _lyr = new MaskLayer().setID(_lyr.getID());
-  //     case "shader":
-  //       _lyr = new ShaderLayer().setID(_lyr.getID());
-  //   }
-  // }
 
   /**
    * Toggle the use of background with alpha value

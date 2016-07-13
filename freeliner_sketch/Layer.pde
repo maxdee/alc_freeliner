@@ -21,7 +21,8 @@ class Layer extends Mode{
   boolean enabled;
   PGraphics canvas;
   ArrayList<String> commandList;
-  String[] options;
+  String[] options = {"none"};
+  String selectedOption = "none";
 
   public Layer(){
     name = "basicLayer";
@@ -33,20 +34,23 @@ class Layer extends Mode{
     enabled = true;
     canvas = null;
     filename = "none";
-    loadOptions();
+    selectedOption = "none";
   }
 
-  public void loadOptions(){
 
-  }
-
-  public void useOption(String _opt){
-
-  }
+  /**
+   * implement how the options should be used in a layer.
+   */
+  public void selectOption(String _opt){ }
 
   public String[] getOptions(){
     return options;
   }
+
+  public void setOptions(String[] _opt){
+    options = _opt;
+  }
+
  /**
   * The apply method takes and resturns a PGraphics.
   * @param PGraphics source
@@ -85,6 +89,7 @@ class Layer extends Mode{
       if(_args[2].equals("load")) loadFile(_args[3]);
       else if(_args[2].equals("enable")) setEnable(stringInt(_args[3]));
       else if(_args[2].equals("name")) setName(_args[3]);
+      else if(_args[2].equals("option")) selectOption(_args[3]);
       else return false;
       return true;
     }
@@ -110,6 +115,10 @@ class Layer extends Mode{
 
   public String getFilename(){
     return filename;
+  }
+
+  public String getSelectedOption(){
+    return selectedOption;
   }
 
   public Layer setCanvas(PGraphics _pg){
@@ -147,22 +156,6 @@ class Layer extends Mode{
    return enabled;
   }
 
-  // /**
-  //  * Get layer name.
-  //  * @return String name
-  //  */
-  // public String getName(){
-  //  return name;
-  // }
-  //
-  // /**
-  //  * Get layer description.
-  //  * @return String description
-  //  */
-  // public String getDescription(){
-  //  return description;
-  // }
-
   public String getID(){
     return id;
   }
@@ -198,6 +191,14 @@ class ContainerLayer extends Layer{
   }
 
   /////////// the rest is from the containedLayer
+  public void selectOption(String _opt){
+    if (containedLayer != null) containedLayer.selectOption(_opt);
+  }
+
+  public String[] getOptions(){
+    if (containedLayer != null) return containedLayer.getOptions();
+    else return null;
+  }
 
   public PGraphics apply(PGraphics _pg){
     if (containedLayer != null) return containedLayer.apply(_pg);
@@ -229,6 +230,11 @@ class ContainerLayer extends Layer{
 
   public String getFilename(){
    if (containedLayer != null) return containedLayer.getFilename();
+   else return "none";
+  }
+
+  public String getSelectedOption(){
+   if (containedLayer != null) return containedLayer.getSelectedOption();
    else return "none";
   }
 
@@ -345,7 +351,6 @@ class TracerLayer extends RenderLayer{
     if(trailmix >= _max) trailmix = _max - 1;
     return trailmix;
   }
-
 }
 
 /**
@@ -358,6 +363,8 @@ class MergeLayer extends Layer{
     name = "mergeLayer";
     id = name;
     description = "used to merge layers together";
+    String[] _opt = {"blend","add","subtract","darkest","lightest","difference","exclusion","multiply","screen","replace"};
+    options = _opt;
   }
 
   public PGraphics apply(PGraphics _pg){
@@ -366,6 +373,45 @@ class MergeLayer extends Layer{
     canvas.blendMode(blendMode);
     canvas.image(_pg,0,0);
     return null;
+  }
+
+  public void selectOption(String _opt){
+    selectedOption = _opt;
+    switch(_opt){
+      case "blend":
+        blendMode = BLEND;
+        break;
+      case "add":
+        blendMode = ADD;
+        break;
+      case "subtract":
+        blendMode = SUBTRACT;
+        break;
+      case "darkest":
+        blendMode = DARKEST;
+        break;
+      case "lightest":
+        blendMode = LIGHTEST;
+        break;
+      case "difference":
+        blendMode = DIFFERENCE;
+        break;
+      case "exclusion":
+        blendMode = EXCLUSION;
+        break;
+      case "multiply":
+        blendMode = MULTIPLY;
+        break;
+      case "screen":
+        blendMode = SCREEN;
+        break;
+      case "replace":
+        blendMode = REPLACE;
+        break;
+      default:
+        blendMode = BLEND;
+        break;
+    }
   }
 }
 
@@ -473,6 +519,11 @@ class ShaderLayer extends CanvasLayer{
     return canvas;
   }
 
+  public void selectOption(String _opt){
+    selectedOption = _opt;
+    loadFile(_opt);
+  }
+
   public Layer loadFile(String _file){
     fileName = _file;
     reloadShader();
@@ -541,6 +592,11 @@ class ImageLayer extends Layer{
     return _pg;
   }
 
+  public void selectOption(String _opt){
+    selectedOption = _opt;
+    loadFile(_opt);
+  }
+
   public Layer loadFile(String _file){
     filename = _file;
     try { imageToDraw = loadImage(_file);}
@@ -564,6 +620,22 @@ class MaskLayer extends ImageLayer{
     name = "MaskLayer";
     id = name;
     description = "a configurable mask layer";
+  }
+
+  public void selectOption(String _opt){
+    if(_opt.equals("MAKE")) maskFlag = true;
+    else {
+      selectedOption = _opt;
+      loadFile(_opt);
+    }
+  }
+
+  public void setOptions(String[] _opts){
+    options = new String[_opts.length+1];
+    for(int i = 0; i < _opts.length; i++){
+      options[i] = _opts[i];
+    }
+    options[_opts.length] = "MAKE";
   }
 
   /**
