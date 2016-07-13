@@ -342,7 +342,8 @@ function parseLayerInfo(_info){
   _layers = _info.split(" ").slice(1);
   for(var i in _layers){
     _params = _layers[i].split("-");
-    _layerStack.appendChild(makeLayerDiv(_params));
+    if(_params != "")
+      _layerStack.appendChild(makeLayerDiv(_params));
   }
 }
 
@@ -352,12 +353,13 @@ function makeLayerDiv(_params){
   _layerDiv.id = _params[0];
   _layerDiv.className = "layerwidget";
   _layerDiv.innerHTML = _params[0];
-  if(_params[1] == "mergeLayer") _layerDiv.innerHTML = _params[0]+"++++++++++";
+  if(_params[1] == "mergeLayer") _layerDiv.innerHTML = "+++ "+_params[0]+" +++";
 
   // enable checkbox
   _layerDiv.appendChild(layerEnableCheckBox(_params));
   _layerDiv.appendChild(layerUpButton(_params));
   _layerDiv.appendChild(layerDownButton(_params));
+  _layerDiv.appendChild(layerDeleteButton(_params));
   _layerDiv.appendChild(layerFileList(_params));
 
   // _layerDiv.title = description
@@ -402,9 +404,10 @@ function layerEnableCheckBox(_params){
 function layerUpButton(_params){
   var _input = document.createElement("input");
   _input.type = "button";
-  _input.class = "pushlayer";
+  // _input.class = "pushlayer";
+  _input.title = "push layer up";
   _input.style = "float: right;";
-
+  _input.value = "^";
 
   _input.title = "push layer up";
   _input.onclick = function (){
@@ -417,14 +420,31 @@ function layerUpButton(_params){
 function layerDownButton(_params){
   var _input = document.createElement("input");
   _input.type = "button";
+  // _input.class = "pushlayer";
   _input.title = "push layer down";
-  _input.class = "pushlayer";
-
   _input.style = "float: right;";
+  _input.value = "v";
 
   _input.onclick = function (){
     sendCMD("layer "+_params[0]+" swap 1");
     updateLayerStack();
+  }
+  return _input;
+}
+
+function layerDeleteButton(_params){
+  var _input = document.createElement("input");
+  _input.type = "button";
+  _input.title = "delete a layer";
+  _input.style = "float: right;";
+  _input.value = "X";
+
+  _input.onclick = function (){
+    var r = confirm("delete layer "+_params[0]);
+    if(r){
+      sendCMD("layer "+_params[0]+" delete");
+      updateLayerStack();
+    }
   }
   return _input;
 }
@@ -524,6 +544,15 @@ function otherInputCallbacks() {
     var _c = document.getElementById("fillPicker").value;
     sendCMD('tw '+selectedTemplate+' f 28');
     sendCMD('tp color '+selectedTemplate+' '+_c);
+  }
+
+  _element = document.getElementById("makeLayerButton");
+  if(_element) _element.onclick = function (){
+    var _name, _type;
+    _name = document.getElementById("layerNameInput").value;
+    _type = document.getElementById("layerTypeSelect").value;
+    sendCMD("layer "+_name+" "+_type);
+    updateLayerStack();
   }
 }
 

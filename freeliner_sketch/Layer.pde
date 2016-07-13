@@ -21,6 +21,7 @@ class Layer extends Mode{
   boolean enabled;
   PGraphics canvas;
   ArrayList<String> commandList;
+  String[] options;
 
   public Layer(){
     name = "basicLayer";
@@ -32,8 +33,20 @@ class Layer extends Mode{
     enabled = true;
     canvas = null;
     filename = "none";
+    loadOptions();
   }
 
+  public void loadOptions(){
+
+  }
+
+  public void useOption(String _opt){
+
+  }
+
+  public String[] getOptions(){
+    return options;
+  }
  /**
   * The apply method takes and resturns a PGraphics.
   * @param PGraphics source
@@ -99,6 +112,11 @@ class Layer extends Mode{
     return filename;
   }
 
+  public Layer setCanvas(PGraphics _pg){
+    canvas = _pg;
+    return this;
+  }
+
   /**
    * Set or toggle the enabled boolean
    * @param String name
@@ -116,6 +134,9 @@ class Layer extends Mode{
   public Layer setID(String _id){
     id = _id;
     return this;
+  }
+
+  public void setLayer(Layer _lyr){
   }
 
   /**
@@ -156,6 +177,82 @@ class Layer extends Mode{
 ///////    subaclasses
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
+class ContainerLayer extends Layer{
+  Layer containedLayer = null;
+  public ContainerLayer(){
+    name = "containerLayer";
+    description = "a layer that contains an other";
+  }
+
+  public void setLayer(Layer _lyr){
+    containedLayer = _lyr;
+  }
+
+  public Layer setID(String _id){
+    this.id = _id;
+    return this;
+  }
+
+  public String getID(){
+    return this.id;
+  }
+
+  /////////// the rest is from the containedLayer
+
+  public PGraphics apply(PGraphics _pg){
+    if (containedLayer != null) return containedLayer.apply(_pg);
+    else return null;
+  }
+
+  public void beginDrawing(){
+    if (containedLayer != null) containedLayer.beginDrawing();
+  }
+
+  public void endDrawing(){
+    if (containedLayer != null) containedLayer.endDrawing();
+  }
+
+  public boolean parseCMD(String[] _args){
+   if (containedLayer != null) return containedLayer.parseCMD(_args);
+   else return false;
+  }
+
+  public Layer loadFile(String _file){
+   if (containedLayer != null) return containedLayer.loadFile(_file);
+   else return this;
+  }
+
+  public PGraphics getCanvas(){
+   if (containedLayer != null) return containedLayer.getCanvas();
+   else return null;
+  }
+
+  public String getFilename(){
+   if (containedLayer != null) return containedLayer.getFilename();
+   else return "none";
+  }
+
+  public Layer setCanvas(PGraphics _pg){
+   if (containedLayer != null) return containedLayer.setCanvas(_pg);
+   else return this;
+  }
+
+  public void setEnable(int _v){
+   if (containedLayer != null) containedLayer.setEnable(_v);
+  }
+
+  public boolean useLayer(){
+   if (containedLayer != null) return containedLayer.useLayer();
+   else return false;
+  }
+
+  public ArrayList<String> getCMDList(){
+    if (containedLayer != null) return containedLayer.getCMDList();
+    else return null;
+  }
+}
+
+
 
 /**
  * Simple layer twith a real PGraphics
@@ -196,7 +293,7 @@ class RenderLayer extends CanvasLayer{
   public RenderLayer(){
     super();
     enabled = true;
-    name = "RenderLayer";
+    name = "renderLayer";
     id = name;
     description = "a layer that freeliner renders onto, set a template's layer with [p]";
   }
@@ -252,9 +349,10 @@ class TracerLayer extends RenderLayer{
 }
 
 /**
- * Layer to merge graphics down. should only be one of these
+ * Layer that should reference the mergeCanvas.
  */
-class MergeLayer extends CanvasLayer{
+class MergeLayer extends Layer{
+  int blendMode = LIGHTEST;
   public MergeLayer(){
     super();
     name = "mergeLayer";
@@ -262,16 +360,54 @@ class MergeLayer extends CanvasLayer{
     description = "used to merge layers together";
   }
 
-  // set canvas method ?
-  // setBlend ?
-
   public PGraphics apply(PGraphics _pg){
     if(_pg == null) return null;
-    canvas.blendMode(LIGHTEST);
+    if(!useLayer()) return _pg;
+    canvas.blendMode(blendMode);
     canvas.image(_pg,0,0);
     return null;
   }
 }
+
+/**
+ * Layer that outputs the rendering. maybe cannot be deleted...
+ */
+class MergeOutput extends Layer{
+  public MergeOutput(){
+    super();
+    name = "mergeOutput";
+    id = name;
+    description = "outputs the merged stuff";
+  }
+
+  public PGraphics apply(PGraphics _pg){
+    if(!useLayer()) return _pg;
+    canvas.endDraw();
+    return canvas;
+  }
+}
+
+/**
+ * Layer that outputs the rendering. maybe cannot be deleted...
+ */
+class OutputLayer extends Layer{
+  public OutputLayer(){
+    super();
+    name = "outputLayer";
+    id = name;
+    description = "output layer that goes to screen";
+  }
+
+  public PGraphics apply(PGraphics _pg){
+    // if(!useLayer()) return _pg;
+    if(_pg != null){
+      image(_pg, 0, 0);
+    }
+    return null;
+  }
+}
+
+
 
 /**
  * For fragment shaders!

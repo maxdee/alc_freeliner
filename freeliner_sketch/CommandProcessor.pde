@@ -80,6 +80,7 @@ class CommandProcessor implements FreelinerConfig{
     "layer layerID load file.thing",
     "layer layerID enable (-3|0|1)",
     "layer layerID setID newID",
+    "layer layerID layertype",
 
     /////////////////// Information Accessors
     "fetch-osc|fetch-ws infoline",
@@ -180,10 +181,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("config")) _used = configCMD(_args);
     else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
     else if(_args[0].equals("window")) _used = windowCMD(_args);
-
-
-
-
+    else if(_args[0].equals("addlayer")) _used = canvasManager.layerCreator(_args);
 
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -542,20 +540,6 @@ class CommandProcessor implements FreelinerConfig{
     return true;
   }
 
-  // // needs to be tested with file argument
-  // public boolean maskCMD(String[] _args){
-  //   //if(_args.length < 2) return;
-  //   //else if(_args[1].equals("mask")){
-  //   if(_args.length > 2){
-  //     canvasManager.loadMask(_args[2]);
-  //   }
-  //   //else valueGiven = str(canvasManager.toggleMask());
-  //   else {
-  //     canvasManager.generateMask();
-  //   }
-  //   return true;
-  // }
-
   public boolean trailsCMD(String[] _args){
     //if(_args.length < 2) return;
     //else if(_args[1].equals("trails")){
@@ -568,20 +552,6 @@ class CommandProcessor implements FreelinerConfig{
       }
       return false;
     //}
-  }
-
-  // needs to be tested with file argument
-  public boolean shaderCMD(String[]  _args){
-    if(_args.length > 2){
-      int _v = stringInt(_args[2]);
-      if(_args.length > 3){
-        float _f = stringFloat(_args[3]);
-        canvasManager.setUniforms(_v, _f);
-      }
-      else canvasManager.loadShader(_v);
-      return true;
-    }
-    return false;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

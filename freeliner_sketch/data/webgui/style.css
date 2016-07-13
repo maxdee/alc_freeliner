@@ -59,7 +59,8 @@ input[type=checkbox] {
 .layerwidget {
   margin: 4px;
   min-height: 24px;
-  background-color: #1D1D1D;
+  /*background-color: #1D1D1D;*/
+  background-color: #381932;
   color: #FFFFFF;
   font-size: 10pt;
   padding: 2px;
@@ -71,7 +72,7 @@ input[type=checkbox] {
 }
 
 .layerwidget:hover {
-  background-color: #333333;
+  background-color: #642758;
 }
 
 .selecta {
@@ -124,7 +125,7 @@ input[type=checkbox] {
 
 #layerStack {
   /*border: 2px solid grey;*/
-  background-color: red;
+  /*background-color: red;*/
 
 }
 

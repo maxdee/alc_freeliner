@@ -55,7 +55,21 @@
         <button id="configureDisplay">configureDisplay</button>
         <button id="openRef">open reference</button>
         <button id="refreshfiles">refresh files</button>
-
+      </div>
+      <div class="widget">
+        name:
+        <input type="text" name="layerName" id="layerNameInput">
+        <select id="layerTypeSelect">
+          <option value="renderLayer">renderLayer</option>
+          <option value="tracerLayer">tracerLayer</option>
+          <option value="mergeLayer">mergeLayer</option>
+          <option value="shaderLayer">shaderLayer</option>
+          <option value="maskLayer">maskLayer</option>
+          <option value="imageLayer">imageLayer</option>
+          <option value="mergeOutput">mergeOutput</option>
+          <option value="outputLayer">outputLayer</option>
+        </select>
+        <button id="makeLayerButton">makeLayer</button>
       </div>
       <div id="layerStack" title="layerStack">
         <div class="widget">

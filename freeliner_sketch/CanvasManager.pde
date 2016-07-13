@@ -17,19 +17,13 @@ abstract class CanvasManager implements FreelinerConfig{
   TemplateRenderer templateRenderer;
   // boolean makeMaskFlag = false;
 
-
   //  abstract methods
   abstract void render(ArrayList<RenderableTemplate> _toRender);
   abstract PGraphics getCanvas();
   // concrete methods?
-  public void setUniforms(int _i, float _v){}
-  public void reloadShader(){}
-  public void loadShader(int _n){}
-  public void loadMask(String _file){}
-  public void generateMask(){}
+  public boolean layerCreator(String[] _args){ return false; }
 
-
-  public int setTrails(int _t, int _max){ return 0;}
+  public int setTrails(int _t, int _max){ return 0; }
 
   // implemented methods
   public void inject(TemplateRenderer _tr){
@@ -79,25 +73,24 @@ class LayeredCanvasManager extends CanvasManager{
   ArrayList<Layer> layers;
   // layers that can be drawn on
   ArrayList<RenderLayer> renderLayers;
-  MergeLayer mergeLayer;
+  // MergeLayer mergeLayer;
+  PGraphics mergeCanvas;
 
   public LayeredCanvasManager(){
     layers = new ArrayList();
     renderLayers = new ArrayList();
-    mergeLayer = new MergeLayer();
+    // mergeLayer = new MergeLayer();
+    mergeCanvas = createGraphics(width, height, P2D);
 
-    addLayer(new TracerLayer()).setID("tracerOne");
-    addLayer(new ShaderLayer()).setID("firstShader").loadFile("fragZero.glsl");
-    addLayer(mergeLayer);
-
-    addLayer(new RenderLayer()).setID("untraced");
-    addLayer(new ShaderLayer()).setID("secondShader").loadFile("fragTwo.glsl");
-    addLayer(mergeLayer);
-
-    // add a FINAL OUTPUT layer, that way dome shader can go before.
-
-    // addLayer(new ShaderLayer()).setID("thirdShader").loadFile("fragTwo.glsl");
-    // addLayer(new ShaderLayer()).setID("fourthShader").loadFile("fragTwo.glsl");
+    // define the stack
+    layerCreator("layer tracerOne tracerLayer");
+    layerCreator("layer firstShader shaderLayer");
+    layerCreator("layer mergeA mergeLayer");
+    layerCreator("layer untraced renderLayer");
+    layerCreator("layer secondShader shaderLayer");
+    layerCreator("layer mergeB mergeLayer");
+    layerCreator("layer mergeOutput mergeOutput");
+    layerCreator("layer screen outputLayer");
 
     printLayers();
   }
@@ -110,13 +103,85 @@ class LayeredCanvasManager extends CanvasManager{
     return _ret;
   }
 
+
   public Layer addLayer(Layer _lr){
+    if(_lr == null) return null;
     layers.add(_lr);
     if(_lr instanceof RenderLayer)
       renderLayers.add((RenderLayer)_lr);
     return _lr;
   }
-  int rtest = 0;
+
+
+  public boolean layerCreator(String _s){
+    return layerCreator(split(_s, ' '));
+  }
+
+  // takes a cmd : layer newID type : layer myTracer tracerLayer
+  public boolean layerCreator(String[] _args){
+    if(_args.length < 3) return false;
+    // first check if there is a layer with the same Name or other subclass
+    Layer _existingLayer = null;
+    for(Layer _l : layers){
+      if(_l.getID().equals(_args[1])){
+        _existingLayer = _l;
+        _args[2] = "containerLayer";
+        _args[1] = getNewCloneName(_args[1]);
+      }
+    }
+
+    Layer _lyr = null;
+
+    switch(_args[2]){
+      case "renderLayer":
+        _lyr = new RenderLayer();
+        break;
+      case "tracerLayer":
+        _lyr = new TracerLayer();
+        break;
+      case "mergeLayer":
+        _lyr = new MergeLayer();
+        _lyr.setCanvas(mergeCanvas);
+        break;
+      case "mergeOutput":
+        _lyr = new MergeOutput();
+        _lyr.setCanvas(mergeCanvas);
+        break;
+      case "outputLayer":
+        _lyr = new OutputLayer();
+        break;
+      case "maskLayer":
+        _lyr = new MaskLayer();
+        break;
+      case "shaderLayer":
+        _lyr = new ShaderLayer();
+        break;
+      case "imageLayer":
+        _lyr = new ImageLayer();
+        break;
+      case "containerLayer":
+        if(_existingLayer != null){
+          _lyr = new ContainerLayer();
+          _lyr.setLayer(_existingLayer);
+        }
+        break;
+    }
+    if(_lyr != null){
+      _lyr.setID(_args[1]);
+      addLayer(_lyr);
+      return true;
+    }
+    return false;
+  }
+
+  private String getNewCloneName(String _s){
+    for(Layer _l : layers){
+      if(_l.getID().equals(_s))
+        return getNewCloneName(_s+"I");
+    }
+    return _s;
+  }
+
   /**
    * Begin redering process. Make sure to end it with endRender();
    */
@@ -131,22 +196,22 @@ class LayeredCanvasManager extends CanvasManager{
       _index++;
     }
 
-    mergeLayer.beginDrawing();
+    mergeCanvas.beginDraw();
+    mergeCanvas.clear();
 
+    // and this is where the magic happens
     PGraphics _prev = null;
     for(Layer _lr : layers) _prev = _lr.apply(_prev);
-    mergeLayer.endDrawing();
-    image(mergeLayer.getCanvas(),0,0);
 
     for(Layer _lr : layers){
       if(_lr instanceof MaskLayer){
-        if(((MaskLayer)_lr).checkMakeMask()) ((MaskLayer)_lr).makeMask(mergeLayer.getCanvas());
+        if(((MaskLayer)_lr).checkMakeMask()) ((MaskLayer)_lr).makeMask(mergeCanvas);
       }
     }
 	}
 
   public final PGraphics getCanvas(){
-    return mergeLayer.getCanvas();
+    return mergeCanvas;// mergeLayer.getCanvas();
   }
 
 
@@ -205,10 +270,14 @@ class LayeredCanvasManager extends CanvasManager{
       swapOrder(_args[1], stringInt(_args[3]));
       return true;
     }
+    else if(_args[2].equals("delete") ) {
+      return deleteLayer(getLayer(_args[1]));
+    }
 
     Layer _lyr = getLayer(_args[1]);
-    if(_lyr == null) return false;
-    else return _lyr.parseCMD(_args);
+    if(_lyr == null) return layerCreator(_args);
+    else if(_lyr.parseCMD(_args)) return true;
+    else return layerCreator(_args);
   }
 
   public Layer getLayer(String _id){
@@ -229,30 +298,32 @@ class LayeredCanvasManager extends CanvasManager{
     }
   }
 
-  public void deleteLayer(Layer _lyr){
-    layers.remove(_lyr);
+  public boolean deleteLayer(Layer _lyr){
+    if(_lyr != null) layers.remove(_lyr);
+    else return false;
+    return true;
   }
 
   public void addLayer(String _id){
     addLayer(new Layer()).setID(_id);
   }
 
-  public void castLayer(String _id, String _type){
-    Layer _lyr = getLayer(_id);
-    if(_lyr == null) _lyr = addLayer(new Layer()).setID(_id);
-    switch(_type){
-      case "merge":
-        _lyr = mergeLayer;
-      case "render":
-        _lyr = new RenderLayer().setID(_lyr.getID());
-      case "tracer":
-        _lyr = new TracerLayer().setID(_lyr.getID());
-      case "mask":
-        _lyr = new MaskLayer().setID(_lyr.getID());
-      case "shader":
-        _lyr = new ShaderLayer().setID(_lyr.getID());
-    }
-  }
+  // public void castLayer(String _id, String _type){
+  //   Layer _lyr = getLayer(_id);
+  //   if(_lyr == null) _lyr = addLayer(new Layer()).setID(_id);
+  //   switch(_type){
+  //     case "merge":
+  //       _lyr = mergeLayer;
+  //     case "render":
+  //       _lyr = new RenderLayer().setID(_lyr.getID());
+  //     case "tracer":
+  //       _lyr = new TracerLayer().setID(_lyr.getID());
+  //     case "mask":
+  //       _lyr = new MaskLayer().setID(_lyr.getID());
+  //     case "shader":
+  //       _lyr = new ShaderLayer().setID(_lyr.getID());
+  //   }
+  // }
 
   /**
    * Toggle the use of background with alpha value
