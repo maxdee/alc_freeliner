@@ -333,6 +333,7 @@ class GroupManager{
     }
     catch (Exception e){
       println(_fn+" cant be loaded");
+      println(sketchPath()+"/data/userdata/"+_fn);
       return;
     }
     PVector _offset = getInkscapeTransform(sketchPath()+"/data/userdata/"+_fn);
