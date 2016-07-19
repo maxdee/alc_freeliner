@@ -84,7 +84,7 @@ class LayeredCanvasManager extends CanvasManager{
 
     // define the stack
     layerCreator("layer tracerOne tracerLayer");
-    layerCreator("layer firstShader shaderLayer");
+    // layerCreator("layer firstShader vertexShaderLayer");
     layerCreator("layer mergeA mergeLayer");
     layerCreator("layer untraced renderLayer");
     layerCreator("layer secondShader shaderLayer");
@@ -107,7 +107,7 @@ class LayeredCanvasManager extends CanvasManager{
   public Layer addLayer(Layer _lr){
     if(_lr == null) return null;
     layers.add(_lr);
-    if(_lr instanceof RenderLayer)
+    if(_lr instanceof RenderLayer || _lr instanceof VertexShaderLayer)
       renderLayers.add((RenderLayer)_lr);
     return _lr;
   }
@@ -155,6 +155,9 @@ class LayeredCanvasManager extends CanvasManager{
         break;
       case "shaderLayer":
         _lyr = new ShaderLayer();
+        break;
+      case "vertexShaderLayer":
+        _lyr = new VertexShaderLayer();
         break;
       case "imageLayer":
         _lyr = new ImageLayer();

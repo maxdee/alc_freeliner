@@ -458,7 +458,7 @@ class OutputLayer extends Layer{
 /**
  * For fragment shaders!
  */
-class ShaderLayer extends CanvasLayer{
+class ShaderLayer extends RenderLayer{//CanvasLayer{
   PShader shader;
   String fileName;
   PVector center;// implements this
@@ -561,6 +561,54 @@ class ShaderLayer extends CanvasLayer{
     shader.set("u7", uniforms[6]);
     shader.set("u8", uniforms[7]);
   }
+}
+
+
+class VertexShaderLayer extends ShaderLayer{
+  public VertexShaderLayer(){
+    super();
+    name = "VertexShaderLayer";
+    id = name;
+    description = "a layer which can be rendered to and has a vertex shader";
+  }
+
+  public void beginDrawing(){
+    if(canvas != null){
+      canvas.beginDraw();
+      canvas.clear();
+      try {
+        canvas.shader(shader);
+      }
+      catch(RuntimeException _e){
+        println("shader no good");
+        canvas.resetShader();
+      }
+    }
+  }
+
+  public PGraphics apply(PGraphics _pg){
+    if(!enabled) return _pg;
+    if(_pg == null) return canvas;
+    _pg.beginDraw();
+    _pg.clear();
+    _pg.image(canvas,0,0);
+    _pg.endDraw();
+    return _pg;
+  }
+
+  public void reloadShader(){
+    try{
+      shader = loadShader(sketchPath()+"/data/userdata/cubemapFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
+      println("Loaded shader "+fileName);
+    }
+    catch(Exception _e){
+      println("Could not load shader... "+fileName);
+      println(_e);
+      shader = null;
+    }
+  }
+
+
 }
 
 
