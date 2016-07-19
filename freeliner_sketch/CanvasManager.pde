@@ -84,13 +84,14 @@ class LayeredCanvasManager extends CanvasManager{
 
     // define the stack
     layerCreator("layer tracerOne tracerLayer");
-    // layerCreator("layer firstShader vertexShaderLayer");
     layerCreator("layer mergeA mergeLayer");
     layerCreator("layer untraced renderLayer");
     layerCreator("layer secondShader shaderLayer");
     layerCreator("layer mergeB mergeLayer");
     layerCreator("layer mergeOutput mergeOutput");
     layerCreator("layer screen outputLayer");
+    // very beta
+    // layerCreator("layer firstShader vertexShaderLayer");
 
     printLayers();
   }
