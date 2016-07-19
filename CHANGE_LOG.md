@@ -1,8 +1,10 @@
 ### Version 0.4.3 ###
  * Many changes, mostly around layering system and LED/DMX stuff.
+ * Use the webGUI to manage layers.
  * Layer commands go something like `layer layerName enable 1` or `layer layerName load file.type`.
-
-
+ * All shaders and images are and should be stored in `data/userdata` with no sub directories.
+ * Uniform floats for shaders can be set with `layer shaderLayerName uniforms i 0.75`, where i is an index 0-7.
+ * Speed adjustement with `seq speed 0.5` works with negative value!
 
 ### Version 0.4.1 ###
  * `m` is now for miscValue, `d` is for breakLine.
