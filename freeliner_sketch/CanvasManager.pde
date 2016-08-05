@@ -83,8 +83,10 @@ class LayeredCanvasManager extends CanvasManager{
     mergeCanvas = createGraphics(width, height, P2D);
 
     // define the stack
-    layerCreator("layer tracerOne tracerLayer");
-    layerCreator("layer firstShader shaderLayer");
+    // layerCreator("layer tracerOne tracerLayer");
+    // layerCreator("layer firstShader shaderLayer");
+    layerCreator("layer firstShader vertexShaderLayer");
+
     layerCreator("layer mergeA mergeLayer");
     layerCreator("layer untraced renderLayer");
     layerCreator("layer secondShader shaderLayer");
@@ -92,7 +94,6 @@ class LayeredCanvasManager extends CanvasManager{
     layerCreator("layer mergeOutput mergeOutput");
     layerCreator("layer screen outputLayer");
     // very beta
-    // layerCreator("layer firstShader vertexShaderLayer");
 
     printLayers();
   }

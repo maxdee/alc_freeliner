@@ -101,7 +101,8 @@ class CommandProcessor implements FreelinerConfig{
     ///////////////////
     "fixture setchan 0 3 255", // fixture, channel, value
     /////////////////// Configure
-    "hid kbd 'keyCode' 'char'"
+    "hid kbd 'keyCode' 'char'",
+    "setosc 127.0.0.1 6666"
   };
 
   /**
@@ -182,6 +183,8 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
     else if(_args[0].equals("window")) _used = windowCMD(_args);
     else if(_args[0].equals("addlayer")) _used = canvasManager.layerCreator(_args);
+    else if(_args[0].equals("setosc")) _used = setOsc(_args);
+
 
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -191,6 +194,15 @@ class CommandProcessor implements FreelinerConfig{
   public void processCmdStack(String _cmd){
     // add to stack
     processCMD(_cmd);
+  }
+
+  public boolean setOsc(String[] _args){
+    if(_args.length < 3) return false;
+    int _port = stringInt(_args[2]);
+    if(_port > 1)
+      oscComs.setSyncAddress(_args[1], _port);
+    else return false;
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////

@@ -570,6 +570,7 @@ class VertexShaderLayer extends ShaderLayer{
     name = "VertexShaderLayer";
     id = name;
     description = "a layer which can be rendered to and has a vertex shader";
+    loadFile("aVertexShader.glsl");
   }
 
   public void beginDrawing(){
@@ -580,7 +581,7 @@ class VertexShaderLayer extends ShaderLayer{
         canvas.shader(shader);
       }
       catch(RuntimeException _e){
-        println("shader no good");
+        println("vertex shader no good");
         canvas.resetShader();
       }
     }
@@ -598,11 +599,11 @@ class VertexShaderLayer extends ShaderLayer{
 
   public void reloadShader(){
     try{
-      shader = loadShader(sketchPath()+"/data/userdata/cubemapFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
-      println("Loaded shader "+fileName);
+      shader = loadShader(sketchPath()+"/data/userdata/defaultFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
+      println("Loaded vertex shader "+fileName);
     }
     catch(Exception _e){
-      println("Could not load shader... "+fileName);
+      println("Could not load vertex shader... "+fileName);
       println(_e);
       shader = null;
     }

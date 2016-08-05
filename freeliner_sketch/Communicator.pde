@@ -39,6 +39,7 @@ class FreelinerCommunicator implements FreelinerConfig{
   public void send(String _s){
     println("Sending : "+_s);
   }
+
 }
 
 
@@ -65,12 +66,18 @@ class OSCCommunicator extends FreelinerCommunicator implements OscEventListener{
   }
 
   // oscMessage callback
-  public void oscStatus(OscStatus theStatus){}
-  // new OSC messages = /freeliner/tw/A/q 3 ???
-  void oscEvent(OscMessage _mess) {  /* check if theOscMessage has the address pattern we are looking for. */
+  public void oscStatus(OscStatus theStatus){
+  }
+
+  public void setSyncAddress(String _ip, int _port){
+    toPDpatch = new NetAddress(_ip, _port);
+  }
+
+  void oscEvent(OscMessage _mess) {
     String _cmd = _mess.addrPattern().replaceAll("/", " ").replaceFirst(" ", "");
     receive(_cmd);
   }
+
 }
 
 /**
