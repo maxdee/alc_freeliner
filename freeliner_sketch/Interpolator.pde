@@ -153,8 +153,9 @@ class RadiusInterpolator extends Interpolator{
   	pos.add(_seg.getPointA());
     return pos;
   }
-
+  // added a clockwise counter clockwise option
   public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter){
+    if(!_seg.isClockWise()) return -(-_tp.getLerp()*TAU)+_seg.getAngle(true)+HALF_PI;
     return -(_tp.getLerp()*TAU)+_seg.getAngle(true)+HALF_PI;
   }
 }
