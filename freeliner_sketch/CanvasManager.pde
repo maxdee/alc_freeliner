@@ -106,11 +106,12 @@ class LayeredCanvasManager extends CanvasManager{
     return _ret;
   }
 
-
   public Layer addLayer(Layer _lr){
     if(_lr == null) return null;
     layers.add(_lr);
-    if(_lr instanceof RenderLayer || _lr instanceof VertexShaderLayer)
+    if(_lr instanceof VertexShaderLayer)
+      renderLayers.add((RenderLayer)_lr);
+    else if(_lr instanceof RenderLayer && !(_lr instanceof ShaderLayer))
       renderLayers.add((RenderLayer)_lr);
     return _lr;
   }
@@ -197,6 +198,7 @@ class LayeredCanvasManager extends CanvasManager{
   public void render(ArrayList<RenderableTemplate> _toRender){
     int _index = 0;
     for(Layer _rl : renderLayers){
+      println(_rl.getName());
       _rl.beginDrawing();
       for(RenderableTemplate _rt : _toRender){
         if(_rt.getRenderLayer() == _index) templateRenderer.render(_rt, _rl.getCanvas());
@@ -348,58 +350,4 @@ class LayeredCanvasManager extends CanvasManager{
     //tracerLayer.toggleLayer();
     return false;//tracerLayer.useLayer();
   }
-
-  // ////////////////////////////////////////////////////////////////////////////////////
-  // ///////
-  // ///////     Masking
-  // ///////
-  // ////////////////////////////////////////////////////////////////////////////////////
-  // /**
-  //  * Parse a image to make a mask.
-  //  * @param PImage to make into mask
-  //  */
-  //
-  // // Set a flag to generate mask next render.
-  // //DPREACET
-  // public void generateMask(){
-  //   //makeMaskFlag = true;
-  // }
-  // //DPREACET
-  // public boolean toggleMask(){
-  //   return false;
-  // }
-  //
-  // /**
-  //  * Load a image as the mask (transparent png for now...)
-  //  * @param String mask png file
-  //  */
-  // public void loadMask(String _file){
-  //   //((MaskLayer) maskLayer).loadFile(_file);
-  // }
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////    Accessors
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-  // set uniform values for shader
-  // public void setUniforms(int _i, float _v){
-  //   //
-  //   // if(_i < 8 && shaderLayer != null)
-  //   //   shaderLayer.setUniforms(_i, _v);
-  //   // else if(shaderTwo != null)
-  //   //   shaderTwo.setUniforms(_i-8, _v);
-  // }
-  // reload the shader file
-  // public void reloadShader(){
-  //   // shaderLayer.reloadShader();
-  // }
-
-  // load a different shader from the list
-  // public void loadShader(int _n){
-  //   if(shaderLayer == null) return;
-  //   if(_n < shaderFiles.length) {
-  //     shaderLayer.loadFile(sketchPath()+"/data/shaders/"+shaderFiles[_n]);
-  //   }
-  //   else println("out of shaders");
-  // }
 }
