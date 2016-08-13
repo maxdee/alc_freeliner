@@ -46,6 +46,8 @@ class Segment {
 
   String segmentText;
 
+  boolean hiddenSegment;
+
   public Segment(PVector pA, PVector pB) {
 
     pointA = pA.get();
@@ -63,6 +65,7 @@ class Segment {
     length = 0;
     updateAngle();
     segmentText = "freeliner!";
+    hiddenSegment = false;
   }
 
   public void updateAngle(){
@@ -145,6 +148,10 @@ class Segment {
 
   public void setID(int _id){
     id =_id;
+  }
+
+  public void toggleHidden(){
+    hiddenSegment = !hiddenSegment;
   }
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -304,6 +311,10 @@ class Segment {
 
   public final boolean isClockWise(){
     return clockWise;
+  }
+
+  public final boolean isHidden(){
+    return hiddenSegment;
   }
 
   public final float getAngle(boolean inv) {

@@ -102,8 +102,8 @@ class Keyboard implements FreelinerConfig{
       else if (_k == '-') commandMaker(editKey, -2); //decrease value
       else if (_k == '=') commandMaker(editKey, -1); //increase value
       else if (_k >= 65 && _k <=90) templateSelection(_k);
-
       else if (_k == '|') gui.setValueGiven(str(toggleEnterText())); // acts localy
+
       else{
         setEditKey(_k);
         commandMaker(editKey, -3);
@@ -204,6 +204,9 @@ class Keyboard implements FreelinerConfig{
     //tab and shift tab throug groups
     else if (kc == TAB) groupManager.tabThrough(shifted);
     else if (kc == BACKSPACE) backspaceAction();
+    else if (kc == 92 && !shifted) backSlashAction();
+
+
     else return false;
     return true;
     //else if (kc==32 && OSX) mouse.press(3); // for OSX people with no 3 button mouse.
@@ -302,6 +305,10 @@ class Keyboard implements FreelinerConfig{
 
   private void backspaceAction(){
     if (!enterText) groupManager.deleteSegment();
+  }
+
+  private void backSlashAction(){
+    if (!enterText) groupManager.hideSegment();
   }
 
   /**

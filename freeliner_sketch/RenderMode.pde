@@ -51,7 +51,7 @@ class PerSegment extends RenderMode{
     for(Segment seg : segList){
     	_event.setSegmentIndex(index);
     	index++;
-      if(seg != null) {
+      if(seg != null && !seg.isHidden()) {
 				_event.setLerp(seg.getLerp());
 				getPainter(_event.getAnimationMode()).paintSegment(seg, _event);
 			}

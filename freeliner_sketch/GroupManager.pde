@@ -221,6 +221,11 @@ class GroupManager{
     snappedIndex = -1;
   }
 
+  private void hideSegment(){
+    if(snappedSegment == null) return;
+    snappedSegment.toggleHidden();
+  }
+
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

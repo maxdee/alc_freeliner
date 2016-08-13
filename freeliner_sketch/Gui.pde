@@ -340,11 +340,13 @@
     canvas.point(_s.getPointA().x, _s.getPointA().y);
     canvas.point(_s.getPointB().x, _s.getPointB().y);
     PVector midpoint = _s.getMidPoint();
-    canvas.pushMatrix();
-    canvas.translate(midpoint.x, midpoint.y);
-    canvas.rotate(_s.getAngle(false));
-    canvas.shape(arrow);
-    canvas.popMatrix();
+    if(!_s.isHidden()){
+      canvas.pushMatrix();
+      canvas.translate(midpoint.x, midpoint.y);
+      canvas.rotate(_s.getAngle(false));
+      canvas.shape(arrow);
+      canvas.popMatrix();
+    }
   }
 
   /**
