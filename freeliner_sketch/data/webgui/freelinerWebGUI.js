@@ -609,6 +609,13 @@ cmdPrompt = (function () {
 // }, false);
 
 
+function blurAll(){
+ var tmp = document.createElement("input");
+ document.body.appendChild(tmp);
+ tmp.focus();
+ document.body.removeChild(tmp);
+}
+
 
 /*
  * /////////////////////////////////////////////////////////////
@@ -630,7 +637,10 @@ document.addEventListener("keydown", function(e) {
   // prevent default for tab key
   else if(e.keyCode == 9) e.preventDefault();
   if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
-  else sendCMD('hid press '+kbdRules(e)+" "+e.key);
+  else{
+    blurAll();
+    sendCMD('hid press '+kbdRules(e)+" "+e.key);
+  }
 
   //send keyPress to freeliner
 }, false);
