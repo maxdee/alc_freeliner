@@ -149,7 +149,7 @@ class KeyMap {
     keymap['p'].setName("layer");
     keymap['p'].setDescription("Pick which layer to render on.");
     keymap['p'].setCMD("tw $ p");
-    keymap['p'].setMax(3); // need to fix this
+    keymap['p'].setMax(5); // need to fix this
 
     // strokeColor
     keymap['q'] = new ParameterKey('q');

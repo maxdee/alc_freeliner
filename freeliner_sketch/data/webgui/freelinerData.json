@@ -1005,7 +1005,7 @@
       "key": "o"
     },
     {
-      "max": 3,
+      "max": 5,
       "name": "layer",
       "description": "Pick which layer to render on.",
       "cmd": "tw $ p",

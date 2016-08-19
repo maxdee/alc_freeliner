@@ -116,7 +116,6 @@ class LayeredCanvasManager extends CanvasManager{
     return _lr;
   }
 
-
   public boolean layerCreator(String _s){
     return layerCreator(split(_s, ' '));
   }
@@ -198,7 +197,6 @@ class LayeredCanvasManager extends CanvasManager{
   public void render(ArrayList<RenderableTemplate> _toRender){
     int _index = 0;
     for(Layer _rl : renderLayers){
-      println(_rl.getName());
       _rl.beginDrawing();
       for(RenderableTemplate _rt : _toRender){
         if(_rt.getRenderLayer() == _index) templateRenderer.render(_rt, _rl.getCanvas());
