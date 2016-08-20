@@ -26,7 +26,7 @@ class FreelinerSyphon extends FreeLiner{
 
 	void update(){
 		super.update();
-		syphonServer.sendImage(canvasManager.getFXCanvas());
+		syphonServer.sendImage(canvasManager.getCanvas());
 	}
 }
 
