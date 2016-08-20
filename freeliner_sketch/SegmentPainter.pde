@@ -263,6 +263,7 @@ class SimpleBrusher extends BrushPutter{
 	}
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Text displaying
@@ -342,3 +343,66 @@ class ScrollingText extends BasicText{
 
 	}
 }
+
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////    Meta Freelining
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
+// base brush putter
+class SegmentCommandParser extends SegmentPainter{
+	ArrayList<Segment> commandSegments;
+	CommandProcessor commandProcessor;
+	public SegmentCommandParser(int _mi){
+		modeIndex =_mi;
+		name = "SegmentCommand";
+		description = "MetaFreelining, execute commands of commandSegments";
+		commandSegments = null;
+	}
+
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		PVector pos = getPosition(_seg);
+		putShape(pos, getAngle(_seg, _event));
+		if(commandSegments != null){
+			for(Segment _s : commandSegments){
+				if(_s.getPointA().dist(_seg.getPointA()) < 0.0001){
+					if(!_event.getExecutedSegments().contains(_seg)){
+						_event.executeSegment(_seg);
+						commandProcessor.queueCMD(_s.getText());
+					}
+				}
+			}
+		}
+	}
+
+	// regular putShape
+	public void putShape(PVector _p, float _a){
+    canvas.pushMatrix();
+    canvas.translate(_p.x, _p.y);
+		canvas.point(0,0);
+		canvas.popMatrix();
+	}
+	public void setCommandSegments(ArrayList<Segment> _cmdSegs){
+		commandSegments = _cmdSegs;
+	}
+	public void setCommandProcessor(CommandProcessor _cp){
+		commandProcessor = _cp;
+	}
+}
+
+// class SimpleBrusher extends BrushPutter{
+//
+// 	public SimpleBrusher(int _ind){
+// 		modeIndex = _ind;
+// 	}
+//
+// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
+// 		super.paintSegment(_seg, _event);
+// 		//putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
+// 		//PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
+// 		putShape(getPosition(_seg), getAngle(_seg, _event));
+// 	}
+// }

@@ -67,6 +67,9 @@ class FreeLiner implements FreelinerConfig{
     groupManager.inject(templateManager);
     commandProcessor.inject(this);
     canvasManager.inject(templateRenderer);
+    templateRenderer.inject(commandProcessor);
+    templateRenderer.inject(groupManager);
+
     windowFocus = true;
 
     keyMap.setLimits(documenter.modeLimits);

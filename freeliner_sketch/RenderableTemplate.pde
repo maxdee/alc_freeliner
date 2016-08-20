@@ -31,6 +31,7 @@ class RenderableTemplate extends TweakableTemplate{
 
 	// reference to what to draw on
 	PGraphics canvas;
+
 /*
  * Second tier, data that can change per beat.
  */
@@ -70,6 +71,7 @@ class RenderableTemplate extends TweakableTemplate{
 	int groupID;
 	boolean doRender;
 
+	ArrayList<Segment> executedSegments;
 
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
@@ -100,6 +102,7 @@ class RenderableTemplate extends TweakableTemplate{
 		doRender = true;
 		brushShape = null;
 		updateBrush = true;
+		executedSegments = new ArrayList();
 	}
 
 /*
@@ -121,6 +124,7 @@ class RenderableTemplate extends TweakableTemplate{
 			beatCount = _beat;
 			setrandomValue((int)random(100));
 	    setLargeRan((int)random(10000));
+			clearExecutedSegments();
 		}
 		colorCount = 0;
 		// this updates according to source template...
@@ -195,18 +199,22 @@ class RenderableTemplate extends TweakableTemplate{
 		updateBrush = false;
 		brushShape = _brush;
 	}
-	//
+
 	public int setBrushSize(int _s){
 		updateBrush = true;
 		return super.setBrushSize(_s, 5000);
 	}
 
-
-
 	// public int setBrushMode(int _m){
 	// 	updateBrush = true;
 	// 	return super.setBrushMode(_m);
 	// }
+	public void executeSegment(Segment _seg){
+		executedSegments.add(_seg);
+	}
+	public void clearExecutedSegments(){
+		executedSegments.clear();
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Accessors
@@ -299,6 +307,9 @@ class RenderableTemplate extends TweakableTemplate{
 		return brushShape;
 	}
 
+	public ArrayList<Segment> getExecutedSegments(){
+		return executedSegments;
+	}
 	// // ask if the brush needs updating
 	// public final boolean updateBrush(){
 	// 	if(updateBrush || brush == null){

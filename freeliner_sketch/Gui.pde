@@ -142,6 +142,7 @@
       }
     }
 
+    showCmdSegments();
     // draw on screen information with group 0
     displayInfo();
     canvas.endDraw();
@@ -320,6 +321,27 @@
         showSegmentLines(seg, _sg);
       }
     }
+  }
+
+
+  public void showCmdSegments(){
+    ArrayList<Segment> cmdSegments = groupManager.getCommandSegments();
+    if(cmdSegments == null) return;
+    for (Segment seg : cmdSegments){
+      showCmdSegment(seg);
+    }
+  }
+
+  public void showCmdSegment(Segment _seg){
+    PVector pos = _seg.getPointA();
+    canvas.noStroke();
+    canvas.fill(TEXT_COLOR);
+    String cmd = _seg.getText();
+    canvas.text(cmd, pos.x + 6, pos.y+6);
+    canvas.noFill();
+    canvas.stroke(TEXT_COLOR);
+    canvas.strokeWeight(1);
+    canvas.ellipse(pos.x, pos.y, 10, 10);
   }
 
   /**

@@ -195,6 +195,38 @@ class WrapLine extends PerSegment{
 		}
 	}
 }
+
+// Make lines on segments
+class MetaFreelining extends PerSegment{
+	SegmentPainter[] segmentPainters;
+	int painterCount = 1;
+	SegmentCommandParser segmentCommandParser;
+	public MetaFreelining(int _ind){
+		super();
+		modeIndex = _ind;
+		segmentPainters = new SegmentPainter[painterCount];
+		segmentCommandParser = new SegmentCommandParser(0);
+    segmentPainters[0] = segmentCommandParser;
+    //segmentPainters[1] = new ColorParser(1);
+
+		name = "MetaFreelining";
+		description = "Use freeliner to automate itself.";
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "MetaModes");
+	}
+	public SegmentPainter getPainter(int _index){
+		if(_index >= painterCount) _index = painterCount - 1;
+		return segmentPainters[_index];
+	}
+	public void setCommandSegments(ArrayList<Segment> _segs){
+		segmentCommandParser.setCommandSegments(_segs);
+	}
+	public void setCommandProcessor(CommandProcessor _cp){
+		segmentCommandParser.setCommandProcessor(_cp);
+	}
+}
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    fill etc
