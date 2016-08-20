@@ -19,8 +19,8 @@ import codeanticode.syphon.*;
 class FreelinerSyphon extends FreeLiner{
 	SyphonServer syphonServer;
 
-	public FreelinerSyphon(PApplet _pa){
-		super(_pa);
+	public FreelinerSyphon(PApplet _pa, int _pipeline){
+		super(_pa, _pipeline);
   	syphonServer = new SyphonServer(_pa, "alcFreeliner");
 	}
 
