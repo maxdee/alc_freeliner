@@ -8,7 +8,7 @@ class GUIWebServer implements FreelinerConfig {
     // // create a server
     if(SERVE_HTTP){
       SimpleHTTPServer.useIndexHtml = false;
-      server = new SimpleHTTPServer(_parent);
+      server = new SimpleHTTPServer(_parent, HTTPSERVER_PORT);
       // serveAppropriateFiles();
       server.serveAll("",sketchPath()+"/data/webgui");
     }

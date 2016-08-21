@@ -12,6 +12,8 @@ interface FreelinerConfig {
   final int WEBSOCKET_PORT = 8025;
   // Disbale Webserving
   final boolean SERVE_HTTP = true;
+  // HTTP server port
+  final int HTTPSERVER_PORT = 8000;
 
   // very beta
   final boolean DOME_MODE = false;
