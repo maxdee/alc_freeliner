@@ -46,8 +46,8 @@ class FreeLiner implements FreelinerConfig{
     gui = new Gui();
     // pick a rendering system
     println("PIPELINE : "+_pipeline);
-    if(_pipeline == 0) canvasManager = new ClassicCanvasManager();
-    else if(_pipeline == 1) canvasManager = new LayeredCanvasManager();
+    if(_pipeline == 0) canvasManager = new ClassicCanvasManager(gui.getCanvas());
+    else if(_pipeline == 1) canvasManager = new LayeredCanvasManager(gui.getCanvas());
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();
@@ -67,6 +67,7 @@ class FreeLiner implements FreelinerConfig{
     groupManager.inject(templateManager);
     commandProcessor.inject(this);
     canvasManager.inject(templateRenderer);
+    // canvasManager.setGuiCanvas(gui.getCanvas());
     templateRenderer.inject(commandProcessor);
     templateRenderer.inject(groupManager);
 
@@ -97,9 +98,8 @@ class FreeLiner implements FreelinerConfig{
       keyboard.forceRelease();
       windowFocus = focused;
     }
-
+    gui.update();
     commandProcessor.processQueue();
-
     // update template models
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());
@@ -109,15 +109,6 @@ class FreeLiner implements FreelinerConfig{
     _toRender.addAll(templateManager.getEvents());
 
     canvasManager.render(_toRender);
-  // image(canvasManager.getCanvas(),0,0);
-  //  if(canvasManager instanceof EffectsCanvasManager) image((EffectsCanvasManager)canvasManager.getTopCanvas());
-
-    gui.update();
-    if(gui.doDraw()){
-      // resetShader();
-      image(gui.getCanvas(), 0, 0);
-    }
-
   }
 
   // its a dummy for FreelinerLED
@@ -128,8 +119,8 @@ class FreeLiner implements FreelinerConfig{
   // need to make this better.
   private void autoSave(){
     if(frameCount % 1000 == 1){
-      // commandProcessor.processCMD("geom"+" "+"save"+" "+"userdata/autoSaveGeometry.xml");
-      // commandProcessor.processCMD("tp"+" "+"save"+" "+"userdata/autoSaveTemplates.xml");
+      // commandProcessor.processCMD("geom save userdata/autoSaveGeometry.xml");
+      // commandProcessor.processCMD("tp save userdata/autoSaveTemplates.xml");
       // println("Autot saved");
     }
   }
@@ -142,13 +133,11 @@ class FreeLiner implements FreelinerConfig{
     commandProcessor.queueCMD(_cmd);
   }
 
-
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////    Configure stuff
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
-
 
   public void configure(String _param, int _v){
     XML _file;

@@ -104,9 +104,12 @@
   public void update() {
     updateInfo();
     if(mouse.hasMoved()) resetTimeOut();
-    if(!doDraw()) return;
-
-    doUpdate();
+    if(!doDraw()) {
+      canvas.beginDraw();
+      canvas.clear();
+      canvas.endDraw();
+    }
+    else doUpdate();
   }
 
   private void doUpdate(){
