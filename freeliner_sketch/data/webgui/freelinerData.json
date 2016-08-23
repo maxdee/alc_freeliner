@@ -156,6 +156,12 @@
         "index": 5,
         "description": "Circles and stuff",
         "key": "b"
+      },
+      {
+        "name": "MetaFreelining",
+        "index": 6,
+        "description": "Use freeliner to automate itself.",
+        "key": "b"
       }
     ],
     "e": [
@@ -659,7 +665,13 @@
         "description": "Scrolls text, acording to enterpolator",
         "key": "a"
       }
-    ]
+    ],
+    "a_b6": [{
+      "name": "SegmentCommand",
+      "index": 0,
+      "description": "MetaFreelining, execute commands of commandSegments",
+      "key": "a"
+    }]
   },
   "keys": [
     {
@@ -879,7 +891,7 @@
       "key": "a"
     },
     {
-      "max": 6,
+      "max": 7,
       "name": "renderMode",
       "description": "picks the renderMode",
       "cmd": "tw $ b",

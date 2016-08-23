@@ -28,6 +28,8 @@ class GroupManager{
   ArrayList<PVector> snappedList;
   Segment snappedSegment;
 
+  ArrayList<Segment> commandSegments;
+
   /**
    * Constructor, inits default values
    */
@@ -45,6 +47,7 @@ class GroupManager{
     newGroup();
     // reselect group 0 to begin
     selectedIndex = 0;
+    commandSegments = null;
   }
 
 
@@ -226,6 +229,26 @@ class GroupManager{
     snappedSegment.toggleHidden();
   }
 
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     CMD segments
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void updateCmdSegments(){
+    commandSegments = new ArrayList<Segment>();
+    ArrayList<Segment> _segs;
+    for(SegmentGroup _sg : groups){
+      if(!_sg.isEmpty()){
+        _segs = _sg.getSegments();
+        if(_segs.get(0).getText().equals("/cmd")){
+          for(Segment _seg : _segs)
+            commandSegments.add(_seg);
+        }
+      }
+    }
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
@@ -447,17 +470,22 @@ class GroupManager{
     Segment seg = group.getSegment(_seg);
     if(seg == null) return;
     seg.setText(_txt);
+    updateCmdSegments();
   }
 
   public void setText(int _grp, String _txt){
     SegmentGroup group = getGroup(_grp);
     if(group == null) return;
     group.setText(_txt);
+    updateCmdSegments();
+
   }
 
   public void setText(String _txt){
     if(getSnappedSegment() != null) getSnappedSegment().setText(_txt);
     else if(getSelectedGroup() != null) getSelectedGroup().setText(_txt);
+    updateCmdSegments();
+
   }
 
   public void setReferenceGroupTemplateList(TemplateList _tl){
@@ -571,5 +599,9 @@ class GroupManager{
   public PVector getPreviousPosition() {
     if (isFocused()) return getSelectedGroup().getLastPoint();
     else return new PVector(width/2, height/2, 0);
+  }
+
+  public ArrayList<Segment> getCommandSegments(){
+    return commandSegments;
   }
 }

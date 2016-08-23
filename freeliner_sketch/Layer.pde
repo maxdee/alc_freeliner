@@ -285,7 +285,38 @@ class CanvasLayer extends Layer{
     if(!enabled) return _pg;
     if(_pg == null) return canvas;
     _pg.beginDraw();
-    _pg.clear();
+    // _pg.clear();
+    _pg.image(canvas,0,0);
+    _pg.endDraw();
+    return _pg;
+   }
+ }
+
+
+
+/**
+ * Simple layer twith a real PGraphics
+ */
+class GuiLayer extends Layer{
+  /**
+   * Actualy make a PGraphics.
+   */
+  public GuiLayer(PGraphics _pg){
+    canvas = _pg;
+    enabled = true;
+    name = "GuiLayer";
+    id = name;
+    description = "A layer for the graphical user interface";
+  }
+
+  /**
+   * This layer's PG gets applied onto the incoming PG
+   */
+  public PGraphics apply(PGraphics _pg){
+    if(!enabled) return _pg;
+    if(_pg == null) return canvas;
+    if(canvas == null) return _pg;
+    _pg.beginDraw();
     _pg.image(canvas,0,0);
     _pg.endDraw();
     return _pg;

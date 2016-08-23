@@ -27,9 +27,12 @@ class TemplateRenderer extends Mode{
     // easer and reversers count in Config.pde
   int easingModeCount = 11;
   int reverseModeCount = 5;
-  int renderModeCount = 6;
+  int renderModeCount = 7;
   int repetitionModeCount = 6;
   int enablerModeCount = 7;
+
+  MetaFreelining metaFreeliner;
+  GroupManager groupManager;
   /**
    * Constructor
    */
@@ -44,6 +47,9 @@ class TemplateRenderer extends Mode{
     renderModes[3] = new Geometry(3);
     renderModes[4] = new TextRenderMode(4);
     renderModes[5] = new CircularSegment(5);
+    renderModes[6] = new MetaFreelining(6);
+    metaFreeliner = (MetaFreelining)renderModes[6];
+
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])renderModes, 'b', this, "RenderModes");
     // add repetitionModes
     repeaters = new Repetition[repetitionModeCount];
@@ -102,6 +108,9 @@ class TemplateRenderer extends Mode{
     if(_rt.getSegmentGroup() == null) return;
     if(_rt.getSegmentGroup().isEmpty()) return;
     _rt.setCanvas(_pg);
+
+    metaFreeliner.setCommandSegments(groupManager.getCommandSegments());
+
 
     // check the enabler, it may modify the unitInterval
     if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
@@ -176,6 +185,22 @@ class TemplateRenderer extends Mode{
       _rt.setAngleMod(_ang);
     }
   }
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     Modifiers
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+
+  public void inject(CommandProcessor _cp){
+    metaFreeliner.setCommandProcessor(_cp);
+  }
+
+  public void inject(GroupManager _gp){
+    groupManager = _gp;
+  }
+
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////

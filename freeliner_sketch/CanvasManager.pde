@@ -15,6 +15,7 @@ import java.util.Collections;
 abstract class CanvasManager implements FreelinerConfig{
   // Template renderer needed to do the rendering
   TemplateRenderer templateRenderer;
+  public PGraphics guiCanvas;
   // boolean makeMaskFlag = false;
 
   //  abstract methods
@@ -29,6 +30,7 @@ abstract class CanvasManager implements FreelinerConfig{
   public void inject(TemplateRenderer _tr){
     templateRenderer = _tr;
   }
+
   // no commands available
   public boolean parseCMD(String[] _args){ return false; }
   public String getLayerInfo(){return "none";}
@@ -41,7 +43,8 @@ abstract class CanvasManager implements FreelinerConfig{
  */
 class ClassicCanvasManager extends CanvasManager{
   TracerLayer tracerLayer;
-  public ClassicCanvasManager(){
+  public ClassicCanvasManager(PGraphics _gui){
+    guiCanvas = _gui;
     tracerLayer = new TracerLayer();
   }
 
@@ -52,6 +55,7 @@ class ClassicCanvasManager extends CanvasManager{
 
     tracerLayer.endDrawing();
     image(tracerLayer.getCanvas(),0,0);
+    image(guiCanvas,0,0);
   }
 
   // unfortunatly for LEDs wont get the shader effects...
@@ -76,7 +80,8 @@ class LayeredCanvasManager extends CanvasManager{
   // MergeLayer mergeLayer;
   PGraphics mergeCanvas;
 
-  public LayeredCanvasManager(){
+  public LayeredCanvasManager(PGraphics _gui){
+    guiCanvas = _gui;
     layers = new ArrayList();
     renderLayers = new ArrayList();
     // mergeLayer = new MergeLayer();
@@ -92,6 +97,7 @@ class LayeredCanvasManager extends CanvasManager{
     layerCreator("layer secondShader shaderLayer");
     layerCreator("layer mergeB mergeLayer");
     layerCreator("layer mergeOutput mergeOutput");
+    layerCreator("layer gui guiLayer");
     layerCreator("layer screen outputLayer");
     // very beta
 
@@ -164,6 +170,9 @@ class LayeredCanvasManager extends CanvasManager{
         break;
       case "imageLayer":
         _lyr = new ImageLayer();
+        break;
+      case "guiLayer":
+        _lyr = new GuiLayer(guiCanvas);
         break;
       case "containerLayer":
         if(_existingLayer != null){
