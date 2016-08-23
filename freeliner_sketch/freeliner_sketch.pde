@@ -88,6 +88,12 @@ void fetchConfiguration(){
 
 void setup() {
   documenter = new Documenter();
+
+  // detect OS
+  if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
+  else if(System.getProperty("os.name").charAt(0) == 'L') WIN = false;
+  else WIN = true;
+
   //pick your flavour of freeliner
   freeliner = new FreeLiner(this, usePipeline);
   //freeliner = new FancyFixtures(this, usePipeline, "/dev/ttyACM0");
@@ -105,10 +111,7 @@ void setup() {
   introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");
   font = loadFont("fonts/Arial-BoldMT-48.vlw");
 
-  // detect OSX
-  if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
-  else if(System.getProperty("os.name").charAt(0) == 'L') WIN = false;
-  else WIN = true;
+
   // perhaps use -> PApplet.platform == MACOSX
   background(0);
   splash();
