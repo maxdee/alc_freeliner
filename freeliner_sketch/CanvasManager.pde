@@ -209,7 +209,7 @@ class LayeredCanvasManager extends CanvasManager{
   }
 
   private Layer addSpoutLayer(){
-    Layer _lyr = new SyphonLayer(applet);
+    Layer _lyr = new SpoutLayer(applet);
     if(_lyr.useLayer()) return _lyr;
     else return null;
   }
