@@ -95,13 +95,16 @@ class LayeredCanvasManager extends CanvasManager{
     layerCreator("layer tracerOne tracerLayer");
     layerCreator("layer firstShader shaderLayer");
     // layerCreator("layer firstShader vertexShaderLayer");
-
     layerCreator("layer mergeA mergeLayer");
     layerCreator("layer untraced renderLayer");
     layerCreator("layer secondShader shaderLayer");
     layerCreator("layer mergeB mergeLayer");
     layerCreator("layer mergeOutput mergeOutput");
     layerCreator("layer gui guiLayer");
+    // add frame sharing layers
+    layerCreator("layer syphon syphonLayer");
+    layerCreator("layer spout spoutLayer");
+
     layerCreator("layer screen outputLayer");
     // very beta
 
@@ -200,12 +203,14 @@ class LayeredCanvasManager extends CanvasManager{
   }
 
   private Layer addSyphonLayer(){
-    if(OSX) return new SyphonLayer(applet);
+    Layer _lyr = new SyphonLayer(applet);
+    if(_lyr.useLayer()) return _lyr;
     else return null;
   }
 
   private Layer addSpoutLayer(){
-    if(WIN) return new SpoutLayer(applet);
+    Layer _lyr = new SyphonLayer(applet);
+    if(_lyr.useLayer()) return _lyr;
     else return null;
   }
 

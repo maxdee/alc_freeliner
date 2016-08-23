@@ -9,17 +9,18 @@
 
 /**
  * Syphon output!
- * To enable you must uncomment all the lines with //---
+ * To enable you must remove all the double slashes //
  */
 
-//---import codeanticode.syphon.*;
+//import codeanticode.syphon.*;
 
 class SyphonLayer extends Layer{
-  //---  SyphonServer syphonServer;
+  //  SyphonServer syphonServer;
 
   public SyphonLayer(PApplet _pa){
-    //---    syphonServer = new SyphonServer(_pa, "alcFreeliner");
-    enabled = true;
+    enabled = false;
+    //  syphonServer = new SyphonServer(_pa, "alcFreeliner");
+    //  enabled = true;
     name = "SyphonLayer";
     id = name;
     description = "Output layer to other software, only on osx, requires SyphonLibrary, and uncoment code in SyphonLayer.pde";
@@ -27,7 +28,7 @@ class SyphonLayer extends Layer{
 
   public PGraphics apply(PGraphics _pg){
     if(!enabled) return _pg;
-    //---    syphonServer.sendImage(_pg);
+    //  syphonServer.sendImage(_pg);
     return _pg;
   }
 }

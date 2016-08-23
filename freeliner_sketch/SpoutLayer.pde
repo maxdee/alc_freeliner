@@ -9,17 +9,18 @@
 
 /**
  * Syphon output!
- * To enable you must uncomment all the lines with //---
+ * To enable you must remove all the double slashes //
  */
 
-//---import spout.*;
+// import spout.*;
 
 class SpoutLayer extends Layer{
-  //---  Spout spout;
+  //  Spout spout;
 
   public SpoutLayer(PApplet _pa){
-    //---    spout = new Spout(_pa);
-    enabled = true;
+    enabled = false;
+    //  spout = new Spout(_pa);
+    //  enabled = true;
     name = "SpoutLayer";
     id = name;
     description = "Output layer to other software, only on win, requires SpoutLibrary, and uncoment code in SpoutLayer.pde";
@@ -27,7 +28,7 @@ class SpoutLayer extends Layer{
 
   public PGraphics apply(PGraphics _pg){
     if(!enabled) return _pg;
-    //---    spout.sendTexture(_pg);
+    //    spout.sendTexture(_pg);
     return _pg;
   }
 }
