@@ -1,3 +1,6 @@
+### Version 0.4.4 ###
+ * Syphon and Spout are now implmented as layers. Check `README.md` for how to enable them.
+
 ### Version 0.4.3 ###
  * Many changes, mostly around layering system and LED/DMX stuff.
  * Use the webGUI to manage layers.
