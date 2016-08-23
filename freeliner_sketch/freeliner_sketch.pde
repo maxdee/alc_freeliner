@@ -39,6 +39,8 @@ PFont introFont;
 final String VERSION = "0.4.3";
 boolean doSplash = true;
 boolean OSX = false;
+boolean WIN = false;
+
 
 ExternalGUI externalGUI = null; // set specific key to init gui
 // documentation compiler, has to be super global
@@ -105,7 +107,8 @@ void setup() {
 
   // detect OSX
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
-  else OSX = false;
+  else if(System.getProperty("os.name").charAt(0) == 'L') WIN = false;
+  else WIN = true;
   // perhaps use -> PApplet.platform == MACOSX
   background(0);
   splash();

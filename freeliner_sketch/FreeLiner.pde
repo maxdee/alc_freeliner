@@ -46,8 +46,8 @@ class FreeLiner implements FreelinerConfig{
     gui = new Gui();
     // pick a rendering system
     println("PIPELINE : "+_pipeline);
-    if(_pipeline == 0) canvasManager = new ClassicCanvasManager(gui.getCanvas());
-    else if(_pipeline == 1) canvasManager = new LayeredCanvasManager(gui.getCanvas());
+    if(_pipeline == 0) canvasManager = new ClassicCanvasManager(applet, gui.getCanvas());
+    else if(_pipeline == 1) canvasManager = new LayeredCanvasManager(applet, gui.getCanvas());
     // control
     mouse = new Mouse();
     keyboard = new Keyboard();

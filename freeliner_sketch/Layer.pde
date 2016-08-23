@@ -283,14 +283,14 @@ class CanvasLayer extends Layer{
    */
   public PGraphics apply(PGraphics _pg){
     if(!enabled) return _pg;
-    if(_pg == null) return canvas;
+    else if(_pg == null) return canvas;
+    else if(canvas == null) return _pg;
     _pg.beginDraw();
-    // _pg.clear();
     _pg.image(canvas,0,0);
     _pg.endDraw();
     return _pg;
-   }
- }
+  }
+}
 
 
 
@@ -299,7 +299,7 @@ class CanvasLayer extends Layer{
  */
 class GuiLayer extends Layer{
   /**
-   * Actualy make a PGraphics.
+   * onlyconstructor is overiden
    */
   public GuiLayer(PGraphics _pg){
     canvas = _pg;
@@ -308,20 +308,19 @@ class GuiLayer extends Layer{
     id = name;
     description = "A layer for the graphical user interface";
   }
-
   /**
    * This layer's PG gets applied onto the incoming PG
    */
   public PGraphics apply(PGraphics _pg){
     if(!enabled) return _pg;
-    if(_pg == null) return canvas;
-    if(canvas == null) return _pg;
+    else if(_pg == null) return canvas;
+    else if(canvas == null) return _pg;
     _pg.beginDraw();
     _pg.image(canvas,0,0);
     _pg.endDraw();
     return _pg;
-   }
- }
+  }
+}
 
 /**
  * Simple layer that can be drawn on by the rendering system.

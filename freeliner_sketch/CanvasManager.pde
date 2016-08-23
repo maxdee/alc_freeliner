@@ -16,6 +16,8 @@ abstract class CanvasManager implements FreelinerConfig{
   // Template renderer needed to do the rendering
   TemplateRenderer templateRenderer;
   public PGraphics guiCanvas;
+  // applet needed for syhpon/spout layers
+  PApplet applet;
   // boolean makeMaskFlag = false;
 
   //  abstract methods
@@ -43,7 +45,8 @@ abstract class CanvasManager implements FreelinerConfig{
  */
 class ClassicCanvasManager extends CanvasManager{
   TracerLayer tracerLayer;
-  public ClassicCanvasManager(PGraphics _gui){
+  public ClassicCanvasManager(PApplet _applet, PGraphics _gui){
+    applet = _applet;
     guiCanvas = _gui;
     tracerLayer = new TracerLayer();
   }
@@ -80,7 +83,8 @@ class LayeredCanvasManager extends CanvasManager{
   // MergeLayer mergeLayer;
   PGraphics mergeCanvas;
 
-  public LayeredCanvasManager(PGraphics _gui){
+  public LayeredCanvasManager(PApplet _pa, PGraphics _gui){
+    applet = _pa;
     guiCanvas = _gui;
     layers = new ArrayList();
     renderLayers = new ArrayList();
@@ -174,6 +178,12 @@ class LayeredCanvasManager extends CanvasManager{
       case "guiLayer":
         _lyr = new GuiLayer(guiCanvas);
         break;
+      case "spoutLayer":
+        _lyr = addSpoutLayer();
+        break;
+      case "syphonLayer":
+        _lyr = addSyphonLayer();
+        break;
       case "containerLayer":
         if(_existingLayer != null){
           _lyr = new ContainerLayer();
@@ -187,6 +197,16 @@ class LayeredCanvasManager extends CanvasManager{
       return true;
     }
     return false;
+  }
+
+  private Layer addSyphonLayer(){
+    if(OSX) return new SyphonLayer(applet);
+    else return null;
+  }
+
+  private Layer addSpoutLayer(){
+    if(WIN) return new SpoutLayer(applet);
+    else return null;
   }
 
   /**
