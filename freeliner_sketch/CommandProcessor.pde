@@ -90,7 +90,6 @@ class CommandProcessor implements FreelinerConfig{
     "fetch-osc|fetch-ws fileList",
     "fetch-osc|fetch-ws layers",
 
-
     /////////////////// Configure
     "config width 1024",
     "config height 1024",
@@ -102,7 +101,8 @@ class CommandProcessor implements FreelinerConfig{
     "fixture setchan 0 3 255", // fixture, channel, value
     /////////////////// Configure
     "hid kbd 'keyCode' 'char'",
-    "setosc 127.0.0.1 6666"
+    "setosc 127.0.0.1 6666",
+    "colormap (file|0-1)"
   };
 
   /**
@@ -184,6 +184,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("window")) _used = windowCMD(_args);
     else if(_args[0].equals("addlayer")) _used = canvasManager.layerCreator(_args);
     else if(_args[0].equals("setosc")) _used = setOsc(_args);
+    else if(_args[0].equals("colormap")) _used = colorMapCMD(_args);
 
 
     if(!_used) println("CMD fail : "+join(_args, ' '));
@@ -204,7 +205,27 @@ class CommandProcessor implements FreelinerConfig{
     else return false;
     return true;
   }
-
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     meta
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  public boolean colorMapCMD(String[] _args){
+    if(_args.length < 2) return false;
+    int _v = stringInt(_args[1]);
+    if(_v == -42){
+      PImage _map;
+      try{
+        _map = loadImage("userdata/"+_args[1]);
+        templateRenderer.setColorMap(_map);
+        gui.setColorMap(_map);
+        println("loaded colormap "+_args[1]);
+        return true;
+      }
+      catch(Exception e){println("Error : could not load colormap "+_args[1]);}
+    }
+    return false;
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Window
@@ -651,12 +672,12 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("swap")) swapCMD(_args);
       else if(_args[1].equals("save")) saveTemplateCMD(_args);
       else if(_args[1].equals("load")) loadTemplateCMD(_args);
+      else if(_args[1].equals("link")) linkTemplateCMD(_args);
+
       else if(_args[1].equals("color")) colorCMD(_args);
       else if(_args[1].equals("select")) tpSelectCMD(_args);
       else if(_args[1].equals("translate")) tpTranslateCMD(_args);
       else if(_args[1].equals("toggle")) toggleCMD(_args);
-
-
     }
     else return false;
     return true;
@@ -691,6 +712,10 @@ class CommandProcessor implements FreelinerConfig{
   public void loadTemplateCMD(String[] _args){
     if(_args.length == 2) templateManager.loadTemplates();
     else if(_args.length == 3) templateManager.loadTemplates(_args[2]);
+  }
+
+  public void linkTemplateCMD(String[] _args){
+    if(_args.length == 3) templateManager.linkTemplates(_args[2]);
   }
 
   public void copyCMD(String[] _args){

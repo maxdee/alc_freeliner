@@ -268,6 +268,12 @@ class KeyMap {
     keymap['M'].setName("mask");
     keymap['M'].setDescription("Generate mask for maskLayer, or set mask.");
     keymap['M'].setCMD("layer mask make"); //
+    // masking
+    keymap['L'] = new ParameterKey('L');
+    keymap['L'].setType(0);
+    keymap['L'].setName("link");
+    keymap['L'].setDescription("Link one template to an other unidirectionaly, used for meta freelining.");
+    keymap['L'].setCMD("tp link $"); //
     // open
     keymap['O'] = new ParameterKey('O');
     keymap['O'].setType(6);

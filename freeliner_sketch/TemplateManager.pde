@@ -341,6 +341,21 @@ class TemplateManager{
   }
 
 
+  /**
+   * Link Templates (AB)
+   */
+  public void linkTemplates(String _tags){
+    ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+    if(_tmps.size() < 2) return;
+    else linkTemplates(_tmps.get(0), _tmps.get(1));
+  }
+
+  public void linkTemplates(TweakableTemplate _tp, TweakableTemplate _link){
+    if(_tp != null && _link != null){
+      _tp.setLinkTemplate(_link.getTemplateID());
+    }
+  }
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Saving and loading with XML

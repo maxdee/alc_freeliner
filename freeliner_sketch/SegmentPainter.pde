@@ -350,22 +350,40 @@ class ScrollingText extends BasicText{
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-// base brush putter
-class SegmentCommandParser extends SegmentPainter{
-	ArrayList<Segment> commandSegments;
+class MetaPoint extends SegmentPainter{
 	CommandProcessor commandProcessor;
+	public MetaPoint(int _mi){
+		modeIndex = _mi;
+		name = "MetaPoint";
+		description = "A simple dot that is used to do stuff!";
+	}
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		putShape(getPosition(_seg), 0);
+	}
+	// regular putShape
+	public void putShape(PVector _p, float _a){
+		canvas.point(_p.x, _p.y);
+	}
+	public void setCommandProcessor(CommandProcessor _cp){
+		commandProcessor = _cp;
+	}
+}
+
+// base brush putter
+class SegmentCommandParser extends MetaPoint{
+	ArrayList<Segment> commandSegments;
 	public SegmentCommandParser(int _mi){
-		modeIndex =_mi;
+		super(_mi);
 		name = "SegmentCommand";
 		description = "MetaFreelining, execute commands of commandSegments";
 		commandSegments = null;
 	}
 
-
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		PVector pos = getPosition(_seg);
-		putShape(pos, getAngle(_seg, _event));
+		putShape(pos, 0);
 		if(commandSegments != null){
 			for(Segment _s : commandSegments){
 				if(_s.getPointA().dist(_seg.getPointA()) < 0.0001){
@@ -378,31 +396,47 @@ class SegmentCommandParser extends SegmentPainter{
 		}
 	}
 
-	// regular putShape
-	public void putShape(PVector _p, float _a){
-    canvas.pushMatrix();
-    canvas.translate(_p.x, _p.y);
-		canvas.point(0,0);
-		canvas.popMatrix();
-	}
 	public void setCommandSegments(ArrayList<Segment> _cmdSegs){
 		commandSegments = _cmdSegs;
 	}
-	public void setCommandProcessor(CommandProcessor _cp){
-		commandProcessor = _cp;
+}
+
+
+// base brush putter
+class StrokeColorPicker extends MetaPoint{
+	PImage colorMap;
+
+	public StrokeColorPicker(int _mi){
+		super(_mi);
+		name = "SegmentCommand";
+		description = "MetaFreelining, execute commands of commandSegments";
+		colorMap = null;
+	}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		PVector pos = getPosition(_seg);
+		putShape(pos, getAngle(_seg, _event));
+		if(colorMap != null){
+			int _x = (int)pos.x;
+			int _y = (int)pos.y;
+			if(_x < colorMap.width && _y < colorMap.height){
+				setColor(colorMap.pixels[_y*colorMap.width+_x]);
+			}
+			else setColor(color(0,0,0,0));
+			putShape(pos,0);
+		}
+	}
+	public void setColor(int _c){
+		commandProcessor.queueCMD("tp color "+event.getLinkID()+" "+hex(_c));
+	}
+	public void setColorMap(PImage _im){
+		colorMap = _im;
 	}
 }
 
-// class SimpleBrusher extends BrushPutter{
-//
-// 	public SimpleBrusher(int _ind){
-// 		modeIndex = _ind;
-// 	}
-//
-// 	public void paintSegment(Segment _seg, RenderableTemplate _event){
-// 		super.paintSegment(_seg, _event);
-// 		//putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
-// 		//PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
-// 		putShape(getPosition(_seg), getAngle(_seg, _event));
-// 	}
-// }
+class FillColorPicker extends StrokeColorPicker{
+	public FillColorPicker(int _mi){
+		super(_mi);
+	}
+}

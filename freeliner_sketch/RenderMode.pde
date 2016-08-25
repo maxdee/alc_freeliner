@@ -199,15 +199,22 @@ class WrapLine extends PerSegment{
 // Make lines on segments
 class MetaFreelining extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	int painterCount = 1;
+	int painterCount = 3;
 	SegmentCommandParser segmentCommandParser;
+	StrokeColorPicker strokeColorPicker;
+	FillColorPicker fillColorPicker;
+
+
 	public MetaFreelining(int _ind){
 		super();
 		modeIndex = _ind;
 		segmentPainters = new SegmentPainter[painterCount];
 		segmentCommandParser = new SegmentCommandParser(0);
     segmentPainters[0] = segmentCommandParser;
-    //segmentPainters[1] = new ColorParser(1);
+		strokeColorPicker = new StrokeColorPicker(1);
+    segmentPainters[1] = strokeColorPicker;
+		fillColorPicker = new FillColorPicker(2);
+		segmentPainters[2] = fillColorPicker;
 
 		name = "MetaFreelining";
 		description = "Use freeliner to automate itself.";
@@ -222,6 +229,14 @@ class MetaFreelining extends PerSegment{
 	}
 	public void setCommandProcessor(CommandProcessor _cp){
 		segmentCommandParser.setCommandProcessor(_cp);
+		strokeColorPicker.setCommandProcessor(_cp);
+		fillColorPicker.setCommandProcessor(_cp);
+
+	}
+	public void setColorMap(PImage _im){
+		_im.loadPixels();
+		strokeColorPicker.setColorMap(_im);
+		fillColorPicker.setColorMap(_im);
 	}
 }
 

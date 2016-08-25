@@ -57,6 +57,7 @@ class Gui implements FreelinerConfig{
 
   String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS"};
 
+  PImage colorMap;
   /**
    * Constructor
    * @param GroupManager dependency injection
@@ -75,6 +76,7 @@ class Gui implements FreelinerConfig{
     viewLines = false;
     viewTags = false;
     viewCursor = true;
+    colorMap = null;
   }
 
 
@@ -119,7 +121,7 @@ class Gui implements FreelinerConfig{
     canvas.textFont(font);
     canvas.textSize(15);
     //canvas.setText(CENTER);
-
+    if(colorMap != null) canvas.image(colorMap,0,0);
     // draw the grid
     if (mouse.useGrid()){
       // re-draw the grid if the size changed.
@@ -557,7 +559,9 @@ class Gui implements FreelinerConfig{
   public void setTemplateString(String _s){
     renderString = _s;
   }
-
+  public void setColorMap(PImage _cm){
+    colorMap = _cm;
+  }
   // modifiers with value return
 
   public boolean toggleViewPosition(){

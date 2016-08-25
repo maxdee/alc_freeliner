@@ -201,7 +201,9 @@ class TemplateRenderer extends Mode{
     groupManager = _gp;
   }
 
-
+  public void setColorMap(PImage _cm){
+    metaFreeliner.setColorMap(_cm);
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Accessors

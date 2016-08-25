@@ -61,6 +61,7 @@ class Template implements FreelinerConfig{
   color customColor;
 
 	char templateID;
+	char linkedTemplateID = '.';
 
 	public Template(){
 		reset();
@@ -113,6 +114,7 @@ class Template implements FreelinerConfig{
 		enablerMode = _tp.getEnablerMode();
 		customColor = _tp.getCustomColor();
 		renderLayer = _tp.getRenderLayer();
+		linkedTemplateID = _tp.getLinkID();
  	}
 
 	/**
@@ -144,7 +146,9 @@ class Template implements FreelinerConfig{
 	public void setCustomShape(PShape _shp){
     customShape = _shp;
   }
-
+	public void setLinkTemplate(char _id){
+		linkedTemplateID = _id;
+	}
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Debug
@@ -271,5 +275,8 @@ class Template implements FreelinerConfig{
 
 	public final color getCustomColor(){
 		return customColor;
+	}
+	public final char getLinkID(){
+		return linkedTemplateID;
 	}
 }

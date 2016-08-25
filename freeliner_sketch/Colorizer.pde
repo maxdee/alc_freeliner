@@ -318,6 +318,9 @@ class CustomColor extends Colorizer {
 		description = "Custom color for template.";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
-		return alphaMod(_event.getCustomColor(), _alpha);
+    if(_alpha >= 255)
+      return _event.getCustomColor();
+    else
+      return alphaMod(_event.getCustomColor(), _alpha);
 	}
 }

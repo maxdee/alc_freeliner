@@ -80,6 +80,7 @@ class FreeLiner implements FreelinerConfig{
       fisheye.set("aperture", 180.0);
       shader(fisheye);
     }
+    commandProcessor.queueCMD("colormap colorMap.png");
   }
 
   // sync message to other software
