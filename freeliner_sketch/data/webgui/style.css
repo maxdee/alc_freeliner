@@ -75,6 +75,24 @@ input[type=checkbox] {
   background-color: #642758;
 }
 
+.selectedLayerWidget {
+  margin: 4px;
+  min-height: 24px;
+  /*background-color: #1D1D1D;*/
+  background-color: #381973;
+  color: #FFFFFF;
+  font-size: 10pt;
+  padding: 2px;
+  padding-left: 4px;
+  /*display: flex;*/
+  /*align-items: baseline;*/
+  /*float: right;*/
+  overflow: auto;
+}
+.selectedLayerWidget:hover {
+  background-color: #642758;
+}
+
 .selecta {
   width:128px;
   margin-left: auto;

@@ -1,9 +1,10 @@
 // A lightweight(?) javascript gui for freeliner!
 
 // globals
-var sendCMD, cmdPrompt, flData, selectedTemplate, availableFiles;
+var sendCMD, cmdPrompt, flData, selectedTemplate, selectedLayer, availableFiles;
 // the selected template is the template selected by clicking on the alphabetWidget
 selectedTemplate = '_';
+selectedLayer = 'none';
 
 /*
  * /////////////////////////////////////////////////////////////
@@ -353,16 +354,20 @@ function makeLayerDiv(_params){
   _layerDiv = document.createElement("div");
   _layerDiv.id = _params[0];
   _layerDiv.className = "layerwidget";
+  if(_params[0] == selectedLayer){
+    _layerDiv.className = "selectedLayerWidget";
+  }
   _layerDiv.innerHTML = _params[0];
   if(_params[1] == "mergeLayer") _layerDiv.innerHTML = "+++ "+_params[0]+" +++";
 
   // enable checkbox
   _layerDiv.appendChild(layerEnableCheckBox(_params));
-  _layerDiv.appendChild(layerUpButton(_params));
-  _layerDiv.appendChild(layerDownButton(_params));
   _layerDiv.appendChild(layerDeleteButton(_params));
   _layerDiv.appendChild(layerOptionList(_params));
-
+  _layerDiv.onclick = function(){
+    selectedLayer = _params[0];
+    updateLayerStack();
+  }
   // _layerDiv.title = description
   return _layerDiv;
 }
@@ -397,37 +402,6 @@ function layerEnableCheckBox(_params){
   _input.onclick = function (){
     if(_input.checked) sendCMD("layer "+_params[0]+" enable 1");
     else sendCMD("layer "+_params[0]+" enable 0");
-  }
-  return _input;
-}
-
-function layerUpButton(_params){
-  var _input = document.createElement("input");
-  _input.type = "button";
-  // _input.class = "pushlayer";
-  _input.title = "push layer up";
-  _input.style = "float: right;";
-  _input.value = "^";
-
-  _input.title = "push layer up";
-  _input.onclick = function (){
-    sendCMD("layer "+_params[0]+" swap -1");
-    updateLayerStack();
-  }
-  return _input;
-}
-
-function layerDownButton(_params){
-  var _input = document.createElement("input");
-  _input.type = "button";
-  // _input.class = "pushlayer";
-  _input.title = "push layer down";
-  _input.style = "float: right;";
-  _input.value = "v";
-
-  _input.onclick = function (){
-    sendCMD("layer "+_params[0]+" swap 1");
-    updateLayerStack();
   }
   return _input;
 }
@@ -552,6 +526,16 @@ function otherInputCallbacks() {
     _name = document.getElementById("layerNameInput").value;
     _type = document.getElementById("layerTypeSelect").value;
     sendCMD("layer "+_name+" "+_type);
+    updateLayerStack();
+  }
+  _element = document.getElementById("layerUpButton");
+  if(_element) _element.onclick = function (){
+    sendCMD("layer "+selectedLayer+" swap -1");
+    updateLayerStack();
+  }
+  _element = document.getElementById("layerDownButton");
+  if(_element) _element.onclick = function (){
+    sendCMD("layer "+selectedLayer+" swap 1");
     updateLayerStack();
   }
 }
