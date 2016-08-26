@@ -16,7 +16,7 @@ import processing.serial.*;
 /**
  * Parent class for LED systems
  */
-class FreeLEDing {
+class FreeLEDing  {
   // array of RGB leds to control
   ArrayList<RGBled> leds;
   // a canvas with led LED positions

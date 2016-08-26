@@ -37,7 +37,6 @@ class Layer extends Mode{
     selectedOption = "none";
   }
 
-
   /**
    * implement how the options should be used in a layer.
    */
@@ -491,7 +490,7 @@ class OutputLayer extends Layer{
 class ShaderLayer extends RenderLayer{//CanvasLayer{
   PShader shader;
   String fileName;
-  PVector center;// implements this
+  PVector center;// implements this (connect to some sort of geometry thingy)
   // uniforms to control shader params
   float[] uniforms;
 
@@ -638,8 +637,6 @@ class VertexShaderLayer extends ShaderLayer{
       shader = null;
     }
   }
-
-
 }
 
 
@@ -758,6 +755,72 @@ class MaskLayer extends ImageLayer{
     else return false;
   }
 }
+
+
+// Layer that manages a DMX or stuff.
+
+class FixtureLayer extends Layer{
+
+  FancyFixtures fixtures;
+
+  public FixtureLayer(PApplet _pa){
+    super();
+    commandList.add("layer name loadFile .xml");
+    commandList.add("setchan 0 3 255");
+    name = "FixtureLayer";
+    id = name;
+    description = "A layer that control DMX and whatnot.";
+    fixtures = new FancyFixtures(_pa);
+  }
+
+  public PGraphics apply(PGraphics _pg){
+    if(_pg == null) return null; //
+    fixtures.update(_pg); //
+    if(enabled){
+      _pg.beginDraw();
+      fixtures.drawMap(_pg);
+      _pg.endDraw();
+    }
+    return _pg;
+  }
+
+  public void selectOption(String _opt){
+    selectedOption = _opt;
+    loadFile(_opt);
+  }
+
+  public Layer loadFile(String _file){
+    filename = _file;
+    fixtures.loadFile(_file);
+    return this;
+  }
+
+  /**
+   * Override parent's
+   */
+  public boolean parseCMD(String[] _args){
+    boolean _parsed = super.parseCMD(_args);
+    if(_parsed) return true;
+    else if(_args.length > 2) {
+      if(_args[2].equals("setchan")) setChanCMD(_args);
+      else return false;
+    }
+    else return false;
+    return true;
+  }
+
+  public void setChanCMD(String[] _args){
+    if(_args.length < 6) return;
+    else {
+      int _ind = stringInt(_args[3]);
+      int _chan = stringInt(_args[4]);
+      int _val = stringInt(_args[5]);
+      Fixture _fix = fixtures.getFixture(_ind);
+      if(_fix != null) _fix.setChannel(_chan, _val);
+    }
+  }
+}
+
 
 // /**
 //  * Saves frames to userdata/capture

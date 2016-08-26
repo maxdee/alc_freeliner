@@ -49,5 +49,4 @@ class FreelinerLED extends FreeLiner{
 	public FreeLEDing getLEDsystem(){
 		return freeLED;
 	}
-
 }

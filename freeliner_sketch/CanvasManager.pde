@@ -101,9 +101,10 @@ class LayeredCanvasManager extends CanvasManager{
     layerCreator("layer mergeB mergeLayer");
     layerCreator("layer mergeOutput mergeOutput");
     layerCreator("layer gui guiLayer");
-    // add frame sharing layers
+    // add frame sharing layers by default
     layerCreator("layer syphon syphonLayer");
     layerCreator("layer spout spoutLayer");
+    layerCreator("layer fix fixtureLayer");
 
     layerCreator("layer screen outputLayer");
     // very beta
@@ -187,6 +188,9 @@ class LayeredCanvasManager extends CanvasManager{
       case "syphonLayer":
         _lyr = addSyphonLayer();
         break;
+      case "fixtureLayer":
+        _lyr = new FixtureLayer(applet);
+        break;
       case "containerLayer":
         if(_existingLayer != null){
           _lyr = new ContainerLayer();
@@ -264,24 +268,28 @@ class LayeredCanvasManager extends CanvasManager{
   ////////////////////////////////////////////////////////////////////////////////////
 
   public void updateOptions(){
-    println();
     String[] _files = split(freeliner.getFileNames(), ' ');
     ArrayList<String> _images = new ArrayList();
     ArrayList<String> _shaders = new ArrayList();
+    ArrayList<String> _configs = new ArrayList();
     String[] _tmp;
     for(String _s : _files){
       _tmp = split(_s, '.');
       if(_tmp.length > 1){
         if(_tmp[1].equals("png")) _images.add(_s);
         else if(_tmp[1].equals("glsl")) _shaders.add(_s);
+        else if(_tmp[1].equals("xml")) _configs.add(_s);
+
       }
     }
     String[] _glsl = _shaders.toArray(new String[_shaders.size()]);
     String[] _png = _images.toArray(new String[_images.size()]);
+    String[] _xml = _configs.toArray(new String[_configs.size()]);
 
     for(Layer _lyr : layers){
       if(_lyr instanceof ImageLayer) _lyr.setOptions(_png);
       else if(_lyr instanceof ShaderLayer) _lyr.setOptions(_glsl);
+      else if(_lyr instanceof FixtureLayer) _lyr.setOptions(_xml);
     }
   }
 

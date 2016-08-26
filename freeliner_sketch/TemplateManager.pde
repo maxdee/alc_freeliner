@@ -298,6 +298,7 @@ class TemplateManager{
    */
   public void swapTemplates(String _tags){
     ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+    if(_tmps == null) return;
     if(_tmps.size() < 2) return;
     else swapTemplates(_tmps.get(0), _tmps.get(1));
   }
