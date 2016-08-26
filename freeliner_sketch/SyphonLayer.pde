@@ -27,7 +27,7 @@ class SyphonLayer extends Layer{
   }
 
   public PGraphics apply(PGraphics _pg){
-    if(!enabled) return _pg;
+    if(!enabled || _pg == null) return _pg;
     //  syphonServer.sendImage(_pg);
     return _pg;
   }
