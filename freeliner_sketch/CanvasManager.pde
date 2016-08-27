@@ -100,11 +100,13 @@ class LayeredCanvasManager extends CanvasManager{
     layerCreator("layer secondShader shaderLayer");
     layerCreator("layer mergeB mergeLayer");
     layerCreator("layer mergeOutput mergeOutput");
+    // led/dmx layer
+    layerCreator("layer fix fixtureLayer");
+
     layerCreator("layer gui guiLayer");
     // add frame sharing layers by default
     layerCreator("layer syphon syphonLayer");
     layerCreator("layer spout spoutLayer");
-    layerCreator("layer fix fixtureLayer");
 
     layerCreator("layer screen outputLayer");
     // very beta

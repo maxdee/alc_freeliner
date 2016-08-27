@@ -420,7 +420,7 @@ class StrokeColorPicker extends MetaPoint{
 		if(colorMap != null){
 			int _x = (int)pos.x;
 			int _y = (int)pos.y;
-			if(_x < colorMap.width && _y < colorMap.height){
+			if(_x < colorMap.width && _y < colorMap.height && _x >= 0 && _y >= 0){
 				setColor(colorMap.pixels[_y*colorMap.width+_x]);
 			}
 			else setColor(color(0,0,0,0));

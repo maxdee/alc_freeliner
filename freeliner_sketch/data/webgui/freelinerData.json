@@ -666,12 +666,26 @@
         "key": "a"
       }
     ],
-    "a_b6": [{
-      "name": "SegmentCommand",
-      "index": 0,
-      "description": "MetaFreelining, execute commands of commandSegments",
-      "key": "a"
-    }]
+    "a_b6": [
+      {
+        "name": "SegmentCommand",
+        "index": 0,
+        "description": "MetaFreelining, execute commands of commandSegments",
+        "key": "a"
+      },
+      {
+        "name": "SegmentCommand",
+        "index": 1,
+        "description": "MetaFreelining, execute commands of commandSegments",
+        "key": "a"
+      },
+      {
+        "name": "SegmentCommand",
+        "index": 2,
+        "description": "MetaFreelining, execute commands of commandSegments",
+        "key": "a"
+      }
+    ]
   },
   "keys": [
     {
@@ -790,6 +804,15 @@
       "type": 1,
       "ascii": 73,
       "key": "I"
+    },
+    {
+      "max": -42,
+      "name": "link",
+      "description": "Link one template to an other unidirectionaly, used for meta freelining.",
+      "cmd": "tp link $",
+      "type": 0,
+      "ascii": 76,
+      "key": "L"
     },
     {
       "max": -42,

@@ -19,9 +19,9 @@ import netP5.*;
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 1024;
-int configuredHeight = 768;
-int useFullscreen = 0;
+int configuredWidth = 600;
+int configuredHeight = 600;
+int useFullscreen = 1;
 int useDisplay = 1; // SPAN is 0
 int usePipeline = 1;
 
@@ -97,7 +97,7 @@ void setup() {
   //pick your flavour of freeliner
   freeliner = new FreeLiner(this, usePipeline);
   //freeliner = new FancyFixtures(this, usePipeline, "/dev/ttyACM0");
-  //freeliner = new FreelinerLED(this, usePipeline, "newHoops.xml");//tunnel_map_two.xml"); // implement in layer?
+  // freeliner = new FreelinerLED(this, usePipeline, "moebiusHoops.xml");//tunnel_map_two.xml"); // implement in layer?
 
   surface.setResizable(false);
   surface.setTitle("freeliner");

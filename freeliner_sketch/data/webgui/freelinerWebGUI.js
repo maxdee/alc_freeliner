@@ -520,6 +520,13 @@ function otherInputCallbacks() {
     sendCMD('tp color '+selectedTemplate+' '+_c);
   }
 
+  _element = document.getElementById("interfaceColor");
+  if(_element) _element.onchange = function (){
+    var _c = document.getElementById("interfaceColor").value;
+    document.body.style.background = _c;
+  }
+
+
   _element = document.getElementById("makeLayerButton");
   if(_element) _element.onclick = function (){
     var _name, _type;

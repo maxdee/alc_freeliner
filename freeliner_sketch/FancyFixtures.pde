@@ -38,6 +38,9 @@ class FancyFixtures implements FreelinerConfig {
   }
   // it all starts here
   public void loadFile(String _file){
+    initialised = false;
+    if(port != null) port.stop();
+    fixtures = new ArrayList<Fixture>();
     XML _xml = getXML(_file);
     if(_xml == null) return;
     if(parseSetup(_xml)){ // only continue if setup provided
@@ -203,7 +206,6 @@ class FancyFixtures implements FreelinerConfig {
     parseGraphics(colorCanvas);
     updateBuffer();
     // outputData
-    // debugBuffer();
     byteBuffer[0] = byte(42);
     port.write(byteBuffer);
     // println(getMessage());
@@ -211,12 +213,13 @@ class FancyFixtures implements FreelinerConfig {
 
   public void drawMap(PGraphics _pg){
     if(initialised && _pg != null){
-      _pg.image(colorCanvas, areaPos.x, areaPos.y);
       _pg.image(overLayCanvas, areaPos.x, areaPos.y);
+      // debugBuffer();
     }
   }
 
   void debugBuffer(){
+    if(byteBuffer == null) return;
     println("|---------------------------------------------------=");
     for(int i = 0; i < 512; i++){
       print(" ("+i+" -> "+int(byteBuffer[i])+") ");
@@ -277,7 +280,8 @@ class FancyFixtures implements FreelinerConfig {
     }
     catch(Exception e){
       println(_port+" does not seem to work...");
-      exit();
+      return 0;
+      // exit();
     }
     delay(100);
     int _chanCount = 0;

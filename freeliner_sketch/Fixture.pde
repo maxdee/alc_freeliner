@@ -120,16 +120,20 @@ class RGBStrip extends Fixture{
     int ind;
     int x;
     int y;
-    // if(from == to) leds.add(new RGBled(from, int(_ax), int(_ay)));
-    // else {
     RGBFixture _fix;
+    int _adr = 0;
     for(int i = 0; i < _cnt; i++){
       ind = int(lerp(0, _cnt, i*gap));
       x = int(lerp(_ax, _bx, i*gap));
       y = int(lerp(_ay, _by, i*gap));
-      _fix = new RGBFixture(address+(i*ledChannels));
+      // _fix = new RGBFixture(address+(i*ledChannels));
+      _adr = i*ledChannels;
+      _adr += address;
+      _fix = new RGBFixture(_adr);//address+(i*ledChannels));
+
       _fix.setPosition(x,y);
       subFixtures.add(_fix);
+      // println(ledChannels+"   "+i+"   "+address+"  "+_adr);
     }
     // }
   }
