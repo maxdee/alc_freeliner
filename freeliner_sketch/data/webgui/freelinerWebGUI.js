@@ -510,14 +510,14 @@ function otherInputCallbacks() {
   if(_element) _element.onchange = function (){
     var _c = document.getElementById("strokePicker").value;
     sendCMD('tw '+selectedTemplate+' q 28');
-    sendCMD('tp color '+selectedTemplate+' '+_c);
+    sendCMD('tp stroke '+selectedTemplate+' '+_c);
   }
 
   _element = document.getElementById("fillPicker");
   if(_element) _element.onchange = function (){
     var _c = document.getElementById("fillPicker").value;
-    sendCMD('tw '+selectedTemplate+' f 28');
-    sendCMD('tp color '+selectedTemplate+' '+_c);
+    sendCMD('tw '+selectedTemplate+' f 29');
+    sendCMD('tp fill '+selectedTemplate+' '+_c);
   }
 
   _element = document.getElementById("interfaceColor");

@@ -311,16 +311,33 @@ class HSBFade extends Colorizer {
 /**
  * Get template's custom color
  */
-class CustomColor extends Colorizer {
-	public CustomColor(int _ind){
+class CustomStrokeColor extends Colorizer {
+	public CustomStrokeColor(int _ind){
     modeIndex = _ind;
-		name = "CustomColor";
-		description = "Custom color for template.";
+		name = "CustomStrokeColor";
+		description = "Custom stroke color for template.";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
     if(_alpha >= 255)
-      return _event.getCustomColor();
+      return _event.getCustomStrokeColor();
     else
-      return alphaMod(_event.getCustomColor(), _alpha);
+      return alphaMod(_event.getCustomStrokeColor(), _alpha);
+	}
+}
+
+/**
+ * Get template's custom color
+ */
+class CustomFillColor extends Colorizer {
+	public CustomFillColor(int _ind){
+    modeIndex = _ind;
+		name = "CustomColor";
+		description = "Custom fill color for template.";
+	}
+	public color get(RenderableTemplate _event, int _alpha){
+    if(_alpha >= 255)
+      return _event.getCustomFillColor();
+    else
+      return alphaMod(_event.getCustomFillColor(), _alpha);
 	}
 }

@@ -6,7 +6,7 @@
  * @version   0.4
  * @since     2016-06-10
  */
-
+import processing.serial.*;
 
 // a few FreeLEDing systems for fancy DMX fixtures
 

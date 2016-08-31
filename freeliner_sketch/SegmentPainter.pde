@@ -428,7 +428,7 @@ class StrokeColorPicker extends MetaPoint{
 		}
 	}
 	public void setColor(int _c){
-		commandProcessor.queueCMD("tp color "+event.getLinkID()+" "+hex(_c));
+		commandProcessor.queueCMD("tp stroke "+event.getLinkID()+" "+hex(_c));
 	}
 	public void setColorMap(PImage _im){
 		colorMap = _im;
@@ -438,5 +438,8 @@ class StrokeColorPicker extends MetaPoint{
 class FillColorPicker extends StrokeColorPicker{
 	public FillColorPicker(int _mi){
 		super(_mi);
+	}
+	public void setColor(int _c){
+		commandProcessor.queueCMD("tp fill "+event.getLinkID()+" "+hex(_c));
 	}
 }

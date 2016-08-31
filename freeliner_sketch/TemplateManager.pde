@@ -333,14 +333,21 @@ class TemplateManager{
   /**
    * Set a template's custom color, this is done with OSC.
    */
-  public void setCustomColor(String _tags, color _c){
+  public void setCustomStrokeColor(String _tags, color _c){
     ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
     if(_tmps == null) return;
     for(TweakableTemplate _tp : _tmps){
-      if(_tp != null) _tp.setCustomColor(_c);
+      if(_tp != null) _tp.setCustomStrokeColor(_c);
     }
   }
 
+  public void setCustomFillColor(String _tags, color _c){
+    ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+    if(_tmps == null) return;
+    for(TweakableTemplate _tp : _tmps){
+      if(_tp != null) _tp.setCustomFillColor(_c);
+    }
+  }
 
   /**
    * Link Templates (AB)

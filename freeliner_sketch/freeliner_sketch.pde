@@ -94,10 +94,8 @@ void setup() {
   else if(System.getProperty("os.name").charAt(0) == 'L') WIN = false;
   else WIN = true;
 
-  //pick your flavour of freeliner
+  // init freeliner
   freeliner = new FreeLiner(this, usePipeline);
-  //freeliner = new FancyFixtures(this, usePipeline, "/dev/ttyACM0");
-  // freeliner = new FreelinerLED(this, usePipeline, "moebiusHoops.xml");//tunnel_map_two.xml"); // implement in layer?
 
   surface.setResizable(false);
   surface.setTitle("freeliner");

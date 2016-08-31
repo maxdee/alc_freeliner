@@ -1,5 +1,6 @@
 ### Version 0.4.4 ###
  * Syphon and Spout are now implmented as layers. Check `README.md` for how to enable them.
+ * "tp color hex" is now "tp stroke hex" "tp fill hex"
 
 ### Version 0.4.3 ###
  * Many changes, mostly around layering system and LED/DMX stuff.

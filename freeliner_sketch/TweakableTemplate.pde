@@ -96,10 +96,14 @@ class TweakableTemplate extends Template {
 	////////////////////////////////////////////////////////////////////////////////////
 
 
-  public void setCustomColor(color _c){
-    customColor = _c;
+  public void setCustomStrokeColor(color _c){
+    customStrokeColor = _c;
   }
 
+  public void setCustomFillColor(color _c){
+    customFillColor = _c;
+  }
+  
   /*
    * Tweakables, all these more or less work the same.
    * @param int value, -1 increment, -2 decrement, >= 0 set, -3 return current value

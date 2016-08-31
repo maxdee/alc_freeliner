@@ -166,6 +166,7 @@ class CommandProcessor implements FreelinerConfig{
   }
 
   public void processCMD(String[] _args){
+    // println(_args);
     boolean _used = false;
     if(_args.length == 0) return;
     if(_args[0].equals("tw")) _used = templateCMD(_args); // good
@@ -185,7 +186,6 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("addlayer")) _used = canvasManager.layerCreator(_args);
     else if(_args[0].equals("setosc")) _used = setOsc(_args);
     else if(_args[0].equals("colormap")) _used = colorMapCMD(_args);
-
 
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -652,7 +652,8 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("load")) loadTemplateCMD(_args);
       else if(_args[1].equals("link")) linkTemplateCMD(_args);
 
-      else if(_args[1].equals("color")) colorCMD(_args);
+      else if(_args[1].equals("stroke")) strokeColorCMD(_args);
+      else if(_args[1].equals("fill")) fillColorCMD(_args);
       else if(_args[1].equals("select")) tpSelectCMD(_args);
       else if(_args[1].equals("translate")) tpTranslateCMD(_args);
       else if(_args[1].equals("toggle")) toggleCMD(_args);
@@ -720,11 +721,18 @@ class CommandProcessor implements FreelinerConfig{
     else templateManager.groupAddTemplate();
   }
 
-  public void colorCMD(String[] _args){
+  public void strokeColorCMD(String[] _args){
     if(_args.length < 4) return;
     String _hex = _args[3];
     int _v = unhex(_hex.replaceAll("#",""));
-    if(_v != -3) templateManager.setCustomColor(_args[2], _v);
+    if(_v != -3) templateManager.setCustomStrokeColor(_args[2], _v);
+  }
+
+  public void fillColorCMD(String[] _args){
+    if(_args.length < 4) return;
+    String _hex = _args[3];
+    int _v = unhex(_hex.replaceAll("#",""));
+    if(_v != -3) templateManager.setCustomFillColor(_args[2], _v);
   }
 
   // could be in tm

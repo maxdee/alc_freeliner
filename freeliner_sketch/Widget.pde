@@ -13,7 +13,6 @@
  * could of used a library but this is fun too.
  */
 
-
 /**
  * Basic widget class
  *

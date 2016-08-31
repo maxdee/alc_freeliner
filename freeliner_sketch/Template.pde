@@ -58,7 +58,8 @@ class Template implements FreelinerConfig{
   PShape customShape;
 
   // custom color
-  color customColor;
+  color customStrokeColor;
+	color customFillColor;
 
 	char templateID;
 	char linkedTemplateID = '.';
@@ -112,7 +113,9 @@ class Template implements FreelinerConfig{
 		miscValue = _tp.getMiscValue();
 		customShape = _tp.getCustomShape();
 		enablerMode = _tp.getEnablerMode();
-		customColor = _tp.getCustomColor();
+		customStrokeColor = _tp.getCustomStrokeColor();
+		customFillColor = _tp.getCustomFillColor();
+
 		renderLayer = _tp.getRenderLayer();
 		linkedTemplateID = _tp.getLinkID();
  	}
@@ -140,7 +143,8 @@ class Template implements FreelinerConfig{
 		brushSize = 20;
 		enablerMode = 1;
 		renderLayer = 1;
-		customColor = color(0,0,50,255);
+		customStrokeColor = color(0,0,50,255);
+		customFillColor = color(50,50,50,255);
  	}
 
 	public void setCustomShape(PShape _shp){
@@ -273,8 +277,11 @@ class Template implements FreelinerConfig{
 		return renderLayer;
 	}
 
-	public final color getCustomColor(){
-		return customColor;
+	public final color getCustomStrokeColor(){
+		return customStrokeColor;
+	}
+	public final color getCustomFillColor(){
+		return customFillColor;
 	}
 	public final char getLinkID(){
 		return linkedTemplateID;
