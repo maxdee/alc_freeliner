@@ -33,7 +33,8 @@ class CommandProcessor implements FreelinerConfig{
     // for adressing templates use ABCD, or * for all, or $ for selected
     "tw AB q 3",
     "tr AB (3 4 5)",
-    "tp color AB #ff0000",
+    "tp stroke AB #ff0000",
+    "tp fill AB #ff0000",
     "tp copy (AB)",
     "tp paste (AB)",
     "tp add (AB)",

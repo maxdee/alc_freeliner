@@ -62,6 +62,7 @@ class Painter extends Mode{
 	public PVector getPosition(Segment _seg){
 		return getInterpolator(event.getInterpolateMode()).getPosition(_seg, event, this);
 	}
+	
 	public float getAngle(Segment _seg, RenderableTemplate _event){
 		float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
 		if(_event.getDirection()) ang += PI;

@@ -102,6 +102,7 @@ class LayeredCanvasManager extends CanvasManager{
     layerCreator("layer mergeOutput mergeOutput");
     // led/dmx layer
     layerCreator("layer fix fixtureLayer");
+    layerCreator("layer cap captureLayer");
 
     layerCreator("layer gui guiLayer");
     // add frame sharing layers by default
@@ -192,6 +193,9 @@ class LayeredCanvasManager extends CanvasManager{
         break;
       case "fixtureLayer":
         _lyr = new FixtureLayer(applet);
+        break;
+      case "captureLayer":
+        _lyr = new CaptureLayer(applet);
         break;
       case "containerLayer":
         if(_existingLayer != null){

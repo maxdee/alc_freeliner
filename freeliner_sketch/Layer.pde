@@ -7,7 +7,7 @@
  * @since     2016-03-11
  */
 
-
+import processing.video.*;
  // ADD TRANSLATION LAYER
 // add layer opacity!!
 
@@ -680,6 +680,41 @@ class ImageLayer extends Layer{
     return this;
   }
 }
+
+class CaptureLayer extends Layer{
+  Capture cam;
+  PApplet applet;
+
+  public CaptureLayer(PApplet _ap){
+    super();
+    commandList.add("layer name loadFile .jpg .png .???");
+    name = "CaptureLayer";
+    id = name;
+    description = "webcams and capture cards";
+    applet = _ap;
+    options = Capture.list();
+  }
+
+  public PGraphics apply(PGraphics _pg){
+    if(!enabled) return _pg;
+    if(cam == null) return _pg;
+    if(_pg == null) return null; // maybe cast image to a PG???
+    if(cam.available()) cam.read();
+    _pg.beginDraw();
+    _pg.image(cam,0,0,width,height);
+    _pg.endDraw();
+    return _pg;
+  }
+
+  public void selectOption(String _opt){
+    selectedOption = _opt;
+    if(cam != null) cam.stop();
+    cam = new Capture(applet, _opt);
+    cam.start();
+  }
+
+}
+
 
 /**
  * Take a image and make a mask where all the pixels with green go transparent, everything else black;
