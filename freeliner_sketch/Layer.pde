@@ -561,7 +561,7 @@ class ShaderLayer extends RenderLayer{//CanvasLayer{
 
   public void reloadShader(){
     try{
-      shader = loadShader(sketchPath()+"/data/userdata/"+fileName);
+      shader = loadShader("userdata/"+fileName);
       println("Loaded shader "+fileName);
     }
     catch(Exception _e){
@@ -628,7 +628,7 @@ class VertexShaderLayer extends ShaderLayer{
 
   public void reloadShader(){
     try{
-      shader = loadShader(sketchPath()+"/data/userdata/defaultFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
+      shader = loadShader("userdata/defaultFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
       println("Loaded vertex shader "+fileName);
     }
     catch(Exception _e){
@@ -651,8 +651,6 @@ class ImageLayer extends Layer{
   public ImageLayer(){
     super();
     commandList.add("layer name loadFile .jpg .png .???");
-    // try to load a mask if one is provided
-    loadFile(sketchPath()+"/data/userdata/layer_image.png");
     name = "ImageLayer";
     id = name;
     description = "put an image as a layer";
@@ -675,12 +673,15 @@ class ImageLayer extends Layer{
 
   public Layer loadFile(String _file){
     filename = _file;
-    try { imageToDraw = loadImage(_file);}
+    try { imageToDraw = loadImage("userdata/"+_file);}
     catch(Exception _e) {imageToDraw = null;}
     return this;
   }
 }
 
+/**
+ * Display video from devices like a webcam or capture card
+ */
 class CaptureLayer extends Layer{
   Capture cam;
   PApplet applet;
@@ -712,7 +713,6 @@ class CaptureLayer extends Layer{
     cam = new Capture(applet, _opt);
     cam.start();
   }
-
 }
 
 
