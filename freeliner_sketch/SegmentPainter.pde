@@ -408,8 +408,8 @@ class StrokeColorPicker extends MetaPoint{
 
 	public StrokeColorPicker(int _mi){
 		super(_mi);
-		name = "SegmentCommand";
-		description = "MetaFreelining, execute commands of commandSegments";
+		name = "StrokeColorPicker";
+		description = "MetaFreelining, pick a stroke color from colorMap, load one with colormap colorMap.png";
 		colorMap = null;
 	}
 
@@ -438,6 +438,8 @@ class StrokeColorPicker extends MetaPoint{
 class FillColorPicker extends StrokeColorPicker{
 	public FillColorPicker(int _mi){
 		super(_mi);
+		name = "FillColorPicker";
+		description = "MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png";
 	}
 	public void setColor(int _c){
 		commandProcessor.queueCMD("tp fill "+event.getLinkID()+" "+hex(_c));

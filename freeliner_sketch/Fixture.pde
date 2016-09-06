@@ -79,24 +79,6 @@ class Fixture implements FreelinerConfig {
 ////////////////////////////////////////////////////////////////////////////////////
 
 // class for RGB ledStrips
-class RGBWStrip extends RGBStrip{
-
-  public RGBWStrip(int _adr, int _cnt, int _ax, int _ay, int _bx, int _by){
-    super(_adr, _cnt, _ax, _ay, _bx, _by);
-    name = "RGBWStrip";
-    description = "A series of RGBFixtures";
-    ledCount = _cnt;
-    ledChannels = 4;
-    channelCount = ledCount * ledChannels;
-    buffer = new byte[channelCount];
-    position = new PVector(_ax, _ay);
-
-    subFixtures = new ArrayList<Fixture>();
-    addRGBFixtures(ledCount, _ax, _ay, _bx, _by);
-  }
-}
-
-// class for RGB ledStrips
 class RGBStrip extends Fixture{
   int ledCount;
   int ledChannels;
@@ -154,6 +136,25 @@ class RGBStrip extends Fixture{
       _fix.bufferChannels(_buff);
   }
 }
+
+// class for RGB ledStrips
+class RGBWStrip extends RGBStrip{
+
+  public RGBWStrip(int _adr, int _cnt, int _ax, int _ay, int _bx, int _by){
+    super(_adr, _cnt, _ax, _ay, _bx, _by);
+    name = "RGBWStrip";
+    description = "A series of RGBFixtures";
+    ledCount = _cnt;
+    ledChannels = 4;
+    channelCount = ledCount * ledChannels;
+    buffer = new byte[channelCount];
+    position = new PVector(_ax, _ay);
+
+    subFixtures = new ArrayList<Fixture>();
+    addRGBFixtures(ledCount, _ax, _ay, _bx, _by);
+  }
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -240,7 +241,7 @@ class ColorFlexWAUV extends RGBFixture{
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
-///////     Mpanel
+///////     `Mp`anel
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 

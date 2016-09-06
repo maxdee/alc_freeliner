@@ -534,20 +534,26 @@
         "key": "q"
       },
       {
-        "name": "CustomColor",
+        "name": "CustomStrokeColor",
         "index": 28,
-        "description": "Custom color for template.",
+        "description": "Custom stroke color for template.",
+        "key": "q"
+      },
+      {
+        "name": "CustomColor",
+        "index": 29,
+        "description": "Custom fill color for template.",
         "key": "q"
       },
       {
         "name": "MillisFade",
-        "index": 29,
+        "index": 30,
         "description": "HSB fade goes along with millis.",
         "key": "q"
       },
       {
         "name": "HSBLerp",
-        "index": 30,
+        "index": 31,
         "description": "HSB fade through beat.",
         "key": "q"
       }
@@ -674,15 +680,15 @@
         "key": "a"
       },
       {
-        "name": "SegmentCommand",
+        "name": "StrokeColorPicker",
         "index": 1,
-        "description": "MetaFreelining, execute commands of commandSegments",
+        "description": "MetaFreelining, pick a stroke color from colorMap, load one with colormap colorMap.png",
         "key": "a"
       },
       {
-        "name": "SegmentCommand",
+        "name": "FillColorPicker",
         "index": 2,
-        "description": "MetaFreelining, execute commands of commandSegments",
+        "description": "MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png",
         "key": "a"
       }
     ]
@@ -950,7 +956,7 @@
       "key": "e"
     },
     {
-      "max": 31,
+      "max": 32,
       "name": "fill",
       "description": "Pick fill color",
       "cmd": "tw $ f",
@@ -1049,7 +1055,7 @@
       "key": "p"
     },
     {
-      "max": 31,
+      "max": 32,
       "name": "strokeColor",
       "description": "Pick the stroke Color.",
       "cmd": "tw $ q",

@@ -520,6 +520,13 @@ function otherInputCallbacks() {
     sendCMD('tp fill '+selectedTemplate+' '+_c);
   }
 
+  // _element = document.getElementById("fillPicker");
+  // if(_element) _element.onchange = function (){
+  //   var _c = document.getElementById("fillPicker").value;
+  //   sendCMD('tw '+selectedTemplate+' f 29');
+  //   sendCMD('tp fill '+selectedTemplate+' '+_c);
+  // }
+
   _element = document.getElementById("interfaceColor");
   if(_element) _element.onchange = function (){
     var _c = document.getElementById("interfaceColor").value;

@@ -101,16 +101,15 @@ class LayeredCanvasManager extends CanvasManager{
     layerCreator("layer mergeB mergeLayer");
     layerCreator("layer mergeOutput mergeOutput");
     // led/dmx layer
-    layerCreator("layer fix fixtureLayer");
-    layerCreator("layer cap captureLayer");
+    // layerCreator("layer fix fixtureLayer");
+    // layerCreator("layer cap captureLayer");
 
     layerCreator("layer gui guiLayer");
-    // add frame sharing layers by default
+    // add frame sharing layers by default, they get deleted if they are not enabled.
     layerCreator("layer syphon syphonLayer");
     layerCreator("layer spout spoutLayer");
 
     layerCreator("layer screen outputLayer");
-    // very beta
 
     printLayers();
   }
@@ -282,7 +281,7 @@ class LayeredCanvasManager extends CanvasManager{
     for(String _s : _files){
       _tmp = split(_s, '.');
       if(_tmp.length > 1){
-        if(_tmp[1].equals("png")) _images.add(_s);
+        if(_tmp[1].equals("png") || _tmp[1].equals("jpg")) _images.add(_s);
         else if(_tmp[1].equals("glsl")) _shaders.add(_s);
         else if(_tmp[1].equals("xml")) _configs.add(_s);
 

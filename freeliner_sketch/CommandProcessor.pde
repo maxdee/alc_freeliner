@@ -725,14 +725,14 @@ class CommandProcessor implements FreelinerConfig{
   public void strokeColorCMD(String[] _args){
     if(_args.length < 4) return;
     String _hex = _args[3];
-    int _v = unhex(_hex.replaceAll("#",""));
+    int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
     if(_v != -3) templateManager.setCustomStrokeColor(_args[2], _v);
   }
 
   public void fillColorCMD(String[] _args){
     if(_args.length < 4) return;
     String _hex = _args[3];
-    int _v = unhex(_hex.replaceAll("#",""));
+    int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
     if(_v != -3) templateManager.setCustomFillColor(_args[2], _v);
   }
 
