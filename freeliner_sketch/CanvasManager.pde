@@ -7,6 +7,8 @@
  * @since     2015-01-22
  */
 import java.util.Collections;
+import java.util.Arrays;
+
 
  /**
   * Manage the drawing buffer.
@@ -103,7 +105,6 @@ class LayeredCanvasManager extends CanvasManager{
     // led/dmx layer
     // layerCreator("layer fix fixtureLayer");
     // layerCreator("layer cap captureLayer");
-
     layerCreator("layer gui guiLayer");
     // add frame sharing layers by default, they get deleted if they are not enabled.
     layerCreator("layer syphon syphonLayer");
@@ -284,12 +285,15 @@ class LayeredCanvasManager extends CanvasManager{
         if(_tmp[1].equals("png") || _tmp[1].equals("jpg")) _images.add(_s);
         else if(_tmp[1].equals("glsl")) _shaders.add(_s);
         else if(_tmp[1].equals("xml")) _configs.add(_s);
-
       }
     }
     String[] _glsl = _shaders.toArray(new String[_shaders.size()]);
     String[] _png = _images.toArray(new String[_images.size()]);
     String[] _xml = _configs.toArray(new String[_configs.size()]);
+
+    Arrays.sort(_glsl);
+    Arrays.sort(_png);
+    Arrays.sort(_xml);
 
     for(Layer _lyr : layers){
       if(_lyr instanceof ImageLayer) _lyr.setOptions(_png);
