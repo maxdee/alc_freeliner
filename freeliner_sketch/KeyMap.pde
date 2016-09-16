@@ -164,7 +164,7 @@ class KeyMap {
     keymap['r'].setName("polka");
     keymap['r'].setDescription("Number of iterations for the iterator, related to `i`.");
     keymap['r'].setCMD("tw $ r"); //
-    keymap['r'].setMax(10000000); //
+    keymap['r'].setMax(1000); //
 
 
     // Size
@@ -173,7 +173,7 @@ class KeyMap {
     keymap['s'].setName("size");
     keymap['s'].setDescription("Sets the brush size for `b-0`");
     keymap['s'].setCMD("tw $ s"); //
-    keymap['s'].setMax(5000);
+    keymap['s'].setMax(100000);
 
 
     // tapTempo

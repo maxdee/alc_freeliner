@@ -24,7 +24,7 @@ class Synchroniser implements FreelinerConfig{
   FloatSmoother tapTimer;
   int tempo = DEFAULT_TEMPO;
 
-  boolean record;
+  boolean steadyFrameRate;
 
   FloatSmoother intervalTimer;
   float renderIncrement = 0.1;
@@ -37,12 +37,12 @@ class Synchroniser implements FreelinerConfig{
 	public Synchroniser(){
     tapTimer = new FloatSmoother(5, 350);
     intervalTimer = new FloatSmoother(5, 34);
-    record = false;
+    steadyFrameRate = false;
 	}
 
   public void update() {
     // calculate how much to increment
-    if(!record){
+    if(!steadyFrameRate){
       renderIncrement = intervalTimer.addF(float(millis()-lastRender))/tempo;
       lastRender = millis();
     }
@@ -72,14 +72,14 @@ class Synchroniser implements FreelinerConfig{
 
   //adjust tempo by +- 100 millis
   public void nudgeTime(int t){
-    println(lastTime);
+    // println(lastTime);
     if(t==-2) lastTime -= 100;
     else if(t==-1) lastTime += 100;
   }
 
   // for frame capture to loc rendertime
-  public void setRecording(boolean _r) {
-   record = _r;
+  public void setSteady(boolean _r) {
+   steadyFrameRate = _r;
   }
 
   public void setTimeScaler(float _f){

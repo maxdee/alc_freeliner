@@ -56,6 +56,8 @@ class CommandProcessor implements FreelinerConfig{
     "seq play 0,1",
     "seq stop // redundent play 0|1",
     "seq speed 0.5",
+    "seq steady 0|1",
+
     "cmd rec 0|1|-3", // not implemented
     "cmd play 0|1|-3", // not implemented
     ///////////////////  Tools
@@ -161,7 +163,6 @@ class CommandProcessor implements FreelinerConfig{
    */
   public void processCMD(String _cmd){
     if(_cmd == null) return;
-    // if(record)
     valueGiven = "_";
     processCMD(split(_cmd, ' '));
   }
@@ -585,6 +586,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[1].equals("clear")) clearSeq(_args); //
     else if(_args[1].equals("toggle")) toggleStep(_args);
     else if(_args[1].equals("speed") && _args.length > 2) synchroniser.setTimeScaler(stringFloat(_args[2]));
+    else if(_args[1].equals("steady") && _args.length > 2) synchroniser.setSteady(boolean(stringInt(_args[2])));
 
     else return false;
     return true;

@@ -8,6 +8,7 @@
  */
 
 import processing.video.*;
+import java.util.Date;
  // ADD TRANSLATION LAYER
 // add layer opacity!!
 
@@ -23,6 +24,8 @@ class Layer extends Mode{
   ArrayList<String> commandList;
   String[] options = {"none"};
   String selectedOption = "none";
+  String command = "none"; // allows to execute commands :)
+  boolean cmdFlag;
 
   public Layer(){
     name = "basicLayer";
@@ -40,7 +43,9 @@ class Layer extends Mode{
   /**
    * implement how the options should be used in a layer.
    */
-  public void selectOption(String _opt){ }
+  public void selectOption(String _opt){
+    selectedOption = _opt;
+  }
 
   public String[] getOptions(){
     return options;
@@ -157,6 +162,23 @@ class Layer extends Mode{
 
   public String getID(){
     return id;
+  }
+
+  public String getCMD(){
+    return command;
+  }
+
+  public boolean hasCMD(){
+    if(cmdFlag){
+      cmdFlag = false;
+      return true;
+    }
+    return false;
+  }
+
+  public void runCMD(String _s){
+    command = _s;
+    cmdFlag = true;
   }
 
   public ArrayList<String> getCMDList(){
@@ -458,6 +480,7 @@ class MergeOutput extends Layer{
   public PGraphics apply(PGraphics _pg){
     if(!useLayer()) return _pg;
     canvas.endDraw();
+    canvas.blendMode(ADD);
     return canvas;
   }
 }
@@ -592,7 +615,7 @@ class ShaderLayer extends RenderLayer{//CanvasLayer{
   }
 }
 
-
+// only going to work with P3D :/
 class VertexShaderLayer extends ShaderLayer{
   public VertexShaderLayer(){
     super();
@@ -628,7 +651,7 @@ class VertexShaderLayer extends ShaderLayer{
 
   public void reloadShader(){
     try{
-      shader = loadShader("userdata/defaultFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
+      shader = loadShader( sketchPath()+"/data/userdata/defaultFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
       println("Loaded vertex shader "+fileName);
     }
     catch(Exception _e){
@@ -792,6 +815,59 @@ class MaskLayer extends ImageLayer{
 }
 
 
+/**
+ * Saves frames to userdata/capture
+ *
+ */
+class ScreenshotLayer extends Layer{
+  int clipCount;
+  int frameCount;
+  Date date;
+
+  public ScreenshotLayer(){
+    name = "ScreenshotLayer";
+    description = "save screenshots, in singleImage mode enabling the layer will take a single screenshot, in imageSequence enabling the layer will begin and end the sequence";
+    id = name;
+    enabled = false;
+    String[] _op = {"singleImage", "imageSequence"};
+    setOptions(_op);
+    selectedOption = "singleImage";
+    date = new Date();
+  }
+
+  public PGraphics apply(PGraphics _pg){
+    if(!enabled) return _pg;
+    if(selectedOption.equals("singleImage")){
+      _pg.save( sketchPath()+"/data/userdata/screenshots/freeliner_"+date.getTime()+".png");
+      enabled = false;
+    }
+    else {
+      String fn = String.format("%06d", frameCount);
+      _pg.save( sketchPath()+"/data/userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
+      frameCount++;
+    }
+    return _pg;
+  }
+
+  /**
+   * Set or toggle the enabled boolean
+   * @param String name
+   */
+  public void setEnable(int _v){
+    if(_v == -3) enabled = !enabled;
+    else if(_v == 0) enabled = false;
+    else if(_v == 1) enabled = true;
+    if(enabled && selectedOption.equals("imageSequence")) {
+      clipCount++;
+      frameCount = 0;
+      runCMD("seq steady 1");
+    }
+    else if(!enabled) runCMD("seq steady 0");
+  }
+}
+
+
+
 // Layer that manages a DMX or stuff.
 
 class FixtureLayer extends Layer{
@@ -855,36 +931,3 @@ class FixtureLayer extends Layer{
     }
   }
 }
-
-
-// /**
-//  * Saves frames to userdata/capture
-//  *
-//  */
-// class CaptureLayer extends Layer{
-//   int clipCount = 0;
-//   int frameCount = 0;
-//
-//   public CaptureLayer(){
-//     name = "FrameSaver";
-//     id = name;
-      // enabled = false;
-//   }
-//
-//   public Layer apply(Layer _lr){
-//     if(!enabled) return _lr;
-//     String fn = String.format("%06d", frameCount);
-//     // might need to endDraw first?
-//     _lr.getCanvas().save("userdata/capture/clip_"+clipCount+"/frame-"+fn+".tif");
-//     frameCount++;
-//     return _lr;
-//   }
-//
-//   public void setEnable(boolean _b){
-//     enabled = _b;
-//     if(enabled) {
-//       clipCount++;
-//       frameCount = 0;
-//     }
-//   }
-// }

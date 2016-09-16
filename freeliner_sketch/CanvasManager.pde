@@ -18,6 +18,7 @@ abstract class CanvasManager implements FreelinerConfig{
   // Template renderer needed to do the rendering
   TemplateRenderer templateRenderer;
   public PGraphics guiCanvas;
+  CommandProcessor commandProcessor;
   // applet needed for syhpon/spout layers
   PApplet applet;
   // boolean makeMaskFlag = false;
@@ -34,7 +35,9 @@ abstract class CanvasManager implements FreelinerConfig{
   public void inject(TemplateRenderer _tr){
     templateRenderer = _tr;
   }
-
+  public void inject(CommandProcessor _cp){
+    commandProcessor = _cp;
+  }
   // no commands available
   public boolean parseCMD(String[] _args){ return false; }
   public String getLayerInfo(){return "none";}
@@ -109,6 +112,8 @@ class LayeredCanvasManager extends CanvasManager{
     // add frame sharing layers by default, they get deleted if they are not enabled.
     layerCreator("layer syphon syphonLayer");
     layerCreator("layer spout spoutLayer");
+
+    layerCreator("layer screenshot screenshotLayer");
 
     layerCreator("layer screen outputLayer");
 
@@ -197,6 +202,9 @@ class LayeredCanvasManager extends CanvasManager{
       case "captureLayer":
         _lyr = new CaptureLayer(applet);
         break;
+      case "screenshotLayer":
+        _lyr = new ScreenshotLayer();
+        break;
       case "containerLayer":
         if(_existingLayer != null){
           _lyr = new ContainerLayer();
@@ -259,6 +267,9 @@ class LayeredCanvasManager extends CanvasManager{
     for(Layer _lr : layers){
       if(_lr instanceof MaskLayer){
         if(((MaskLayer)_lr).checkMakeMask()) ((MaskLayer)_lr).makeMask(mergeCanvas);
+      }
+      if(_lr.hasCMD()){
+        commandProcessor.queueCMD(_lr.getCMD());
       }
     }
 	}
