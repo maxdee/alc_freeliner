@@ -6,7 +6,7 @@ Sorry for the lack of documentation, it needs to be re written. But worry not, t
 
 ### What is? ###
 
-Also know as a!LcFreeliner. This software is feature-full geometric animation software built for live projection mapping. Development started in fall 2013.
+Also known as a!LcFreeliner. This software is feature-full geometric animation software built for live projection mapping. Development started in fall 2013.
 
 It is made with Processing. It is licensed as GNU Lesser General Public License. A official release will occur once I have solidified the new architecture developed during this semester.
 
