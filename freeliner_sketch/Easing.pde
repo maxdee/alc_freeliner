@@ -159,3 +159,14 @@ class TargetNoise extends Easing{
 		return float(position+100)/200.0;
 	}
 }
+
+class FixLerp extends Easing{
+	public FixLerp(int _ind){
+		modeIndex = _ind;
+		name = "fixLerp";
+		description = "is set to template's tp lerp AB 0.5";
+	}
+	public float ease(float _lrp, RenderableTemplate _rt){
+		return _rt.getFixLerp();
+	}
+}

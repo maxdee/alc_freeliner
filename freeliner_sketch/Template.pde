@@ -64,6 +64,9 @@ class Template implements FreelinerConfig{
 	char templateID;
 	char linkedTemplateID = '.';
 
+	// for stats
+	float fixLerp;
+
 	public Template(){
 		reset();
 	}
@@ -118,6 +121,7 @@ class Template implements FreelinerConfig{
 
 		renderLayer = _tp.getRenderLayer();
 		linkedTemplateID = _tp.getLinkID();
+		fixLerp = _tp.getFixLerp();
  	}
 
 	/**
@@ -285,5 +289,8 @@ class Template implements FreelinerConfig{
 	}
 	public final char getLinkID(){
 		return linkedTemplateID;
+	}
+	public float getFixLerp(){
+		return fixLerp;
 	}
 }

@@ -103,7 +103,7 @@ class TweakableTemplate extends Template {
   public void setCustomFillColor(color _c){
     customFillColor = _c;
   }
-  
+
   /*
    * Tweakables, all these more or less work the same.
    * @param int value, -1 increment, -2 decrement, >= 0 set, -3 return current value
@@ -230,5 +230,9 @@ class TweakableTemplate extends Template {
     renderLayer = numTweaker(_v, renderLayer);
     if(renderLayer >= _max) renderLayer = _max - 1;
     return renderLayer;
+  }
+
+  public void setFixLerp(float _lrp){
+    fixLerp = _lrp;
   }
 }

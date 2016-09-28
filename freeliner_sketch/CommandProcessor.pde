@@ -44,6 +44,7 @@ class CommandProcessor implements FreelinerConfig{
     "tp swap AB",
     "tp select AB*",
     "tp toggle A 3",
+    "tp lerp A 0.5",
 
     "tp translate AB 0.5 0.5 0.5",
     // add tp setshape (geometryIndex | char | .svg)
@@ -660,9 +661,17 @@ class CommandProcessor implements FreelinerConfig{
       else if(_args[1].equals("select")) tpSelectCMD(_args);
       else if(_args[1].equals("translate")) tpTranslateCMD(_args);
       else if(_args[1].equals("toggle")) toggleCMD(_args);
+      else if(_args[1].equals("lerp")) lerpCMD(_args);
+
     }
     else return false;
     return true;
+  }
+
+  public void lerpCMD(String[] _args){
+    ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+    float _lrp = stringFloat(_args[3]);
+    for(TweakableTemplate _tp : _tmps) _tp.setFixLerp(_lrp);
   }
 
 

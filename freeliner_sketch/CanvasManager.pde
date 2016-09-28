@@ -334,7 +334,7 @@ class LayeredCanvasManager extends CanvasManager{
       else _out += str(0)+"-";
       _out += _lyr.getSelectedOption()+"-";
       for(String _s : _lyr.getOptions()) _out += _s+"-";
-      // _out += _lyr.getType()+"-";
+      // _out += ((_lyr instanceof ShaderLayer) ? 1 : 0 )+"-";
       _out += " ";
     }
     return _out;
