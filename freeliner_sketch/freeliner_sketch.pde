@@ -3,7 +3,7 @@
  * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.4
+ * @version   0.4gggggg
  * @since     2014-12-01
  */
 
@@ -21,7 +21,7 @@ import netP5.*;
 boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 1024;
 int configuredHeight = 768;
-int useFullscreen = 0;
+int useFullscreen = 1;
 int useDisplay = 1; // SPAN is 0
 int usePipeline = 1;
 
@@ -53,7 +53,7 @@ float gamma = 3.2; // 3.2 seems to be nice
 void settings(){
   if( fetchConfig ) fetchConfiguration();
   if(useFullscreen == 1){
-    fullScreen(P2D,2);
+    fullScreen(P2D,useDisplay);
   }
   else {
     size(configuredWidth, configuredHeight, P2D);
