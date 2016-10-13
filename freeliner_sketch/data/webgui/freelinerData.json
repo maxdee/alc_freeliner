@@ -292,6 +292,12 @@
         "index": 10,
         "description": "Linera eas in and out",
         "key": "h"
+      },
+      {
+        "name": "fixLerp",
+        "index": 11,
+        "description": "is set to template's tp lerp AB 0.5",
+        "key": "h"
       }
     ],
     "i": [
@@ -670,6 +676,12 @@
         "index": 1,
         "description": "Scrolls text, acording to enterpolator",
         "key": "a"
+      },
+      {
+        "name": "NiceText",
+        "index": 2,
+        "description": "Displays with correct kerning",
+        "key": "a"
       }
     ],
     "a_b6": [
@@ -974,7 +986,7 @@
       "key": "g"
     },
     {
-      "max": 11,
+      "max": 12,
       "name": "easing",
       "description": "Set the easing mode.",
       "cmd": "tw $ h",
@@ -1064,7 +1076,7 @@
       "key": "q"
     },
     {
-      "max": 10000000,
+      "max": 1000,
       "name": "polka",
       "description": "Number of iterations for the iterator, related to `i`.",
       "cmd": "tw $ r",
@@ -1073,7 +1085,7 @@
       "key": "r"
     },
     {
-      "max": 5000,
+      "max": 100000,
       "name": "size",
       "description": "Sets the brush size for `b-0`",
       "cmd": "tw $ s",

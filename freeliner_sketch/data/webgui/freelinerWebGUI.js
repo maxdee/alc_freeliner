@@ -13,7 +13,7 @@ selectedLayer = 'none';
  */
 
 // fetch the info at 200 ms intervals
-setInterval(function() { sendCMD('fetch-ws infoline');}, 200);
+setInterval(function() { actualySendCMD('fetch-ws infoline');}, 200);
 
 window.onload = function (){
   // if(typeof InstallTrigger == 'undefined') setInfo("browser not supported, plz use firefox or ?");
@@ -25,8 +25,14 @@ window.onload = function (){
  * /////////////////////////////////////////////////////////////
  */
 
+function sendCMD(_cmd){
+  actualySendCMD(_cmd);
+  // display it!
+  document.getElementById("logline").innerHTML = _cmd;
+}
+
 // make a function to send commands through a websocket
-sendCMD = (function () {
+actualySendCMD = (function () {
   var socket, _addr, DEFAULT_WEBSOCKET_ADDR;
   DEFAULT_WEBSOCKET_ADDR = 'ws://localhost:8025/freeliner';
   _addr = prompt("connect to", DEFAULT_WEBSOCKET_ADDR);
@@ -96,7 +102,7 @@ function parseAvailableFiles(_info){
 function populateGUI(){
   loadJSON(function(response) {
      flData = JSON.parse(response);
-     sendCMD("fetch-ws files");
+     actualySendCMD("fetch-ws files");
      makeTemplateSelector();
      // creates appropriate input elements for keys present in html
      loadKeys();
@@ -167,7 +173,7 @@ function selectTemplateCell(_event){
 // actual selects a template
 function selectTemplate(_tag){
   selectedTemplate = _tag;
-  sendCMD("fetch-ws template "+selectedTemplate);
+  actualySendCMD("fetch-ws template "+selectedTemplate);
 }
 
 // iterate over the keyMap provided by freeliner
@@ -329,7 +335,7 @@ function setInfo(_info){
  */
 
 function updateLayerStack(){
-  sendCMD("fetch-ws layers");
+  actualySendCMD("fetch-ws layers");
 }
 
 function parseLayerInfo(_info){
@@ -497,7 +503,7 @@ function otherInputCallbacks() {
 
   _element = document.getElementById("refreshfiles");
   if(_element) _element.onclick = function (){
-    sendCMD('fetch-ws files');
+    actualySendCMD('fetch-ws files');
   }
 
   _element = document.getElementById("fileInput")
@@ -635,9 +641,9 @@ document.addEventListener("keydown", function(e) {
   // prevent default for tab key
   else if(e.keyCode == 9) e.preventDefault();
   if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
-  else{
+  else if (document.activeElement != document.getElementById("layerNameInput")) {
     blurAll();
-    sendCMD('hid press '+kbdRules(e)+" "+e.key);
+    actualySendCMD('hid press '+kbdRules(e)+" "+e.key);
   }
 
   //send keyPress to freeliner
@@ -649,5 +655,5 @@ document.addEventListener("keyup", function(e) {
   // prevent default for tab key
   else if(e.keyCode == 9) e.preventDefault();
   //send keyRelease to freeliner
-  sendCMD('hid release '+kbdRules(e)+" "+e.key);
+  actualySendCMD('hid release '+kbdRules(e)+" "+e.key);
 }, false);

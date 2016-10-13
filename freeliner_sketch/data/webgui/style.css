@@ -103,6 +103,19 @@ input[type=checkbox] {
   width:80%;
 }
 
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0px;
+  margin: 0px;
+  color: #FFFFFF;
+  /*height: 20px;*/
+  background-color: #000000;
+  text-align: left;
+}
+
 #infoline {
     margin:0px;
     background-color: #0E0E0E;
