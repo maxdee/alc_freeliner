@@ -6,7 +6,6 @@
  * @version   0.4
  * @since     2016-06-10
  */
-import processing.serial.*;
 
 // a few FreeLEDing systems for fancy DMX fixtures
 
@@ -15,9 +14,9 @@ import processing.serial.*;
 
 class FancyFixtures implements FreelinerConfig {
   PApplet applet;
-  Serial port;
   int channelCount;
   byte[] byteBuffer;
+  ByteSender byteSender;
 
   ArrayList<Fixture> fixtures;
   ArrayList<Fixture> individualFixtures;
@@ -39,7 +38,7 @@ class FancyFixtures implements FreelinerConfig {
   // it all starts here
   public void loadFile(String _file){
     initialised = false;
-    if(port != null) port.stop();
+    if(byteSender instanceof SerialSender) byteSender.disconnect();
     fixtures = new ArrayList<Fixture>();
     XML _xml = getXML(_file);
     if(_xml == null) return;
@@ -59,15 +58,26 @@ class FancyFixtures implements FreelinerConfig {
 
   public boolean parseSetup(XML _xml){
     XML setup = _xml.getChild("setup");
+    if(setup == null) return false;
     if(setup.getString("type") != null){
       if(setup.getString("type").equals("LED")){
-        int _size = connectSerial(applet, setup.getString("port"), setup.getInt("baud"))*3;
+        byteSender = new SerialSender(applet);
+        byteSender.connect(setup.getString("port"), setup.getInt("baud"));
+        int _size = ((SerialSender)byteSender).getCount()*3;
         setupByteBuffer(_size);
         return true;
       }
       else if(setup.getString("type").equals("DMX")){
-        int _size = connectSerial(applet, setup.getString("port"), setup.getInt("baud"));
+        byteSender = new SerialSender(applet);
+        byteSender.connect(setup.getString("port"), setup.getInt("baud"));
+        int _size = ((SerialSender)byteSender).getCount();
         setupByteBuffer(_size);
+        return true;
+      }
+      else if(setup.getString("type").equals("ARTNET")){
+        byteSender = new ArtNetSender();
+        setupByteBuffer(setup.getInt("universes")*512);
+        byteSender.connect(setup.getString("host"));
         return true;
       }
     }
@@ -91,7 +101,7 @@ class FancyFixtures implements FreelinerConfig {
 
   public void setupByteBuffer(int _size){
     channelCount = _size;
-    byteBuffer = new byte[channelCount+1]; // plus one for header
+    byteBuffer = new byte[channelCount]; // plus one for header
     for(byte _b : byteBuffer) _b = byte(0);
   }
 
@@ -207,7 +217,7 @@ class FancyFixtures implements FreelinerConfig {
     updateBuffer();
     // outputData
     byteBuffer[0] = byte(42);
-    port.write(byteBuffer);
+    byteSender.sendData(byteBuffer);
     // println(getMessage());
   }
 
@@ -267,43 +277,6 @@ class FancyFixtures implements FreelinerConfig {
       println("FixtureMap XML file "+_file+" not found");
     }
     return _xml;
-  }
-
-  /**
-   * Connect to a serial port
-   * @param String portPath
-   */
-  private int connectSerial(PApplet _pa, String _port, int _baud){
-    // connect to port
-    try{
-      port = new Serial(_pa, _port, _baud);
-    }
-    catch(Exception e){
-      println(_port+" does not seem to work...");
-      return 0;
-      // exit();
-    }
-    delay(100);
-    int _chanCount = 0;
-    for(int i = 0; i < 4; i++){
-      port.write('?');
-      delay(300);
-      try{
-        _chanCount = Integer.parseInt(getMessage());
-        println("Connected to "+_port+" with "+_chanCount+" channels");
-        break;
-      } catch (Exception e){
-        println("Could not get channel count.");
-      }
-    }
-    return _chanCount;
-  }
-
-  // gets message from the serialPort
-  public String getMessage(){
-    String buff = "";
-    while(port.available() != 0) buff += char(port.read());
-    return buff;
   }
 }
 
