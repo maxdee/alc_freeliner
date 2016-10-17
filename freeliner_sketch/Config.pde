@@ -51,7 +51,7 @@ interface FreelinerConfig {
   // If you are using a dual head setup
   final boolean DUAL_HEAD = false;
   // invert colors
-  final boolean INVERTED_COLOR = false;
+  final boolean INVERTED_COLOR = true;
 
   // Rendering options
   final color BACKGROUND_COLOR = #000000;

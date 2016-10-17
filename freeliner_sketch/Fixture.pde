@@ -39,8 +39,8 @@ class Fixture implements FreelinerConfig {
 
   public void bufferChannels(byte[] _buff){
     for(int i = 0; i < channelCount; i++){
-      _buff[address+i] = buffer[i];
       // println(address+i+" -> "+int(buffer[i]));
+      _buff[address+i] = buffer[i];
     }
   }
 

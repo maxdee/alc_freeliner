@@ -344,6 +344,32 @@ class ScrollingText extends BasicText{
 	}
 }
 
+class NiceText extends BasicText{
+  public NiceText(int _ind){
+		modeIndex = _ind;
+    name = "NiceText";
+    description = "Displays with correct kerning";
+  }
+
+  public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		String _txt = _seg.getText();
+    canvas.textFont(font);
+    canvas.textSize(_event.getScaledBrushSize());
+		putString(_txt, _seg.getPointA(), _seg.getAngle(true));
+
+	}
+
+	public void putString(String _str, PVector _p, float _a){
+		canvas.pushMatrix();
+		canvas.translate(_p.x, _p.y);
+		canvas.rotate(_a);
+		canvas.text(_str, 0, event.getScaledBrushSize()/3.0);
+		canvas.popMatrix();
+	}
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Meta Freelining

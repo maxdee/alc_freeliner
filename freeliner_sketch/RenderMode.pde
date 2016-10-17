@@ -144,7 +144,7 @@ class CircularSegment extends PerSegment{
 // text rendering
 class TextRenderMode extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	int painterCount = 2;
+	int painterCount = 3;
 
 	public TextRenderMode(int _ind){
 		super();
@@ -152,6 +152,8 @@ class TextRenderMode extends PerSegment{
 		segmentPainters = new SegmentPainter[painterCount];
 		segmentPainters[0] = new TextWritter(0);
 		segmentPainters[1] = new ScrollingText(1);
+		segmentPainters[2] = new NiceText(2);
+
 
 		name = "TextRenderMode";
 		description = "Stuff that draws text";
