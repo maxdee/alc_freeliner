@@ -476,7 +476,7 @@ class TemplateManager{
         if(mn < minX) minX = mn;
       }
       // return a brush scaled to the BASE_SIZE
-      float baseSize = (float)new PointBrush(0).BASE_SIZE;
+      float baseSize = (float)new PointBrush(0).BASE_BRUSH_SIZE;
       PShape cust = cloneShape(sourceShape, baseSize/(maxX+abs(minX)), new PVector(0,0));
       if(temps != null)
         for(TweakableTemplate temp : temps)

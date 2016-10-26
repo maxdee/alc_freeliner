@@ -13,8 +13,8 @@
  */
 abstract class Brush extends Mode{
   // Size to generate brushes
-	final int BASE_SIZE = 20;
-  final int HALF_SIZE = BASE_SIZE/2;
+	final int BASE_BRUSH_SIZE = 20;
+  final int HALF_SIZE = BASE_BRUSH_SIZE/2;
   // The brush
   PShape brushShape;
   PShape scaledBrush;
@@ -26,7 +26,7 @@ abstract class Brush extends Mode{
   public Brush(){
     brushShape = generateBrush();
     scaledBrush = brushShape;
-    scaledBrushSize = BASE_SIZE;
+    scaledBrushSize = BASE_BRUSH_SIZE;
 		name = "Brush";
 		description = "A brush";
   }
@@ -47,11 +47,12 @@ abstract class Brush extends Mode{
   public PShape getShape(RenderableTemplate _rt){
     // only clone if the size changed
 		// #p3 bug fix...
-  	if(abs(_rt.getScaledBrushSize() - scaledBrushSize) > 0.5){
-      scaledBrushSize = _rt.getScaledBrushSize();
-      scaledBrush = cloneShape(brushShape, scaledBrushSize/BASE_SIZE, new PVector(0,0));
-    }
-  	return scaledBrush;
+  	// if(abs(_rt.getScaledBrushSize() - scaledBrushSize) > 0.5){
+    //   scaledBrushSize = _rt.getScaledBrushSize();
+    //   scaledBrush = cloneShape(brushShape, scaledBrushSize/BASE_BRUSH_SIZE, new PVector(0,0));
+    // }
+  	// return scaledBrush;
+		return brushShape;
   }
 
 }
@@ -177,7 +178,7 @@ class CustomBrush extends Brush {
     if(abs(_rt.getScaledBrushSize() - this.scaledBrushSize) > 0.5 || scaledBrush == null){
       //println(_rt.getScaledBrushSize() - scaledBrushSize);
       scaledBrushSize = _rt.getScaledBrushSize();
-      scaledBrush = cloneShape( _rt.getCustomShape(), scaledBrushSize/BASE_SIZE, new PVector(0,0));
+      scaledBrush = cloneShape( _rt.getCustomShape(), scaledBrushSize/BASE_BRUSH_SIZE, new PVector(0,0));
     }
     if(scaledBrush == null){
       PShape empty = createShape();
@@ -201,7 +202,7 @@ class CircleBrush extends Brush {
 		description = "Brush witha circular appearance.";
   }
   public PShape generateBrush(){
-    PShape shp =  createShape(ELLIPSE, 0, 0, BASE_SIZE, BASE_SIZE);
+    PShape shp =  createShape(ELLIPSE, 0, 0, BASE_BRUSH_SIZE, BASE_BRUSH_SIZE);
     return shp;
   }
 	// overRide for scaling
@@ -226,10 +227,10 @@ class TriangleBrush extends Brush {
 		description = "Triangular brush.";
   }
   public PShape generateBrush(){
-    float hght = sqrt(sq(BASE_SIZE)+pow(HALF_SIZE,2));
+    float hght = sqrt(sq(BASE_BRUSH_SIZE)+pow(HALF_SIZE,2));
     PShape shp = createShape(TRIANGLE, -HALF_SIZE, 0,
                                        HALF_SIZE, 0,
-                                       0, BASE_SIZE*pow(3, 1/3.0)/2);
+                                       0, BASE_BRUSH_SIZE*pow(3, 1/3.0)/2);
     return shp;
   }
 }

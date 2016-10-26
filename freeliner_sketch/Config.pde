@@ -45,6 +45,7 @@ interface FreelinerConfig {
   final color GRID_COLOR = #969696;//9696;
   final color SEGMENT_COLOR = #BEBEBE;
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
+  
 
   // If you are using a DLP with no colour wheel
   final boolean BW_BEAMER = false;
@@ -95,6 +96,6 @@ interface FreelinerConfig {
   final int PALLETTE_COUNT = 12;
 
   // Freeliner LED options
-  final String LED_SERIAL_PORT = "/dev/ttyACM0";
-  final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2
+  // final String LED_SERIAL_PORT = "/dev/ttyACM0";
+  // final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2
 }
