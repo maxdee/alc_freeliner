@@ -9,8 +9,8 @@
 
 // a few FreeLEDing systems for fancy DMX fixtures
 
-// Fancy fixtures controls one DMX universe via an arduino
-// FastLEDing could be implemented as a fixture...
+// packet size should be implemented in serial specificaly, pushing only the buffer size.
+// mode artnet universe 
 
 class FancyFixtures implements FreelinerConfig {
   PApplet applet;
