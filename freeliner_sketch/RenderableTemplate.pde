@@ -1,21 +1,6 @@
 /**
- *
  * ##copyright##
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General
- * Public License along with this library; if not, write to the
- * Free Software Foundation, Inc., 59 Temple Place, Suite 330,
- * Boston, MA  02111-1307  USA
+ * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
  * @version   0.4
@@ -29,7 +14,7 @@ class RenderableTemplate extends TweakableTemplate{
 
 	SegmentGroup segmentGroup;
 
-	// reference to what to draw on
+	// reference to what to draw on, layer system relies on this
 	PGraphics canvas;
 
 /*
@@ -63,14 +48,12 @@ class RenderableTemplate extends TweakableTemplate{
 	PShape brushShape;
 	boolean updateBrush;
 
-/*
- * Variable for internal use.
- */
+	/*
+	 * Variable for internal use.
+	 */
   float timeStamp;
 
-	int groupID;
-	boolean doRender;
-
+	// for meta freelining
 	ArrayList<Segment> executedSegments;
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -99,7 +82,6 @@ class RenderableTemplate extends TweakableTemplate{
 		copy(_te);
 		segmentGroup = _sg;
 		beatCount = -1;
-		doRender = true;
 		brushShape = null;
 		updateBrush = true;
 		executedSegments = new ArrayList();
@@ -153,6 +135,7 @@ class RenderableTemplate extends TweakableTemplate{
 	public void setLastPosition(PVector _pv){
 		sourceTemplate.setLastPosition(_pv);
 	}
+
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Mutators
@@ -191,10 +174,6 @@ class RenderableTemplate extends TweakableTemplate{
  		hue = _h;
  	}
 
- 	public void setDoRender(boolean _b){
- 		doRender = _b;
- 	}
-
 	public void setBrushShape(PShape _brush){
 		updateBrush = false;
 		brushShape = _brush;
@@ -223,10 +202,6 @@ class RenderableTemplate extends TweakableTemplate{
 
 	public boolean doUpdateBrush(){
 		return updateBrush;
-	}
-
-	public boolean doRender(){
-		return doRender;
 	}
 
 	public final int getGroupId(){
@@ -340,7 +315,6 @@ class KillableTemplate extends RenderableTemplate{
 		if(enablerMode != 0) enablerMode = 1;
 		segmentGroup = _sg;
 		beatCount = -1;
-		doRender = true; // remove?
 		toKill = false;
 	}
 
@@ -387,8 +361,5 @@ class KillableTemplate extends RenderableTemplate{
 	public int getBeatCount(){
  		return launchCount;
  	}
- // public final float getUnitInterval(){
- //  println(beatCount+"  "+randomValue+"  "+largeRandom);
- //  return unitInterval;
- // }
+
 }

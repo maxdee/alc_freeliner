@@ -45,7 +45,7 @@ interface FreelinerConfig {
   final color GRID_COLOR = #969696;//9696;
   final color SEGMENT_COLOR = #BEBEBE;
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
-  
+
 
   // If you are using a DLP with no colour wheel
   final boolean BW_BEAMER = false;
@@ -56,8 +56,8 @@ interface FreelinerConfig {
 
   // Rendering options
   final color BACKGROUND_COLOR = #000000;
-  final int STROKE_CAP = ROUND;
-  final int STROKE_JOIN = MITER;
+  final int STROKE_CAP = PROJECT;//SQUARE; // or ROUND
+  final int STROKE_JOIN = MITER; // or BEVEL or ROUND
   final boolean BRUSH_SCALING = false;
 
   // Timing and stuff

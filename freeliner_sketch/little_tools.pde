@@ -176,8 +176,8 @@ PShape cloneShape(PShape _source, float _scale, PVector _center){
   if(_source == null) return null;
   PShape shp = createShape();
   shp.beginShape(_source.getKind());
-  shp.strokeJoin(ROUND);
-  shp.strokeCap(ROUND);
+  shp.strokeJoin(FreelinerConfig.STROKE_JOIN);
+  shp.strokeCap(FreelinerConfig.STROKE_CAP);
   PVector tmp = new PVector(0,0);
   PVector frst = new PVector(0,0);
   PVector last = new PVector(0,0);

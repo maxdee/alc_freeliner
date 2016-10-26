@@ -231,30 +231,21 @@ class BrushPutter extends SegmentPainter{
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		_seg.setSize(_event.getScaledBrushSize()+_event.getStrokeWeight());
-		//if(event.doUpdateBrush()) event.setBrushShape(getBrush(event.getBrushMode()).getShape(event));
 	}
 
 	// regular putShape
 	public void putShape(PVector _p, float _a){
 		PShape shape_;
-    shape_ = getBrush(event.getAnimationMode()).getShape(event);//event.getBrushShape(); //
+    shape_ = getBrush(event.getAnimationMode()).getShape(event);
 		if(shape_ == null) return;
     applyStyle(shape_);
-		float weight = event.getStrokeWeight();
-
-		float scale = event.getScaledBrushSize()/20.0; // devided by base brush size
-		// shape_.beginShape();
-		shape_.setStrokeWeight(weight/scale);
-		// shape_.stroke(255);
-
-		// shape_.endShape();
-
+		float scale = event.getBrushSize() / 20.0; // devided by base brush size
+		shape_.setStrokeWeight(event.getStrokeWeight()/scale);
 		canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
-    canvas.rotate(_a+ HALF_PI);// + event.getAngleMod());
+    canvas.rotate(_a+ HALF_PI);
 		canvas.scale(scale);
 		canvas.shape(shape_);
-
 		canvas.popMatrix();
 	}
 }
@@ -267,8 +258,6 @@ class SimpleBrusher extends BrushPutter{
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		//putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
-		//PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
 		putShape(getPosition(_seg), getAngle(_seg, _event));
 	}
 }

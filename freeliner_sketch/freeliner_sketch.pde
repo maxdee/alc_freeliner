@@ -88,7 +88,8 @@ void fetchConfiguration(){
 
 void setup() {
   documenter = new Documenter();
-
+  strokeCap(FreelinerConfig.STROKE_CAP);
+  strokeJoin(FreelinerConfig.STROKE_JOIN);
   // detect OS
   if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
   else if(System.getProperty("os.name").charAt(0) == 'L') WIN = false;
