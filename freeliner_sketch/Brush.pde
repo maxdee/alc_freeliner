@@ -47,11 +47,12 @@ abstract class Brush extends Mode{
   public PShape getShape(RenderableTemplate _rt){
     // only clone if the size changed
 		// #p3 bug fix...
-  	if(abs(_rt.getScaledBrushSize() - scaledBrushSize) > 0.5){
-      scaledBrushSize = _rt.getScaledBrushSize();
-      scaledBrush = cloneShape(brushShape, scaledBrushSize/BASE_SIZE, new PVector(0,0));
-    }
-  	return scaledBrush;
+  	// if(abs(_rt.getScaledBrushSize() - scaledBrushSize) > 0.5){
+    //   scaledBrushSize = _rt.getScaledBrushSize();
+    //   scaledBrush = cloneShape(brushShape, scaledBrushSize/BASE_SIZE, new PVector(0,0));
+    // }
+  	// return scaledBrush;
+		return brushShape;
   }
 
 }
