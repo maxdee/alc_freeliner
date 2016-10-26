@@ -243,15 +243,15 @@ class BrushPutter extends SegmentPainter{
 		float weight = event.getStrokeWeight();
 
 		float scale = event.getScaledBrushSize()/20.0; // devided by base brush size
-		shape_.beginShape();
-		shape_.strokeWeight(weight/scale);
-		shape_.stroke(255);
+		// shape_.beginShape();
+		shape_.setStrokeWeight(weight/scale);
+		// shape_.stroke(255);
 
-		shape_.endShape();
+		// shape_.endShape();
 
 		canvas.pushMatrix();
     canvas.translate(_p.x, _p.y);
-    canvas.rotate(_a+ HALF_PI);// +event.getAngleMod());
+    canvas.rotate(_a+ HALF_PI);// + event.getAngleMod());
 		canvas.scale(scale);
 		canvas.shape(shape_);
 
