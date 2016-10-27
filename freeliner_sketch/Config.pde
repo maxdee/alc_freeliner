@@ -56,8 +56,8 @@ interface FreelinerConfig {
 
   // Rendering options
   final color BACKGROUND_COLOR = #000000;
-  final int STROKE_CAP = PROJECT;//SQUARE; // or ROUND
-  final int STROKE_JOIN = MITER; // or BEVEL or ROUND
+  final int STROKE_CAP = ROUND;//PROJECT;//SQUARE; // or ROUND
+  final int STROKE_JOIN = ROUND;//MITER; // or BEVEL or ROUND
   final boolean BRUSH_SCALING = false;
 
   // Timing and stuff

@@ -16,8 +16,9 @@ class GUIWebServer implements FreelinerConfig {
   }
 
   public void refreshFiles(){
-    if(SERVE_HTTP)
+    if(SERVE_HTTP){
       server.serveAll("",sketchPath()+"/data/webgui");
+    }
   }
   // dosent work
   public void serveAppropriateFiles(){
@@ -32,7 +33,6 @@ class GUIWebServer implements FreelinerConfig {
         else if(_file[1].equals("json")) server.serve(_files[i].getPath());
         else if(_file[1].equals("js")) server.serve(_files[i].getPath());
         else if(_file[1].equals("jpg")) server.serve(_files[i].getPath());
-
       }
     }
   }
