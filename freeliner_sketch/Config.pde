@@ -45,7 +45,7 @@ interface FreelinerConfig {
   final color GRID_COLOR = #969696;//9696;
   final color SEGMENT_COLOR = #BEBEBE;
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
-
+  final int GUI_FONT_SIZE = 10;
 
   // If you are using a DLP with no colour wheel
   final boolean BW_BEAMER = false;
