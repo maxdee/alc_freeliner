@@ -159,21 +159,21 @@ class Gui implements FreelinerConfig{
   private void updateInfo(){
     // first segment shows which group is selected
     int geom = groupManager.getSelectedIndex();
-    if(geom == -1) allInfo[0] = "[Geom : ]";
-    else allInfo[0] = "[Geom : "+geom+"]";
+    if(geom == -1) allInfo[0] = "[G : ]";
+    else allInfo[0] = "[G : "+geom+"]";
     // second segment shows the Templates selected
     TemplateList _rl = groupManager.getTemplateList();
     String _tags = "";
     if (_rl != null) _tags = _rl.getTags();
     else _tags = renderString;
     if(_tags.length()>20) _tags = "*ALL*";
-    allInfo[1] = "[Rndr : "+_tags+"]";
+    allInfo[1] = "[T : "+_tags+"]";
     // third show the parameter associated with key and values given to parameters
     allInfo[2] = "["+keyString+": "+valueGiven+"]";
     // display how long we have been jamming
     allInfo[3] = "["+getTimeRunning()+"]";
     // framerate ish
-    allInfo[4] = "[FPS "+(int)frameRate+"]";
+    allInfo[4] = "["+(int)frameRate+"]";
   }
 
   /**
@@ -187,7 +187,7 @@ class Gui implements FreelinerConfig{
     int sz = int(guiSegments.getBrushScaler()*20);
     if(segs != null)
       for(Segment seg : segs)
-        simpleText(seg, sz);
+        simpleText(seg, GUI_FONT_SIZE);
   }
 
 

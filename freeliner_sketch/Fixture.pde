@@ -98,7 +98,7 @@ class RGBStrip extends Fixture{
   }
 
   protected void addRGBFixtures(int _cnt, float _ax, float _ay, float _bx, float _by){
-    float gap = 1.0/_cnt;
+    float gap = 1.0/(_cnt-1);
     int ind;
     int x;
     int y;

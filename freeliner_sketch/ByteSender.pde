@@ -116,19 +116,34 @@ public class ArtNetSender extends ByteSender{
     }
   }
 
+
   public byte[][] splitUniverses(byte[] _data){
-    int _universeCount = _data.length/512;
+    int _universeCount = _data.length/510;
     int _ind = 0;
     byte[][] _universes = new byte[_universeCount][512];
     for(int u = 0; u < _universeCount; u++){
-      for(int i = 0; i < 512; i++){
-        _ind = u*512+i;
+      for(int i = 1; i < 510; i++){
+        _ind = u*510+i;
         if(_ind < _data.length) _universes[u][i] = _data[_ind];
         else _universes[u][i] = 0;
       }
     }
     return _universes;
   }
+
+  // public byte[][] splitUniverses(byte[] _data){
+  //   int _universeCount = _data.length/512;
+  //   int _ind = 0;
+  //   byte[][] _universes = new byte[_universeCount][512];
+  //   for(int u = 0; u < _universeCount; u++){
+  //     for(int i = 0; i < 512; i++){
+  //       _ind = u*512+i;
+  //       if(_ind < _data.length) _universes[u][i] = _data[_ind];
+  //       else _universes[u][i] = 0;
+  //     }
+  //   }
+  //   return _universes;
+  // }
 
   public byte[] makeArtNetPacket(byte[] _data, int _uni){
     long _size = _data.length;

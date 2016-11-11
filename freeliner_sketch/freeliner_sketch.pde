@@ -3,7 +3,7 @@
  * See LICENSE.md
  *
  * @author    Maxime Damecour (http://nnvtn.ca)
- * @version   0.4gggggg
+ * @version   0.4
  * @since     2014-12-01
  */
 
@@ -19,8 +19,8 @@ import netP5.*;
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 600;
-int configuredHeight = 600;
+int configuredWidth = 1024;
+int configuredHeight = 768;
 int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;

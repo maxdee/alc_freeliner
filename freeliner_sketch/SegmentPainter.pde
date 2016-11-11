@@ -263,6 +263,38 @@ class SimpleBrusher extends BrushPutter{
 	}
 }
 
+class FadedBrusher extends BrushPutter{
+	public FadedBrusher(int _ind){
+		modeIndex = _ind;
+		name = "FadedBrusher";
+		description = "same as brush but adds a faded edge";
+	}
+
+	public void paintSegment(Segment _seg, RenderableTemplate _event){
+		super.paintSegment(_seg, _event);
+		//putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
+		//PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
+		putShape(getPosition(_seg), getAngle(_seg, _event));
+	}
+
+	// make a strokeWeight gradient
+	public void putShape(PVector _p, float _a){
+		color _col = getStrokeColor();
+		canvas.pushMatrix();
+		canvas.translate(_p.x, _p.y);
+		float stepSize = event.getScaledBrushSize()/16.0;
+		int weight = event.getStrokeWeight();
+		float steps = 16;
+		for(float i = 0; i < steps; i++){
+			canvas.stroke(red(_col), green(_col), blue(_col), pow((steps-i)/steps, 4) * event.getStrokeAlpha());
+			canvas.strokeWeight(weight+(stepSize*i));
+			canvas.point(0,0);
+		}
+
+		canvas.popMatrix();
+	}
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

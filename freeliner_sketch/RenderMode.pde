@@ -81,16 +81,18 @@ class BrushSegment extends PerSegment{
 		modeIndex = _ind;
   	segmentPainters = new SegmentPainter[painterCount];
     segmentPainters[0] = new SimpleBrusher(0);
+		// segmentPainters[1] = new FadedBrusher(1);
+
 
 		name = "BrushSegment";
 		description = "Render mode for drawing with brushes";
 		//if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "None?");
     // segmentPainters[6] = new CircularBrusher();
   }
-	public SegmentPainter getPainter(int _index){
-		if(_index >= painterCount) _index = painterCount - 1;
-		return segmentPainters[_index];
-	}
+	// public SegmentPainter getPainter(int _index){
+	// 	if(_index >= painterCount) _index = painterCount - 1;
+	// 	return segmentPainters[_index];
+	// }
 }
 
 // Make lines on segments
@@ -201,7 +203,7 @@ class WrapLine extends PerSegment{
 // Make lines on segments
 class MetaFreelining extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	int painterCount = 3;
+	int painterCount = 4;
 	SegmentCommandParser segmentCommandParser;
 	StrokeColorPicker strokeColorPicker;
 	FillColorPicker fillColorPicker;
@@ -217,6 +219,9 @@ class MetaFreelining extends PerSegment{
     segmentPainters[1] = strokeColorPicker;
 		fillColorPicker = new FillColorPicker(2);
 		segmentPainters[2] = fillColorPicker;
+		// new faded brush test;
+		segmentPainters[3] = new FadedBrusher(3);
+
 
 		name = "MetaFreelining";
 		description = "Use freeliner to automate itself.";
