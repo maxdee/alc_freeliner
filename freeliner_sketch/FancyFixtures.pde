@@ -10,7 +10,7 @@
 // a few FreeLEDing systems for fancy DMX fixtures
 
 // packet size should be implemented in serial specificaly, pushing only the buffer size.
-// mode artnet universe 
+// mode artnet universe
 
 class FancyFixtures implements FreelinerConfig {
   PApplet applet;
@@ -179,7 +179,7 @@ class FancyFixtures implements FreelinerConfig {
     }
     else if(cmd[0].equals("/led") && cmd.length>2){
       // println(cmd[1]);
-      int addr = int(cmd[1]);
+      int addr = int(cmd[1])*3;
       int count = int(cmd[2]);
       // println("Adding LEDs from: "+from+"  to: "+to);
       RGBStrip _fix;

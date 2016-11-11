@@ -702,6 +702,12 @@
         "index": 2,
         "description": "MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png",
         "key": "a"
+      },
+      {
+        "name": "FadedBrusher",
+        "index": 3,
+        "description": "same as brush but adds a faded edge",
+        "key": "a"
       }
     ]
   },

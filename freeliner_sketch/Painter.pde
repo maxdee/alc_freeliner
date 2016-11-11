@@ -134,13 +134,13 @@ class Painter extends Mode{
 
 		if (fillMode != 0){
       _s.setFill(true);
-      _s.setFill(getColorizer(fillMode).get(event, fillAlpha));
+      _s.setFill(getFillColor());//getColorizer(fillMode).get(event, fillAlpha));
     }
 		else _s.setFill(false);
 
     if(strokeMode != 0 && strokeAlpha != 0) {
 			_s.setStroke(true);
-      _s.setStroke(getColorizer(strokeMode).get(event, strokeAlpha)); // _s.getStyle().stroke = getColorizer(strokeMode).get(event);//
+      _s.setStroke(getStrokeColor());//getColorizer(strokeMode).get(event, strokeAlpha)); // _s.getStyle().stroke = getColorizer(strokeMode).get(event);//
       _s.setStrokeWeight(strokeWidth);
     }
     else _s.setStroke(false);
@@ -155,16 +155,23 @@ class Painter extends Mode{
 		int fillAlpha = event.getFillAlpha();
 
     if(fillMode != 0){
-      _g.fill(getColorizer(fillMode).get(event, fillAlpha));
+      _g.fill(getFillColor());//getColorizer(fillMode).get(event, fillAlpha));
     }
     else _g.noFill();
 
     if(strokeMode != 0 && strokeAlpha != 0) {
-      _g.stroke(getColorizer(strokeMode).get(event, strokeAlpha));
+      _g.stroke(getStrokeColor());//getColorizer(strokeMode).get(event, strokeAlpha));
       _g.strokeWeight(strokeWidth);
     }
     else _g.noStroke();
   }
+
+	public color getStrokeColor(){
+		return getColorizer(event.getStrokeMode()).get(event, event.getStrokeAlpha());
+	}
+	public color getFillColor(){
+		return getColorizer(event.getFillMode()).get(event, event.getFillAlpha());
+	}
 
   public String getName(){
   	return name;
