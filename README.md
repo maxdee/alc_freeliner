@@ -11,7 +11,7 @@ Here are some instructions on how to get started with freeliner.
 2. Install these libraries:
 * [oscP5](http://www.sojamo.de/libraries/oscP5/) (available through Processing library Manager)
 * [Websockets](https://github.com/alexandrainst/processing_websockets) (available through Processing library Manager)
-* [ProcessingVideo] (available through Processing library Manager)
+* [ProcessingVideo](https://processing.org/reference/libraries/video/index.html) (available through Processing library Manager)
 * [SimpleHTTP] (http://diskordier.net/simpleHTTPServer/) (download from site)
 * [Spout] Optionaly for windows users
 * [Syphon] Optionaly for MacOS users
