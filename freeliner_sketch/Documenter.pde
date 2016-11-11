@@ -185,23 +185,7 @@ class Documenter implements FreelinerConfig{
       }
     }
     markDown.println(" ");
-}
-  //   for(String _s : KEY_MAP){
-  //     String _ks = _s.replaceAll(" ", "");
-  //     markDown.println("| `"+_ks.charAt(0)+"` | "+_ks.substring(1)+" |");
-  //   }
-  //   markDown.println(" ");
-  //   markDown.println("### ctrl keys ###");
-  //   markDown.println("| key | action |");
-  //   markDown.println("|:---:|---|");
-  //   for(String _s : CTRL_KEY_MAP){
-  //     String _ks = _s.replaceAll(" ", "");
-  //     markDown.println("| `ctrl+"+_ks.charAt(0)+"` | "+_ks.substring(1)+" |");
-  //   }
-  //   markDown.println(" ");
-  // }
-
-
+  }
 }
 
 
