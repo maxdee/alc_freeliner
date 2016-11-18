@@ -667,7 +667,7 @@ class VertexShaderLayer extends ShaderLayer{
  * Just draw a image, like a background Image to draw.
  *
  */
-class ImageLayer extends Layer{
+class ImageLayer extends CanvasLayer{
 
   PImage imageToDraw;
 
@@ -682,7 +682,7 @@ class ImageLayer extends Layer{
   public PGraphics apply(PGraphics _pg){
     if(!enabled) return _pg;
     if(imageToDraw == null) return _pg;
-    if(_pg == null) return null; // maybe cast image to a PG???
+    if(_pg == null) return canvas; // maybe cast image to a PG???
     _pg.beginDraw();
     _pg.image(imageToDraw,0,0);
     _pg.endDraw();
@@ -692,6 +692,11 @@ class ImageLayer extends Layer{
   public void selectOption(String _opt){
     selectedOption = _opt;
     loadFile(_opt);
+    if(imageToDraw != null){
+      canvas.beginDraw();
+      canvas.image(imageToDraw,0,0);
+      canvas.endDraw();
+    }
   }
 
   public Layer loadFile(String _file){
@@ -705,7 +710,7 @@ class ImageLayer extends Layer{
 /**
  * Display video from devices like a webcam or capture card
  */
-class CaptureLayer extends Layer{
+class CaptureLayer extends CanvasLayer{
   Capture cam;
   PApplet applet;
 
@@ -722,12 +727,19 @@ class CaptureLayer extends Layer{
   public PGraphics apply(PGraphics _pg){
     if(!enabled) return _pg;
     if(cam == null) return _pg;
-    if(_pg == null) return null; // maybe cast image to a PG???
     if(cam.available()) cam.read();
-    _pg.beginDraw();
-    _pg.image(cam,0,0,width,height);
-    _pg.endDraw();
-    return _pg;
+    if(_pg == null) {
+      canvas.beginDraw();
+      canvas.image(cam,0,0,width,height);
+      canvas.endDraw();
+      return canvas;
+    }
+    else {
+      _pg.beginDraw();
+      _pg.image(cam,0,0,width,height);
+      _pg.endDraw();
+      return _pg;
+    }
   }
 
   public void selectOption(String _opt){

@@ -1,4 +1,4 @@
-Generated on 2016/11/10 with freeliner version 0.4.4
+Generated on 2016/11/17 with freeliner version 0.4.4
 ### keys ###
 | key | parameter | type | description | cmd |
 |:---:|---|---|---|---|
@@ -52,3 +52,4 @@ Generated on 2016/11/10 with freeliner version 0.4.4
 | `x` | beatMultiplier |value |Set how many beats the animation will take. | `tw $ x` |
 | `y` | tracers |value |Set tracer level for tracer layer. | `post tracers` |
 | `|` | enterText |on off |enable text entry, type text and press return | `text` |
+ 
