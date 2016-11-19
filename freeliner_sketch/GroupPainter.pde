@@ -27,13 +27,13 @@ class Filler extends GroupPainter{
 		PShape shpe = _rt.getSegmentGroup().getShape();
 
 		float weight = event.getStrokeWeight();
+		shpe.setStrokeWeight(weight/lorp);
 
 		canvas.pushMatrix();
-		applyStyle(shpe);
-		shpe.setStrokeWeight(weight/lorp);
+		applyColor(shpe);
 		canvas.translate(center.x, center.y);
-		canvas.scale(lorp);
 		canvas.rotate(angle);
+		canvas.scale(lorp);
 		canvas.shape(shpe, -center.x, -center.y);
 		canvas.popMatrix();
 	}

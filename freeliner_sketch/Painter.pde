@@ -159,9 +159,13 @@ class Painter extends Mode{
 
   //apply settings to a canvas
   public void applyStyle(PGraphics _g){
+		applyColor(_g);
+		applyWeight(_g);
+	}
+
+	public void applyColor(PGraphics _g){
     int fillMode = event.getFillMode();
   	int strokeMode = event.getStrokeMode();
-  	int strokeWidth = event.getStrokeWeight();
 		int strokeAlpha = event.getStrokeAlpha();
 		int fillAlpha = event.getFillAlpha();
 
@@ -172,10 +176,20 @@ class Painter extends Mode{
 
     if(strokeMode != 0 && strokeAlpha != 0) {
       _g.stroke(getStrokeColor());//getColorizer(strokeMode).get(event, strokeAlpha));
-      _g.strokeWeight(strokeWidth);
     }
     else _g.noStroke();
   }
+
+
+	public void applyWeight(PGraphics _g){
+  	int strokeMode = event.getStrokeMode();
+  	int strokeWidth = event.getStrokeWeight();
+    if(strokeMode != 0) {
+      _g.strokeWeight(strokeWidth);
+    }
+  }
+
+
 
 	public color getStrokeColor(){
 		return getColorizer(event.getStrokeMode()).get(event, event.getStrokeAlpha());

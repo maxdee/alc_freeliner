@@ -267,7 +267,7 @@ class Geometry extends RenderMode{
 		name = "GeometryRender";
 		description = "RenderModes that involve all segments.";
 		groupPainters = new GroupPainter[painterCount];
-		groupPainters[0] = new Filler(0);
+		groupPainters[0] = new InterpolatorShape(0);
 		groupPainters[1] = new InterpolatorShape(1);
 		if(MAKE_DOCUMENTATION) documenter.documentModes(groupPainters, 'a', this, "FillModes");
 		//groupPainters[2] = new FlashFiller();
