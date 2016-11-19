@@ -126,25 +126,36 @@ class Painter extends Mode{
 
 	// apply colors to shape
   public void applyStyle(PShape _s){
-  	int fillMode = event.getFillMode();
-  	int strokeMode = event.getStrokeMode();
-  	int strokeWidth = event.getStrokeWeight();
+		applyWeight(_s);
+		applyColor(_s);
+  }
+
+	public void applyWeight(PShape _s){
+		int strokeWidth = event.getStrokeWeight();
+		int strokeMode = event.getStrokeMode();
+
+    if(strokeMode != 0) {
+			_s.setStrokeWeight(strokeWidth);
+    }
+	}
+
+	public void applyColor(PShape _s){
+		int fillMode = event.getFillMode();
+		int strokeMode = event.getStrokeMode();
 		int strokeAlpha = event.getStrokeAlpha();
 		int fillAlpha = event.getFillAlpha();
 
 		if (fillMode != 0){
-      _s.setFill(true);
-      _s.setFill(getFillColor());//getColorizer(fillMode).get(event, fillAlpha));
-    }
+			_s.setFill(true);
+			_s.setFill(getFillColor());//getColorizer(fillMode).get(event, fillAlpha));
+		}
 		else _s.setFill(false);
 
-    if(strokeMode != 0 && strokeAlpha != 0) {
+		if(strokeMode != 0 && strokeAlpha != 0) {
 			_s.setStroke(true);
-      _s.setStroke(getStrokeColor());//getColorizer(strokeMode).get(event, strokeAlpha)); // _s.getStyle().stroke = getColorizer(strokeMode).get(event);//
-      _s.setStrokeWeight(strokeWidth);
-    }
-    else _s.setStroke(false);
-  }
+			_s.setStroke(getStrokeColor());//getColorizer(strokeMode).get(event, strokeAlpha)); // _s.getStyle().stroke = getColorizer(strokeMode).get(event);//
+		}
+	}
 
   //apply settings to a canvas
   public void applyStyle(PGraphics _g){
