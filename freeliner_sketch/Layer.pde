@@ -516,9 +516,11 @@ class ShaderLayer extends RenderLayer{//CanvasLayer{
   PVector center;// implements this (connect to some sort of geometry thingy)
   // uniforms to control shader params
   float[] uniforms;
+  Synchroniser sync;
 
-  public ShaderLayer(){
+  public ShaderLayer(Synchroniser _s){
     super();
+    sync = _s;
     commandList.add("layer name uniforms 0 0.5");
     commandList.add("layer name loadFile fragShader.glsl");
     enabled = true;
@@ -528,6 +530,12 @@ class ShaderLayer extends RenderLayer{//CanvasLayer{
 
     shader = null;
     uniforms = new float[]{0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5};
+  }
+
+  // Overrirde
+  public void setEnable(int _v){
+    super.setEnable(_v);
+    reloadShader();
   }
 
 
@@ -612,55 +620,57 @@ class ShaderLayer extends RenderLayer{//CanvasLayer{
     shader.set("u6", uniforms[5]);
     shader.set("u7", uniforms[6]);
     shader.set("u8", uniforms[7]);
+    shader.set("time", sync.getUnit());
+    shader.set("res", float(width), float(height));
   }
 }
 
 // only going to work with P3D :/
-class VertexShaderLayer extends ShaderLayer{
-  public VertexShaderLayer(){
-    super();
-    name = "VertexShaderLayer";
-    id = name;
-    description = "a layer which can be rendered to and has a vertex shader";
-    loadFile("aVertexShader.glsl");
-  }
-
-  public void beginDrawing(){
-    if(canvas != null){
-      canvas.beginDraw();
-      canvas.clear();
-      try {
-        canvas.shader(shader);
-      }
-      catch(RuntimeException _e){
-        println("vertex shader no good");
-        canvas.resetShader();
-      }
-    }
-  }
-
-  public PGraphics apply(PGraphics _pg){
-    if(!enabled) return _pg;
-    if(_pg == null) return canvas;
-    _pg.beginDraw();
-    _pg.clear();
-    _pg.image(canvas,0,0);
-    _pg.endDraw();
-    return _pg;
-  }
-
-  public void reloadShader(){
-    try{
-      shader = loadShader( sketchPath()+"/data/userdata/defaultFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
-      println("Loaded vertex shader "+fileName);
-    }
-    catch(Exception _e){
-      println("Could not load vertex shader... "+fileName);
-      println(_e);
-      shader = null;
-    }
-  }
-}
+// class VertexShaderLayer extends ShaderLayer{
+//   public VertexShaderLayer(){
+//     super();
+//     name = "VertexShaderLayer";
+//     id = name;
+//     description = "a layer which can be rendered to and has a vertex shader";
+//     loadFile("aVertexShader.glsl");
+//   }
+//
+//   public void beginDrawing(){
+//     if(canvas != null){
+//       canvas.beginDraw();
+//       canvas.clear();
+//       try {
+//         canvas.shader(shader);
+//       }
+//       catch(RuntimeException _e){
+//         println("vertex shader no good");
+//         canvas.resetShader();
+//       }
+//     }
+//   }
+//
+//   public PGraphics apply(PGraphics _pg){
+//     if(!enabled) return _pg;
+//     if(_pg == null) return canvas;
+//     _pg.beginDraw();
+//     _pg.clear();
+//     _pg.image(canvas,0,0);
+//     _pg.endDraw();
+//     return _pg;
+//   }
+//
+//   public void reloadShader(){
+//     try{
+//       shader = loadShader( sketchPath()+"/data/userdata/defaultFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
+//       println("Loaded vertex shader "+fileName);
+//     }
+//     catch(Exception _e){
+//       println("Could not load vertex shader... "+fileName);
+//       println(_e);
+//       shader = null;
+//     }
+//   }
+// }
 
 
 /**

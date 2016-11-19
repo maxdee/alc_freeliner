@@ -29,6 +29,7 @@ class Synchroniser implements FreelinerConfig{
   FloatSmoother intervalTimer;
   float renderIncrement = 0.1;
   float lerper = 0;
+  float unit = 0;
   int periodCount = 0;
 
   // new time scaler!
@@ -47,7 +48,7 @@ class Synchroniser implements FreelinerConfig{
       lastRender = millis();
     }
     lerper += renderIncrement*timeScaler;
-
+    unit += renderIncrement*timeScaler;
     if(lerper > 1.0){
       lerper = 0.0000001;
       periodCount++;
@@ -91,6 +92,10 @@ class Synchroniser implements FreelinerConfig{
     int cyc_ = (periodCount%_div);
     float lrp_ = (1.0/_div)*cyc_;
     return (lerper/_div) + lrp_;
+  }
+  
+  public float getUnit(){
+    return unit;
   }
 
   public int getPeriod(int _div){

@@ -68,10 +68,14 @@ class FreeLiner implements FreelinerConfig{
     commandProcessor.inject(this);
     canvasManager.inject(templateRenderer);
     canvasManager.inject(commandProcessor);
+    canvasManager.inject(templateManager.getSynchroniser());
 
     // canvasManager.setGuiCanvas(gui.getCanvas());
     templateRenderer.inject(commandProcessor);
     templateRenderer.inject(groupManager);
+
+    // once all injected setup layers
+    canvasManager.setup();
 
     windowFocus = true;
 

@@ -21,11 +21,14 @@ abstract class CanvasManager implements FreelinerConfig{
   CommandProcessor commandProcessor;
   // applet needed for syhpon/spout layers
   PApplet applet;
+  // shaders need to know whats up with time.
+  Synchroniser sync;
   // boolean makeMaskFlag = false;
 
   //  abstract methods
   abstract void render(ArrayList<RenderableTemplate> _toRender);
   abstract PGraphics getCanvas();
+  abstract void setup();
   // concrete methods?
   public boolean layerCreator(String[] _args){ return false; }
 
@@ -37,6 +40,9 @@ abstract class CanvasManager implements FreelinerConfig{
   }
   public void inject(CommandProcessor _cp){
     commandProcessor = _cp;
+  }
+  public void inject(Synchroniser _s){
+    sync = _s;
   }
   // no commands available
   public boolean parseCMD(String[] _args){ return false; }
@@ -50,9 +56,13 @@ abstract class CanvasManager implements FreelinerConfig{
  */
 class ClassicCanvasManager extends CanvasManager{
   TracerLayer tracerLayer;
+
   public ClassicCanvasManager(PApplet _applet, PGraphics _gui){
     applet = _applet;
     guiCanvas = _gui;
+  }
+  
+  public void setup(){
     tracerLayer = new TracerLayer();
   }
 
@@ -96,6 +106,9 @@ class LayeredCanvasManager extends CanvasManager{
     // mergeLayer = new MergeLayer();
     mergeCanvas = createGraphics(width, height, P2D);
 
+  }
+
+  public void setup(){
     // define the stack
     layerCreator("layer tracerOne tracerLayer");
     layerCreator("layer firstShader shaderLayer");
@@ -131,9 +144,10 @@ class LayeredCanvasManager extends CanvasManager{
   public Layer addLayer(Layer _lr){
     if(_lr == null) return null;
     layers.add(_lr);
-    if(_lr instanceof VertexShaderLayer)
-      renderLayers.add((RenderLayer)_lr);
-    else if(_lr instanceof RenderLayer && !(_lr instanceof ShaderLayer))
+    //if(_lr instanceof VertexShaderLayer)
+    //  renderLayers.add((RenderLayer)_lr);
+    //else
+    if(_lr instanceof RenderLayer && !(_lr instanceof ShaderLayer))
       renderLayers.add((RenderLayer)_lr);
     return _lr;
   }
@@ -179,11 +193,11 @@ class LayeredCanvasManager extends CanvasManager{
         _lyr = new MaskLayer();
         break;
       case "shaderLayer":
-        _lyr = new ShaderLayer();
+        _lyr = new ShaderLayer(sync);
         break;
-      case "vertexShaderLayer":
-        _lyr = new VertexShaderLayer();
-        break;
+      // case "vertexShaderLayer":
+      //   _lyr = new VertexShaderLayer();
+      //   break;
       case "imageLayer":
         _lyr = new ImageLayer();
         break;
