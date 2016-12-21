@@ -364,8 +364,11 @@ class GroupManager{
       println(sketchPath()+"/data/userdata/"+_fn);
       return;
     }
-    PVector _offset = getInkscapeTransform(sketchPath()+"/data/userdata/"+_fn);
-    addSvgShapes(_shp, _offset);
+    // PVector _offset = getInkscapeTransform(sketchPath()+"/data/userdata/"+_fn);
+    PVector _offset = new PVector(0,0);
+    _offset.sub(new PVector(_shp.width/2, _shp.height/2));
+    _offset.add(new PVector(width/2, height/2));
+    addSvgShapes(_shp, _offset.get());
   }
 
   // recursively add children
@@ -387,6 +390,7 @@ class GroupManager{
     ArrayList<PVector> _vertices = new ArrayList();
     PVector posA = new PVector(0,0);
     PVector posB = new PVector(0,0);
+
     for(int i = 0; i < _shp.getVertexCount()-1; i++){
       posA = _shp.getVertex(i).get();
       posB = _shp.getVertex(i+1).get();
