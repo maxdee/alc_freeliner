@@ -99,3 +99,16 @@ class SwoopingEnabler extends Enabler{
 		else return false;
 	}
 }
+
+class StrobeEnabler extends Enabler{
+	public StrobeEnabler(){}
+	public StrobeEnabler(int _ind){
+		modeIndex = _ind;
+		name = "strobe enable";
+		description = "very crunchy render, affected by miscValue";
+	}
+
+	public boolean enable(RenderableTemplate _rt){
+		return (random(20+_rt.getMiscValue()) < 10);
+	}
+}

@@ -29,7 +29,7 @@ class TemplateRenderer extends Mode{
   int reverseModeCount = 5;
   int renderModeCount = 7;
   int repetitionModeCount = 6;
-  int enablerModeCount = 7;
+  int enablerModeCount = 8;
 
   MetaFreelining metaFreeliner;
   GroupManager groupManager;
@@ -70,6 +70,8 @@ class TemplateRenderer extends Mode{
     enablers[4] = new SweepingEnabler(4);
     enablers[5] = new SwoopingEnabler(5);
     enablers[6] = new RandomEnabler(6);
+    enablers[7] = new StrobeEnabler(7);
+
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])enablers, 'u', this, "Enablers");
 
     description = "how to darw multiples of one template";
