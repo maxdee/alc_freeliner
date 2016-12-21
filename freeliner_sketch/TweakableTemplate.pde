@@ -236,4 +236,8 @@ class TweakableTemplate extends Template {
   public void setFixLerp(float _lrp){
     fixLerp = _lrp;
   }
+
+  public void setTranslation(PVector _pv){
+    translation.set(_pv);
+  }
 }

@@ -47,7 +47,6 @@ class RenderableTemplate extends TweakableTemplate{
 	float hue;
 	PShape brushShape;
 	boolean updateBrush;
-
 	/*
 	 * Variable for internal use.
 	 */
@@ -184,6 +183,8 @@ class RenderableTemplate extends TweakableTemplate{
 		return super.setBrushSize(_s, 5000);
 	}
 
+
+
 	// public int setBrushMode(int _m){
 	// 	updateBrush = true;
 	// 	return super.setBrushMode(_m);
@@ -285,6 +286,8 @@ class RenderableTemplate extends TweakableTemplate{
 	public ArrayList<Segment> getExecutedSegments(){
 		return executedSegments;
 	}
+
+
 	// // ask if the brush needs updating
 	// public final boolean updateBrush(){
 	// 	if(updateBrush || brush == null){

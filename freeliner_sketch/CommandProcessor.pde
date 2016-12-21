@@ -765,7 +765,12 @@ class CommandProcessor implements FreelinerConfig{
     float y = stringFloat(_args[4]);
     float z = 0;
     if(_args.length > 5) z = stringFloat(_args[5]);
-    templateRenderer.translate(_args[2], x,y,z);
+    PVector _translate = new PVector(x,y,z);
+    ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+    if(_tmps == null) return;
+    for(TweakableTemplate _rt : _tmps){
+      _rt.setTranslation(_translate);
+    }
   }
 
   /**

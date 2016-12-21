@@ -56,6 +56,7 @@ class Template implements FreelinerConfig{
 
 	// custom shape
   PShape customShape;
+	PVector translation;
 
   // custom color
   color customStrokeColor;
@@ -122,6 +123,7 @@ class Template implements FreelinerConfig{
 		renderLayer = _tp.getRenderLayer();
 		linkedTemplateID = _tp.getLinkID();
 		fixLerp = _tp.getFixLerp();
+		translation = _tp.getTranslation();
  	}
 
 	/**
@@ -149,6 +151,7 @@ class Template implements FreelinerConfig{
 		renderLayer = 1;
 		customStrokeColor = color(0,0,50,255);
 		customFillColor = color(50,50,50,255);
+		translation = new PVector(0,0,0);
  	}
 
 	public void setCustomShape(PShape _shp){
@@ -292,5 +295,8 @@ class Template implements FreelinerConfig{
 	}
 	public float getFixLerp(){
 		return fixLerp;
+	}
+	public PVector getTranslation(){
+		return translation;
 	}
 }

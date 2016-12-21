@@ -22,7 +22,7 @@ class TemplateRenderer extends Mode{
   Easing[] easers;
   Reverse[] reversers;
 
-  PVector[] translations;
+  // PVector[] translations;
 
     // easer and reversers count in Config.pde
   int easingModeCount = 12;
@@ -97,8 +97,8 @@ class TemplateRenderer extends Mode{
 		reversers[4] = new RandomReverse(4);
 		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])reversers, 'j', this, "ReverseModes");
 
-    translations = new PVector[26];
-    for(int i = 0; i < 26; i++) translations[i] = new PVector(0,0,0);
+    // translations = new PVector[26];
+    // for(int i = 0; i < 26; i++) translations[i] = new PVector(0,0,0);
 	}
 
   /**
@@ -119,7 +119,7 @@ class TemplateRenderer extends Mode{
 
     // translate, beta...
     _pg.pushMatrix(); // new
-    PVector _trans = getTranslation(_rt.getTemplateID());
+    PVector _trans = _rt.getTranslation();
     _pg.translate(_trans.x*width, _trans.y*height);
 
     // get multiple unit intervals to use
@@ -151,18 +151,18 @@ class TemplateRenderer extends Mode{
     _pg.popMatrix();
   }
 
-  public void translate(String _tags, float x, float y, float z){
-    int _index = 0;
-    for(int i = 0; i < _tags.length(); i++){
-      getTranslation(_tags.charAt(i)).set(x,y,z);
-    }
-  }
+  // public void translate(String _tags, float x, float y, float z){
+  //   int _index = 0;
+  //   for(int i = 0; i < _tags.length(); i++){
+  //     getTranslation(_tags.charAt(i)).set(x,y,z);
+  //   }
+  // }
 
-  public PVector getTranslation(char _c){
-    int _index = int(_c)-65;
-    if(_index >= 0 && _index < 26) return translations[_index];
-    else return new PVector(0,0,0);
-  }
+  // public PVector getTranslation(char _c){
+  //   int _index = int(_c)-65;
+  //   if(_index >= 0 && _index < 26) return translations[_index];
+  //   else return new PVector(0,0,0);
+  // }
 
 
   //needs work
