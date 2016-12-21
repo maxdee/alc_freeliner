@@ -237,9 +237,96 @@ class ColorFlexWAUV extends RGBFixture{
       // println(address+i+" -> "+int(buffer[i]));
     }
   }
+
 }
 
-////////////////////////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////
+// a base class for RGB fixture.
+class RGBPar extends Fixture {
+  boolean correctGamma = true;
+  color col;
+  public RGBPar(int _adr){
+    super(_adr);
+    name = "RGBAWPar";
+    description = "a RGB light fixture";
+    channelCount = 3;
+    address = _adr;
+    buffer = new byte[channelCount];
+    position = new PVector(0,0);
+  }
+  public void parseGraphics(PGraphics _pg){
+    if(_pg == null) return;
+    int ind = int(position.x + (position.y*_pg.width));
+    int max = _pg.width*_pg.height;
+    if(ind < max) setColor(_pg.pixels[ind]);
+  }
+
+  // RGBFixture specific
+  public void setColor(color _c){
+    col = _c;
+    int red = (col >> 16) & 0xFF;
+    int green = (col >> 8) & 0xFF;
+    int blue = col & 0xFF;
+    buffer[0] = byte(correctGamma ? red : gammatable[red]);
+    buffer[1] = byte(correctGamma ? green : gammatable[green]);
+    buffer[2] = byte(correctGamma ? blue : gammatable[blue]);
+  }
+  // override
+  void drawFixtureOverlay(PGraphics _pg){
+    if(_pg == null) return;
+    _pg.stroke(255, 100);
+    _pg.noFill();
+    _pg.ellipseMode(CENTER);
+    _pg.ellipse(position.x, position.y, 10, 10);
+    _pg.textSize(10);
+    _pg.fill(255);
+    _pg.text(str(address), position.x, position.y);
+  }
+}
+class AWPar extends Fixture {
+  boolean correctGamma = true;
+  color col;
+  public AWPar(int _adr){
+    super(_adr);
+    name = "AWPar";
+    description = "a RGB light fixture";
+    channelCount = 2;
+    address = _adr;
+    buffer = new byte[channelCount];
+    position = new PVector(0,0);
+  }
+  public void parseGraphics(PGraphics _pg){
+    if(_pg == null) return;
+    int ind = int(position.x + (position.y*_pg.width));
+    int max = _pg.width*_pg.height;
+    if(ind < max) setColor(_pg.pixels[ind]);
+  }
+  // RGBFixture specific
+  public void setColor(color _c){
+    col = _c;
+    int red = (col >> 16) & 0xFF;
+    int green = (col >> 8) & 0xFF;
+    // int blue = col & 0xFF;
+    buffer[0] = byte(correctGamma ? red : gammatable[red]);
+    buffer[1] = byte(correctGamma ? green : gammatable[green]);
+    // buffer[2] = byte(correctGamma ? blue : gammatable[blue]);
+  }
+  // override
+  void drawFixtureOverlay(PGraphics _pg){
+    if(_pg == null) return;
+    _pg.stroke(255, 100);
+    _pg.noFill();
+    _pg.ellipseMode(CENTER);
+    _pg.ellipse(position.x, position.y, 10, 10);
+    _pg.textSize(10);
+    _pg.fill(255);
+    _pg.text(str(address), position.x, position.y);
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     `Mp`anel
 ///////

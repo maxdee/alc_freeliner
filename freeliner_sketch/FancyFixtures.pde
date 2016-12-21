@@ -164,7 +164,7 @@ class FancyFixtures implements FreelinerConfig {
 
 
   public void parseFixture(XML _xml){
-
+    //   for(XML)
   }
 
   // XML segment to RGBStrip fixture
@@ -174,8 +174,22 @@ class FancyFixtures implements FreelinerConfig {
     if(cmd[0].equals("/rgb") && cmd.length>1){
       // println(cmd[1]);
       int addr = int(cmd[1]);
+      Fixture _fix = new RGBPar(addr);
+      _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
+      _fix.drawFixtureOverlay(overLayCanvas);
+      fixtures.add(_fix);
       // println("Adding LEDs from: "+from+"  to: "+to);
-      addRGBFixture(addr, (int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
+    //   addRGBFixture(addr,(int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
+    }
+    else if(cmd[0].equals("/aw") && cmd.length>1){
+      // println(cmd[1]);
+      int addr = int(cmd[1]);
+      Fixture _fix = new AWPar(addr);
+      _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
+      _fix.drawFixtureOverlay(overLayCanvas);
+      fixtures.add(_fix);
+      // println("Adding LEDs from: "+from+"  to: "+to);
+    //   addRGBFixture(addr,(int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
     }
     else if(cmd[0].equals("/led") && cmd.length>2){
       // println(cmd[1]);
