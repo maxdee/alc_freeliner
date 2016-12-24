@@ -118,10 +118,11 @@ public class ArtNetSender extends ByteSender{
 
 
   public byte[][] splitUniverses(byte[] _data){
+
     int _universeCount = _data.length/510;
     int _ind = 0;
     byte[][] _universes = new byte[_universeCount][512];
-    for(int u = 0; u < _universeCount; u++){
+    for(int u = 1; u < _universeCount; u++){ // temporary_plz_undo
       for(int i = 1; i < 510; i++){
         _ind = u*510+i;
         if(_ind < _data.length) _universes[u][i] = _data[_ind];
@@ -146,6 +147,11 @@ public class ArtNetSender extends ByteSender{
   // }
 
   public byte[] makeArtNetPacket(byte[] _data, int _uni){
+    //   boolean _drop = false;
+    //   for(int i = 0; i < _data.length; i++){
+    //       if(_data[i] != 0) _drop = true;
+    //   }
+    //   if(_drop) return null;
     long _size = _data.length;
     byte _packet[] = new byte[_data.length+18];
     _packet[0] = byte('A');
@@ -174,6 +180,7 @@ public class ArtNetSender extends ByteSender{
   }
 
   public void sendUDP(byte[] _data) {
+      if(_data == null) return;
     DatagramPacket packet = new DatagramPacket(_data, _data.length,
         address, port);
     try{

@@ -14,28 +14,28 @@
  */
 
 class TemplateRenderer extends Mode{
-  // rendering modes and repetition
-  // arraySizes in config.pde
-  RenderMode[] renderModes;
-  Repetition[] repeaters;
-  Enabler[] enablers;
-  Easing[] easers;
-  Reverse[] reversers;
+    // rendering modes and repetition
+    // arraySizes in config.pde
+    RenderMode[] renderModes;
+    Repetition[] repeaters;
+    Enabler[] enablers;
+    Easing[] easers;
+    Reverse[] reversers;
 
-  // PVector[] translations;
+    // PVector[] translations;
 
     // easer and reversers count in Config.pde
-  int easingModeCount = 12;
-  int reverseModeCount = 5;
-  int renderModeCount = 7;
-  int repetitionModeCount = 6;
-  int enablerModeCount = 8;
+    int easingModeCount = 12;
+    int reverseModeCount = 5;
+    int renderModeCount = 7;
+    int repetitionModeCount = 6;
+    int enablerModeCount = 8;
 
-  MetaFreelining metaFreeliner;
-  GroupManager groupManager;
-  /**
-   * Constructor
-   */
+    MetaFreelining metaFreeliner;
+    GroupManager groupManager;
+    /**
+     * Constructor
+     */
 	public TemplateRenderer(){
     name="TemplateRenderer";
     description="regular template renderer";
@@ -75,29 +75,29 @@ class TemplateRenderer extends Mode{
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])enablers, 'u', this, "Enablers");
 
     description = "how to darw multiples of one template";
-		easers = new Easing[easingModeCount];
-		easers[0] = new NoEasing(0);
-		easers[1] = new Square(1);
-		easers[2] = new Sine(2);
-		easers[3] = new Cosine(3);
-		easers[4] = new Boost(4);
-		easers[5] = new RandomUnit(5);
-		easers[6] = new TargetNoise(6);
-		easers[7] = new Fixed(1.0, 7);
-		easers[8] = new Fixed(0.5, 8);
-		easers[9] = new Fixed(0.0, 9);
-		easers[10] = new EaseInOut(10);
+	easers = new Easing[easingModeCount];
+	easers[0] = new NoEasing(0);
+	easers[1] = new Square(1);
+	easers[2] = new Sine(2);
+	easers[3] = new Cosine(3);
+	easers[4] = new Boost(4);
+	easers[5] = new RandomUnit(5);
+	easers[6] = new TargetNoise(6);
+	easers[7] = new Fixed(1.0, 7);
+	easers[8] = new Fixed(0.5, 8);
+	easers[9] = new Fixed(0.0, 9);
+	easers[10] = new EaseInOut(10);
     easers[11] = new FixLerp(11);
 
-		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])easers, 'h', this, "EasingModes");
+	if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])easers, 'h', this, "EasingModes");
 
-		reversers = new Reverse[reverseModeCount];
-		reversers[0] = new NotReverse(0);
-		reversers[1] = new Reverse(1);
-		reversers[2] = new BackForth(2);
-		reversers[3] = new TwoTwoReverse(3);
-		reversers[4] = new RandomReverse(4);
-		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])reversers, 'j', this, "ReverseModes");
+	reversers = new Reverse[reverseModeCount];
+	reversers[0] = new NotReverse(0);
+	reversers[1] = new Reverse(1);
+	reversers[2] = new BackForth(2);
+	reversers[3] = new TwoTwoReverse(3);
+	reversers[4] = new RandomReverse(4);
+	if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])reversers, 'j', this, "ReverseModes");
 
     // translations = new PVector[26];
     // for(int i = 0; i < 26; i++) translations[i] = new PVector(0,0,0);
@@ -107,65 +107,51 @@ class TemplateRenderer extends Mode{
    * Render a renderable template.
    * @param RenderableTemplate to render.
    */
-  public void render(RenderableTemplate _rt, PGraphics _pg){
-    if(_rt == null) return;
-    if(_rt.getSegmentGroup() == null) return;
-    if(_rt.getSegmentGroup().isEmpty()) return;
-    _rt.setCanvas(_pg);
+   public void render(RenderableTemplate _rt, PGraphics _pg){
+        if(_rt == null) return;
+        if(_rt.getSegmentGroup() == null) return;
+        if(_rt.getSegmentGroup().isEmpty()) return;
+        _rt.setCanvas(_pg);
 
-    metaFreeliner.setCommandSegments(groupManager.getCommandSegments());
+        metaFreeliner.setCommandSegments(groupManager.getCommandSegments());
 
 
-    // check the enabler, it may modify the unitInterval
-    if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
+        // check the enabler, it may modify the unitInterval
+        if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
 
-    // translate, beta...
-    _pg.pushMatrix(); // new
-    PVector _trans = _rt.getTranslation();
-    _pg.translate(_trans.x*width, _trans.y*height);
+        // translate, beta...
+        _pg.pushMatrix(); // new
+        PVector _trans = _rt.getTranslation();
+        _pg.translate(_trans.x*width, _trans.y*height);
 
-    // get multiple unit intervals to use
-    float _eased = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
-    FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt, _eased);
-    float _rev = getReverser(_rt.getReverseMode()).getDirection(_rt);
-    int repetitionCount = 0;
+        // get multiple unit intervals to use
+        float _eased = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
+        FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt, _eased);
+        float _rev = getReverser(_rt.getReverseMode()).getDirection(_rt);
+        int repetitionCount = 0;
 
-    for(float flt : flts){
-      flt *= _rev;
-      // Repition object return arrayList of unit intervals.
-      // negative values indicates going in reverse
-      if(flt < 0){
-        _rt.setLerp(flt+1);
-        _rt.setDirection(true);
-      }
-      else {
-        _rt.setLerp(flt);
-        _rt.setDirection(false);
-      }
-      // push the repetition count to template
-      _rt.setRepetition(repetitionCount);
-      repetitionCount++;
-      // modify angle modifier
-      tweakAngle(_rt);
-      // pass template to renderer
-      getRenderer(_rt.getRenderMode()).doRender(_rt);
-    }
-    _pg.popMatrix();
+        for(float flt : flts){
+            flt *= _rev;
+            // Repition object return arrayList of unit intervals.
+            // negative values indicates going in reverse
+            if(flt < 0){
+                _rt.setLerp(flt+1);
+                _rt.setDirection(true);
+            }
+            else {
+                _rt.setLerp(flt);
+                _rt.setDirection(false);
+            }
+            // push the repetition count to template
+            _rt.setRepetition(repetitionCount);
+            repetitionCount++;
+            // modify angle modifier
+            tweakAngle(_rt);
+            // pass template to renderer
+            getRenderer(_rt.getRenderMode()).doRender(_rt);
+        }
+        _pg.popMatrix();
   }
-
-  // public void translate(String _tags, float x, float y, float z){
-  //   int _index = 0;
-  //   for(int i = 0; i < _tags.length(); i++){
-  //     getTranslation(_tags.charAt(i)).set(x,y,z);
-  //   }
-  // }
-
-  // public PVector getTranslation(char _c){
-  //   int _index = int(_c)-65;
-  //   if(_index >= 0 && _index < 26) return translations[_index];
-  //   else return new PVector(0,0,0);
-  // }
-
 
   //needs work
   /**
@@ -173,22 +159,22 @@ class TemplateRenderer extends Mode{
    * @param RenderableTemplate to render.
    */
   // yes a mess!
-  public void tweakAngle(RenderableTemplate _rt){
-    int rotMode = _rt.getRotationMode();
-    float _ang = 0;
-    if(rotMode == 0) _rt.setAngleMod(0);
-    else {
-      if(rotMode < 4){
-        if(_rt.getSegmentGroup().isClockWise()) _ang = _rt.getLerp()*PI*-rotMode;
-        else _ang = _rt.getLerp()*PI*rotMode;
-      }
-      else if(rotMode == 4) _ang = -_rt.getLerp()*PI;
-      else if(rotMode == 5) _ang = _rt.getLerp()*PI;
+    public void tweakAngle(RenderableTemplate _rt){
+        int rotMode = _rt.getRotationMode();
+        float _ang = 0;
+        if(rotMode == 0) _rt.setAngleMod(0);
+        else {
+            if(rotMode < 4){
+                if(_rt.getSegmentGroup().isClockWise()) _ang = _rt.getLerp()*PI*-rotMode;
+                else _ang = _rt.getLerp()*PI*rotMode;
+            }
+            else if(rotMode == 4) _ang = -_rt.getLerp()*PI;
+            else if(rotMode == 5) _ang = _rt.getLerp()*PI;
 
-      if(_rt.getDirection()) _ang -= PI;
-      _rt.setAngleMod(_ang);
+            if(_rt.getDirection()) _ang -= PI;
+                _rt.setAngleMod(_ang);
+            }
     }
-  }
 
 
   ////////////////////////////////////////////////////////////////////////////////////
@@ -197,40 +183,40 @@ class TemplateRenderer extends Mode{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public void inject(CommandProcessor _cp){
-    metaFreeliner.setCommandProcessor(_cp);
-  }
+    public void inject(CommandProcessor _cp){
+        metaFreeliner.setCommandProcessor(_cp);
+    }
 
-  public void inject(GroupManager _gp){
-    groupManager = _gp;
-  }
+    public void inject(GroupManager _gp){
+        groupManager = _gp;
+    }
 
-  public void setColorMap(PImage _cm){
-    metaFreeliner.setColorMap(_cm);
-  }
+    public void setColorMap(PImage _cm){
+        metaFreeliner.setColorMap(_cm);
+    }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public RenderMode getRenderer(int _index){
-    if(_index >= renderModeCount) _index = renderModeCount - 1;
-    return renderModes[_index];
-  }
+    public RenderMode getRenderer(int _index){
+        if(_index >= renderModeCount) _index = renderModeCount - 1;
+        return renderModes[_index];
+    }
 
-  public Repetition getRepeater(int _index){
-    if(_index >= repetitionModeCount) _index = repetitionModeCount - 1;
-    return repeaters[_index];
-  }
+    public Repetition getRepeater(int _index){
+        if(_index >= repetitionModeCount) _index = repetitionModeCount - 1;
+        return repeaters[_index];
+    }
 
-  public Easing getEaser(int _index){
-    if(_index >= easingModeCount) _index = easingModeCount - 1;
-    return easers[_index];
-  }
+    public Easing getEaser(int _index){
+        if(_index >= easingModeCount) _index = easingModeCount - 1;
+        return easers[_index];
+    }
 
-  public Reverse getReverser(int _index){
-    if(_index >= reverseModeCount) _index = reverseModeCount - 1;
-    return reversers[_index];
-  }
+    public Reverse getReverser(int _index){
+        if(_index >= reverseModeCount) _index = reverseModeCount - 1;
+        return reversers[_index];
+    }
 }
