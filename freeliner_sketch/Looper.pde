@@ -14,9 +14,11 @@ class Looper implements FreelinerConfig{
 	ArrayList<Loop> loops;
 	int currentTimeDiv = 0;
 	boolean recording;
+	boolean lock = false;
 	boolean primed;
 	float lastUnitInterval;
 	Loop currentLoop;
+
 	public Looper(){
 		loops = new ArrayList<Loop>();
 	}
@@ -30,11 +32,24 @@ class Looper implements FreelinerConfig{
 			}
 		}
 		if(_toex.size() > 0){
-			for(String _str : _toex) commandProcessor.queueCMD(_str);
+			lock = true;
+			for(String _str : _toex) commandProcessor.processCMD(_str);
+			lock = false;
+		}
+		if(recording && currentLoop != null){
+			float _ha = synchroniser.getLerp(currentTimeDiv);
+			_ha -= currentLoop.getOffset();
+			if(_ha < 0.0) _ha += 1.0;
+			if(_ha < lastUnitInterval) {
+				recording = false;
+				println("stopped loop");
+			}
+			lastUnitInterval = _ha;
 		}
 	}
 
 	public void receive(String _cmd){
+		if(lock) return;
 		if(primed){
 			currentLoop = new Loop(currentTimeDiv, synchroniser.getLerp(currentTimeDiv));
 			loops.add(currentLoop);
@@ -42,11 +57,7 @@ class Looper implements FreelinerConfig{
 			recording = true;
 		}
 		if(recording){
-			float _ha =   synchroniser.getLerp(currentTimeDiv) - currentLoop.getOffset();
-			if(_ha < 0.0) _ha += 1.0;
-			currentLoop.addCMD(_cmd, _ha);
-			if(_ha < lastUnitInterval) recording = false;
-			lastUnitInterval = _ha;
+			currentLoop.addCMD(_cmd, synchroniser.getLerp(currentTimeDiv));
 		}
 	}
 
@@ -58,16 +69,22 @@ class Looper implements FreelinerConfig{
 		synchroniser = _sy;
 	}
 
-	public int setTimeDivider(int _v, int _max){
+	public String setTimeDivider(int _v, int _max){
+		if(_v == 0){
+			primed = false;
+			if(loops.size() > 0) {
+				loops.remove(loops.size()-1);
+				return "delete";
+			}
+		}
 		if(_v == -42) _v = currentTimeDiv;
 		currentTimeDiv = numTweaker(_v, currentTimeDiv);
 		if(currentTimeDiv >= _max) currentTimeDiv = _max - 1;
-		if(currentTimeDiv > 1) primed = true;
-		if(currentTimeDiv == 0){
-			primed = false;
-			if(loops.size() > 0) loops.remove(loops.size()-1);
+		if(currentTimeDiv >= 1) {
+			primed = true;
+			return "ready "+currentTimeDiv;
 		}
-		return currentTimeDiv;
+		return "ready "+currentTimeDiv;
 	}
 }
 

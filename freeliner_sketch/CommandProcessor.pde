@@ -208,13 +208,11 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("hid")) _used = hidCMD(_args);
     else if(_args[0].equals("loop")) _used = loopCMD(_args);
 
-    else {
-        looper.receive(_cmd);
-        if(_args[0].equals("tw")) _used = templateCMD(_args); // good
-        else if(_args[0].equals("tr")) _used = templateCMD(_args); // need to check trigger group
-        else if(_args[0].equals("tp")) _used = templateCMD(_args);
-        else if(_args[0].equals("layer")) _used = canvasManager.parseCMD(_args);
-    }
+    else if(_args[0].equals("tw")) _used = templateCMD(_args); // good
+    else if(_args[0].equals("tr")) _used = templateCMD(_args); // need to check trigger group
+    else if(_args[0].equals("tp")) _used = templateCMD(_args);
+    else if(_args[0].equals("layer")) _used = layerCMD(_args);
+
     // else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -303,19 +301,14 @@ class CommandProcessor implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
   public boolean layerCMD(String[] _args){
+      if(_args.length > 3){
+          if(_args[2].equals("uniforms")){
+              looper.receive(join(_args, " "));
+          }
+      }
     return canvasManager.parseCMD(_args);
-
-    // if(_args.length < 2) return false;
-    // else if(_args[1].equals("mask")) maskCMD(_args);
-    // // else if(_args[1].equals("open")) openCMD(_args);
-    // else return false;
-    // return true;
   }
 
-  // public void maskCMD(String[] _args){
-  //   if(_args.length < 3) return;
-  //   else if(_args[2].equals("make")) canvasManager.generateMask();
-  // }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     fl stuff load and such
@@ -602,7 +595,7 @@ class CommandProcessor implements FreelinerConfig{
     public boolean loopCMD(String[] _args){
         if(_args.length > 1){
             int _v = stringInt(_args[1]);
-            valueGiven = str(looper.setTimeDivider(_v, keyMap.getMax('z')));
+            valueGiven = looper.setTimeDivider(_v, keyMap.getMax('z'));
             return true;
         }
         return false;
@@ -789,6 +782,8 @@ class CommandProcessor implements FreelinerConfig{
 
   // could be in tm
   public void triggerTemplates(String[] _args){
+     looper.receive(join(_args, " "));
+
     if(_args.length == 2){
       for(int i = 0; i < _args[1].length(); i++) templateManager.trigger(_args[1].charAt(i));
     }
@@ -800,6 +795,7 @@ class CommandProcessor implements FreelinerConfig{
 
  // tp translate AB 0.5 0.5 0.5
   public void tpTranslateCMD(String[] _args){
+      looper.receive(join(_args, " "));
     if(_args.length < 5) return;
     float x = stringFloat(_args[3]);
     float y = stringFloat(_args[4]);
@@ -828,6 +824,7 @@ class CommandProcessor implements FreelinerConfig{
     char _k = _args[2].charAt(0);
     int _v = stringInt(_args[3]);
     for(TweakableTemplate _tp : _tmps) templateDispatch(_tp, _k, _v);
+
   }
 
   /**
@@ -840,7 +837,8 @@ class CommandProcessor implements FreelinerConfig{
   public void templateDispatch(TweakableTemplate _template, char _k, int _n) {
     //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
     if(_template == null) return;
-    if (_k == 'a') valueGiven = str(_template.setAnimationMode(_n, keyMap.getMax('a')));
+    // mod commands
+    else if (_k == 'a') valueGiven = str(_template.setAnimationMode(_n, keyMap.getMax('a')));
     else if (_k == 'b') valueGiven = str(_template.setRenderMode(_n, keyMap.getMax('b')));
     else if (_k == 'f') valueGiven = str(_template.setFillMode(_n, keyMap.getMax('f')));
     else if (_k == 'h') valueGiven = str(_template.setEasingMode(_n, keyMap.getMax('h')));
@@ -859,11 +857,11 @@ class CommandProcessor implements FreelinerConfig{
     else if (_k == 'v') valueGiven = str(_template.setSegmentMode(_n, keyMap.getMax('v')));
     else if (_k == 'w') valueGiven = str(_template.setStrokeWidth(_n, keyMap.getMax('w')));
     else if (_k == 'x') valueGiven = str(_template.setBeatDivider(_n, keyMap.getMax('x')));
-
     // else if (_k == '%') valueGiven = str(_template.setBankIndex(_n));
     // else if (_k == '$') valueGiven = str(_template.saveToBank()); // could take an _n to set bank index?
-    // mod commands
-    else if (int(_k) == 518) _template.reset();
+    if (int(_k) == 518) _template.reset();
+    else if(_n != -3) looper.receive("tw "+_template.getTemplateID()+" "+_k+" "+valueGiven);
+
   }
 
 
