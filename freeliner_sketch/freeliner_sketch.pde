@@ -36,7 +36,7 @@ FreeLiner freeliner;
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.4.4";
+final String VERSION = "0.4.5";
 boolean doSplash = true;
 boolean OSX = false;
 boolean WIN = false;
@@ -112,7 +112,7 @@ void setup() {
     // perhaps use -> PApplet.platform == MACOSX
     background(0);
     splash();
-
+    frameRate(420);
     makeGammaTable();
 }
 

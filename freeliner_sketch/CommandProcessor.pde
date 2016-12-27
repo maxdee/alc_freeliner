@@ -17,9 +17,10 @@ class CommandProcessor implements FreelinerConfig{
   GroupManager groupManager;
   Synchroniser synchroniser;
   Sequencer sequencer;
-  Mouse mouse;
   Keyboard keyboard;
+  Mouse mouse;
   Gui gui;
+  Looper looper;
   KeyMap keyMap;
   FreeLiner freeliner;
   OSCCommunicator oscComs;
@@ -58,6 +59,8 @@ class CommandProcessor implements FreelinerConfig{
     "seq stop // redundent play 0|1",
     "seq speed 0.5",
     "seq steady 0|1",
+    ///////////////////  Loop CMD
+    "loop 2", // loop 2 primes a loop (starts on input), 0 stops recording, kill loops lifo style
 
     "cmd rec 0|1|-3", // not implemented
     "cmd play 0|1|-3", // not implemented
@@ -114,6 +117,7 @@ class CommandProcessor implements FreelinerConfig{
    */
   public CommandProcessor(){
     commandQueue = new ArrayList();
+    looper = new Looper();
   }
 
   /**
@@ -135,6 +139,14 @@ class CommandProcessor implements FreelinerConfig{
     keyMap = freeliner.getKeyMap();
     oscComs = freeliner.getOscCommunicator();
     webComs = freeliner.getWebCommunicator();
+    looper.inject(synchroniser);
+    looper.inject(this);
+  }
+
+
+  public void update(){
+      looper.update();
+      processQueue();
   }
 
   /**
@@ -145,6 +157,12 @@ class CommandProcessor implements FreelinerConfig{
   public void queueCMD(String _cmd){
     // println("adding to queue : "+_cmd);
     commandQueue.add(_cmd);
+  }
+
+  public void queueCMD(ArrayList<String> _cmds){
+      if(_cmds != null){
+          commandQueue.addAll(_cmds);
+      }
   }
 
   /**
@@ -162,34 +180,42 @@ class CommandProcessor implements FreelinerConfig{
    * First level of command parsing, redistributes according to first argument of command.
    * @param String command
    */
-  public void processCMD(String _cmd){
-    if(_cmd == null) return;
-    valueGiven = "_";
-    processCMD(split(_cmd, ' '));
-  }
+  // public void processCMD(String _cmd){
+  //
+  // }
 
-  public void processCMD(String[] _args){
+  public void processCMD(String _cmd){
+      if(_cmd == null) return;
+      valueGiven = "_";
+
+    String[] _args = split(_cmd, ' ');
     // println(_args);
     boolean _used = false;
     if(_args.length == 0) return;
-    if(_args[0].equals("tw")) _used = templateCMD(_args); // good
-    else if(_args[0].equals("tr")) _used = templateCMD(_args); // need to check trigger group
-    else if(_args[0].equals("tp")) _used = templateCMD(_args);
-    else if(_args[0].equals("fl")) _used = flCMD(_args);
+    // first the ones that get filtered out of the looper
     else if(_args[0].equals("seq")) _used = sequencerCMD(_args);
+
+    else if(_args[0].equals("window")) _used = windowCMD(_args);
+    else if(_args[0].equals("addlayer")) _used = canvasManager.layerCreator(_args);
+    else if(_args[0].equals("setosc")) _used = setOsc(_args);
+    else if(_args[0].equals("colormap")) _used = colorMapCMD(_args);
+    else if(_args[0].equals("config")) _used = configCMD(_args);
+    else if(_args[0].equals("fl")) _used = flCMD(_args); // deprecated?
     else if(_args[0].equals("post")) _used = postCMD(_args);
     else if(_args[0].equals("tools")) _used = toolsCMD(_args);
     else if(_args[0].equals("geom")) _used = geometryCMD(_args);
     else if(_args[0].equals("fetch-osc") || _args[0].equals("fetch-ws")) _used = fetchCMD(_args);
     else if(_args[0].equals("hid")) _used = hidCMD(_args);
-    else if(_args[0].equals("layer")) _used = canvasManager.parseCMD(_args);
-    else if(_args[0].equals("config")) _used = configCMD(_args);
-    // else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
-    else if(_args[0].equals("window")) _used = windowCMD(_args);
-    else if(_args[0].equals("addlayer")) _used = canvasManager.layerCreator(_args);
-    else if(_args[0].equals("setosc")) _used = setOsc(_args);
-    else if(_args[0].equals("colormap")) _used = colorMapCMD(_args);
+    else if(_args[0].equals("loop")) _used = loopCMD(_args);
 
+    else {
+        looper.receive(_cmd);
+        if(_args[0].equals("tw")) _used = templateCMD(_args); // good
+        else if(_args[0].equals("tr")) _used = templateCMD(_args); // need to check trigger group
+        else if(_args[0].equals("tp")) _used = templateCMD(_args);
+        else if(_args[0].equals("layer")) _used = canvasManager.parseCMD(_args);
+    }
+    // else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
     if(!_used) println("CMD fail : "+join(_args, ' '));
 
   }
@@ -570,6 +596,21 @@ class CommandProcessor implements FreelinerConfig{
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
+  ///////     LooperCMD
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+    public boolean loopCMD(String[] _args){
+        if(_args.length > 1){
+            int _v = stringInt(_args[1]);
+            valueGiven = str(looper.setTimeDivider(_v, keyMap.getMax('z')));
+            return true;
+        }
+        return false;
+    }
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
   ///////     sequencerCMD
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
@@ -588,7 +629,6 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[1].equals("toggle")) toggleStep(_args);
     else if(_args[1].equals("speed") && _args.length > 2) synchroniser.setTimeScaler(stringFloat(_args[2]));
     else if(_args[1].equals("steady") && _args.length > 2) synchroniser.setSteady(boolean(stringInt(_args[2])));
-
     else return false;
     return true;
   }
@@ -819,6 +859,7 @@ class CommandProcessor implements FreelinerConfig{
     else if (_k == 'v') valueGiven = str(_template.setSegmentMode(_n, keyMap.getMax('v')));
     else if (_k == 'w') valueGiven = str(_template.setStrokeWidth(_n, keyMap.getMax('w')));
     else if (_k == 'x') valueGiven = str(_template.setBeatDivider(_n, keyMap.getMax('x')));
+
     // else if (_k == '%') valueGiven = str(_template.setBankIndex(_n));
     // else if (_k == '$') valueGiven = str(_template.saveToBank()); // could take an _n to set bank index?
     // mod commands
@@ -868,27 +909,5 @@ class Cmd implements FreelinerConfig{
       return args[_i].equals(_s);
     }
     else return false;
-  }
-
-}
-
-// class to create loops of events.
-class Looper {
-  Synchroniser synchroniser;
-  boolean recording;
-  ArrayList<String> events;
-  public Looper(Synchroniser _sn){
-    synchroniser = _sn;
-    recording = false;
-    events = new ArrayList();
-  }
-
-  public void add(String _cmd){
-    events.add(_cmd);
-  }
-
-  // going to need some sort of update function
-  public void update(){
-
   }
 }

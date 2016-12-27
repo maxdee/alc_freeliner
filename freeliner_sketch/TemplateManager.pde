@@ -28,7 +28,6 @@ class TemplateManager{
   Sequencer sequencer;
   GroupManager groupManager;
 
-
   public TemplateManager(){
     sync = new Synchroniser();
     sequencer = new Sequencer();

@@ -106,7 +106,7 @@ class FreeLiner implements FreelinerConfig{
       windowFocus = focused;
     }
     gui.update();
-    commandProcessor.processQueue();
+    commandProcessor.update();
     // update template models
     templateManager.update();
     templateManager.launchLoops();//groupManager.getGroups());

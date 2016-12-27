@@ -223,6 +223,13 @@ class KeyMap {
     keymap['y'].setCMD("post tracers"); //
     keymap['y'].setMax(256);
 
+    // z looping
+    keymap['z'] = new ParameterKey('z');
+    keymap['z'].setType(3);
+    keymap['z'].setName("looper");
+    keymap['z'].setDescription("Set how many beats the loop will be.");
+    keymap['z'].setCMD("loop"); //
+    keymap['z'].setMax(5000);
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
