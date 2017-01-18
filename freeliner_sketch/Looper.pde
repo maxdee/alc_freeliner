@@ -16,6 +16,7 @@ class Looper implements FreelinerConfig{
 	boolean recording;
 	boolean lock = false;
 	boolean primed;
+	boolean overdub = false;
 	float lastUnitInterval;
 	Loop currentLoop;
 
@@ -36,7 +37,7 @@ class Looper implements FreelinerConfig{
 			for(String _str : _toex) commandProcessor.processCMD(_str);
 			lock = false;
 		}
-		if(recording && currentLoop != null){
+		if(recording && currentLoop != null && !overdub){
 			float _ha = synchroniser.getLerp(currentTimeDiv);
 			_ha -= currentLoop.getOffset();
 			if(_ha < 0.0) _ha += 1.0;
@@ -72,12 +73,19 @@ class Looper implements FreelinerConfig{
 	public String setTimeDivider(int _v, int _max){
 		if(_v == 0){
 			primed = false;
-			if(loops.size() > 0) {
+			if(recording && overdub) {
+				recording = false;
+				return "stopped";
+			}
+			else if(loops.size() > 0) {
 				loops.remove(loops.size()-1);
 				return "delete";
 			}
 		}
-		if(_v == -42) _v = currentTimeDiv;
+		if(_v == -42 || _v == -3) {
+			primed = false;
+			return "stdb";
+		}
 		currentTimeDiv = numTweaker(_v, currentTimeDiv);
 		if(currentTimeDiv >= _max) currentTimeDiv = _max - 1;
 		if(currentTimeDiv >= 1) {

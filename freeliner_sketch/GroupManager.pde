@@ -264,6 +264,9 @@ class GroupManager{
   public void saveGroups(String _fn){
     XML groupData = new XML("groups");
     for(SegmentGroup grp : groups){
+        groupData.setInt("width", width);
+        groupData.setInt("height", height);
+
       if(grp.isEmpty()) continue;
       XML xgroup = groupData.addChild("group");
       xgroup.setInt("ID", grp.getID());
@@ -313,11 +316,18 @@ class GroupManager{
       println(_fn+" cant be loaded");
       return;
     }
+    int sourceWidth = file.getInt("width");
+    int sourceHeight = file.getInt("height");
+    // println("ahhahah "+sourceWidth+ " "+sourceHeight);
 
     XML[] groupData = file.getChildren("group");
     PVector posA = new PVector(0,0);
     PVector posB = new PVector(0,0);
-
+    PVector _offset = new PVector(0,0);
+    if(sourceWidth != 0 && sourceHeight != 0){
+        _offset.sub(new PVector(sourceWidth/2, sourceHeight/2));
+        _offset.add(new PVector(width/2, height/2));
+    }
     for(XML xgroup : groupData){
 
       if(xgroup.getString("type").equals("gui")) selectedIndex = 0;
@@ -329,6 +339,8 @@ class GroupManager{
       for(XML seg : xseg){
         posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
         posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
+        posA.add(_offset);
+        posB.add(_offset);
         _seg = new Segment(posA.get(), posB.get());
         _seg.setText(seg.getString("txt"));
         getSelectedGroup().addSegment(_seg);
@@ -337,6 +349,7 @@ class GroupManager{
       // //getSelectedGroup().setNeighbors();
       // getSelectedGroup().updateGeometry();
       posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
+      posA.add(_offset);
       String _tags = xgroup.getString("tags");
       if(_tags.length()>0){
         for(int i = 0; i < _tags.length();i++){

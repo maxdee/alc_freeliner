@@ -943,13 +943,14 @@ class FixtureLayer extends Layer{
   }
 
   public void setChanCMD(String[] _args){
-    if(_args.length < 6) return;
+    if(_args.length < 5) return;
     else {
-      int _ind = stringInt(_args[3]);
-      int _chan = stringInt(_args[4]);
-      int _val = stringInt(_args[5]);
-      Fixture _fix = fixtures.getFixture(_ind);
-      if(_fix != null) _fix.setChannel(_chan, _val);
+    //   int _ind = stringInt(_args[3]);
+      int _chan = stringInt(_args[3]);
+      int _val = stringInt(_args[4]);
+      fixtures.setChannel(_chan, _val);
+    //   Fixture _fix = fixtures.getFixture(_ind);
+    //   if(_fix != null) _fix.setChannel(_chan, _val);
     }
   }
 }

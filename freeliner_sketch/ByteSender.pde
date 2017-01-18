@@ -48,7 +48,7 @@ public class SerialSender extends ByteSender{
       port = new Serial(applet, _port, _baud);
       delay(100);
       channelCount = 0;
-      for(int i = 0; i < 4; i++){
+      for(int i = 0; i < 10; i++){
         port.write('?');
         delay(300);
         try{
@@ -122,7 +122,7 @@ public class ArtNetSender extends ByteSender{
     int _universeCount = _data.length/510;
     int _ind = 0;
     byte[][] _universes = new byte[_universeCount][512];
-    for(int u = 1; u < _universeCount; u++){ // temporary_plz_undo
+    for(int u = 0; u < _universeCount; u++){ // temporary_plz_undo
       for(int i = 1; i < 510; i++){
         _ind = u*510+i;
         if(_ind < _data.length) _universes[u][i] = _data[_ind];
@@ -132,19 +132,6 @@ public class ArtNetSender extends ByteSender{
     return _universes;
   }
 
-  // public byte[][] splitUniverses(byte[] _data){
-  //   int _universeCount = _data.length/512;
-  //   int _ind = 0;
-  //   byte[][] _universes = new byte[_universeCount][512];
-  //   for(int u = 0; u < _universeCount; u++){
-  //     for(int i = 0; i < 512; i++){
-  //       _ind = u*512+i;
-  //       if(_ind < _data.length) _universes[u][i] = _data[_ind];
-  //       else _universes[u][i] = 0;
-  //     }
-  //   }
-  //   return _universes;
-  // }
 
   public byte[] makeArtNetPacket(byte[] _data, int _uni){
     //   boolean _drop = false;

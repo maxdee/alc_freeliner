@@ -230,11 +230,17 @@ class FancyFixtures implements FreelinerConfig {
     parseGraphics(colorCanvas);
     updateBuffer();
     // outputData
-    byteBuffer[0] = byte(42);
-    byteSender.sendData(byteBuffer);
-    // println(getMessage());
+    if(byteBuffer.length > 0){
+        // byteBuffer[0] = byte(42);
+        byteSender.sendData(byteBuffer);
+    }
   }
-
+  public void setChannel(int _ind, int _val){
+      if(_ind < byteBuffer.length){
+          byteBuffer[_ind] = (byte)_val;
+        //   println(_ind+" "+_val);
+      }
+  }
   public void drawMap(PGraphics _pg){
     if(initialised && _pg != null){
       _pg.image(overLayCanvas, areaPos.x, areaPos.y);
