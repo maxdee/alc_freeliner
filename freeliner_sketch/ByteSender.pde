@@ -48,6 +48,7 @@ public class SerialSender extends ByteSender{
       port = new Serial(applet, _port, _baud);
       delay(100);
       channelCount = 0;
+      getMessage();
       for(int i = 0; i < 10; i++){
         port.write('?');
         delay(300);
@@ -62,8 +63,8 @@ public class SerialSender extends ByteSender{
     }
     catch(Exception e){
       println(_port+" does not seem to work...");
-      // exit();
     }
+    if(channelCount == 0) disconnect();
   }
 
   public int getCount(){
@@ -83,6 +84,7 @@ public class SerialSender extends ByteSender{
   public void sendData(byte[] _data){
     port.write(header);
     port.write(_data);
+    // if(frameCount % 4 == 1)println(getMessage());
   }
 }
 

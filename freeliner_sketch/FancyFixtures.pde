@@ -27,6 +27,9 @@ class FancyFixtures implements FreelinerConfig {
   PVector areaPos;
 
   boolean initialised;
+  boolean recording = false;
+  ArrayList<Byte> recordingBuffer;
+  int clipCount = 0;
 
   public FancyFixtures(PApplet _pa){
     applet = _pa;
@@ -233,14 +236,38 @@ class FancyFixtures implements FreelinerConfig {
     if(byteBuffer.length > 0){
         // byteBuffer[0] = byte(42);
         byteSender.sendData(byteBuffer);
+        if(recording) record(byteBuffer);
     }
   }
+
   public void setChannel(int _ind, int _val){
       if(_ind < byteBuffer.length){
           byteBuffer[_ind] = (byte)_val;
         //   println(_ind+" "+_val);
       }
   }
+
+  public void enableRecording(boolean _b){
+      recording = _b;
+      if(recording){
+          recordingBuffer = new ArrayList<Byte>();
+      }
+      else {
+          byte[] ha = new byte[recordingBuffer.size()];
+          for(int i = 0; i < ha.length; i++){
+              ha[i] = recordingBuffer.get(i);
+          }
+          saveBytes("data/userdata/capture/ledani_"+clipCount++, ha);
+          println("Saved led animation");
+      }
+  }
+
+  private void record(byte[] _buff){
+      for(int i = 0; i < _buff.length; i++){
+          recordingBuffer.add(_buff[i]);
+      }
+  }
+
   public void drawMap(PGraphics _pg){
     if(initialised && _pg != null){
       _pg.image(overLayCanvas, areaPos.x, areaPos.y);

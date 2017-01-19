@@ -932,10 +932,12 @@ class FixtureLayer extends Layer{
    * Override parent's
    */
   public boolean parseCMD(String[] _args){
+
     boolean _parsed = super.parseCMD(_args);
     if(_parsed) return true;
     else if(_args.length > 2) {
       if(_args[2].equals("setchan")) setChanCMD(_args);
+      else if(_args[2].equals("record")) recordCMD(_args);
       else return false;
     }
     else return false;
@@ -951,6 +953,13 @@ class FixtureLayer extends Layer{
       fixtures.setChannel(_chan, _val);
     //   Fixture _fix = fixtures.getFixture(_ind);
     //   if(_fix != null) _fix.setChannel(_chan, _val);
+    }
+  }
+  public void recordCMD(String[] _args){
+    if(_args.length < 4) return;
+    else {
+      int _rec = stringInt(_args[3]);
+      fixtures.enableRecording(_rec != 0);
     }
   }
 }
