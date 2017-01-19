@@ -29,6 +29,7 @@ bool useSerial = false;
 // file playback stuff
 File myFile;
 int animationNumber = 0;
+int debounceTimer = 0;
 
 void setup() {
     Serial.begin(115200);
@@ -72,8 +73,10 @@ void initSD(){
 }
 
 void buttonPress(){
-    Serial.println(animationNumber++);
-    delay(20);
+    if(debounceTimer < millis()-100){
+        Serial.println(animationNumber++);
+        debounceTimer = millis();
+    }
 }
 
 // play animation from SD card
@@ -91,6 +94,7 @@ void playAnimationFromSD(){
                 useSerial = true;
                 break;
             }
+            if(!digitalRead(BUTTON_PIN)) break;
         }
         myFile.close();
     }
