@@ -5,6 +5,7 @@
 
 #include <FastLED.h>
 #include <SD.h>
+#include <Bounce.h>
 
 // pins
 #define SD_CS 10
@@ -19,7 +20,6 @@
 #define LED_TYPE    WS2812B
 #define COLOR_ORDER GRB
 CRGB leds[NUM_LEDS];
-
 const int BUFFER_SIZE = NUM_LEDS * 3;
 int errorCount = 0;
 
@@ -30,24 +30,23 @@ bool useSerial = false;
 #define HEADER_SIZE 2
 File myFile;
 int animationNumber = 0;
-int debounceTimer = 0;
 char fileName[8];
+Bounce bouncer = Bounce(BUTTON_PIN, 10);
 
 void setup() {
     Serial.begin(115200);
     /*FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);*/
     FastLED.addLeds<LED_TYPE, DATA_PIN, GRB>(leds, NUM_LEDS);
     for(int y = 0 ; y < NUM_LEDS ; y++) leds[y] = CRGB::Black;
-
     initSD();
     pinMode(BUTTON_PIN, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonPress, FALLING);
-    /*initTest();*/
+    useSerial = false;
 }
 
 void loop() {
     if(useSerial) serialMode();
     else playAnimationFromSD();
+    updateOtherThings();
 }
 
 void serialMode(){
@@ -57,10 +56,8 @@ void serialMode(){
         FastLED.show();
     }
     else if (startChar == '?') {
-        // for easy and automatic configuration
         Serial.print(NUM_LEDS);
     } else if (startChar >= 0) {
-        // discard unknown characters
         Serial.print("badheader ");
         Serial.println(errorCount++);
     }
@@ -77,15 +74,6 @@ void initSD(){
     else Serial.println("initialization done.");
 }
 
-void buttonPress(){
-    if(millis() > debounceTimer+200){
-        debounceTimer = millis();
-        animationNumber++;
-        /*useSerial = false;*/
-        Serial.println(animationNumber);
-    }
-}
-
 // play animation from SD card
 void playAnimationFromSD(){
     sprintf(fileName, "ani_%02d.bin", animationNumber);
@@ -98,18 +86,16 @@ void playAnimationFromSD(){
         uint16_t _fileBufferSize = ((_header[0] << 8) | (_header[1] & 0xFF));
         if(_fileBufferSize > BUFFER_SIZE){
             Serial.println("Not enough LEDs to play animation");
-            checkSerial();
+            updateOtherThings();
             delay(500);
         }
         else {
-            int _aniTrack = animationNumber;
             // read from the file until there's nothing else in it:
             while (myFile.available()) {
                 myFile.readBytes((char*)leds, _fileBufferSize);
                 FastLED.show();
                 delay(analogRead(POT_PIN)/50);
-                if(_aniTrack != animationNumber) break;
-                if(checkSerial()) break;
+                if(updateOtherThings()) break;
             }
         }
         myFile.close();
@@ -122,7 +108,16 @@ void playAnimationFromSD(){
     }
 }
 
-bool checkSerial(){
+bool updateOtherThings(){
+    bouncer.update();
+    if(bouncer.read() != 1){
+        animationNumber++;
+        Serial.println(animationNumber);
+        useSerial = false;
+        while(bouncer.read() != 1) bouncer.update();
+        delay(100);
+        return true;
+    }
     if(Serial.available()){
         useSerial = true;
         return true;
