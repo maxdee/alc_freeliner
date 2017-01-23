@@ -27,7 +27,7 @@ int errorCount = 0;
 bool useSerial = false;
 
 // file playback stuff
-#define HEADER_SIZE 2;
+#define HEADER_SIZE 2
 File myFile;
 int animationNumber = 0;
 int debounceTimer = 0;
@@ -74,14 +74,14 @@ void initSD(){
       Serial.println("initialization failed!");
       return;
     }
-    Serial.println("initialization done.");
+    else Serial.println("initialization done.");
 }
 
 void buttonPress(){
     if(millis() > debounceTimer+200){
         debounceTimer = millis();
         animationNumber++;
-        useSerial = false;
+        /*useSerial = false;*/
         Serial.println(animationNumber);
     }
 }
@@ -89,28 +89,28 @@ void buttonPress(){
 // play animation from SD card
 void playAnimationFromSD(){
     sprintf(fileName, "ani_%02d.bin", animationNumber);
-    /*Serial.println(fileName);*/
+    Serial.println(fileName);
     myFile = SD.open(fileName);
 
     if (myFile) {
         byte _header[HEADER_SIZE];
         myFile.readBytes(_header, HEADER_SIZE);
-        int fileLEDcount = ((_header[0] << 8) | _header[1]);
-        Serial.println(fileName);
-        Serial.print(" loaded with ");
-        Serial.print(fileLEDcount);
-        Serial.print(" leds");
-        int _aniTrack = animationNumber;
-        // read from the file until there's nothing else in it:
-        while (myFile.available()) {
-            myFile.readBytes((char*)leds, fileLEDcount);
-            FastLED.show();
-            delay(analogRead(POT_PIN)/50);
-            if(Serial.available()){
-                useSerial = true;
-                break;
+        uint16_t _fileBufferSize = ((_header[0] << 8) | (_header[1] & 0xFF));
+        if(_fileBufferSize > BUFFER_SIZE){
+            Serial.println("Not enough LEDs to play animation");
+            checkSerial();
+            delay(500);
+        }
+        else {
+            int _aniTrack = animationNumber;
+            // read from the file until there's nothing else in it:
+            while (myFile.available()) {
+                myFile.readBytes((char*)leds, _fileBufferSize);
+                FastLED.show();
+                delay(analogRead(POT_PIN)/50);
+                if(_aniTrack != animationNumber) break;
+                if(checkSerial()) break;
             }
-            if(_aniTrack != animationNumber) break;
         }
         myFile.close();
     }
@@ -120,6 +120,14 @@ void playAnimationFromSD(){
         animationNumber = 0;
         delay(20);
     }
+}
+
+bool checkSerial(){
+    if(Serial.available()){
+        useSerial = true;
+        return true;
+    }
+    return false;
 }
 
 // little animation to test leds

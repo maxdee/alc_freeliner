@@ -234,7 +234,6 @@ class FancyFixtures implements FreelinerConfig {
     updateBuffer();
     // outputData
     if(byteBuffer.length > 0){
-        // byteBuffer[0] = byte(42);
         byteSender.sendData(byteBuffer);
         if(recording) record(byteBuffer);
     }
@@ -252,8 +251,8 @@ class FancyFixtures implements FreelinerConfig {
       if(recording){
           recordingBuffer = new ArrayList<Byte>();
           // make a header with channelCount
-          recordingBuffer.add((byte)((channelCount & 0xFF00) >> 8); // MSB
-          recordingBuffer.add((byte)(channelCount & 0xFF00); // LSB
+          recordingBuffer.add((byte)((byteBuffer.length) >> 8)); // MSB
+          recordingBuffer.add((byte)(byteBuffer.length & 0xFF)); // LSB
       }
       else {
           byte[] ha = new byte[recordingBuffer.size()];
