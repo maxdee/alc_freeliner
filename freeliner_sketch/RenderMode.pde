@@ -203,7 +203,7 @@ class WrapLine extends PerSegment{
 // Make lines on segments
 class MetaFreelining extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	int painterCount = 4;
+	int painterCount = 5;
 	SegmentCommandParser segmentCommandParser;
 	StrokeColorPicker strokeColorPicker;
 	FillColorPicker fillColorPicker;
@@ -220,8 +220,8 @@ class MetaFreelining extends PerSegment{
 		fillColorPicker = new FillColorPicker(2);
 		segmentPainters[2] = fillColorPicker;
 		// new faded brush test;
-		segmentPainters[3] = new FadedBrusher(3);
-
+		segmentPainters[3] = new FadedPointBrusher(3);
+		segmentPainters[4] = new FadedLineBrusher(4);
 
 		name = "MetaFreelining";
 		description = "Use freeliner to automate itself.";
