@@ -251,13 +251,16 @@ class FancyFixtures implements FreelinerConfig {
       recording = _b;
       if(recording){
           recordingBuffer = new ArrayList<Byte>();
+          // make a header with channelCount
+          recordingBuffer.add((byte)((channelCount & 0xFF00) >> 8); // MSB
+          recordingBuffer.add((byte)(channelCount & 0xFF00); // LSB
       }
       else {
           byte[] ha = new byte[recordingBuffer.size()];
           for(int i = 0; i < ha.length; i++){
               ha[i] = recordingBuffer.get(i);
           }
-          saveBytes("data/userdata/capture/ledani_"+clipCount++, ha);
+          saveBytes("data/userdata/capture/"+String.format("ani_%02d.bin", clipCount++), ha);
           println("Saved led animation");
       }
   }

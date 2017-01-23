@@ -8,11 +8,11 @@
 
 // pins
 #define SD_CS 10
-#define BUTTON_PIN 2
-#define POT_PIN 7
+#define BUTTON_PIN 15
+#define POT_PIN 0
 
 // fastLED settings
-#define DATA_PIN 6
+#define DATA_PIN 8
 #define CLOCK_PIN 2
 #define NUM_LEDS  140
 #define BRIGHTNESS  100
@@ -27,14 +27,16 @@ int errorCount = 0;
 bool useSerial = false;
 
 // file playback stuff
+#define HEADER_SIZE 2;
 File myFile;
 int animationNumber = 0;
 int debounceTimer = 0;
+char fileName[8];
 
 void setup() {
     Serial.begin(115200);
     /*FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);*/
-    FastLED.addLeds<LED_TYPE, DATA_PIN, RGB>(leds, NUM_LEDS);
+    FastLED.addLeds<LED_TYPE, DATA_PIN, GRB>(leds, NUM_LEDS);
     for(int y = 0 ; y < NUM_LEDS ; y++) leds[y] = CRGB::Black;
 
     initSD();
@@ -49,15 +51,18 @@ void loop() {
 }
 
 void serialMode(){
-    /*Serial.println(Serial.available());*/
     int startChar = Serial.read();
-    if (startChar == '?') {
-        Serial.print(NUM_LEDS);
-    }
-    else if (startChar == '*'){
-        while(Serial.available() < BUFFER_SIZE) ;
-        Serial.readBytes((char *)leds, BUFFER_SIZE);
+    if (startChar == '*') {
+        int count = Serial.readBytes((char *)leds, BUFFER_SIZE);
         FastLED.show();
+    }
+    else if (startChar == '?') {
+        // for easy and automatic configuration
+        Serial.print(NUM_LEDS);
+    } else if (startChar >= 0) {
+        // discard unknown characters
+        Serial.print("badheader ");
+        Serial.println(errorCount++);
     }
 }
 
@@ -73,33 +78,45 @@ void initSD(){
 }
 
 void buttonPress(){
-    if(debounceTimer < millis()-100){
-        Serial.println(animationNumber++);
+    if(millis() > debounceTimer+200){
         debounceTimer = millis();
+        animationNumber++;
+        useSerial = false;
+        Serial.println(animationNumber);
     }
 }
 
 // play animation from SD card
 void playAnimationFromSD(){
-    myFile = SD.open("ledani_"+String(animationNumber));
+    sprintf(fileName, "ani_%02d.bin", animationNumber);
+    /*Serial.println(fileName);*/
+    myFile = SD.open(fileName);
 
     if (myFile) {
-        Serial.println("file loaded");
+        byte _header[HEADER_SIZE];
+        myFile.readBytes(_header, HEADER_SIZE);
+        int fileLEDcount = ((_header[0] << 8) | _header[1]);
+        Serial.println(fileName);
+        Serial.print(" loaded with ");
+        Serial.print(fileLEDcount);
+        Serial.print(" leds");
+        int _aniTrack = animationNumber;
         // read from the file until there's nothing else in it:
         while (myFile.available()) {
-            myFile.readBytes((char*)leds, BUFFER_SIZE);
+            myFile.readBytes((char*)leds, fileLEDcount);
             FastLED.show();
             delay(analogRead(POT_PIN)/50);
             if(Serial.available()){
                 useSerial = true;
                 break;
             }
-            if(!digitalRead(BUTTON_PIN)) break;
+            if(_aniTrack != animationNumber) break;
         }
         myFile.close();
     }
     else {
-        Serial.println("error opening ledani_"+String(animationNumber));
+        Serial.print("error opening ");
+        Serial.println(fileName);
         animationNumber = 0;
         delay(20);
     }
