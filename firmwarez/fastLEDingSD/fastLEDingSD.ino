@@ -10,7 +10,9 @@
 // pins
 #define SD_CS 10
 #define BUTTON_PIN 15
-#define POT_PIN 0
+#define SPEED_POT_PIN 0
+#define DIM_POT_PIN 2
+
 
 // fastLED settings
 #define DATA_PIN 8
@@ -37,6 +39,7 @@ void setup() {
     Serial.begin(115200);
     /*FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);*/
     FastLED.addLeds<LED_TYPE, DATA_PIN, GRB>(leds, NUM_LEDS);
+    FastLED.setDither( 0 );
     for(int y = 0 ; y < NUM_LEDS ; y++) leds[y] = CRGB::Black;
     initSD();
     pinMode(BUTTON_PIN, INPUT_PULLUP);
@@ -93,8 +96,9 @@ void playAnimationFromSD(){
             // read from the file until there's nothing else in it:
             while (myFile.available()) {
                 myFile.readBytes((char*)leds, _fileBufferSize);
+                FastLED.setBrightness(map(analogRead(DIM_POT_PIN), 0, 1023, 255, 0));
                 FastLED.show();
-                delay(analogRead(POT_PIN)/50);
+                delay(analogRead(SPEED_POT_PIN)/30);
                 if(updateOtherThings()) break;
             }
         }
@@ -107,6 +111,7 @@ void playAnimationFromSD(){
         delay(20);
     }
 }
+
 
 bool updateOtherThings(){
     bouncer.update();
