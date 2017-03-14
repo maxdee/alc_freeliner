@@ -404,6 +404,19 @@ class KeyMap {
     keymap['?'].setName("???");
     keymap['?'].setDescription("~:)"); // ?
     keymap['?'].setCMD("fl random"); // toggle sequencer playing or specify step to play from
+
+    // setTestChannel
+    keymap['('] = new ParameterKey('(');
+    keymap['('].setType(2);
+    keymap['('].setName("testChannel");
+    keymap['('].setDescription("set the test channel, must use a fixture layer called fix"); // ?
+    keymap['('].setCMD("fixtures testchan"); // toggle sequencer playing or specify step to play from
+    // setLED
+    keymap[')'] = new ParameterKey(')');
+    keymap[')'].setType(0);
+    keymap[')'].setName("setChannel");
+    keymap[')'].setDescription("set the start led of a fixture, if snapped to segment middle, sets the end of fixture on that segment"); // ?
+    keymap[')'].setCMD("fixtures setchan"); // toggle sequencer playing or specify step to play from
   }
 
   public ParameterKey getKey(int _ascii){

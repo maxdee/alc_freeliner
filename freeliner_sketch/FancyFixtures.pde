@@ -34,6 +34,7 @@ class FancyFixtures implements FreelinerConfig {
     // to check channels
     int testChannel = -1;
     int testValue = 255;
+    int ledStart = 0;
 
     public FancyFixtures(PApplet _pa) {
         applet = _pa;
@@ -232,7 +233,9 @@ class FancyFixtures implements FreelinerConfig {
         // updateFixtures
         parseGraphics(colorCanvas);
         updateBuffer();
-        if(testChannel >= 0) byteBuffer[testChannel] = (byte)testValue;
+        if(testChannel >= 0) {
+            byteBuffer[testChannel*3] = (byte)testValue;
+        }
         // outputData
         if(byteBuffer.length > 0) {
             byteSender.sendData(byteBuffer);
@@ -246,10 +249,11 @@ class FancyFixtures implements FreelinerConfig {
             //   println(_ind+" "+_val);
         }
     }
-
+    // force on a channel
     public void setTestChannel(int _chan, int _val){
+        if(byteBuffer == null) return;
         if(testChannel >= 0){
-            byteBuffer[testChannel] = 0;
+            byteBuffer[testChannel*3] = 0;
         }
         if( _chan < byteBuffer.length){
             testValue = (byte)_val;

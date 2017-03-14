@@ -31,6 +31,9 @@ class GroupManager implements FreelinerConfig{
 
     ArrayList<Segment> commandSegments;
 
+    int testChannel = -1;
+    int ledStart = 0;
+
     /**
      * Constructor, inits default values
      */
@@ -55,6 +58,30 @@ class GroupManager implements FreelinerConfig{
     public void inject(TemplateManager _tm) {
         templateManager = _tm;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////     should not be here but whatever
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    public int setTestChannel(int _i) {
+        if(testChannel == 0 && _i == -2) testChannel = -1;
+        else testChannel = numTweaker(_i, testChannel);
+        return testChannel;
+    }
+
+    public void setChannel(){
+        if(getSnappedSegment() == null){
+            ledStart = testChannel;
+            println("start = "+ledStart);
+        }
+        else{
+            println("end = "+ledStart);
+            setText("/led "+ledStart+" "+testChannel);
+        }
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
@@ -491,7 +518,6 @@ class GroupManager implements FreelinerConfig{
         if(group == null) return;
         group.setText(_txt);
         updateCmdSegments();
-
     }
 
     public void setText(String _txt) {

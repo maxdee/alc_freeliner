@@ -106,6 +106,8 @@ class CommandProcessor implements FreelinerConfig{
     "window location 10 10",
     ///////////////////
     // "fixture setchan 0 3 255", // fixture, channel, value
+    "fixtures testchan 3",
+    "fixtures setchan",
     /////////////////// Configure
     "hid kbd 'keyCode' 'char'",
     "setosc 127.0.0.1 6666",
@@ -212,6 +214,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[0].equals("tr")) _used = templateCMD(_args); // need to check trigger group
     else if(_args[0].equals("tp")) _used = templateCMD(_args);
     else if(_args[0].equals("layer")) _used = layerCMD(_args);
+    else if(_args[0].equals("fixtures")) _used = fixtureCMD(_args);
 
     // else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
     if(!_used) println("CMD fail : "+join(_args, ' '));
@@ -232,11 +235,38 @@ class CommandProcessor implements FreelinerConfig{
     else return false;
     return true;
   }
+
+
+  ////////////////////////////////////////////////////////////////////////////////////
+  ///////
+  ///////     fixtures
+  ///////
+  ////////////////////////////////////////////////////////////////////////////////////
+  public boolean fixtureCMD(String[] _args){
+    if(_args.length < 2) return false;
+    if(_args[1].equals("setchan")){
+        groupManager.setChannel();
+        valueGiven = "set";
+    }
+    else if(_args[1].equals("testchan") && _args.length > 2){
+        int _v = stringInt(_args[2]);
+        if(_v == -42) return false;
+        int _ha = groupManager.setTestChannel(_v);
+        queueCMD("layer fix testchan "+_ha+" 255");
+        valueGiven = str(_ha);
+    }
+    else return false;
+    return true;
+  }
+
+
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     meta
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+
   public boolean colorMapCMD(String[] _args){
     if(_args.length < 2) return false;
     int _v = stringInt(_args[1]);
