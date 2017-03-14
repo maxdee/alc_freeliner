@@ -13,320 +13,329 @@
 // mode artnet universe
 
 class FancyFixtures implements FreelinerConfig {
-  PApplet applet;
-  int channelCount;
-  byte[] byteBuffer;
-  ByteSender byteSender;
+    PApplet applet;
+    int channelCount;
+    byte[] byteBuffer;
+    ByteSender byteSender;
 
-  ArrayList<Fixture> fixtures;
-  ArrayList<Fixture> individualFixtures;
+    ArrayList<Fixture> fixtures;
+    ArrayList<Fixture> individualFixtures;
 
-  PGraphics overLayCanvas;
-  PGraphics colorCanvas;
-  PVector areaSize;
-  PVector areaPos;
+    PGraphics overLayCanvas;
+    PGraphics colorCanvas;
+    PVector areaSize;
+    PVector areaPos;
 
-  boolean initialised;
-  boolean recording = false;
-  ArrayList<Byte> recordingBuffer;
-  int clipCount = 0;
+    boolean initialised;
+    boolean recording = false;
+    ArrayList<Byte> recordingBuffer;
+    int clipCount = 0;
 
-  public FancyFixtures(PApplet _pa){
-    applet = _pa;
-    fixtures = new ArrayList<Fixture>();
-    areaSize = new PVector(0,0);
-    areaPos = new PVector(0,0);
-    initialised = false;
-  }
-  // it all starts here
-  public void loadFile(String _file){
-    initialised = false;
-    if(byteSender instanceof SerialSender) byteSender.disconnect();
-    fixtures = new ArrayList<Fixture>();
-    XML _xml = getXML(_file);
-    if(_xml == null) return;
-    if(parseSetup(_xml)){ // only continue if setup provided
-      parseGroups(_xml);
-      parseFixtures(_xml);
-      cumulateFixtures();
-      findSize();
-      overLayCanvas =  createGraphics((int)areaSize.x, (int)areaSize.y, P2D);
-      colorCanvas =  createGraphics((int)areaSize.x, (int)areaSize.y, P2D);
-      drawAllFixtures();
-      listFixtures();
-      initialised = true;
-      println("New led thingy at "+areaPos+" "+areaSize);
+    // to check channels
+    int testChannel = -1;
+    int testValue = 255;
+
+    public FancyFixtures(PApplet _pa) {
+        applet = _pa;
+        fixtures = new ArrayList<Fixture>();
+        areaSize = new PVector(0,0);
+        areaPos = new PVector(0,0);
+        initialised = false;
     }
-  }
-
-  public boolean parseSetup(XML _xml){
-    XML setup = _xml.getChild("setup");
-    if(setup == null) return false;
-    if(setup.getString("type") != null){
-      if(setup.getString("type").equals("LED")){
-        byteSender = new SerialSender(applet);
-        byteSender.connect(setup.getString("port"), setup.getInt("baud"));
-        int _size = ((SerialSender)byteSender).getCount()*3;
-        setupByteBuffer(_size);
-        return true;
-      }
-      else if(setup.getString("type").equals("DMX")){
-        byteSender = new SerialSender(applet);
-        byteSender.connect(setup.getString("port"), setup.getInt("baud"));
-        int _size = ((SerialSender)byteSender).getCount();
-        setupByteBuffer(_size);
-        return true;
-      }
-      else if(setup.getString("type").equals("ARTNET")){
-        byteSender = new ArtNetSender();
-        setupByteBuffer(setup.getInt("universes")*512);
-        byteSender.connect(setup.getString("host"));
-        return true;
-      }
+    // it all starts here
+    public void loadFile(String _file) {
+        initialised = false;
+        if(byteSender instanceof SerialSender) byteSender.disconnect();
+        fixtures = new ArrayList<Fixture>();
+        XML _xml = getXML(_file);
+        if(_xml == null) return;
+        if(parseSetup(_xml)) { // only continue if setup provided
+            parseGroups(_xml);
+            parseFixtures(_xml);
+            cumulateFixtures();
+            findSize();
+            overLayCanvas =  createGraphics((int)areaSize.x, (int)areaSize.y, P2D);
+            colorCanvas =  createGraphics((int)areaSize.x, (int)areaSize.y, P2D);
+            drawAllFixtures();
+            listFixtures();
+            initialised = true;
+            println("New led thingy at "+areaPos+" "+areaSize);
+        }
     }
-    return false;
-  }
 
-  public void parseGroups(XML _xml){
-    XML[] groupData = _xml.getChildren("group");
-    for(XML xgroup : groupData){
-      XML[] xseg = xgroup.getChildren("segment");
-      Segment _seg;
-      for(XML seg : xseg) segmentStrip(seg);
+    public boolean parseSetup(XML _xml) {
+        XML setup = _xml.getChild("setup");
+        if(setup == null) return false;
+        if(setup.getString("type") != null) {
+            if(setup.getString("type").equals("LED")) {
+                byteSender = new SerialSender(applet);
+                byteSender.connect(setup.getString("port"), setup.getInt("baud"));
+                int _size = ((SerialSender)byteSender).getCount()*3;
+                setupByteBuffer(_size);
+                return true;
+            } else if(setup.getString("type").equals("DMX")) {
+                byteSender = new SerialSender(applet);
+                byteSender.connect(setup.getString("port"), setup.getInt("baud"));
+                int _size = ((SerialSender)byteSender).getCount();
+                setupByteBuffer(_size);
+                return true;
+            } else if(setup.getString("type").equals("ARTNET")) {
+                byteSender = new ArtNetSender();
+                setupByteBuffer(setup.getInt("universes")*512);
+                byteSender.connect(setup.getString("host"));
+                return true;
+            }
+        }
+        return false;
     }
-  }
 
-  public void parseFixtures(XML _xml){
-    XML[] _fixtures = _xml.getChildren("fixture");
-    for(XML _fix : _fixtures)
-      parseFixture(_fix);
-  }
-
-  public void setupByteBuffer(int _size){
-    channelCount = _size;
-    byteBuffer = new byte[channelCount]; // plus one for header
-    for(byte _b : byteBuffer) _b = byte(0);
-  }
-
-  // finds the smallest buffer size;
-  public void findSize(){
-    float _minX = width;
-    float _minY = height;
-    float _maxX = 0;
-    float _maxY = 0;
-    PVector _pos;
-    for(Fixture _fix : individualFixtures){
-      _pos = _fix.getPosition();
-      if(_minX > _pos.x) _minX = _pos.x;
-      if(_maxX < _pos.x) _maxX = _pos.x;
-      if(_minY > _pos.y) _minY = _pos.y;
-      if(_maxY < _pos.y) _maxY = _pos.y;
+    public void parseGroups(XML _xml) {
+        XML[] groupData = _xml.getChildren("group");
+        for(XML xgroup : groupData) {
+            XML[] xseg = xgroup.getChildren("segment");
+            Segment _seg;
+            for(XML seg : xseg) segmentStrip(seg);
+        }
     }
-    int _margin = 10;
-    areaPos.set(_minX - _margin, _minY - _margin);
-    areaSize.set(_maxX + (_margin*2), _maxY + (_margin*2));
-    areaSize.sub(areaPos);
-    // if(areaSize.x < 2) areaSize.x = 10;
-    // if(areaSize.y < 2) areaSize.y = 10;
-    for(Fixture _fix : individualFixtures){
-      _pos = _fix.getPosition();
-      _pos.sub(areaPos);
-      _fix.setPosition((int)_pos.x, (int)_pos.y);
+
+    public void parseFixtures(XML _xml) {
+        XML[] _fixtures = _xml.getChildren("fixture");
+        for(XML _fix : _fixtures)
+            parseFixture(_fix);
     }
-  }
 
-  public void cumulateFixtures(){
-    individualFixtures = new ArrayList();
-    for(Fixture _fix : fixtures){
-      findSubFixtures(_fix);
+    public void setupByteBuffer(int _size) {
+        channelCount = _size;
+        byteBuffer = new byte[channelCount]; // plus one for header
+        for(byte _b : byteBuffer) _b = byte(0);
     }
-  }
 
-  public void findSubFixtures(Fixture _fix){
-    if(!individualFixtures.contains(_fix)) individualFixtures.add(_fix);
-    if(_fix.getSubFixtures() != null){
-      for(Fixture _child : _fix.getSubFixtures()) findSubFixtures(_child);
+    // finds the smallest buffer size;
+    public void findSize() {
+        float _minX = width;
+        float _minY = height;
+        float _maxX = 0;
+        float _maxY = 0;
+        PVector _pos;
+        for(Fixture _fix : individualFixtures) {
+            _pos = _fix.getPosition();
+            if(_minX > _pos.x) _minX = _pos.x;
+            if(_maxX < _pos.x) _maxX = _pos.x;
+            if(_minY > _pos.y) _minY = _pos.y;
+            if(_maxY < _pos.y) _maxY = _pos.y;
+        }
+        int _margin = 10;
+        areaPos.set(_minX - _margin, _minY - _margin);
+        areaSize.set(_maxX + (_margin*2), _maxY + (_margin*2));
+        areaSize.sub(areaPos);
+        // if(areaSize.x < 2) areaSize.x = 10;
+        // if(areaSize.y < 2) areaSize.y = 10;
+        for(Fixture _fix : individualFixtures) {
+            _pos = _fix.getPosition();
+            _pos.sub(areaPos);
+            _fix.setPosition((int)_pos.x, (int)_pos.y);
+        }
     }
-  }
 
-  public void drawAllFixtures(){
-    overLayCanvas.beginDraw();
-    overLayCanvas.clear();
-    overLayCanvas.stroke(255);
-    overLayCanvas.noFill();
-    overLayCanvas.rect(0,0,areaSize.x-1,areaSize.y-1);
-    for(Fixture _fix : fixtures) _fix.drawFixtureOverlay(overLayCanvas);
-    overLayCanvas.endDraw();
-  }
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     FixtureCreation
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
-
-
-  public void parseFixture(XML _xml){
-    //   for(XML)
-  }
-
-  // XML segment to RGBStrip fixture
-  // in this case its /led START_ADR LED_COUNT
-  void segmentStrip(XML _seg){
-    String[] cmd = split(_seg.getString("txt"), " ");
-    if(cmd[0].equals("/rgb") && cmd.length>1){
-      // println(cmd[1]);
-      int addr = int(cmd[1]);
-      Fixture _fix = new RGBPar(addr);
-      _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
-      _fix.drawFixtureOverlay(overLayCanvas);
-      fixtures.add(_fix);
-      // println("Adding LEDs from: "+from+"  to: "+to);
-    //   addRGBFixture(addr,(int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
+    public void cumulateFixtures() {
+        individualFixtures = new ArrayList();
+        for(Fixture _fix : fixtures) {
+            findSubFixtures(_fix);
+        }
     }
-    else if(cmd[0].equals("/aw") && cmd.length>1){
-      // println(cmd[1]);
-      int addr = int(cmd[1]);
-      Fixture _fix = new AWPar(addr);
-      _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
-      _fix.drawFixtureOverlay(overLayCanvas);
-      fixtures.add(_fix);
-      // println("Adding LEDs from: "+from+"  to: "+to);
-    //   addRGBFixture(addr,(int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
+
+    public void findSubFixtures(Fixture _fix) {
+        if(!individualFixtures.contains(_fix)) individualFixtures.add(_fix);
+        if(_fix.getSubFixtures() != null) {
+            for(Fixture _child : _fix.getSubFixtures()) findSubFixtures(_child);
+        }
     }
-    else if(cmd[0].equals("/led") && cmd.length>2){
-      // println(cmd[1]);
-      int addr = int(cmd[1])*3;
-      int count = int(cmd[2]);
-      // println("Adding LEDs from: "+from+"  to: "+to);
-      RGBStrip _fix;
-      _fix = new RGBStrip(addr, count,
-                          (int)_seg.getFloat("aX"),
-                          (int)_seg.getFloat("aY"),
-                          (int)_seg.getFloat("bX"),
-                          (int)_seg.getFloat("bY"));
-      fixtures.add(_fix);
-      _fix.drawFixtureOverlay(overLayCanvas);
+
+    public void drawAllFixtures() {
+        overLayCanvas.beginDraw();
+        overLayCanvas.clear();
+        overLayCanvas.stroke(255);
+        overLayCanvas.noFill();
+        overLayCanvas.rect(0,0,areaSize.x-1,areaSize.y-1);
+        for(Fixture _fix : fixtures) _fix.drawFixtureOverlay(overLayCanvas);
+        overLayCanvas.endDraw();
     }
-  }
 
-  public void addRGBFixture(int _adr, int _x, int _y){
-    Fixture _fix = new RGBFixture(_adr);
-    _fix.setPosition(_x,_y);
-    _fix.drawFixtureOverlay(overLayCanvas);
-    fixtures.add(_fix);
-  }
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////     FixtureCreation
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
 
-  ////////////////////////////////////////////////////////////////////////////////////
-  ///////
-  ///////     Operation
-  ///////
-  ////////////////////////////////////////////////////////////////////////////////////
 
-  public void update(PGraphics _pg){
-    if(!initialised || _pg == null) return;
-    colorCanvas.beginDraw();
-    colorCanvas.clear();
-    colorCanvas.image(_pg, -areaPos.x, -areaPos.y);
-    colorCanvas.endDraw();
-    // updateFixtures
-    parseGraphics(colorCanvas);
-    updateBuffer();
-    // outputData
-    if(byteBuffer.length > 0){
-        byteSender.sendData(byteBuffer);
-        if(recording) record(byteBuffer);
+    public void parseFixture(XML _xml) {
+        //   for(XML)
     }
-  }
 
-  public void setChannel(int _ind, int _val){
-      if(_ind < byteBuffer.length){
-          byteBuffer[_ind] = (byte)_val;
-        //   println(_ind+" "+_val);
-      }
-  }
-
-  public void enableRecording(boolean _b){
-      recording = _b;
-      if(recording){
-          recordingBuffer = new ArrayList<Byte>();
-          // make a header with channelCount
-          recordingBuffer.add((byte)((byteBuffer.length) >> 8)); // MSB
-          recordingBuffer.add((byte)(byteBuffer.length & 0xFF)); // LSB
-      }
-      else {
-          byte[] ha = new byte[recordingBuffer.size()];
-          for(int i = 0; i < ha.length; i++){
-              ha[i] = recordingBuffer.get(i);
-          }
-          saveBytes("data/userdata/capture/"+String.format("ani_%02d.bin", clipCount++), ha);
-          println("Saved led animation");
-      }
-  }
-
-  private void record(byte[] _buff){
-      for(int i = 0; i < _buff.length; i++){
-          recordingBuffer.add(_buff[i]);
-      }
-  }
-
-  public void drawMap(PGraphics _pg){
-    if(initialised && _pg != null){
-      _pg.image(overLayCanvas, areaPos.x, areaPos.y);
-      // debugBuffer();
+    // XML segment to RGBStrip fixture
+    // in this case its /led START_ADR LED_COUNT
+    void segmentStrip(XML _seg) {
+        String[] cmd = split(_seg.getString("txt"), " ");
+        if(cmd[0].equals("/rgb") && cmd.length>1) {
+            // println(cmd[1]);
+            int addr = int(cmd[1]);
+            Fixture _fix = new RGBPar(addr);
+            _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
+            _fix.drawFixtureOverlay(overLayCanvas);
+            fixtures.add(_fix);
+            // println("Adding LEDs from: "+from+"  to: "+to);
+            //   addRGBFixture(addr,(int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
+        } else if(cmd[0].equals("/aw") && cmd.length>1) {
+            // println(cmd[1]);
+            int addr = int(cmd[1]);
+            Fixture _fix = new AWPar(addr);
+            _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
+            _fix.drawFixtureOverlay(overLayCanvas);
+            fixtures.add(_fix);
+            // println("Adding LEDs from: "+from+"  to: "+to);
+            //   addRGBFixture(addr,(int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
+        } else if(cmd[0].equals("/led") && cmd.length>2) {
+            // println(cmd[1]);
+            int addr = int(cmd[1])*3;
+            int count = int(cmd[2]);
+            // println("Adding LEDs from: "+from+"  to: "+to);
+            RGBStrip _fix;
+            _fix = new RGBStrip(addr, count,
+                                (int)_seg.getFloat("aX"),
+                                (int)_seg.getFloat("aY"),
+                                (int)_seg.getFloat("bX"),
+                                (int)_seg.getFloat("bY"));
+            fixtures.add(_fix);
+            _fix.drawFixtureOverlay(overLayCanvas);
+        }
     }
-  }
 
-  void debugBuffer(){
-    if(byteBuffer == null) return;
-    println("|---------------------------------------------------=");
-    for(int i = 0; i < 512; i++){
-      print(" ("+i+" -> "+int(byteBuffer[i])+") ");
-      if(i%8 == 1) println();
+    public void addRGBFixture(int _adr, int _x, int _y) {
+        Fixture _fix = new RGBFixture(_adr);
+        _fix.setPosition(_x,_y);
+        _fix.drawFixtureOverlay(overLayCanvas);
+        fixtures.add(_fix);
     }
-    println(" ");
-    println("|---------------------------------------------------=");
-  }
 
-  void listFixtures(){
-    println("|--------DMX FIXTURES---------|");
-    int _cnt = 0;
-    for(Fixture _fix : fixtures){
-      println("============ "+(_cnt++)+" ==============");
-      println("Address : "+_fix.getAddress());
-      println("Name : "+_fix.getName());
-      println("description : "+_fix.getDescription());
-      println("=============================");
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////     Operation
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    public void update(PGraphics _pg) {
+        if(!initialised || _pg == null) return;
+        colorCanvas.beginDraw();
+        colorCanvas.clear();
+        colorCanvas.image(_pg, -areaPos.x, -areaPos.y);
+        colorCanvas.endDraw();
+        // updateFixtures
+        parseGraphics(colorCanvas);
+        updateBuffer();
+        if(testChannel >= 0) byteBuffer[testChannel] = (byte)testValue;
+        // outputData
+        if(byteBuffer.length > 0) {
+            byteSender.sendData(byteBuffer);
+            if(recording) record(byteBuffer);
+        }
     }
-  }
 
-  void parseGraphics(PGraphics _pg){
-    _pg.loadPixels();
-
-    for(Fixture _fix : fixtures)
-      _fix.parseGraphics(_pg);
-  }
-
-  void updateBuffer(){
-    for(Fixture _fix : fixtures)
-      _fix.bufferChannels(byteBuffer);
-  }
-
-  public Fixture getFixture(int _ind){
-    if(_ind < fixtures.size() && _ind >= 0) return fixtures.get(_ind);
-    else return null;
-  }
-
-  public XML getXML(String _file){
-    XML _xml = null;
-    try {
-      _xml = loadXML("userdata/"+_file);
+    public void setChannel(int _ind, int _val) {
+        if(_ind < byteBuffer.length) {
+            byteBuffer[_ind] = (byte)_val;
+            //   println(_ind+" "+_val);
+        }
     }
-    catch(Exception e){
-      println("FixtureMap XML file "+_file+" not found");
+
+    public void setTestChannel(int _chan, int _val){
+        if(testChannel >= 0){
+            byteBuffer[testChannel] = 0;
+        }
+        if( _chan < byteBuffer.length){
+            testValue = (byte)_val;
+            testChannel = (byte)_chan;
+        }
     }
-    return _xml;
-  }
+
+    public void enableRecording(boolean _b) {
+        recording = _b;
+        if(recording) {
+            recordingBuffer = new ArrayList<Byte>();
+            // make a header with channelCount
+            recordingBuffer.add((byte)((byteBuffer.length) >> 8)); // MSB
+            recordingBuffer.add((byte)(byteBuffer.length & 0xFF)); // LSB
+        } else {
+            byte[] ha = new byte[recordingBuffer.size()];
+            for(int i = 0; i < ha.length; i++) {
+                ha[i] = recordingBuffer.get(i);
+            }
+            saveBytes("data/userdata/capture/"+String.format("ani_%02d.bin", clipCount++), ha);
+            println("Saved led animation");
+        }
+    }
+
+    private void record(byte[] _buff) {
+        for(int i = 0; i < _buff.length; i++) {
+            recordingBuffer.add(_buff[i]);
+        }
+    }
+
+    public void drawMap(PGraphics _pg) {
+        if(initialised && _pg != null) {
+            _pg.image(overLayCanvas, areaPos.x, areaPos.y);
+            // debugBuffer();
+        }
+    }
+
+    void debugBuffer() {
+        if(byteBuffer == null) return;
+        println("|---------------------------------------------------=");
+        for(int i = 0; i < 512; i++) {
+            print(" ("+i+" -> "+int(byteBuffer[i])+") ");
+            if(i%8 == 1) println();
+        }
+        println(" ");
+        println("|---------------------------------------------------=");
+    }
+
+    void listFixtures() {
+        println("|--------DMX FIXTURES---------|");
+        int _cnt = 0;
+        for(Fixture _fix : fixtures) {
+            println("============ "+(_cnt++)+" ==============");
+            println("Address : "+_fix.getAddress());
+            println("Name : "+_fix.getName());
+            println("description : "+_fix.getDescription());
+            println("=============================");
+        }
+    }
+
+    void parseGraphics(PGraphics _pg) {
+        _pg.loadPixels();
+
+        for(Fixture _fix : fixtures)
+            _fix.parseGraphics(_pg);
+    }
+
+    void updateBuffer() {
+        for(Fixture _fix : fixtures)
+            _fix.bufferChannels(byteBuffer);
+    }
+
+    public Fixture getFixture(int _ind) {
+        if(_ind < fixtures.size() && _ind >= 0) return fixtures.get(_ind);
+        else return null;
+    }
+
+    public XML getXML(String _file) {
+        XML _xml = null;
+        try {
+            _xml = loadXML("userdata/"+_file);
+        } catch(Exception e) {
+            println("FixtureMap XML file "+_file+" not found");
+        }
+        return _xml;
+    }
 }
 
 
