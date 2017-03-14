@@ -95,6 +95,15 @@ interface FreelinerConfig {
 
   final int PALLETTE_COUNT = 12;
 
+  final String PATH_TO_SHADERS = "userdata/shaders/";
+  final String PATH_TO_IMAGES = "userdata/images/";
+  final String PATH_TO_FIXTURES = "userdata/fixtures/";
+  final String PATH_TO_GEOMETRY = "userdata/geometry/";
+  final String PATH_TO_TEMPLATES = "userdata/template/";
+  final String PATH_TO_VECTOR_GRAPHICS = "userdata/svg/";
+  final String PATH_TO_CAPTURE_FILES = "userdata/capture/";
+
+
   // Freeliner LED options
   // final String LED_SERIAL_PORT = "/dev/ttyACM0";
   // final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2

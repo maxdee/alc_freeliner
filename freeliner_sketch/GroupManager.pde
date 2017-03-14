@@ -13,7 +13,7 @@
  * Manage segmentGroups!
  *
  */
-class GroupManager {
+class GroupManager implements FreelinerConfig{
 
     // guess we will add this too.
     TemplateManager templateManager;
@@ -287,7 +287,7 @@ class GroupManager {
                 // for leds and such
                 xseg.setString("txt",seg.getText());
             }
-            saveXML(groupData, sketchPath()+"/data/userdata/"+_fn);
+            saveXML(groupData, dataPath(PATH_TO_GEOMETRY)+"/"+_fn);
         }
     }
 
@@ -308,7 +308,7 @@ class GroupManager {
     public void loadGeometryXML(String _fn) {
         XML file;
         try {
-            file = loadXML(sketchPath()+"/data/userdata/"+_fn);
+            file = loadXML(dataPath(PATH_TO_GEOMETRY)+"/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
             return;
@@ -367,10 +367,10 @@ class GroupManager {
     public void loadGeometrySVG(String _fn) {
         PShape _shp;
         try {
-            _shp = loadShape(sketchPath()+"/data/userdata/"+_fn);
+            _shp = loadShape(dataPath(PATH_TO_VECTOR_GRAPHICS)+"/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
-            println(sketchPath()+"/data/userdata/"+_fn);
+            println(dataPath(PATH_TO_VECTOR_GRAPHICS)+"/"+_fn);
             return;
         }
         // PVector _offset = getInkscapeTransform(sketchPath()+"/data/userdata/"+_fn);

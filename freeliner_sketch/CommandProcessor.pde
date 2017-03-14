@@ -94,7 +94,7 @@ class CommandProcessor implements FreelinerConfig{
     "fetch-osc|fetch-ws tracker A",
     "fetch-osc|fetch-ws template A",
     "fetch-osc|fetch-ws seq",
-    "fetch-osc|fetch-ws fileList",
+    // "fetch-osc|fetch-ws fileList",
     "fetch-osc|fetch-ws layers",
 
     /////////////////// Configure
@@ -354,7 +354,7 @@ class CommandProcessor implements FreelinerConfig{
     else if(_args[1].equals("template")) templateStatCMD(_args);
     else if(_args[1].equals("tracker")) trackerCMD(_args);
     else if(_args[1].equals("seq")) seqStatCMD(_args);
-    else if(_args[1].equals("files")) fileListCMD(_args);
+    // else if(_args[1].equals("files")) fileListCMD(_args);
     else if(_args[1].equals("layers")) layerInfoCMD(_args);
 
     else return false;
@@ -387,10 +387,10 @@ class CommandProcessor implements FreelinerConfig{
     fetchSend(_args, "seq "+_stps);
   }
 
-  void fileListCMD(String[] _args){
-    String _files = freeliner.getFileNames();
-    fetchSend(_args, "files "+_files);
-  }
+  // void fileListCMD(String[] _args){
+  //   String _files = freeliner.getFileNames();
+  //   fetchSend(_args, "files "+_files);
+  // }
 
   void layerInfoCMD(String[] _args){
     String _info = canvasManager.getLayerInfo();

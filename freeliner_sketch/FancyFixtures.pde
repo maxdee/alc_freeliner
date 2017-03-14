@@ -269,7 +269,7 @@ class FancyFixtures implements FreelinerConfig {
             for(int i = 0; i < ha.length; i++) {
                 ha[i] = recordingBuffer.get(i);
             }
-            saveBytes("data/userdata/capture/"+String.format("ani_%02d.bin", clipCount++), ha);
+            saveBytes(dataPath(PATH_TO_CAPTURE_FILES)+"/fixture_animations/"+String.format("ani_%02d.bin", clipCount++), ha);
             println("Saved led animation");
         }
     }
@@ -330,7 +330,7 @@ class FancyFixtures implements FreelinerConfig {
     public XML getXML(String _file) {
         XML _xml = null;
         try {
-            _xml = loadXML("userdata/"+_file);
+            _xml = loadXML(dataPath(PATH_TO_FIXTURES)+"/"+_file);
         } catch(Exception e) {
             println("FixtureMap XML file "+_file+" not found");
         }
