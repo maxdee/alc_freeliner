@@ -1,14 +1,14 @@
 /*
   A freeLEDing firmware for OctoWS811 by Paul Stoffregen
   http://www.pjrc.com/teensy/td_libs_OctoWS2811.html
-  
+
   By maxD (aka Deglazer) of the aziz!LightCrew 2015
 */
 
 #include <OctoWS2811.h>
 
 // OctoWS2811 settings
-const int ledsPerStrip = 120; // change for your setup
+const int ledsPerStrip = 55; // change for your setup
 const byte numStrips= 8; // change for your setup
 DMAMEM int displayMemory[ledsPerStrip*6];
 int drawingMemory[ledsPerStrip*6];

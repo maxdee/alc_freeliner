@@ -5,7 +5,7 @@
 
 // Now the idea would be to support regular arduino/FastLED and teensy/OctoWS811 and SD card playback :) all in one.
 // Optional for OctoWS811
-#define OCTOWSMODE false
+#define OCTOWSMODE true
 #if OCTOWSMODE
     #define USE_OCTOWS2811
     #include<OctoWS2811.h>
@@ -20,7 +20,7 @@
 
 // ledCount, if using single output, set NUM_STRIPS to 1
 #define NUM_LEDS_PER_STRIP 15
-#define NUM_STRIPS 1
+#define NUM_STRIPS 8
 #define NUM_LEDS  NUM_STRIPS * NUM_LEDS_PER_STRIP
 
 // fastLED settings
@@ -68,7 +68,7 @@ void setup() {
     #else
         FastLED.addLeds<LED_TYPE, DATA_PIN, GRB>(leds, NUM_LEDS);
     #endif
-    
+
     #if BUTTON_PIN
         pinMode(BUTTON_PIN, INPUT_PULLUP);
         bouncer.attach(BUTTON_PIN);
