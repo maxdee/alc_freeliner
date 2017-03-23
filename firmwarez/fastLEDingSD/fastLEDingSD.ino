@@ -1,27 +1,51 @@
 /*
-  A freeLEDing firmware for fastLED library
+  A firmware to control LEDs with alc_freeliner and FastLED
   By maxD (aka Deglazer) of the aziz!LightCrew 2015
 */
 
+// Now the idea would be to support regular arduino/FastLED and teensy/OctoWS811 and SD card playback :) all in one.
+// Optional for OctoWS811
+#define OCTOWSMODE false
+#if OCTOWSMODE
+    #define USE_OCTOWS2811
+    #include<OctoWS2811.h>
+#endif
+
+// FastLED
 #include <FastLED.h>
+// Other libs
 #include <SD.h>
-#include <Bounce.h>
+#include <Bounce2.h>
 
-// pins
-#define SD_CS 10
-#define BUTTON_PIN 15
-#define SPEED_POT_PIN 0
-#define DIM_POT_PIN 2
 
+// ledCount, if using single output, set NUM_STRIPS to 1
+#define NUM_LEDS_PER_STRIP 15
+#define NUM_STRIPS 1
+#define NUM_LEDS  NUM_STRIPS * NUM_LEDS_PER_STRIP
 
 // fastLED settings
-#define DATA_PIN 8
-#define CLOCK_PIN 2
-#define NUM_LEDS  140
 #define BRIGHTNESS  100
 #define LED_TYPE    WS2812B
 #define COLOR_ORDER GRB
+
+/////////////////////////// Pin Definition
+// fastLED Pin settings
+#define DATA_PIN 8
+#define CLOCK_PIN 2
+// sdcard pins
+#define SD_CS 3
+//    pin 3:  SD Card, CS
+//    pin 11: SD Card, MOSI
+//    pin 12: SD Card, MISO
+//    pin 13: SD Card, SCLK
+// input pins, if they are 0, then they will not be used.
+#define BUTTON_PIN 0
+#define SPEED_POT_PIN 0
+#define DIM_POT_PIN 0
+
+// led CRGB setup
 CRGB leds[NUM_LEDS];
+// serial in buffer
 const int BUFFER_SIZE = NUM_LEDS * 3;
 int errorCount = 0;
 
@@ -33,17 +57,29 @@ bool useSerial = false;
 File myFile;
 int animationNumber = 0;
 char fileName[8];
-Bounce bouncer = Bounce(BUTTON_PIN, 10);
+
+// input, pots or buttons
+Bounce bouncer = Bounce();
 
 void setup() {
     Serial.begin(115200);
-    /*FastLED.addLeds<LED_TYPE, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);*/
-    FastLED.addLeds<LED_TYPE, DATA_PIN, GRB>(leds, NUM_LEDS);
+    #if OCTOWSMODE
+        LEDS.addLeds<OCTOWS2811>(leds, NUM_LEDS_PER_STRIP);
+    #else
+        FastLED.addLeds<LED_TYPE, DATA_PIN, GRB>(leds, NUM_LEDS);
+    #endif
+    
+    #if BUTTON_PIN
+        pinMode(BUTTON_PIN, INPUT_PULLUP);
+        bouncer.attach(BUTTON_PIN);
+        bouncer.interval(5);
+    #endif
+
     FastLED.setDither( 0 );
     for(int y = 0 ; y < NUM_LEDS ; y++) leds[y] = CRGB::Black;
-    initSD();
-    pinMode(BUTTON_PIN, INPUT_PULLUP);
+    FastLED.show();
     useSerial = false;
+    initSD();
 }
 
 void loop() {
@@ -60,6 +96,7 @@ void serialMode(){
     }
     else if (startChar == '?') {
         Serial.print(NUM_LEDS);
+        while(Serial.available()) Serial.read();
     } else if (startChar >= 0) {
         Serial.print("badheader ");
         Serial.println(errorCount++);
@@ -68,13 +105,14 @@ void serialMode(){
 
 // initialise SDcard
 void initSD(){
-    Serial.print("Initializing SD card...");
+    Serial.print(F("Initializing SD card..."));
     pinMode(SD_CS, OUTPUT);
     if (!SD.begin(SD_CS)) {
-      Serial.println("initialization failed!");
+      Serial.println(F("initialization SD failed! ready on serial"));
+      useSerial = true;
       return;
     }
-    else Serial.println("initialization done.");
+    else Serial.println(F("initialization done."));
 }
 
 // play animation from SD card
@@ -96,16 +134,19 @@ void playAnimationFromSD(){
             // read from the file until there's nothing else in it:
             while (myFile.available()) {
                 myFile.readBytes((char*)leds, _fileBufferSize);
-                FastLED.setBrightness(map(analogRead(DIM_POT_PIN), 0, 1023, 255, 0));
                 FastLED.show();
-                delay(analogRead(SPEED_POT_PIN)/30);
+                #if SPEED_POT_PIN
+                    delay(analogRead(SPEED_POT_PIN)/30);
+                #else
+                    delay(20);
+                #endif
                 if(updateOtherThings()) break;
             }
         }
         myFile.close();
     }
     else {
-        Serial.print("error opening ");
+        Serial.print(F("error opening "));
         Serial.println(fileName);
         animationNumber = 0;
         delay(20);
@@ -114,15 +155,21 @@ void playAnimationFromSD(){
 
 
 bool updateOtherThings(){
-    bouncer.update();
-    if(bouncer.read() != 1){
-        animationNumber++;
-        Serial.println(animationNumber);
-        useSerial = false;
-        while(bouncer.read() != 1) bouncer.update();
-        delay(100);
-        return true;
-    }
+    #if DIM_POT_PIN
+    FastLED.setBrightness(map(analogRead(DIM_POT_PIN), 0, 1023, 255, 0));
+    #endif
+    #if BUTTON_PIN
+        bouncer.update();
+        if(bouncer.read() != 1){
+            animationNumber++;
+            Serial.println(animationNumber);
+            useSerial = false;
+            while(bouncer.read() != 1) bouncer.update();
+            delay(100);
+            return true;
+        }
+    #endif
+
     if(Serial.available()){
         useSerial = true;
         return true;
