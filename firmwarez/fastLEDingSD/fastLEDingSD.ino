@@ -1,7 +1,12 @@
-/*
-  A firmware to control LEDs with alc_freeliner and FastLED
-  By maxD (aka Deglazer) of the aziz!LightCrew 2015
-*/
+/**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.4
+ * @since     2017-01-16
+ */
+
 
 // Now the idea would be to support regular arduino/FastLED and teensy/OctoWS811 and SD card playback :) all in one.
 // Optional for OctoWS811
