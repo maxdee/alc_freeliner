@@ -21,6 +21,7 @@ class SegmentGroup implements FreelinerConfig{
   final int ID;
   float brushScaler = 1.0;
   int sizer = 10;
+  int priority = 0;
   PShape itemShape;
 
   ArrayList<Segment> segments;
@@ -489,12 +490,20 @@ class SegmentGroup implements FreelinerConfig{
     templateList.copy(_tl);
   }
 
+  public int tweakOrder(int _v){
+      priority = numTweaker(_v, priority);
+      return priority;
+  }
 
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Accessors
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
+
+  public final int getOrder(){
+      return priority;
+  }
 
   public final int getID(){
     return ID;

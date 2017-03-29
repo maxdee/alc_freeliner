@@ -255,6 +255,46 @@ class GroupManager implements FreelinerConfig{
     }
 
 
+    public int geometryPriority(SegmentGroup _sg, int _v) {
+        if(_sg == null) return 0;
+        return _sg.tweakOrder(_v);
+    }
+
+    public int geometryPriority(int _order){
+        SegmentGroup _sg = getSelectedGroup();
+        if(_sg != null){
+            return geometryPriority(_sg, _order);
+        }
+        return 0;
+    }
+
+    public int geometryPriority(int _geom, int _order){
+        SegmentGroup _sg = getGroup(_geom);
+        if(_sg != null){
+            return geometryPriority(_sg, _order);
+        }
+        return 0;
+    }
+
+    public int geometryPriority(String _tags, int _order){
+        ArrayList<TweakableTemplate> _temps = templateManager.getTemplates(_tags);
+        int _val = 0;
+        if(_temps.size() == 0){
+            return geometryPriority(_order);
+        }
+        else {
+            for(SegmentGroup _sg : groups){
+                TemplateList _list = _sg.getTemplateList();
+                for(TweakableTemplate _tp : _temps){
+                    if(_list.contains(_tp)){
+                        _val = geometryPriority(_sg, _order);
+                    }
+                }
+            }
+        }
+        return _val;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////     CMD segments

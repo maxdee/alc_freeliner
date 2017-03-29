@@ -143,6 +143,7 @@ class Keyboard implements FreelinerConfig {
     }
 
     public void setEditKey(char _k) {
+        // println(_k);
         ParameterKey _pk = keyMap.getKey(_k);
         if(_pk == null) return;
         gui.setKeyString(_k+" "+_pk.getName());
@@ -234,8 +235,11 @@ class Keyboard implements FreelinerConfig {
      * @param int ascii value of the key
      */
     public void modCommands(int _kc) {
-        // println("Mod : "+_kc);
         ParameterKey _pk = keyMap.getKey(_kc);
+        if(_pk.getKey() == 'P') {
+            setEditKey('P');
+            commandMaker(editKey, -3);
+        }
         if(_pk == null) return;
         makeCMD(_pk.getCMD());
         gui.setKeyString(_pk.getName());
