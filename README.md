@@ -1,8 +1,10 @@
 
 # alcFreeliner #
 
-The new v0.4!! is for Processing 3.
-Sorry for the lack of documentation, it needs to be re written. But worry not, the new webgui is fairly informative.
+The Aziz! Light Crew Freeliner is a live geometric animation software built with [Processing](https://www.processing.org). The documentation is a little sparse and the ux is rough but powerfull.
+
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/ktxSKXwmmeU/0.jpg)](http://www.youtube.com/watch?v=ktxSKXwmmeU "Do you know Freeliner?")
+
 
 ## Installation & Launch ##
 Here are some instructions on how to get started with freeliner.
