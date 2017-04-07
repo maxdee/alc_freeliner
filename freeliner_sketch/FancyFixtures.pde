@@ -233,8 +233,11 @@ class FancyFixtures implements FreelinerConfig {
         // updateFixtures
         parseGraphics(colorCanvas);
         updateBuffer();
+
         if(testChannel >= 0) {
             byteBuffer[testChannel*3] = (byte)testValue;
+            byteBuffer[testChannel*3+1] = (byte)testValue;
+            byteBuffer[testChannel*3+2] = (byte)testValue;
         }
         // outputData
         if(byteBuffer.length > 0) {
@@ -254,6 +257,8 @@ class FancyFixtures implements FreelinerConfig {
         if(byteBuffer == null) return;
         if(testChannel >= 0){
             byteBuffer[testChannel*3] = 0;
+            byteBuffer[testChannel*3+1] = 0;
+            byteBuffer[testChannel*3+2] = 0;
         }
         if( _chan < byteBuffer.length){
             testValue = (byte)_val;

@@ -19,6 +19,8 @@ class GroupManager implements FreelinerConfig{
     TemplateManager templateManager;
     //manages groups of points
     ArrayList<SegmentGroup> groups;
+    ArrayList<SegmentGroup> sortedGroups;
+
     int groupCount = 0;
     //selects groups to control, -1 for not selected
     int selectedIndex;
@@ -39,6 +41,8 @@ class GroupManager implements FreelinerConfig{
      */
     public GroupManager() {
         groups = new ArrayList();
+        sortedGroups = new ArrayList();
+
         snappedList = new ArrayList();
         groupCount = 0;
         selectedIndex = -1;
@@ -96,6 +100,7 @@ class GroupManager implements FreelinerConfig{
         groups.add(new SegmentGroup(groupCount));
         selectedIndex = groupCount;
         groupCount++;
+        sortGeometry();
         return selectedIndex;
     }
 
@@ -257,7 +262,9 @@ class GroupManager implements FreelinerConfig{
 
     public int geometryPriority(SegmentGroup _sg, int _v) {
         if(_sg == null) return 0;
-        return _sg.tweakOrder(_v);
+        int _ha = _sg.tweakPriority(_v);
+        sortGeometry();
+        return _ha;
     }
 
     public int geometryPriority(int _order){
@@ -278,6 +285,7 @@ class GroupManager implements FreelinerConfig{
 
     public int geometryPriority(String _tags, int _order){
         ArrayList<TweakableTemplate> _temps = templateManager.getTemplates(_tags);
+        // println(_tags+" "+_temps.size());
         int _val = 0;
         if(_temps.size() == 0){
             return geometryPriority(_order);
@@ -293,6 +301,19 @@ class GroupManager implements FreelinerConfig{
             }
         }
         return _val;
+    }
+
+    public void sortGeometry(){
+        sortedGroups.clear();
+        int _level = 0;
+        while(sortedGroups.size() < groups.size()){
+            for(SegmentGroup _sg : groups){
+                if(_sg.getPriority() == _level){
+                    sortedGroups.add(_sg);
+                }
+            }
+            _level++;
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -650,6 +671,11 @@ class GroupManager implements FreelinerConfig{
         return groups;
     }
 
+    public ArrayList<SegmentGroup> getSortedGroups() {
+        return sortedGroups;
+    }
+
+
     /**
      * Get groups with a certain template
      * @return SegmentGroup arrayList
@@ -661,6 +687,8 @@ class GroupManager implements FreelinerConfig{
         }
         return _groups;
     }
+
+
 
     /**
      * Get the snappedSegment

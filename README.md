@@ -1,7 +1,7 @@
 
 # alcFreeliner #
 
-The Aziz! Light Crew Freeliner is a live geometric animation software built with [Processing](https://www.processing.org). The documentation is a little sparse and the ux is rough but powerfull.
+The Aziz! Light Crew Freeliner is a live geometric animation software built with [Processing](https://www.processing.org). The documentation is a little sparse and the ux is rough but powerfull. Click the following image for a video demo.
 
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/ktxSKXwmmeU/0.jpg)](http://www.youtube.com/watch?v=ktxSKXwmmeU "Do you know Freeliner?")
 

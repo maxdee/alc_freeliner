@@ -236,11 +236,11 @@ class Keyboard implements FreelinerConfig {
      */
     public void modCommands(int _kc) {
         ParameterKey _pk = keyMap.getKey(_kc);
+        if(_pk == null) return;
         if(_pk.getKey() == 'P') {
             setEditKey('P');
             commandMaker(editKey, -3);
         }
-        if(_pk == null) return;
         makeCMD(_pk.getCMD());
         gui.setKeyString(_pk.getName());
     }

@@ -97,9 +97,10 @@ class TemplateManager implements FreelinerConfig{
      * @param ArrayList<SegmentGroup>
      */
     public void launchLoops() {
-        ArrayList<SegmentGroup> _groups = groupManager.getGroups();
+        ArrayList<SegmentGroup> _groups = groupManager.getSortedGroups();
         if(_groups.size() == 0) return;
         ArrayList<RenderableTemplate> toKeep = new ArrayList();
+
         //check to add new loops
         for(SegmentGroup sg : _groups) {
             ArrayList<TweakableTemplate> tmps = sg.getTemplateList().getAll();

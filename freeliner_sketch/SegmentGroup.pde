@@ -490,7 +490,7 @@ class SegmentGroup implements FreelinerConfig{
     templateList.copy(_tl);
   }
 
-  public int tweakOrder(int _v){
+  public int tweakPriority(int _v){
       priority = numTweaker(_v, priority);
       return priority;
   }
@@ -501,7 +501,7 @@ class SegmentGroup implements FreelinerConfig{
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public final int getOrder(){
+  public final int getPriority(){
       return priority;
   }
 

@@ -923,7 +923,6 @@ class FixtureLayer extends Layer {
      * Override parent's
      */
     public boolean parseCMD(String[] _args) {
-
         boolean _parsed = super.parseCMD(_args);
         if(_parsed) return true;
         else if(_args.length > 2) {

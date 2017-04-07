@@ -252,7 +252,7 @@ class CommandProcessor implements FreelinerConfig {
             int _v = stringInt(_args[2]);
             if(_v == -42) return false;
             int _ha = groupManager.setTestChannel(_v);
-            queueCMD("layer fix testchan "+_ha+" 255");
+            processCMD("layer fix testchan "+_ha+" 255");
             valueGiven = str(_ha);
         } else return false;
         return true;
@@ -547,9 +547,8 @@ class CommandProcessor implements FreelinerConfig {
         if(_args.length > 3){
             int _items = stringInt(_args[2]);
             int _priority = stringInt(_args[3]);
-            println(_items+" "+_priority);
             if(_items == -42){
-                valueGiven = str(groupManager.geometryPriority(_args[3], _priority));
+                valueGiven = str(groupManager.geometryPriority(_args[2], _priority));
             }
             else valueGiven = str(groupManager.geometryPriority(_items, _priority));
             return true;
