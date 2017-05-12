@@ -287,7 +287,10 @@ class GroupManager implements FreelinerConfig{
         ArrayList<TweakableTemplate> _temps = templateManager.getTemplates(_tags);
         // println(_tags+" "+_temps.size());
         int _val = 0;
-        if(_temps.size() == 0){
+        if(_temps == null){
+            return geometryPriority(_order);
+        }
+        else if(_temps.size() == 0){
             return geometryPriority(_order);
         }
         else {

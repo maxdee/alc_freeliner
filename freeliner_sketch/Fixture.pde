@@ -48,8 +48,9 @@ class Fixture implements FreelinerConfig {
     position.set(_x, _y);
   }
 
-  void setChannel(int _chan, int _val){
-    if(_chan < channelCount && _chan >= 0) buffer[_chan] = byte(_val);
+  void setChannelManual(int _chan, int _val){
+      int _c = _chan - address;
+      if(_c < channelCount && _c >= 0) buffer[_c] = byte(_val);
   }
 
   int getAddress(){
@@ -284,6 +285,7 @@ class RGBPar extends Fixture {
     _pg.text(str(address), position.x, position.y);
   }
 }
+
 class AWPar extends Fixture {
   boolean correctGamma = true;
   color col;
@@ -394,5 +396,66 @@ class MPanel extends Fixture{
     //
     // buffer[118] = byte(255);
     // buffer[119] = byte(255);
+  }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////
+///////
+///////     Neto PAR5
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
+
+class NetoParFive extends Fixture {
+  boolean correctGamma = true;
+  color col;
+
+  public NetoParFive(int _adr){
+    super(_adr);
+    name = "NetoPAR5";
+    description = "a fixture for the Neto PAR5";
+    channelCount = 9;
+    address = _adr;
+    buffer = new byte[channelCount];
+    position = new PVector(0,0);
+  }
+  public void parseGraphics(PGraphics _pg){
+    if(_pg == null) return;
+    int ind = int(position.x + (position.y*_pg.width));
+    int max = _pg.width*_pg.height;
+    if(ind < max) setColor(_pg.pixels[ind]);
+  }
+
+  // RGBFixture specific
+  public void setColor(color _c){
+    col = _c;
+    int red = (col >> 16) & 0xFF;
+    int green = (col >> 8) & 0xFF;
+    int blue = col & 0xFF;
+    buffer[0] = byte(255);
+    if(red == green && green == blue){
+        buffer[1] = 0;
+        buffer[2] = 0;
+        buffer[3] = 0;
+        buffer[4] = byte(correctGamma ? red : gammatable[red]);
+    }
+    else {
+        buffer[1] = byte(correctGamma ? red : gammatable[red]);
+        buffer[2] = byte(correctGamma ? green : gammatable[green]);
+        buffer[3] = byte(correctGamma ? blue : gammatable[blue]);
+        buffer[4] = 0;
+    }
+  }
+  // override
+  void drawFixtureOverlay(PGraphics _pg){
+    if(_pg == null) return;
+    _pg.stroke(255, 100);
+    _pg.noFill();
+    _pg.ellipseMode(CENTER);
+    _pg.ellipse(position.x, position.y, 20, 20);
+    _pg.textSize(10);
+    _pg.fill(255);
+    _pg.text(str(address), position.x, position.y);
   }
 }

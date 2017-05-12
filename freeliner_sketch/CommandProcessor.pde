@@ -272,7 +272,7 @@ class CommandProcessor implements FreelinerConfig {
         if(_v == -42) {
             PImage _map;
             try {
-                _map = loadImage("userdata/"+_args[1]);
+                _map = loadImage("userdata/images/"+_args[1]);
                 templateRenderer.setColorMap(_map);
                 gui.setColorMap(_map);
                 println("loaded colormap "+_args[1]);

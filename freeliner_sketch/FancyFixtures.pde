@@ -208,6 +208,17 @@ class FancyFixtures implements FreelinerConfig {
                                 (int)_seg.getFloat("bY"));
             fixtures.add(_fix);
             _fix.drawFixtureOverlay(overLayCanvas);
+        } else if(cmd[0].equals("/par5") && cmd.length>1) {
+            // println(cmd[1]);
+            int addr = int(cmd[1]);
+            // println("Adding LEDs from: "+from+"  to: "+to);
+            NetoParFive _fix;
+            _fix = new NetoParFive(addr);
+            _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
+                                // (int)_seg.getFloat("bX"),
+                                // (int)_seg.getFloat("bY"));
+            fixtures.add(_fix);
+            _fix.drawFixtureOverlay(overLayCanvas);
         }
     }
 
@@ -247,9 +258,12 @@ class FancyFixtures implements FreelinerConfig {
     }
 
     public void setChannel(int _ind, int _val) {
-        if(_ind < byteBuffer.length) {
-            byteBuffer[_ind] = (byte)_val;
-            //   println(_ind+" "+_val);
+        // if(_ind < byteBuffer.length) {
+        //     byteBuffer[_ind] = (byte)_val;
+        //     //   println(_ind+" "+_val);
+        // }
+        for(Fixture _fix : fixtures){
+            _fix.setChannelManual(_ind, _val);
         }
     }
     // force on a channel
