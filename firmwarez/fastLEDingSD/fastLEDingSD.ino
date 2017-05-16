@@ -24,7 +24,7 @@
 
 
 // ledCount, if using single output, set NUM_STRIPS to 1
-#define NUM_LEDS_PER_STRIP 15
+#define NUM_LEDS_PER_STRIP 110
 #define NUM_STRIPS 8
 #define NUM_LEDS  NUM_STRIPS * NUM_LEDS_PER_STRIP
 
@@ -38,15 +38,15 @@
 #define DATA_PIN 8
 #define CLOCK_PIN 2
 // sdcard pins
-#define SD_CS 3
+#define SD_CS 4 // 3 on other setups...
 //    pin 3:  SD Card, CS
 //    pin 11: SD Card, MOSI
 //    pin 12: SD Card, MISO
 //    pin 13: SD Card, SCLK
 // input pins, if they are 0, then they will not be used.
-#define BUTTON_PIN 0
-#define SPEED_POT_PIN 0
-#define DIM_POT_PIN 0
+#define BUTTON_PIN 17
+#define SPEED_POT_PIN 4 // A4 D18
+#define DIM_POT_PIN 5 // A5 D19
 
 // led CRGB setup
 CRGB leds[NUM_LEDS];
@@ -131,7 +131,7 @@ void playAnimationFromSD(){
         myFile.readBytes(_header, HEADER_SIZE);
         uint16_t _fileBufferSize = ((_header[0] << 8) | (_header[1] & 0xFF));
         if(_fileBufferSize > BUFFER_SIZE){
-            Serial.println("Not enough LEDs to play animation");
+            Serial.println(F("Not enough LEDs to play animation"));
             updateOtherThings();
             delay(500);
         }
