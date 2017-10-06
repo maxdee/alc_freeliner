@@ -22,12 +22,13 @@ input[type=radio] {
 }
 
 input[type=range] {
-  height: 2px;
+  height: 22px;
 }
 
 input[type=button] {
   width:auto;
 }
+
 input[type=checkbox] {
   width:auto;
 }

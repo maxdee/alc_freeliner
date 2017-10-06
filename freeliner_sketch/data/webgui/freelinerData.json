@@ -606,6 +606,12 @@
         "index": 6,
         "description": "Maybe render",
         "key": "u"
+      },
+      {
+        "name": "strobe enable",
+        "index": 7,
+        "description": "very crunchy render, affected by miscValue",
+        "key": "u"
       }
     ],
     "v": [
@@ -708,10 +714,34 @@
         "index": 3,
         "description": "same as brush but adds a faded edge",
         "key": "a"
+      },
+      {
+        "name": "FadedBrusher",
+        "index": 4,
+        "description": "same as brush but adds a faded edge",
+        "key": "a"
       }
     ]
   },
   "keys": [
+    {
+      "max": -42,
+      "name": "testChannel",
+      "description": "set the test channel, must use a fixture layer called fix",
+      "cmd": "fixtures testchan",
+      "type": 2,
+      "ascii": 40,
+      "key": "("
+    },
+    {
+      "max": -42,
+      "name": "setChannel",
+      "description": "set the start led of a fixture, if snapped to segment middle, sets the end of fixture on that segment",
+      "cmd": "fixtures setchan",
+      "type": 0,
+      "ascii": 41,
+      "key": ")"
+    },
     {
       "max": -42,
       "name": "showTags",
@@ -855,6 +885,15 @@
       "type": 6,
       "ascii": 79,
       "key": "O"
+    },
+    {
+      "max": -42,
+      "name": "priority",
+      "description": "Change the geometry render order, if a group is selected, changes this groups render priority, or all groups with selected template.",
+      "cmd": "geom priority $",
+      "type": 3,
+      "ascii": 80,
+      "key": "P"
     },
     {
       "max": -42,
@@ -1109,7 +1148,7 @@
       "key": "t"
     },
     {
-      "max": 7,
+      "max": 8,
       "name": "enabler",
       "description": "Enablers decide if a render happens or not.",
       "cmd": "tw $ u",
@@ -1152,6 +1191,15 @@
       "type": 4,
       "ascii": 121,
       "key": "y"
+    },
+    {
+      "max": 5000,
+      "name": "looper",
+      "description": "Set how many beats the loop will be.",
+      "cmd": "loop",
+      "type": 3,
+      "ascii": 122,
+      "key": "z"
     },
     {
       "max": -42,
