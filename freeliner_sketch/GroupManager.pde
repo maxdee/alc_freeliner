@@ -491,15 +491,22 @@ class GroupManager implements FreelinerConfig{
         PVector posA = new PVector(0,0);
         PVector posB = new PVector(0,0);
 
+
+//int[] getVertexCodes()[]
         for(int i = 0; i < _shp.getVertexCount()-1; i++) {
-            posA = _shp.getVertex(i).get();
-            posB = _shp.getVertex(i+1).get();
-            posA.add(_offset);
-            posB.add(_offset);
-            _vertices.add(posA);
-            _seg = new Segment(posA.get(), posB.get());
-            getSelectedGroup().addSegment(_seg);
-            print(posA.x+","+posA.y+" to "+posB.x+","+posB.y);
+            if(_shp.getVertexCodes()[i] == BREAK){
+                println("BREAK");
+            }
+            else{
+                posA = _shp.getVertex(i).get();
+                posB = _shp.getVertex(i+1).get();
+                posA.add(_offset);
+                posB.add(_offset);
+                _vertices.add(posA);
+                _seg = new Segment(posA.get(), posB.get());
+                getSelectedGroup().addSegment(_seg);
+                print(posA.x+","+posA.y+" to "+posB.x+","+posB.y);
+            }
         }
         _vertices.add(posB);
 

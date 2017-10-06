@@ -48,6 +48,7 @@ class CommandProcessor implements FreelinerConfig {
         "tp lerp A 0.5",
 
         "tp translate AB 0.5 0.5 0.5",
+        // "tp rotate"
         // add tp setshape (geometryIndex | char | .svg)
         /////////////////// Sequencer
         "seq tap (offset)",

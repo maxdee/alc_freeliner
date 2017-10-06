@@ -19,10 +19,10 @@ import netP5.*;
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 800;//768;
-int configuredHeight = 600;
-int useFullscreen = 1;
-int useDisplay = 2; // SPAN is 0
+int configuredWidth = 800;//1920;//768;
+int configuredHeight = 600;//1080;
+int useFullscreen = 0;
+int useDisplay = 1; // SPAN is 0
 int usePipeline = 1;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -87,6 +87,9 @@ void fetchConfiguration(){
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
+    // surface.setResizable(true);
+    //  surface.setSize(configuredWidth, configuredHeight);
+    // removeBorder();
     documenter = new Documenter();
     strokeCap(FreelinerConfig.STROKE_CAP);
     strokeJoin(FreelinerConfig.STROKE_JOIN);
@@ -112,7 +115,7 @@ void setup() {
     // perhaps use -> PApplet.platform == MACOSX
     background(0);
     splash();
-    frameRate(60);//420);
+    frameRate(120);//420);
     makeGammaTable();
 }
 
