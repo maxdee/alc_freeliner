@@ -10,7 +10,7 @@
 
 // Now the idea would be to support regular arduino/FastLED and teensy/OctoWS811 and SD card playback :) all in one.
 // Optional for OctoWS811
-#define OCTOWSMODE true
+#define OCTOWSMODE false
 #if OCTOWSMODE
     #define USE_OCTOWS2811
     #include<OctoWS2811.h>
@@ -24,8 +24,8 @@
 
 
 // ledCount, if using single output, set NUM_STRIPS to 1
-#define NUM_LEDS_PER_STRIP 110
-#define NUM_STRIPS 8
+#define NUM_LEDS_PER_STRIP 60
+#define NUM_STRIPS 1
 #define NUM_LEDS  NUM_STRIPS * NUM_LEDS_PER_STRIP
 
 // fastLED settings
@@ -35,7 +35,7 @@
 
 /////////////////////////// Pin Definition
 // fastLED Pin settings
-#define DATA_PIN 8
+#define DATA_PIN 6
 #define CLOCK_PIN 2
 // sdcard pins
 #define SD_CS 4 // 3 on other setups...
@@ -45,8 +45,8 @@
 //    pin 13: SD Card, SCLK
 // input pins, if they are 0, then they will not be used.
 #define BUTTON_PIN 17
-#define SPEED_POT_PIN 4 // A4 D18
-#define DIM_POT_PIN 5 // A5 D19
+#define SPEED_POT_PIN 0//4 // A4 D18
+#define DIM_POT_PIN 0//5 // A5 D19
 
 // led CRGB setup
 CRGB leds[NUM_LEDS];
@@ -62,6 +62,7 @@ bool useSerial = false;
 File myFile;
 int animationNumber = 0;
 char fileName[8];
+
 
 // input, pots or buttons
 Bounce bouncer = Bounce();
@@ -82,10 +83,12 @@ void setup() {
 
     FastLED.setDither( 0 );
     for(int y = 0 ; y < NUM_LEDS ; y++) leds[y] = CRGB::Black;
-    FastLED.show();
+    doShow();
     useSerial = false;
     initSD();
+    // initTest();
 }
+int ha = 0;
 
 void loop() {
     if(useSerial) serialMode();
@@ -94,17 +97,21 @@ void loop() {
 }
 
 void serialMode(){
-    int startChar = Serial.read();
-    if (startChar == '*') {
-        int count = Serial.readBytes((char *)leds, BUFFER_SIZE);
-        FastLED.show();
-    }
-    else if (startChar == '?') {
+    if(Serial.available()){
         Serial.print(NUM_LEDS);
-        while(Serial.available()) Serial.read();
-    } else if (startChar >= 0) {
-        Serial.print("badheader ");
-        Serial.println(errorCount++);
+
+        int startChar = Serial.read();
+        if (startChar == '*') {
+            int count = Serial.readBytes((char *)leds, BUFFER_SIZE);
+            FastLED.show();
+        }
+        else if (startChar == '?') {
+            Serial.print(NUM_LEDS);
+            while(Serial.available()) Serial.read();
+        } else if (startChar >= 0) {
+            Serial.print("badheader ");
+            Serial.println(errorCount++);
+        }
     }
 }
 
@@ -139,7 +146,7 @@ void playAnimationFromSD(){
             // read from the file until there's nothing else in it:
             while (myFile.available()) {
                 myFile.readBytes((char*)leds, _fileBufferSize);
-                FastLED.show();
+                doShow();
                 #if SPEED_POT_PIN
                     delay(analogRead(SPEED_POT_PIN)/30);
                 #else
@@ -156,6 +163,13 @@ void playAnimationFromSD(){
         animationNumber = 0;
         delay(20);
     }
+}
+
+void doShow(){
+    // for(int i = 0; i < NUM_STRIPS; i += NUM_LEDS_PER_STRIP){
+    //     leds[i] = CRGB(0,0,0);
+    // }
+    FastLED.show();
 }
 
 
@@ -184,15 +198,24 @@ bool updateOtherThings(){
 
 // little animation to test leds
 void initTest() {
-    int del = 30;
+    int del = 3;
     for (int i = 0 ; i < NUM_LEDS; i++) {
         leds[i] = CRGB(100, 10, 10);
         delay(del);
-        FastLED.show();
+        doShow();
     }
     for (int i = 0 ; i < NUM_LEDS; i++) {
         leds[i] = CRGB(0, 0, 0);
         delay(del);
-        FastLED.show();
+        doShow();
     }
+}
+
+void standby(){
+    ha++;
+    for(int i = 0; i < NUM_LEDS; i++){
+        leds[i] = CHSV(ha+int(ha+i*2+millis()/1.0)%255,255,255);
+    }
+    FastLED.show();
+
 }

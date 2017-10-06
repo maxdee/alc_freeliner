@@ -10,7 +10,7 @@
 
 #define DATA_PIN 6
 #define CLOCK_PIN 2
-#define NUM_LEDS    7
+#define NUM_LEDS    42
 #define BRIGHTNESS  100
 #define LED_TYPE    WS2812B
 #define COLOR_ORDER GRB
