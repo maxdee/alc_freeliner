@@ -1,10 +1,12 @@
 // A lightweight(?) javascript gui for freeliner!
 
 // globals
-var sendCMD, cmdPrompt, flData, selectedTemplate, selectedLayer, availableFiles;
+var sendCMD, cmdPrompt, flData, selectedTemplate, selectedLayer, selectedLayerType, availableFiles;
 // the selected template is the template selected by clicking on the alphabetWidget
 selectedTemplate = '_';
 selectedLayer = 'none';
+selectedLayerType = 'none';
+
 
 /*
  * /////////////////////////////////////////////////////////////
@@ -385,6 +387,7 @@ function makeLayerDiv(_params) {
     _layerDiv.appendChild(layerOptionList(_params));
     _layerDiv.onclick = function() {
         selectedLayer = _params[0];
+        selectedLayerType = _params[1];
         updateLayerStack();
     }
     // _layerDiv.title = description
@@ -515,7 +518,7 @@ function shaderSliderCallbacks() {
 
 function makeShaderCMD(_element, _index){
     return function() {
-        if(selectedLayer != "none"){
+        if(selectedLayer != "none" && selectedLayerType == "ShaderLayer"){
             sendCMD("layer "+selectedLayer+" uniforms "+_index+" "+(_element.value / 255));
         }
     }
