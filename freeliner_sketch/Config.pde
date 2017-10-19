@@ -68,7 +68,7 @@ interface FreelinerConfig {
   // 0 is lightest, best for older hardware
   // 1 is fancy, but only good with newer hardware
   final int RENDERING_PIPELINE = 1;
-
+  final int SMOOTH_LEVEL = 2;
   // to enable / disable experimental parts.
   final boolean EXPERIMENTAL = false;
 
@@ -92,6 +92,22 @@ interface FreelinerConfig {
                     #a5ff00,
                     #f700f7,
                   };
+  //
+  // final color[] userPallet = {
+  //                   #0000fe,
+  //                   #feff01,
+  //                   #ff7f00,
+  //                   #1200d2,
+  //                   #0000fe,
+  //                   #feff01,
+  //                   #ff7f00,
+  //                   #1200d2,
+  //                   #0000fe,
+  //                   #feff01,
+  //                   #ff7f00,
+  //                   #1200d2,
+  //                 };
+
 
   final int PALLETTE_COUNT = 12;
 

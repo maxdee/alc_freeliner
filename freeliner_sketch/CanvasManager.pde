@@ -142,8 +142,10 @@ class LayeredCanvasManager extends CanvasManager {
 
         layerCreator("layer mergeOutput mergeOutput");
         layerCreator("layer fourthShader shaderLayer");
+        layerCreator("layer masker maskLayer");
+
         // led/dmx layer
-        layerCreator("layer fix fixtureLayer");
+        // layerCreator("layer fix fixtureLayer");
         // layerCreator("layer cap captureLayer");
         layerCreator("layer gui guiLayer");
         // add frame sharing layers by default, they get deleted if they are not enabled.
@@ -153,7 +155,7 @@ class LayeredCanvasManager extends CanvasManager {
         // layerCreator("layer screenshot screenshotLayer");
         layerCreator("layer screen outputLayer");
 
-        printLayers();
+        // printLayers();
     }
 
     public int setTrails(int _t, int _max) {
@@ -300,7 +302,9 @@ class LayeredCanvasManager extends CanvasManager {
         // and this is where the magic happens
         PGraphics _prev = null;
         for(Layer _lr : layers) _prev = _lr.apply(_prev);
+        // thats it
 
+        // check for cmds and mask making.
         for(Layer _lr : layers) {
             if(_lr instanceof MaskLayer) {
                 if(((MaskLayer)_lr).checkMakeMask()) ((MaskLayer)_lr).makeMask(mergeCanvas);

@@ -289,6 +289,7 @@ class CanvasLayer extends Layer {
      */
     public CanvasLayer() {
         canvas = createGraphics(width,height,P2D);
+        canvas.smooth(SMOOTH_LEVEL);
         canvas.beginDraw();
         canvas.background(0);
         canvas.endDraw();

@@ -1,7 +1,9 @@
-Generated on 2016/12/20 with freeliner version 0.4.4
+Generated on 2017/10/18 with freeliner version 0.4.5
 ### keys ###
 | key | parameter | type | description | cmd |
 |:---:|---|---|---|---|
+| `(` | testChannel |on off + value |set the test channel, must use a fixture layer called fix | `fixtures testchan` |
+| `)` | setChannel |action |set the start led of a fixture, if snapped to segment middle, sets the end of fixture on that segment | `fixtures setchan` |
 | `,` | showTags |on off |showTags of all groups | `tools tags` |
 | `-` | decrease |action |Decrease value of selectedKey. | `nope` |
 | `.` | snapping |on off + value |enable/disable snapping or set the snapping distance | `tools snap` |
@@ -18,6 +20,7 @@ Generated on 2016/12/20 with freeliner version 0.4.4
 | `ctrl-l` | link |action |Link one template to an other unidirectionaly, used for meta freelining. | `tp link $` |
 | `ctrl-m` | mask |action |Generate mask for maskLayer, or set mask. | `layer mask make` |
 | `ctrl-o` | open |action |Open stuff | `fl open` |
+| `ctrl-p` | priority |value |Change the geometry render order, if a group is selected, changes this groups render priority, or all groups with selected template. | `geom priority $` |
 | `ctrl-q` | quit |action |quit freeliner! | `fl quit` |
 | `ctrl-r` | reset |action |Reset template. | `tp reset $` |
 | `ctrl-s` | save |action |Save stuff. | `fl save` |
@@ -51,5 +54,6 @@ Generated on 2016/12/20 with freeliner version 0.4.4
 | `w` | strokeWeight |value |Stroke weight. | `tw $ w` |
 | `x` | beatMultiplier |value |Set how many beats the animation will take. | `tw $ x` |
 | `y` | tracers |value |Set tracer level for tracer layer. | `post tracers` |
+| `z` | looper |value |Set how many beats the loop will be. | `loop` |
 | `|` | enterText |on off |enable text entry, type text and press return | `text` |
  
