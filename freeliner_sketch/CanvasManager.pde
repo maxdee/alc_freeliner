@@ -145,7 +145,7 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer masker maskLayer");
 
         // led/dmx layer
-        // layerCreator("layer fix fixtureLayer");
+        layerCreator("layer fix fixtureLayer");
         // layerCreator("layer cap captureLayer");
         layerCreator("layer gui guiLayer");
         // add frame sharing layers by default, they get deleted if they are not enabled.
