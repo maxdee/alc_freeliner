@@ -32,13 +32,6 @@ class Fixture implements FreelinerConfig {
 
     }
 
-    // public void subFixturesParseGraphics(PGraphics _pg){
-    //     if(subFixtures != null){
-    //         for(Fixture _fix : subFixtures){
-    //             if(_fix != null)_fix.parseGraphics(_pg);
-    //         }
-    //     }
-    // }
     // to override
     void drawFixtureOverlay(PGraphics _pg) {
 

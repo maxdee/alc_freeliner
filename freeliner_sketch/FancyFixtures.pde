@@ -43,6 +43,7 @@ class FancyFixtures implements FreelinerConfig {
         areaPos = new PVector(0,0);
         initialised = false;
     }
+
     // it all starts here
     public void loadFile(String _file) {
         initialised = false;
@@ -345,7 +346,6 @@ class FancyFixtures implements FreelinerConfig {
 
     void parseGraphics(PGraphics _pg) {
         _pg.loadPixels();
-
         for(Fixture _fix : fixtures)
             _fix.parseGraphics(_pg);
     }
