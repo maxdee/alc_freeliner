@@ -240,4 +240,7 @@ class TweakableTemplate extends Template {
   public void setTranslation(PVector _pv){
     translation.set(_pv);
   }
+  public void setRotation(PVector _pv){
+      rotation.set(_pv);
+  }
 }

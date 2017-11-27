@@ -19,8 +19,8 @@ import netP5.*;
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 640;//768;
-int configuredHeight = 480;//1080;
+int configuredWidth = 800;//768;
+int configuredHeight = 800;//1080;
 int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;
@@ -116,7 +116,7 @@ void setup() {
     // perhaps use -> PApplet.platform == MACOSX
     background(0);
     splash();
-    frameRate(60);
+    frameRate(360);
     makeGammaTable();
 }
 

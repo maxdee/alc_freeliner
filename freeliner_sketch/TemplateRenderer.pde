@@ -119,10 +119,16 @@ class TemplateRenderer extends Mode{
         // check the enabler, it may modify the unitInterval
         if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
 
+
         // translate, beta...
         _pg.pushMatrix(); // new
         PVector _trans = _rt.getTranslation();
         _pg.translate(_trans.x*width, _trans.y*height);
+        // rotate beta
+        _pg.translate(width/2, height/2);
+        PVector _rot = _rt.getRotation();
+        _pg.rotate(_rot.z*TWO_PI);
+        _pg.translate(-width/2, -height/2);
 
         // get multiple unit intervals to use
         float _eased = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);

@@ -46,8 +46,10 @@ class CommandProcessor implements FreelinerConfig {
         "tp select AB*",
         "tp toggle A 3",
         "tp lerp A 0.5",
+        "tp translate ???",
+        "tp rotate ???",
 
-        "tp translate AB 0.5 0.5 0.5",
+        "tp late AB 0.5 0.5 0.5",
         // "tp rotate"
         // add tp setshape (geometryIndex | char | .svg)
         /////////////////// Sequencer
@@ -742,6 +744,7 @@ class CommandProcessor implements FreelinerConfig {
             else if(_args[1].equals("fill")) fillColorCMD(_args);
             else if(_args[1].equals("select")) tpSelectCMD(_args);
             else if(_args[1].equals("translate")) tpTranslateCMD(_args);
+            else if(_args[1].equals("rotate")) tpRotateCMD(_args);
             else if(_args[1].equals("toggle")) toggleCMD(_args);
             else if(_args[1].equals("lerp")) lerpCMD(_args);
 
@@ -852,6 +855,21 @@ class CommandProcessor implements FreelinerConfig {
         if(_tmps == null) return;
         for(TweakableTemplate _rt : _tmps) {
             _rt.setTranslation(_translate);
+        }
+    }
+
+    public void tpRotateCMD(String[] _args) {
+        looper.receive(join(_args, " "));
+        if(_args.length < 6) return;
+        float x = stringFloat(_args[3]);
+        float y = stringFloat(_args[4]);
+        float z = stringFloat(_args[5]);
+        // if(_args.length > 5) z = stringFloat(_args[5]);
+        PVector _rotate = new PVector(x,y,z);
+        ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+        if(_tmps == null) return;
+        for(TweakableTemplate _rt : _tmps) {
+            _rt.setRotation(_rotate);
         }
     }
 

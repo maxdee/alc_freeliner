@@ -940,6 +940,7 @@ class FixtureLayer extends Layer {
         else {
             int _chan = stringInt(_args[3]);
             int _val = stringInt(_args[4]);
+            // all good here
             fixtures.setTestChannel(_chan, _val);
         }
     }

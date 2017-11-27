@@ -106,6 +106,47 @@ class FancyFixtures implements FreelinerConfig {
             parseFixture(_fix);
     }
 
+
+
+    public void parseFixture(XML _xml) {
+        //   for(XML)
+        XML[] _fix = _xml.getChildren("xyled");
+        for(XML _xyled : _fix){
+            float _adr = _xyled.getFloat("a");
+            float _x = _xyled.getFloat("x");
+            float _y = _xyled.getFloat("y");
+            println(_adr+"  "+_x+"  "+_y);
+            if(_x < width && _x >= 0){
+                if(_y < height && _y >= 0){
+                    if(_adr < channelCount && _adr >= 0){
+                        addRGBFixture((int) _adr, (int) _x, (int) _y);
+                    }
+                }
+            }
+        }
+        //
+        // println("**********************************************");
+        // println("**********************************************");
+        // println("**********************************************");
+        // println(_fix);
+        // println("**********************************************");
+        // println("**********************************************");
+        // println("**********************************************");
+
+    }
+
+    public void addRGBFixture(int _adr, int _x, int _y) {
+        Fixture _fix = new RGBFixture(_adr);
+        _fix.setPosition(_x,_y);
+        _fix.drawFixtureOverlay(overLayCanvas);
+        fixtures.add(_fix);
+    }
+
+
+
+
+
+
     public void setupByteBuffer(int _size) {
         channelCount = _size;
         byteBuffer = new byte[channelCount]; // plus one for header
@@ -170,10 +211,6 @@ class FancyFixtures implements FreelinerConfig {
     ////////////////////////////////////////////////////////////////////////////////////
 
 
-    public void parseFixture(XML _xml) {
-        //   for(XML)
-    }
-
     // XML segment to RGBStrip fixture
     // in this case its /led START_ADR LED_COUNT
     void segmentStrip(XML _seg) {
@@ -233,12 +270,7 @@ class FancyFixtures implements FreelinerConfig {
         }
     }
 
-    public void addRGBFixture(int _adr, int _x, int _y) {
-        Fixture _fix = new RGBFixture(_adr);
-        _fix.setPosition(_x,_y);
-        _fix.drawFixtureOverlay(overLayCanvas);
-        fixtures.add(_fix);
-    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
@@ -279,15 +311,18 @@ class FancyFixtures implements FreelinerConfig {
     }
     // force on a channel
     public void setTestChannel(int _chan, int _val){
+
         if(byteBuffer == null) return;
+        // turn off previous
         if(testChannel >= 0){
             byteBuffer[testChannel*3] = 0;
             byteBuffer[testChannel*3+1] = 0;
             byteBuffer[testChannel*3+2] = 0;
         }
+        // set new
         if( _chan < byteBuffer.length){
             testValue = (byte)_val;
-            testChannel = (byte)_chan;
+            testChannel = _chan;
         }
     }
 
