@@ -91,11 +91,13 @@ class FreeLiner implements FreelinerConfig {
         // startup commands
         String[] _lines = loadStrings("data/userdata/"+"startup");
         if(_lines!=null){
-            println("there are " + _lines.length + " commands in startup");
+            println("Startup commands:");
             if(_lines.length > 0){
                 for (String _s : _lines) {
-                    println(_s);
-                    commandProcessor.queueCMD(_s);
+                    if(_s.charAt(0) != '#'){                        
+                        println(_s);
+                        commandProcessor.queueCMD(_s);
+                    }
                 }
             }
         }
