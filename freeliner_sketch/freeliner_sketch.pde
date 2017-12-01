@@ -36,7 +36,7 @@ FreeLiner freeliner;
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.4.5";
+final String VERSION = "0.4.6";
 boolean doSplash = true;
 boolean OSX = false;
 boolean WIN = false;

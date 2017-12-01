@@ -1,6 +1,10 @@
+### Version 0.4.6 ###
+* `/userdata/startup` add commands, each line is executed.
+* Shader sliders in webgui.
+* More stuff I forgot about.
+
 ### Version 0.4.5 ###
  * `/userdata` paths have changed, seperate folders for shaders geometries templates...
-  
 
 ### Version 0.4.4 ###
  * Syphon and Spout are now implmented as layers. Check `README.md` for how to enable them.

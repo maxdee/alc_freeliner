@@ -87,6 +87,19 @@ class FreeLiner implements FreelinerConfig {
             shader(fisheye);
         }
         // commandProcessor.queueCMD("colormap colorMap.png");
+
+        // startup commands
+        String[] _lines = loadStrings("data/userdata/"+"startup");
+        if(_lines!=null){
+            println("there are " + _lines.length + " commands in startup");
+            if(_lines.length > 0){
+                for (String _s : _lines) {
+                    println(_s);
+                    commandProcessor.queueCMD(_s);
+                }
+            }
+        }
+
     }
 
     // sync message to other software
