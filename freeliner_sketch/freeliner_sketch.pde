@@ -23,6 +23,7 @@ int configuredWidth = 800;//768;
 int configuredHeight = 800;//1080;
 int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
+
 int usePipeline = 1;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +117,7 @@ void setup() {
     // perhaps use -> PApplet.platform == MACOSX
     background(0);
     splash();
-    frameRate(360);
+    frameRate(60);
     makeGammaTable();
 }
 
