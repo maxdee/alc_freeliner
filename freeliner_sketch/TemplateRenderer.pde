@@ -25,7 +25,7 @@ class TemplateRenderer extends Mode{
     // PVector[] translations;
 
     // easer and reversers count in Config.pde
-    int easingModeCount = 12;
+    int easingModeCount = 14;
     int reverseModeCount = 5;
     int renderModeCount = 7;
     int repetitionModeCount = 6;
@@ -77,17 +77,20 @@ class TemplateRenderer extends Mode{
     description = "how to darw multiples of one template";
 	easers = new Easing[easingModeCount];
 	easers[0] = new NoEasing(0);
-	easers[1] = new Square(1);
-	easers[2] = new Sine(2);
-	easers[3] = new Cosine(3);
+	easers[1] = new SquareEasing(1);
+	easers[2] = new CubeEasing(2);
+	easers[3] = new CosineEasing(3);
 	easers[4] = new Boost(4);
-	easers[5] = new RandomUnit(5);
-	easers[6] = new TargetNoise(6);
-	easers[7] = new Fixed(1.0, 7);
-	easers[8] = new Fixed(0.5, 8);
-	easers[9] = new Fixed(0.0, 9);
-	easers[10] = new EaseInOut(10);
-    easers[11] = new FixLerp(11);
+    easers[5] = new SmoothStep(5);
+    easers[6] = new SmootherStep(6);
+
+	easers[7] = new RandomUnit(7);
+	easers[8] = new TargetNoise(8);
+	easers[9] = new Fixed(1.0, 9);
+	easers[10] = new Fixed(0.5, 10);
+	easers[11] = new Fixed(0.0, 11);
+	easers[12] = new EaseInOut(12);
+    easers[13] = new FixLerp(13);
 
 	if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])easers, 'h', this, "EasingModes");
 

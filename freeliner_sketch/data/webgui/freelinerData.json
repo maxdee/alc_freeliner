@@ -240,9 +240,9 @@
         "key": "h"
       },
       {
-        "name": "sine",
+        "name": "cubic",
         "index": 2,
-        "description": "Sine ish",
+        "description": "Power of 3.",
         "key": "h"
       },
       {
@@ -258,44 +258,56 @@
         "key": "h"
       },
       {
-        "name": "random",
+        "name": "smoothstep",
         "index": 5,
+        "description": "classic smoothstep",
+        "key": "h"
+      },
+      {
+        "name": "smootherstep",
+        "index": 6,
+        "description": "smoother smoothstep",
+        "key": "h"
+      },
+      {
+        "name": "random",
+        "index": 7,
         "description": "random unitInterval every frame",
         "key": "h"
       },
       {
         "name": "targetNoise",
-        "index": 6,
+        "index": 8,
         "description": "fake audio response",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 7,
+        "index": 9,
         "description": "fixed at 1.0",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 8,
+        "index": 10,
         "description": "fixed at 0.5",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 9,
+        "index": 11,
         "description": "fixed at 0.0",
         "key": "h"
       },
       {
         "name": "EaseInOut",
-        "index": 10,
+        "index": 12,
         "description": "Linera eas in and out",
         "key": "h"
       },
       {
         "name": "fixLerp",
-        "index": 11,
+        "index": 13,
         "description": "is set to template's tp lerp AB 0.5",
         "key": "h"
       }
@@ -1031,7 +1043,7 @@
       "key": "g"
     },
     {
-      "max": 12,
+      "max": 14,
       "name": "easing",
       "description": "Set the easing mode.",
       "cmd": "tw $ h",

@@ -32,6 +32,7 @@ class Disabler extends Enabler{
 	}
 }
 
+// something for triggerable but not from the seq
 class Triggerable extends Enabler{
 	public Triggerable(int _ind){
 		modeIndex = _ind;
@@ -43,7 +44,6 @@ class Triggerable extends Enabler{
 	}
 }
 
-// something for triggerable but not from the seq
 
 
 class RandomEnabler extends Enabler{
@@ -57,7 +57,6 @@ class RandomEnabler extends Enabler{
 		else return false;
 	}
 }
-
 
 
 class SweepingEnabler extends Enabler{
@@ -111,4 +110,13 @@ class StrobeEnabler extends Enabler{
 	public boolean enable(RenderableTemplate _rt){
 		return (random(20+_rt.getMiscValue()) < 10);
 	}
+}
+
+class MetaEnabler extends Enabler{
+	public MetaEnabler(){}
+	public MetaEnabler(int _ind){
+		modeIndex = _ind;
+		name = "meta enable";
+		description = "use other template with meta mode to enable through movement";
+	}	
 }

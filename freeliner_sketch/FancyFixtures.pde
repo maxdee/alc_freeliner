@@ -112,14 +112,14 @@ class FancyFixtures implements FreelinerConfig {
         //   for(XML)
         XML[] _fix = _xml.getChildren("xyled");
         for(XML _xyled : _fix){
-            float _adr = _xyled.getFloat("a");
-            float _x = _xyled.getFloat("x");
-            float _y = _xyled.getFloat("y");
+            int _adr = (int) _xyled.getFloat("a");
+            int _x = (int) _xyled.getFloat("x");
+            int _y = (int) _xyled.getFloat("y");
             println(_adr+"  "+_x+"  "+_y);
             if(_x < width && _x >= 0){
                 if(_y < height && _y >= 0){
                     if(_adr < channelCount && _adr >= 0){
-                        addRGBFixture((int) _adr, (int) _x, (int) _y);
+                        addRGBFixture(_adr, _x, _y);
                     }
                 }
             }
@@ -320,7 +320,7 @@ class FancyFixtures implements FreelinerConfig {
             byteBuffer[testChannel*3+2] = 0;
         }
         // set new
-        if( _chan < byteBuffer.length){
+        if( _chan*3+2 < byteBuffer.length){
             testValue = (byte)_val;
             testChannel = _chan;
         }

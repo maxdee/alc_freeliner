@@ -34,8 +34,8 @@ class NoEasing extends Easing {
 	}
 }
 
-class Square extends Easing{
-	public Square(int _ind){
+class SquareEasing extends Easing{
+	public SquareEasing(int _ind){
 		modeIndex = _ind;
 		name = "square";
 		description = "Power of 2.";
@@ -46,27 +46,39 @@ class Square extends Easing{
 	}
 }
 
-class Sine extends Easing{
-	public Sine(int _ind){
+class CubeEasing extends Easing{
+	public CubeEasing(int _ind){
 		modeIndex = _ind;
-		name = "sine";
-		description = "Sine ish";
+		name = "cubic";
+		description = "Power of 3.";
 	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
-		return sin((_lrp)*PI);
+		return pow(_lrp, 3);
 	}
 }
+//
+// class SineEasing extends Easing{
+// 	public Sine(int _ind){
+// 		modeIndex = _ind;
+// 		name = "sine";
+// 		description = "Sine ish";
+// 	}
+//
+// 	public float ease(float _lrp, RenderableTemplate _rt){
+// 		return (sin((_lrp+PI)*TWO_PI)+1.0)/2.0;
+// 	}
+// }
 
-class Cosine extends Easing{
-	public Cosine(int _ind){
+class CosineEasing extends Easing{
+	public CosineEasing(int _ind){
 		modeIndex = _ind;
 		name = "cosine";
 		description = "cosine";
 	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
-		return cos(_lrp*PI);
+		return (cos(_lrp*TWO_PI)+1.0)/2.0;
 	}
 }
 
@@ -78,9 +90,35 @@ class Boost extends Easing{
 	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
-		return sin((_lrp)*HALF_PI);
+		return 1.0-sin((_lrp)*HALF_PI);
 	}
 }
+
+class SmoothStep extends Easing{
+	public SmoothStep(int _ind){
+		modeIndex = _ind;
+		name = "smoothstep";
+		description = "classic smoothstep";
+	}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		return (_lrp * _lrp * (3 - 2 * _lrp));
+	}
+}
+
+class SmootherStep extends Easing{
+	public SmootherStep(int _ind){
+		modeIndex = _ind;
+		name = "smootherstep";
+		description = "smoother smoothstep";
+	}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		return (pow(_lrp,3) *(_lrp * (_lrp * 6 - 15) + 10));
+	}
+}
+
+// class
 
 class RandomUnit extends Easing{
 	public RandomUnit(int _ind){
