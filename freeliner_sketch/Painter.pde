@@ -230,9 +230,9 @@ class LineToLine extends Painter{
     PVector pos = new PVector(-10,-10);
 		PVector prev = new PVector(-10,-10);
 		if(_segs == null) return;
-    for(Segment seg : _segs){
+    for(Segment _seg : _segs){
 			prev = pos.get();
-			pos = seg.getStrokePos(event.getLerp()).get();
+			pos = getPosition(_seg, event.getLerp()).get();
 			if(prev.x != -10 && pos.x != -10) vecLine(canvas, pos, prev);
     }
   }
