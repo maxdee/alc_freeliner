@@ -79,11 +79,9 @@ class BrushSegment extends PerSegment{
   public BrushSegment(int _ind){
 		super();
 		modeIndex = _ind;
-  	segmentPainters = new SegmentPainter[painterCount];
-    segmentPainters[0] = new SimpleBrusher(0);
+	  	segmentPainters = new SegmentPainter[painterCount];
+	    segmentPainters[0] = new SimpleBrusher(0);
 		// segmentPainters[1] = new FadedBrusher(1);
-
-
 		name = "BrushSegment";
 		description = "Render mode for drawing with brushes";
 		//if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "None?");
@@ -104,12 +102,12 @@ class LineSegment extends PerSegment{
 		super();
 		modeIndex = _ind;
 		segmentPainters = new SegmentPainter[painterCount];
-    segmentPainters[0] = new FunLine(0);
-    segmentPainters[1] = new FullLine(1);
-    segmentPainters[2] = new MiddleLine(2);
+	    segmentPainters[0] = new FunLine(0);
+	    segmentPainters[1] = new FullLine(1);
+	    segmentPainters[2] = new MiddleLine(2);
 		segmentPainters[3]  = new TrainLine(3);
-    segmentPainters[4] = new Maypole(4);
-    segmentPainters[5] = new SegToSeg(5);
+	    segmentPainters[4] = new Maypole(4);
+	    segmentPainters[5] = new SegToSeg(5);
 		segmentPainters[6] = new AlphaLine(6);
 
 		name = "LineSegment";

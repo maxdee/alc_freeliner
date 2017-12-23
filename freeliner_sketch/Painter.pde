@@ -32,7 +32,7 @@ class Painter extends Mode{
 		description = "Paints stuff";
 
 		initColorizers();
-		interpolatorCount = 10;
+		interpolatorCount = 11;
 		posGetters = new Interpolator[interpolatorCount];
 		posGetters[0] = new Interpolator(0);
 		posGetters[1] = new CenterSender(1);
@@ -44,6 +44,8 @@ class Painter extends Mode{
 		posGetters[7] = new RadiusInterpolator(7);
 		posGetters[8] = new SegmentOffsetInterpolator(8);
 		posGetters[9] = new OppositInterpolator(9);
+		posGetters[10] = new NoisyInterpolator(10);
+
 
 		if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])posGetters, 'e', this, "Enterpolator");
 	}
@@ -63,6 +65,10 @@ class Painter extends Mode{
 		return getInterpolator(event.getInterpolateMode()).getPosition(_seg, event, this);
 	}
 
+	public PVector getPosition(Segment _seg, float _lerp){
+		return getInterpolator(event.getInterpolateMode()).getPosition(_seg, event, _lerp, this);
+	}
+
 	public float getAngle(Segment _seg, RenderableTemplate _event){
 		float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
 		if(_event.getDirection()) ang += PI;
@@ -77,22 +83,22 @@ class Painter extends Mode{
 		// basic colors
 		colorizers[0] = new SimpleColor(color(0), 0);
 		colorizers[0].setDescrition("None");
-    colorizers[1] = new SimpleColor(color(255), 1);
+    	colorizers[1] = new SimpleColor(color(255), 1);
 		colorizers[1].setDescrition("white");
-    colorizers[2] = new SimpleColor(color(255, 0, 0), 2);
+    	colorizers[2] = new SimpleColor(color(255, 0, 0), 2);
 		colorizers[2].setDescrition("red");
-    colorizers[3] = new SimpleColor(color(0, 255, 0), 3);
+    	colorizers[3] = new SimpleColor(color(0, 255, 0), 3);
 		colorizers[3].setDescrition("green");
-    colorizers[4] = new SimpleColor(color(0, 0, 255), 4);
+    	colorizers[4] = new SimpleColor(color(0, 0, 255), 4);
 		colorizers[4].setDescrition("blue");
-    colorizers[5] = new SimpleColor(color(0), 5);
+    	colorizers[5] = new SimpleColor(color(0), 5);
 		colorizers[5].setDescrition("black");
 		// userPallet colors
-    colorizers[6] = new PalletteColor(0, 6);
-    colorizers[7] = new PalletteColor(1, 7);
-    colorizers[8] = new PalletteColor(2, 8);
-    colorizers[9] = new PalletteColor(3, 9);
-    colorizers[10] = new PalletteColor(4, 10);
+	    colorizers[6] = new PalletteColor(0, 6);
+	    colorizers[7] = new PalletteColor(1, 7);
+	    colorizers[8] = new PalletteColor(2, 8);
+	    colorizers[9] = new PalletteColor(3, 9);
+    	colorizers[10] = new PalletteColor(4, 10);
 		colorizers[11] = new PalletteColor(5, 11);
 		colorizers[12] = new PalletteColor(6, 12);
 		colorizers[13] = new PalletteColor(7, 13);
@@ -103,15 +109,15 @@ class Painter extends Mode{
 		// changing color modes
 		colorizers[18] = new RepetitionColor(18);
 		colorizers[19] = new RandomPrimaryColor(19);
-    colorizers[20] = new PrimaryBeatColor(20);
+    	colorizers[20] = new PrimaryBeatColor(20);
 		colorizers[21] = new HSBFade(21);
-    colorizers[22] = new FlashyPrimaryColor(22);
-    colorizers[23] = new FlashyGray(23);
-    colorizers[24] = new RandomRGB(24);
-    colorizers[25] = new Strobe(25);
+	    colorizers[22] = new FlashyPrimaryColor(22);
+	    colorizers[23] = new FlashyGray(23);
+	    colorizers[24] = new RandomRGB(24);
+	    colorizers[25] = new Strobe(25);
 		colorizers[26] = new Flash(26);
 		colorizers[27] = new JahColor(27);
-    colorizers[28] = new CustomStrokeColor(28);
+    	colorizers[28] = new CustomStrokeColor(28);
 		colorizers[29] = new CustomFillColor(29);
 
 		colorizers[30] = new MillisFade(30);

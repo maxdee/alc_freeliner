@@ -59,7 +59,7 @@ class FunLine extends LinePainter {
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		//PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
-		vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), getPosition(_seg));//_seg.getStrokePos(event.getLerp()));
+		vecLine(event.getCanvas(), getPosition(_seg, 0.0), getPosition(_seg));//_seg.getStrokePos(event.getLerp()));
 	}
 }
 
@@ -73,7 +73,7 @@ class FullLine extends LinePainter {
 
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
-		vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), _seg.getStrokeOffsetB());
+		vecLine(event.getCanvas(), getPosition(_seg, 0.0), getPosition(_seg, 1.0));
 	}
 }
 
@@ -89,7 +89,7 @@ class AlphaLine extends LinePainter{
 		color _col = getColorizer(event.getStrokeMode()).get(event,int(event.getLerp()*event.getStrokeAlpha()));
 		if(int(event.getLerp()*event.getStrokeAlpha())==0) return;//event.getCanvas().noStroke();
 		else event.getCanvas().stroke(_col);
-		vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), _seg.getStrokeOffsetB());
+		vecLine(event.getCanvas(), getPosition(_seg, 0.0), getPosition(_seg, 1.0));
 	}
 }
 
@@ -105,13 +105,16 @@ class TrainLine extends LinePainter {
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		float lrp = event.getLerp();
-		if(lrp < 0.5) vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), _seg.getStrokePos(lrp*2));
-		else vecLine(event.getCanvas(), _seg.getStrokePos(2*(lrp-0.5)), _seg.getStrokeOffsetB());
+		if(lrp < 0.5) vecLine(event.getCanvas(), getPosition(_seg, 0.0), getPosition(_seg,lrp*2));
+		else vecLine(event.getCanvas(), getPosition(_seg, 2*(lrp-0.5)), getPosition(_seg, 1.0));
+
+		// if(lrp < 0.5) vecLine(event.getCanvas(), getPosition(_seg, 0.0), _seg.getStrokePos(lrp*2));
+		// else vecLine(event.getCanvas(), _seg.getStrokePos(2*(lrp-0.5)), getPosition(_seg, 1.0));
 
 		// test with enterpolator...
 		// if(lrp < 0.5){
 		// 	_event.setLerp(lrp*2.0);
-		// 	vecLine(event.getCanvas(), _seg.getStrokeOffsetA(), getPosition(_seg));
+		// 	vecLine(event.getCanvas(), getPosition(_seg, 0.0), getPosition(_seg));
 		// 	_event.setLerp(lrp);
 		// }
 		// else {
@@ -135,7 +138,7 @@ class MiddleLine extends LinePainter {
 		super.paintSegment(_seg, _event);
 		float aa = (event.getLerp()/2)+0.5;
 		float bb = -(event.getLerp()/2)+0.5;
-		vecLine(event.getCanvas(), _seg.getStrokePos(aa), _seg.getStrokePos(bb));
+		vecLine(event.getCanvas(), getPosition(_seg, aa), getPosition(_seg, bb));
 	}
 }
 
@@ -163,7 +166,7 @@ class Elliptic extends LinePainter {
 	public void paintSegment(Segment _seg, RenderableTemplate _event){
 		super.paintSegment(_seg, _event);
 		PVector pos = _seg.getPointA();
-		float sz = pos.dist(_seg.getStrokePos(event.getLerp()))*2;
+		float sz = pos.dist(getPosition(_seg, event.getLerp()))*2;
 		event.getCanvas().ellipse(pos.x, pos.y, sz, sz);
 	}
 }
