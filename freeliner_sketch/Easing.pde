@@ -57,6 +57,7 @@ class CubeEasing extends Easing{
 		return pow(_lrp, 3);
 	}
 }
+
 //
 // class SineEasing extends Easing{
 // 	public Sine(int _ind){
@@ -90,7 +91,7 @@ class Boost extends Easing{
 	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
-		return 1.0-sin((_lrp)*HALF_PI);
+		return sin((_lrp)*HALF_PI);
 	}
 }
 
@@ -114,10 +115,29 @@ class SmootherStep extends Easing{
 	}
 
 	public float ease(float _lrp, RenderableTemplate _rt){
+		return smootherStep(_lrp);
+	}
+
+	float smootherStep(float _lrp){
 		return (pow(_lrp,3) *(_lrp * (_lrp * 6 - 15) + 10));
 	}
 }
 
+class DoubleSmootherStep extends Easing{
+	public DoubleSmootherStep(int _ind){
+		modeIndex = _ind;
+		name = "doublesmootherstep";
+		description = "double smoother smoothstep";
+	}
+
+	public float ease(float _lrp, RenderableTemplate _rt){
+		return smootherStep(smootherStep(_lrp));
+	}
+
+	float smootherStep(float _lrp){
+		return (pow(_lrp,3) *(_lrp * (_lrp * 6 - 15) + 10));
+	}
+}
 // class
 
 class RandomUnit extends Easing{
