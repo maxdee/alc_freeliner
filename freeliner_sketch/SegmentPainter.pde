@@ -480,8 +480,8 @@ class MetaMarkerMaker extends BrushPutter{
 		TweakableTemplate _linked = _event.getLinkedTemplate();
 		if(_linked != null){
 			PVector _pos = getPosition(_seg);
+			_pos.z = _event.getBrushSize();
 			_linked.addMetaPositionMarker(_pos);
-			println(_linked);
 			putShape(_pos, 0);
 		}
 	}

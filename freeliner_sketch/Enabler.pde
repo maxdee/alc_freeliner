@@ -136,7 +136,7 @@ class MetaEnabler extends Enabler{
 }
 
 class MarkerEnabler extends Enabler{
-	final float DIST = 200.0;//float(width)/4.0;
+	// final float DIST = 200.0;//float(width)/4.0;
 
 	public MarkerEnabler(){
 	}
@@ -151,21 +151,25 @@ class MarkerEnabler extends Enabler{
 		for(PVector _marker :_rt.getSourceTemplate().getMetaPoisitionMarkers()){
 			if(_marker != null){
 				_pos = _marker;
-				break;
 			}
 		}
 		if(_pos != null){
 			PVector _center = _rt.getSegmentGroup().getCenter();
-			float _d = _pos.dist(_center);
-			println("dist "+_d);
-			if(_d < DIST && _d > 0){
-				//println();
-				_rt.setUnitInterval(_d/DIST);
+			float _s = _pos.z;
+			float _d = _pos.dist(_center)-_s;
+			// print(_pos);
+			// print("    ");
+			// print(_center);
+			// print("    ");
+			// println(_d);
+			if(_d < _s && _d > 0){
+				_rt.setUnitInterval(_d/_s);
 				return true;
 			}
+			else return false;
 		}
 		// else return false;
-		return true;
+		return false;
 	}
 
 }

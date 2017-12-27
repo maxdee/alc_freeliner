@@ -290,24 +290,11 @@ class LayeredCanvasManager extends CanvasManager {
         for(Layer _rl : renderLayers) {
             _rl.beginDrawing();
             for(RenderableTemplate _rt : _toRender) {
-                print("in canvas ");
-                print(_rt.getSourceTemplate().getTemplateID());
-                print(_rt.getSourceTemplate().getMetaPoisitionMarkers());
-                println("------------");
                 if(_rt.getRenderLayer() == _index) templateRenderer.render(_rt, _rl.getCanvas());
-                // _rt.getSourceTemplate().clearMakers();
             }
             _rl.endDrawing();
             _index++;
 
-        }
-        //
-        for(RenderableTemplate _rt : _toRender) {
-            // print("in canvas ");
-            // println(_rt.getSourceTemplate().getTemplateID());
-            // print(_rt.getSourceTemplate().getMetaPoisitionMarkers());
-            // println("------------");
-            _rt.getSourceTemplate().clearMakers();
         }
 
         mergeCanvas.beginDraw();

@@ -113,14 +113,15 @@ class TemplateRenderer extends Mode{
    * @param RenderableTemplate to render.
    */
    public void render(RenderableTemplate _rt, PGraphics _pg){
-       print("in tp renreder");
-       println(_rt.getSourceTemplate().getTemplateID());
-       print(_rt.getSourceTemplate().getMetaPoisitionMarkers());
-       println("------------");
         if(_rt == null) return;
         if(_rt.getSegmentGroup() == null) return;
         if(_rt.getSegmentGroup().isEmpty()) return;
         _rt.setCanvas(_pg);
+        // whipe meta points
+        TweakableTemplate _linked = _rt.getLinkedTemplate();
+        if(_linked != null){
+            _linked.clearMarkers();
+        }
 
         metaFreeliner.setCommandSegments(groupManager.getCommandSegments());
 
@@ -166,6 +167,7 @@ class TemplateRenderer extends Mode{
             getRenderer(_rt.getRenderMode()).doRender(_rt);
         }
         _pg.popMatrix();
+        // once rendered clear templates
   }
 
   //needs work

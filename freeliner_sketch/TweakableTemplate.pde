@@ -252,7 +252,7 @@ class TweakableTemplate extends Template {
   public ArrayList<PVector> getMetaPoisitionMarkers(){
       return metaPositionMarkers;
   }
-  public void clearMakers(){
+  public void clearMarkers(){
       metaPositionMarkers.clear();
   }
 }
