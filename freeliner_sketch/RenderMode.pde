@@ -198,28 +198,48 @@ class WrapLine extends PerSegment{
 	}
 }
 
+
+class FeatheredRender extends PerSegment{
+	SegmentPainter[] segmentPainters;
+	int painterCount = 2;
+
+	public FeatheredRender(int _ind){
+		super();
+		modeIndex = _ind;
+		segmentPainters = new SegmentPainter[painterCount];
+		segmentPainters[0] = new FadedPointBrusher(3);
+		segmentPainters[1] = new FadedLineBrusher(4);
+
+		name = "FadedRenders";
+		description = "Render options with feathered edges, good for LEDs";
+		if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "MetaModes");
+	}
+	public SegmentPainter getPainter(int _index){
+		if(_index >= painterCount) _index = painterCount - 1;
+		return segmentPainters[_index];
+	}
+}
+
 // Make lines on segments
 class MetaFreelining extends PerSegment{
 	SegmentPainter[] segmentPainters;
-	int painterCount = 5;
+	int painterCount = 4;
 	SegmentCommandParser segmentCommandParser;
 	StrokeColorPicker strokeColorPicker;
 	FillColorPicker fillColorPicker;
-
+	// MetaMarkerMaker metaMarkerMaker;
 
 	public MetaFreelining(int _ind){
 		super();
 		modeIndex = _ind;
 		segmentPainters = new SegmentPainter[painterCount];
 		segmentCommandParser = new SegmentCommandParser(0);
-    segmentPainters[0] = segmentCommandParser;
+    	segmentPainters[0] = segmentCommandParser;
 		strokeColorPicker = new StrokeColorPicker(1);
-    segmentPainters[1] = strokeColorPicker;
+    	segmentPainters[1] = strokeColorPicker;
 		fillColorPicker = new FillColorPicker(2);
 		segmentPainters[2] = fillColorPicker;
-		// new faded brush test;
-		segmentPainters[3] = new FadedPointBrusher(3);
-		segmentPainters[4] = new FadedLineBrusher(4);
+		segmentPainters[3] = new MetaMarkerMaker(3);
 
 		name = "MetaFreelining";
 		description = "Use freeliner to automate itself.";
@@ -236,7 +256,6 @@ class MetaFreelining extends PerSegment{
 		segmentCommandParser.setCommandProcessor(_cp);
 		strokeColorPicker.setCommandProcessor(_cp);
 		fillColorPicker.setCommandProcessor(_cp);
-
 	}
 	public void setColorMap(PImage _im){
 		_im.loadPixels();

@@ -6,7 +6,7 @@ class TweakableTemplate extends Template {
   // store presets!
   int bankIndex;
   ArrayList<Template> bank;
-
+  ArrayList<PVector> metaPositionMarkers;
   // track launches, will replace the beat count in killable templates
   int launchCount;
 
@@ -18,10 +18,11 @@ class TweakableTemplate extends Template {
 
 	public TweakableTemplate(char _id){
 		super(_id);
-    bank = new ArrayList();
-    bankIndex = 0;
-    launchCount = 0;
-    lastPosition = new PVector(0,0);
+        bank = new ArrayList();
+        metaPositionMarkers = new ArrayList();
+        bankIndex = 0;
+        launchCount = 0;
+        lastPosition = new PVector(0,0);
 	}
 
   public TweakableTemplate(){
@@ -242,5 +243,16 @@ class TweakableTemplate extends Template {
   }
   public void setRotation(PVector _pv){
       rotation.set(_pv);
+  }
+
+  public void addMetaPositionMarker(PVector _pv){
+      metaPositionMarkers.add(_pv);
+  }
+
+  public ArrayList<PVector> getMetaPoisitionMarkers(){
+      return metaPositionMarkers;
+  }
+  public void clearMakers(){
+      metaPositionMarkers.clear();
   }
 }

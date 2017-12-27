@@ -287,7 +287,9 @@ class RenderableTemplate extends TweakableTemplate{
 		return executedSegments;
 	}
 
-
+	public TweakableTemplate getSourceTemplate(){
+		return sourceTemplate;
+	}
 	// // ask if the brush needs updating
 	// public final boolean updateBrush(){
 	// 	if(updateBrush || brush == null){

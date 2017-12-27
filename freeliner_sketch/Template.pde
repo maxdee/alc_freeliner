@@ -48,24 +48,24 @@ class Template implements FreelinerConfig{
 	// Size of brush
 	int brushSize;
 	// a general purpose value
-  int miscValue;
+  	int miscValue;
 	// enablers decide if render or not
 	int enablerMode;
 	// which layer to render to
 	int renderLayer;
 
 	// custom shape
-  PShape customShape;
+  	PShape customShape;
 	PVector translation;
 	PVector rotation;
 
 
-  // custom color
-  color customStrokeColor;
+  	// custom color
+  	color customStrokeColor;
 	color customFillColor;
 
 	char templateID;
-	char linkedTemplateID = '.';
+	TweakableTemplate linkedTemplate;
 
 	// for stats
 	float fixLerp;
@@ -123,7 +123,7 @@ class Template implements FreelinerConfig{
 		customFillColor = _tp.getCustomFillColor();
 
 		renderLayer = _tp.getRenderLayer();
-		linkedTemplateID = _tp.getLinkID();
+		linkedTemplate = _tp.getLinkedTemplate();
 		fixLerp = _tp.getFixLerp();
 		translation = _tp.getTranslation();
 		rotation = _tp.getRotation();
@@ -157,13 +157,16 @@ class Template implements FreelinerConfig{
 		customFillColor = color(50,50,50,255);
 		translation = new PVector(0,0,0);
 		rotation = new PVector(0,0,0);
+		linkedTemplate = null;
  	}
 
 	public void setCustomShape(PShape _shp){
-    customShape = _shp;
-  }
-	public void setLinkTemplate(char _id){
-		linkedTemplateID = _id;
+    	customShape = _shp;
+  	}
+
+	public void setLinkTemplate(TweakableTemplate _tp){
+		linkedTemplate = _tp;
+		// linkedTemplateID = _id;
 	}
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
@@ -186,6 +189,7 @@ class Template implements FreelinerConfig{
 		println("strokeWidth "+strokeWidth);
 		println("brushSize "+brushSize );
 		println("renderLayer "+renderLayer);
+		// println("linkedTemplate "+)
 		println("++++++++++++++++++++++++");
 	}
 
@@ -295,8 +299,8 @@ class Template implements FreelinerConfig{
 	public final color getCustomFillColor(){
 		return customFillColor;
 	}
-	public final char getLinkID(){
-		return linkedTemplateID;
+	public final TweakableTemplate getLinkedTemplate(){
+		return linkedTemplate;
 	}
 	public float getFixLerp(){
 		return fixLerp;
