@@ -82,9 +82,10 @@ class CommandProcessor implements FreelinerConfig {
         // "geom toggle ABC (2 3 4)", // not implemented yet use tp toggle A 3
         "geom webref",
         "geom new",
-        "geom center (3 40 40)"
+        "geom center (3 40 40)",
         "geom addseg 3 40 40 20 20", //geom addseg shapeNumber x1 y1 x2 y2
         "geom priority (ABC|4) 3",
+        "geom clear 4",
         ///////////////////  Post processing
         "post tracers (alpha)", // to be deprecated
         // "post shader (coolfrag.glsl)", // to be deprecated
@@ -544,9 +545,17 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[1].equals("webref")) webrefCMD();
         else if(_args[1].equals("breakline")) mouse.press(3);
         else if(_args[1].equals("priority")) priorityGeometryCMD(_args);
+        else if(_args[1].equals("clear")) geomClearCMD(_args);
+
 
         else return false;
         return true;
+    }
+
+    public void geomClearCMD(String[] _args){
+        if(_args.length > 2){
+            groupManager.clear(stringInt(_args[2]));
+        }
     }
     // geom center (3 x y)
     public void centerCMD(String[] _args){

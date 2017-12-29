@@ -495,6 +495,12 @@ class SegmentGroup implements FreelinerConfig{
       return priority;
   }
 
+  public void clear(){
+      segments.clear();
+      segCount = 0;
+      updateGeometry();
+      templateList.clear();
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     Accessors

@@ -627,6 +627,13 @@ class GroupManager implements FreelinerConfig{
             _sg.addSegment(new PVector(_ax, _ay, 0), new PVector(_bx, _by));
         }
     }
+
+    public void clear(int _i){
+        SegmentGroup _sg = getGroup(_i);
+        if(_sg != null){
+            _sg.clear();
+        }
+    }
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////     Accessors
