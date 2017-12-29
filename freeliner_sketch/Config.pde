@@ -48,7 +48,7 @@ interface FreelinerConfig {
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
 
   // If you are using a DLP with no colour wheel
-  final boolean BW_BEAMER = false;
+  final boolean BW_BEAMER = true;
   // If you are using a dual head setup
   final boolean DUAL_HEAD = false;
   // invert colors

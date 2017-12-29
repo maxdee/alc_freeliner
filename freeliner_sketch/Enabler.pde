@@ -147,7 +147,6 @@ class MarkerEnabler extends Enabler{
 	}
 	public boolean enable(RenderableTemplate _rt){
 		PVector _pos = null;
-		// println(_rt.getSourceTemplate());//.getMetaPoisitionMarkers().size());
 		for(PVector _marker :_rt.getSourceTemplate().getMetaPoisitionMarkers()){
 			if(_marker != null){
 				_pos = _marker;
@@ -157,11 +156,6 @@ class MarkerEnabler extends Enabler{
 			PVector _center = _rt.getSegmentGroup().getCenter();
 			float _s = _pos.z;
 			float _d = _pos.dist(_center)-_s;
-			// print(_pos);
-			// print("    ");
-			// print(_center);
-			// print("    ");
-			// println(_d);
 			if(_d < _s && _d > 0){
 				_rt.setUnitInterval(_d/_s);
 				return true;

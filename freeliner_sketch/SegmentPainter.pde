@@ -491,7 +491,7 @@ class MetaMarkerMaker extends BrushPutter{
 		PShape shape_;
 		shape_ = getBrush(4).getShape(event);
 		if(shape_ == null) return;
-	// applyStyle(shape_);
+		applyStyle(shape_);
 		applyColor(shape_);
 		float scale = event.getBrushSize() / 20.0; // devided by base brush size
 		shape_.setStrokeWeight(event.getStrokeWeight()/scale);
