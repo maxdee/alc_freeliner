@@ -46,15 +46,17 @@ class PerSegment extends RenderMode {
     }
 
     public void doRender(RenderableTemplate _event) {
-        ArrayList<Segment> segList = getSelector(_event.getSegmentMode()).getSegments(_event);
+        ArrayList<LerpSegment> segList = getSelector(_event.getSegmentMode()).getSegments(_event);
         int index = 0;
         if(segList == null) return;
-        for(Segment seg : segList) {
-            _event.setSegmentIndex(index);
+		Segment _seg;
+        for(LerpSegment _seglerp : segList) {
+			_seg = _seglerp.getSegment();
+			_event.setSegmentIndex(index);
             index++;
-            if(seg != null && !seg.isHidden()) {
-                _event.setLerp(seg.getLerp());
-                getPainter(_event.getAnimationMode()).paintSegment(seg, _event);
+            if(_seglerp != null && !_seg.isHidden()) {
+                _event.setLerp(_seg.getLerp());
+                getPainter(_event.getAnimationMode()).paintSegment(_seg, _event);
             }
         }
     }
@@ -178,7 +180,7 @@ class WrapLine extends PerSegment {
     }
     public void doRender(RenderableTemplate _rt) {
         //super.doRender(_rt);
-        ArrayList<Segment> segList;
+        ArrayList<LerpSegment> segList;
         SegmentSelector selector = getSelector(_rt.getSegmentMode()); //constrain(_rt.getSegmentMode(), 4, 5);
         // need to constrain to a few segmentSelectors...
         if(selector instanceof SegmentBranch) {
@@ -191,8 +193,12 @@ class WrapLine extends PerSegment {
         }
         else {
             ArrayList<ArrayList<Segment>> trees = _rt.getSegmentGroup().getBranches();
-            for(ArrayList<Segment> branch : trees) {
-                painter.paint(branch, _rt);
+			ArrayList<LerpSegment> _list = new ArrayList();
+			for(ArrayList<Segment> branch : trees) {
+				for(Segment _seg : branch){
+					_list.add(new LerpSegment(_seg, _seg.getLerp()));
+				}
+                painter.paint(_list, _rt);
             }
             //println("=============================");
         }

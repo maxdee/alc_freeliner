@@ -358,3 +358,20 @@ class Segment {
         return id;
     }
 }
+
+
+class LerpSegment {
+    Segment segment;
+    float lerp;
+    public LerpSegment(Segment _seg, float _lerp){
+        segment = _seg;
+        lerp = _lerp;
+    }
+    public Segment getSegment(){
+        if(segment != null){
+            segment.setLerp(lerp);
+            return segment;
+        }
+        else return null;
+    }
+}
