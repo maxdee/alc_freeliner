@@ -49,7 +49,7 @@ class CommandProcessor implements FreelinerConfig {
         "tp translate ???",
         "tp rotate ???",
 
-        "tp late AB 0.5 0.5 0.5",
+        "tp translate AB 0.5 0.5 0.5",
         // "tp rotate"
         // add tp setshape (geometryIndex | char | .svg)
         /////////////////// Sequencer
@@ -546,8 +546,6 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[1].equals("breakline")) mouse.press(3);
         else if(_args[1].equals("priority")) priorityGeometryCMD(_args);
         else if(_args[1].equals("clear")) geomClearCMD(_args);
-
-
         else return false;
         return true;
     }
@@ -557,6 +555,7 @@ class CommandProcessor implements FreelinerConfig {
             groupManager.clear(stringInt(_args[2]));
         }
     }
+
     // geom center (3 x y)
     public void centerCMD(String[] _args){
         if(_args.length < 4){

@@ -186,3 +186,69 @@ class RunThroughBranches extends SegmentSelector{
 		return _segs;
 	}
 }
+
+
+
+/////////////////// meta segment selectors
+
+class MetaSegmentSelector extends SegmentSelector{
+	public MetaSegmentSelector(int _ind){
+		modeIndex = _ind;
+		name = "MetaSegmentSelector";
+		description = "Use metapoints to select segments";
+	}
+
+	public ArrayList<Segment> getSegments(RenderableTemplate _event){
+		ArrayList<Segment> _segs = new ArrayList();
+
+		PVector _pos = null;
+		for(PVector _marker :_event.getSourceTemplate().getMetaPoisitionMarkers()){
+			if(_marker != null){
+				for(Segment _seg : _event.segmentGroup.getSegments()){
+					if(_seg != null) {
+						PVector _center = _seg.getMidPoint();
+						float _s = _marker.z;
+						float _d = _marker.dist(_center)-_s;
+						if(_d < _s && _d > 0){
+							_seg.setLerp(_d/_s);
+							_segs.add(_seg);
+						}
+					}
+				}
+			}
+		}
+		return _segs;
+	}
+}
+
+
+
+//
+//
+//
+// class MarkerEnabler extends Enabler{
+// 	// final float DIST = 200.0;//float(width)/4.0;
+//
+// 	public MarkerEnabler(){
+// 	}
+// 	public MarkerEnabler(int _ind){
+// 		modeIndex = _ind;
+// 		name = "MarkerEnabler";
+// 		description = "Use meta points to enablestuff";
+// 	}
+// 	public boolean enable(RenderableTemplate _rt){
+//
+// 		if(_pos != null){
+// 			PVector _center = _rt.getSegmentGroup().getCenter();
+// 			float _s = _pos.z;
+// 			float _d = _pos.dist(_center)-_s;
+// 			if(_d < _s && _d > 0){
+// 				_rt.setUnitInterval(_d/_s);
+// 				return true;
+// 			}
+// 			else return false;
+// 		}
+// 		// else return false;
+// 		return false;
+// 	}
+// }

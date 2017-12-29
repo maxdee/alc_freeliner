@@ -165,5 +165,4 @@ class MarkerEnabler extends Enabler{
 		// else return false;
 		return false;
 	}
-
 }
