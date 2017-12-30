@@ -38,7 +38,7 @@ function sendCMD(_cmd) {
 // make a function to send commands through a websocket
 actualySendCMD = (function () {
     var socket, _addr, DEFAULT_WEBSOCKET_ADDR;
-    DEFAULT_WEBSOCKET_ADDR = 'ws://localhost:8025/freeliner';
+    DEFAULT_WEBSOCKET_ADDR = 'ws://' + window.location.hostname + ':8025/freeliner';
     _addr = prompt("connect to", DEFAULT_WEBSOCKET_ADDR);
     if (_addr != null) socket = makeSocket(_addr);
     else socket = makeSocket(DEFAULT_WEBSOCKET_ADDR);
