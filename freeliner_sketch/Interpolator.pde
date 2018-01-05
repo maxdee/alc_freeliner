@@ -189,6 +189,27 @@ class DiameterInterpolator extends RadiusInterpolator {
     }
 }
 
+class RandomRadiusInterpolator extends RadiusInterpolator {
+    public RandomRadiusInterpolator(int _ind) {
+        modeIndex = _ind;
+        //super();
+        name = "RandomRadiusInterpolator";
+        description = "Rotates with segments as diameter.";
+    }
+    // interpolate to center
+    public PVector findPosition(Segment _seg, RenderableTemplate _tp, float _lerp, Painter _painter) {
+        float dist = 0;
+        if(useOffset(_painter)) dist = _seg.getLength()-(_tp.getScaledBrushSize()/2.0);
+        else dist = _seg.getLength()-(_tp.getStrokeWeight()/2.0);
+        dist = random(dist);
+        // good we got dist.
+        float ang = getAngle(_seg, _tp, _painter)-HALF_PI;
+        PVector pos = new PVector(dist*cos(ang),dist*sin(ang));
+        pos.add(_seg.getPointA());
+        return pos;
+    }
+}
+
 class RandomInterpolator extends Interpolator {
     public RandomInterpolator(int _ind) {
         modeIndex = _ind;

@@ -32,7 +32,7 @@ class Painter extends Mode {
         description = "Paints stuff";
 
         initColorizers();
-        interpolatorCount = 11;
+        interpolatorCount = 12;
         posGetters = new Interpolator[interpolatorCount];
         posGetters[0] = new Interpolator(0);
         posGetters[1] = new CenterSender(1);
@@ -45,6 +45,8 @@ class Painter extends Mode {
         posGetters[8] = new SegmentOffsetInterpolator(8);
         posGetters[9] = new OppositInterpolator(9);
         posGetters[10] = new NoisyInterpolator(10);
+        posGetters[11] = new RandomRadiusInterpolator(11);
+
 
 
         if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])posGetters, 'e', this, "Enterpolator");
