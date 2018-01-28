@@ -101,7 +101,7 @@ void setup() {
     else WIN = true;
 
     // init freeliner
-    freeliner = new FreeLiner(this, usePipeline);
+    freeliner = new FreeLiner(this, FreelinerConfig.RENDERING_PIPELINE);
 
     surface.setResizable(false);
     surface.setTitle("freeliner");

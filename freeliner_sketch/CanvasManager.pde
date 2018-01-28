@@ -64,6 +64,7 @@ abstract class CanvasManager implements FreelinerConfig {
  */
 class ClassicCanvasManager extends CanvasManager {
     TracerLayer tracerLayer;
+    RenderLayer renderLayer;
 
     public ClassicCanvasManager(PApplet _applet, PGraphics _gui) {
         applet = _applet;
@@ -72,15 +73,24 @@ class ClassicCanvasManager extends CanvasManager {
 
     public void setup() {
         tracerLayer = new TracerLayer();
+        renderLayer = new RenderLayer();
     }
 
     public void render(ArrayList<RenderableTemplate> _toRender) {
         tracerLayer.beginDrawing();
-        for(RenderableTemplate _rt : _toRender)
-            templateRenderer.render(_rt, tracerLayer.getCanvas());
-
+        for(RenderableTemplate _rt : _toRender){
+            if(_rt.getRenderLayer() == 0) templateRenderer.render(_rt, tracerLayer.getCanvas());
+        }
         tracerLayer.endDrawing();
+
+        renderLayer.beginDrawing();
+        for(RenderableTemplate _rt : _toRender){
+            if(_rt.getRenderLayer() != 0) templateRenderer.render(_rt, renderLayer.getCanvas());
+        }
+        renderLayer.endDrawing();
+
         image(tracerLayer.getCanvas(),0,0);
+        image(renderLayer.getCanvas(),0,0);
         image(guiCanvas,0,0);
     }
 

@@ -46,9 +46,7 @@ class CommandProcessor implements FreelinerConfig {
         "tp select AB*",
         "tp toggle A 3",
         "tp lerp A 0.5",
-        "tp translate ???",
         "tp rotate ???",
-
         "tp translate AB 0.5 0.5 0.5",
         // "tp rotate"
         // add tp setshape (geometryIndex | char | .svg)
