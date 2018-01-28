@@ -49,7 +49,7 @@ class CommandProcessor implements FreelinerConfig {
         "tp translate ???",
         "tp rotate ???",
 
-        "tp late AB 0.5 0.5 0.5",
+        "tp translate AB 0.5 0.5 0.5",
         // "tp rotate"
         // add tp setshape (geometryIndex | char | .svg)
         /////////////////// Sequencer
@@ -79,9 +79,13 @@ class CommandProcessor implements FreelinerConfig {
         "geom txt (2 3) bunch of words",
         "geom save (coolMap.xml)",
         "geom load (coolMap.xml)",
-        "geom toggle ABC (2 3 4)", // not implemented yet
+        // "geom toggle ABC (2 3 4)", // not implemented yet use tp toggle A 3
         "geom webref",
+        "geom new",
+        "geom center (3 40 40)",
+        "geom addseg 3 40 40 20 20", //geom addseg shapeNumber x1 y1 x2 y2
         "geom priority (ABC|4) 3",
+        "geom clear 4",
         ///////////////////  Post processing
         "post tracers (alpha)", // to be deprecated
         // "post shader (coolfrag.glsl)", // to be deprecated
@@ -536,13 +540,45 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[1].equals("load")) return loadGeometryCMD(_args);
         else if(_args[1].equals("text")) return textCMD(_args);
         else if(_args[1].equals("new")) valueGiven = str(groupManager.newGroup());
-        else if(_args[1].equals("center")) valueGiven = str(groupManager.toggleCenterPutting());
+        else if(_args[1].equals("center")) centerCMD(_args);
+        else if(_args[1].equals("addseg")) addSegmentCMD(_args);
         else if(_args[1].equals("webref")) webrefCMD();
         else if(_args[1].equals("breakline")) mouse.press(3);
         else if(_args[1].equals("priority")) priorityGeometryCMD(_args);
-
+        else if(_args[1].equals("clear")) geomClearCMD(_args);
         else return false;
         return true;
+    }
+
+    public void geomClearCMD(String[] _args){
+        if(_args.length > 2){
+            groupManager.clear(stringInt(_args[2]));
+        }
+    }
+
+    // geom center (3 x y)
+    public void centerCMD(String[] _args){
+        if(_args.length < 4){
+            valueGiven = str(groupManager.toggleCenterPutting());
+        }
+        else if(_args.length > 4) {
+            int _geom = stringInt(_args[2]);
+            int _x = stringInt(_args[3]);
+            int _y = stringInt(_args[4]);
+            groupManager.setGeomCenter(_geom, _x, _y);
+        }
+    }
+    // geom addseg 3 x y x y
+    public void addSegmentCMD(String[] _args){
+        if(_args.length < 7) return;
+        else {
+            int _geom = stringInt(_args[2]);
+            int _x1 = stringInt(_args[3]);
+            int _y1 = stringInt(_args[4]);
+            int _x2 = stringInt(_args[5]);
+            int _y2 = stringInt(_args[6]);
+            groupManager.addSegment(_geom, _x1, _y1, _x2, _y2);
+        }
     }
 
     // "geom priority (ABC|4) 3",

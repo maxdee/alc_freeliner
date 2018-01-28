@@ -8,6 +8,8 @@ interface FreelinerConfig {
   final int OSC_OUT_PORT = 6668;
   // IP address to send sync messages to
   final String OSC_OUT_IP = "127.0.0.1";
+  // use TCP or UDP
+  final boolean OSC_USE_TCP = false;
   // Websocket port
   final int WEBSOCKET_PORT = 8025;
   // Disbale Webserving
@@ -30,9 +32,9 @@ interface FreelinerConfig {
   final boolean SCROLLWHEEL_SELECTOR = false;
 
   // GUI options
-  final int CURSOR_SIZE = 18;
-  final int CURSOR_GAP_SIZE = 6;
-  final int CURSOR_STROKE_WIDTH = 3;
+  final int CURSOR_SIZE = 42;
+  final int CURSOR_GAP_SIZE = 24;
+  final int CURSOR_STROKE_WIDTH = 10;
   final int GUI_TIMEOUT = 100000;
   final int GUI_FONT_SIZE = 20;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
@@ -48,7 +50,7 @@ interface FreelinerConfig {
   final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
 
   // If you are using a DLP with no colour wheel
-  final boolean BW_BEAMER = false;
+  final boolean BW_BEAMER = true;
   // If you are using a dual head setup
   final boolean DUAL_HEAD = false;
   // invert colors

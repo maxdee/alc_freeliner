@@ -360,7 +360,7 @@ class TemplateManager implements FreelinerConfig{
 
     public void linkTemplates(TweakableTemplate _tp, TweakableTemplate _link) {
         if(_tp != null && _link != null) {
-            _tp.setLinkTemplate(_link.getTemplateID());
+            _tp.setLinkTemplate(_link);
         }
     }
 

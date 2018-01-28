@@ -111,19 +111,21 @@ class FancyFixtures implements FreelinerConfig {
     public void parseFixture(XML _xml) {
         //   for(XML)
         XML[] _fix = _xml.getChildren("xyled");
+        int _cnt = 0;
         for(XML _xyled : _fix){
             int _adr = (int) _xyled.getFloat("a");
             int _x = (int) _xyled.getFloat("x");
             int _y = (int) _xyled.getFloat("y");
-            println(_adr+"  "+_x+"  "+_y);
             if(_x < width && _x >= 0){
                 if(_y < height && _y >= 0){
                     if(_adr < channelCount && _adr >= 0){
                         addRGBFixture(_adr, _x, _y);
+                        _cnt++;
                     }
                 }
             }
         }
+        println("Added  "+_cnt+" LEDs");
         //
         // println("**********************************************");
         // println("**********************************************");

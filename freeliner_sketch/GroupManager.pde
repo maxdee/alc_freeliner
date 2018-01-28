@@ -607,7 +607,33 @@ class GroupManager implements FreelinerConfig{
         else return getSelectedGroup().toggleCenterPutting();
     }
 
+    public void setGeomCenter(int _geom, int _x, int _y){
+        SegmentGroup _sg = getGroup(_geom);
+        if(_sg != null){
+            _sg.placeCenter(new PVector(_x, _y, 0));
+        }
+    }
+    //
+    public void addSegment(int _geom, int _ax, int _ay, int _bx, int _by){
+        SegmentGroup _sg = getGroup(_geom);
+        if(_sg != null){
+            _sg.addSegment(new PVector(_ax, _ay, 0), new PVector(_bx, _by));
+        }
+        else {
+            for(int i = groupCount-1; i < _geom; i++){
+                newGroup();
+            }
+            _sg = getGroup(groupCount-1);
+            _sg.addSegment(new PVector(_ax, _ay, 0), new PVector(_bx, _by));
+        }
+    }
 
+    public void clear(int _i){
+        SegmentGroup _sg = getGroup(_i);
+        if(_sg != null){
+            _sg.clear();
+        }
+    }
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////     Accessors

@@ -294,6 +294,7 @@ class LayeredCanvasManager extends CanvasManager {
             }
             _rl.endDrawing();
             _index++;
+
         }
 
         mergeCanvas.beginDraw();

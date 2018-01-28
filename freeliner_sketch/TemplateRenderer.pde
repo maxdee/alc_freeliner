@@ -27,9 +27,9 @@ class TemplateRenderer extends Mode{
     // easer and reversers count in Config.pde
     int easingModeCount = 15;
     int reverseModeCount = 5;
-    int renderModeCount = 7;
+    int renderModeCount = 8;
     int repetitionModeCount = 6;
-    int enablerModeCount = 8;
+    int enablerModeCount = 9;
 
     MetaFreelining metaFreeliner;
     GroupManager groupManager;
@@ -47,8 +47,9 @@ class TemplateRenderer extends Mode{
     renderModes[3] = new Geometry(3);
     renderModes[4] = new TextRenderMode(4);
     renderModes[5] = new CircularSegment(5);
-    renderModes[6] = new MetaFreelining(6);
-    metaFreeliner = (MetaFreelining)renderModes[6];
+    renderModes[6] = new FeatheredRender(6);
+    renderModes[7] = new MetaFreelining(7);
+    metaFreeliner = (MetaFreelining)renderModes[7];
 
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])renderModes, 'b', this, "RenderModes");
     // add repetitionModes
@@ -71,7 +72,7 @@ class TemplateRenderer extends Mode{
     enablers[5] = new SwoopingEnabler(5);
     enablers[6] = new RandomEnabler(6);
     enablers[7] = new StrobeEnabler(7);
-
+    enablers[8] = new MarkerEnabler(8);
     if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])enablers, 'u', this, "Enablers");
 
     description = "how to darw multiples of one template";
@@ -116,6 +117,11 @@ class TemplateRenderer extends Mode{
         if(_rt.getSegmentGroup() == null) return;
         if(_rt.getSegmentGroup().isEmpty()) return;
         _rt.setCanvas(_pg);
+        // whipe meta points
+        TweakableTemplate _linked = _rt.getLinkedTemplate();
+        if(_linked != null){
+            _linked.clearMarkers();
+        }
 
         metaFreeliner.setCommandSegments(groupManager.getCommandSegments());
 
@@ -161,6 +167,7 @@ class TemplateRenderer extends Mode{
             getRenderer(_rt.getRenderMode()).doRender(_rt);
         }
         _pg.popMatrix();
+        // once rendered clear templates
   }
 
   //needs work

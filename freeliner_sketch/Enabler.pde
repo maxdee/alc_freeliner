@@ -113,10 +113,56 @@ class StrobeEnabler extends Enabler{
 }
 
 class MetaEnabler extends Enabler{
+	final float DIST = 200.0;//float(width)/4.0;
+
 	public MetaEnabler(){}
 	public MetaEnabler(int _ind){
 		modeIndex = _ind;
 		name = "meta enable";
 		description = "use other template with meta mode to enable through movement";
-	}	
+	}
+
+	public boolean enable(RenderableTemplate _rt){
+		float pos = _rt.getSegmentGroup().getCenter().x - DIST/2.0;
+		float tracker = (-_rt.getUnitInterval()+1)*float(width);
+		float diff = pos - tracker;
+		if(diff < DIST && diff > 0){
+			//println();
+			_rt.setUnitInterval(diff/DIST);
+			return true;
+		}
+		else return false;
+	}
+}
+
+class MarkerEnabler extends Enabler{
+	// final float DIST = 200.0;//float(width)/4.0;
+
+	public MarkerEnabler(){
+	}
+	public MarkerEnabler(int _ind){
+		modeIndex = _ind;
+		name = "MarkerEnabler";
+		description = "Use meta points to enablestuff";
+	}
+	public boolean enable(RenderableTemplate _rt){
+		PVector _pos = null;
+		for(PVector _marker :_rt.getSourceTemplate().getMetaPoisitionMarkers()){
+			if(_marker != null){
+				_pos = _marker;
+			}
+		}
+		if(_pos != null){
+			PVector _center = _rt.getSegmentGroup().getCenter();
+			float _s = _pos.z;
+			float _d = _pos.dist(_center)-_s;
+			if(_d < _s && _d > 0){
+				_rt.setUnitInterval(_d/_s);
+				return true;
+			}
+			else return false;
+		}
+		// else return false;
+		return false;
+	}
 }

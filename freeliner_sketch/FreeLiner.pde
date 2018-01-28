@@ -54,7 +54,8 @@ class FreeLiner implements FreelinerConfig {
         commandProcessor = new CommandProcessor();
         guiWebServer = new GUIWebServer(applet);
         // osc + webSocket
-        oscComs = new OSCCommunicator(applet, commandProcessor);
+        if(OSC_USE_TCP) oscComs = new TCPOSCCommunicator(applet, commandProcessor);
+        else oscComs = new UDPOSCCommunicator(applet, commandProcessor);
         webComs = new WebSocketCommunicator(applet, commandProcessor);
 
         keyMap = new KeyMap();
