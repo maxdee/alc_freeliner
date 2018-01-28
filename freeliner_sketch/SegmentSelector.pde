@@ -101,7 +101,7 @@ class ConstantSpeed extends SegmentSelector{
 		float _segCount = _event.segmentGroup.getCount();
 		float _unit = _event.getLerp();
 		Segment _seg = _event.segmentGroup.getSegmentByTotalLength(_unit);
-		_segs.add(new LerpSegment(_seg, _seg.getLerp()));
+		if(_seg != null) _segs.add(new LerpSegment(_seg, _seg.getLerp()));
 		return _segs;
 	}
 }
