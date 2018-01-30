@@ -44,6 +44,20 @@ class Triggerable extends Enabler{
 	}
 }
 
+class EveryX extends Enabler{
+	public EveryX(int _ind){
+		modeIndex = _ind;
+		name = "EveryX";
+		description = "happens every x, set by miscValue";
+	}
+	public boolean enable(RenderableTemplate _rt){
+		int _ha = _rt.getMiscValue();
+		if(_ha < 1) _ha = 1;
+		return (_rt.getBeatCount()%_ha == 1);
+	}
+}
+
+
 
 
 class RandomEnabler extends Enabler{

@@ -32,9 +32,9 @@ interface FreelinerConfig {
   final boolean SCROLLWHEEL_SELECTOR = false;
 
   // GUI options
-  final int CURSOR_SIZE = 42;
-  final int CURSOR_GAP_SIZE = 24;
-  final int CURSOR_STROKE_WIDTH = 10;
+  final int CURSOR_SIZE = 28;
+  final int CURSOR_GAP_SIZE = 20;
+  final int CURSOR_STROKE_WIDTH = 4;
   final int GUI_TIMEOUT = 100000;
   final int GUI_FONT_SIZE = 20;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
@@ -69,7 +69,7 @@ interface FreelinerConfig {
   // Pick your rendering pipeline,
   // 0 is lightest, best for older hardware
   // 1 is fancy, but only good with newer hardware
-  final int RENDERING_PIPELINE = 1;
+  final int RENDERING_PIPELINE = 0;
   final int SMOOTH_LEVEL = 2;
   // to enable / disable experimental parts.
   final boolean EXPERIMENTAL = false;
