@@ -99,7 +99,7 @@ public class ArtNetSender extends ByteSender {
     int port = 6454;
     InetAddress address;
     DatagramSocket dsocket;
-
+    int sequenceCount;
     public ArtNetSender() {}
 
     public void connect(String _adr) {
@@ -112,6 +112,7 @@ public class ArtNetSender extends ByteSender {
             println("artnet could not connect");
             exit();
         }
+        sequenceCount = 0;
     }
 
     public void sendData(byte[] _data) {
@@ -119,6 +120,7 @@ public class ArtNetSender extends ByteSender {
         for(int i = 0; i < _universes.length; i++) {
             sendUDP(makeArtNetPacket(_universes[i], i));
         }
+        sequenceCount++;
     }
 
 
@@ -158,7 +160,7 @@ public class ArtNetSender extends ByteSender {
         _packet[9] = 80; //opcode
         _packet[10] = 0; //protocol version
         _packet[11] = 14; //protocol version
-        _packet[12] = 0; //sequence
+        _packet[12] = sequenceCount%255; //sequence
         _packet[13] = 0; //physical (purely informative)
         _packet[14] = (byte)(_uni%16); //Universe lsb? http://www.madmapper.com/universe-decimal-to-artnet-pathport/
         _packet[15] = (byte)(_uni/16); //Universe msb?
