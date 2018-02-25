@@ -139,7 +139,7 @@ class LayeredCanvasManager extends CanvasManager {
         // layerCreator("layer squareMask maskLayer");
         layerCreator("layer mergeA mergeLayer");
         ////////////////////////////////////////////////////
-        layerCreator("layer frameSampler frameSamplerLayer");
+        // layerCreator("layer frameSampler frameSamplerLayer");
         layerCreator("layer untraced renderLayer");
         // layerCreator("layer squareMask maskLayer");
         layerCreator("layer secondShader shaderLayer");
@@ -147,7 +147,7 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer mergeB mergeLayer");
 
         // layerCreator("layer untraced2 renderLayer");
-        // layerCreator("layer thirdShader shaderLayer");
+        layerCreator("layer thirdShader shaderLayer");
         // layerCreator("layer squareMask maskLayer");
         // layerCreator("layer mergeC mergeLayer");
         ////////////////////////////////////////////////////
@@ -158,7 +158,7 @@ class LayeredCanvasManager extends CanvasManager {
         ////////////////////////////////////////////////////
 
         layerCreator("layer mergeOutput mergeOutput");
-        // layerCreator("layer fourthShader shaderLayer");
+        layerCreator("layer fourthShader shaderLayer");
         // layerCreator("layer masker maskLayer");
 
         // led/dmx layer
@@ -262,7 +262,7 @@ class LayeredCanvasManager extends CanvasManager {
             _lyr = new ScreenshotLayer();
             break;
         case "frameSamplerLayer":
-            _lyr = new FrameSamplerLayer(applet, sync);
+            _lyr = new FrameSamplerLayer(sync);
             break;
         case "containerLayer":
             if(_existingLayer != null) {

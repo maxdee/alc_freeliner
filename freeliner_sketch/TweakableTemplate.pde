@@ -7,6 +7,7 @@ class TweakableTemplate extends Template {
   int bankIndex;
   ArrayList<Template> bank;
   ArrayList<PVector> metaPositionMarkers;
+  boolean flagClearMarkers = false;
   // track launches, will replace the beat count in killable templates
   int launchCount;
 
@@ -246,10 +247,15 @@ class TweakableTemplate extends Template {
   }
 
   public void addMetaPositionMarker(PVector _pv){
+      if(flagClearMarkers){
+          clearMarkers();
+          flagClearMarkers = false;
+      }
       metaPositionMarkers.add(_pv);
   }
 
   public ArrayList<PVector> getMetaPoisitionMarkers(){
+      flagClearMarkers = true;
       return metaPositionMarkers;
   }
   public void clearMarkers(){

@@ -14,12 +14,10 @@
 
 
 class FrameSamplerLayer extends CanvasLayer {
-    Capture cam;
-    PApplet applet;
     int blendMode = LIGHTEST;
-
+    // meta
     TweakableTemplate metaTemplate;
-
+    // frame sampler
     ArrayList<PGraphics> frames = new ArrayList();
     FloatList selectedFrames = new FloatList();
     final int MAX_BUFFER_SIZE = 50;
@@ -34,22 +32,17 @@ class FrameSamplerLayer extends CanvasLayer {
     Synchroniser sync;
 
 
-    public FrameSamplerLayer(PApplet _ap, Synchroniser _s) {
+    public FrameSamplerLayer(Synchroniser _s) {
         super();
         sync = _s;
-        applet = _ap;
         name = "frameSamplerLayer";
         id = name;
         description = "webcams and capture cards, but with a twist";
         makeFrames();
         center = new PVector(width/2, height/2);
         // if(cam != null) cam.stop();
-        cam = new Capture(applet, "name=/dev/video0,size=1440x900,fps=60");// width, height, "/dev/video/1", 60);//_opt);
-        cam.start();
         String[] _opt = {"blend","add","subtract","darkest","lightest","difference","exclusion","multiply","screen","replace"};
         options= _opt;
-
-        println("listening to : "+metaTemplate);
     }
 
     public PGraphics apply(PGraphics _pg) {
@@ -57,26 +50,26 @@ class FrameSamplerLayer extends CanvasLayer {
             metaTemplate = freeliner.templateManager.getTemplate('Z');
         }
         if(!enabled) return _pg;
-        if(cam == null) return _pg;
-        if(cam.available()) {
-            cam.read();
-            addFrameToBuffer();
+
+        if(_pg != null){
+            addFrameToBuffer(_pg);
         }
 
-        if(_pg == null) {
-            canvas.beginDraw();
-            canvas.background(0);
-            canvas.blendMode(blendMode);
-            doSamplerDraw(canvas);
-            canvas.endDraw();
-            return canvas;
-        } else {
-            _pg.beginDraw();
-            _pg.blendMode(blendMode);
-            doSamplerDraw(_pg);
-            _pg.endDraw();
-            return _pg;
-        }
+        // if(_pg == null) {
+        canvas.beginDraw();
+        canvas.background(0);
+        canvas.blendMode(blendMode);
+        doSamplerDraw(canvas);
+        canvas.endDraw();
+        return canvas;
+        // } else {
+        //
+        //     _pg.beginDraw();
+        //     _pg.blendMode(blendMode);
+        //     doSamplerDraw(_pg);
+        //     _pg.endDraw();
+        //     return _pg;
+        // }
     }
 
     //////////////////////////////////////////////////////////////////
@@ -85,6 +78,7 @@ class FrameSamplerLayer extends CanvasLayer {
 
     void doSamplerDraw(PGraphics _canvas){
         ArrayList<PVector> _metaPoints = metaTemplate.getMetaPoisitionMarkers();
+        // println("markers :"+_metaPoints.size());
         if(shaker != 0) {
             shaker -= shaker/8.0;
             if(shaker < 0.01) shaker = 0;
@@ -92,8 +86,8 @@ class FrameSamplerLayer extends CanvasLayer {
         _canvas.pushMatrix();
         // center.set(mouseX, mouseY);
         _canvas.translate(center.x, center.y);
+
         _canvas.scale(1.0+random(shaker)/20.0);
-        _canvas.image(cam,-center.x,-center.y);
 
         if(_metaPoints!= null){
             for(PVector _p: _metaPoints){
@@ -102,12 +96,12 @@ class FrameSamplerLayer extends CanvasLayer {
             }
         }
         else {
-            _canvas.image(cam,-center.x,-center.y);
-            _canvas.image(frames.get(0),-center.x,-center.y);
-        }
+            _canvas.image(frames.get(frameIndex),-center.x,-center.y);
 
+        }
         // if(second) _canvas.image(frames.get(5),-center.x,-center.y);
         _canvas.popMatrix();
+        // metaTemplate.clearMarkers();
     }
 
     int getFrameIndex(float _float){
@@ -133,8 +127,7 @@ class FrameSamplerLayer extends CanvasLayer {
         selectedFrames.append(0.0);
     }
 
-    private void addFrameToBuffer() {
-        cam.read();
+    private void addFrameToBuffer(PGraphics _pg) {
         PGraphics img;
         if(overdub) {
             frameIndex++;
@@ -145,7 +138,7 @@ class FrameSamplerLayer extends CanvasLayer {
             img = frames.get(0);
         }
         img.beginDraw();
-        img.image(cam,0,0);
+        img.image(_pg,0,0);
         img.endDraw();
     }
 
