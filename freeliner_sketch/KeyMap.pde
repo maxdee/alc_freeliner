@@ -278,11 +278,12 @@ class KeyMap {
         keymap['I'].setDescription("Reverse the X axis of mouse, trust me its handy.");
         keymap['I'].setCMD("tools revx"); //
         // masking
-        keymap['M'] = new ParameterKey('M');
-        keymap['M'].setType(0);
-        keymap['M'].setName("mask");
-        keymap['M'].setDescription("Generate mask for maskLayer, or set mask.");
-        keymap['M'].setCMD("layer mask make"); //
+        // deprecated, use webgui
+        // keymap['M'] = new ParameterKey('M');
+        // keymap['M'].setType(0);
+        // keymap['M'].setName("mask");
+        // keymap['M'].setDescription("Generate mask for maskLayer, or set mask.");
+        // keymap['M'].setCMD("layer mask make"); //
         // masking
         keymap['L'] = new ParameterKey('L');
         keymap['L'].setType(0);
@@ -435,7 +436,7 @@ class KeyMap {
 
     public ParameterKey getKey(int _ascii) {
         // fix a
-        if(_ascii > keymap.length) return null;
+        if(_ascii > keymap.length || _ascii < 0) return null;
         return keymap[_ascii];
     }
 

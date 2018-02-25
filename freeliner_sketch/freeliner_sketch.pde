@@ -19,8 +19,8 @@ import netP5.*;
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 800;
-int configuredHeight = 800;
+int configuredWidth = 1440;
+int configuredHeight = 900;
 int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
 
@@ -41,7 +41,6 @@ final String VERSION = "0.4.6";
 boolean doSplash = true;
 boolean OSX = false;
 boolean WIN = false;
-
 
 ExternalGUI externalGUI = null; // set specific key to init gui
 // documentation compiler, has to be super global

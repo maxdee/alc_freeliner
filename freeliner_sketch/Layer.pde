@@ -27,6 +27,7 @@ class Layer extends Mode {
     String command = "none"; // allows to execute commands :)
     boolean cmdFlag;
 
+
     public Layer() {
         name = "basicLayer";
         id = name;
@@ -183,6 +184,10 @@ class Layer extends Mode {
     public ArrayList<String> getCMDList() {
         return commandList;
     }
+
+    // public String getSelectedOption(){
+    //     return "none";
+    // }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -294,7 +299,7 @@ class CanvasLayer extends Layer {
         canvas.background(0);
         canvas.endDraw();
         enabled = true;
-        name = "CanvasLayer";
+        name = "canvasLayer";
         id = name;
         description = "a layer with a buffer";
     }
@@ -325,7 +330,7 @@ class GuiLayer extends Layer {
     public GuiLayer(PGraphics _pg) {
         canvas = _pg;
         enabled = true;
-        name = "GuiLayer";
+        name = "guiLayer";
         id = name;
         description = "A layer for the graphical user interface";
     }
@@ -523,7 +528,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         commandList.add("layer name uniforms 0 0.5");
         commandList.add("layer name loadFile fragShader.glsl");
         enabled = true;
-        name = "ShaderLayer";
+        name = "shaderLayer";
         id = name;
         description = "a layer with a fragment shader";
 
@@ -577,6 +582,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     }
 
     public void selectOption(String _opt) {
+        println("hahaha "+_opt);
         selectedOption = _opt;
         loadFile(_opt);
     }
@@ -680,7 +686,7 @@ class ImageLayer extends CanvasLayer {
     public ImageLayer() {
         super();
         commandList.add("layer name loadFile .jpg .png .???");
-        name = "ImageLayer";
+        name = "imageLayer";
         id = name;
         description = "put an image as a layer";
     }
@@ -726,7 +732,7 @@ class CaptureLayer extends CanvasLayer {
     public CaptureLayer(PApplet _ap) {
         super();
         commandList.add("layer name loadFile .jpg .png .???");
-        name = "CaptureLayer";
+        name = "captureLayer";
         id = name;
         description = "webcams and capture cards";
         applet = _ap;
@@ -771,7 +777,7 @@ class MaskLayer extends ImageLayer {
         commandList.add("layer name makeMask");
         // try to load a mask if one is provided
         //loadFile("userdata/mask_image.png");
-        name = "MaskLayer";
+        name = "maskLayer";
         id = name;
         description = "a configurable mask layer";
     }
@@ -843,7 +849,7 @@ class ScreenshotLayer extends Layer {
     Date date;
 
     public ScreenshotLayer() {
-        name = "ScreenshotLayer";
+        name = "screenshotLayer";
         description = "save screenshots, in singleImage mode enabling the layer will take a single screenshot, in imageSequence enabling the layer will begin and end the sequence";
         id = name;
         enabled = false;
@@ -892,7 +898,7 @@ class FixtureLayer extends Layer {
         super();
         commandList.add("layer name loadFile .xml");
         commandList.add("setchan 0 3 255");
-        name = "FixtureLayer";
+        name = "fixtureLayer";
         id = name;
         description = "A layer that control DMX and whatnot.";
         fixtures = new FancyFixtures(_pa);

@@ -209,6 +209,7 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[0].equals("colormap")) _used = colorMapCMD(_args);
         else if(_args[0].equals("config")) _used = configCMD(_args);
         else if(_args[0].equals("fl")) _used = flCMD(_args); // deprecated?
+
         else if(_args[0].equals("post")) _used = postCMD(_args);
         else if(_args[0].equals("tools")) _used = toolsCMD(_args);
         else if(_args[0].equals("geom")) _used = geometryCMD(_args);
@@ -323,7 +324,6 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[1].equals("fullscreen")) freeliner.configure(_args[1], _v);
         else if(_args[1].equals("display")) freeliner.configure(_args[1], _v);
         else if(_args[1].equals("pipeline")) freeliner.configure(_args[1], _v);
-
         // else if(_args[1].equals("open")) openCMD(_args);
         else return false;
         return true;
@@ -368,13 +368,17 @@ class CommandProcessor implements FreelinerConfig {
     public void saveCMD(String[] _args) {
         processCMD("tp save");
         processCMD("geom save");
-        gui.updateReference();//sketchPath()+"/data/webgui/reference.jpg");
+        processCMD("layer save");
+        gui.updateReference();
         valueGiven = "sure";
     }
 
     public void openCMD(String[] _args) {
         processCMD("tp load");
         processCMD("geom load");
+        processCMD("layer load");
+        processCMD("fetch-ws layers");
+        //
         valueGiven = "sure";
     }
     ////////////////////////////////////////////////////////////////////////////////////

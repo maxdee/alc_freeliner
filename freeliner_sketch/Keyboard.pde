@@ -252,30 +252,6 @@ class Keyboard implements FreelinerConfig {
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    //distribute input!
-    //check if its mapped to general things
-    //then if an item has focus
-    //check if it is mapped to an item thing
-    //if not then pass it to the first decorator of the item.
-    //if no item has focus, pass it to the slected renderers.
-
-    // public void distributor(char _k, int _n){
-    //   if (localDispatch(_k, _n)) return;
-    //   SegmentGroup sg = groupManager.getSelectedGroup();
-    //   TemplateList tl = null;
-    //   if(sg != null){
-    //     if(!segmentGroupDispatch(sg, _k, _n, _vg)) tl = sg.getTemplateList();
-    //   }
-    //   else tl = templateManager.getTemplateList();
-    //
-    //   if(tl != null){
-    //     makeCMD("tw"+" "+tl.getTags()+" "+_k+" "+_n);
-    //     if(_vg) gui.setValueGiven(processor.getValueGiven());
-    //   }
-    // }
-
-
-
     // PERHAPS MOVE
     // for the signature ***, char k, int n, boolean vg
     // char K is the editKey
@@ -298,17 +274,7 @@ class Keyboard implements FreelinerConfig {
      * @param boolean display the valueGiven in the gui.
      * @return boolean if the key was used.
      */
-    // #needswork put to command processor...
-    // public boolean segmentGroupDispatch(SegmentGroup _sg, char _k, int _n) {
-    //   boolean used_ = true;
-    //   String valueGiven_ = null;
-    //   if(_k == 'c') valueGiven_ = str(_sg.toggleCenterPutting());
-    //   // else if(_k == 's') valueGiven_ = str(_sg.setBrushScaler(_n));
-    //   // else if (int(_k) == 504) templateManager.setCustomShape(_sg);
-    //   // else used_ = false;
-    //   if(_vg && valueGiven_ != null) gui.setValueGiven(valueGiven_);
-    //   return used_;
-    // }
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
@@ -380,18 +346,19 @@ class Keyboard implements FreelinerConfig {
     /**
      * Save geometry and templates to default file.
      */
-    public void saveStuff() {
-        makeCMD("geom save");
-        makeCMD("tp save");
-    }
-
-    /**
-     * Load geometry and templates from default file.
-     */
-    public void loadStuff() {
-        makeCMD("geom load");
-        makeCMD("tp load");
-    }
+    // public void saveStuff() {
+    //     println("saverrrrrrrrrrrrrrrrrrr");
+    //     makeCMD("geom save");
+    //     makeCMD("tp save");
+    // }
+    //
+    // /**
+    //  * Load geometry and templates from default file.
+    //  */
+    // public void loadStuff() {
+    //     makeCMD("geom load");
+    //     makeCMD("tp load");
+    // }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////

@@ -55,6 +55,12 @@ abstract class CanvasManager implements FreelinerConfig {
     public String getLayerInfo() {
         return "none";
     }
+    public void saveSettings(XML _xml){
+
+    }
+    public void loadSettings(XML _xml){
+
+    }
 }
 
 /**
@@ -205,7 +211,6 @@ class LayeredCanvasManager extends CanvasManager {
         }
 
         Layer _lyr = null;
-
         switch(_args[2]) {
         case "renderLayer":
             _lyr = new RenderLayer();
@@ -297,6 +302,7 @@ class LayeredCanvasManager extends CanvasManager {
      */
     public void render(ArrayList<RenderableTemplate> _toRender) {
         int _index = 0;
+        // println("=======================================");
         for(Layer _rl : renderLayers) {
             _rl.beginDrawing();
             for(RenderableTemplate _rt : _toRender) {
@@ -304,7 +310,6 @@ class LayeredCanvasManager extends CanvasManager {
             }
             _rl.endDrawing();
             _index++;
-
         }
 
         mergeCanvas.beginDraw();
@@ -399,12 +404,30 @@ class LayeredCanvasManager extends CanvasManager {
     ////////////////////////////////////////////////////////////////////////////////////
 
     public boolean parseCMD(String[] _args) {
+        if(_args.length == 2){
+            if(_args[1].equals("save")){
+                saveSetup("layerSetup.xml");
+            }
+            else if(_args[1].equals("load")){
+                loadSetup("layerSetup.xml");
+            }
+        }
         if(_args.length < 3) return false;
         else if(_args[2].equals("swap") ) {
             swapOrder(_args[1], stringInt(_args[3]));
             return true;
-        } else if(_args[2].equals("delete") ) {
+        }
+        else if(_args[2].equals("delete") ) {
             return deleteLayer(getLayer(_args[1]));
+        }
+
+        if(_args[1].equals("save")){
+            saveSetup(_args[2]);
+            return true;
+        }
+        else if(_args[1].equals("load")){
+            loadSetup(_args[2]);
+            return true;
         }
 
         Layer _lyr = getLayer(_args[1]);
@@ -442,11 +465,47 @@ class LayeredCanvasManager extends CanvasManager {
     }
 
     /**
-     * Toggle the use of background with alpha value
-     * @return boolean value given
+     * Save layer setup into configuration.xml
      */
-    public boolean toggleTrails() {
-        //tracerLayer.toggleLayer();
-        return false;//tracerLayer.useLayer();
+    public void saveSetup(String _fn){
+        XML _layersXML = new XML("layers");
+        for(Layer _layer : layers){
+            XML _xml = _layersXML.addChild("layer");
+            _xml.setString("type", _layer.getName());
+            _xml.setString("id", _layer.getID());
+            _xml.setString("option", _layer.getSelectedOption());
+
+        }
+        saveXML(_layersXML, dataPath(PATH_TO_LAYERS)+"/"+_fn);
     }
+
+    public void loadSetup(String _fn){
+        println("loading layers from "+_fn);
+        XML file;
+        try {
+            file = loadXML(dataPath(PATH_TO_LAYERS)+"/"+_fn);
+        } catch (Exception e) {
+            println(_fn+" cant be loaded");
+            return;
+        }
+        int _nullID = 0;
+        layers.clear();
+        renderLayers.clear();
+        for(XML _layer : file.getChildren("layer")){
+            String _option = _layer.getString("option");
+            String _type = _layer.getString("type");
+            String _id = _layer.getString("id");
+            if(!_type.equals("null")){
+                if(_id.equals("null"))_id += "name"+_nullID++;
+                layerCreator("layer "+_id+" "+_type);
+                println("making : "+"layer "+_id+" "+_type);
+                if(!_option.equals("null") || !_option.equals("none")) {
+                    String _cmd = "layer "+_id+" option "+_option;
+                    parseCMD(split(_cmd, ' '));
+                }
+            }
+        }
+    }
+
+
 }
