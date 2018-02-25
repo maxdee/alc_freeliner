@@ -1,5 +1,8 @@
 #add commands to run on startup
-# <- is a comment 
+# <- is a comment
 #tw A q 3
 #tw A f 8
 #geom load haha.xml
+#geom load
+#tp load
+#tp link BA

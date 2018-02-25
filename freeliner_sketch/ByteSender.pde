@@ -121,6 +121,7 @@ public class ArtNetSender extends ByteSender {
             sendUDP(makeArtNetPacket(_universes[i], i));
         }
         sequenceCount++;
+        sequenceCount %= 255;
     }
 
 
@@ -160,7 +161,7 @@ public class ArtNetSender extends ByteSender {
         _packet[9] = 80; //opcode
         _packet[10] = 0; //protocol version
         _packet[11] = 14; //protocol version
-        _packet[12] = sequenceCount%255; //sequence
+        _packet[12] = (byte)sequenceCount; //sequence
         _packet[13] = 0; //physical (purely informative)
         _packet[14] = (byte)(_uni%16); //Universe lsb? http://www.madmapper.com/universe-decimal-to-artnet-pathport/
         _packet[15] = (byte)(_uni/16); //Universe msb?

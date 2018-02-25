@@ -108,15 +108,15 @@
     ],
     "a_b3": [
       {
-        "name": "Painter",
+        "name": "InterpolatorShape",
         "index": 0,
-        "description": "Paints stuff",
+        "description": "shape delimited by positions determined by the interpolator",
         "key": "a"
       },
       {
-        "name": "Painter",
+        "name": "Filler",
         "index": 1,
-        "description": "Paints stuff",
+        "description": "make a filled shape, for nice color fill",
         "key": "a"
       }
     ],
@@ -158,8 +158,14 @@
         "key": "b"
       },
       {
-        "name": "MetaFreelining",
+        "name": "FadedRenders",
         "index": 6,
+        "description": "Render options with feathered edges, good for LEDs",
+        "key": "b"
+      },
+      {
+        "name": "MetaFreelining",
+        "index": 7,
         "description": "Use freeliner to automate itself.",
         "key": "b"
       }
@@ -224,6 +230,18 @@
         "index": 9,
         "description": "invert direction every segment",
         "key": "e"
+      },
+      {
+        "name": "NoisyInterpolator",
+        "index": 10,
+        "description": "noise along segment",
+        "key": "e"
+      },
+      {
+        "name": "RandomRadiusInterpolator",
+        "index": 11,
+        "description": "Rotates with segments as diameter.",
+        "key": "e"
       }
     ],
     "h": [
@@ -270,44 +288,50 @@
         "key": "h"
       },
       {
-        "name": "random",
+        "name": "doublesmootherstep",
         "index": 7,
+        "description": "double smoother smoothstep",
+        "key": "h"
+      },
+      {
+        "name": "random",
+        "index": 8,
         "description": "random unitInterval every frame",
         "key": "h"
       },
       {
         "name": "targetNoise",
-        "index": 8,
+        "index": 9,
         "description": "fake audio response",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 9,
+        "index": 10,
         "description": "fixed at 1.0",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 10,
+        "index": 11,
         "description": "fixed at 0.5",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 11,
+        "index": 12,
         "description": "fixed at 0.0",
         "key": "h"
       },
       {
         "name": "EaseInOut",
-        "index": 12,
+        "index": 13,
         "description": "Linera eas in and out",
         "key": "h"
       },
       {
         "name": "fixLerp",
-        "index": 13,
+        "index": 14,
         "description": "is set to template's tp lerp AB 0.5",
         "key": "h"
       }
@@ -614,15 +638,27 @@
         "key": "u"
       },
       {
-        "name": "RandomEnabler",
+        "name": "EveryX",
         "index": 6,
+        "description": "happens every x, set by miscValue",
+        "key": "u"
+      },
+      {
+        "name": "RandomEnabler",
+        "index": 7,
         "description": "Maybe render",
         "key": "u"
       },
       {
         "name": "strobe enable",
-        "index": 7,
+        "index": 8,
         "description": "very crunchy render, affected by miscValue",
+        "key": "u"
+      },
+      {
+        "name": "MarkerEnabler",
+        "index": 9,
+        "description": "Use meta points to enablestuff",
         "key": "u"
       }
     ],
@@ -674,6 +710,12 @@
         "index": 7,
         "description": "Runs through segments at a consistant speed.",
         "key": "v"
+      },
+      {
+        "name": "MetaSegmentSelector",
+        "index": 8,
+        "description": "Use metapoints to select segments",
+        "key": "v"
       }
     ],
     "a_b5": [{
@@ -700,27 +742,15 @@
         "index": 2,
         "description": "Displays with correct kerning",
         "key": "a"
+      },
+      {
+        "name": "ContinuousScroolingText",
+        "index": 3,
+        "description": "Scrolls text, acording to enterpolator",
+        "key": "a"
       }
     ],
     "a_b6": [
-      {
-        "name": "SegmentCommand",
-        "index": 0,
-        "description": "MetaFreelining, execute commands of commandSegments",
-        "key": "a"
-      },
-      {
-        "name": "StrokeColorPicker",
-        "index": 1,
-        "description": "MetaFreelining, pick a stroke color from colorMap, load one with colormap colorMap.png",
-        "key": "a"
-      },
-      {
-        "name": "FillColorPicker",
-        "index": 2,
-        "description": "MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png",
-        "key": "a"
-      },
       {
         "name": "FadedBrusher",
         "index": 3,
@@ -989,7 +1019,7 @@
       "key": "a"
     },
     {
-      "max": 7,
+      "max": 8,
       "name": "renderMode",
       "description": "picks the renderMode",
       "cmd": "tw $ b",
@@ -1016,7 +1046,7 @@
       "key": "d"
     },
     {
-      "max": 10,
+      "max": 12,
       "name": "enterpolator",
       "description": "Enterpolator picks a position along a segment",
       "cmd": "tw $ e",
@@ -1043,7 +1073,7 @@
       "key": "g"
     },
     {
-      "max": 14,
+      "max": 15,
       "name": "easing",
       "description": "Set the easing mode.",
       "cmd": "tw $ h",
@@ -1160,7 +1190,7 @@
       "key": "t"
     },
     {
-      "max": 8,
+      "max": 10,
       "name": "enabler",
       "description": "Enablers decide if a render happens or not.",
       "cmd": "tw $ u",
@@ -1169,7 +1199,7 @@
       "key": "u"
     },
     {
-      "max": 8,
+      "max": 9,
       "name": "segSelect",
       "description": "Picks which segments get rendered.",
       "cmd": "tw $ v",

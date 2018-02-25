@@ -10,7 +10,7 @@
 
 // Now the idea would be to support regular arduino/FastLED and teensy/OctoWS811 and SD card playback :) all in one.
 // Optional for OctoWS811
-#define OCTOWSMODE false
+#define OCTOWSMODE true
 #if OCTOWSMODE
     #define USE_OCTOWS2811
     #include<OctoWS2811.h>
@@ -24,14 +24,14 @@
 
 
 // ledCount, if using single output, set NUM_STRIPS to 1
-#define NUM_LEDS_PER_STRIP 60
-#define NUM_STRIPS 1
+#define NUM_LEDS_PER_STRIP 80//170
+#define NUM_STRIPS 8
 #define NUM_LEDS  NUM_STRIPS * NUM_LEDS_PER_STRIP
 
 // fastLED settings
 #define BRIGHTNESS  100
 #define LED_TYPE    WS2812B
-#define COLOR_ORDER GRB
+#define COLOR_ORDER RGB//GRB
 
 /////////////////////////// Pin Definition
 // fastLED Pin settings
@@ -45,8 +45,8 @@
 //    pin 13: SD Card, SCLK
 // input pins, if they are 0, then they will not be used.
 #define BUTTON_PIN 17
-#define SPEED_POT_PIN 0//4 // A4 D18
-#define DIM_POT_PIN 0//5 // A5 D19
+#define SPEED_POT_PIN 4 // A4 D18
+#define DIM_POT_PIN 5 // A5 D19
 
 // led CRGB setup
 CRGB leds[NUM_LEDS];
@@ -98,8 +98,6 @@ void loop() {
 
 void serialMode(){
     if(Serial.available()){
-        Serial.print(NUM_LEDS);
-
         int startChar = Serial.read();
         if (startChar == '*') {
             int count = Serial.readBytes((char *)leds, BUFFER_SIZE);

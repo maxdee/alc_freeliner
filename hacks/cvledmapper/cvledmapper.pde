@@ -1,9 +1,16 @@
 import gab.opencv.*;
 import processing.video.*;
 
+import oscP5.*;
+import netP5.*;
+
+OscP5 oscP5;
+// OscP5 sender;
+NetAddress address;
+
 OpenCV opencv;
 Capture video;
-SerialSender sender;
+// SerialSender sender;
 int ledCount = 0;
 byte buffer[];
 PImage diff;
@@ -13,56 +20,98 @@ int selectedLED = 0;
 
 XML fixtures;
 
+int index = 851;
+ArrayList<PVector> list;
+PVector position;
 void setup(){
 
     size(640,480,P2D);
-    video = new Capture(this, 640/2, 480/2, "/dev/video1");
+    video = new Capture(this, 640, 480, "/dev/video1");
     video.start();
-    opencv = new OpenCV(this, 640/2, 480/2);
-    sender = new SerialSender(this);
-    sender.connect("/dev/ttyACM0", 115200);
-    ledCount = sender.getCount();
-    buffer = new byte[ledCount*3];
+    opencv = new OpenCV(this, 640, 480);
+    // opencv.useColor();
+
+    oscP5 = new OscP5(this,6670);
+    address = new NetAddress("127.0.0.1", 6667);
     // for(String _str : Capture.list()){
     //     println(_str);
     // }
-    frameRate(15);
-    XML fixtures = new XML("fixture");
-
+    frameRate(30);
+    fixtures = new XML("fixture");
+    list = new ArrayList();
+    position = new PVector(0,0);
+    setChan(index);
 }
 
 void stop() {
     saveXML(fixtures, "haha.xml");
+    saveXML(fixtures, "hihi.xml");
 }
 
 void draw(){
-    clearbuffer();
-    setLED(selectedLED,0,0,100);
     background(0);
-    opencv.loadImage(video);
-    opencv.setGray(opencv.getB());
-    opencv.brightness(brightness);
-    opencv.contrast(contrast);
-    if(diff != null) opencv.diff(diff);
+    basicProcess();
+    int modu = 5;
 
+
+
+    position = opencv.max();
+    if(frameCount % modu == modu-1){
+        if(index < 1380){
+            addLEDtoXML((int) position.x, (int)position.y, index);
+            list.add(position.get());
+            setChan(index);
+            index++;
+        }
+        else {
+            saveXML(fixtures, "haha.xml");
+            saveXML(fixtures, "hihi.xml");
+
+            exit();
+        }
+    }
+
+    blendMode(SCREEN);
     image(opencv.getOutput(), 0,0,640,480);
 
-    PVector _loc = opencv.max();
-    stroke(0);
-    strokeWeight(3);
-    clearbuffer();
-    ellipse(_loc.x, _loc.y, 10,10);
+    noFill();
+    blendMode(INVERT);
+    stroke(0,255,0);
+    strokeWeight(2);
+    ellipse(position.x, position.y, 20, 20);
+    strokeWeight(1);
+    stroke(255);
+
+    for(PVector _pos : list){
+        ellipse(_pos.x, _pos.y, 10,10);
+    }
+    // if(diff != null) opencv.diff(diff);
 }
 
+void basicProcess(){
+    opencv.loadImage(video);
+    opencv.blur(10);
+    // opencv.adaptiveThreshold(591, 1);
+    // opencv.setGray(opencv.getB());
+    // opencv.brightness(brightness);
+    // opencv.contrast(contrast);
+}
+/**
+camera_capture = get_image()
+gray = cv2.cvtColor(camera_capture, cv2.COLOR_BGR2GRAY)
+(minVal, maxVal, minLoc, maxLoc) = cv2.minMaxLoc(gray)
+cv2.circle(camera_capture,(maxLoc),10,(0,255,0),-1)
+file = "images\image"+str(i)+".png"
+cv2.imwrite(file, camera_capture)
+**/
+
+
+
 void setDiff(){
+    basicProcess();
     diff = opencv.getOutput();
     println("set diff");
 }
-
-void detect(){
-
-}
-
 void captureEvent(Capture c) {
   c.read();
 }
@@ -82,32 +131,32 @@ void keyPressed(){
     else if(key == '='){
         selectedLED++;
     }
-    selectedLED %= ledCount;
+    else if(key == 27){
+        stop();
+    }
+    // selectedLED %= ledCount;
     println(selectedLED);
 }
 
-void setLED(int _index, int _red, int _green, int _blue){
-    if(_index < ledCount && _index >= 0){
-        buffer[_index * 3] = (byte) _red;
-        buffer[_index * 3 +1] = (byte) _green;
-        buffer[_index * 3 +2] = (byte) _blue;
-    }
-    sender.sendData(buffer);
+
+void setChan(int _i){
+    OscMessage myMessage = new OscMessage("/fixtures/testchan/"+_i);
+    send(myMessage);
 }
 
-void clearbuffer(){
-    for(int i = 0; i < buffer.length; i++){
-        buffer[i] = (byte)0;
-    }
+// output command to freeliner
+void send(OscMessage _osc){
+    // sender.send(_osc);
+    println(_osc);
+    oscP5.send(_osc, address);
 }
-
-
 
 void addLEDtoXML(int _x, int _y, int _a){
     XML xyled = new XML("xyled");
-    xyled.setFloat("a", i*3);
+    xyled.setFloat("a", _a*3);
     xyled.setFloat("x", _x);
     xyled.setFloat("y", _y);
+
     fixtures.addChild(xyled);
     point(_x, _y);
 }

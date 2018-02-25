@@ -7,14 +7,16 @@ void setup(){
     size(800, 800, P2D);
     fixtures = new XML("fixture");
     background(0);
-    stroke(100);
-    strokeWeight(3);
-    int _spread = 190;
-    plotTriangle(0, _spread+20, 40);
-    plotTriangleUp(170, 2*_spread+20, 180);
-    plotTriangle(340, 3*_spread+20, 40);
-    plotTriangleUp(510, 4*_spread+20, 180);
-    saveXML(fixtures, "haha.xml");
+
+    // int _spread = 190;
+    // plotTriangle(0, _spread+20, 40);
+    // plotTriangleUp(170, 2*_spread+20, 180);
+    // plotTriangle(340, 3*_spread+20, 40);
+    // // plotTriangleUp(510, 4*_spread+20, 180);
+
+    // specialMap();
+    // saveXML(fixtures, "haha.xml");
+    // exit();
 }
 
 
@@ -24,8 +26,52 @@ void stop(){
 }
 
 void draw(){
+    background(0);
+    noFill();
+    translate(width/2, height/2);
+    PShape haha = createShape();
+    haha.stroke(0,100,0);
+    haha.beginShape();
+    haha.curveVertex(84,  91);
+    haha.curveVertex(84,  91);
+    haha.curveVertex(68,  19);
+    haha.curveVertex(21,  17);
+    haha.curveVertex(32, 100);
+    haha.curveVertex(32, 100);
+    haha.endShape();
 
+    // shape(haha);
+
+    stroke(255);
+    strokeWeight(1);
+    for (int i = 0; i < haha.getVertexCount(); i++) {
+        PVector v = haha.getVertex(i);
+        // for(int j = 0; )
+        point(v.x, v.y);
+    }
 }
+
+
+void specialMap(){
+    int _ledCount = 1357;
+    int _indexCount = 32;
+    int lx[] = {-24, -38, -72, -95, -84, -44, -35, -64, -95, -116, -94, -52, -20, 8, 29, 69, 35+69, 73+69, 106+69, 102+69, 64+69, 26+69, 17+69, 59+69, 91+69, 76+69, 36+69, 67, 38, 15, 0, -7};
+    int ly[] = {88, 119, 130, 98, 67, 67, 95, 121, 103, 64, 24, 26, 53, 81, 99, 103, 98, 87, 89, 10+89, 109, 92, 56, 47, 66, 103, 118, 109, 80, 45, 23, 48};
+
+    // int _index = _start;
+    // addLED(_index, (int)_pos.x, (int)_pos.y);
+    beginShape();
+    int _index = 0;
+    for(int i = 0; i < _ledCount; i++){
+        _index = int(i / 42.4);
+        println(_index+1);
+        int _x = 2*(int)lerp(lx[_index]+116, lx[(_index+1)%_indexCount]+116, (i%42.4)/42.4);
+        int _y = 2*(int)lerp(ly[_index], ly[(_index+1)%_indexCount], (i%42.4)/42.4);
+        addLED(i, _x, _y);
+    }
+    endShape();
+}
+
 
 void addLED(int _index, int _x, int _y){
     text(_index, _x, _y);

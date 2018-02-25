@@ -69,7 +69,7 @@ interface FreelinerConfig {
   // Pick your rendering pipeline,
   // 0 is lightest, best for older hardware
   // 1 is fancy, but only good with newer hardware
-  final int RENDERING_PIPELINE = 0;
+  final int RENDERING_PIPELINE = 1;
   final int SMOOTH_LEVEL = 2;
   // to enable / disable experimental parts.
   final boolean EXPERIMENTAL = false;
