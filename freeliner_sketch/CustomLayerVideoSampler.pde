@@ -14,12 +14,15 @@
 
 
 class FrameSamplerLayer extends CanvasLayer {
-     Capture cam;
-     PApplet applet;
+    Capture cam;
+    PApplet applet;
+    int blendMode = LIGHTEST;
+
+    TweakableTemplate metaTemplate;
 
     ArrayList<PGraphics> frames = new ArrayList();
     FloatList selectedFrames = new FloatList();
-    final int MAX_BUFFER_SIZE = 60;
+    final int MAX_BUFFER_SIZE = 50;
     int bufferSize = MAX_BUFFER_SIZE;
     int frameIndex = 0;
 
@@ -28,20 +31,31 @@ class FrameSamplerLayer extends CanvasLayer {
     boolean overdub = true;
     boolean second = false;
 
-    public FrameSamplerLayer(PApplet _ap) {
+    Synchroniser sync;
+
+
+    public FrameSamplerLayer(PApplet _ap, Synchroniser _s) {
         super();
+        sync = _s;
         applet = _ap;
         name = "frameSamplerLayer";
         id = name;
         description = "webcams and capture cards, but with a twist";
         makeFrames();
-
+        center = new PVector(width/2, height/2);
         // if(cam != null) cam.stop();
         cam = new Capture(applet, "name=/dev/video0,size=1440x900,fps=60");// width, height, "/dev/video/1", 60);//_opt);
         cam.start();
+        String[] _opt = {"blend","add","subtract","darkest","lightest","difference","exclusion","multiply","screen","replace"};
+        options= _opt;
+
+        println("listening to : "+metaTemplate);
     }
 
     public PGraphics apply(PGraphics _pg) {
+        if(metaTemplate == null){
+            metaTemplate = freeliner.templateManager.getTemplate('Z');
+        }
         if(!enabled) return _pg;
         if(cam == null) return _pg;
         if(cam.available()) {
@@ -51,29 +65,57 @@ class FrameSamplerLayer extends CanvasLayer {
 
         if(_pg == null) {
             canvas.beginDraw();
-            canvas.blendMode(LIGHTEST);
+            canvas.background(0);
+            canvas.blendMode(blendMode);
             doSamplerDraw(canvas);
             canvas.endDraw();
             return canvas;
         } else {
             _pg.beginDraw();
-            _pg.blendMode(LIGHTEST);
+            _pg.blendMode(blendMode);
             doSamplerDraw(_pg);
             _pg.endDraw();
             return _pg;
         }
     }
 
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////
+
     void doSamplerDraw(PGraphics _canvas){
+        ArrayList<PVector> _metaPoints = metaTemplate.getMetaPoisitionMarkers();
         if(shaker != 0) {
             shaker -= shaker/8.0;
             if(shaker < 0.01) shaker = 0;
         }
-        scale(1.0+random(shaker)/20.0);
+        _canvas.pushMatrix();
+        // center.set(mouseX, mouseY);
+        _canvas.translate(center.x, center.y);
+        _canvas.scale(1.0+random(shaker)/20.0);
+        _canvas.image(cam,-center.x,-center.y);
 
-        _canvas.image(cam,0,0);
-        _canvas.image(frames.get(0),0,0,width,height);
-        if(second) _canvas.image(frames.get(5),0,0,width,height);
+        if(_metaPoints!= null){
+            for(PVector _p: _metaPoints){
+                int _frame = getFrameIndex(_p.x/width);
+                _canvas.image(frames.get(_frame),-center.x,-center.y);
+            }
+        }
+        else {
+            _canvas.image(cam,-center.x,-center.y);
+            _canvas.image(frames.get(0),-center.x,-center.y);
+        }
+
+        // if(second) _canvas.image(frames.get(5),-center.x,-center.y);
+        _canvas.popMatrix();
+    }
+
+    int getFrameIndex(float _float){
+        _float = abs(_float);
+        _float *= MAX_BUFFER_SIZE;
+        _float += frameIndex;
+        _float %= MAX_BUFFER_SIZE;
+        return (int)_float;
     }
 
     void makeFrames() {
@@ -120,10 +162,49 @@ class FrameSamplerLayer extends CanvasLayer {
         } else return false;
         return true;
     }
+
+    // public void selectOption(String _opt) {
+    //     selectedOption = _opt;
+    //     if(_opt.equals("haha")){
+    //         second = !second;
+    //     }
+    // }
     public void selectOption(String _opt) {
         selectedOption = _opt;
-        if(_opt.equals("haha")){
-            second = !second;
+        switch(_opt) {
+        case "blend":
+            blendMode = BLEND;
+            break;
+        case "add":
+            blendMode = ADD;
+            break;
+        case "subtract":
+            blendMode = SUBTRACT;
+            break;
+        case "darkest":
+            blendMode = DARKEST;
+            break;
+        case "lightest":
+            blendMode = LIGHTEST;
+            break;
+        case "difference":
+            blendMode = DIFFERENCE;
+            break;
+        case "exclusion":
+            blendMode = EXCLUSION;
+            break;
+        case "multiply":
+            blendMode = MULTIPLY;
+            break;
+        case "screen":
+            blendMode = SCREEN;
+            break;
+        case "replace":
+            blendMode = REPLACE;
+            break;
+        default:
+            blendMode = BLEND;
+            break;
         }
     }
 }

@@ -139,16 +139,17 @@ class LayeredCanvasManager extends CanvasManager {
         // layerCreator("layer squareMask maskLayer");
         layerCreator("layer mergeA mergeLayer");
         ////////////////////////////////////////////////////
+        layerCreator("layer frameSampler frameSamplerLayer");
         layerCreator("layer untraced renderLayer");
         // layerCreator("layer squareMask maskLayer");
         layerCreator("layer secondShader shaderLayer");
         // layerCreator("layer outMask maskLayer");
         layerCreator("layer mergeB mergeLayer");
 
-        layerCreator("layer untraced2 renderLayer");
-        layerCreator("layer thirdShader shaderLayer");
+        // layerCreator("layer untraced2 renderLayer");
+        // layerCreator("layer thirdShader shaderLayer");
         // layerCreator("layer squareMask maskLayer");
-        layerCreator("layer mergeC mergeLayer");
+        // layerCreator("layer mergeC mergeLayer");
         ////////////////////////////////////////////////////
         ////////////////////////////////////////////////////
         // layerCreator("layer cap captureLayer");
@@ -157,11 +158,12 @@ class LayeredCanvasManager extends CanvasManager {
         ////////////////////////////////////////////////////
 
         layerCreator("layer mergeOutput mergeOutput");
-        layerCreator("layer fourthShader shaderLayer");
-        layerCreator("layer masker maskLayer");
+        // layerCreator("layer fourthShader shaderLayer");
+        // layerCreator("layer masker maskLayer");
 
         // led/dmx layer
-        layerCreator("layer fix fixtureLayer");
+        // layerCreator("layer fix fixtureLayer");
+
         // layerCreator("layer cap captureLayer");
         layerCreator("layer gui guiLayer");
         // add frame sharing layers by default, they get deleted if they are not enabled.
@@ -260,7 +262,7 @@ class LayeredCanvasManager extends CanvasManager {
             _lyr = new ScreenshotLayer();
             break;
         case "frameSamplerLayer":
-            _lyr = new FrameSamplerLayer(applet);
+            _lyr = new FrameSamplerLayer(applet, sync);
             break;
         case "containerLayer":
             if(_existingLayer != null) {

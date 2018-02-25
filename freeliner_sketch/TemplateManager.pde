@@ -382,6 +382,9 @@ class TemplateManager implements FreelinerConfig{
         for(Template _tp : templates) {
             XML _tmp = _templates.addChild("template");
             _tmp.setString("ID", str(_tp.getTemplateID()));
+            if(_tp.getLinkedTemplate() != null){
+                _tmp.setString("linked", str(_tp.getLinkedTemplate().getTemplateID()));
+            }
             _tmp.setInt("renderMode", _tp.getRenderMode());
             _tmp.setInt("segmentMode", _tp.getSegmentMode());
             _tmp.setInt("animationMode", _tp.getAnimationMode());
@@ -441,6 +444,10 @@ class TemplateManager implements FreelinerConfig{
             _tmp.setMiscValue(_tp.getInt("miscValue"), 50000);
             _tmp.setEnablerMode(_tp.getInt("enablerMode"), 50000);
             _tmp.setRenderLayer(_tp.getInt("renderLayer"), 50000);
+            String _linked = _tp.getString("linked");
+            if(_linked != null){
+                _tmp.setLinkTemplate(getTemplate(_linked.charAt(0)));
+            }
         }
     }
 
