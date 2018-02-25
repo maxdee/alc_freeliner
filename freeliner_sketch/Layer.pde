@@ -731,7 +731,7 @@ class CaptureLayer extends CanvasLayer {
 
     public CaptureLayer(PApplet _ap) {
         super();
-        commandList.add("layer name loadFile .jpg .png .???");
+        // commandList.add("layer name loadFile .jpg .png .???");
         name = "captureLayer";
         id = name;
         description = "webcams and capture cards";

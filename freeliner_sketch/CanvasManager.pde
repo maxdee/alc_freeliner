@@ -259,6 +259,9 @@ class LayeredCanvasManager extends CanvasManager {
         case "screenshotLayer":
             _lyr = new ScreenshotLayer();
             break;
+        case "frameSamplerLayer":
+            _lyr = new FrameSamplerLayer(applet);
+            break;
         case "containerLayer":
             if(_existingLayer != null) {
                 _lyr = new ContainerLayer();
