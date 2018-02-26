@@ -97,7 +97,6 @@ class FrameSamplerLayer extends CanvasLayer {
         }
         else {
             _canvas.image(frames.get(frameIndex),-center.x,-center.y);
-
         }
         // if(second) _canvas.image(frames.get(5),-center.x,-center.y);
         _canvas.popMatrix();
@@ -106,9 +105,9 @@ class FrameSamplerLayer extends CanvasLayer {
 
     int getFrameIndex(float _float){
         _float = abs(_float);
-        _float *= MAX_BUFFER_SIZE;
+        _float *= bufferSize;
         _float += frameIndex;
-        _float %= MAX_BUFFER_SIZE;
+        _float %= bufferSize;
         return (int)_float;
     }
 
@@ -151,6 +150,16 @@ class FrameSamplerLayer extends CanvasLayer {
         else if(_args.length > 3) {
             if(_args[2].equals("shaker")) {
                 shaker = stringFloat(_args[3]);
+            }
+            else if(_args[2].equals("bufferSize")){
+                bufferSize = stringInt(_args[3]);
+                if(bufferSize > MAX_BUFFER_SIZE){
+                    bufferSize = MAX_BUFFER_SIZE;
+                }
+                else if(bufferSize < 1){
+                    bufferSize = 1;
+                }
+                println("bufferSize : "+bufferSize);
             }
         } else return false;
         return true;

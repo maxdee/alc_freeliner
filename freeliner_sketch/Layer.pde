@@ -575,6 +575,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         }
         passUniforms();
         canvas.beginDraw();
+        canvas.background(0,0);
         canvas.image(_pg,0,0);
         canvas.endDraw();
         canvas.resetShader();
