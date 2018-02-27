@@ -26,9 +26,11 @@ class FrameSamplerLayer extends CanvasLayer {
 
     float shaker = 0;
     PVector center;
-    boolean overdub = true;
-    boolean second = false;
 
+    int overdub = 1;
+    boolean doIncrement = true;
+    boolean doDrawInput = false;
+    int counter = 0;
     Synchroniser sync;
 
 
@@ -59,16 +61,17 @@ class FrameSamplerLayer extends CanvasLayer {
         canvas.beginDraw();
         canvas.background(0);
         canvas.blendMode(blendMode);
-        doSamplerDraw(canvas);
+        doSamplerDraw(canvas, _pg);
         canvas.endDraw();
         return canvas;
         // } else {
         //
-        //     _pg.beginDraw();
-        //     _pg.blendMode(blendMode);
-        //     doSamplerDraw(_pg);
-        //     _pg.endDraw();
-        //     return _pg;
+            // _pg.beginDraw();
+            // _pg.blendMode(blendMode);
+            // doSamplerDraw(_pg);
+            // _pg.blendMode(BLEND);
+            // _pg.endDraw();
+            // return _pg;
         // }
     }
 
@@ -76,18 +79,21 @@ class FrameSamplerLayer extends CanvasLayer {
     //////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////
 
-    void doSamplerDraw(PGraphics _canvas){
-        ArrayList<PVector> _metaPoints = metaTemplate.getMetaPoisitionMarkers();
-        // println("markers :"+_metaPoints.size());
+    void doSamplerDraw(PGraphics _canvas, PGraphics _input){
         if(shaker != 0) {
             shaker -= shaker/8.0;
             if(shaker < 0.01) shaker = 0;
         }
+        ArrayList<PVector> _metaPoints = metaTemplate.getMetaPoisitionMarkers();
+
         _canvas.pushMatrix();
-        // center.set(mouseX, mouseY);
         _canvas.translate(center.x, center.y);
 
         _canvas.scale(1.0+random(shaker)/20.0);
+
+        if(doDrawInput){
+            _canvas.image(_input,-center.x,-center.y);
+        }
 
         if(_metaPoints!= null){
             for(PVector _p: _metaPoints){
@@ -95,18 +101,37 @@ class FrameSamplerLayer extends CanvasLayer {
                 _canvas.image(frames.get(_frame),-center.x,-center.y);
             }
         }
-        else {
-            _canvas.image(frames.get(frameIndex),-center.x,-center.y);
+        for(float _f : selectedFrames){
+            int _frame = getFrameIndex(_f);
+            _canvas.image(frames.get(_frame),-center.x,-center.y);
         }
+        // else {
+        //     _canvas.image(frames.get(frameIndex),-center.x,-center.y);
+        // }
         // if(second) _canvas.image(frames.get(5),-center.x,-center.y);
         _canvas.popMatrix();
         // metaTemplate.clearMarkers();
     }
 
+    private void addFrameToBuffer(PGraphics _pg) {
+        counter++;
+        PGraphics img;
+        if(overdub != 0){
+            if(counter % overdub == 0) {
+                frameIndex++;
+                frameIndex %= bufferSize;
+                img = frames.get(frameIndex);
+                img.beginDraw();
+                img.image(_pg,0,0);
+                img.endDraw();
+            }
+        }
+    }
+
     int getFrameIndex(float _float){
         _float = abs(_float);
         _float *= bufferSize;
-        _float += frameIndex;
+        if(doIncrement) _float += frameIndex;
         _float %= bufferSize;
         return (int)_float;
     }
@@ -123,22 +148,25 @@ class FrameSamplerLayer extends CanvasLayer {
         }
         println();
         selectedFrames = new FloatList();
-        selectedFrames.append(0.0);
     }
 
-    private void addFrameToBuffer(PGraphics _pg) {
-        PGraphics img;
-        if(overdub) {
-            frameIndex++;
-            frameIndex %= bufferSize;
-            img = frames.get(frameIndex);
+
+    void clearFrames(){
+        for(PGraphics _pg : frames){
+            _pg.beginDraw();
+            _pg.background(0);
+            _pg.endDraw();
         }
-        else {
-            img = frames.get(0);
+        println("CUSTOM-SAMPLER : cleared");
+    }
+
+    public void parseFramesCmd(String[] _args){
+        selectedFrames.clear();
+        for(int i = 3; i < _args.length; i++){
+            float _frame = (float)stringInt(_args[i])/bufferSize;
+            // _frame %= bufferSize;
+            selectedFrames.append(_frame);
         }
-        img.beginDraw();
-        img.image(_pg,0,0);
-        img.endDraw();
     }
 
     /**
@@ -147,24 +175,63 @@ class FrameSamplerLayer extends CanvasLayer {
     public boolean parseCMD(String[] _args) {
         boolean _parsed = super.parseCMD(_args);
         if(_parsed) return true;
-        else if(_args.length > 3) {
+        else if(_args.length <= 3){
+            if(_args[2].equals("clear")){
+                clearFrames();
+            }
+            else if(_args[2].equals("frames")){
+                parseFramesCmd(_args);
+            }
+        }
+        else if(_args[2].equals("frames")){
+            parseFramesCmd(_args);
+        }
+        else if(_args.length > 3){
             if(_args[2].equals("shaker")) {
                 shaker = stringFloat(_args[3]);
             }
+            else if(_args[2].equals("overdub")){
+                overdub = stringInt(_args[3]);
+                if(overdub < 0) overdub = 0;
+                if(overdub > 3) overdub = 3;
+            }
+            else if(_args[2].equals("drawInput")){
+                doDrawInput = stringFloat(_args[3]) == 1;
+            }
+            else if(_args[2].equals("increment")){
+                doIncrement = stringFloat(_args[3]) == 1;
+            }
             else if(_args[2].equals("bufferSize")){
-                bufferSize = stringInt(_args[3]);
-                if(bufferSize > MAX_BUFFER_SIZE){
-                    bufferSize = MAX_BUFFER_SIZE;
+                setWorkingBufferSize(stringInt(_args[3]));
+            }
+            else if(_args[2].equals("frames")){
+                setDrawnFrames(_args);
+            }
+            else if(_args.length > 4){
+                if(_args[2].equals("center")){
+                    float _x = stringFloat(_args[3]);
+                    float _y = stringFloat(_args[4]);
+                    center.set(_x, _y);
                 }
-                else if(bufferSize < 1){
-                    bufferSize = 1;
-                }
-                println("bufferSize : "+bufferSize);
             }
         } else return false;
         return true;
     }
 
+    void setDrawnFrames(String[] _args){
+
+    }
+
+    void setWorkingBufferSize(int _i){
+        bufferSize = _i;
+        if(bufferSize > MAX_BUFFER_SIZE){
+            bufferSize = MAX_BUFFER_SIZE;
+        }
+        else if(bufferSize < 1){
+            bufferSize = 1;
+        }
+        println("bufferSize : "+bufferSize);
+    }
     // public void selectOption(String _opt) {
     //     selectedOption = _opt;
     //     if(_opt.equals("haha")){

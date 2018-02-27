@@ -246,7 +246,10 @@ class TweakableTemplate extends Template {
       rotation.set(_pv);
   }
 
+  boolean markersUpdated = false;
+
   public void addMetaPositionMarker(PVector _pv){
+      markersUpdated = true;
       if(flagClearMarkers){
           clearMarkers();
           flagClearMarkers = false;
@@ -256,8 +259,11 @@ class TweakableTemplate extends Template {
 
   public ArrayList<PVector> getMetaPoisitionMarkers(){
       flagClearMarkers = true;
+      if(!markersUpdated) clearMarkers();
+      markersUpdated = false;
       return metaPositionMarkers;
   }
+
   public void clearMarkers(){
       metaPositionMarkers.clear();
   }
