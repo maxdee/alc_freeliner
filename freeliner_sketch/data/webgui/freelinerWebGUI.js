@@ -518,7 +518,7 @@ function shaderSliderCallbacks() {
 
 function makeShaderCMD(_element, _index){
     return function() {
-        if(selectedLayer != "none" && selectedLayerType == "ShaderLayer"){
+        if(selectedLayer != "none" && selectedLayerType == "shaderLayer"){
             sendCMD("layer "+selectedLayer+" uniforms "+_index+" "+(_element.value / 255));
         }
     }
