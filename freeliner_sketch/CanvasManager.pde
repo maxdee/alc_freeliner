@@ -134,20 +134,24 @@ class LayeredCanvasManager extends CanvasManager {
 
     public void setup() {
         // define the stack
-        layerCreator("layer tracerOne tracerLayer");
-        layerCreator("layer firstShader shaderLayer");
+        // layerCreator("layer tracerOne tracerLayer");
         // layerCreator("layer squareMask maskLayer");
-        layerCreator("layer mergeA mergeLayer");
         ////////////////////////////////////////////////////
         // layerCreator("layer frameSampler frameSamplerLayer");
-        layerCreator("layer untraced renderLayer");
         // layerCreator("layer squareMask maskLayer");
-        layerCreator("layer secondShader shaderLayer");
+        layerCreator("layer untraced renderLayer");
+        layerCreator("layer mergeA mergeLayer");
         // layerCreator("layer outMask maskLayer");
+        layerCreator("layer cap captureLayer");
+        layerCreator("layer firstShader shaderLayer");
+        layerCreator("layer frameSampler frameSamplerLayer");
+        layerCreator("layer secondShader shaderLayer");
         layerCreator("layer mergeB mergeLayer");
+        layerCreator("layer mergeOutput mergeOutput");
+        layerCreator("layer thirdShader shaderLayer");
+        layerCreator("layer outMask maskLayer");
 
         // layerCreator("layer untraced2 renderLayer");
-        layerCreator("layer thirdShader shaderLayer");
         // layerCreator("layer squareMask maskLayer");
         // layerCreator("layer mergeC mergeLayer");
         ////////////////////////////////////////////////////
@@ -156,9 +160,7 @@ class LayeredCanvasManager extends CanvasManager {
         // layerCreator("layer capMask maskLayer");
         // layerCreator("layer mergeC mergeLayer");
         ////////////////////////////////////////////////////
-
-        layerCreator("layer mergeOutput mergeOutput");
-        layerCreator("layer fourthShader shaderLayer");
+        // layerCreator("layer fourthShader shaderLayer");
         // layerCreator("layer masker maskLayer");
 
         // led/dmx layer
@@ -167,8 +169,8 @@ class LayeredCanvasManager extends CanvasManager {
         // layerCreator("layer cap captureLayer");
         layerCreator("layer gui guiLayer");
         // add frame sharing layers by default, they get deleted if they are not enabled.
-        layerCreator("layer syphon syphonLayer");
-        layerCreator("layer spout spoutLayer");
+        // layerCreator("layer syphon syphonLayer");
+        // layerCreator("layer spout spoutLayer");
 
         // layerCreator("layer screenshot screenshotLayer");
         layerCreator("layer screen outputLayer");

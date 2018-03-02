@@ -20,17 +20,19 @@ class FrameSamplerLayer extends CanvasLayer {
     // frame sampler
     ArrayList<PGraphics> frames = new ArrayList();
     FloatList selectedFrames = new FloatList();
-    final int MAX_BUFFER_SIZE = 50;
-    int bufferSize = MAX_BUFFER_SIZE;
+    final int MAX_BUFFER_SIZE = 30;
+    int bufferSize = 0;
     int frameIndex = 0;
 
     float shaker = 0;
     PVector center;
 
     int overdub = 1;
-    boolean doIncrement = true;
+    boolean clearFrame = true;
     boolean doDrawInput = false;
     int counter = 0;
+    int playbackRate = 2;
+    int playbackIncrement = 2;
     Synchroniser sync;
 
 
@@ -45,6 +47,7 @@ class FrameSamplerLayer extends CanvasLayer {
         // if(cam != null) cam.stop();
         String[] _opt = {"blend","add","subtract","darkest","lightest","difference","exclusion","multiply","screen","replace"};
         options= _opt;
+        setWorkingBufferSize(MAX_BUFFER_SIZE);
     }
 
     public PGraphics apply(PGraphics _pg) {
@@ -57,11 +60,10 @@ class FrameSamplerLayer extends CanvasLayer {
             addFrameToBuffer(_pg);
         }
 
-        // if(_pg == null) {
         canvas.beginDraw();
         canvas.background(0);
         canvas.blendMode(blendMode);
-        doSamplerDraw(canvas, _pg);
+        if(_pg != null) doSamplerDraw(canvas, _pg);
         canvas.endDraw();
         return canvas;
         // } else {
@@ -80,6 +82,13 @@ class FrameSamplerLayer extends CanvasLayer {
     //////////////////////////////////////////////////////////////////
 
     void doSamplerDraw(PGraphics _canvas, PGraphics _input){
+        if(playbackRate != 0){
+            if(2*counter % playbackRate == 0){
+                playbackIncrement++;
+                playbackIncrement%=bufferSize;
+            }
+        }
+
         if(shaker != 0) {
             shaker -= shaker/8.0;
             if(shaker < 0.01) shaker = 0;
@@ -91,9 +100,6 @@ class FrameSamplerLayer extends CanvasLayer {
 
         _canvas.scale(1.0+random(shaker)/20.0);
 
-        if(doDrawInput){
-            _canvas.image(_input,-center.x,-center.y);
-        }
 
         if(_metaPoints!= null){
             for(PVector _p: _metaPoints){
@@ -104,6 +110,10 @@ class FrameSamplerLayer extends CanvasLayer {
         for(float _f : selectedFrames){
             int _frame = getFrameIndex(_f);
             _canvas.image(frames.get(_frame),-center.x,-center.y);
+        }
+
+        if(doDrawInput){
+            _canvas.image(_input,-center.x,-center.y);
         }
         // else {
         //     _canvas.image(frames.get(frameIndex),-center.x,-center.y);
@@ -122,6 +132,7 @@ class FrameSamplerLayer extends CanvasLayer {
                 frameIndex %= bufferSize;
                 img = frames.get(frameIndex);
                 img.beginDraw();
+                if(clearFrame) img.clear();
                 img.image(_pg,0,0);
                 img.endDraw();
             }
@@ -131,7 +142,8 @@ class FrameSamplerLayer extends CanvasLayer {
     int getFrameIndex(float _float){
         _float = abs(_float);
         _float *= bufferSize;
-        if(doIncrement) _float += frameIndex;
+        // if(clearFrame) _float += frameIndex;
+        _float += playbackIncrement;//frameIndex;
         _float %= bufferSize;
         return (int)_float;
     }
@@ -151,7 +163,7 @@ class FrameSamplerLayer extends CanvasLayer {
     }
 
 
-    void clearFrames(){
+    void eraseFrames(){
         for(PGraphics _pg : frames){
             _pg.beginDraw();
             _pg.background(0);
@@ -167,6 +179,7 @@ class FrameSamplerLayer extends CanvasLayer {
             // _frame %= bufferSize;
             selectedFrames.append(_frame);
         }
+        println(selectedFrames);
     }
 
     /**
@@ -177,7 +190,7 @@ class FrameSamplerLayer extends CanvasLayer {
         if(_parsed) return true;
         else if(_args.length <= 3){
             if(_args[2].equals("clear")){
-                clearFrames();
+                eraseFrames();
             }
             else if(_args[2].equals("frames")){
                 parseFramesCmd(_args);
@@ -193,20 +206,25 @@ class FrameSamplerLayer extends CanvasLayer {
             else if(_args[2].equals("overdub")){
                 overdub = stringInt(_args[3]);
                 if(overdub < 0) overdub = 0;
-                if(overdub > 3) overdub = 3;
+                if(overdub > 4) overdub = 4;
+            }
+            else if(_args[2].equals("playbackRate")){
+                playbackRate = stringInt(_args[3]);
+                if(playbackRate < 0) playbackRate = 0;
+                if(playbackRate > 7) playbackRate = 7;
             }
             else if(_args[2].equals("drawInput")){
                 doDrawInput = stringFloat(_args[3]) == 1;
             }
-            else if(_args[2].equals("increment")){
-                doIncrement = stringFloat(_args[3]) == 1;
+            else if(_args[2].equals("clearFrame")){
+                clearFrame = stringFloat(_args[3]) == 1;
             }
             else if(_args[2].equals("bufferSize")){
                 setWorkingBufferSize(stringInt(_args[3]));
             }
-            else if(_args[2].equals("frames")){
-                setDrawnFrames(_args);
-            }
+            // else if(_args[2].equals("frames")){
+            //     setDrawnFrames(_args);
+            // }
             else if(_args.length > 4){
                 if(_args[2].equals("center")){
                     float _x = stringFloat(_args[3]);
@@ -224,13 +242,13 @@ class FrameSamplerLayer extends CanvasLayer {
 
     void setWorkingBufferSize(int _i){
         bufferSize = _i;
-        if(bufferSize > MAX_BUFFER_SIZE){
-            bufferSize = MAX_BUFFER_SIZE;
+        if(bufferSize > MAX_BUFFER_SIZE-1){
+            bufferSize = MAX_BUFFER_SIZE-1;
         }
         else if(bufferSize < 1){
             bufferSize = 1;
         }
-        println("bufferSize : "+bufferSize);
+        // println("bufferSize : "+bufferSize);
     }
     // public void selectOption(String _opt) {
     //     selectedOption = _opt;
