@@ -139,13 +139,13 @@ class LayeredCanvasManager extends CanvasManager {
         ////////////////////////////////////////////////////
         // layerCreator("layer frameSampler frameSamplerLayer");
         // layerCreator("layer squareMask maskLayer");
-        layerCreator("layer untraced renderLayer");
-        layerCreator("layer mergeA mergeLayer");
+        // layerCreator("layer mergeA mergeLayer");
         // layerCreator("layer outMask maskLayer");
-        layerCreator("layer cap captureLayer");
-        layerCreator("layer firstShader shaderLayer");
-        layerCreator("layer frameSampler frameSamplerLayer");
-        layerCreator("layer secondShader shaderLayer");
+        // layerCreator("layer cap captureLayer");
+        // layerCreator("layer firstShader shaderLayer");
+        // layerCreator("layer frameSampler frameSamplerLayer");
+        // layerCreator("layer secondShader shaderLayer");
+        layerCreator("layer untraced renderLayer");
         layerCreator("layer mergeB mergeLayer");
         layerCreator("layer mergeOutput mergeOutput");
         layerCreator("layer thirdShader shaderLayer");

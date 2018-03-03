@@ -640,7 +640,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
 //
 //   public void beginDrawing(){
 //     if(canvas != null){
-//       canvas.beginDraw();
+//       canvas.beginDraw();rh
 //       canvas.clear();
 //       try {
 //         canvas.shader(shader);
