@@ -26,7 +26,7 @@ class Layer extends Mode {
     String selectedOption = "none";
     String command = "none"; // allows to execute commands :)
     boolean cmdFlag;
-
+    int blendMode = BLEND;
 
     public Layer() {
         name = "basicLayer";
@@ -71,6 +71,7 @@ class Layer extends Mode {
     public void beginDrawing() {
         if(canvas != null) {
             canvas.beginDraw();
+            canvas.blendMode(blendMode);
             canvas.clear();
         }
     }
@@ -292,6 +293,7 @@ class CanvasLayer extends Layer {
     /**
      * Actualy make a PGraphics.
      */
+
     public CanvasLayer() {
         canvas = createGraphics(width,height,P2D);
         canvas.smooth(SMOOTH_LEVEL);
@@ -312,6 +314,7 @@ class CanvasLayer extends Layer {
         else if(_pg == null) return canvas;
         else if(canvas == null) return _pg;
         _pg.beginDraw();
+        _pg.blendMode(blendMode); // questionable
         _pg.image(canvas,0,0);
         _pg.endDraw();
         return _pg;
@@ -358,7 +361,49 @@ class RenderLayer extends CanvasLayer {
         name = "renderLayer";
         id = name;
         description = "a layer that freeliner renders onto, set a template's layer with [p]";
+        String[] _opt = {"blend","add","subtract","darkest","lightest","difference","exclusion","multiply","screen","replace"};
+        options = _opt;
     }
+
+    public void selectOption(String _opt) {
+        selectedOption = _opt;
+        switch(_opt) {
+        case "blend":
+            blendMode = BLEND;
+            break;
+        case "add":
+            blendMode = ADD;
+            break;
+        case "subtract":
+            blendMode = SUBTRACT;
+            break;
+        case "darkest":
+            blendMode = DARKEST;
+            break;
+        case "lightest":
+            blendMode = LIGHTEST;
+            break;
+        case "difference":
+            blendMode = DIFFERENCE;
+            break;
+        case "exclusion":
+            blendMode = EXCLUSION;
+            break;
+        case "multiply":
+            blendMode = MULTIPLY;
+            break;
+        case "screen":
+            blendMode = SCREEN;
+            break;
+        case "replace":
+            blendMode = REPLACE;
+            break;
+        default:
+            blendMode = BLEND;
+            break;
+        }
+    }
+
 }
 
 /**
@@ -484,7 +529,7 @@ class MergeOutput extends Layer {
     public PGraphics apply(PGraphics _pg) {
         if(!useLayer()) return _pg;
         canvas.endDraw();
-        canvas.blendMode(ADD);
+        // canvas.blendMode(ADD);
         return canvas;
     }
 }
