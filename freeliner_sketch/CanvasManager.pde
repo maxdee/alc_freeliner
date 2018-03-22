@@ -137,13 +137,11 @@ class LayeredCanvasManager extends CanvasManager {
         // layerCreator("layer tracerOne tracerLayer");
         // layerCreator("layer squareMask maskLayer");
         ////////////////////////////////////////////////////
-        // layerCreator("layer frameSampler frameSamplerLayer");
         // layerCreator("layer squareMask maskLayer");
         // layerCreator("layer mergeA mergeLayer");
         // layerCreator("layer outMask maskLayer");
         // layerCreator("layer cap captureLayer");
         // layerCreator("layer firstShader shaderLayer");
-        // layerCreator("layer frameSampler frameSamplerLayer");
         // layerCreator("layer secondShader shaderLayer");
         layerCreator("layer untraced renderLayer");
         layerCreator("layer mergeB mergeLayer");
@@ -262,9 +260,6 @@ class LayeredCanvasManager extends CanvasManager {
             break;
         case "screenshotLayer":
             _lyr = new ScreenshotLayer();
-            break;
-        case "frameSamplerLayer":
-            _lyr = new FrameSamplerLayer(sync);
             break;
         case "containerLayer":
             if(_existingLayer != null) {
