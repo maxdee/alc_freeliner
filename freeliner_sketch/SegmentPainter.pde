@@ -199,6 +199,29 @@ class SegToSeg extends LinePainter {
     }
 }
 
+class GradientLine extends LinePainter {
+
+    public GradientLine(int _ind){
+        modeIndex = _ind;
+        name = "GradientLine";
+        description = "Stroke to fill gradient";
+    }
+    public void paintSegment(Segment _seg, RenderableTemplate _event) {
+        super.paintSegment(_seg, _event);
+        PGraphics _pg = event.getCanvas();
+
+        PVector _a = getPosition(_seg, 0.0);
+        PVector _b =  getPosition(_seg, 1.0);
+        _pg.beginShape(LINES);
+        _pg.strokeWeight(_event.getStrokeWeight());
+        _pg.stroke(getStrokeColor());
+        _pg.vertex(_a.x, _a.y);
+        _pg.stroke(getFillColor());
+        _pg.vertex(_b.x, _b.y);
+        _pg.endShape();
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Brush System

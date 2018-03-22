@@ -149,7 +149,7 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer mergeB mergeLayer");
         layerCreator("layer mergeOutput mergeOutput");
         layerCreator("layer thirdShader shaderLayer");
-        layerCreator("layer outMask maskLayer");
+        // layerCreator("layer outMask maskLayer");
 
         // layerCreator("layer untraced2 renderLayer");
         // layerCreator("layer squareMask maskLayer");
@@ -164,7 +164,7 @@ class LayeredCanvasManager extends CanvasManager {
         // layerCreator("layer masker maskLayer");
 
         // led/dmx layer
-        // layerCreator("layer fix fixtureLayer");
+        layerCreator("layer fix fixtureLayer");
 
         // layerCreator("layer cap captureLayer");
         layerCreator("layer gui guiLayer");

@@ -101,7 +101,7 @@ class BrushSegment extends PerSegment {
 // Make lines on segments
 class LineSegment extends PerSegment {
     SegmentPainter[] segmentPainters;
-    int painterCount = 7;
+    int painterCount = 8;
 
     public LineSegment(int _ind) {
         super();
@@ -114,6 +114,8 @@ class LineSegment extends PerSegment {
         segmentPainters[4] = new Maypole(4);
         segmentPainters[5] = new SegToSeg(5);
         segmentPainters[6] = new AlphaLine(6);
+        segmentPainters[7] = new GradientLine(7);
+
 
         name = "LineSegment";
         description = "Draw lines related to segments";
