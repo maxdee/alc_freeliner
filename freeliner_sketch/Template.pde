@@ -148,7 +148,7 @@ class Template implements FreelinerConfig{
 		repetitionMode = 0;
 		repetitionCount = 5;
 		easingMode = 0;
-		beatDivider = 1;
+		beatDivider = 4;
 		strokeWidth = 3;
 		brushSize = 20;
 		enablerMode = 1;

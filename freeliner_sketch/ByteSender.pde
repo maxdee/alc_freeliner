@@ -142,6 +142,7 @@ public class ArtNetSender extends ByteSender {
 
 
     public byte[] makeArtNetPacket(byte[] _data, int _uni) {
+        // println("uni "+_uni);
         //   boolean _drop = false;
         //   for(int i = 0; i < _data.length; i++){
         //       if(_data[i] != 0) _drop = true;

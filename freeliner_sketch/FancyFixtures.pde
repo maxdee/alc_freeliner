@@ -235,20 +235,36 @@ class FancyFixtures implements FreelinerConfig {
             fixtures.add(_fix);
             // println("Adding LEDs from: "+from+"  to: "+to);
             //   addRGBFixture(addr,(int)_seg.getFloat("aX"), (int)_seg.getFloat("aY"));
-        } else if(cmd[0].equals("/led") && cmd.length>2) {
+        }
+        // else if(cmd[0].equals("/led") && cmd.length>2) {
+        //     // println(cmd[1]);
+        //     int addr = int(cmd[1])*3;
+        //     int count = int(cmd[2]);
+        //     // println("Adding LEDs from: "+from+"  to: "+to);
+        //     RGBStrip _fix;
+        //     _fix = new RGBStrip(addr, count,
+        //                         (int)_seg.getFloat("aX"),
+        //                         (int)_seg.getFloat("aY"),
+        //                         (int)_seg.getFloat("bX"),
+        //                         (int)_seg.getFloat("bY"));
+        //     fixtures.add(_fix);
+        //     _fix.drawFixtureOverlay(overLayCanvas);
+        // }
+        else if(cmd[0].equals("/led") && cmd.length>2) {
             // println(cmd[1]);
             int addr = int(cmd[1])*3;
-            int count = int(cmd[2]);
+            int count = 1+int(cmd[2])-int(cmd[1]);
             // println("Adding LEDs from: "+from+"  to: "+to);
             RGBStrip _fix;
-            _fix = new RGBStrip(addr, count,
+            _fix = new RGBStripPad(addr, count,
                                 (int)_seg.getFloat("aX"),
                                 (int)_seg.getFloat("aY"),
                                 (int)_seg.getFloat("bX"),
                                 (int)_seg.getFloat("bY"));
             fixtures.add(_fix);
             _fix.drawFixtureOverlay(overLayCanvas);
-        } else if(cmd[0].equals("/par5") && cmd.length>1) {
+        }
+        else if(cmd[0].equals("/par5") && cmd.length>1) {
             // println(cmd[1]);
             int addr = int(cmd[1]);
             // println("Adding LEDs from: "+from+"  to: "+to);

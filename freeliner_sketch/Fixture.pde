@@ -138,6 +138,47 @@ class RGBStrip extends Fixture {
     }
 }
 
+
+class RGBStripPad extends RGBStrip{
+
+    public RGBStripPad(int _adr, int _cnt, int _ax, int _ay, int _bx, int _by) {
+        super(_adr, _cnt, _ax, _ay, _bx, _by);
+        name = "RGBStripPad";
+        description = "A series of RGBFixtures with padding";
+        ledCount = _cnt;
+        ledChannels = 3;
+        channelCount = ledCount * ledChannels;
+        buffer = new byte[channelCount];
+        position = new PVector(_ax, _ay);
+
+        subFixtures = new ArrayList<Fixture>();
+        addRGBFixtures(ledCount, _ax, _ay, _bx, _by);
+    }
+
+    protected void addRGBFixtures(int _cnt, float _ax, float _ay, float _bx, float _by) {
+        float gap = 1.0/(_cnt+1);
+        int ind;
+        int x;
+        int y;
+        RGBFixture _fix;
+        int _adr = 0;
+        for(int i = 0; i < _cnt; i++) {
+            ind = int(lerp(0, _cnt, i*gap));
+            x = int(lerp(_ax, _bx, (i+1)*gap));
+            y = int(lerp(_ay, _by, (i+1)*gap));
+            // _fix = new RGBFixture(address+(i*ledChannels));
+            _adr = i*ledChannels;
+            _adr += address;
+            _fix = new RGBFixture(_adr);//address+(i*ledChannels));
+
+            _fix.setPosition(x,y);
+            subFixtures.add(_fix);
+            // println(ledChannels+"   "+i+"   "+address+"  "+_adr);
+        }
+        // }
+    }
+}
+
 // class for RGB ledStrips
 class RGBWStrip extends RGBStrip {
 

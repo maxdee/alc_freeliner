@@ -67,7 +67,7 @@ class Synchroniser implements FreelinerConfig{
         int elapsed = millis()-lastTap;
         lastTap = millis();
         if (elapsed> 100 && elapsed < 3000) {
-          tempo = int(tapTimer.addF(elapsed));///2;
+          tempo = int(tapTimer.addF(elapsed))/4;
         }
     }
 
