@@ -134,17 +134,18 @@ class LayeredCanvasManager extends CanvasManager {
 
     public void setup() {
         // define the stack
-        // layerCreator("layer tracerOne tracerLayer");
-        // layerCreator("layer squareMask maskLayer");
+        layerCreator("layer tracerOne tracerLayer");
+        layerCreator("layer firstShader shaderLayer");
+        layerCreator("layer mergeA mergeLayer");
+        // layerCreator("layer tracerMask maskLayer");
         ////////////////////////////////////////////////////
         // layerCreator("layer squareMask maskLayer");
-        // layerCreator("layer mergeA mergeLayer");
         // layerCreator("layer outMask maskLayer");
         // layerCreator("layer cap captureLayer");
-        // layerCreator("layer firstShader shaderLayer");
-        // layerCreator("layer secondShader shaderLayer");
         layerCreator("layer untraced renderLayer");
+        layerCreator("layer secondShader shaderLayer");
         layerCreator("layer mergeB mergeLayer");
+
         layerCreator("layer mergeOutput mergeOutput");
         layerCreator("layer thirdShader shaderLayer");
         // layerCreator("layer outMask maskLayer");

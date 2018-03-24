@@ -80,20 +80,21 @@ interface FreelinerConfig {
    * Your color pallette! customize it!
    * Use hex value or color(0,100,200);
    */
-  final color[] userPallet = {
-                    #ffff00,
-                    #ffad10,
-                    #ff0000,
-                    #ff00ad,
-                    #f700f7,
-                    #ad00ff,
-                    #0000ff,
-                    #009cff,
-                    #00c6ff,
-                    #00deb5,
-                    #a5ff00,
-                    #f700f7,
-                  };
+  //  final int PALLETTE_COUNT = 12;
+  // final color[] userPallet = {
+  //                   #ffff00,
+  //                   #ffad10,
+  //                   #ff0000,
+  //                   #ff00ad,
+  //                   #f700f7,
+  //                   #ad00ff,
+  //                   #0000ff,
+  //                   #009cff,
+  //                   #00c6ff,
+  //                   #00deb5,
+  //                   #a5ff00,
+  //                   #f700f7,
+  //                 };
   //
   // final color[] userPallet = {
   //                   #0000fe,
@@ -111,7 +112,6 @@ interface FreelinerConfig {
   //                 };
 
 
-  final int PALLETTE_COUNT = 12;
 
   final String PATH_TO_SHADERS = "userdata/shaders/";
   final String PATH_TO_IMAGES = "userdata/images/";

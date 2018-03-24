@@ -610,19 +610,27 @@ class StrokeColorPicker extends MetaPoint {
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
         PVector pos = getPosition(_seg);
-        putShape(pos, getAngle(_seg, _event));
+        // putShape(pos, getAngle(_seg, _event));
         if(colorMap != null) {
             int _x = (int)pos.x;
             int _y = (int)pos.y;
             if(_x < colorMap.width && _y < colorMap.height && _x >= 0 && _y >= 0) {
                 setColor(colorMap.pixels[_y*colorMap.width+_x]);
+                _event.getCanvas().fill(colorMap.pixels[_y*colorMap.width+_x]);
             }
-            else setColor(color(0,0,0,0));
-            putShape(pos,0);
+            else {
+                setColor(color(0,0,0,0));
+                _event.getCanvas().fill(0);
+            }
         }
+        _event.getCanvas().strokeWeight(2);
+        _event.getCanvas().ellipse(pos.x,pos.y,10,10);
     }
+
     public void setColor(int _c) {
-        commandProcessor.queueCMD("tp stroke "+event.getLinkedTemplate().getTemplateID()+" "+hex(_c));
+        if(event.getLinkedTemplate() != null){
+            commandProcessor.queueCMD("tp stroke "+event.getLinkedTemplate().getTemplateID()+" "+hex(_c));
+        }
     }
     public void setColorMap(PImage _im) {
         colorMap = _im;
@@ -636,6 +644,8 @@ class FillColorPicker extends StrokeColorPicker {
         description = "MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png";
     }
     public void setColor(int _c) {
-        commandProcessor.queueCMD("tp fill "+event.getLinkedTemplate().getTemplateID()+" "+hex(_c));
+        if(event.getLinkedTemplate() != null){
+            commandProcessor.queueCMD("tp fill "+event.getLinkedTemplate().getTemplateID()+" "+hex(_c));
+        }
     }
 }

@@ -117,7 +117,8 @@ class CommandProcessor implements FreelinerConfig {
         /////////////////// Configure
         "hid kbd 'keyCode' 'char'",
         "setosc 127.0.0.1 6666",
-        "colormap (file|0-1)"
+        "colormap (file|0-1)",
+        "colors set 1 #202020"
     };
 
     /**
@@ -223,6 +224,8 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[0].equals("layer")) _used = layerCMD(_args);
         else if(_args[0].equals("fixtures")) _used = fixtureCMD(_args);
 
+        else if(_args[0].equals("colors")) _used = colorsCMD(_args);
+
         // else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
         if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -286,6 +289,21 @@ class CommandProcessor implements FreelinerConfig {
             } catch(Exception e) {
                 println("Error : could not load colormap "+_args[1]);
             }
+        }
+        return false;
+    }
+
+
+    public boolean colorsCMD(String[] _args){
+        // "colors set 1 #202020"
+        if(_args.length < 4) return false;
+        else if(_args[1].equals("set")){
+            int _index = stringInt(_args[2]);
+            _index %= PALLETTE_COUNT;
+            if(_index < 0) _index = 0;
+            int _v = unhex(_args[3].replaceAll("#","FF").toUpperCase());
+            userPallet[_index] = _v;
+            return true;
         }
         return false;
     }

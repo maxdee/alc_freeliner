@@ -22,7 +22,7 @@ class Synchroniser implements FreelinerConfig{
     int lastTap = 0;
     int lastTime = 0;
     FloatSmoother tapTimer;
-    int tempo = DEFAULT_TEMPO;
+    int tempo = DEFAULT_TEMPO/4;
 
     boolean steadyFrameRate;
 

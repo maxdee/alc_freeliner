@@ -208,3 +208,19 @@ PShape cloneShape(PShape _source, float _scale){
 // String[] parseDirectory(String _dir, String _ext){
 //
 // }
+
+final int PALLETTE_COUNT = 12;
+color[] userPallet = {
+                 #ffff00,
+                 #ffad10,
+                 #ff0000,
+                 #ff00ad,
+                 #f700f7,
+                 #ad00ff,
+                 #0000ff,
+                 #009cff,
+                 #00c6ff,
+                 #00deb5,
+                 #a5ff00,
+                 #f700f7,
+               };
