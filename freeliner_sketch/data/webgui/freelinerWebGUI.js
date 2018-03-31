@@ -120,6 +120,7 @@ function populateGUI() {
         otherInputCallbacks();
         popupCallbacks();
         shaderSliderCallbacks();
+        colorsCallbacks();
         updateLayerStack();
     });
 }
@@ -524,6 +525,20 @@ function makeShaderCMD(_element, _index){
     }
 }
 
+function colorsCallbacks() {
+    var _element, i;
+    for(i = 0; i < 8; i++){
+        _element = document.getElementById("colorPicker"+i);
+        _element.oninput = makeColorCMD(_element, i);
+    }
+}
+
+function makeColorCMD(_element, _index){
+    return function() {
+        var _c = _element.value;
+        sendCMD('colors set '+_index+' '+_c);
+    }
+}
 
 function otherInputCallbacks() {
     var _element;

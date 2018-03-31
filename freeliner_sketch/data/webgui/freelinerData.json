@@ -42,6 +42,12 @@
         "index": 6,
         "description": "modulates alpha channel, made for LEDs",
         "key": "a"
+      },
+      {
+        "name": "GradientLine",
+        "index": 7,
+        "description": "Stroke to fill gradient",
+        "key": "a"
       }
     ],
     "a_b0": [
@@ -909,15 +915,6 @@
       "type": 0,
       "ascii": 76,
       "key": "L"
-    },
-    {
-      "max": -42,
-      "name": "mask",
-      "description": "Generate mask for maskLayer, or set mask.",
-      "cmd": "layer mask make",
-      "type": 0,
-      "ascii": 77,
-      "key": "M"
     },
     {
       "max": -42,

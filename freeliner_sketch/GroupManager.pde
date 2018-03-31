@@ -472,11 +472,12 @@ class GroupManager implements FreelinerConfig{
     }
 
     // recursively add children
+    int haha = 0;
     void addSvgShapes(PShape _shp, PVector _offset) {
         for(PShape _child : _shp.getChildren()) {
             if(_child.getVertexCount() != 0)
                 if(_child.getFamily() == PShape.PATH)
-                    if(_child.getKind() == 0)
+                    if(_child.getKind() == 0)// && (haha++)%8 == 1)
                         shapeToGroup(_child, _offset);
 
             if(_child.getChildCount() != 0) addSvgShapes(_child, _offset);
