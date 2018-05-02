@@ -32,9 +32,9 @@ interface FreelinerConfig {
   final boolean SCROLLWHEEL_SELECTOR = false;
 
   // GUI options
-  final int CURSOR_SIZE = 28;
-  final int CURSOR_GAP_SIZE = 20;
-  final int CURSOR_STROKE_WIDTH = 4;
+  final int CURSOR_SIZE = 22;
+  final int CURSOR_GAP_SIZE = 16;
+  final int CURSOR_STROKE_WIDTH = 1;
   final int GUI_TIMEOUT = 100000;
   final int GUI_FONT_SIZE = 20;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too

@@ -574,6 +574,9 @@ class CommandProcessor implements FreelinerConfig {
         if(_args.length > 2){
             groupManager.clear(stringInt(_args[2]));
         }
+        else {
+            groupManager.clear();
+        }
     }
 
     // geom center (3 x y)

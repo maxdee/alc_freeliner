@@ -635,6 +635,14 @@ class GroupManager implements FreelinerConfig{
             _sg.clear();
         }
     }
+
+    public void clear(){
+        for(SegmentGroup _sg : groups){
+            if(_sg != null){
+                _sg.clear();
+            }
+        }
+    }
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////     Accessors
