@@ -1,4 +1,4 @@
-Generated on 2018/2/22 with freeliner version 0.4.6
+Generated on 2018/5/2 with freeliner version 0.4.6
 ### keys ###
 | key | parameter | type | description | cmd |
 |:---:|---|---|---|---|
@@ -18,7 +18,6 @@ Generated on 2018/2/22 with freeliner version 0.4.6
 | `ctrl-d` | customShape |value |Set a template's customShape. | `tp shape $` |
 | `ctrl-i` | revMouseX |on off |Reverse the X axis of mouse, trust me its handy. | `tools revx` |
 | `ctrl-l` | link |action |Link one template to an other unidirectionaly, used for meta freelining. | `tp link $` |
-| `ctrl-m` | mask |action |Generate mask for maskLayer, or set mask. | `layer mask make` |
 | `ctrl-o` | open |action |Open stuff | `fl open` |
 | `ctrl-p` | priority |value |Change the geometry render order, if a group is selected, changes this groups render priority, or all groups with selected template. | `geom priority $` |
 | `ctrl-q` | quit |action |quit freeliner! | `fl quit` |
