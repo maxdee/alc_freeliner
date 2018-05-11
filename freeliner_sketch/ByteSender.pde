@@ -100,6 +100,7 @@ public class ArtNetSender extends ByteSender {
     InetAddress address;
     DatagramSocket dsocket;
     int sequenceCount;
+    int artnetUniverseStart = 0;
     public ArtNetSender() {}
 
     public void connect(String _adr) {
@@ -118,7 +119,7 @@ public class ArtNetSender extends ByteSender {
     public void sendData(byte[] _data) {
         byte[][] _universes = splitUniverses(_data);
         for(int i = 0; i < _universes.length; i++) {
-            sendUDP(makeArtNetPacket(_universes[i], i));
+            sendUDP(makeArtNetPacket(_universes[i], i+artnetUniverseStart));
         }
         sequenceCount++;
         sequenceCount %= 255;
@@ -130,8 +131,8 @@ public class ArtNetSender extends ByteSender {
         int _universeCount = _data.length/510;
         int _ind = 0;
         byte[][] _universes = new byte[_universeCount][512];
-        for(int u = 0; u < _universeCount; u++) { // temporary_plz_undo
-            for(int i = 1; i < 510; i++) {
+        for(int u = 0; u < _universeCount; u++) {
+            for(int i = 0; i < 510; i++) {
                 _ind = u*510+i;
                 if(_ind < _data.length) _universes[u][i] = _data[_ind];
                 else _universes[u][i] = 0;
@@ -164,8 +165,8 @@ public class ArtNetSender extends ByteSender {
         _packet[11] = 14; //protocol version
         _packet[12] = (byte)sequenceCount; //sequence
         _packet[13] = 0; //physical (purely informative)
-        _packet[14] = (byte)(_uni%16); //Universe lsb? http://www.madmapper.com/universe-decimal-to-artnet-pathport/
-        _packet[15] = (byte)(_uni/16); //Universe msb?
+        _packet[14] = (byte)_uni;//(byte)(_uni%16); //Universe lsb? http://www.madmapper.com/universe-decimal-to-artnet-pathport/
+        _packet[15] = 0;//(byte)(_uni/16); //Universe msb?
         _packet[16] = (byte)((_size & 0xFF00) >> 8); //length msb
         _packet[17] = (byte)(_size & 0xFF); //length lsb
 
@@ -186,5 +187,8 @@ public class ArtNetSender extends ByteSender {
             println("failed to send");
             connect(host);
         }
+    }
+    public void setStartUniverse(int _u){
+        artnetUniverseStart = _u;
     }
 }
