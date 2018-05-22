@@ -265,6 +265,20 @@ class FancyFixtures implements FreelinerConfig {
             fixtures.add(_fix);
             _fix.drawFixtureOverlay(overLayCanvas);
         }
+        else if(cmd[0].equals("/rgbw") && cmd.length>2){
+            // println(cmd[1]);
+            int addr = int(cmd[1])*3;
+            int count = 1+int(cmd[2])-int(cmd[1]);
+            // println("Adding LEDs from: "+from+"  to: "+to);
+            RGBStrip _fix;
+            _fix = new RGBWStrip(addr, count,
+                                (int)_seg.getFloat("aX"),
+                                (int)_seg.getFloat("aY"),
+                                (int)_seg.getFloat("bX"),
+                                (int)_seg.getFloat("bY"));
+            fixtures.add(_fix);
+            _fix.drawFixtureOverlay(overLayCanvas);
+        }
         else if(cmd[0].equals("/par5") && cmd.length>1) {
             // println(cmd[1]);
             int addr = int(cmd[1]);

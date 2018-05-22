@@ -6,3 +6,4 @@
 #geom load
 #tp load
 #tp link BA
+#colormap colormap.png

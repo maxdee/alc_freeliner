@@ -195,6 +195,28 @@ class RGBWStrip extends RGBStrip {
         subFixtures = new ArrayList<Fixture>();
         addRGBFixtures(ledCount, _ax, _ay, _bx, _by);
     }
+    // protected void addRGBFixtures(int _cnt, float _ax, float _ay, float _bx, float _by) {
+    //     float gap = 1.0/(_cnt-1);
+    //     int ind;
+    //     int x;
+    //     int y;
+    //     RGBFixture _fix;
+    //     int _adr = 0;
+    //     for(int i = 0; i < _cnt; i++) {
+    //         ind = int(lerp(0, _cnt, i*gap));
+    //         x = int(lerp(_ax, _bx, i*gap));
+    //         y = int(lerp(_ay, _by, i*gap));
+    //         // _fix = new RGBFixture(address+(i*ledChannels));
+    //         _adr = i*ledChannels;
+    //         _adr += address;
+    //         _fix = new RGBFixture(_adr);//address+(i*ledChannels));
+    //
+    //         _fix.setPosition(x,y);
+    //         subFixtures.add(_fix);
+    //         // println(ledChannels+"   "+i+"   "+address+"  "+_adr);
+    //     }
+    //     // }
+    // }
 }
 
 
@@ -206,7 +228,7 @@ class RGBWStrip extends RGBStrip {
 
 // a base class for RGB fixture.
 class RGBFixture extends Fixture {
-    boolean correctGamma = true;
+    // boolean correctGamma = true;
     color col;
     public RGBFixture(int _adr) {
         super(_adr);
@@ -244,9 +266,9 @@ class RGBFixture extends Fixture {
         int red = (col >> 16) & 0xFF;
         int green = (col >> 8) & 0xFF;
         int blue = col & 0xFF;
-        buffer[0] = byte(correctGamma ? red : gammatable[red]);
-        buffer[1] = byte(correctGamma ? green : gammatable[green]);
-        buffer[2] = byte(correctGamma ? blue : gammatable[blue]);
+        buffer[0] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
         // println(buffer[0]+" "+buffer[1]+" "+buffer[2]);
     }
 
@@ -286,7 +308,7 @@ class ColorFlexWAUV extends RGBFixture {
 ///////////////////////////////////////////////////////
 // a base class for RGB fixture.
 class RGBPar extends Fixture {
-    boolean correctGamma = true;
+    // boolean correctGamma = true;
     color col;
     public RGBPar(int _adr) {
         super(_adr);
@@ -310,9 +332,9 @@ class RGBPar extends Fixture {
         int red = (col >> 16) & 0xFF;
         int green = (col >> 8) & 0xFF;
         int blue = col & 0xFF;
-        buffer[0] = byte(correctGamma ? red : gammatable[red]);
-        buffer[1] = byte(correctGamma ? green : gammatable[green]);
-        buffer[2] = byte(correctGamma ? blue : gammatable[blue]);
+        buffer[0] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
     }
     // override
     void drawFixtureOverlay(PGraphics _pg) {
@@ -328,7 +350,7 @@ class RGBPar extends Fixture {
 }
 
 class AWPar extends Fixture {
-    boolean correctGamma = true;
+    // boolean correctGamma = true;
     color col;
     public AWPar(int _adr) {
         super(_adr);
@@ -351,9 +373,9 @@ class AWPar extends Fixture {
         int red = (col >> 16) & 0xFF;
         int green = (col >> 8) & 0xFF;
         // int blue = col & 0xFF;
-        buffer[0] = byte(correctGamma ? red : gammatable[red]);
-        buffer[1] = byte(correctGamma ? green : gammatable[green]);
-        // buffer[2] = byte(correctGamma ? blue : gammatable[blue]);
+        buffer[0] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        // buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
     }
     // override
     void drawFixtureOverlay(PGraphics _pg) {
@@ -449,7 +471,7 @@ class MPanel extends Fixture {
 
 
 class NetoParFive extends Fixture {
-    boolean correctGamma = true;
+    // boolean correctGamma = true;
     color col;
 
     public NetoParFive(int _adr) {
@@ -479,11 +501,11 @@ class NetoParFive extends Fixture {
             buffer[1] = 0;
             buffer[2] = 0;
             buffer[3] = 0;
-            buffer[4] = byte(correctGamma ? red : gammatable[red]);
+            buffer[4] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
         } else {
-            buffer[1] = byte(correctGamma ? red : gammatable[red]);
-            buffer[2] = byte(correctGamma ? green : gammatable[green]);
-            buffer[3] = byte(correctGamma ? blue : gammatable[blue]);
+            buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+            buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+            buffer[3] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
             buffer[4] = 0;
         }
     }
@@ -507,7 +529,7 @@ class NetoParFive extends Fixture {
 ////////////////////////////////////////////////////////////////////////////////////
 
 class ZigZagMatrix extends Fixture {
-    boolean correctGamma = true;
+    // boolean correctGamma = true;
     color col;
     int matrixSpacing = 16;
     int matrixWidth = 0;

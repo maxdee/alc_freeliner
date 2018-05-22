@@ -76,6 +76,8 @@ interface FreelinerConfig {
 
   // generate documentation on startup, pretty much mandatory now.
   final boolean MAKE_DOCUMENTATION = true;
+
+  final boolean FIXTURE_CORRECT_GAMMA = false;
   /**
    * Your color pallette! customize it!
    * Use hex value or color(0,100,200);
