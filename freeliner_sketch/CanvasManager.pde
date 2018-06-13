@@ -167,10 +167,13 @@ class LayeredCanvasManager extends CanvasManager {
 
         // layerCreator("layer cap captureLayer");
         layerCreator("layer gui guiLayer");
-        // add frame sharing layers by default, they get deleted if they are not enabled.
-        // layerCreator("layer syphon syphonLayer");
-        // layerCreator("layer spout spoutLayer");
 
+
+
+        // DONT COMMENT THE NEXT ONES!!!
+        // add frame sharing layers by default, they get deleted if they are not enabled.
+        layerCreator("layer syphon syphonLayer");
+        layerCreator("layer spout spoutLayer");
         // layerCreator("layer screenshot screenshotLayer");
         layerCreator("layer screen outputLayer");
 
