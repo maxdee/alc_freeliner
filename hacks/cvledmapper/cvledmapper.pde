@@ -20,9 +20,11 @@ int selectedLED = 0;
 
 XML fixtures;
 
-int index = 851;
+int index = 0;
+int END_INDEX = 240*4;
 ArrayList<PVector> list;
 PVector position;
+
 void setup(){
 
     size(640,480,P2D);
@@ -57,7 +59,7 @@ void draw(){
 
     position = opencv.max();
     if(frameCount % modu == modu-1){
-        if(index < 1380){
+        if(index < END_INDEX){
             addLEDtoXML((int) position.x, (int)position.y, index);
             list.add(position.get());
             setChan(index);
