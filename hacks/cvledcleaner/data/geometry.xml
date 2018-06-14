@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups height="800" width="800">
+  <group ID="2" tags="A" text="Hi, I'm an auto-mapped geometry!" type="map">
+    <segment aX="543.0" aY="251.0" bX="501.0" bY="231.0" txt="/led 0 33"/>
+    <segment aX="468.0" aY="214.0" bX="423.0" bY="191.0" txt="/led 36 66"/>
+    <segment aX="386.0" aY="173.0" bX="340.0" bY="149.0" txt="/led 69 99"/>
+    <segment aX="300.0" aY="130.0" bX="267.0" bY="113.0" txt="/led 102 123"/>
+    <segment aX="171.0" aY="159.0" bX="219.0" bY="182.0" txt="/led 135 165"/>
+    <segment aX="259.0" aY="202.0" bX="307.0" bY="226.0" txt="/led 168 198"/>
+    <segment aX="345.0" aY="244.0" bX="390.0" bY="266.0" txt="/led 201 231"/>
+    <segment aX="439.0" aY="289.0" bX="469.0" bY="303.0" txt="/led 243 264"/>
+    <segment aX="394.0" aY="354.0" bX="350.0" bY="334.0" txt="/led 267 297"/>
+    <segment aX="313.0" aY="317.0" bX="266.0" bY="296.0" txt="/led 300 330"/>
+    <segment aX="220.0" aY="274.0" bX="179.0" bY="257.0" txt="/led 339 363"/>
+    <segment aX="141.0" aY="237.0" bX="92.0" bY="212.0" txt="/led 366 396"/>
+    <segment aX="544.0" aY="182.0" bX="502.0" bY="211.0" txt="/led 723 753"/>
+    <segment aX="468.0" aY="234.0" bX="443.0" bY="251.0" txt="/led 756 774"/>
+    <segment aX="392.0" aY="286.0" bX="349.0" bY="315.0" txt="/led 789 819"/>
+    <segment aX="314.0" aY="338.0" bX="271.0" bY="366.0" txt="/led 822 852"/>
+    <segment aX="186.0" aY="329.0" bX="229.0" bY="300.0" txt="/led 855 885"/>
+    <segment aX="265.0" aY="277.0" bX="309.0" bY="247.0" txt="/led 888 918"/>
+    <segment aX="343.0" aY="224.0" bX="387.0" bY="194.0" txt="/led 921 951"/>
+    <segment aX="422.0" aY="171.0" bX="466.0" bY="141.0" txt="/led 954 984"/>
+    <segment aX="383.0" aY="97.0" bX="338.0" bY="128.0" txt="/led 987 1017"/>
+    <segment aX="303.0" aY="152.0" bX="258.0" bY="182.0" txt="/led 1020 1050"/>
+    <segment aX="213.0" aY="211.0" bX="177.0" bY="235.0" txt="/led 1059 1083"/>
+    <segment aX="143.0" aY="260.0" bX="101.0" bY="291.0" txt="/led 1086 1116"/>
+    <segment aX="482.0" aY="55.0" bX="484.0" bY="108.0" txt="/led 1443 1473"/>
+    <segment aX="484.0" aY="150.0" bX="485.0" bY="202.0" txt="/led 1476 1506"/>
+    <segment aX="486.0" aY="243.0" bX="486.0" bY="293.0" txt="/led 1509 1539"/>
+    <segment aX="486.0" aY="329.0" bX="487.0" bY="366.0" txt="/led 1542 1566"/>
+    <segment aX="414.0" aY="426.0" bX="412.0" bY="381.0" txt="/led 1575 1605"/>
+    <segment aX="411.0" aY="343.0" bX="409.0" bY="294.0" txt="/led 1608 1638"/>
+    <segment aX="409.0" aY="255.0" bX="407.0" bY="203.0" txt="/led 1641 1671"/>
+    <segment aX="405.0" aY="161.0" bX="402.0" bY="107.0" txt="/led 1674 1704"/>
+    <segment aX="319.0" aY="63.0" bX="320.0" bY="118.0" txt="/led 1707 1737"/>
+    <segment aX="322.0" aY="162.0" bX="325.0" bY="215.0" txt="/led 1740 1770"/>
+    <segment aX="328.0" aY="257.0" bX="331.0" bY="307.0" txt="/led 1773 1803"/>
+    <segment aX="333.0" aY="346.0" bX="336.0" bY="394.0" txt="/led 1806 1836"/>
+    <segment aX="261.0" aY="442.0" bX="257.0" bY="396.0" txt="/led 1839 1869"/>
+    <segment aX="253.0" aY="358.0" bX="249.0" bY="309.0" txt="/led 1872 1902"/>
+    <segment aX="246.0" aY="268.0" bX="241.0" bY="216.0" txt="/led 1905 1935"/>
+    <segment aX="238.0" aY="173.0" bX="234.0" bY="118.0" txt="/led 1938 1968"/>
+  </group>
+</groups>
