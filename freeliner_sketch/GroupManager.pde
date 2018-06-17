@@ -135,6 +135,7 @@ class GroupManager implements FreelinerConfig{
         }
     }
 
+
     /**
      * Similar to groupAddTemplate, but a direct swap.
      * @param Template to swap
@@ -154,9 +155,37 @@ class GroupManager implements FreelinerConfig{
         }
     }
 
+    public void groupRemoveTemplate(TweakableTemplate _tp){
+        if(groups.size() > 0 && _tp != null) {
+            for (SegmentGroup sg : groups) {
+                TemplateList tl = sg.getTemplateList();
+                if(tl != null) {
+                    if(tl.contains(_tp)) {
+                        tl.toggle(_tp);
+                    }
+                }
+            }
+        }
+    }
+
+    public void addTemplateToGroups(TweakableTemplate _tp){
+        IntList _list = _tp.getGeometries();
+        println("ajja "+_list);
+        if(_list != null) {
+            for(int i = 0; i < _list.size(); i++){
+                println(i);
+
+                toggleTemplate(_tp, _list.get(i));
+            }
+        }
+    }
+
     public void toggleTemplate(TweakableTemplate _tp, int _ind) {
         SegmentGroup _sg = getGroup(_ind);
-        if(_sg != null && _tp != null) _sg.getTemplateList().toggle(_tp);
+        if(_sg != null && _tp != null) {
+
+            _sg.getTemplateList().toggle(_tp);
+        }
     }
 
     /**

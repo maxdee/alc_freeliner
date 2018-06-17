@@ -7,6 +7,38 @@
  * @since     2014-12-01
  */
 
+
+
+ class TemplateTeam {
+     String name;
+     ArrayList<TweakableTemplate> templates;
+
+     TemplateTeam(String _name){
+         name = _name;
+         templates = new ArrayList();
+     }
+
+     void addTemplate(TweakableTemplate _tp){
+         templates.add(_tp);
+     }
+
+     void addTemplates(ArrayList<TweakableTemplate> _tps){
+         for(TweakableTemplate _tp : _tps){
+             TweakableTemplate _new = new TweakableTemplate();
+             _new.copy(_tp);
+             templates.add(_new);
+         }
+     }
+
+     String getName(){
+         return name;
+     }
+
+     ArrayList<TweakableTemplate> getTemplates(){
+         return templates;
+     }
+ }
+
 /**
  * Manage all the templates
  *
@@ -17,6 +49,8 @@ class TemplateManager implements FreelinerConfig{
 
     //templates all the basic templates
     ArrayList<TweakableTemplate> templates;
+    ArrayList<TemplateTeam> templateTeams;
+
     TweakableTemplate copyedTemplate;
     final int N_TEMPLATES = 26;
 
@@ -34,6 +68,7 @@ class TemplateManager implements FreelinerConfig{
         templateList = new TemplateList();
         loops = new ArrayList();
         eventList = new ArrayList();
+        templateTeams = new ArrayList();
         copyedTemplate = null;
         init();
         groupManager = null;
@@ -363,6 +398,55 @@ class TemplateManager implements FreelinerConfig{
             _tp.setLinkTemplate(_link);
         }
     }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////     Saving and loading to bank
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+    public void saveTemplateTeam(String _tags, String _key){
+        println("saving template team "+_tags+" "+_key);
+        ArrayList<TweakableTemplate> _templates = getTemplates(_tags);
+        if(_templates == null) return;
+        TemplateTeam _team = new TemplateTeam(_key);
+        _team.addTemplates(_templates);
+        templateTeams.add(_team);
+        println(templateTeams);
+    }
+
+    public void loadTemplateTeam(String _key, String _tags){
+
+        ArrayList<TweakableTemplate> _templates = getTemplates(_tags);
+        TemplateTeam _team = getTemplateTeam(_key);
+        if(_team != null && _templates != null){
+            ArrayList<TweakableTemplate> _teamTemplates =_team.getTemplates();
+            if(_teamTemplates != null){
+                if(_teamTemplates.size() == _templates.size()){
+                    for(int i = 0; i < _templates.size(); i++){
+                        // println("load template team "+i);
+                        groupManager.groupRemoveTemplate(_templates.get(i));
+                        _templates.get(i).copyParameters(_teamTemplates.get(i));
+                        groupManager.addTemplateToGroups(_templates.get(i));
+                    }
+                }
+            }
+        }
+    }
+
+
+    public TemplateTeam getTemplateTeam(String _key){
+        if(templateTeams.size() > 0){
+            for(TemplateTeam _team : templateTeams){
+                if(_team.getName().equals(_key)) return _team;
+            }
+        }
+        return null;
+    }
+
+    // public void clearTemplateFromGeom(TweakableTemplate _tp){
+    //
+    // }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////

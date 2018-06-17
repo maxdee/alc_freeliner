@@ -35,11 +35,16 @@ class TemplateList {
   // TweakableTemplate references
   ArrayList<TweakableTemplate> templates;
   String tags = "";
+  int geometry;
 
   public TemplateList(){
     templates = new ArrayList();
   }
 
+  public TemplateList(int _geom){
+      geometry = _geom;
+      templates = new ArrayList();
+  }
   ////////////////////////////////////////////////////////////////////////////////////
   ///////
   ///////     actions
@@ -75,9 +80,18 @@ class TemplateList {
    * Toggle a Template
    * @param TweakableTemplate template to toggle
    */
-  public void toggle(TweakableTemplate _te) {
-    if(_te == null) return;
-    if(!templates.remove(_te)) templates.add(_te);
+  public void toggle(TweakableTemplate _tp) {
+    if(_tp == null) return;
+    if(!templates.remove(_tp)) {
+        templates.add(_tp);
+        if(geometry != 0){
+            println(_tp.getTemplateID()+" "+geometry);
+            _tp.addGeometry(geometry);
+        }
+    }
+    else {
+        _tp.removeGeometry(geometry);
+    }
     updateString();
   }
 

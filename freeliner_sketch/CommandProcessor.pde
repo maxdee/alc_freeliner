@@ -42,12 +42,17 @@ class CommandProcessor implements FreelinerConfig {
         "tp reset (AB)",
         "tp save (cooleffects.xml)",
         "tp load (coolstuff.xml)",
+        "tp save AB fun_effect",
+        "tp load fun_effect CD",
+        // "tp bank "
         "tp swap AB",
         "tp select AB*",
         "tp toggle A 3",
         "tp lerp A 0.5",
         "tp rotate ???",
         "tp translate AB 0.5 0.5 0.5",
+        // "tps AB fun_effect",
+        // "tpl fun_effect AB",
         // "tp rotate"
         // add tp setshape (geometryIndex | char | .svg)
         /////////////////// Sequencer
@@ -821,7 +826,10 @@ class CommandProcessor implements FreelinerConfig {
     public void toggleCMD(String[] _args) {
         ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
         int _ind = stringInt(_args[3]);
-        for(TweakableTemplate _tp : _tmps) groupManager.toggleTemplate(_tp, _ind);
+        for(TweakableTemplate _tp : _tmps) {
+            groupManager.toggleTemplate(_tp, _ind);
+            _tp.toggleGeometry(_ind);
+        }
     }
 
     public void tpSelectCMD(String[] _args) {
@@ -840,11 +848,15 @@ class CommandProcessor implements FreelinerConfig {
     public void saveTemplateCMD(String[] _args) {
         if(_args.length == 2) templateManager.saveTemplates();
         else if(_args.length == 3) templateManager.saveTemplates(_args[2]);
+        else if(_args.length == 4) templateManager.saveTemplateTeam(_args[2], _args[3]);
+
     }
 
     public void loadTemplateCMD(String[] _args) {
         if(_args.length == 2) templateManager.loadTemplates();
         else if(_args.length == 3) templateManager.loadTemplates(_args[2]);
+        else if(_args.length == 4) templateManager.loadTemplateTeam(_args[2], _args[3]);
+
     }
 
     public void linkTemplateCMD(String[] _args) {

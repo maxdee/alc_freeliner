@@ -67,6 +67,8 @@ class Template implements FreelinerConfig{
 	char templateID;
 	TweakableTemplate linkedTemplate;
 
+	IntList geometries;
+
 	// for stats
 	float fixLerp;
 
@@ -128,6 +130,9 @@ class Template implements FreelinerConfig{
 		translation = _tp.getTranslation();
 		rotation = _tp.getRotation();
 
+		geometries = _tp.getGeometries().copy();
+		// if(templateID != 'A' && templateID != 'B'){println("copied geometries "+templateID);
+		// println(geometries);}
  	}
 
 	/**
@@ -158,7 +163,27 @@ class Template implements FreelinerConfig{
 		translation = new PVector(0,0,0);
 		rotation = new PVector(0,0,0);
 		linkedTemplate = null;
+		geometries = new IntList();
  	}
+
+	public void addGeometry(int _g){
+		geometries.append(_g);
+	}
+
+	public void removeGeometry(int _g){
+		for(int i = 0; i < geometries.size(); i++){
+			if(geometries.get(i) == _g) geometries.remove(i);
+		}
+	}
+
+	public void toggleGeometry(int _g){
+		if(geometries.hasValue(_g)) removeGeometry(_g);
+		else addGeometry(_g);
+	}
+
+	public IntList getGeometries(){
+		return geometries;
+	}
 
 	public void setCustomShape(PShape _shp){
     	customShape = _shp;

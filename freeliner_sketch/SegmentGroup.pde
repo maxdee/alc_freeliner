@@ -64,7 +64,7 @@ class SegmentGroup implements FreelinerConfig{
     segments = new ArrayList();
     sortedSegments = new ArrayList();
     treeBranches = new ArrayList();
-    templateList = new TemplateList();
+    templateList = new TemplateList(ID);
     segmentStart = new PVector(-10, -10, -10);
     center = new PVector(-10, -10, -10);
     firstPoint = true;
