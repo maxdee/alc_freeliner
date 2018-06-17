@@ -84,8 +84,7 @@ class TemplateList {
     if(_tp == null) return;
     if(!templates.remove(_tp)) {
         templates.add(_tp);
-        if(geometry != 0){
-            println(_tp.getTemplateID()+" "+geometry);
+        if(geometry != 0 && geometry != 1){
             _tp.addGeometry(geometry);
         }
     }

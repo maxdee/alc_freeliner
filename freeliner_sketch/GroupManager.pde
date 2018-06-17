@@ -170,11 +170,8 @@ class GroupManager implements FreelinerConfig{
 
     public void addTemplateToGroups(TweakableTemplate _tp){
         IntList _list = _tp.getGeometries();
-        println("ajja "+_list);
         if(_list != null) {
             for(int i = 0; i < _list.size(); i++){
-                println(i);
-
                 toggleTemplate(_tp, _list.get(i));
             }
         }
@@ -183,7 +180,6 @@ class GroupManager implements FreelinerConfig{
     public void toggleTemplate(TweakableTemplate _tp, int _ind) {
         SegmentGroup _sg = getGroup(_ind);
         if(_sg != null && _tp != null) {
-
             _sg.getTemplateList().toggle(_tp);
         }
     }

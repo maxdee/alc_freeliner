@@ -167,7 +167,9 @@ class Template implements FreelinerConfig{
  	}
 
 	public void addGeometry(int _g){
-		geometries.append(_g);
+		if(!geometries.hasValue(_g)){
+			geometries.append(_g);
+		}
 	}
 
 	public void removeGeometry(int _g){

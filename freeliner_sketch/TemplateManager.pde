@@ -405,15 +405,7 @@ class TemplateManager implements FreelinerConfig{
     ///////     Saving and loading to bank
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
-    public void saveTemplateTeam(String _tags, String _key){
-        println("saving template team "+_tags+" "+_key);
-        ArrayList<TweakableTemplate> _templates = getTemplates(_tags);
-        if(_templates == null) return;
-        TemplateTeam _team = new TemplateTeam(_key);
-        _team.addTemplates(_templates);
-        templateTeams.add(_team);
-        println(templateTeams);
-    }
+
 
     public void loadTemplateTeam(String _key, String _tags){
 
@@ -448,52 +440,111 @@ class TemplateManager implements FreelinerConfig{
     //
     // }
 
+    public void saveTemplateTeam(String _tags, String _key){
+        println("saving template team "+_tags+" "+_key);
+        ArrayList<TweakableTemplate> _templates = getTemplates(_tags);
+        if(_templates == null) return;
+        TemplateTeam _team = new TemplateTeam(_key);
+        _team.addTemplates(_templates);
+        templateTeams.add(_team);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////     Saving and loading with XML
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
+
+    public void saveTemplateTeamToXML(String _filename){
+        println("saving template teams to "+_filename);
+        XML _xmlTeams = new XML("teams");
+        for(TemplateTeam _team : templateTeams) {
+            XML _xml = _xmlTeams.addChild("team");
+            _xml.setString("name", _team.getName());
+            for(TweakableTemplate _tp : _team.getTemplates()){
+                templateToXML(_tp, _xml);
+            }
+        }
+        saveXML(_xmlTeams, dataPath(PATH_TO_TEMPLATES)+"/"+_filename);
+    }
+
+    public void loadTemplateTeams(String _filename){
+        XML file;
+        try {
+            file = loadXML(dataPath(PATH_TO_TEMPLATES)+"/"+_filename);
+        } catch (Exception e) {
+            println(_filename+" cant be loaded");
+            return;
+        }
+        XML[] _teams = file.getChildren("team");
+        for(XML _team : _teams) {
+            XML[] _templates = _team.getChildren("template");
+            ArrayList<TweakableTemplate> _array = new ArrayList();
+            for(XML _template : _templates){
+                TweakableTemplate _tmp = new TweakableTemplate(_template.getString("ID").charAt(0));
+                xmlToTemplate(_template, _tmp);
+                _array.add(_tmp);
+            }
+            TemplateTeam _new = new TemplateTeam(_team.getString("name"));
+            _new.addTemplates(_array);
+            templateTeams.add(_new);
+        }
+    }
+
     public void saveTemplates() {
         saveTemplates("templates.xml");
+        saveTemplateTeamToXML("teams.xml");
     }
 
     /**
      * Simple save templates to xml file.
      */
     public void saveTemplates(String _fn) {
-        XML _templates = new XML("templates");
-        for(Template _tp : templates) {
-            XML _tmp = _templates.addChild("template");
-            _tmp.setString("ID", str(_tp.getTemplateID()));
-            if(_tp.getLinkedTemplate() != null){
-                _tmp.setString("linked", str(_tp.getLinkedTemplate().getTemplateID()));
-            }
-            _tmp.setInt("renderMode", _tp.getRenderMode());
-            _tmp.setInt("segmentMode", _tp.getSegmentMode());
-            _tmp.setInt("animationMode", _tp.getAnimationMode());
-            _tmp.setInt("interpolateMode", _tp.getInterpolateMode());
-            _tmp.setInt("strokeMode", _tp.getStrokeMode());
-            _tmp.setInt("fillMode", _tp.getFillMode());
-            _tmp.setInt("strokeAlpha", _tp.getStrokeAlpha());
-            _tmp.setInt("fillAlpha", _tp.getFillAlpha());
-            _tmp.setInt("rotationMode", _tp.getRotationMode());
-            _tmp.setInt("easingMode", _tp.getEasingMode());
-            _tmp.setInt("reverseMode", _tp.getReverseMode());
-            _tmp.setInt("repetitionMode", _tp.getRepetitionMode());
-            _tmp.setInt("repetitionCount", _tp.getRepetitionCount());
-            _tmp.setInt("beatDivider", _tp.getBeatDivider());
-            _tmp.setInt("strokeWidth", _tp.getStrokeWeight());
-            _tmp.setInt("brushSize", _tp.getBrushSize());
-            _tmp.setInt("miscValue", _tp.getMiscValue());
-            _tmp.setInt("enablerMode", _tp.getEnablerMode());
-            _tmp.setInt("renderLayer", _tp.getRenderLayer());
+        XML _xmlTemplates = new XML("templates");
+        for(TweakableTemplate _tp : templates) {
+            templateToXML(_tp, _xmlTemplates);
         }
-        saveXML(_templates, dataPath(PATH_TO_TEMPLATES)+"/"+_fn);
+        saveXML(_xmlTemplates, dataPath(PATH_TO_TEMPLATES)+"/"+_fn);
+    }
+
+    public void templateToXML(TweakableTemplate _tp, XML _xml){
+        if(_tp == null) return;
+        XML _tmp = _xml.addChild("template");
+        _tmp.setString("ID", str(_tp.getTemplateID()));
+        if(_tp.getLinkedTemplate() != null){
+            _tmp.setString("linked", str(_tp.getLinkedTemplate().getTemplateID()));
+        }
+        _tmp.setInt("renderMode", _tp.getRenderMode());
+        _tmp.setInt("segmentMode", _tp.getSegmentMode());
+        _tmp.setInt("animationMode", _tp.getAnimationMode());
+        _tmp.setInt("interpolateMode", _tp.getInterpolateMode());
+        _tmp.setInt("strokeMode", _tp.getStrokeMode());
+        _tmp.setInt("fillMode", _tp.getFillMode());
+        _tmp.setInt("strokeAlpha", _tp.getStrokeAlpha());
+        _tmp.setInt("fillAlpha", _tp.getFillAlpha());
+        _tmp.setInt("rotationMode", _tp.getRotationMode());
+        _tmp.setInt("easingMode", _tp.getEasingMode());
+        _tmp.setInt("reverseMode", _tp.getReverseMode());
+        _tmp.setInt("repetitionMode", _tp.getRepetitionMode());
+        _tmp.setInt("repetitionCount", _tp.getRepetitionCount());
+        _tmp.setInt("beatDivider", _tp.getBeatDivider());
+        _tmp.setInt("strokeWidth", _tp.getStrokeWeight());
+        _tmp.setInt("brushSize", _tp.getBrushSize());
+        _tmp.setInt("miscValue", _tp.getMiscValue());
+        _tmp.setInt("enablerMode", _tp.getEnablerMode());
+        _tmp.setInt("renderLayer", _tp.getRenderLayer());
+        XML _geoms = _tmp.addChild("groups");
+        for( int i = 0; i < _tp.getGeometries().size(); i++){
+            XML _g = _geoms.addChild("g");
+            _g.setInt("id", _tp.getGeometries().get(i));
+        }
     }
 
     public void loadTemplates() {
         loadTemplates("templates.xml");
+        loadTemplateTeams("teams.xml");
+
     }
 
     public void loadTemplates(String _fn) {
@@ -508,29 +559,39 @@ class TemplateManager implements FreelinerConfig{
         TweakableTemplate _tmp;
         for(XML _tp : _templateData) {
             _tmp = getTemplate(_tp.getString("ID").charAt(0));
-            if(_tmp == null) continue;
-            _tmp.setRenderMode(_tp.getInt("renderMode"), 50000);
-            _tmp.setSegmentMode(_tp.getInt("segmentMode"), 50000);
-            _tmp.setAnimationMode(_tp.getInt("animationMode"), 50000);
-            _tmp.setInterpolateMode(_tp.getInt("interpolateMode"), 50000);
-            _tmp.setStrokeMode(_tp.getInt("strokeMode"), 50000);
-            _tmp.setFillMode(_tp.getInt("fillMode"), 50000);
-            _tmp.setStrokeAlpha(_tp.getInt("strokeAlpha"), 50000);
-            _tmp.setFillAlpha(_tp.getInt("fillAlpha"), 50000);
-            _tmp.setRotationMode(_tp.getInt("rotationMode"), 50000);
-            _tmp.setEasingMode(_tp.getInt("easingMode"), 50000);
-            _tmp.setReverseMode(_tp.getInt("reverseMode"), 50000);
-            _tmp.setRepetitionMode(_tp.getInt("repetitionMode"), 50000);
-            _tmp.setRepetitionCount(_tp.getInt("repetitionCount"), 50000);
-            _tmp.setBeatDivider(_tp.getInt("beatDivider"), 50000);
-            _tmp.setStrokeWidth(_tp.getInt("strokeWidth"), 50000);
-            _tmp.setBrushSize(_tp.getInt("brushSize"), 50000);
-            _tmp.setMiscValue(_tp.getInt("miscValue"), 50000);
-            _tmp.setEnablerMode(_tp.getInt("enablerMode"), 50000);
-            _tmp.setRenderLayer(_tp.getInt("renderLayer"), 50000);
-            String _linked = _tp.getString("linked");
-            if(_linked != null){
-                _tmp.setLinkTemplate(getTemplate(_linked.charAt(0)));
+            xmlToTemplate(_tp, _tmp);
+        }
+    }
+
+    void xmlToTemplate(XML _templateData, TweakableTemplate _tp){
+        if(_tp == null || _templateData == null) return;
+        _tp.setRenderMode(_templateData.getInt("renderMode"), 50000);
+        _tp.setSegmentMode(_templateData.getInt("segmentMode"), 50000);
+        _tp.setAnimationMode(_templateData.getInt("animationMode"), 50000);
+        _tp.setInterpolateMode(_templateData.getInt("interpolateMode"), 50000);
+        _tp.setStrokeMode(_templateData.getInt("strokeMode"), 50000);
+        _tp.setFillMode(_templateData.getInt("fillMode"), 50000);
+        _tp.setStrokeAlpha(_templateData.getInt("strokeAlpha"), 50000);
+        _tp.setFillAlpha(_templateData.getInt("fillAlpha"), 50000);
+        _tp.setRotationMode(_templateData.getInt("rotationMode"), 50000);
+        _tp.setEasingMode(_templateData.getInt("easingMode"), 50000);
+        _tp.setReverseMode(_templateData.getInt("reverseMode"), 50000);
+        _tp.setRepetitionMode(_templateData.getInt("repetitionMode"), 50000);
+        _tp.setRepetitionCount(_templateData.getInt("repetitionCount"), 50000);
+        _tp.setBeatDivider(_templateData.getInt("beatDivider"), 50000);
+        _tp.setStrokeWidth(_templateData.getInt("strokeWidth"), 50000);
+        _tp.setBrushSize(_templateData.getInt("brushSize"), 50000);
+        _tp.setMiscValue(_templateData.getInt("miscValue"), 50000);
+        _tp.setEnablerMode(_templateData.getInt("enablerMode"), 50000);
+        _tp.setRenderLayer(_templateData.getInt("renderLayer"), 50000);
+        String _linked = _templateData.getString("linked");
+        if(_linked != null){
+            _tp.setLinkTemplate(getTemplate(_linked.charAt(0)));
+        }
+        XML _grps = _templateData.getChild("groups");
+        if(_grps != null){
+            for(XML _grp : _grps.getChildren("g")){
+                _tp.addGeometry(_grp.getInt("id"));
             }
         }
     }
