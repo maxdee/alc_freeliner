@@ -82,10 +82,17 @@ class FancyFixtures implements FreelinerConfig {
                 setupByteBuffer(_size);
                 return true;
             } else if(setup.getString("type").equals("ARTNET")) {
-                byteSender = new ArtNetSender();
+                ArtNetSender _sender = new ArtNetSender();
+                XML[] _hostsXML = setup.getChildren("host");
+                for(XML _h : _hostsXML){
+                    _sender.addHost(_h.getString("ip"), _h.getInt("start"), _h.getInt("end"));
+                    println("adding host  "+_h.getString("ip")+" universes: "+_h.getInt("start")+"-"+_h.getInt("end"));
+                }
+                byteSender = _sender;
+
                 setupByteBuffer(setup.getInt("universes")*512);
-                byteSender.connect(setup.getString("host"));
-                ((ArtNetSender)byteSender).setStartUniverse(setup.getInt("startUniverse"));
+                // byteSender.connect(setup.getString("host"));
+                // ((ArtNetSender)byteSender).setStartUniverse(setup.getInt("startUniverse"));
                 return true;
             }
         }

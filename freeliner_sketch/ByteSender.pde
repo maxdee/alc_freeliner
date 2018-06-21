@@ -92,34 +92,73 @@ public class SerialSender extends ByteSender {
 }
 
 
+class Host{
+    String ip;
+    int start;
+    int end;
+    InetAddress address;
+    DatagramSocket dsocket;
+    Host(String _ip, int _start, int _end){
+        ip = _ip;
+        start = _start;
+        end = _end;
+    }
+    void connect(){
+            // host = _adr;
+            try {
+                address = InetAddress.getByName(ip);
+                dsocket = new DatagramSocket();
+                println("artnet host connect "+ip);
+
+            }
+            catch(Exception e) {
+                println("artnet could not connect");
+                exit();
+            }
+    }
+}
+
 // send udp packets of variable length
 public class ArtNetSender extends ByteSender {
 
-    String host;
+    // String host;
     int port = 6454;
-    InetAddress address;
-    DatagramSocket dsocket;
-    int sequenceCount;
-    int artnetUniverseStart = 0;
-    public ArtNetSender() {}
 
-    public void connect(String _adr) {
-        host = _adr;
-        try {
-            address = InetAddress.getByName(host);
-            dsocket = new DatagramSocket();
-        }
-        catch(Exception e) {
-            println("artnet could not connect");
-            exit();
-        }
-        sequenceCount = 0;
+    int sequenceCount;
+    // int artnetUniverseStart = 0;
+    ArrayList<Host> hosts;
+    public ArtNetSender() {
+        hosts = new ArrayList();
     }
+
+    public void addHost(String _ip, int _start, int _end){
+        Host _host =new Host(_ip, _start, _end);
+        _host.connect();
+        hosts.add(_host);
+    }
+
+    // public void connect(String _adr) {
+    //     // host = _adr;
+    //     // try {
+    //     //     address = InetAddress.getByName(host);
+    //     //     dsocket = new DatagramSocket();
+    //     // }
+    //     // catch(Exception e) {
+    //     //     println("artnet could not connect");
+    //     //     exit();
+    //     // }
+    //     // sequenceCount = 0;
+    // }
 
     public void sendData(byte[] _data) {
         byte[][] _universes = splitUniverses(_data);
         for(int i = 0; i < _universes.length; i++) {
-            sendUDP(makeArtNetPacket(_universes[i], i+artnetUniverseStart));
+            for(Host _h : hosts){
+                String _ip;
+                if(i >= _h.start && i <= _h.end){
+                    sendUDP(_h, makeArtNetPacket(_universes[i], i));
+                }
+            }
         }
         sequenceCount++;
         sequenceCount %= 255;
@@ -176,19 +215,19 @@ public class ArtNetSender extends ByteSender {
         return _packet;
     }
 
-    public void sendUDP(byte[] _data) {
+    public void sendUDP( Host _host, byte[] _data) {
         if(_data == null) return;
         DatagramPacket packet = new DatagramPacket(_data, _data.length,
-                address, port);
+                _host.address, port);
         try {
-            dsocket.send(packet);
+            _host.dsocket.send(packet);
         }
         catch(Exception e) {
             println("failed to send");
-            connect(host);
+            _host.connect();
         }
     }
     public void setStartUniverse(int _u){
-        artnetUniverseStart = _u;
+        // artnetUniverseStart = _u;
     }
 }
