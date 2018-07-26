@@ -140,9 +140,9 @@
         "key": "b"
       },
       {
-        "name": "PersegmentRender",
+        "name": "WrapLine",
         "index": 2,
-        "description": "Things that render per each segment",
+        "description": "line from segment to segment",
         "key": "b"
       },
       {

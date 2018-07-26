@@ -21,7 +21,7 @@ int selectedLED = 0;
 XML fixtures;
 
 int index = 0;
-int END_INDEX = 240*4;
+int END_INDEX = 340*8;
 ArrayList<PVector> list;
 PVector position;
 
@@ -64,6 +64,8 @@ void draw(){
             list.add(position.get());
             setChan(index);
             index++;
+            fill(255);
+            text(index, 20,20);
         }
         else {
             saveXML(fixtures, "haha.xml");
@@ -124,7 +126,7 @@ void mouseDragged(){
 }
 
 void keyPressed(){
-    if(key == ' '){
+    if(key == 'd'){
         setDiff();
     }
     else if(key == '-'){
@@ -135,6 +137,9 @@ void keyPressed(){
     }
     else if(key == 27){
         stop();
+    }
+    else if(key == 32){
+        index = (ceil(index/340)+1)*340;
     }
     // selectedLED %= ledCount;
     println(selectedLED);
