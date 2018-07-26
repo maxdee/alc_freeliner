@@ -182,6 +182,8 @@ class WrapLine extends PerSegment {
     public WrapLine(int _ind) {
         super();
         modeIndex = _ind;
+        name = "WrapLine";
+        description = "line from segment to segment";
         painter = new LineToLine(0);
     }
     public void doRender(RenderableTemplate _rt) {

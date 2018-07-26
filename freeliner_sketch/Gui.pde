@@ -263,7 +263,7 @@ class Gui implements FreelinerConfig {
         int sz = 5;
         arrow = createShape();
         arrow.beginShape(LINES);
-        arrow.stroke(SEGMENT_COLOR);
+        arrow.stroke(ARROW_COLOR);
         arrow.vertex(sz, -sz);
         arrow.vertex(0,0);
         arrow.vertex(0,0);
@@ -362,6 +362,8 @@ class Gui implements FreelinerConfig {
         //canvas.stroke(100);
         //if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
         canvas.stroke(NODE_COLOR);
+        if(_sg == groupManager.getSelectedGroup()) canvas.stroke(NODE_COLOR);
+        else canvas.stroke(SEGMENT_COLOR_UNSELECTED);
         canvas.strokeWeight(NODE_STROKE_WEIGTH);
         canvas.point(_s.getPointA().x, _s.getPointA().y);
         canvas.point(_s.getPointB().x, _s.getPointB().y);
@@ -370,6 +372,8 @@ class Gui implements FreelinerConfig {
             canvas.pushMatrix();
             canvas.translate(midpoint.x, midpoint.y);
             canvas.rotate(_s.getAngle(false));
+            // if(_sg == groupManager.getSelectedGroup()) canvas.ti(NODE_COLOR);
+            // else canvas.stroke(SEGMENT_COLOR_UNSELECTED);
             canvas.shape(arrow);
             canvas.popMatrix();
         }

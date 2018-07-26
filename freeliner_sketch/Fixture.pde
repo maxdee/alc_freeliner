@@ -255,9 +255,11 @@ class RGBFixture extends Fixture {
         _pg.noFill();
         _pg.ellipseMode(CENTER);
         _pg.ellipse(position.x, position.y, 10, 10);
-        _pg.textSize(10);
-        _pg.fill(255);
-        _pg.text(str(address), position.x, position.y);
+        if(DRAW_FIXTURE_ADDRESS){
+            _pg.textSize(10);
+            _pg.fill(255);
+            _pg.text(str(address), position.x, position.y);
+        }
     }
 
     // RGBFixture specific
@@ -589,5 +591,70 @@ class ZigZagMatrix extends Fixture {
     public void bufferChannels(byte[] _buff) {
         for(Fixture _fix : subFixtures)
             _fix.bufferChannels(_buff);
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////
+///////
+///////     Orion Orcan2
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
+class OrionOrcan extends Fixture {
+    // boolean correctGamma = true;
+    color col;
+    final int masterBrightChannel = 0;
+    final int strobeChannel = 1;
+    final int effectChannel = 2;
+    final int effectSpeedChannel = 3;
+    final int redChannel = 4;
+    final int greenChannel = 5;
+    final int blueChannel = 6;
+
+    public OrionOrcan(int _adr) {
+        super(_adr);
+        name = "Orcan2";
+        description = "orion orcan 2 RGB light fixture";
+        channelCount = 7;
+        address = _adr;
+        buffer = new byte[channelCount];
+        position = new PVector(0,0);
+        buffer[strobeChannel] = 0;
+    }
+
+    public void parseGraphics(PGraphics _pg) {
+        if(_pg == null) return;
+        int ind = int(position.x + (position.y*_pg.width));
+        int max = _pg.width*_pg.height;
+        if(ind < max) setColor(_pg.pixels[ind]);
+    }
+
+    // RGBFixture specific
+    public void setColor(color _c) {
+        col = _c;
+        int red = (col >> 16) & 0xFF;
+        int green = (col >> 8) & 0xFF;
+        int blue = col & 0xFF;
+        buffer[masterBrightChannel]  = byte(255);
+        buffer[effectChannel]  = byte(0);
+        buffer[effectSpeedChannel]  = byte(0);
+
+        buffer[redChannel] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[greenChannel] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        buffer[blueChannel] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+
+
+    }
+    // override
+    void drawFixtureOverlay(PGraphics _pg) {
+        if(_pg == null) return;
+        _pg.stroke(255, 100);
+        _pg.noFill();
+        _pg.ellipseMode(CENTER);
+        _pg.ellipse(position.x, position.y, 10, 10);
+        _pg.textSize(10);
+        _pg.fill(255);
+        _pg.text(str(address), position.x, position.y);
     }
 }

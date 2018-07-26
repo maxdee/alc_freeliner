@@ -47,7 +47,9 @@ interface FreelinerConfig {
   final color TEXT_COLOR = #FFFFFF;
   final color GRID_COLOR = #969696;//9696;
   final color SEGMENT_COLOR = #BEBEBE;
-  final color SEGMENT_COLOR_UNSELECTED = #6E6E6E;
+  final color ARROW_COLOR = #5D5D5D;
+
+  final color SEGMENT_COLOR_UNSELECTED = #2D2D2D;
 
   // If you are using a DLP with no colour wheel
   final boolean BW_BEAMER = true;
@@ -78,6 +80,8 @@ interface FreelinerConfig {
   final boolean MAKE_DOCUMENTATION = true;
 
   final boolean FIXTURE_CORRECT_GAMMA = false;
+  final boolean DRAW_FIXTURE_ADDRESS = false;
+
   /**
    * Your color pallette! customize it!
    * Use hex value or color(0,100,200);

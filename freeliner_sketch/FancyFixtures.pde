@@ -297,7 +297,8 @@ class FancyFixtures implements FreelinerConfig {
                                 // (int)_seg.getFloat("bY"));
             fixtures.add(_fix);
             _fix.drawFixtureOverlay(overLayCanvas);
-        } else if(cmd[0].equals("/matrix") && cmd.length > 3){
+        }
+        else if(cmd[0].equals("/matrix") && cmd.length > 3){
             ZigZagMatrix _fix;
             int _spacing = abs((int)_seg.getFloat("aY") - (int)_seg.getFloat("bY"));
             _fix = new ZigZagMatrix(int(cmd[1]), int(cmd[2]), int(cmd[3]), _spacing);
@@ -305,6 +306,18 @@ class FancyFixtures implements FreelinerConfig {
 
             _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
             _fix.init();
+            fixtures.add(_fix);
+            _fix.drawFixtureOverlay(overLayCanvas);
+        }
+        else if(cmd[0].equals("/orcan") && cmd.length > 1) {
+            // println(cmd[1]);
+            int addr = int(cmd[1]);
+            // println("Adding LEDs from: "+from+"  to: "+to);
+            OrionOrcan _fix;
+            _fix = new OrionOrcan(addr);
+            _fix.setPosition((int)_seg.getFloat("aX"),(int)_seg.getFloat("aY"));
+                                // (int)_seg.getFloat("bX"),
+                                // (int)_seg.getFloat("bY"));
             fixtures.add(_fix);
             _fix.drawFixtureOverlay(overLayCanvas);
         }

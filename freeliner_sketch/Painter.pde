@@ -224,8 +224,9 @@ class LineToLine extends Painter {
     public LineToLine(int _ind) {
         modeIndex = _ind;
         name = "LineToLine";
-        description = "Draws a line from a point interpolated on a segment to a point interpolated on a different segment, `d` key sets the different segment.";
+        description = "Draws a line from a point interpolated on a segment to a point interpolated on a different segment";
     }
+    
     public void paint(ArrayList<LerpSegment> _segs, RenderableTemplate _rt) {
         super.paint(_rt);
         applyStyle(canvas);
@@ -236,7 +237,7 @@ class LineToLine extends Painter {
         for(LerpSegment _lseg : _segs) {
 			_seg = _lseg.getSegment();
             prev = pos.get();
-            pos = getPosition(_seg, _seg.getLerp()).get();
+            pos = getPosition(_seg).get();
             if(prev.x != -10 && pos.x != -10) vecLine(canvas, pos, prev);
         }
     }
