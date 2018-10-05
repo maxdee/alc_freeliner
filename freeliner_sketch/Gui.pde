@@ -458,7 +458,7 @@ class Gui implements FreelinerConfig {
         PShape _grd = createShape();
         _grd.beginShape(LINES);
         _grd.stroke(GRID_COLOR);
-        _grd.strokeWeight(1);
+        _grd.strokeWeight(GRID_STROKE_WEIGHT);
         for (int x = 0; x < width/2; x+=gridSize) {
             for (int y = 0; y < height/2; y+=gridSize) {
                 _grd.vertex(width/2 + x, 0);
