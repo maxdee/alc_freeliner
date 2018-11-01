@@ -155,7 +155,8 @@ public class ArtNetSender extends ByteSender {
         for(int i = 0; i < _universes.length; i++) {
             for(Host _h : hosts){
                 String _ip;
-                if(i >= _h.start && i <= _h.end){
+                // we need to substract 1 because universe 1 in a packet is 0.
+                if(i >= _h.start-1 && i <= _h.end-1){
                     sendUDP(_h, makeArtNetPacket(_universes[i], i));
                 }
             }
