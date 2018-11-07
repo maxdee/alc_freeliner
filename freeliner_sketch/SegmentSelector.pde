@@ -159,8 +159,10 @@ class SegmentBranch extends SegmentSelector{
 		int index = _event.getBeatCount();
 		if(_event.getDirection()) index = 10000 - (index % 9999); // dosent seem to work...
 		ArrayList<LerpSegment> _segs = new ArrayList();
-		for(Segment _seg : _event.segmentGroup.getBranch(index)){
-			_segs.add(new LerpSegment(_seg, _event.getLerp()));
+		if(_event.segmentGroup.getBranch(index) != null){
+			for(Segment _seg : _event.segmentGroup.getBranch(index)){
+				_segs.add(new LerpSegment(_seg, _event.getLerp()));
+			}
 		}
 		return _segs;
 	}

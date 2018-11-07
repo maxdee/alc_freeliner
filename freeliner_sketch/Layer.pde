@@ -562,6 +562,7 @@ class OutputLayer extends Layer {
 class ShaderLayer extends RenderLayer { //CanvasLayer{
     PShader shader;
     String fileName;
+    long timeStamp;
     PVector center;// implements this (connect to some sort of geometry thingy)
     // uniforms to control shader params
     float[] uniforms;
@@ -610,7 +611,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         if(shader == null) return _pg;
         if(!enabled) return _pg;
         if(_pg == null) return null;
-
+        if(frameCount % 60 == 0) checkForUpdate();
         try {
             canvas.shader(shader);
         } catch(RuntimeException _e) {
@@ -643,10 +644,23 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         try {
             shader = loadShader(dataPath(PATH_TO_SHADERS)+"/"+fileName);
             println("Loaded shader "+fileName);
+            File _file = new File(dataPath(PATH_TO_SHADERS)+"/"+fileName);
+            timeStamp = _file.lastModified();
         } catch(Exception _e) {
             println("Could not load shader... "+fileName);
             println(_e);
             shader = null;
+        }
+    }
+
+    public void checkForUpdate() {
+        try {
+            File _file = new File(dataPath(PATH_TO_SHADERS)+"/"+fileName);
+            if(timeStamp != _file.lastModified()) {
+                reloadShader();
+            }
+        } catch(Exception _e) {
+            println("Could not find file "+fileName);
         }
     }
 
