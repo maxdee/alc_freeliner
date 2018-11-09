@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<groups height="768" width="1024">
+  <group ID="2" centerX="233.0" centerY="613.0" centered="0" tags="A" text="hi, im geometry 2" type="map">
+    <segment aX="233.0" aY="613.0" bX="797.0" bY="40.0" txt="freeliner!"/>
+    <segment aX="797.0" aY="40.0" bX="817.0" bY="643.0" txt="freeliner!"/>
+    <segment aX="817.0" aY="643.0" bX="233.0" bY="613.0" txt="freeliner!"/>
+  </group>
+</groups>
