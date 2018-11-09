@@ -1,8 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<groups height="768" width="1024">
-  <group ID="2" centerX="233.0" centerY="613.0" centered="0" tags="A" text="hi, im geometry 2" type="map">
-    <segment aX="233.0" aY="613.0" bX="797.0" bY="40.0" txt="freeliner!"/>
-    <segment aX="797.0" aY="40.0" bX="817.0" bY="643.0" txt="freeliner!"/>
-    <segment aX="817.0" aY="643.0" bX="233.0" bY="613.0" txt="freeliner!"/>
+<groups height="480" width="640">
+  <group ID="2" centerX="48.0" centerY="360.0" centered="0" tags="A" text="hi, im geometry 2" type="map">
+    <segment aX="503.0" aY="284.0" bX="289.0" bY="49.0" txt="freeliner!"/>
+    <segment aX="289.0" aY="49.0" bX="163.0" bY="194.0" txt="freeliner!"/>
+    <segment aX="163.0" aY="194.0" bX="112.0" bY="440.0" txt="freeliner!"/>
+    <segment aX="112.0" aY="440.0" bX="503.0" bY="284.0" txt="freeliner!"/>
+  </group>
+  <group ID="3" centerX="-10.0" centerY="-10.0" centered="0" tags="" text="hi, im geometry 3" type="map">
+    <segment aX="503.0" aY="284.0" bX="289.0" bY="49.0" txt="freeliner!"/>
+    <segment aX="289.0" aY="49.0" bX="163.0" bY="194.0" txt="freeliner!"/>
+    <segment aX="163.0" aY="194.0" bX="112.0" bY="440.0" txt="freeliner!"/>
+    <segment aX="112.0" aY="440.0" bX="503.0" bY="284.0" txt="freeliner!"/>
+  </group>
+  <group ID="4" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 4" type="map">
+    <segment aX="334.0" aY="222.0" bX="396.0" bY="166.0" txt="freeliner!"/>
+    <segment aX="396.0" aY="166.0" bX="367.0" bY="135.0" txt="freeliner!"/>
+    <segment aX="367.0" aY="135.0" bX="285.0" bY="168.0" txt="freeliner!"/>
+    <segment aX="285.0" aY="168.0" bX="334.0" bY="222.0" txt="freeliner!"/>
+  </group>
+  <group ID="5" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 5" type="map">
+    <segment aX="285.0" aY="168.0" bX="237.0" bY="187.0" txt="freeliner!"/>
+    <segment aX="237.0" aY="187.0" bX="273.0" bY="277.0" txt="freeliner!"/>
+    <segment aX="273.0" aY="277.0" bX="334.0" bY="222.0" txt="freeliner!"/>
+    <segment aX="334.0" aY="222.0" bX="285.0" bY="168.0" txt="freeliner!"/>
+  </group>
+  <group ID="6" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 6" type="map">
+    <segment aX="302.0" aY="161.0" bX="367.0" bY="135.0" txt="freeliner!"/>
+    <segment aX="367.0" aY="135.0" bX="289.0" bY="49.0" txt="freeliner!"/>
+    <segment aX="289.0" aY="49.0" bX="263.0" bY="62.0" txt="freeliner!"/>
+    <segment aX="263.0" aY="62.0" bX="302.0" bY="161.0" txt="freeliner!"/>
+  </group>
+  <group ID="7" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 7" type="map">
+    <segment aX="263.0" aY="62.0" bX="201.0" bY="96.0" txt="freeliner!"/>
+    <segment aX="201.0" aY="96.0" bX="237.0" bY="187.0" txt="freeliner!"/>
+    <segment aX="237.0" aY="187.0" bX="302.0" bY="161.0" txt="freeliner!"/>
+    <segment aX="302.0" aY="161.0" bX="263.0" bY="62.0" txt="freeliner!"/>
+  </group>
+  <group ID="8" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 8" type="map">
+    <segment aX="449.0" aY="225.0" bX="396.0" bY="166.0" txt="freeliner!"/>
+    <segment aX="396.0" aY="166.0" bX="356.0" bY="202.0" txt="freeliner!"/>
+    <segment aX="356.0" aY="202.0" bX="388.0" bY="280.0" txt="freeliner!"/>
+    <segment aX="388.0" aY="280.0" bX="449.0" bY="225.0" txt="freeliner!"/>
+  </group>
+  <group ID="9" centerX="125.0" centerY="1.0" centered="0" tags="B" text="hi, im geometry 9" type="map">
+    <segment aX="388.0" aY="280.0" bX="405.0" bY="323.0" txt="freeliner!"/>
+    <segment aX="405.0" aY="323.0" bX="503.0" bY="284.0" txt="freeliner!"/>
+    <segment aX="503.0" aY="284.0" bX="449.0" bY="225.0" txt="freeliner!"/>
+    <segment aX="449.0" aY="225.0" bX="388.0" bY="280.0" txt="freeliner!"/>
+  </group>
+  <group ID="10" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 10" type="map">
+    <segment aX="381.0" aY="262.0" bX="356.0" bY="202.0" txt="freeliner!"/>
+    <segment aX="356.0" aY="202.0" bX="273.0" bY="277.0" txt="freeliner!"/>
+    <segment aX="273.0" aY="277.0" bX="283.0" bY="301.0" txt="freeliner!"/>
+    <segment aX="283.0" aY="301.0" bX="381.0" bY="262.0" txt="freeliner!"/>
+  </group>
+  <group ID="11" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 11" type="map">
+    <segment aX="283.0" aY="301.0" bX="307.0" bY="362.0" txt="freeliner!"/>
+    <segment aX="307.0" aY="362.0" bX="405.0" bY="323.0" txt="freeliner!"/>
+    <segment aX="405.0" aY="323.0" bX="381.0" bY="262.0" txt="freeliner!"/>
+    <segment aX="381.0" aY="262.0" bX="283.0" bY="301.0" txt="freeliner!"/>
+  </group>
+  <group ID="12" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 12" type="map">
+    <segment aX="228.0" aY="162.0" bX="201.0" bY="96.0" txt="freeliner!"/>
+    <segment aX="201.0" aY="96.0" bX="110.0" bY="146.0" txt="freeliner!"/>
+    <segment aX="110.0" aY="146.0" bX="132.0" bY="201.0" txt="freeliner!"/>
+    <segment aX="132.0" aY="201.0" bX="228.0" bY="162.0" txt="freeliner!"/>
+  </group>
+  <group ID="13" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 13" type="map">
+    <segment aX="132.0" aY="201.0" bX="158.0" bY="267.0" txt="freeliner!"/>
+    <segment aX="158.0" aY="267.0" bX="254.0" bY="229.0" txt="freeliner!"/>
+    <segment aX="254.0" aY="229.0" bX="228.0" bY="162.0" txt="freeliner!"/>
+    <segment aX="228.0" aY="162.0" bX="132.0" bY="201.0" txt="freeliner!"/>
+  </group>
+  <group ID="14" centerX="532.0" centerY="40.0" centered="0" tags="B" text="hi, im geometry 14" type="map">
+    <segment aX="134.0" aY="206.0" bX="110.0" bY="146.0" txt="freeliner!"/>
+    <segment aX="110.0" aY="146.0" bX="163.0" bY="194.0" txt="freeliner!"/>
+    <segment aX="163.0" aY="194.0" bX="41.0" bY="244.0" txt="freeliner!"/>
+    <segment aX="41.0" aY="244.0" bX="134.0" bY="206.0" txt="freeliner!"/>
+  </group>
+  <group ID="15" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 15" type="map">
+    <segment aX="41.0" aY="244.0" bX="63.0" bY="305.0" txt="freeliner!"/>
+    <segment aX="63.0" aY="305.0" bX="158.0" bY="267.0" txt="freeliner!"/>
+    <segment aX="158.0" aY="267.0" bX="134.0" bY="206.0" txt="freeliner!"/>
+    <segment aX="134.0" aY="206.0" bX="41.0" bY="244.0" txt="freeliner!"/>
+  </group>
+  <group ID="16" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 16" type="map">
+    <segment aX="281.0" aY="295.0" bX="254.0" bY="229.0" txt="freeliner!"/>
+    <segment aX="254.0" aY="229.0" bX="156.0" bY="268.0" txt="freeliner!"/>
+    <segment aX="156.0" aY="268.0" bX="183.0" bY="334.0" txt="freeliner!"/>
+    <segment aX="183.0" aY="334.0" bX="281.0" bY="295.0" txt="freeliner!"/>
+  </group>
+  <group ID="17" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 17" type="map">
+    <segment aX="183.0" aY="334.0" bX="209.0" bY="401.0" txt="freeliner!"/>
+    <segment aX="209.0" aY="401.0" bX="307.0" bY="362.0" txt="freeliner!"/>
+    <segment aX="307.0" aY="362.0" bX="281.0" bY="295.0" txt="freeliner!"/>
+    <segment aX="281.0" aY="295.0" bX="183.0" bY="334.0" txt="freeliner!"/>
+  </group>
+  <group ID="18" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 18" type="map">
+    <segment aX="87.0" aY="372.0" bX="112.0" bY="440.0" txt="freeliner!"/>
+    <segment aX="112.0" aY="440.0" bX="209.0" bY="401.0" txt="freeliner!"/>
+    <segment aX="209.0" aY="401.0" bX="184.0" bY="337.0" txt="freeliner!"/>
+    <segment aX="184.0" aY="337.0" bX="87.0" bY="372.0" txt="freeliner!"/>
+  </group>
+  <group ID="19" centerX="-10.0" centerY="-10.0" centered="0" tags="B" text="hi, im geometry 19" type="map">
+    <segment aX="184.0" aY="337.0" bX="156.0" bY="268.0" txt="freeliner!"/>
+    <segment aX="156.0" aY="268.0" bX="63.0" bY="305.0" txt="freeliner!"/>
+    <segment aX="63.0" aY="305.0" bX="87.0" bY="372.0" txt="freeliner!"/>
+    <segment aX="87.0" aY="372.0" bX="184.0" bY="337.0" txt="freeliner!"/>
   </group>
 </groups>

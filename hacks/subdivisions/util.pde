@@ -1,5 +1,6 @@
 
 boolean intersection(Segment _a, Segment _b, PVector _result){
+    if(_a == null || _b == null) return false;
     return intersection(_a.pointA, _a.pointB, _b.pointA, _b.pointB, _result);
 }
 

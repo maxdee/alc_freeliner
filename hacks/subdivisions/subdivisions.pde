@@ -23,22 +23,21 @@ void loop(){
     println("here");
 
 }
-
+// int globalIndex = ;
 void parseGeom(int _i, String _fileName){
     XML file = loadXML(_fileName);
     float wit = float(file.getInt("width"));
     float heit = float(file.getInt("height"));
     float scaler = heit/wit;
-    int index = 12;
-    clear(_i+1);
-    clear(_i+2);
-    clear(3);
+    // globalIndex = file.getChildCount();
+    // clear(_i+1);
+    // clear(_i+2);
+    // clear(3);
+
+    ArrayList<Polygon> subdividePolys = new ArrayList<Polygon>();
     for(XML grp : file.getChildren("group")){
-        if(_i == grp.getInt("ID")){
-            newGroup(_i+1);
-
+        if(grp.getInt("ID") < 10){
             Polygon newPoly = new Polygon();
-
             for(XML seg : grp.getChildren("segment")){
                 float ax = seg.getFloat("aX");
                 float ay = seg.getFloat("aY");
@@ -46,21 +45,22 @@ void parseGeom(int _i, String _fileName){
                 float by = seg.getFloat("bY");
                 Segment _seg = new Segment(new PVector(ax, ay), new PVector(bx, by));
                 newPoly.addEdge(_seg);
-                // newPoly.addEdge(_seg.getPerp(0.3));
                 println("adding segment "+_seg);
             }
-            ArrayList<Polygon> subdividePolys = subdivideN(0.2, 8, newPoly);
-            int idx = 4;
-            for(Polygon poly: subdividePolys){
-                clear(idx);
-                pushPolygon(idx, poly);
-                addTemplate(idx, 'B');
-                idx++;
-            }
-            // pushPolygon(_i+1, newPoly);
+            if(grp.getInt("ID") == 2)
+                subdividePolys.addAll( subdivideN(0.2, 12, newPoly) );
         }
     }
-    saveXML(file,"tweked.xml");
+    int idx = 10;
+    for(int i = idx; i < 2000; i++) clear(i);
+    for(Polygon poly: subdividePolys){
+        clear(idx);
+        pushPolygon(idx, poly);
+        setCenter(idx, poly.edges.get(0).pointA);
+        addTemplate(idx, 'B');
+        idx++;
+    }
+    // saveXML(file,"tweked.xml");
     println("done tweakin");
     exit();
 }
@@ -97,6 +97,22 @@ class Polygon {
         }
     }
 
+    Segment getPerp(int _edge, float _f) {
+        // if(_edge < this.edges.size()) return null;
+        Segment perpA = this.edges.get(_edge).getPerp(_f, true);
+        Segment perpB = this.edges.get(_edge).getPerp(_f, false);
+        for (int i = 0; i < this.edges.size(); ++i) {
+            if(i != _edge){
+                if(intersection(perpA, this.edges.get(i), new PVector(0,0))) {
+                    return perpA;
+                } else if(intersection(perpB, this.edges.get(i), new PVector(0,0))) {
+                    return perpB;
+                }
+            }
+        }
+        return null;
+    }
+
     ArrayList<Polygon> subdivide(float _f){
         int longestEdgeIdx = -1;
         float max = 0.0;
@@ -106,7 +122,11 @@ class Polygon {
                 max = this.edges.get(i).getLength();
             }
         }
-        Segment perp = this.edges.get(longestEdgeIdx).getPerp(_f);
+        Segment perp = getPerp(longestEdgeIdx, _f);
+
+        ArrayList<Polygon> outPolys = new ArrayList<Polygon>();
+
+        if(perp == null) return outPolys;
         PVector result = new PVector(0,0);
         int dstEdgeIdx = -1;
         for (int i = 0; i < this.edges.size(); ++i) {
@@ -118,7 +138,7 @@ class Polygon {
                 }
             }
         }
-        pushSegment(3, perp);
+        // pushSegment(3, perp);
         // addTemplate(5, 'D');
         // this.edges.add(perp);
         // ArrayList<Polygon> foo = new ArrayList<Polygon>();
@@ -165,7 +185,6 @@ class Polygon {
         // do the last edge
         polyB.addEdge(new Segment(this.edges.get(longestEdgeIdx).pointA, perp.pointA));
         polyB.addEdge(new Segment(perp.pointA, perp.pointB));
-        ArrayList<Polygon> outPolys = new ArrayList<Polygon>();
         outPolys.add(polyA);
         outPolys.add(polyB);
         return outPolys;
@@ -182,10 +201,16 @@ class Segment {
     PVector getPos(float _f){
         return vecLerp(pointA, pointB, _f);
     }
-    Segment getPerp(float _f) {
+    Segment getPerp(float _f, boolean direction) {
         PVector newPoint = getPos(_f);
-        PVector slope = PVector.sub(pointB, pointA);
+        PVector slope;
+        if(direction) {
+            slope = PVector.sub(pointB, pointA);
+        } else {
+            slope = PVector.sub(pointA, pointB);
+        }
         slope.normalize();
+        slope.x += 0.6;
         slope.mult(20000.0);
         PVector endPoint = new PVector(-slope.y, slope.x);
         endPoint.add(newPoint);
@@ -267,14 +292,16 @@ void addSegment(int _i, PVector _a, PVector _b){
     OscMessage myMessage = new OscMessage("/geom/addseg/"+_i+"/"+_x1+"/"+_y1+"/"+_x2+"/"+_y2);
     send(myMessage);
 }
-
+void setCenter(int _i, PVector _p){
+    setCenter(_i, (int) _p.x, (int) _p.y);
+}
 void setCenter(int _i, int _x, int _y){
     OscMessage myMessage = new OscMessage("/geom/center/"+_i+"/"+_x+"/"+_y);
     send(myMessage);
 }
 
 void send(OscMessage _osc){
-    println(_osc);
+    // println(_osc);
     // sender.send(_osc);
     oscP5.send(_osc, address);
 }
