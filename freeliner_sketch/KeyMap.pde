@@ -433,7 +433,9 @@ class KeyMap {
         keymap[')'].setDescription("set the start led of a fixture, if snapped to segment middle, sets the end of fixture on that segment"); // ?
         keymap[')'].setCMD("fixtures setchan"); // toggle sequencer playing or specify step to play from
     }
-
+    // public void loadMacros() {
+    //
+    // }
     public ParameterKey getKey(int _ascii) {
         // fix a
         if(_ascii > keymap.length || _ascii < 0) return null;
