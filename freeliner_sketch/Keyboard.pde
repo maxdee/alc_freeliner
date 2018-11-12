@@ -111,6 +111,7 @@ class Keyboard implements FreelinerConfig {
         // if in text entry mode
         if(processKeyCodes(_kc)) return; // TAB SHIFT and friends
         else if (enterText) textEntry(_k);
+        else if (_kc >= 48 && _kc <= 57 && ctrled)modCommands(_kc);
         else if (_kc >= 48 && _kc <= 57 && !shifted) numMaker(_k); // grab numbers into the numberMaker
         else if (isCapsLock()) processCapslocked(_k);
         else {

@@ -827,6 +827,96 @@
       "key": "/"
     },
     {
+      "max": -42,
+      "name": "macro0",
+      "description": "macro 0: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 48,
+      "key": "0"
+    },
+    {
+      "max": -42,
+      "name": "macro1",
+      "description": "macro1  tw A q 3, tr A",
+      "cmd": " tw A q 3, tr A",
+      "type": 7,
+      "ascii": 49,
+      "key": "1"
+    },
+    {
+      "max": -42,
+      "name": "macro2",
+      "description": "macro2  tw B q 4, tr BA",
+      "cmd": " tw B q 4, tr BA",
+      "type": 7,
+      "ascii": 50,
+      "key": "2"
+    },
+    {
+      "max": -42,
+      "name": "macro3",
+      "description": "macro3  tw $ b 1, tw $ q 8",
+      "cmd": " tw $ b 1, tw $ q 8",
+      "type": 7,
+      "ascii": 51,
+      "key": "3"
+    },
+    {
+      "max": -42,
+      "name": "macro4",
+      "description": "macro 4: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 52,
+      "key": "4"
+    },
+    {
+      "max": -42,
+      "name": "macro5",
+      "description": "macro 5: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 53,
+      "key": "5"
+    },
+    {
+      "max": -42,
+      "name": "macro6",
+      "description": "macro 6: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 54,
+      "key": "6"
+    },
+    {
+      "max": -42,
+      "name": "macro7",
+      "description": "macro 7: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 55,
+      "key": "7"
+    },
+    {
+      "max": -42,
+      "name": "macro8",
+      "description": "macro 8: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 56,
+      "key": "8"
+    },
+    {
+      "max": -42,
+      "name": "macro9",
+      "description": "macro 9: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 57,
+      "key": "9"
+    },
+    {
       "max": 16,
       "name": "sequencer",
       "description": "select sequencer steps to add or remove templates",

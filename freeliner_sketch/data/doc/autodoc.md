@@ -1,4 +1,4 @@
-Generated on 2018/11/9 with freeliner version 0.4.6
+Generated on 2018/11/12 with freeliner version 0.4.6
 ### keys ###
 | key | parameter | type | description | cmd |
 |:---:|---|---|---|---|
@@ -8,6 +8,16 @@ Generated on 2018/11/9 with freeliner version 0.4.6
 | `-` | decrease |action |Decrease value of selectedKey. | `nope` |
 | `.` | snapping |on off + value |enable/disable snapping or set the snapping distance | `tools snap` |
 | `/` | showLines |on off |Showlines of all geometry. | `tools lines` |
+| `0` | macro0 |macro |macro 0:  | `` |
+| `1` | macro1 |macro |macro1  tw A q 3, tr A | ` tw A q 3, tr A` |
+| `2` | macro2 |macro |macro2  tw B q 4, tr BA | ` tw B q 4, tr BA` |
+| `3` | macro3 |macro |macro3  tw $ b 1, tw $ q 8 | ` tw $ b 1, tw $ q 8` |
+| `4` | macro4 |macro |macro 4:  | `` |
+| `5` | macro5 |macro |macro 5:  | `` |
+| `6` | macro6 |macro |macro 6:  | `` |
+| `7` | macro7 |macro |macro 7:  | `` |
+| `8` | macro8 |macro |macro 8:  | `` |
+| `9` | macro9 |macro |macro 9:  | `` |
 | `<` | sequencer |value |select sequencer steps to add or remove templates | `seq select` |
 | `=` | increase |action |Increase value of selectedKey. | `nope` |
 | `>` | play |on off |toggle auto loops and sequencer | `seq play` |

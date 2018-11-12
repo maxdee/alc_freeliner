@@ -1,0 +1,4 @@
+# macros for freeliner, put a number and a command or two or three!
+1= tw A q 3, tr A
+2= tw B q 4, tr BA
+3= tw $ b 1, tw $ q 8

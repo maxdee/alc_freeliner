@@ -18,12 +18,15 @@ class KeyMap {
     final int KEYTYPE_VALUE_SLIDER = 4;
     final int KEYTYPE_VALUE = 5;
     final int KEYTYPE_FILE_OPEN = 6;
+    final int KEYTYPE_MACRO = 7;
+
 
 
     public KeyMap() {
         keymap = new ParameterKey[255];
         // animationMode
         loadKeys();
+        loadMacros();
     }
 
     public ParameterKey[] getKeyMap() {
@@ -432,10 +435,96 @@ class KeyMap {
         keymap[')'].setName("setChannel");
         keymap[')'].setDescription("set the start led of a fixture, if snapped to segment middle, sets the end of fixture on that segment"); // ?
         keymap[')'].setCMD("fixtures setchan"); // toggle sequencer playing or specify step to play from
+
+        keymap['1'] = new ParameterKey('1');
+        keymap['1'].setType(KEYTYPE_MACRO);
+        keymap['1'].setName("macro1");
+        keymap['1'].setDescription("macro 1: ");
+        keymap['1'].setCMD("");
+
+        keymap['2'] = new ParameterKey('2');
+        keymap['2'].setType(KEYTYPE_MACRO);
+        keymap['2'].setName("macro2");
+        keymap['2'].setDescription("macro 2: ");
+        keymap['2'].setCMD("");
+
+        keymap['3'] = new ParameterKey('3');
+        keymap['3'].setType(KEYTYPE_MACRO);
+        keymap['3'].setName("macro3");
+        keymap['3'].setDescription("macro 3: ");
+        keymap['3'].setCMD("");
+
+        keymap['4'] = new ParameterKey('4');
+        keymap['4'].setType(KEYTYPE_MACRO);
+        keymap['4'].setName("macro4");
+        keymap['4'].setDescription("macro 4: ");
+        keymap['4'].setCMD("");
+
+        keymap['5'] = new ParameterKey('5');
+        keymap['5'].setType(KEYTYPE_MACRO);
+        keymap['5'].setName("macro5");
+        keymap['5'].setDescription("macro 5: ");
+        keymap['5'].setCMD("");
+
+        keymap['6'] = new ParameterKey('6');
+        keymap['6'].setType(KEYTYPE_MACRO);
+        keymap['6'].setName("macro6");
+        keymap['6'].setDescription("macro 6: ");
+        keymap['6'].setCMD("");
+
+        keymap['7'] = new ParameterKey('7');
+        keymap['7'].setType(KEYTYPE_MACRO);
+        keymap['7'].setName("macro7");
+        keymap['7'].setDescription("macro 7: ");
+        keymap['7'].setCMD("");
+
+        keymap['8'] = new ParameterKey('8');
+        keymap['8'].setType(KEYTYPE_MACRO);
+        keymap['8'].setName("macro8");
+        keymap['8'].setDescription("macro 8: ");
+        keymap['8'].setCMD("");
+
+        keymap['9'] = new ParameterKey('9');
+        keymap['9'].setType(KEYTYPE_MACRO);
+        keymap['9'].setName("macro9");
+        keymap['9'].setDescription("macro 9: ");
+        keymap['9'].setCMD("");
+
+        keymap['0'] = new ParameterKey('0');
+        keymap['0'].setType(KEYTYPE_MACRO);
+        keymap['0'].setName("macro0");
+        keymap['0'].setDescription("macro 0: ");
+        keymap['0'].setCMD("");
     }
-    // public void loadMacros() {
-    //
-    // }
+
+    public void loadMacros() {
+        // startup commands
+        String[] _lines = loadStrings("data/userdata/"+"macros");
+        println("------ Loading macros ----------------------------------");
+        if(_lines!=null){
+            println("macros :");
+            if(_lines.length > 0){
+                for (String _s : _lines) {
+                    if(_s.charAt(0) != '#'){
+                        String[] _split = split(_s, '=');
+                        if(_split.length > 1){
+                            setMacro(_split[0].charAt(0), _split[1]);
+                        }
+                    }
+                }
+            }
+        }
+        println("-------------------------------------------------------");
+    }
+
+    public void setMacro(char _key, String _str) {
+        if(_key >= 48 && _key <= 57) {
+            keymap[_key].setDescription(keymap[_key].getName()+" "+_str);
+            keymap[_key].setCMD(_str);
+            println(keymap[_key].getDescription());
+        }
+    }
+
     public ParameterKey getKey(int _ascii) {
         // fix a
         if(_ascii > keymap.length || _ascii < 0) return null;

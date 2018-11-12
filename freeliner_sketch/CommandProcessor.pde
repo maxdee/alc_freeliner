@@ -200,6 +200,13 @@ class CommandProcessor implements FreelinerConfig {
 
     public void processCMD(String _cmd) {
         if(_cmd == null) return;
+        if(_cmd.contains(",")) {
+            String[] _split = split(_cmd, ',');
+            for(String _str : _split){
+                processCMD(trim(_str));
+            }
+            return;
+        }
         valueGiven = "_";
 
         String[] _args = split(_cmd, ' ');

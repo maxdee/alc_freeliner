@@ -168,7 +168,7 @@ class Documenter implements FreelinerConfig{
    * Creates markdown for keyboard shortcuts!
    */
   void keyMapToMarkDown(KeyMap _km){
-    String[] typeStrings = {"action","on off","on off + value","value","value","value","action"};
+    String[] typeStrings = {"action","on off","on off + value","value","value","value","action", "macro"};
     // print keyboard type, osx? azerty?
     markDown.println("### keys ###");
     markDown.println("| key | parameter | type | description | cmd |");
