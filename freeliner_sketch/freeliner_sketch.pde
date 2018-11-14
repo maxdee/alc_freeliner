@@ -20,7 +20,7 @@ import netP5.*;
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 640;
-int configuredHeight = 860;
+int configuredHeight = 320;
 int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
 
@@ -110,7 +110,7 @@ void setup() {
 
     // load fonts
     introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");
-    font = loadFont("fonts/Arial-BoldMT-48.vlw");
+    font = loadFont("fonts/Monospaced.bold-64.vlw");
 
 
     // perhaps use -> PApplet.platform == MACOSX

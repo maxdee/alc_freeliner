@@ -838,8 +838,8 @@
     {
       "max": -42,
       "name": "macro1",
-      "description": "macro1  tw A q 3, tr A",
-      "cmd": " tw A q 3, tr A",
+      "description": "macro1  layer secondShader option praxis_blendit.glsl, layer secondShader uniforms 4 0, layer secondShader uniforms 3 0, layer secondShader uniforms 2 0.1, layer secondShader uniforms 1 0.05, layer secondShader uniforms 0 0.95",
+      "cmd": " layer secondShader option praxis_blendit.glsl, layer secondShader uniforms 4 0, layer secondShader uniforms 3 0, layer secondShader uniforms 2 0.1, layer secondShader uniforms 1 0.05, layer secondShader uniforms 0 0.95",
       "type": 7,
       "ascii": 49,
       "key": "1"

@@ -1,4 +1,4 @@
 # macros for freeliner, put a number and a command or two or three!
-1= tw A q 3, tr A
+1= layer secondShader option praxis_blendit.glsl, layer secondShader uniforms 4 0, layer secondShader uniforms 3 0, layer secondShader uniforms 2 0.1, layer secondShader uniforms 1 0.05, layer secondShader uniforms 0 0.95
 2= tw B q 4, tr BA
 3= tw $ b 1, tw $ q 8

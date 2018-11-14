@@ -482,14 +482,14 @@ class NiceText extends BasicText {
         String _txt = _seg.getText();
         canvas.textFont(font);
         canvas.textSize(_event.getScaledBrushSize());
-        putString(_txt, _seg.getPointA(), _seg.getAngle(true));
-
+        putString(_txt, _seg.getMidPoint(), _seg.getAngle(true));
     }
 
     public void putString(String _str, PVector _p, float _a) {
         canvas.pushMatrix();
         canvas.translate(_p.x, _p.y);
-        canvas.rotate(_a);
+        canvas.rotate(_a+PI);
+        canvas.textAlign(CENTER);
         canvas.text(_str, 0, event.getScaledBrushSize()/3.0);
         canvas.popMatrix();
     }
