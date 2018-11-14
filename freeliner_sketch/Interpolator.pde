@@ -267,7 +267,7 @@ class NoisyInterpolator extends Interpolator {
         PVector pos;
         if(useOffset(_painter)) pos = _seg.getBrushPos(_lerp);
         else pos = _seg.getStrokePos(_lerp);
-        pos = angleMove(pos, _seg.getAngle(false)-HALF_PI, random(_tp.getScaledBrushSize())-_tp.getScaledBrushSize()/2);
+        pos = angleMove(pos, _seg.getAngle(false)-HALF_PI, random(_tp.getMiscValue())-_tp.getMiscValue()/2);
         // float ang = getAngle(_seg, _tp, _painter)-HALF_PI;
         return pos;
     }
