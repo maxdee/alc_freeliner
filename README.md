@@ -19,8 +19,8 @@ Here are some instructions on how to get started with freeliner.
 	* [SimpleHTTP] (http://diskordier.net/simpleHTTPServer/) (download from site)
 	* [Spout] Optionaly for windows users
 	* [Syphon] Optionaly for MacOS users
-3. Open and run alc_freeliner/freeliner_sketch with Processing
-4. Once running you can point your browser to (http://localhost:8000/index.html) to access the browser interface
+3. Open and run `alc_freeliner/freeliner_sketch` with Processing
+4. Once running you can point your browser to `http://localhost:8000/index.html` to access the browser interface
 
 ### What is? ###
 
