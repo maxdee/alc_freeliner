@@ -412,7 +412,7 @@ class SegmentGroup implements FreelinerConfig{
     for(Segment _seg : segments) _totalLength += _seg.getLength();
     float _target = _totalLength*_lerp;
     float _tracker = 0;
-    for(Segment _seg : segments){
+    for(Segment _seg : sortedSegments){
       _tracker += _seg.getLength();
       if(_tracker >= _target){
         float _dst = _tracker - _target;
