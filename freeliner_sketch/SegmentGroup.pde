@@ -388,6 +388,10 @@ class SegmentGroup implements FreelinerConfig{
     return sortedSegments;
   }
 
+  public final ArrayList<Segment> getSegmentsUnsorted() {
+    return segments;
+  }
+
   // Segment accessors
   public Segment getSegment(int _index){
     //if(_index >= segments.size()) return null;

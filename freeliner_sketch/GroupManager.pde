@@ -394,7 +394,7 @@ class GroupManager implements FreelinerConfig{
             xgroup.setFloat("centerY", grp.getCenter().y);
             xgroup.setInt("centered", int(grp.isCentered()));
             xgroup.setString("tags", grp.getTemplateList().getTags());
-            for(Segment seg : grp.getSegments()) {
+            for(Segment seg : grp.getSegmentsUnsorted()) {
                 XML xseg = xgroup.addChild("segment");
                 xseg.setFloat("aX",seg.getPointA().x);
                 xseg.setFloat("aY",seg.getPointA().y);
