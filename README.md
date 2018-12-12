@@ -54,7 +54,7 @@ Now hit `n` to create a newItem and click around to place some lines. If you hav
 
 ##### Tweaking Parameters
 Most lowercase keys are linked with a parameter. For example `q` is for colorMode. Once you press `q` you can change the colorMode by pressing `-` or `=` (aka `+`) or by typing in a number and pressing `enter`. Some parameters are simple toggles. For example `g` enables and disables the grid, but you can also alter the grid size by tweaking the value. The `.` works in a similar fashion where you can enable/disable snapping and adjust the snapping distance.
-See (https://github.com/maxdee/alc_freeliner/freeliner_sketch/data/doc/autodoc.md) for a detailed list.
+See (https://github.com/maxdee/alc_freeliner/blob/devel/freeliner_sketch/data/doc/autodoc.md) for a detailed list.
 
 ##### Tweaking parameters via OSC
 Parameters related to rendering can be controlled via OSC. A message `/freeliner/tweak ABC q 2` will set templates A, B and C to red stroke. Typetag string string integer, the port can be set in the settings. You can find some PureData abstractions to get you started in `pd_patches`, great to quickly connect your midi controllers.
