@@ -48,11 +48,13 @@ Point a projector at stuff, run the processing sketch. Navigate the space with y
 
 The first few clicks puts down a special set of lines, they will display important info. The first three will display important info to make sense of this madness. Try to place them out of the way on a even surface so the text is legible. This is `[group : 0]` and thats all it does for now.
 
-Now hit 'n' to create a newItem and click around to place some lines. If you have made a closed shape, you can place a center. Now hit 'A' to add renderer A.
+Now hit `n` to create a newItem and click around to place some lines. If you have made a closed shape, you can place a center. Now hit `A` to add renderer A.
+
+
 
 ##### Tweaking Parameters
 Most lowercase keys are linked with a parameter. For example `q` is for colorMode. Once you press `q` you can change the colorMode by pressing `-` or `=` (aka `+`) or by typing in a number and pressing `enter`. Some parameters are simple toggles. For example `g` enables and disables the grid, but you can also alter the grid size by tweaking the value. The `.` works in a similar fashion where you can enable/disable snapping and adjust the snapping distance.
-See (https://github.com/maxdee/alc_freeliner/wiki/Hot-Keys) for a detailed list.
+See (https://github.com/maxdee/alc_freeliner/freeliner_sketch/data/doc/autodoc.md) for a detailed list.
 
 ##### Tweaking parameters via OSC
 Parameters related to rendering can be controlled via OSC. A message `/freeliner/tweak ABC q 2` will set templates A, B and C to red stroke. Typetag string string integer, the port can be set in the settings. You can find some PureData abstractions to get you started in `pd_patches`, great to quickly connect your midi controllers.
