@@ -642,6 +642,32 @@ class TemplateManager implements FreelinerConfig{
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
+    // public void randomAction() {
+    //     for(Template _t : loops) {
+    //         _tp = getTemplate(_t.getTemplateID());
+    //         switch((int)random(6)) {
+    //             case 0:
+    //                 _tp.setStrokeMode(random())
+    //         }
+    //     }
+    // }
+
+    public ArrayList<TweakableTemplate> getActive() {
+        ArrayList active = new ArrayList();
+        for(Template _t : loops) {
+            active.add(getTemplate(_t.getTemplateID()));
+        }
+        return active;
+    }
+
+    public ArrayList<TweakableTemplate> getInactive() {
+        ArrayList copy = new ArrayList(templates);
+        for(Template _t : loops) {
+            copy.remove(getTemplate(_t.getTemplateID()));
+        }
+        return copy;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////

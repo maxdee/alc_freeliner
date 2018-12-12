@@ -551,6 +551,7 @@ class Gui implements FreelinerConfig {
      * @param String "true" "false" "haha" "123"
      */
     public void setValueGiven(String _s) {
+        // println(_s);
         if(_s != null) valueGiven = _s;
     }
 

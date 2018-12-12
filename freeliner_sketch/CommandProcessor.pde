@@ -42,6 +42,8 @@ class CommandProcessor implements FreelinerConfig {
         "tp reset (AB)",
         "tp save (cooleffects.xml)",
         "tp load (coolstuff.xml)",
+        "tp free",
+        // template teams
         "tp save AB fun_effect",
         "tp load fun_effect CD",
         // "tp bank "
@@ -123,7 +125,8 @@ class CommandProcessor implements FreelinerConfig {
         "hid kbd 'keyCode' 'char'",
         "setosc 127.0.0.1 6666",
         "colormap (file|0-1)",
-        "colors set 1 #202020"
+        "colors set 1 #202020",
+        "fl random"
     };
 
     /**
@@ -384,6 +387,7 @@ class CommandProcessor implements FreelinerConfig {
         if(_args.length < 2) return false;
         else if(_args[1].equals("save")) saveCMD(_args);
         else if(_args[1].equals("open")) openCMD(_args);
+        else if(_args[1].equals("random")) freeliner.randomAction();
         else if(_args[1].equals("quit")) exit(); // via ctrl-q
         else return false;
         return true;
@@ -818,9 +822,19 @@ class CommandProcessor implements FreelinerConfig {
             else if(_args[1].equals("rotate")) tpRotateCMD(_args);
             else if(_args[1].equals("toggle")) toggleCMD(_args);
             else if(_args[1].equals("lerp")) lerpCMD(_args);
+            else if(_args[1].equals("free")) listFreeCMD();
+
 
         } else return false;
         return true;
+    }
+
+    public void listFreeCMD() {
+        String _free = "";
+        for(TweakableTemplate tp : templateManager.getInactive()) {
+            _free += tp.getTemplateID();
+        }
+        valueGiven = _free;
     }
 
     public void lerpCMD(String[] _args) {

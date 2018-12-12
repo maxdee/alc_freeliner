@@ -157,6 +157,12 @@ class FreeLiner implements FreelinerConfig {
         commandProcessor.queueCMD(_cmd);
     }
 
+
+    public void randomAction() {
+        ArrayList<TweakableTemplate> active = templateManager.getActive();
+        println(active);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////    Configure stuff

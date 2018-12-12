@@ -409,7 +409,7 @@ class Keyboard implements FreelinerConfig {
         else {
             makeCMD(wordMaker);
             gui.setKeyString("sure");
-            gui.setValueGiven(wordMaker);
+            gui.setValueGiven(processor.getValueGiven());
         }
         wordMaker = "";
         enterText = false;

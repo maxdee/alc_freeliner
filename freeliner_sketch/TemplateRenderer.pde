@@ -190,6 +190,7 @@ class TemplateRenderer extends Mode{
             }
             else if(rotMode == 4) _ang = -_rt.getLerp()*PI;
             else if(rotMode == 5) _ang = _rt.getLerp()*PI;
+            else if(rotMode == 6) _ang = random(1.0);
 
             if(_rt.getDirection()) _ang -= PI;
                 _rt.setAngleMod(_ang);

@@ -81,7 +81,7 @@ class KeyMap {
         keymap['f'].setType(KEYTYPE_VALUE);
         keymap['f'].setName("fill");
         keymap['f'].setDescription("Pick fill color");
-        keymap['f'].setCMD("tw $ f"); //
+        keymap['f'].setCMD("tw $ f");
 
         // the grid
         keymap['g'] = new ParameterKey('g');

@@ -23,7 +23,6 @@ int configuredWidth = 1024;
 int configuredHeight = 768;
 int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
-
 int usePipeline = 1;
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -37,7 +36,7 @@ FreeLiner freeliner;
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.4.6";
+final String VERSION = "0.4.7";
 boolean doSplash = true;
 boolean OSX = false;
 boolean WIN = false;
