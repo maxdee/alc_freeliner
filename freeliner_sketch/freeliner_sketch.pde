@@ -13,7 +13,9 @@ import netP5.*;
 /**
  * HELLO THERE! WELCOME to FREELINER
  * There is a bunch of settings in the Config.pde file.
- */
+ * 
+ * webGUI: http://localhost:8000/index.html
+ **/
 
 // for loading configuration
 // false -> use following parameters
