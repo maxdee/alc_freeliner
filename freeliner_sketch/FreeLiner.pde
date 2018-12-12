@@ -160,7 +160,12 @@ class FreeLiner implements FreelinerConfig {
 
     public void randomAction() {
         ArrayList<TweakableTemplate> active = templateManager.getActive();
-        println(active);
+        if(active.size() == 0 ) return;
+        char _tp = active.get((int)random(active.size())).getTemplateID();
+        char[] options = {'a', 'q', 'f', 'e', 'v', 'o'};
+        char ran = options[(int)random(options.length)];
+        int val = (int)random(keyMap.getMax(ran));
+        commandProcessor.queueCMD("tw "+_tp+" "+ran+" "+val);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
