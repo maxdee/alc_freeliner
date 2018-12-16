@@ -137,37 +137,18 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer tracerOne tracerLayer");
         layerCreator("layer firstShader shaderLayer");
         layerCreator("layer mergeA mergeLayer");
-        // layerCreator("layer tracerMask maskLayer");
-        ////////////////////////////////////////////////////
-        // layerCreator("layer squareMask maskLayer");
-        // layerCreator("layer outMask maskLayer");
-        // layerCreator("layer cap captureLayer");
         layerCreator("layer untraced renderLayer");
         layerCreator("layer secondShader shaderLayer");
-        layerCreator("layer mergeB mergeLayer");
 
+        layerCreator("layer dual dualInputShader");
+
+        layerCreator("layer mergeB mergeLayer");
         layerCreator("layer mergeOutput mergeOutput");
         layerCreator("layer thirdShader shaderLayer");
-        // layerCreator("layer outMask maskLayer");
-
-        // layerCreator("layer untraced2 renderLayer");
-        // layerCreator("layer squareMask maskLayer");
-        // layerCreator("layer mergeC mergeLayer");
-        ////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////
-        // layerCreator("layer cap captureLayer");
-        // layerCreator("layer capMask maskLayer");
-        // layerCreator("layer mergeC mergeLayer");
-        ////////////////////////////////////////////////////
-        // layerCreator("layer fourthShader shaderLayer");
-        // layerCreator("layer masker maskLayer");
-
         // led/dmx layer
         layerCreator("layer fix fixtureLayer");
-
         // layerCreator("layer cap captureLayer");
         layerCreator("layer gui guiLayer");
-
 
 
         // DONT COMMENT THE NEXT ONES!!!
@@ -264,6 +245,13 @@ class LayeredCanvasManager extends CanvasManager {
             break;
         case "screenshotLayer":
             _lyr = new ScreenshotLayer();
+            break;
+        case "dualInputShader":
+            _lyr = new DualInputShaderLayer(sync);
+            AssociateLayer _associate = new AssociateLayer();
+            _associate.setID(_args[1]+"_associate");
+            addLayer(_associate);
+            ((DualInputShaderLayer)_lyr).setAssociatedLayer(_associate);
             break;
         case "containerLayer":
             if(_existingLayer != null) {

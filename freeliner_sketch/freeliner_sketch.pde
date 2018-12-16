@@ -23,7 +23,7 @@ import netP5.*;
 boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 768;
 int configuredHeight = 1024;
-int useFullscreen = 1;
+int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;
 
@@ -134,7 +134,6 @@ void splash(){
 }
 
 String workingDirectory = null;
-
 String dataDirectory(String _thing) {
     if(workingDirectory == null) return dataPath(_thing);
     else return workingDirectory+"/"+_thing;

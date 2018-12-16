@@ -687,6 +687,86 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     }
 }
 
+/**
+ * Frag shader with two textures
+ */
+class DualInputShaderLayer extends ShaderLayer { //CanvasLayer{
+    AssociateLayer associatedLayer;
+    // or associated graphics??
+
+    public DualInputShaderLayer(Synchroniser _s) {
+        super(_s);
+        commandList.add("layer name uniforms 0 0.5");
+        commandList.add("layer name loadFile fragShader.glsl");
+        enabled = true;
+        name = "dualInputShader";
+        id = name;
+        description = "a layer with a fragment shader and two inputs";
+    }
+
+    public PGraphics apply(PGraphics _pg) {
+        if(shader == null) return _pg;
+        if(!enabled) return _pg;
+        if(_pg == null) return null;
+        if(frameCount % 60 == 0) checkForUpdate();
+        try {
+            canvas.shader(shader);
+        } catch(RuntimeException _e) {
+            println("shader no good");
+            canvas.resetShader();
+            return _pg;
+        }
+        passUniforms();
+        canvas.beginDraw();
+        canvas.background(0,0);
+        shader.set("otherTex", associatedLayer.getCanvas());
+        canvas.image(_pg,0,0);
+        canvas.endDraw();
+        canvas.resetShader();
+        return canvas;
+    }
+
+    public void setAssociatedLayer(AssociateLayer _ass){
+        associatedLayer = _ass;
+    }
+}
+
+/**
+ * Simple layer twith a real PGraphics
+ */
+class AssociateLayer extends Layer {
+
+    /**
+     * Actualy make a PGraphics.
+     */
+    public AssociateLayer() {
+        canvas = createGraphics(width,height,P2D);
+        canvas.smooth(SMOOTH_LEVEL);
+        canvas.beginDraw();
+        canvas.background(0);
+        canvas.endDraw();
+        enabled = true;
+        name = "associateLayer";
+        id = name;
+        description = "a layer with a buffer for an other layer to use";
+    }
+
+    /**
+     * This layer's PG gets applied onto the incoming PG
+     */
+    public PGraphics apply(PGraphics _pg) {
+        if(_pg == null) return null;
+        else if(canvas == null) return _pg;
+        canvas.beginDraw();
+        canvas.blendMode(blendMode); // questionable
+        canvas.image(_pg,0,0);
+        canvas.endDraw();
+        if(!enabled) return null;
+        else return _pg;
+    }
+}
+
+
 // only going to work with P3D :/
 // class VertexShaderLayer extends ShaderLayer{
 //   public VertexShaderLayer(){
