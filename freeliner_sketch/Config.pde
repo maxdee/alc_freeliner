@@ -83,41 +83,6 @@ interface FreelinerConfig {
   final boolean FIXTURE_CORRECT_GAMMA = false;
   final boolean DRAW_FIXTURE_ADDRESS = false;
 
-  /**
-   * Your color pallette! customize it!
-   * Use hex value or color(0,100,200);
-   */
-  //  final int PALLETTE_COUNT = 12;
-  // final color[] userPallet = {
-  //                   #ffff00,
-  //                   #ffad10,
-  //                   #ff0000,
-  //                   #ff00ad,
-  //                   #f700f7,
-  //                   #ad00ff,
-  //                   #0000ff,
-  //                   #009cff,
-  //                   #00c6ff,
-  //                   #00deb5,
-  //                   #a5ff00,
-  //                   #f700f7,
-  //                 };
-  //
-  // final color[] userPallet = {
-  //                   #0000fe,
-  //                   #feff01,
-  //                   #ff7f00,
-  //                   #1200d2,
-  //                   #0000fe,
-  //                   #feff01,
-  //                   #ff7f00,
-  //                   #1200d2,
-  //                   #0000fe,
-  //                   #feff01,
-  //                   #ff7f00,
-  //                   #1200d2,
-  //                 };
-
 
 
   final String PATH_TO_SHADERS = "userdata/shaders/";
@@ -128,10 +93,4 @@ interface FreelinerConfig {
   final String PATH_TO_VECTOR_GRAPHICS = "userdata/svg/";
   final String PATH_TO_CAPTURE_FILES = "userdata/capture/";
   final String PATH_TO_LAYERS = "userdata/layerSetups/";
-
-
-
-  // Freeliner LED options
-  // final String LED_SERIAL_PORT = "/dev/ttyACM0";
-  // final int LED_SYSTEM = 1; // FastLEDing 1, OctoLEDing 2
 }

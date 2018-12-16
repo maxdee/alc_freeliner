@@ -83,7 +83,7 @@ class FreeLiner implements FreelinerConfig {
         keyMap.setLimits(documenter.modeLimits);
         documenter.doDocumentation(keyMap);
         if(DOME_MODE) {
-            fisheye = loadShader(dataPath(PATH_TO_SHADERS)+"/"+"fisheye.glsl");
+            fisheye = loadShader(dataDirectory(PATH_TO_SHADERS)+"/"+"fisheye.glsl");
             fisheye.set("aperture", 180.0);
             shader(fisheye);
         }
@@ -158,14 +158,23 @@ class FreeLiner implements FreelinerConfig {
     }
 
 
-    public void randomAction() {
+    public String randomAction() {
         ArrayList<TweakableTemplate> active = templateManager.getActive();
-        if(active.size() == 0 ) return;
+        if(active.size() == 0 ) return "";
         char _tp = active.get((int)random(active.size())).getTemplateID();
-        char[] options = {'a', 'q', 'f', 'e', 'v', 'o'};
+        char[] options = {'a', 'q', 'f', 'e', 'v', 'o', 'w', 's', 'r', 'y', 'i', 'p', 'h', 'h', 'j', 'k', 'l', 'x', 'b'};
         char ran = options[(int)random(options.length)];
-        int val = (int)random(keyMap.getMax(ran));
-        commandProcessor.queueCMD("tw "+_tp+" "+ran+" "+val);
+        int val = 0;
+        if(ran == 's') val = (int)random(300);
+        else if(ran == 'w') val = (int)random(42);
+        else if(ran == 'x') val = (int)random(12);
+        else if(ran == 'r') val = (int)random(200);
+        else if(ran == 'h') val = (int)random(9);
+
+        else val = (int)random(keyMap.getMax(ran)-1);
+        String _cmd = "tw "+_tp+" "+ran+" "+val;
+        commandProcessor.queueCMD(_cmd);
+        return _cmd;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +204,7 @@ class FreeLiner implements FreelinerConfig {
     // getFilesFrom("/shaders", ".glsl");
     public ArrayList<String> getFilesFrom(String _dir, String _type){
         ArrayList<String> _files = new ArrayList<String>();
-        File _directory = new File(dataPath(_dir));
+        File _directory = new File(dataDirectory(_dir));
         File[] _list = _directory.listFiles();
         for (File _file : _list) {
             if (_file.isFile()) {

@@ -642,9 +642,9 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
 
     public void reloadShader() {
         try {
-            shader = loadShader(dataPath(PATH_TO_SHADERS)+"/"+fileName);
+            shader = loadShader(dataDirectory(PATH_TO_SHADERS)+"/"+fileName);
             println("Loaded shader "+fileName);
-            File _file = new File(dataPath(PATH_TO_SHADERS)+"/"+fileName);
+            File _file = new File(dataDirectory(PATH_TO_SHADERS)+"/"+fileName);
             timeStamp = _file.lastModified();
         } catch(Exception _e) {
             println("Could not load shader... "+fileName);
@@ -655,7 +655,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
 
     public void checkForUpdate() {
         try {
-            File _file = new File(dataPath(PATH_TO_SHADERS)+"/"+fileName);
+            File _file = new File(dataDirectory(PATH_TO_SHADERS)+"/"+fileName);
             if(timeStamp != _file.lastModified()) {
                 reloadShader();
             }
@@ -774,7 +774,7 @@ class ImageLayer extends CanvasLayer {
     public Layer loadFile(String _file) {
         filename = _file;
         try {
-            imageToDraw = loadImage(dataPath(PATH_TO_IMAGES)+"/"+_file);
+            imageToDraw = loadImage(dataDirectory(PATH_TO_IMAGES)+"/"+_file);
         } catch(Exception _e) {
             imageToDraw = null;
         }
@@ -883,7 +883,7 @@ class MaskLayer extends ImageLayer {
             else imageToDraw.pixels[i] = color(0,255);
         }
         imageToDraw.updatePixels();
-        saveFile(dataPath(PATH_TO_IMAGES)+"/"+"mask_image.png"); // auto save mask
+        saveFile(dataDirectory(PATH_TO_IMAGES)+"/"+"mask_image.png"); // auto save mask
     }
 
     public void saveFile(String _file) {
@@ -922,11 +922,11 @@ class ScreenshotLayer extends Layer {
     public PGraphics apply(PGraphics _pg) {
         if(!enabled) return _pg;
         if(selectedOption.equals("singleImage")) {
-            _pg.save( dataPath(PATH_TO_CAPTURE_FILES)+"/"+"freeliner_"+date.getTime()+".png");
+            _pg.save( dataDirectory(PATH_TO_CAPTURE_FILES)+"/"+"freeliner_"+date.getTime()+".png");
             enabled = false;
         } else {
             String fn = String.format("%06d", frameCount);
-            _pg.save( dataPath(PATH_TO_CAPTURE_FILES)+"/"+"clip_"+clipCount+"/frame-"+fn+".tif");
+            _pg.save( dataDirectory(PATH_TO_CAPTURE_FILES)+"/"+"clip_"+clipCount+"/frame-"+fn+".tif");
             frameCount++;
         }
         return _pg;

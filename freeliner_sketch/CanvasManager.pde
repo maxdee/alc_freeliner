@@ -482,14 +482,14 @@ class LayeredCanvasManager extends CanvasManager {
             _xml.setString("option", _layer.getSelectedOption());
 
         }
-        saveXML(_layersXML, dataPath(PATH_TO_LAYERS)+"/"+_fn);
+        saveXML(_layersXML, dataDirectory(PATH_TO_LAYERS)+"/"+_fn);
     }
 
     public void loadSetup(String _fn){
         println("loading layers from "+_fn);
         XML file;
         try {
-            file = loadXML(dataPath(PATH_TO_LAYERS)+"/"+_fn);
+            file = loadXML(dataDirectory(PATH_TO_LAYERS)+"/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
             return;

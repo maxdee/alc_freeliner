@@ -53,6 +53,8 @@ class CommandProcessor implements FreelinerConfig {
         "tp lerp A 0.5",
         "tp rotate ???",
         "tp translate AB 0.5 0.5 0.5",
+        "tp random",
+
         // "tps AB fun_effect",
         // "tpl fun_effect AB",
         // "tp rotate"
@@ -126,7 +128,7 @@ class CommandProcessor implements FreelinerConfig {
         "setosc 127.0.0.1 6666",
         "colormap (file|0-1)",
         "colors set 1 #202020",
-        "fl random"
+        "fl directory"
     };
 
     /**
@@ -387,8 +389,9 @@ class CommandProcessor implements FreelinerConfig {
         if(_args.length < 2) return false;
         else if(_args[1].equals("save")) saveCMD(_args);
         else if(_args[1].equals("open")) openCMD(_args);
-        else if(_args[1].equals("random")) freeliner.randomAction();
+        else if(_args[1].equals("random")) valueGiven = freeliner.randomAction();
         else if(_args[1].equals("quit")) exit(); // via ctrl-q
+        else if(_args[1].equals("directory") && _args.length > 2) workingDirectory = _args[2]; //perhaps reload font?? or add a setfont
         else return false;
         return true;
     }

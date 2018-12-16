@@ -466,13 +466,13 @@ class TemplateManager implements FreelinerConfig{
                 templateToXML(_tp, _xml);
             }
         }
-        saveXML(_xmlTeams, dataPath(PATH_TO_TEMPLATES)+"/"+_filename);
+        saveXML(_xmlTeams, dataDirectory(PATH_TO_TEMPLATES)+"/"+_filename);
     }
 
     public void loadTemplateTeams(String _filename){
         XML file;
         try {
-            file = loadXML(dataPath(PATH_TO_TEMPLATES)+"/"+_filename);
+            file = loadXML(dataDirectory(PATH_TO_TEMPLATES)+"/"+_filename);
         } catch (Exception e) {
             println(_filename+" cant be loaded");
             return;
@@ -505,7 +505,7 @@ class TemplateManager implements FreelinerConfig{
         for(TweakableTemplate _tp : templates) {
             templateToXML(_tp, _xmlTemplates);
         }
-        saveXML(_xmlTemplates, dataPath(PATH_TO_TEMPLATES)+"/"+_fn);
+        saveXML(_xmlTemplates, dataDirectory(PATH_TO_TEMPLATES)+"/"+_fn);
     }
 
     public void templateToXML(TweakableTemplate _tp, XML _xml){
@@ -550,7 +550,7 @@ class TemplateManager implements FreelinerConfig{
     public void loadTemplates(String _fn) {
         XML file;
         try {
-            file = loadXML(dataPath(PATH_TO_TEMPLATES)+"/"+_fn);
+            file = loadXML(dataDirectory(PATH_TO_TEMPLATES)+"/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
             return;

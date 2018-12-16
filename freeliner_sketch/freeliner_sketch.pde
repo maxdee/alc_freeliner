@@ -13,7 +13,7 @@ import netP5.*;
 /**
  * HELLO THERE! WELCOME to FREELINER
  * There is a bunch of settings in the Config.pde file.
- * 
+ *
  * webGUI: http://localhost:8000/index.html
  **/
 
@@ -21,9 +21,9 @@ import netP5.*;
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 1024;
-int configuredHeight = 768;
-int useFullscreen = 0;
+int configuredWidth = 768;
+int configuredHeight = 1024;
+int useFullscreen = 1;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;
 
@@ -133,6 +133,13 @@ void splash(){
   text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
 }
 
+String workingDirectory = null;
+
+String dataDirectory(String _thing) {
+    if(workingDirectory == null) return dataPath(_thing);
+    else return workingDirectory+"/"+_thing;
+}
+
 //external GUI launcher
 void launchGUI(){
     if(externalGUI != null) return;
@@ -141,6 +148,7 @@ void launchGUI(){
     PApplet.runSketch(args, externalGUI);
     externalGUI.loop();
 }
+
 void closeGUI(){
     if(externalGUI != null) return;
     //PApplet.stopSketch();

@@ -329,18 +329,23 @@ class SegmentGroup implements FreelinerConfig{
   private void sortSegments(){
     sortedSegments.clear();
     int _index = 0;
+    int idx = 0;
     for(ArrayList<Segment> brnch : treeBranches){
       for(Segment seg : brnch){
         sortedSegments.add(seg);
+        // seg.setText(""+idx++);
         seg.setID(_index);
       }
       _index++;
     }
     sortedSegCount = sortedSegments.size();
+    idx = 0;
     if(sortedSegCount != segCount){
       sortedSegments.clear();
-      for(Segment seg : segments)
-        sortedSegments.add(seg);
+      for(Segment seg : segments){
+          sortedSegments.add(seg);
+          // seg.setText(""+idx++);
+      }
       sortedSegCount = sortedSegments.size();
     }
   }

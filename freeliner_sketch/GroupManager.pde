@@ -403,7 +403,7 @@ class GroupManager implements FreelinerConfig{
                 // for leds and such
                 xseg.setString("txt",seg.getText());
             }
-            saveXML(groupData, dataPath(PATH_TO_GEOMETRY)+"/"+_fn);
+            saveXML(groupData, dataDirectory(PATH_TO_GEOMETRY)+"/"+_fn);
         }
     }
 
@@ -424,7 +424,7 @@ class GroupManager implements FreelinerConfig{
     public void loadGeometryXML(String _fn) {
         XML file;
         try {
-            file = loadXML(dataPath(PATH_TO_GEOMETRY)+"/"+_fn);
+            file = loadXML(dataDirectory(PATH_TO_GEOMETRY)+"/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
             return;
@@ -483,10 +483,10 @@ class GroupManager implements FreelinerConfig{
     public void loadGeometrySVG(String _fn) {
         PShape _shp;
         try {
-            _shp = loadShape(dataPath(PATH_TO_VECTOR_GRAPHICS)+"/"+_fn);
+            _shp = loadShape(dataDirectory(PATH_TO_VECTOR_GRAPHICS)+"/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
-            println(dataPath(PATH_TO_VECTOR_GRAPHICS)+"/"+_fn);
+            println(dataDirectory(PATH_TO_VECTOR_GRAPHICS)+"/"+_fn);
             return;
         }
         // PVector _offset = getInkscapeTransform(sketchPath()+"/data/userdata/"+_fn);
