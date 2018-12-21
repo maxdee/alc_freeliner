@@ -512,6 +512,10 @@ class LayeredCanvasManager extends CanvasManager {
 
 
     public void passOutputMappingGeometry(SegmentGroup _sg) {
+        if(_sg == null) {
+            println("No group for mapping output");
+            return;
+        }
         for(Layer _layer : layers) {
             if(_layer instanceof MappedOutputLayer) {
                 ((MappedOutputLayer)_layer).setGeometry(_sg);

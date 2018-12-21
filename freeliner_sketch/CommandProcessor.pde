@@ -586,7 +586,7 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[1].equals("breakline")) mouse.press(3);
         else if(_args[1].equals("priority")) priorityGeometryCMD(_args);
         else if(_args[1].equals("clear")) geomClearCMD(_args);
-        else if(_args[1].equals("updatemap")) canvasManager.passOutputMappingGeometry(groupManager.getGroup(1));
+        else if(_args[1].equals("updatemap")) canvasManager.passOutputMappingGeometry(groupManager.getOutputMappingGroup());
 
         else return false;
         return true;

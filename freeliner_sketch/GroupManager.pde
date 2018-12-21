@@ -375,6 +375,18 @@ class GroupManager implements FreelinerConfig{
         }
     }
 
+    public SegmentGroup getOutputMappingGroup() {
+        for(SegmentGroup _sg : groups) {
+            if(!_sg.isEmpty()) {
+                ArrayList<Segment> _segs = _sg.getSegments();
+                if(_segs.get(0).getText().equals("/mapping")) {
+                    return _sg;
+                }
+            }
+        }
+        return null;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////     Save and load
