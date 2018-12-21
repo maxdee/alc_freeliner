@@ -65,7 +65,7 @@ class FreeLiner implements FreelinerConfig {
         keyboard.inject(this);
         gui.inject(groupManager, mouse);
         templateManager.inject(groupManager);
-        groupManager.inject(templateManager);
+        groupManager.inject(templateManager, commandProcessor);
         commandProcessor.inject(this);
         canvasManager.inject(templateRenderer);
         canvasManager.inject(commandProcessor);
@@ -90,7 +90,8 @@ class FreeLiner implements FreelinerConfig {
         // commandProcessor.queueCMD("colormap colorMap.png");
 
         // startup commands
-        String[] _lines = loadStrings("data/userdata/"+"startup");
+        String _file = dataDirectory("/userdata/startup");
+        String[] _lines = loadStrings(_file);
         if(_lines!=null){
             println("Startup commands:");
             if(_lines.length > 0){

@@ -44,6 +44,8 @@ class SegmentGroup implements FreelinerConfig{
 
   //for roations
   boolean clockwise = false;
+  boolean updated = false;
+
 
   // new string
   String groupText = "";
@@ -76,6 +78,7 @@ class SegmentGroup implements FreelinerConfig{
   }
 
   public void updateGeometry(){
+      updated = true;
     findRealNeighbors();
     sortSegments();
     setNeighbors();

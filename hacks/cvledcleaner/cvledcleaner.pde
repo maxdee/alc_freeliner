@@ -220,5 +220,5 @@ public void saveGroups(String _fn) {
     // for leds and such
     xseg.setString("txt", "/led " + int(startPoints.get(i).z/3-1) + " " + int(endPoints.get(i).z/3-1));
   }
-  saveXML(groupData, dataPath(_fn));
+  saveXML(groupData, dataDirectory(_fn));
 }

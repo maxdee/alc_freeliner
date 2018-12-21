@@ -555,6 +555,92 @@ class OutputLayer extends Layer {
 }
 
 
+/**
+ * Layer that outputs the rendering. maybe cannot be deleted...
+ */
+class MappedOutputLayer extends Layer {
+    PVector corners[] = {
+        new PVector(0,0),
+        new PVector(width, 0),
+        new PVector(width, height),
+        new PVector(0, height)
+    };
+    PShape outputMesh;
+    PGraphics textureToMap;
+    PShader outputShader;
+
+    public MappedOutputLayer() {
+        super();
+        name = "mappedOutput";
+        id = name;
+        description = "output layer that maps on a quad";
+        corners[0] = new PVector(0, 0);
+        corners[1] = new PVector(width/2, 100);
+        corners[2] = new PVector(width/2, height/2+100);
+        corners[3] = new PVector(100, height/2);
+        outputShader = loadShader("mapping_shader/quadtexfrag.glsl", "mapping_shader/quadtexvert.glsl");
+        updateMesh();
+    }
+
+    public PGraphics apply(PGraphics _pg) {
+        if(!useLayer()) return _pg;
+        if(_pg != null) {
+            if(_pg != textureToMap) {
+                textureToMap = _pg;
+                updateMesh();
+            }
+            shader(outputShader);
+            shape(outputMesh);
+            resetShader();
+            // image(_pg, 0, 0);
+        }
+        return null;
+    }
+    public void setGeometry(SegmentGroup _group) {
+        if(_group.getSegments().size() > 3) {
+            for(int i = 0; i < 4; i++) {
+                corners[i] = _group.getSegments().get(i).getPointA().get();
+            }
+        }
+        updateMesh();
+    }
+    public void setCorners(ArrayList<PVector> _corners) {
+        int _idx = 0;
+        for(PVector _pv : _corners) {
+            corners[_idx++] = _pv.get();
+        }
+        updateMesh();
+    }
+    // Gohai's mapper example
+    // https://github.com/gohai/processing-glvideo/blob/master/examples/VideoMappingWithShader/VideoMappingWithShader.pde
+    void updateMesh() {//PImage tex) {
+        if(textureToMap == null) return;
+        float dx1 = corners[2].x - corners[0].x;
+        float dy1 = corners[2].y - corners[0].y;
+        float dx2 = corners[1].x - corners[3].x;
+        float dy2 = corners[1].y - corners[3].y;
+        float dx3 = corners[0].x - corners[3].x;
+        float dy3 = corners[0].y - corners[3].y;
+        float crs = dx1 * dy2 - dy1 * dx2;
+        float cqpr = dx1 * dy3 - dy1 * dx3;
+        float cqps = dx2 * dy3 - dy2 * dx3;
+        float t = cqps / crs;
+        float u = cqpr / crs;
+        outputMesh = createShape();
+        outputMesh.beginShape(QUADS);
+        outputMesh.texture(textureToMap);
+        outputMesh.attrib("texCoordQ", 1.0 / (1.0 - t));
+        outputMesh.vertex(corners[0].x, corners[0].y, 0, 0);
+        outputMesh.attrib("texCoordQ", 1.0 / (u));
+        outputMesh.vertex(corners[1].x, corners[1].y, textureToMap.width, 0);
+        outputMesh.attrib("texCoordQ", 1.0 / (t));
+        outputMesh.vertex(corners[2].x, corners[2].y, textureToMap.width, textureToMap.height);
+        outputMesh.attrib("texCoordQ", 1.0 / (1.0 - u));
+        outputMesh.vertex(corners[3].x, corners[3].y, 0, textureToMap.height);
+        outputMesh.endShape();
+    }
+}
+
 
 /**
  * For fragment shaders!

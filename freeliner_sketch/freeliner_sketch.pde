@@ -23,9 +23,12 @@ import netP5.*;
 boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 768;
 int configuredHeight = 1024;
-int useFullscreen = 0;
+int useFullscreen = 1;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;
+
+// set the working directory of your project, folder must have all the freeliner files
+String workingDirectory = null;
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -92,6 +95,7 @@ void setup() {
     // surface.setResizable(true);
     //  surface.setSize(configuredWidth, configuredHeight);
     // removeBorder();
+    if(workingDirectory != null) println(" *** CUSTOM WORKING DIRECTORY :\n"+workingDirectory);
     documenter = new Documenter();
     strokeCap(FreelinerConfig.STROKE_CAP);
     strokeJoin(FreelinerConfig.STROKE_JOIN);
@@ -133,7 +137,6 @@ void splash(){
   text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
 }
 
-String workingDirectory = null;
 String dataDirectory(String _thing) {
     if(workingDirectory == null) return dataPath(_thing);
     else return workingDirectory+"/"+_thing;

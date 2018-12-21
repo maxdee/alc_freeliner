@@ -61,6 +61,10 @@ abstract class CanvasManager implements FreelinerConfig {
     public void loadSettings(XML _xml){
 
     }
+
+    public void passOutputMappingGeometry(SegmentGroup _sg) {
+
+    }
 }
 
 /**
@@ -156,7 +160,9 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer syphon syphonLayer");
         layerCreator("layer spout spoutLayer");
         // layerCreator("layer screenshot screenshotLayer");
+        layerCreator("layer screenMap mappedOutput");
         layerCreator("layer screen outputLayer");
+
 
         // printLayers();
     }
@@ -215,6 +221,9 @@ class LayeredCanvasManager extends CanvasManager {
             break;
         case "outputLayer":
             _lyr = new OutputLayer();
+            break;
+        case "mappedOutput":
+            _lyr = new MappedOutputLayer();
             break;
         case "maskLayer":
             _lyr = new MaskLayer();
@@ -501,5 +510,13 @@ class LayeredCanvasManager extends CanvasManager {
         }
     }
 
+
+    public void passOutputMappingGeometry(SegmentGroup _sg) {
+        for(Layer _layer : layers) {
+            if(_layer instanceof MappedOutputLayer) {
+                ((MappedOutputLayer)_layer).setGeometry(_sg);
+            }
+        }
+    }
 
 }

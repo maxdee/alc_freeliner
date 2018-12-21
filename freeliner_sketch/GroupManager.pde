@@ -35,7 +35,8 @@ class GroupManager implements FreelinerConfig{
 
     int testChannel = -1;
     int ledStart = 0;
-
+    SegmentGroup referenceGroup;
+    CommandProcessor commandProcessor;
     /**
      * Constructor, inits default values
      */
@@ -53,14 +54,16 @@ class GroupManager implements FreelinerConfig{
         newGroup();
         // second group for reference group
         newGroup();
+        referenceGroup= groups.get(1);
         // reselect group 0 to begin
         selectedIndex = 0;
         commandSegments = null;
     }
 
 
-    public void inject(TemplateManager _tm) {
+    public void inject(TemplateManager _tm, CommandProcessor _cp) {
         templateManager = _tm;
+        commandProcessor = _cp;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -252,6 +255,10 @@ class GroupManager implements FreelinerConfig{
             //setCenter(center);
             reCenter();
         } else if(isFocused()) getSelectedGroup().nudgeSegmentStart(ndg);
+        if(referenceGroup.updated) {
+            referenceGroup.updated = false;
+            commandProcessor.queueCMD("geom updatemap");
+        }
     }
 
     public void drag(PVector _pos) {
@@ -269,6 +276,10 @@ class GroupManager implements FreelinerConfig{
             if(sg.isCentered()) sg.placeCenter(sg.getCenter());
             sg.updateGeometry();
             //else sg.placeCenter(sg.getSegmentStart());
+        }
+        if(referenceGroup.updated) {
+            referenceGroup.updated = false;
+            commandProcessor.queueCMD("geom updatemap");
         }
     }
 

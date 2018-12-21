@@ -93,6 +93,7 @@ class CommandProcessor implements FreelinerConfig {
         "geom addseg 3 40 40 20 20", //geom addseg shapeNumber x1 y1 x2 y2
         "geom priority (ABC|4) 3",
         "geom clear 4",
+        "geom updatemap",
         ///////////////////  Post processing
         "post tracers (alpha)", // to be deprecated
         // "post shader (coolfrag.glsl)", // to be deprecated
@@ -585,6 +586,8 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[1].equals("breakline")) mouse.press(3);
         else if(_args[1].equals("priority")) priorityGeometryCMD(_args);
         else if(_args[1].equals("clear")) geomClearCMD(_args);
+        else if(_args[1].equals("updatemap")) canvasManager.passOutputMappingGeometry(groupManager.getGroup(1));
+
         else return false;
         return true;
     }
@@ -849,6 +852,7 @@ class CommandProcessor implements FreelinerConfig {
 
     public void toggleCMD(String[] _args) {
         ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+        // needs to get a list of all the remaining ints.
         int _ind = stringInt(_args[3]);
         for(TweakableTemplate _tp : _tmps) {
             groupManager.toggleTemplate(_tp, _ind);
