@@ -89,8 +89,8 @@ class FreeLiner implements FreelinerConfig {
         }
         // commandProcessor.queueCMD("colormap colorMap.png");
 
-        // startup commands
-        String _file = dataDirectory("/userdata/startup");
+        // up commands
+        String _file = dataDirectory("userdata/startup");
         String[] _lines = loadStrings(_file);
         if(_lines!=null){
             println("Startup commands:");
