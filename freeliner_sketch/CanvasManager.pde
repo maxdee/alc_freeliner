@@ -141,12 +141,11 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer tracerOne tracerLayer");
         layerCreator("layer firstShader shaderLayer");
         layerCreator("layer mergeA mergeLayer");
+
         layerCreator("layer untraced renderLayer");
         layerCreator("layer secondShader shaderLayer");
-
-        layerCreator("layer dual dualInputShader");
-
         layerCreator("layer mergeB mergeLayer");
+
         layerCreator("layer mergeOutput mergeOutput");
         layerCreator("layer thirdShader shaderLayer");
         // led/dmx layer
@@ -160,7 +159,7 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer syphon syphonLayer");
         layerCreator("layer spout spoutLayer");
         // layerCreator("layer screenshot screenshotLayer");
-        layerCreator("layer screenMap mappedOutput");
+        // layerCreator("layer screenMap mappedOutput");
         layerCreator("layer screen outputLayer");
 
 
