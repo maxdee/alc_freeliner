@@ -221,7 +221,7 @@ class LayeredCanvasManager extends CanvasManager {
         case "outputLayer":
             _lyr = new OutputLayer();
             break;
-        case "mappedOutput":
+        case "mappedOutputLayer":
             _lyr = new MappedOutputLayer();
             break;
         case "maskLayer":

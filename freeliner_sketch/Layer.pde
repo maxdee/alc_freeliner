@@ -571,7 +571,7 @@ class MappedOutputLayer extends Layer {
 
     public MappedOutputLayer() {
         super();
-        name = "mappedOutput";
+        name = "mappedOutputLayer";
         id = name;
         description = "output layer that maps on a quad";
         corners[0] = new PVector(0, 0);
