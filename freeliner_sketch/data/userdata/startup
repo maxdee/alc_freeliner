@@ -7,3 +7,7 @@
 #tp load
 #tp link BA
 #colormap colormap.png
+geom load left_orbit_platisc.xml
+tw C b 3
+tw C a 1
+tw C f 2

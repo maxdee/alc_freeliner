@@ -208,16 +208,21 @@ class GroupManager implements FreelinerConfig{
                 snap = groups.get(i).getCenter();
                 snappedIndex = i;
             }
+            boolean _snapped = false;
             for(Segment seg : segs) {
                 if(_pos.dist(seg.getPointA()) < snapDist) {
                     snappedList.add(seg.getPointA());
                     snap = seg.getPointA();
                     snappedIndex = i;
-                } else if(_pos.dist(seg.getPointB()) < snapDist) {
+                    _snapped = true;
+                }
+                if(_pos.dist(seg.getPointB()) < snapDist) {
                     snappedList.add(seg.getPointB());
                     snap = seg.getPointB();
                     snappedIndex = i;
-                } else if (_pos.dist(seg.getMidPoint()) < snapDist) {
+                    _snapped = true;
+                }
+                if (!_snapped && _pos.dist(seg.getMidPoint()) < snapDist) {
                     snappedSegment = seg;
                     snap = seg.getMidPoint();
                     snappedIndex = i;
