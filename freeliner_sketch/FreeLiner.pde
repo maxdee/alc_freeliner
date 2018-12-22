@@ -96,9 +96,11 @@ class FreeLiner implements FreelinerConfig {
             println("Startup commands:");
             if(_lines.length > 0){
                 for (String _s : _lines) {
-                    if(_s.charAt(0) != '#'){
-                        println(_s);
-                        commandProcessor.queueCMD(_s);
+                    if(_s.length() > 0){
+                        if(_s.charAt(0) != '#'){
+                            println(_s);
+                            commandProcessor.queueCMD(_s);
+                        }
                     }
                 }
             }
