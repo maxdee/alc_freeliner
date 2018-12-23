@@ -209,10 +209,12 @@ class FreeLiner implements FreelinerConfig {
         ArrayList<String> _files = new ArrayList<String>();
         File _directory = new File(dataDirectory(_dir));
         File[] _list = _directory.listFiles();
-        for (File _file : _list) {
-            if (_file.isFile()) {
-                if(_file.getName().contains(_type)){
-                    _files.add(_file.getName());
+        if(_list != null){
+            for (File _file : _list) {
+                if (_file.isFile()) {
+                    if(_file.getName().contains(_type)){
+                        _files.add(_file.getName());
+                    }
                 }
             }
         }
