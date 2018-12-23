@@ -20,6 +20,7 @@ class GroupManager implements FreelinerConfig{
     //manages groups of points
     ArrayList<SegmentGroup> groups;
     ArrayList<SegmentGroup> sortedGroups;
+    HashMap<String, SegmentGroup> groupHashMap;
 
     int groupCount = 0;
     //selects groups to control, -1 for not selected
@@ -43,7 +44,7 @@ class GroupManager implements FreelinerConfig{
     public GroupManager() {
         groups = new ArrayList();
         sortedGroups = new ArrayList();
-
+        groupHashMap = new HashMap<String, SegmentGroup>();
         snappedList = new ArrayList();
         groupCount = 0;
         selectedIndex = -1;
@@ -378,8 +379,19 @@ class GroupManager implements FreelinerConfig{
                 }
             }
         }
+        updateGroupHashMap();
     }
 
+    public void updateGroupHashMap() {
+        groupHashMap.clear();
+        for(SegmentGroup _sg : groups) {
+            if(!groupHashMap.containsKey(_sg.getText())) {
+                groupHashMap.put(_sg.getText(), _sg);
+            }
+        }
+    }
+
+    // should use hashmap
     public SegmentGroup getOutputMappingGroup() {
         for(SegmentGroup _sg : groups) {
             if(!_sg.isEmpty()) {
@@ -504,6 +516,7 @@ class GroupManager implements FreelinerConfig{
             if(abs(posA.x - getSelectedGroup().getSegment(0).getPointB().x) > 2) getSelectedGroup().placeCenter(posA);
             if(!boolean(xgroup.getInt("centered"))) getSelectedGroup().unCenter();
         }
+        updateCmdSegments();
     }
 
     ///////////////////////// SVG
@@ -759,6 +772,35 @@ class GroupManager implements FreelinerConfig{
     public SegmentGroup getGroup(int _i) {
         if(_i >= 0 && _i < groupCount) return groups.get(_i);
         else return null;
+    }
+
+    /**
+     * Get a specific group
+     * @return SegmentGroup
+     */
+    public SegmentGroup getGroup(String _key) {
+        if(groupHashMap != null) {
+            return groupHashMap.get(_key);
+        }
+        else return null;
+    }
+
+
+    public ArrayList<SegmentGroup> getGroupsFromArgs(String[] _args){
+        int _idx = -42;
+        ArrayList<SegmentGroup> _output = new ArrayList<SegmentGroup>();
+        for(String _s : _args) {
+            _idx = stringInt(_s);
+            if(_idx != -42) {
+                if(getGroup(_idx) != null) {
+                    _output.add(getGroup(_idx));
+                }
+            }
+            else if(groupHashMap.containsKey(_s)) {
+                _output.add(getGroup(_s));
+            }
+        }
+        return _output;
     }
 
     /**

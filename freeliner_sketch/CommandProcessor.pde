@@ -936,8 +936,12 @@ class CommandProcessor implements FreelinerConfig {
         if(_args.length == 2) {
             for(int i = 0; i < _args[1].length(); i++) templateManager.trigger(_args[1].charAt(i));
         } else if(_args.length > 2) {
-            for(int i = 0; i < _args[1].length(); i++)
-                for(int j = 2; j < _args.length; j++) templateManager.trigger(_args[1].charAt(i), stringInt(_args[j]));
+            ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(_args);
+            for(int i = 0; i < _args[1].length(); i++){
+                for(SegmentGroup _sg : _groups){
+                     templateManager.trigger(_args[1].charAt(i), _sg.getID());
+                }
+            }
         }
     }
 
