@@ -28,7 +28,9 @@ int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;
 
 // set the working directory of your project, folder must have all the freeliner files
-String workingDirectory = "/home/mxd/currentProjects/pinhack/aziz-pinball/freeliner_data/";
+// String workingDirectory = "/home/mxd/currentProjects/pinhack/aziz-pinball/freeliner_data";
+String workingDirectory = "/home/aziz/Repositories/aziz-pinball/freeliner_data";
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
