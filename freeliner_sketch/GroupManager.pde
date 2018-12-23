@@ -785,6 +785,9 @@ class GroupManager implements FreelinerConfig{
         else return null;
     }
 
+    public ArrayList<SegmentGroup> getGroupsFromArgs(String _s){
+        return getGroupsFromArgs(_s.split(" "));
+    }
 
     public ArrayList<SegmentGroup> getGroupsFromArgs(String[] _args){
         int _idx = -42;

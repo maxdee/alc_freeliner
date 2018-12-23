@@ -594,7 +594,10 @@ class CommandProcessor implements FreelinerConfig {
 
     public void geomClearCMD(String[] _args){
         if(_args.length > 2){
-            groupManager.clear(stringInt(_args[2]));
+            ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs( _args);
+            for(SegmentGroup _sg : _groups){
+                groupManager.clear(_sg.getID());
+            }
         }
         else {
             groupManager.clear();
@@ -667,17 +670,22 @@ class CommandProcessor implements FreelinerConfig {
 
     // geom txt (2 3) ahah yes
     // geom txt yes no
+    // #needstesting
     public boolean textCMD(String[] _args) {
         if(_args.length == 3) groupManager.setText(_args[2]);
         else if(_args.length == 4) groupManager.setText(_args[2]+" "+_args[3]);
         else if(_args.length > 3) {
-            int _grp = stringInt(_args[2]);
+            ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(_args[2]);
             int _seg = stringInt(_args[3]);
-            if(_grp != -42) {
-                if(_seg != -42)
-                    groupManager.setText(_grp, _seg, remainingText(4, _args));
-                else
-                    groupManager.setText(_grp, remainingText(3, _args));
+            if(_groups != null) {
+                if(_groups.size() > 0) {
+                    if(_seg != -42) {
+                        groupManager.setText(_groups.get(0).getID(), _seg, remainingText(4, _args));
+                    }
+                    else{
+                        groupManager.setText(_groups.get(0).getID(), remainingText(3, _args));
+                    }
+                }
             } else {
                 groupManager.setText(remainingText(2, _args));
             }
@@ -849,14 +857,16 @@ class CommandProcessor implements FreelinerConfig {
         for(TweakableTemplate _tp : _tmps) _tp.setFixLerp(_lrp);
     }
 
-
+    // tp toggle
     public void toggleCMD(String[] _args) {
         ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
-        // needs to get a list of all the remaining ints.
-        int _ind = stringInt(_args[3]);
-        for(TweakableTemplate _tp : _tmps) {
-            groupManager.toggleTemplate(_tp, _ind);
-            _tp.toggleGeometry(_ind);
+        ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(remainingText(3, _args));
+        for(SegmentGroup _sg : _groups){
+             // templateManager.trigger(_args[1].charAt(i), _sg.getID());
+             for(TweakableTemplate _tp : _tmps) {
+                 groupManager.toggleTemplate(_tp, _sg.getID());
+                 _tp.toggleGeometry(_sg.getID());
+             }
         }
     }
 
