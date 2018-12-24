@@ -404,8 +404,9 @@ class Keyboard implements FreelinerConfig {
      * Perhaps write commands for the sequencer?
      */
     private void returnWord() {
-        if(groupManager.getSnappedSegment() != null)
+        if(groupManager.getSnappedSegment() != null || groupManager.getSelectedGroup() != null){
             makeCMD("geom text"+" "+wordMaker);
+        }
         else {
             makeCMD(wordMaker);
             gui.setKeyString("sure");
