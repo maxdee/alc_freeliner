@@ -38,7 +38,7 @@ class CommandProcessor implements FreelinerConfig {
         "tp fill AB #ff0000",
         "tp copy (AB)",
         "tp paste (AB)",
-        "tp add (AB)",
+        "tp groupadd (AB)",
         "tp reset (AB)",
         "tp save (cooleffects.xml)",
         "tp load (coolstuff.xml)",
@@ -49,7 +49,10 @@ class CommandProcessor implements FreelinerConfig {
         // "tp bank "
         "tp swap AB",
         "tp select AB*",
-        "tp toggle A 3",
+        "tp toggle A 3 4 5",
+        "tp put A geom",
+        "tp remove A geom",
+
         "tp lerp A 0.5",
         "tp rotate ???",
         "tp translate AB 0.5 0.5 0.5",
@@ -429,6 +432,8 @@ class CommandProcessor implements FreelinerConfig {
         if(_args.length < 2) return false;
         if(_args[1].equals("infoline")) infoLineCMD(_args);
         else if(_args[1].equals("template")) templateStatCMD(_args);
+        else if(_args[1].equals("tpcmd")) tpcmdCMD(_args);
+
         else if(_args[1].equals("tracker")) trackerCMD(_args);
         else if(_args[1].equals("seq")) seqStatCMD(_args);
         // else if(_args[1].equals("files")) fileListCMD(_args);
@@ -450,6 +455,25 @@ class CommandProcessor implements FreelinerConfig {
         String _info = _tp.getStatusString();
         fetchSend(_args, "template "+_info);
     }
+
+    public void tpcmdCMD(String[] _args) {
+        if(_args.length < 3) return;
+        char _tpchar = _args[2].charAt(0);
+        TweakableTemplate _tp = templateManager.getTemplate(_tpchar);
+        if(_tp == null) return;
+        String[] _params = _tp.getStatusString().split(" ");
+        String _output = "";
+        boolean doit = false;
+        for(String _s : _params) {
+            if(doit) {
+                _output += "tw "+_tpchar+" "+_s.replaceAll("-", " ")+", ";
+            } else {
+                doit = true;
+            }
+        }
+        fetchSend(_args, "cmd "+_output);
+    }
+
 
     public void trackerCMD(String[] _args) {
         if(_args.length < 3) return;
@@ -835,6 +859,7 @@ class CommandProcessor implements FreelinerConfig {
             else if(_args[1].equals("translate")) tpTranslateCMD(_args);
             else if(_args[1].equals("rotate")) tpRotateCMD(_args);
             else if(_args[1].equals("toggle")) toggleCMD(_args);
+            else if(_args[1].equals("add") || _args[1].equals("remove")) addRemoveCMD(_args);
             else if(_args[1].equals("lerp")) lerpCMD(_args);
             else if(_args[1].equals("free")) listFreeCMD();
 
@@ -862,13 +887,35 @@ class CommandProcessor implements FreelinerConfig {
         ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
         ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(remainingText(3, _args));
         for(SegmentGroup _sg : _groups){
-             // templateManager.trigger(_args[1].charAt(i), _sg.getID());
              for(TweakableTemplate _tp : _tmps) {
                  groupManager.toggleTemplate(_tp, _sg.getID());
                  _tp.toggleGeometry(_sg.getID());
              }
         }
     }
+
+    // tp toggle
+    public void addRemoveCMD(String[] _args) {
+        ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+        ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(remainingText(3, _args));
+        if(_args[1].equals("add")) {
+            for(SegmentGroup _sg : _groups){
+                for(TweakableTemplate _tp : _tmps) {
+                    groupManager.addTemplate(_tp, _sg.getID());
+                    _tp.addGeometry(_sg.getID());
+                }
+            }
+        }
+        else if(_args[1].equals("remove")) {
+            for(SegmentGroup _sg : _groups){
+                for(TweakableTemplate _tp : _tmps) {
+                    groupManager.removeTemplate(_tp, _sg.getID());
+                    _tp.removeGeometry(_sg.getID());
+                }
+            }
+        }
+    }
+
 
     public void tpSelectCMD(String[] _args) {
         if(_args.length < 3) return;

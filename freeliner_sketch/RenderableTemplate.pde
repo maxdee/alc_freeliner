@@ -104,7 +104,7 @@ class RenderableTemplate extends TweakableTemplate{
 		if(beatCount != _beat){
 			beatCount = _beat;
 			setrandomValue((int)random(100));
-	    setLargeRan((int)random(10000));
+	    	setLargeRan((int)random(10000));
 			clearExecutedSegments();
 		}
 		colorCount = 0;
@@ -221,7 +221,7 @@ class RenderableTemplate extends TweakableTemplate{
  * Second tier accessors
  */
  	public int getBeatCount(){
- 		return beatCount;
+		return beatCount;
  	}
 
  	public final int getRawBeatCount(){

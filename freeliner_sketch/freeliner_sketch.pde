@@ -21,14 +21,14 @@ import netP5.*;
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
 boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 768;
-int configuredHeight = 1024;
+int configuredWidth = 840;
+int configuredHeight = 840;
 int useFullscreen = 1;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;
 
 // set the working directory of your project, folder must have all the freeliner files
-String workingDirectory = "/home/mxd/currentProjects/pinhack/aziz-pinball/freeliner_data";
+String workingDirectory = null;//"/home/mxd/currentProjects/pinhack/aziz-pinball/freeliner_data";
 // String workingDirectory = "/home/zap/Repositories/aziz-pinball/freeliner_data";
 
 

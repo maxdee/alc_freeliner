@@ -188,6 +188,20 @@ class GroupManager implements FreelinerConfig{
         }
     }
 
+    public void addTemplate(TweakableTemplate _tp, int _ind) {
+        SegmentGroup _sg = getGroup(_ind);
+        if(_sg != null && _tp != null) {
+            _sg.getTemplateList().add(_tp);
+        }
+    }
+
+    public void removeTemplate(TweakableTemplate _tp, int _ind) {
+        SegmentGroup _sg = getGroup(_ind);
+        if(_sg != null && _tp != null) {
+            _sg.getTemplateList().remove(_tp);
+        }
+    }
+
     /**
      * Snap puts all the PVectors that are near the position given into a arrayList.
      * The snapDist can be adjusted like anything else.

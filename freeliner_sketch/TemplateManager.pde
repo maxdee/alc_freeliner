@@ -201,6 +201,7 @@ class TemplateManager implements FreelinerConfig{
         if(_sg == null) return;
         TweakableTemplate _tp = getTemplate(_c);
         if(_tp == null) return;
+        _tp.launch();
         eventList.add(eventFactory(_tp, _sg));
     }
 

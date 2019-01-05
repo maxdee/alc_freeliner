@@ -469,7 +469,7 @@ class MergeLayer extends Layer {
 
     public PGraphics apply(PGraphics _pg) {
         if(_pg == null) return null;
-        if(!useLayer()) return _pg;
+        if(!useLayer()) return null;
         canvas.blendMode(blendMode);
         canvas.image(_pg,0,0);
         return null;

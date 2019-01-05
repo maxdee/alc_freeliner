@@ -183,6 +183,7 @@ class Template implements FreelinerConfig{
 		else addGeometry(_g);
 	}
 
+
 	public IntList getGeometries(){
 		return geometries;
 	}
