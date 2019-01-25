@@ -91,33 +91,6 @@ public class SerialSender extends ByteSender {
     }
 }
 
-
-class Host{
-    String ip;
-    int start;
-    int end;
-    InetAddress address;
-    DatagramSocket dsocket;
-    Host(String _ip, int _start, int _end){
-        ip = _ip;
-        start = _start;
-        end = _end;
-    }
-    void connect(){
-            // host = _adr;
-            try {
-                address = InetAddress.getByName(ip);
-                dsocket = new DatagramSocket();
-                println("artnet host connect "+ip);
-
-            }
-            catch(Exception e) {
-                println("artnet could not connect");
-                exit();
-            }
-    }
-}
-
 // send udp packets of variable length
 public class ArtNetSender extends ByteSender {
 
@@ -127,6 +100,8 @@ public class ArtNetSender extends ByteSender {
     int sequenceCount;
     // int artnetUniverseStart = 0;
     ArrayList<Host> hosts;
+    Host artSyncHost;
+
     public ArtNetSender() {
         hosts = new ArrayList();
     }
@@ -137,30 +112,21 @@ public class ArtNetSender extends ByteSender {
         hosts.add(_host);
     }
 
-    // public void connect(String _adr) {
-    //     // host = _adr;
-    //     // try {
-    //     //     address = InetAddress.getByName(host);
-    //     //     dsocket = new DatagramSocket();
-    //     // }
-    //     // catch(Exception e) {
-    //     //     println("artnet could not connect");
-    //     //     exit();
-    //     // }
-    //     // sequenceCount = 0;
-    // }
+    public void setArtSyncHostIP(String _ip) {
+        artSyncHost = new Host(_ip, 0, 0);
+    }
 
     public void sendData(byte[] _data) {
         byte[][] _universes = splitUniverses(_data);
         for(int i = 0; i < _universes.length; i++) {
             for(Host _h : hosts){
-                String _ip;
                 // we need to substract 1 because universe 1 in a packet is 0.
                 if(i >= _h.start-1 && i <= _h.end-1){
                     sendUDP(_h, makeArtNetPacket(_universes[i], i));
                 }
             }
         }
+        sendArtSync(artSyncHost);
         sequenceCount++;
         sequenceCount %= 255;
     }
@@ -183,12 +149,6 @@ public class ArtNetSender extends ByteSender {
 
 
     public byte[] makeArtNetPacket(byte[] _data, int _uni) {
-        // println("uni "+_uni);
-        //   boolean _drop = false;
-        //   for(int i = 0; i < _data.length; i++){
-        //       if(_data[i] != 0) _drop = true;
-        //   }
-        //   if(_drop) return null;
         long _size = _data.length;
         byte _packet[] = new byte[_data.length+18];
         _packet[0] = byte('A');
@@ -198,7 +158,7 @@ public class ArtNetSender extends ByteSender {
         _packet[4] = byte('N');
         _packet[5] = byte('e');
         _packet[6] = byte('t');
-        _packet[7] = 0; //just a zero
+        _packet[7] = 0; // null terminated string
         _packet[8] = 0; //opcode
         _packet[9] = 80; //opcode
         _packet[10] = 0; //protocol version
@@ -216,6 +176,25 @@ public class ArtNetSender extends ByteSender {
         return _packet;
     }
 
+    public void sendArtSync(Host _host){
+        byte _packet[] = new byte[14];
+        _packet[0] = byte('A');
+        _packet[1] = byte('r');
+        _packet[2] = byte('t');
+        _packet[3] = byte('-');
+        _packet[4] = byte('N');
+        _packet[5] = byte('e');
+        _packet[6] = byte('t');
+        _packet[7] = 0; // null terminated string
+        _packet[8] = 0; //opcode
+        _packet[9] = 82; //opcode
+        _packet[10] = 0; //protocol version
+        _packet[11] = 14; //protocol version
+        _packet[12] = 0; //protocol version
+        _packet[13] = 0; //protocol version
+        sendUDP(_host, _packet);
+    }
+
     public void sendUDP( Host _host, byte[] _data) {
         if(_data == null) return;
         DatagramPacket packet = new DatagramPacket(_data, _data.length,
@@ -230,5 +209,32 @@ public class ArtNetSender extends ByteSender {
     }
     public void setStartUniverse(int _u){
         // artnetUniverseStart = _u;
+    }
+}
+
+
+// host class used by artnet sender to define hosts
+class Host{
+    String ip;
+    int start;
+    int end;
+    InetAddress address;
+    DatagramSocket dsocket;
+    Host(String _ip, int _start, int _end){
+        ip = _ip;
+        start = _start;
+        end = _end;
+    }
+    void connect(){
+            // host = _adr;
+            try {
+                address = InetAddress.getByName(ip);
+                dsocket = new DatagramSocket();
+                println("artnet host connect "+ip);
+            }
+            catch(Exception e) {
+                println("artnet could not connect");
+                exit();
+            }
     }
 }

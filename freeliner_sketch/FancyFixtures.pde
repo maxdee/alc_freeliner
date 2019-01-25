@@ -88,6 +88,7 @@ class FancyFixtures implements FreelinerConfig {
                     _sender.addHost(_h.getString("ip"), _h.getInt("start"), _h.getInt("end"));
                     println("adding host  "+_h.getString("ip")+" universes: "+_h.getInt("start")+"-"+_h.getInt("end"));
                 }
+                _sender.setArtSyncHostIP(setup.getString("sync_ip"));
                 byteSender = _sender;
 
                 setupByteBuffer(setup.getInt("universes")*512);

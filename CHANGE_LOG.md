@@ -1,3 +1,9 @@
+### Version 0.4.8
+* Added output mapping layer
+* Geometry names can be used in commands ie `tr A some_shape`
+* Added workingDirectory option in `freeliner_sketch.pde` you can point it to a directory with freeliner files.
+* experimantal DualInputShaderLayer
+
 ### Version 0.4.7
 * Added macros in the `/userdata/macros` for keys `ctrl+(0-9)`
 * Added template teams, you can `tp save AB fun_effect` and it will save `AB` and all their respective groups. You can then load them into any pair with `tp load fun_effect CD`.

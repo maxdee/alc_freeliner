@@ -273,21 +273,13 @@ class KeyMap {
         keymap['D'].setDescription("Set a template's customShape.");
         keymap['D'].setCMD("tp shape $"); //
         keymap['D'].setMax(1000);
-
         // reverseMouse
         keymap['I'] = new ParameterKey('I');
         keymap['I'].setType(KEYTYPE_TOGGLE);
         keymap['I'].setName("revMouseX");
         keymap['I'].setDescription("Reverse the X axis of mouse, trust me its handy.");
         keymap['I'].setCMD("tools revx"); //
-        // masking
-        // deprecated, use webgui
-        // keymap['M'] = new ParameterKey('M');
-        // keymap['M'].setType(0);
-        // keymap['M'].setName("mask");
-        // keymap['M'].setDescription("Generate mask for maskLayer, or set mask.");
-        // keymap['M'].setCMD("layer mask make"); //
-        // masking
+        // link
         keymap['L'] = new ParameterKey('L');
         keymap['L'].setType(0);
         keymap['L'].setName("link");
@@ -335,7 +327,6 @@ class KeyMap {
         keymap['X'].setName("swap");
         keymap['X'].setDescription("Completely swap template tag, with `AB` A becomes B and B becomes A.");
         keymap['X'].setCMD("tp swap $");
-
 
         ////////////////////////////////////////////////////////////////////////////////////
         ///////
@@ -575,35 +566,43 @@ class ParameterKey {
     public final void setName(String _n) {
         name = _n;
     }
+
     public final void setDescription(String _d) {
         description = _d;
     }
+
     public final void setCMD(String _c) {
         cmd = _c;
     }
+
     public final void setMax(int _i) {
         maxVal = _i;
     }
+
     public final void setType(int _t) {
         type =_t;
     }
 
-
     public final char getKey() {
         return thekey;
     }
+
     public final String getName() {
         return name;
     }
+
     public final String getDescription() {
         return description;
     }
+
     public final String getCMD() {
         return cmd;
     }
+
     public final int getMax() {
         return maxVal;
     }
+
     public final int getType() {
         return type;
     }

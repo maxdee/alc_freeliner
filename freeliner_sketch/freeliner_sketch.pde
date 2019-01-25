@@ -23,7 +23,7 @@ import netP5.*;
 boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 840;
 int configuredHeight = 840;
-int useFullscreen = 1;
+int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;
 
@@ -41,7 +41,7 @@ FreeLiner freeliner;
 PFont font;
 PFont introFont;
 
-final String VERSION = "0.4.7";
+final String VERSION = "0.4.8";
 boolean doSplash = true;
 boolean OSX = false;
 boolean WIN = false;
