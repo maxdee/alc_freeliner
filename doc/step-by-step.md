@@ -31,15 +31,24 @@ The text size can be modified in the **config.pde** file, in the line :
     final int GUI_FONT_SIZE = 10;
     
 This text zone is dynamic, so it will show you what you type, and what it is expected to *make sense of this madness*.
-The fisrt text line tells you which group you a re working on.
-The second one, the Template you are using
-The third, is what you are rendering, try **q** for example, it asks you to type a color.
 
 Then make your first item with pressing the **n** key (new), and then clic somewhere.
+
 Draw a few lines, close the shape by terminating the last line on the first point on this shape.
 Then type the **c** key, to place a center of this closed shape.
 
 Like in this example :
 
+<img src="https://github.com/Jacques-Olivier-Farcy/alc_freeliner/blob/patch-1/doc/img/freeliner1.gif" width="450" height="350" />
 
-With the tab key you can navigate through your diffrent items.
+The fisrt text line tells you which group you a re working on.
+
+The second one, the Template you are using.
+
+The third, is what you are rendering, try **q** for example, it asks you to type a color.
+
+So now we will add renderer by typing **A**. The first animation start on the screen.
+We are in group 2, rendering **A** template.
+
+
+
