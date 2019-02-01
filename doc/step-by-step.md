@@ -7,7 +7,7 @@ You should have :
 
 ![](https://github.com/Jacques-Olivier-Farcy/alc_freeliner/blob/patch-1/doc/img/freeliner-processing-1.PNG)
 
-Then clic on the execute arrow, the main animation screen appears :
+Then clic on the execute arrow, the Main Animation Screen (**MAS**) appears :
 
 ![](https://github.com/Jacques-Olivier-Farcy/alc_freeliner/blob/patch-1/doc/img/freeliner-main-screen-1.PNG)
 
@@ -16,7 +16,8 @@ The size of this main screen could be change in the **freeliner_sketch.pde** fil
     int configuredWidth = 1024;
     int configuredHeight = 768;
     int useFullscreen = 0;
-Using windowed 
+    
+Using windowed will help during testing phase, when you advance in your project, you should definitively use a full screen with a projector.
 
 Then Center-clic at the bottom right, then draw a line to the left.
 Center-clic again a little above, draw a second line, and then a third, a fourth and fifth.
@@ -48,7 +49,12 @@ The second one, the Template you are using.
 The third, is what you are rendering, try **q** for example, it asks you to type a color.
 
 So now we will add renderer by typing **A**. The first animation start on the screen.
+
 We are in group 2, rendering **A** template.
+
+It is time to open the GUI Browser Interface (**GBI**) with this link :
+
+http://localhost:8000/index.html
 
 
 
