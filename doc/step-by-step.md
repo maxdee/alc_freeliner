@@ -35,8 +35,8 @@ This text zone is dynamic, so it will show you what you type, and what it is exp
 
 Then make your first item with pressing the **n** key (new), and then clic somewhere.
 
-Draw a few lines, close the shape by terminating the last line on the first point on this shape.
-Then type the **c** key, to place a center of this closed shape.
+Draw a few lines (called **segment**, close the shape by terminating the last line on the first point on this shape.
+You have a **segmentGroup**. Then type the **c** key, to place a center of this closed shape.
 
 Like in this example :
 
@@ -44,7 +44,7 @@ Like in this example :
 
 The fisrt text line tells you which group you a re working on.
 
-The second one, the Template you are using.
+The second one, the Templates you are using.
 
 The third, is what you are rendering, try **q** for example, it asks you to type a color.
 
@@ -56,5 +56,6 @@ It is time to open the GUI Browser Interface (**GBI**) with this link :
 
 http://localhost:8000/index.html
 
+![](https://github.com/Jacques-Olivier-Farcy/alc_freeliner/blob/patch-1/doc/img/Freeliner-web-GUI.png)
 
-
+Clic **OK**, you are now connected to your **MAS** screen, select **A** 
