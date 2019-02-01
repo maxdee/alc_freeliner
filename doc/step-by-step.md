@@ -58,4 +58,6 @@ http://localhost:8000/index.html
 
 ![](https://github.com/Jacques-Olivier-Farcy/alc_freeliner/blob/patch-1/doc/img/Freeliner-web-GUI.png)
 
-Clic **OK**, you are now connected to your **MAS** screen, select **A** 
+Clic **OK**, you are now connected to your **MainAnimationScreen** screen, select **A**.
+
+It is time to play !
