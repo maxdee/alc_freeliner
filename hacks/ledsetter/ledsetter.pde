@@ -1,178 +1,214 @@
 
 
-IntList numbers;
-XML fixtures;
+// IntList numbers;
+
+boolean redraw = true;
+
+String project_name = "maptest";
 
 void setup(){
     size(800, 800, P2D);
-    fixtures = new XML("fixture");
     background(0);
 
-    // int _spread = 190;
-    // plotTriangle(0, _spread+20, 40);
-    // plotTriangleUp(170, 2*_spread+20, 180);
-    // plotTriangle(340, 3*_spread+20, 40);
-    // // plotTriangleUp(510, 4*_spread+20, 180);
+    // selectInput("Select a file to process:", "fileDialogCallback");
+    // drawLEDs(loadFile("harhar.xml"));
+    // doThing(loadFile("harhar_mess.xml"));
+    doThing(loadFile("space_pubes_raw.xml"));
 
-    // specialMap();
-    // saveXML(fixtures, "haha.xml");
-    // exit();
+    // ledGroups = groupLEDs(leds);
+    // sortLEDs(new ArrayList<LED>(leds), 0);
 }
 
-
-
 void stop(){
-    saveXML(fixtures, "haha.xml");
+    // saveXML(fixtures, project_name+".xml");
+}
+
+void fileDialogCallback(File _file) {
+    loadFile(_file.getAbsolutePath());
+}
+
+// load a file to work with.
+ArrayList<LED> loadFile(String _file) {
+    if(_file == null) {
+        println("file no good");
+        exit();
+        return null;
+    }
+    else {
+        XML _xml = loadXML(_file);
+        XML[] children = _xml.getChildren("xyled");
+        ArrayList<LED> _leds = new ArrayList<LED>();
+        for(XML xyled : children) {
+            _leds.add(new LED(xyled));
+        }
+        println("found "+_leds.size()+" leds");
+        return _leds;
+    }
 }
 
 void draw(){
-    background(0);
-    noFill();
-    translate(width/2, height/2);
-    PShape haha = createShape();
-    haha.stroke(0,100,0);
-    haha.beginShape();
-    haha.curveVertex(84,  91);
-    haha.curveVertex(84,  91);
-    haha.curveVertex(68,  19);
-    haha.curveVertex(21,  17);
-    haha.curveVertex(32, 100);
-    haha.curveVertex(32, 100);
-    haha.endShape();
+    // redraw();
+}
 
-    // shape(haha);
-
-    stroke(255);
+void drawLEDs(ArrayList<LED> _leds) {
     strokeWeight(1);
-    for (int i = 0; i < haha.getVertexCount(); i++) {
-        PVector v = haha.getVertex(i);
-        // for(int j = 0; )
-        point(v.x, v.y);
+    stroke(200,10,0);
+    noFill();
+    for(LED led : _leds){
+        ellipse(led.pos.x, led.pos.y, 5, 5);
+    }
+}
+
+void drawSegments(ArrayList<Segment> _segs) {
+    stroke(255,100);
+    strokeWeight(6);
+    for(Segment _seg : _segs) {
+        line(_seg.start.pos.x, _seg.start.pos.y, _seg.end.pos.x, _seg.end.pos.y);
     }
 }
 
 
-void specialMap(){
-    int _ledCount = 1357;
-    int _indexCount = 32;
-    int lx[] = {-24, -38, -72, -95, -84, -44, -35, -64, -95, -116, -94, -52, -20, 8, 29, 69, 35+69, 73+69, 106+69, 102+69, 64+69, 26+69, 17+69, 59+69, 91+69, 76+69, 36+69, 67, 38, 15, 0, -7};
-    int ly[] = {88, 119, 130, 98, 67, 67, 95, 121, 103, 64, 24, 26, 53, 81, 99, 103, 98, 87, 89, 10+89, 109, 92, 56, 47, 66, 103, 118, 109, 80, 45, 23, 48};
+void doThing(ArrayList<LED> _leds){
+    background(40);
+    drawLEDs(_leds);
+    FloatList distances = getDistances(_leds);
+    distances.sort();
+    float medianDistance = distances.get(distances.size()/2);
+    println("median distance : "+medianDistance);
 
-    // int _index = _start;
-    // addLED(_index, (int)_pos.x, (int)_pos.y);
-    beginShape();
-    int _index = 0;
-    for(int i = 0; i < _ledCount; i++){
-        _index = int(i / 42.4);
-        println(_index+1);
-        int _x = 2*(int)lerp(lx[_index]+116, lx[(_index+1)%_indexCount]+116, (i%42.4)/42.4);
-        int _y = 2*(int)lerp(ly[_index], ly[(_index+1)%_indexCount], (i%42.4)/42.4);
-        addLED(i, _x, _y);
-    }
-    endShape();
+    // increase median distance by slack % to give some room to wiggle
+    // medianDistance = medianDistance + (medianDistance * slack);
+    // println ("Adding " + 100 * slack + "% slack to median distance. Is now "+ medianDistance);
+    println ("Detecting outliers...");
+    float slack = 1.8;
+    ArrayList<LED> outliers = getOutliers(_leds, medianDistance * slack);
+    println(outliers.size() + " outliers detected and fixed.");
+    translate(0, height/2);
+    drawLEDs(_leds);
+
+    println("clustering");
+    float ratio = 1.2;
+    float clusterSlack = 1.1;
+    ArrayList<Segment> segments = cluster(_leds, medianDistance * clusterSlack , ratio);
+    drawSegments(segments);
+    // int pixelSpacing =
 }
 
+ArrayList<LED> getOutliers(ArrayList<LED> _leds, float _median){
+    // check of there's a pixel missing between two pixels
+    ArrayList<LED> outliers = new ArrayList<LED>();
+    for (int i = 0; i < _leds.size()-2; i++) {
+        LED led1 = _leds.get(i);
+        LED led2 = _leds.get(i+1);
+        LED led3 = _leds.get(i+2);
+        // if (dist(led1.x, led1.y, led3.x, led3.y) < medianDistance * startStopMultiplier && dist(led1.x, led1.y, led3.x, led3.y) > medianDistance * startStopMultiplier) {
+        float multiplier = 1.8; // formerly startStopMultiplier
+        // find the mid point between 1 and 3 and compare to median
+        if(vecLerp(led1.pos, led3.pos, 0.5).dist(led1.pos) < _median*multiplier){
+            // assume that both are part of a strip and led 2 should be in between them
+            if (led1.dist(led2) > _median && led2.dist(led3) > _median) {
+                stroke (255, 255, 0);
+                line (led1.pos.x, led1.pos.y, led2.pos.x, led2.pos.y);
+                line (led2.pos.x, led2.pos.y, led3.pos.x, led3.pos.y);
 
-void addLED(int _index, int _x, int _y){
-    text(_index, _x, _y);
-    XML xyled = new XML("xyled");
-    xyled.setFloat("a", _index*3);
-    xyled.setFloat("x", _x);
-    xyled.setFloat("y", _y);
-    fixtures.addChild(xyled);
-    point(_x, _y);
-}
-
-void plotTriangle(int _start, int _startX, int _startY){
-
-    int _size = 8;
-    int _gap = 24;
-    PVector _pos = new PVector(_startX, _startY);
-    int _index = _start;
-    for(int i = _size; i >= 0; i--){
-        for(int j = 0; j < i; j++){
-            _pos.x += (i%2 == 0) ? -_gap : _gap;
-            addLED(_index, (int)_pos.x, (int)_pos.y);
-            _index++;
+                // most likely an outlier
+                // put led 2 between led 1 and 3
+                led2.pos = vecLerp(led1.pos, led3.pos, 0.5);
+                // put address into list of outliers
+                outliers.add(led2);
+                stroke(0, 255, 255);
+                point(led2.pos.x, led2.pos.y);
+            }
         }
-        _pos = angleMove(_pos, radians((i%2 == 1) ? 120 : 60), _gap);
-        _pos.x += (i%2 == 0) ? -_gap : _gap;
     }
-    println(_index);
+    return outliers;
 }
 
+ArrayList<Segment> cluster(ArrayList<LED> _leds, float _median, float _ratio) {
+    // check of there's a pixel missing between two pixels
+    ArrayList<Segment> _segments = new ArrayList<Segment>();
+    LED start = _leds.get(0);
+    LED end = null;
 
-
-void plotTriangleUp(int _start, int _startX, int _startY){
-
-    int _size = 8;
-    int _gap = 24;
-    PVector _pos = new PVector(_startX, _startY);
-    int _index = _start;
-    for(int i = _size; i >= 0; i--){
-        for(int j = 0; j < i; j++){
-            _pos.x += (i%2 == 0) ? -_gap : _gap;
-            addLED(_index, (int)_pos.x, (int)_pos.y);
-            _index++;
+    for (int i = 1; i < _leds.size()-2; i++) {
+        LED led1 = _leds.get(i);
+        LED led2 = _leds.get(i+1);
+        LED led3 = _leds.get(i+2);
+        // if led1 is far away and led 3 is close: assume that led2 is the starting point
+        if(led1.dist(led2) > _median && led2.dist(led3) < _median) {
+            start = led2;
         }
-        _pos = angleMove(_pos, radians((i%2 == 1) ? 60 : 120), -_gap);
-        _pos.x += (i%2 == 0) ? -_gap : _gap;
+        // if led3 is far and led 1 is close: assume that led2 is an end point
+        else if(led1.dist(led2) < _median && led2.dist(led3) > _median) {
+            end = led2;
+        }
+        // we have a finished line
+        if(end != null && start != null) {
+            if(start.dist(end) > _median * _ratio) {
+                _segments.add(new Segment(start, end));
+            }
+            // reset
+            end = null;
+            start = null;
+        }
     }
-    println(_index);
+    return _segments;
+}
+
+FloatList getDistances(ArrayList<LED> _leds){
+    FloatList _dist = new FloatList();
+    for(int i = 0; i < _leds.size()-1; i++) {
+        _dist.append(_leds.get(i).dist(_leds.get(i+1)));
+    }
+    return _dist;
 }
 
 /**
- * Polar to euclidean conversion
- * @param PVector center point
- * @param float angle
- * @param float distance
- * @return PVector euclidean of polar
+ * linear interpolation between two PVectors
+ * @param PVector first vector
+ * @param PVector second vector
+ * @param float unit interval
+ * @return PVector interpolated
  */
-PVector angleMove(PVector p, float a, float s){
-  PVector out = new PVector(cos(a)*s, sin(a)*s, 0);
-  out.add(p);
-  return out;
+PVector vecLerp(PVector a, PVector b, float l){
+  return new PVector(lerp(a.x, b.x, l), lerp(a.y, b.y, l), 0);
 }
 
 
-void circlething(){
-    background(0);
-    stroke(100);
-    strokeWeight(3);
-    int _numberCount = numbers.size();
-    XML fixtures = new XML("fixture");
-    float gaps = TWO_PI/(float)_numberCount;
-    float angle = 0;
-    float radius = 256;
-    for(int i : numbers){
-        println(i);
-        float _x = cos(angle)*radius;
-        _x += width/2;
-        float _y = sin(angle)*radius;
-        _y += height/2;
-        XML xyled = new XML("xyled");
-        xyled.setFloat("a", i*3);
-        xyled.setFloat("x", _x);
-        xyled.setFloat("y", _y);
-        fixtures.addChild(xyled);
-        point(_x, _y);
-        angle += gaps;
+// the item interface standardises selection  and deletion and such?
+// interface Item {
+//     boolean selected;
+// }
+class Segment {
+    LED start;
+    LED end;
+    public Segment(LED _start, LED _end) {
+        start = _start;
+        end = _end;
+    }
+    int getCount(){
+        return abs(start.address - end.address);
+    }
+    float length(){
+        return start.dist(end);
     }
 }
 
-void setAddressArray(){
-    int groupCount = 7;
-    int[][] ranges = {{516,659},
-                      {341, 489},
-                      {1,149},
-                      {171,319},
-                      {1021,1169},
-                      {851, 999},
-                      {1191, 1357}};
-    numbers = new IntList();
-    for(int i = 0; i < groupCount; i++){
-        for(int j = ranges[i][0]; j <= ranges[i][1]; j++){
-            numbers.append(j);
-        }
+
+class LED {
+    PVector pos;
+    int address;
+    boolean selected = false;
+    int groupIndex = 0;
+    public LED(float _x, float _y, int _a){
+        pos = new PVector(_x, _y);
+        address = _a;
+    }
+    public LED(XML _xml) {
+        pos =  new PVector(_xml.getFloat("x"), _xml.getFloat("y"));
+        address = (int)_xml.getFloat("a");
+    }
+    float dist(LED _other){
+        return pos.dist(_other.pos);
     }
 }
