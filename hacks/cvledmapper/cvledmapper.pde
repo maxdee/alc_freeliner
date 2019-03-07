@@ -21,14 +21,14 @@ int selectedLED = 0;
 XML fixtures;
 
 int index = 0;
-int END_INDEX = 340*8;
+int END_INDEX = 268*8;
 ArrayList<PVector> list;
 PVector position;
 
 void setup(){
 
     size(640,480,P2D);
-    video = new Capture(this, 640, 480, "/dev/video1");
+    video = new Capture(this, 640, 480, "/dev/video0");
     video.start();
     opencv = new OpenCV(this, 640, 480);
     // opencv.useColor();
@@ -139,13 +139,17 @@ void keyPressed(){
         stop();
     }
     else if(key == 32){
-        index = (ceil(index/340)+1)*340;
+        index = (ceil(index/268)+1)*268;
     }
     // selectedLED %= ledCount;
     println(selectedLED);
 }
 
+void setChannel(int _c, int _v) {
+    OscMessage myMessage = new OscMessage("/fixtures/setchan/"+_c+"/"+_v);
+    send(myMessage);
 
+}
 void setChan(int _i){
     OscMessage myMessage = new OscMessage("/fixtures/testchan/"+_i);
     send(myMessage);
