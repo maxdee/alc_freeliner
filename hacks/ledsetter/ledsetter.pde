@@ -1,4 +1,9 @@
+import oscP5.*;
+import netP5.*;
 
+OscP5 oscP5;
+// OscP5 sender;
+NetAddress address;
 
 // IntList numbers;
 
@@ -12,11 +17,16 @@ void setup(){
     size(800, 800, P2D);
     background(0);
     frameRate(20);
+
+    oscP5 = new OscP5(this,6670);
+    address = new NetAddress("127.0.0.1", 6667);
     // selectInput("Select a file to process:", "fileDialogCallback");
     // drawLEDs(loadFile("harhar.xml"));
     // doThing(loadFile("harhar_mess.xml"));
     // doThing(loadFile("space_pubes_raw.xml"));
-    cloud = new LEDcloud(loadFile("space_pubes_raw.xml"));
+    // cloud = new LEDcloud(loadFile("space_pubes_raw_thursday.xml"));
+    cloud = new LEDcloud(loadFile("clustered_save.xml"));
+
     // ledGroups = groupLEDs(leds);
     // sortLEDs(new ArrayList<LED>(leds), 0);
 
@@ -26,11 +36,23 @@ void setup(){
     // cloud.applyMatrix();
     // translate(0, width/2);
     // cloud.display();
+
+    background(40);
+    // cloud.display();
+    int prev=0;
+    color c = color(255,0,0);
+    strokeWeight(4);
+    for(LED l : cloud.leds) {
+        println(l.clusterIndex);
+        if(l.clusterIndex != prev) {
+            c = color(random(255),random(255),random(255));
+            stroke(c);
+            prev = l.clusterIndex;
+        }
+        point(l.pos.x,l.pos.y);
+    }
 }
 
-void stop(){
-    // saveXML(fixtures, project_name+".xml");
-}
 
 void fileDialogCallback(File _file) {
     loadFile(_file.getAbsolutePath());
@@ -55,8 +77,25 @@ ArrayList<LED> loadFile(String _file) {
     }
 }
 
+
+void setChannel(int _c, int _v) {
+    OscMessage myMessage = new OscMessage("/layer/fix/setchan/"+_c+"/"+_v);
+    send(myMessage);
+}
+
+// output command to freeliner
+void send(OscMessage _osc){
+    // sender.send(_osc);
+    println(_osc);
+    oscP5.send(_osc, address);
+}
+
 void draw(){
-    // background(40);
+
+    // setChannel(20,0);
+    // setChannel(21,0);
+    // setChannel(22,0);
+
     // float pitch = (mouseY-height/2.0)/200.0;
     // float yaw = (mouseX-width/2.0)/200.0;
     // FloatList matrix = makeMatrix(0, pitch, yaw);
@@ -68,8 +107,8 @@ void draw(){
     //     point(haha.x, haha.y);
     // }
     // background(40);
-    cloud.display();
-    cloud.fixOutliers(1.8, 3.2);//mouseX/width*4.0, mouseY/height*4.0);
+    // cloud.display();
+    // cloud.fixOutliers(1.8, 3.2);//mouseX/width*4.0, mouseY/height*4.0);
 
 
     // background(40);
@@ -79,6 +118,53 @@ void draw(){
     // cloud.display();
 
     // redraw();
+}
+int walkerIndex = -1;
+int clusterIndex = 0;
+
+void clusterNext(){
+    walkerIndex++;
+    cloud.leds.get(walkerIndex).clusterIndex = clusterIndex;
+    setChannel(cloud.leds.get(walkerIndex).address, 255);
+}
+void clusterPrevious(){
+    setChannel(cloud.leds.get(walkerIndex).address, 0);
+    walkerIndex--;
+    if(walkerIndex < 0) walkerIndex = 0;
+}
+void closeCluster(){
+    // clear previous
+    for(LED l : cloud.leds){
+        if(l.clusterIndex == clusterIndex){
+            println("hah "+l.address);
+            setChannel(l.address, 0);
+        }
+    }
+    clusterIndex++;
+    clusterNext();
+}
+void keyPressed(){
+    if(key == '-') clusterPrevious();
+    if(key == '=') clusterNext();
+    if(key == ' ') closeCluster();
+    else if(key == 27){
+        stop();
+    }
+}
+void stop() {
+    println("saving and quitting");
+    XML fixtures = new XML("fixture");
+    for(LED led : cloud.leds) {
+        XML xyled = new XML("xyled");
+        xyled.setFloat("a", led.address);
+        xyled.setFloat("x", led.pos.x);
+        xyled.setFloat("y", led.pos.y);
+        xyled.setFloat("c", led.clusterIndex);
+        fixtures.addChild(xyled);
+        // point(_x, _y);
+    }
+    saveXML(fixtures, "clustered.xml");
+    // saveXML(fixtures, "hihi.xml");
 }
 
 void mousePressed(){
@@ -108,6 +194,36 @@ void drawSegments(ArrayList<Segment> _segs) {
     }
 }
 
+
+class LED extends Handle{
+    PVector pos;
+    int address;
+    boolean selected = false;
+    int clusterIndex;
+
+    public LED(float _x, float _y, int _a){
+        super();
+        pos = new PVector(_x, _y);
+        size = 3;
+        col = color(255,255,255, 100);
+        address = _a;
+    }
+    public LED(XML _xml) {
+        pos =  new PVector(_xml.getFloat("x"), _xml.getFloat("y"));
+        address = (int)_xml.getFloat("a");
+        clusterIndex = (int)_xml.getFloat("c");
+    }
+    float dist(LED _other){
+        return pos.dist(_other.pos);
+    }
+    public void display(){
+        stroke(col);
+        strokeWeight(1);
+        if(selected) fill(0,255,0);
+        else noFill();
+        ellipse(pos.x, pos.y, size, size);
+    }
+}
 
 class BoundingBox {
     ArrayList<Handle> handles;
@@ -211,12 +327,16 @@ class BoundingBox {
     }
 }
 
+
+
 class Handle {
     PVector pos;
     color col;
     int size;
     boolean selected = false;
+    public Handle(){
 
+    }
     public Handle(PVector _pos) {
         pos = _pos.copy();
         size = 10;
@@ -257,6 +377,8 @@ class Handle {
 
 }
 
+
+
 // the item interface standardises selection  and deletion and such?
 // interface Item {
 //     boolean selected;
@@ -273,24 +395,5 @@ class Segment {
     }
     float length(){
         return start.dist(end);
-    }
-}
-
-
-class LED {
-    PVector pos;
-    int address;
-    boolean selected = false;
-    int groupIndex = 0;
-    public LED(float _x, float _y, int _a){
-        pos = new PVector(_x, _y);
-        address = _a;
-    }
-    public LED(XML _xml) {
-        pos =  new PVector(_xml.getFloat("x"), _xml.getFloat("y"));
-        address = (int)_xml.getFloat("a");
-    }
-    float dist(LED _other){
-        return pos.dist(_other.pos);
     }
 }

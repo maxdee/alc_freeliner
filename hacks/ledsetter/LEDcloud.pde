@@ -3,10 +3,11 @@ class LEDcloud {
     ArrayList<LED> leds;
     BoundingBox box;
     float medianDistance;
-
+    int clusterIndex;
     public LEDcloud(ArrayList<LED> _leds) {
         leds = _leds;
         box = new BoundingBox(this);
+        clusterIndex = 0;
     }
 
     public void applyMatrix(){
@@ -20,9 +21,10 @@ class LEDcloud {
         stroke(200,10,0);
         noFill();
         for(LED led : leds){
-            ellipse(led.pos.x, led.pos.y, 5, 5);
+            led.display();
+            // ellipse(led.pos.x, led.pos.y, 5, 5);
         }
-        box.display();
+        // box.display();
     }
 
     void nudgeAll(PVector _n) {
@@ -34,6 +36,7 @@ class LEDcloud {
     void click(PVector _c) {
         box.click(_c);
     }
+
     void drag(PVector _c) {
         box.drag(_c);
     }
