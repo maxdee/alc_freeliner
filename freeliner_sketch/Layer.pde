@@ -1178,6 +1178,7 @@ class FixtureLayer extends Layer {
     }
 
     public void setChanCMD(String[] _args) {
+        println(_args);
         if(_args.length < 5) return;
         else {
             int _chan = stringInt(_args[3]);
@@ -1185,6 +1186,7 @@ class FixtureLayer extends Layer {
             fixtures.setChannel(_chan, _val);
         }
     }
+
     public void recordCMD(String[] _args) {
         if(_args.length < 4) return;
         else {

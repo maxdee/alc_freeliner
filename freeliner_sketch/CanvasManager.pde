@@ -254,12 +254,19 @@ class LayeredCanvasManager extends CanvasManager {
         case "screenshotLayer":
             _lyr = new ScreenshotLayer();
             break;
+        case "associateLayer":
+            _lyr = new AssociateLayer();
+            break;
         case "dualInputShader":
             _lyr = new DualInputShaderLayer(sync);
-            AssociateLayer _associate = new AssociateLayer();
-            _associate.setID(_args[1]+"_associate");
-            addLayer(_associate);
-            ((DualInputShaderLayer)_lyr).setAssociatedLayer(_associate);
+            Layer _associate = getLayer(_args[1]+"_associate");
+            if(_associate == null){
+                _associate = new AssociateLayer();
+                _associate.setID(_args[1]+"_associate");
+                addLayer(_associate);
+            }
+            ((DualInputShaderLayer)_lyr).setAssociatedLayer((AssociateLayer)_associate);
+
             break;
         case "containerLayer":
             if(_existingLayer != null) {
