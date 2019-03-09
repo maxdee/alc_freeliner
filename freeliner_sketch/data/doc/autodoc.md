@@ -1,4 +1,4 @@
-Generated on 2019/3/6 with freeliner version 0.4.8
+Generated on 2019/3/8 with freeliner version 0.4.8
 ### keys ###
 | key | parameter | type | description | cmd |
 |:---:|---|---|---|---|
@@ -9,8 +9,8 @@ Generated on 2019/3/6 with freeliner version 0.4.8
 | `.` | snapping |on off + value |enable/disable snapping or set the snapping distance | `tools snap` |
 | `/` | showLines |on off |Showlines of all geometry. | `tools lines` |
 | `0` | macro0 |macro |macro 0:  | `` |
-| `1` | macro1 |macro |macro1  layer secondShader option praxis_blendit.glsl, layer secondShader uniforms 4 0, layer secondShader uniforms 3 0, layer secondShader uniforms 2 0.1, layer secondShader uniforms 1 0.05, layer secondShader uniforms 0 0.95 | ` layer secondShader option praxis_blendit.glsl, layer secondShader uniforms 4 0, layer secondShader uniforms 3 0, layer secondShader uniforms 2 0.1, layer secondShader uniforms 1 0.05, layer secondShader uniforms 0 0.95` |
-| `2` | macro2 |macro |macro2  tw B q 4, tr BA | ` tw B q 4, tr BA` |
+| `1` | macro1 |macro |macro1  tp translate $ 0 -0.3, tw $ p 0 | ` tp translate $ 0 -0.3, tw $ p 0` |
+| `2` | macro2 |macro |macro2  tp translate $ 0 0.3, tw $ p 1 | ` tp translate $ 0 0.3, tw $ p 1` |
 | `3` | macro3 |macro |macro3  tw $ b 1, tw $ q 8 | ` tw $ b 1, tw $ q 8` |
 | `4` | macro4 |macro |macro 4:  | `` |
 | `5` | macro5 |macro |macro 5:  | `` |

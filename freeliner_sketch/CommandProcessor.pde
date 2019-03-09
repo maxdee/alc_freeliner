@@ -229,6 +229,7 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[0].equals("addlayer")) _used = canvasManager.layerCreator(_args);
         else if(_args[0].equals("setosc")) _used = setOsc(_args);
         else if(_args[0].equals("colormap")) _used = colorMapCMD(_args);
+        else if(_args[0].equals("pallette")) _used = picturePalletteCMD(_args);
         else if(_args[0].equals("config")) _used = configCMD(_args);
         else if(_args[0].equals("fl")) _used = flCMD(_args); // deprecated?
 
@@ -314,6 +315,44 @@ class CommandProcessor implements FreelinerConfig {
         return false;
     }
 
+
+    public boolean picturePalletteCMD(String[] _args){
+        if(_args.length < 2) return false;
+        int _v = stringInt(_args[1]);
+        if(_v == -42) {
+            PImage _image;
+            try {
+                _image = loadImage("userdata/images/"+_args[1]);
+                _image.resize(64,64);
+                _image.filter(POSTERIZE, PALLETTE_COUNT);
+                _image.loadPixels();
+                color[] _pal = new color[PALLETTE_COUNT];
+                for(int i =0; i<PALLETTE_COUNT;i++) _pal[i] = color(0);
+                int _idx = 0;
+                boolean _pick = false;
+                for(int i = 0 ; i < 64*64-1; i+=2){
+                    _pick = true;
+                    for(color c : _pal){
+                        if(c == _image.pixels[i]){
+                            _pick = false;
+                        }
+                    }
+                    if(_pick){
+                        _pal[_idx] = _image.pixels[i];
+                        _idx++;
+                        if(_idx>11) break;
+                    }
+                }
+                userPallet = _pal;
+                for(color c : userPallet) print(c+", ");
+                println("  loaded pallette "+_args[1]+" "+userPallet);
+                return true;
+            } catch(Exception e) {
+                println("Error : could not load colormap "+_args[1]);
+            }
+        }
+        return false;
+    }
 
     public boolean colorsCMD(String[] _args){
         // "colors set 1 #202020"

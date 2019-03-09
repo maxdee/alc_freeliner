@@ -1162,6 +1162,7 @@ class FixtureLayer extends Layer {
             if(_args[2].equals("setchan")) setChanCMD(_args);
             else if(_args[2].equals("testchan")) testChanCMD(_args);
             else if(_args[2].equals("record")) recordCMD(_args);
+            // else if(_args[2].equals("dim")) recordCMD(_args);
             else return false;
         } else return false;
         return true;

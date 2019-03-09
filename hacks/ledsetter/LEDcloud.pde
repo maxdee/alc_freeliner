@@ -1,14 +1,50 @@
 
 class LEDcloud {
     ArrayList<LED> leds;
+    ArrayList<Segment> segments;
+
     BoundingBox box;
     float medianDistance;
     int clusterIndex;
+
     public LEDcloud(ArrayList<LED> _leds) {
         leds = _leds;
         box = new BoundingBox(this);
         clusterIndex = 0;
     }
+
+    public void makeSegments(){
+        segments = new ArrayList<Segment>();
+        int current_cluster = 0;
+        Segment seg = new Segment();
+        for(LED l : leds) {
+            if(l.clusterIndex == current_cluster){
+                seg.addLED(l);
+            }
+            else {
+                current_cluster = l.clusterIndex;
+                segments.add(seg);
+                seg = new Segment();
+                seg.addLED(l);
+            }
+        }
+        segments.add(seg);
+        for(Segment s : segments){
+            s.alignXY();
+        }
+    }
+
+    public void ledSpacing(int _s){
+        for(Segment seg : segments){
+            seg.setSpacing(_s);
+        }
+    }
+    public void evenSpacing(){
+        for(Segment seg : segments){
+            seg.evenSpacing();
+        }
+    }
+
 
     public void applyMatrix(){
         for(LED l : leds){
@@ -22,11 +58,23 @@ class LEDcloud {
         noFill();
         for(LED led : leds){
             led.display();
-            // ellipse(led.pos.x, led.pos.y, 5, 5);
+            ellipse(led.pos.x, led.pos.y, 5, 5);
+            // if(led.address %2==0){
+            //     text( led.clusterIndex, led.pos.x+2, led.pos.y);
+            // }
         }
-        // box.display();
+        stroke(100);
+        strokeWeight(3);
+
+        for(Segment seg : segments){
+            vecLine(seg.getStart().pos, seg.getEnd().pos);
+        }
+        box.display();
     }
 
+    void vecLine(PVector a, PVector b){
+        line(a.x,a.y,b.x,b.y);
+    }
     void nudgeAll(PVector _n) {
         for(LED _l : leds){
             _l.pos.add(_n);
@@ -112,37 +160,32 @@ class LEDcloud {
     ArrayList<Segment> cluster(float _median, float _ratio) {
         // check of there's a pixel missing between two pixels
         ArrayList<Segment> _segments = new ArrayList<Segment>();
-        LED start = leds.get(0);
-        LED end = null;
-
-        for (int i = 1; i < leds.size()-2; i++) {
-            LED led1 = leds.get(i);
-            LED led2 = leds.get(i+1);
-            LED led3 = leds.get(i+2);
-            // if led1 is far away and led 3 is close: assume that led2 is the starting point
-            if(led1.dist(led2) > _median && led2.dist(led3) < _median) {
-                start = led2;
-            }
-            // if led3 is far and led 1 is close: assume that led2 is an end point
-            else if(led1.dist(led2) < _median && led2.dist(led3) > _median) {
-                end = led2;
-            }
-            // we have a finished line
-            if(end != null && start != null) {
-                if(start.dist(end) > _median * _ratio) {
-                    _segments.add(new Segment(start, end));
-                }
-                // reset
-                end = null;
-                start = null;
-            }
-        }
+        // LED start = leds.get(0);
+        // LED end = null;
+        //
+        // for (int i = 1; i < leds.size()-2; i++) {
+        //     LED led1 = leds.get(i);
+        //     LED led2 = leds.get(i+1);
+        //     LED led3 = leds.get(i+2);
+        //     // if led1 is far away and led 3 is close: assume that led2 is the starting point
+        //     if(led1.dist(led2) > _median && led2.dist(led3) < _median) {
+        //         start = led2;
+        //     }
+        //     // if led3 is far and led 1 is close: assume that led2 is an end point
+        //     else if(led1.dist(led2) < _median && led2.dist(led3) > _median) {
+        //         end = led2;
+        //     }
+        //     // we have a finished line
+        //     if(end != null && start != null) {
+        //         if(start.dist(end) > _median * _ratio) {
+        //             _segments.add(new Segment(start, end));
+        //         }
+        //         // reset
+        //         end = null;
+        //         start = null;
+        //     }
+        // }
         return _segments;
     }
-
-
-
-
-
 
 }

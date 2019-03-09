@@ -153,11 +153,6 @@ class FancyFixtures implements FreelinerConfig {
         fixtures.add(_fix);
     }
 
-
-
-
-
-
     public void setupByteBuffer(int _size) {
         channelCount = _size;
         byteBuffer = new byte[channelCount]; // plus one for header

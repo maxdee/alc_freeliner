@@ -14,7 +14,7 @@ String project_name = "maptest";
 LEDcloud cloud;
 
 void setup(){
-    size(800, 800, P2D);
+    size(720, 480, P2D);
     background(0);
     frameRate(20);
 
@@ -26,6 +26,11 @@ void setup(){
     // doThing(loadFile("space_pubes_raw.xml"));
     // cloud = new LEDcloud(loadFile("space_pubes_raw_thursday.xml"));
     cloud = new LEDcloud(loadFile("clustered_save.xml"));
+    cloud.makeSegments();
+    // cloud.ledSpacing(4);
+    cloud.evenSpacing();
+
+    //
 
     // ledGroups = groupLEDs(leds);
     // sortLEDs(new ArrayList<LED>(leds), 0);
@@ -91,7 +96,7 @@ void send(OscMessage _osc){
 }
 
 void draw(){
-
+    println(mouseX+" "+mouseY);
     // setChannel(20,0);
     // setChannel(21,0);
     // setChannel(22,0);
@@ -110,9 +115,11 @@ void draw(){
     // cloud.display();
     // cloud.fixOutliers(1.8, 3.2);//mouseX/width*4.0, mouseY/height*4.0);
 
+    //
+    background(40);
+    cloud.display();
 
-    // background(40);
-    // cloud.display();
+
     // cloud.applyMatrix();
     // translate(0, width/2);
     // cloud.display();
@@ -164,6 +171,7 @@ void stop() {
         // point(_x, _y);
     }
     saveXML(fixtures, "clustered.xml");
+    saveGroups(cloud.segments);
     // saveXML(fixtures, "hihi.xml");
 }
 
@@ -189,10 +197,38 @@ void drawLEDs(ArrayList<LED> _leds) {
 void drawSegments(ArrayList<Segment> _segs) {
     stroke(255,100);
     strokeWeight(6);
-    for(Segment _seg : _segs) {
-        line(_seg.start.pos.x, _seg.start.pos.y, _seg.end.pos.x, _seg.end.pos.y);
-    }
+    // for(Segment _seg : _segs) {
+    //     line(_seg.start.pos.x, _seg.start.pos.y, _seg.end.pos.x, _seg.end.pos.y);
+    // }
 }
+
+
+public void saveGroups(ArrayList<Segment> _segs) {
+    XML groupData = new XML("groups");
+    groupData.setInt("width", width);
+    groupData.setInt("height", height);
+
+    //if (grp.isEmpty()) continue;
+    XML xgroup = groupData.addChild("group");
+    xgroup.setInt("ID", 2);
+    xgroup.setString("text", "Hi, I'm an auto-mapped geometry!");
+    xgroup.setString("type", "map");
+
+    xgroup.setString("tags", "");
+    for (Segment _seg : _segs) {
+        XML xseg = xgroup.addChild("segment");
+        xseg.setFloat("aX", _seg.getStart().pos.x);
+        xseg.setFloat("aY", _seg.getStart().pos.y);
+        xseg.setFloat("bX", _seg.getEnd().pos.x);
+        xseg.setFloat("bY", _seg.getEnd().pos.y);
+        // for leds and such
+        xseg.setString("txt", "/led " + int(_seg.getStart().address/3-1)+" "+int(_seg.getEnd().address/3-1));
+    }
+    saveXML(groupData, "fixture_file.xml");
+}
+
+
+
 
 
 class LED extends Handle{
@@ -225,157 +261,6 @@ class LED extends Handle{
     }
 }
 
-class BoundingBox {
-    ArrayList<Handle> handles;
-    LEDcloud parent;
-    Handle topLeft;
-    Handle topRight;
-    Handle bottomRight;
-    Handle bottomLeft;
-    Handle middle;
-    Handle bottomMiddle;
-    Handle topMiddle;
-    Handle leftMiddle;
-    Handle rightMiddle;
-
-    public BoundingBox(LEDcloud _p) {
-        parent = _p;
-        handles = new ArrayList<Handle>();
-        setupHandles(parent.leds);
-    }
-
-    void click(PVector _c) {
-        for(Handle _h : handles) {
-            _h.click(_c);
-        }
-    }
-
-    void drag(PVector _c) {
-        if(middle.selected) {
-            PVector _prev = middle.pos.copy();
-            middle.drag(_c);
-            _prev.sub(middle.pos);
-            _prev.mult(-1.0);
-            // apply to leds
-            parent.nudgeAll(_prev);
-            for(Handle _h : handles) {
-                if(_h != middle){
-                    _h.pos.add(_prev);
-                }
-            }
-        }
-        else {
-            for(Handle _h : handles) {
-                _h.drag(_c);
-            }
-        }
-        updateHandles();
-    }
-
-    void updateHandles() {
-        middle.pos.set(
-            vecLerp(
-                vecLerp(topRight.pos, bottomLeft.pos, 0.5),
-                vecLerp(topLeft.pos, bottomRight.pos, 0.5),
-                0.5
-            )
-        );
-        topMiddle.pos.set(vecLerp(topLeft.pos, topRight.pos, 0.5));
-        bottomMiddle.pos.set(vecLerp(bottomLeft.pos, bottomRight.pos, 0.5));
-        rightMiddle.pos.set(vecLerp(topRight.pos, bottomRight.pos, 0.5));
-        leftMiddle.pos.set(vecLerp(topLeft.pos, bottomLeft.pos, 0.5));
-    }
-
-    void setupHandles(ArrayList<LED> _leds){
-        float minX = width;
-        float maxX = 0;
-        float minY = height;
-        float maxY = 0;
-
-        for(LED led : _leds) {
-            if(led.pos.x < minX) minX = led.pos.x;
-            if(led.pos.x > maxX) maxX = led.pos.x;
-            if(led.pos.y < minY) minY = led.pos.y;
-            if(led.pos.y > maxY) maxY = led.pos.y;
-        }
-
-        topLeft = new Handle(new PVector(minX, minY));
-        topRight = new Handle(new PVector(maxX, minY));
-        bottomRight = new Handle(new PVector(maxX, maxY));
-        bottomLeft = new Handle(new PVector(minX, maxY));
-        middle = new Handle(vecLerp(topLeft.pos, bottomRight.pos, 0.5));
-        topMiddle = new Handle(vecLerp(topLeft.pos, topRight.pos, 0.5));
-        bottomMiddle = new Handle(vecLerp(bottomLeft.pos, bottomRight.pos, 0.5));
-        rightMiddle = new Handle(vecLerp(topRight.pos, bottomRight.pos, 0.5));
-        leftMiddle = new Handle(vecLerp(topLeft.pos, bottomLeft.pos, 0.5));
-
-        handles.clear();
-        handles.add(topLeft);
-        handles.add(topRight);
-        handles.add(bottomRight);
-        handles.add(bottomLeft);
-        handles.add(middle);
-        handles.add(topMiddle);
-        handles.add(bottomMiddle);
-        handles.add(rightMiddle);
-        handles.add(leftMiddle);
-    }
-    void display(){
-        for(Handle _h : handles) {
-            _h.display();
-        }
-    }
-}
-
-
-
-class Handle {
-    PVector pos;
-    color col;
-    int size;
-    boolean selected = false;
-    public Handle(){
-
-    }
-    public Handle(PVector _pos) {
-        pos = _pos.copy();
-        size = 10;
-        col = color(255,255,255, 100);
-    }
-
-    public void display(){
-        stroke(col);
-        strokeWeight(1);
-        if(selected) fill(0,255,0);
-        else noFill();
-        ellipse(pos.x, pos.y, size, size);
-    }
-
-    public void click(PVector _click) {
-        if(_click.dist(pos) < size/2) selected = true;
-        else selected = false;
-    }
-
-    public void drag(PVector _drag){
-        if(selected) {
-            pos.set(_drag);
-        }
-    }
-
-    // public void hover(PVector hover) {
-    //
-    // }
-    public Handle setStroke(color _c){
-        col = _c;
-        return this;
-    }
-
-    public Handle setSize(int _s){
-        size = _s;
-        return this;
-    }
-
-}
 
 
 
@@ -384,16 +269,93 @@ class Handle {
 //     boolean selected;
 // }
 class Segment {
-    LED start;
-    LED end;
-    public Segment(LED _start, LED _end) {
-        start = _start;
-        end = _end;
+    ArrayList<LED> strip;
+    public Segment() {
+        strip = new ArrayList<LED>();
+    }
+    public void addLED(LED _led){
+        strip.add(_led);
     }
     int getCount(){
-        return abs(start.address - end.address);
+        return abs(getStart().address - getEnd().address);
     }
     float length(){
-        return start.dist(end);
+        return getStart().dist(getEnd());
+    }
+    void evenSpacing(){
+        LED first = getStart();
+        LED last = getEnd();
+        int count = strip.size()-1;
+        float spacing = float(1)/float(count);
+        for(int i = 1; i < strip.size()-1; i++){
+            strip.get(i).pos = vecLerp(first.pos, last.pos, i*spacing);
+        }
+    }
+    void setSpacing(int _s){
+        int count = strip.size()-1;
+        if(count < 2) return;
+        int targetLength = count*_s;
+        LED first = getStart();
+        LED last = getEnd();
+        if(abs(first.pos.x- last.pos.x) < abs(first.pos.x- last.pos.x)) {
+            last.pos.x = first.pos.x + targetLength;
+        }
+        else {
+            last.pos.y = first.pos.y + targetLength;
+        }
+
+        // float spacing = 1/(count-1);
+        // for(int i = 1; i < strip.size()-1; i++){
+        //     strip.get(i).pos = vecLerp(first.pos, last.pos, i*spacing);
+        // }
+    }
+
+    LED getStart(){
+        return strip.get(0);
+    }
+    LED getEnd(){
+        return strip.get(strip.size()-1);
+    }
+
+    void alignXY(){
+        FloatList xpos = new FloatList();
+        FloatList ypos = new FloatList();
+        for(LED l : strip) {
+            xpos.append(l.pos.x);
+            ypos.append(l.pos.y);
+        }
+        xpos.sort();
+        ypos.sort();
+        // check which axis the strip is in.
+        if(xpos.max()-xpos.min() < ypos.max()-ypos.min()){
+            // align X axis
+            float median = xpos.get(xpos.size()/2);
+            for(LED l : strip){
+                l.pos.x = median;
+            }
+        }
+        else {
+            // align Y axis
+            float median = ypos.get(ypos.size()/2);
+            for(LED l : strip){
+                l.pos.y = median;
+            }
+        }
+
     }
 }
+
+// class Segment {
+//     LED start;
+//     LED end;
+//     public Segment(LED _start, LED _end) {
+//         start = _start;
+//         end = _end;
+//     }
+//     int getCount(){
+//         return abs(start.address - end.address);
+//     }
+//     float length(){
+//         return start.dist(end);
+//     }
+// }

@@ -527,9 +527,47 @@ function makeShaderCMD(_element, _index){
 
 function colorsCallbacks() {
     var _element, i;
-    for(i = 0; i < 8; i++){
+    for(i = 0; i < 12; i++){
         _element = document.getElementById("colorPicker"+i);
         _element.oninput = makeColorCMD(_element, i);
+        // _element.onchange = makeColorCMD(_element, i);
+    }
+    for(i = 0; i < 4; i++){
+        _element = document.getElementById("fourColor"+i);
+        _element.oninput = fourcallback(_element, i);
+        // _element.onchange = fourcallback(_element, i);
+    }
+    for(i = 0; i < 2; i++){
+        _element = document.getElementById("twoColor"+i);
+        _element.oninput = twocallback(_element, i);
+        // _element.onchange = fourcallback(_element, i);
+    }
+}
+function twocallback(_element, index) {
+    var p1, p2;
+    index*=2;
+    p1 = document.getElementById("fourColor"+index);
+    p2 = document.getElementById("fourColor"+(index+1));
+    return function() {
+        p1.value = _element.value;
+        p1.oninput();
+        p2.value = _element.value;
+        p2.oninput();
+    }
+}
+function fourcallback(_element, index) {
+    var p1, p2, p3;
+    index*=3;
+    p1 = document.getElementById("colorPicker"+index);
+    p2 = document.getElementById("colorPicker"+(index+1));
+    p3 = document.getElementById("colorPicker"+(index+2));
+    return function() {
+        p1.value = _element.value;
+        p1.oninput();
+        p2.value = _element.value;
+        p2.oninput();
+        p3.value = _element.value;
+        p3.oninput();
     }
 }
 
