@@ -31,6 +31,7 @@ class CommandProcessor implements FreelinerConfig {
     ArrayList<String> commandQueue;
 
     String[] commandList = {
+        "info 1 text",
         // for adressing templates use ABCD, or * for all, or $ for selected
         "tw AB q 3",
         "tr AB (3 4 5)",
@@ -247,6 +248,7 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[0].equals("fixtures")) _used = fixtureCMD(_args);
 
         else if(_args[0].equals("colors")) _used = colorsCMD(_args);
+        else if(_args[0].equals("info")) _used = extraInfoCMD(_args);
 
         // else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
         if(!_used) println("CMD fail : "+join(_args, ' '));
@@ -366,6 +368,13 @@ class CommandProcessor implements FreelinerConfig {
             return true;
         }
         return false;
+    }
+    // info 1 text
+    public boolean extraInfoCMD(String[] _args) {
+        if(_args.length < 3) return false;
+        int _index = stringInt(_args[1]);
+        gui.setInfo(_index, _args[2]);
+        return true;
     }
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
@@ -1055,6 +1064,19 @@ class CommandProcessor implements FreelinerConfig {
         for(TweakableTemplate _rt : _tmps) {
             _rt.setTranslation(_translate);
         }
+        // scuff mixer info
+        String below = "";
+        String above = "";
+        for(TweakableTemplate _tp : templateManager.getTemplates()) {
+            if(_tp.translation.y < -0.1) {
+                above += _tp.getTemplateID();
+            }
+            else if(_tp.translation.y > 0.1){
+                below += _tp.getTemplateID();
+            }
+        }
+        queueCMD("info 0 ["+above+"]");
+        queueCMD("info 1 ["+below+"]");
     }
 
     public void tpRotateCMD(String[] _args) {

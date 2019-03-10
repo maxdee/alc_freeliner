@@ -55,7 +55,7 @@ class Gui implements FreelinerConfig {
     // The TweakableTemplate tags of templates selected by the TemplateManager
     String renderString = "_";
 
-    String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS"};
+    String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS", "info1", "info2"};
 
     PImage colorMap;
     /**
@@ -173,6 +173,13 @@ class Gui implements FreelinerConfig {
         allInfo[3] = "["+getTimeRunning()+"]";
         // framerate ish
         allInfo[4] = "["+(int)frameRate+"]";
+        // 5 6 reserved for now
+    }
+
+    public void setInfo(int _index, String _text){
+        if(_index >= 0 && _index < allInfo.length-5){
+            allInfo[5+_index] = _text;
+        }
     }
 
     /**
@@ -180,7 +187,7 @@ class Gui implements FreelinerConfig {
      */
     private void displayInfo() {
         if(guiSegments.getSegments().size() == 0) return;
-        for(int i = 0; i < 5; i++) guiSegments.setText(allInfo[i], i);
+        for(int i = 0; i < allInfo.length; i++) guiSegments.setText(allInfo[i], i);
         // draw the information that was just set to segments of group 0
         ArrayList<Segment> segs = guiSegments.getSegments();
         int sz = int(guiSegments.getBrushScaler()*20);
