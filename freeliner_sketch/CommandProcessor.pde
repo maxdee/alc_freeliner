@@ -1064,6 +1064,7 @@ class CommandProcessor implements FreelinerConfig {
         for(TweakableTemplate _rt : _tmps) {
             _rt.setTranslation(_translate);
         }
+
         // scuff mixer info
         String below = "";
         String above = "";
