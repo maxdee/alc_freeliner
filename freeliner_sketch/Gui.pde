@@ -521,10 +521,13 @@ class Gui implements FreelinerConfig {
      * Check if GUI needs to be drawn and update the GUI timeout for auto hiding.
      */
     public boolean doDraw() {
-        if (guiTimer > 0 && (mouse.useGrid() || focused)) { // recently added window focus
-            guiTimer--;
-            return true;
-        } else return false;
+        // scuff added
+        return true;
+
+            // if (guiTimer > 0 && (mouse.useGrid() || focused)) { // recently added window focus
+            //     guiTimer--;
+            //     return true;
+            // } else return false;
     }
 
     public PGraphics getCanvas() {

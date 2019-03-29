@@ -7,3 +7,6 @@
 #tp load
 #tp link BA
 #colormap colormap.png
+layer load scuff_layers.xml
+geom load basics.xml
+#geom load vert_horz.xml

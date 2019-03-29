@@ -238,9 +238,11 @@ class GroupManager implements FreelinerConfig{
                     _snapped = true;
                 }
                 if (!_snapped && _pos.dist(seg.getMidPoint()) < snapDist) {
-                    snappedSegment = seg;
-                    snap = seg.getMidPoint();
-                    snappedIndex = i;
+                    if(ENABLE_SNAP_MIDDLE){                        
+                        snappedSegment = seg;
+                        snap = seg.getMidPoint();
+                        snappedIndex = i;
+                    }
                 }
             }
         }

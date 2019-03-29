@@ -35,7 +35,7 @@ interface FreelinerConfig {
   final int CURSOR_SIZE = 15;
   final int CURSOR_GAP_SIZE = 10;
   final int CURSOR_STROKE_WIDTH = 2;
-  final int GUI_TIMEOUT = 5000;
+  final int GUI_TIMEOUT = 5000000;
   final int GUI_FONT_SIZE = 15;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
   final int NODE_STROKE_WEIGTH = 5;
@@ -43,7 +43,8 @@ interface FreelinerConfig {
   final int PREVIEW_LINE_STROKE_WIDTH = 1;
   final color PREVIEW_LINE_COLOR = #ffffff;
   final color CURSOR_COLOR = #FFFFFF;
-  final color SNAPPED_CURSOR_COLOR = #FFFFFF;
+  final color SNAPPED_CURSOR_COLOR = #00FF00;
+  final boolean ENABLE_SNAP_MIDDLE = false;
   final color TEXT_COLOR = #FFFFFF;
   final color GRID_COLOR = #969696;//9696;
   final int GRID_STROKE_WEIGHT = 1;//9696;
