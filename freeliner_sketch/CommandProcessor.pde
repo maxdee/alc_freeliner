@@ -1066,18 +1066,18 @@ class CommandProcessor implements FreelinerConfig {
         }
 
         // scuff mixer info
-        String below = "";
-        String above = "";
-        for(TweakableTemplate _tp : templateManager.getTemplates()) {
-            if(_tp.translation.y < -0.1) {
-                above += _tp.getTemplateID();
-            }
-            else if(_tp.translation.y > 0.1){
-                below += _tp.getTemplateID();
-            }
-        }
-        queueCMD("info 0 ["+above+"]");
-        queueCMD("info 1 ["+below+"]");
+        // String below = "";
+        // String above = "";
+        // for(TweakableTemplate _tp : templateManager.getTemplates()) {
+        //     if(_tp.translation.y < -0.1) {
+        //         above += _tp.getTemplateID();
+        //     }
+        //     else if(_tp.translation.y > 0.1){
+        //         below += _tp.getTemplateID();
+        //     }
+        // }
+        // queueCMD("info 0 ["+above+"]");
+        // queueCMD("info 1 ["+below+"]");
     }
 
     public void tpRotateCMD(String[] _args) {
