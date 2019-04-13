@@ -838,8 +838,8 @@
     {
       "max": -42,
       "name": "macro1",
-      "description": "macro1  tp translate $ 0 -0.3, tw $ p 0",
-      "cmd": " tp translate $ 0 -0.3, tw $ p 0",
+      "description": "macro1  tp translate $ 0.0 0.0, tw $ p 0",
+      "cmd": " tp translate $ 0.0 0.0, tw $ p 0",
       "type": 7,
       "ascii": 49,
       "key": "1"
@@ -847,8 +847,8 @@
     {
       "max": -42,
       "name": "macro2",
-      "description": "macro2  tp translate $ 0 0.3, tw $ p 1",
-      "cmd": " tp translate $ 0 0.3, tw $ p 1",
+      "description": "macro2  tp translate $ 0.5 0.0, tw $ p 1",
+      "cmd": " tp translate $ 0.5 0.0, tw $ p 1",
       "type": 7,
       "ascii": 50,
       "key": "2"

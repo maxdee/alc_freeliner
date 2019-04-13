@@ -9,8 +9,8 @@ Generated on 2019/4/12 with freeliner version 0.4.8
 | `.` | snapping |on off + value |enable/disable snapping or set the snapping distance | `tools snap` |
 | `/` | showLines |on off |Showlines of all geometry. | `tools lines` |
 | `0` | macro0 |macro |macro 0:  | `` |
-| `1` | macro1 |macro |macro1  tp translate $ 0 -0.3, tw $ p 0 | ` tp translate $ 0 -0.3, tw $ p 0` |
-| `2` | macro2 |macro |macro2  tp translate $ 0 0.3, tw $ p 1 | ` tp translate $ 0 0.3, tw $ p 1` |
+| `1` | macro1 |macro |macro1  tp translate $ 0.0 0.0, tw $ p 0 | ` tp translate $ 0.0 0.0, tw $ p 0` |
+| `2` | macro2 |macro |macro2  tp translate $ 0.5 0.0, tw $ p 1 | ` tp translate $ 0.5 0.0, tw $ p 1` |
 | `3` | macro3 |macro |macro3  tw $ b 1, tw $ q 8 | ` tw $ b 1, tw $ q 8` |
 | `4` | macro4 |macro |macro 4:  | `` |
 | `5` | macro5 |macro |macro 5:  | `` |
