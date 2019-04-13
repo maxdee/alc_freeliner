@@ -65,9 +65,10 @@ class LEDcloud {
         }
         stroke(100);
         strokeWeight(3);
-
-        for(Segment seg : segments){
-            vecLine(seg.getStart().pos, seg.getEnd().pos);
+        if(segments != null){
+            for(Segment seg : segments){
+                vecLine(seg.getStart().pos, seg.getEnd().pos);
+            }
         }
         box.display();
     }

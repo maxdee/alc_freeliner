@@ -71,7 +71,7 @@ void doShabang () {
   stroke(0, 255, 255);
   // read xml and write into arraylist
   println("Loading XML...");
-  xml = loadXML("harhar.xml");
+  xml = loadXML("haha.xml");
   XML[] children = xml.getChildren("xyled");
   for (int i = 0; i < children.length; i++) {
     float x = children[i].getFloat("x");
@@ -220,5 +220,5 @@ public void saveGroups(String _fn) {
     // for leds and such
     xseg.setString("txt", "/led " + int(startPoints.get(i).z/3-1) + " " + int(endPoints.get(i).z/3-1));
   }
-  saveXML(groupData, dataDirectory(_fn));
+  // saveXML(groupData, dataDirectory(_fn));
 }

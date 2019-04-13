@@ -238,7 +238,7 @@ class GroupManager implements FreelinerConfig{
                     _snapped = true;
                 }
                 if (!_snapped && _pos.dist(seg.getMidPoint()) < snapDist) {
-                    if(ENABLE_SNAP_MIDDLE){                        
+                    if(ENABLE_SNAP_MIDDLE){
                         snappedSegment = seg;
                         snap = seg.getMidPoint();
                         snappedIndex = i;
@@ -483,6 +483,10 @@ class GroupManager implements FreelinerConfig{
             file = loadXML(dataDirectory(PATH_TO_GEOMETRY)+"/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
+            return;
+        }
+        if(file == null) {
+            println("problem with : "+_fn);
             return;
         }
         int sourceWidth = file.getInt("width");

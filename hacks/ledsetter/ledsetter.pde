@@ -25,15 +25,16 @@ void setup(){
     // doThing(loadFile("harhar_mess.xml"));
     // doThing(loadFile("space_pubes_raw.xml"));
     // cloud = new LEDcloud(loadFile("space_pubes_raw_thursday.xml"));
-    cloud = new LEDcloud(loadFile("clustered_save.xml"));
-    cloud.makeSegments();
-    // cloud.ledSpacing(4);
-    cloud.evenSpacing();
+    cloud = new LEDcloud(loadFile("haha.xml"));
+    cloud.findMedian();
+    cloud.fixOutliers(1.5, 2.2);
+    // cloud.makeSegments();/
+    // cloud.evenSpacing();
 
     //
 
     // ledGroups = groupLEDs(leds);
-    // sortLEDs(new ArrayList<LED>(leds), 0);
+    // sortLEDs(new ArrayList<LED>(leds),
 
 
     // background(40);
@@ -42,20 +43,20 @@ void setup(){
     // translate(0, width/2);
     // cloud.display();
 
-    background(40);
-    // cloud.display();
-    int prev=0;
-    color c = color(255,0,0);
-    strokeWeight(4);
-    for(LED l : cloud.leds) {
-        println(l.clusterIndex);
-        if(l.clusterIndex != prev) {
-            c = color(random(255),random(255),random(255));
-            stroke(c);
-            prev = l.clusterIndex;
-        }
-        point(l.pos.x,l.pos.y);
-    }
+    // background(40);
+    // // cloud.display();
+    // int prev=0;
+    // color c = color(255,0,0);
+    // strokeWeight(4);
+    // for(LED l : cloud.leds) {
+    //     // println(l.clusterIndex);
+    //     if(l.clusterIndex != prev) {
+    //         c = color(random(255),random(255),random(255));
+    //         stroke(c);
+    //         prev = l.clusterIndex;
+    //     }
+    //     point(l.pos.x,l.pos.y);
+    // }
 }
 
 
@@ -96,7 +97,7 @@ void send(OscMessage _osc){
 }
 
 void draw(){
-    println(mouseX+" "+mouseY);
+    // println(mouseX+" "+mouseY);
     // setChannel(20,0);
     // setChannel(21,0);
     // setChannel(22,0);

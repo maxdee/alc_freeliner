@@ -44,7 +44,7 @@ interface FreelinerConfig {
   final color PREVIEW_LINE_COLOR = #ffffff;
   final color CURSOR_COLOR = #FFFFFF;
   final color SNAPPED_CURSOR_COLOR = #00FF00;
-  final boolean ENABLE_SNAP_MIDDLE = false;
+  final boolean ENABLE_SNAP_MIDDLE = true;
   final color TEXT_COLOR = #FFFFFF;
   final color GRID_COLOR = #969696;//9696;
   final int GRID_STROKE_WEIGHT = 1;//9696;

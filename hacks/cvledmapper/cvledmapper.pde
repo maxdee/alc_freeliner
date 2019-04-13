@@ -17,13 +17,16 @@ PImage diff;
 int contrast = 0;
 int brightness = 0;
 int selectedLED = 0;
-
+int blur_amount = 5;
 XML fixtures;
 
 int index = 0;
-int END_INDEX = 268*8;
+int LED_PER_STRIP = 300;
+int END_INDEX = LED_PER_STRIP*8;
 ArrayList<PVector> list;
 PVector position;
+boolean go = false;
+
 
 void setup(){
 
@@ -56,22 +59,23 @@ void draw(){
     int modu = 5;
 
 
+    if(go) {
+        position = opencv.max();
+        if(frameCount % modu == modu-1){
+            if(index < END_INDEX){
+                addLEDtoXML((int) position.x, (int)position.y, index);
+                list.add(position.get());
+                setChan(index);
+                index++;
+                fill(255);
+                text(index, 20,20);
+            }
+            else {
+                saveXML(fixtures, "haha.xml");
+                saveXML(fixtures, "hihi.xml");
 
-    position = opencv.max();
-    if(frameCount % modu == modu-1){
-        if(index < END_INDEX){
-            addLEDtoXML((int) position.x, (int)position.y, index);
-            list.add(position.get());
-            setChan(index);
-            index++;
-            fill(255);
-            text(index, 20,20);
-        }
-        else {
-            saveXML(fixtures, "haha.xml");
-            saveXML(fixtures, "hihi.xml");
-
-            exit();
+                exit();
+            }
         }
     }
 
@@ -94,7 +98,7 @@ void draw(){
 
 void basicProcess(){
     opencv.loadImage(video);
-    opencv.blur(10);
+    opencv.blur(blur_amount);
     // opencv.adaptiveThreshold(591, 1);
     // opencv.setGray(opencv.getB());
     // opencv.brightness(brightness);
@@ -138,8 +142,11 @@ void keyPressed(){
     else if(key == 27){
         stop();
     }
+    else if(key == 'g') {
+        go = !go;
+    }
     else if(key == 32){
-        index = (ceil(index/268)+1)*268;
+        index = (ceil(index/LED_PER_STRIP)+1)*LED_PER_STRIP;
     }
     // selectedLED %= ledCount;
     println(selectedLED);

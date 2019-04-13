@@ -380,7 +380,10 @@ function makeLayerDiv(_params) {
         _layerDiv.className = "selectedLayerWidget";
     }
     _layerDiv.innerHTML = _params[0];
-    if(_params[1] == "mergeLayer") _layerDiv.innerHTML = "+++ "+_params[0]+" +++";
+    if(_params[1] == "mergeLayer") {
+        _layerDiv.innerHTML = "+++ "+_params[0]+" +++";
+        _layerDiv.style.backgroundColor = "#800067";
+    }
 
     // enable checkbox
     _layerDiv.appendChild(layerEnableCheckBox(_params));
