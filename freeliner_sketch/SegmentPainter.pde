@@ -430,7 +430,6 @@ class ScrollingText extends BasicText {
         float _textWidth = _chars.length * _event.getScaledBrushSize();//canvas.textWidth(_txt);
         float _distance = _textWidth+_seg.getLength();
 
-
         float  _covered = 0;
         float _lrp = _event.getLerp();
         for(int i = 0; i < _chars.length; i++) {
@@ -446,35 +445,37 @@ class ScrollingText extends BasicText {
     }
 }
 
-
-
-class ContinuousScroolingText extends BasicText {
-    public ContinuousScroolingText(int _ind) {
+class LeftAlignedText extends BasicText {
+    public LeftAlignedText(int _ind) {
         modeIndex = _ind;
-        name = "ContinuousScroolingText";
-        description = "Scrolls text, acording to enterpolator";
+        name = "LeftAlignedText";
+        description = "Aligns text to the left";
     }
 
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
-		super.paintSegment(_seg, _event);
+        super.paintSegment(_seg, _event);
         String _txt = _seg.getText();
         canvas.textFont(font);
         canvas.textSize(_event.getScaledBrushSize());
-        char[] carr = _txt.toCharArray();
-        int l = _txt.length();
-        for(int i = 0; i < l; i++) {
-			float _lp = -((float)i/(l+20) + 1.0/(l+20))+1;
-            _event.setLerp(fltMod(_lp+_event.getLerp()));
-            putChar(carr[i], getPosition(_seg), getAngle(_seg, _event));
-        }
+        putString(_txt, _seg.getPointB(), _seg.getAngle(true));
+    }
+
+    public void putString(String _str, PVector _p, float _a) {
+        canvas.pushMatrix();
+        canvas.translate(_p.x, _p.y);
+        canvas.rotate(_a+PI);
+        canvas.textAlign(LEFT);
+        canvas.text(_str, 0, event.getScaledBrushSize()/3.0);
+        canvas.popMatrix();
     }
 }
 
-class NiceText extends BasicText {
-    public NiceText(int _ind) {
+
+class CenterAlignedText extends BasicText {
+    public CenterAlignedText(int _ind) {
         modeIndex = _ind;
-        name = "NiceText";
-        description = "Displays with correct kerning";
+        name = "CenterAlignedText";
+        description = "Aligns text to center";
     }
 
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
@@ -494,6 +495,32 @@ class NiceText extends BasicText {
         canvas.popMatrix();
     }
 }
+
+class RightAlignedText extends BasicText {
+    public RightAlignedText(int _ind) {
+        modeIndex = _ind;
+        name = "RightAlignedText";
+        description = "Aligns text to right";
+    }
+
+    public void paintSegment(Segment _seg, RenderableTemplate _event) {
+        super.paintSegment(_seg, _event);
+        String _txt = _seg.getText();
+        canvas.textFont(font);
+        canvas.textSize(_event.getScaledBrushSize());
+        putString(_txt, _seg.getPointA(), _seg.getAngle(true));
+    }
+
+    public void putString(String _str, PVector _p, float _a) {
+        canvas.pushMatrix();
+        canvas.translate(_p.x, _p.y);
+        canvas.rotate(_a+PI);
+        canvas.textAlign(RIGHT);
+        canvas.text(_str, 0, event.getScaledBrushSize()/3.0);
+        canvas.popMatrix();
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////

@@ -744,6 +744,7 @@ class CommandProcessor implements FreelinerConfig {
     // geom txt yes no
     // #needstesting
     public boolean textCMD(String[] _args) {
+        println(_args);
         if(_args.length == 3) groupManager.setText(_args[2]);
         else if(_args.length == 4) groupManager.setText(_args[2]+" "+_args[3]);
         else if(_args.length > 3) {

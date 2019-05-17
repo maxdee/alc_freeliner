@@ -744,15 +744,21 @@
         "key": "a"
       },
       {
-        "name": "NiceText",
+        "name": "LeftAlignedText",
         "index": 2,
-        "description": "Displays with correct kerning",
+        "description": "Aligns text to the left",
         "key": "a"
       },
       {
-        "name": "ContinuousScroolingText",
+        "name": "CenterAlignedText",
         "index": 3,
-        "description": "Scrolls text, acording to enterpolator",
+        "description": "Aligns text to center",
+        "key": "a"
+      },
+      {
+        "name": "RightAlignedText",
+        "index": 4,
+        "description": "Aligns text to right",
         "key": "a"
       }
     ],

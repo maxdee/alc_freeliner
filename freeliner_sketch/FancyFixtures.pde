@@ -135,15 +135,6 @@ class FancyFixtures implements FreelinerConfig {
             }
         }
         println("Added  "+_cnt+" LEDs");
-        //
-        // println("**********************************************");
-        // println("**********************************************");
-        // println("**********************************************");
-        // println(_fix);
-        // println("**********************************************");
-        // println("**********************************************");
-        // println("**********************************************");
-
     }
 
     public void addRGBFixture(int _adr, int _x, int _y) {
@@ -379,9 +370,20 @@ class FancyFixtures implements FreelinerConfig {
         recording = _b;
         if(recording) {
             recordingBuffer = new ArrayList<Byte>();
-            // make a header with channelCount
+            // 32 byte name placeholder
+            for(int i = 0; i < 32; i++) {
+                recordingBuffer.add((byte)0); // MSB
+            }
+            // channelCount or universe count?
             recordingBuffer.add((byte)((byteBuffer.length) >> 8)); // MSB
             recordingBuffer.add((byte)(byteBuffer.length & 0xFF)); // LSB
+            // fps value
+            recordingBuffer.add((byte)30);
+            // BPM
+            recordingBuffer.add((byte)120);
+            // framecount place holder! set before saving file.
+            recordingBuffer.add((byte)0);
+            recordingBuffer.add((byte)0);
         } else {
             byte[] ha = new byte[recordingBuffer.size()];
             for(int i = 0; i < ha.length; i++) {
