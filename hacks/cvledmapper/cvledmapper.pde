@@ -31,7 +31,7 @@ boolean go = false;
 void setup(){
 
     size(640,480,P2D);
-    video = new Capture(this, 640, 480, "/dev/video0");
+    video = new Capture(this, 640, 480, "/dev/video2");
     video.start();
     opencv = new OpenCV(this, 640, 480);
     // opencv.useColor();
@@ -56,7 +56,7 @@ void stop() {
 void draw(){
     background(0);
     basicProcess();
-    int modu = 5;
+    int modu = 20;
 
 
     if(go) {
