@@ -433,9 +433,9 @@ class GroupManager implements FreelinerConfig{
 
     public void saveGroups(String _fn) {
         XML groupData = new XML("groups");
+        groupData.setInt("width", width);
+        groupData.setInt("height", height);
         for(SegmentGroup grp : groups) {
-            groupData.setInt("width", width);
-            groupData.setInt("height", height);
 
             if(grp.isEmpty()) continue;
             XML xgroup = groupData.addChild("group");
