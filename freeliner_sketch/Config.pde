@@ -35,7 +35,7 @@ interface FreelinerConfig {
   final int CURSOR_SIZE = 15;
   final int CURSOR_GAP_SIZE = 10;
   final int CURSOR_STROKE_WIDTH = 2;
-  final int GUI_TIMEOUT = 5000000;
+  final int GUI_TIMEOUT = 1;
   final int GUI_FONT_SIZE = 15;
   // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
   final int NODE_STROKE_WEIGTH = 5;
@@ -54,7 +54,7 @@ interface FreelinerConfig {
   final color SEGMENT_COLOR_UNSELECTED = #2D2D2D;
 
   // If you are using a DLP with no colour wheel
-  final boolean BW_BEAMER = true;
+  final boolean BW_BEAMER = false;
   // If you are using a dual head setup
   final boolean DUAL_HEAD = false;
   // invert colors

@@ -43,7 +43,10 @@ actualySendCMD = (function () {
     if (_addr != null) socket = makeSocket(_addr);
     else socket = makeSocket(DEFAULT_WEBSOCKET_ADDR);
     return function (_cmd) {
-        if(socket.readyState) socket.send(_cmd);
+        if(socket.readyState) {
+            socket.send(_cmd);
+            // console.log(_cmd);
+        }
         else setInfo("start freeliner and refresh to connect");
     }
 })();

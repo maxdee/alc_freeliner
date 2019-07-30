@@ -121,9 +121,9 @@ class FreeLiner implements FreelinerConfig {
 
         // windowFocus
         if(windowFocus != focused) {
+            windowFocus = focused;
             keyboard.forceRelease();
             groupManager.unSnap();
-            windowFocus = focused;
         }
         gui.update();
         commandProcessor.update();

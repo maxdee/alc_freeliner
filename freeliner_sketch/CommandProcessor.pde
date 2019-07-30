@@ -179,7 +179,6 @@ class CommandProcessor implements FreelinerConfig {
      * @param String command
      */
     public void queueCMD(String _cmd) {
-        // println("adding to queue : "+_cmd);
         commandQueue.add(_cmd);
     }
 
@@ -195,8 +194,11 @@ class CommandProcessor implements FreelinerConfig {
     public void processQueue() {
         if(commandQueue.size() == 0) return;
         ArrayList<String> _q = new ArrayList(commandQueue);
-        for(String _cmd : _q) processCMD(_cmd);
-        commandQueue.clear();
+        for(String _cmd : _q) {
+            processCMD(_cmd);
+            commandQueue.remove(_cmd);
+        }
+        // commandQueue.clear();
         //gui.setValueGiven(getValueGiven());
     }
 
@@ -563,6 +565,7 @@ class CommandProcessor implements FreelinerConfig {
     ////////////////////////////////////////////////////////////////////////////////////
 
     public boolean hidCMD(String[] _args) {
+
         if(_args.length < 4) return false;
         if(_args[3].length() < 1) return true; // catches the SPACEBAR
         if(_args[1].equals("press")) keyboard.keyPressed(stringInt(_args[2]), _args[3].charAt(0) );

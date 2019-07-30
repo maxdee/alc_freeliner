@@ -23,7 +23,7 @@ import netP5.*;
 boolean fetchConfig = false; // set to true for #packaging
 int configuredWidth = 1048;///3;//640;
 int configuredHeight = 968;///3;//480;
-int useFullscreen = 1;
+int useFullscreen = 0;
 int useDisplay = 2; // SPAN is 0
 int usePipeline = 1;
 
@@ -46,7 +46,6 @@ boolean doSplash = true;
 boolean OSX = false;
 boolean WIN = false;
 
-ExternalGUI externalGUI = null; // set specific key to init gui
 // documentation compiler, has to be super global
 Documenter documenter;
 
@@ -142,20 +141,6 @@ String dataDirectory(String _thing) {
     else return workingDirectory+"/"+_thing;
 }
 
-//external GUI launcher
-void launchGUI(){
-    if(externalGUI != null) return;
-    externalGUI = new ExternalGUI(freeliner);
-    String[] args = {"Freeliner GUI", "--display=1"};
-    PApplet.runSketch(args, externalGUI);
-    externalGUI.loop();
-}
-
-void closeGUI(){
-    if(externalGUI != null) return;
-    //PApplet.stopSketch();
-}
-
 void makeGammaTable(){
     for (int i=0; i < 256; i++) {
         gammatable[i] = (int)(pow((float)i / 255.0, gamma) * 255.0 + 0.5);
@@ -188,7 +173,6 @@ void webSocketServerEvent(String _cmd){
 // relay the inputs to the mapper
 void keyPressed() {
     freeliner.getKeyboard().keyPressed(keyCode, key);
-    if(key == '~') launchGUI();
     if (key == 27) key = 0;       // dont let escape key, we need it :)
 }
 
