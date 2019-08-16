@@ -1008,6 +1008,17 @@ class MaskLayer extends ImageLayer {
         description = "a configurable mask layer";
     }
 
+    public PGraphics apply(PGraphics _pg) {
+        if(!enabled) return _pg;
+        if(imageToDraw == null) return _pg;
+        if(_pg == null) return canvas; // maybe cast image to a PG???
+        _pg.beginDraw();
+        _pg.blendMode(BLEND);
+        _pg.image(imageToDraw,0,0);
+        _pg.endDraw();
+        return _pg;
+    }
+
     public void selectOption(String _opt) {
         if(_opt.equals("MAKE")) maskFlag = true;
         else {

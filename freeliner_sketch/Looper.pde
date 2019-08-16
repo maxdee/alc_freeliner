@@ -50,6 +50,7 @@ class Looper implements FreelinerConfig{
 	}
 
 	public void receive(String _cmd){
+		// println(_cmd+"  "+lock+"   "+recording);
 		if(lock) return;
 		if(primed){
 			currentLoop = new Loop(currentTimeDiv, synchroniser.getLerp(currentTimeDiv));

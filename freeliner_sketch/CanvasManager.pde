@@ -1,3 +1,4 @@
+
 /**
  * ##copyright##
  * See LICENSE.md
@@ -146,8 +147,12 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer secondShader shaderLayer");
         layerCreator("layer mergeB mergeLayer");
 
-        layerCreator("layer mergeOutput mergeOutput");
+        layerCreator("layer beamrender renderLayer");
         layerCreator("layer thirdShader shaderLayer");
+        layerCreator("layer mergeC mergeLayer");
+
+        layerCreator("layer mergeOutput mergeOutput");
+        layerCreator("layer fourthShader shaderLayer");
         // led/dmx layer
         layerCreator("layer fix fixtureLayer");
         // layerCreator("layer cap captureLayer");
