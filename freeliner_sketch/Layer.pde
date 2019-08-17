@@ -652,8 +652,9 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     PVector center;// implements this (connect to some sort of geometry thingy)
     // uniforms to control shader params
     float[] uniforms;
+    DampFloat[] dampFloats;
     Synchroniser sync;
-
+    final int UNIFORM_FLOAT_COUNT = 8;
     public ShaderLayer(Synchroniser _s) {
         super();
         sync = _s;
@@ -666,6 +667,10 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
 
         shader = null;
         uniforms = new float[] {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5};
+        dampFloats = new DampFloat[UNIFORM_FLOAT_COUNT];
+        for(int i = 0; i < UNIFORM_FLOAT_COUNT; i++) {
+            dampFloats[i] = new DampFloat(0.5, 10);
+        }
     }
 
     // Overrirde
@@ -757,17 +762,27 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     public void setUniforms(int _i, float _val) {
         if(_i < 0) return;
         uniforms[_i % 8] = _val;
+        dampFloats[_i % 8].feed(_val);
     }
 
     public void passUniforms() {
-        shader.set("u1", uniforms[0]);
-        shader.set("u2", uniforms[1]);
-        shader.set("u3", uniforms[2]);
-        shader.set("u4", uniforms[3]);
-        shader.set("u5", uniforms[4]);
-        shader.set("u6", uniforms[5]);
-        shader.set("u7", uniforms[6]);
-        shader.set("u8", uniforms[7]);
+        shader.set("u1", dampFloats[0].get());
+        shader.set("u2", dampFloats[1].get());
+        shader.set("u3", dampFloats[2].get());
+        shader.set("u4", dampFloats[3].get());
+        shader.set("u5", dampFloats[4].get());
+        shader.set("u6", dampFloats[5].get());
+        shader.set("u7", dampFloats[6].get());
+        shader.set("u8", dampFloats[7].get());
+        println(dampFloats[1].value);
+        // shader.set("u1", uniforms[0]);
+        // shader.set("u2", uniforms[1]);
+        // shader.set("u3", uniforms[2]);
+        // shader.set("u4", uniforms[3]);
+        // shader.set("u5", uniforms[4]);
+        // shader.set("u6", uniforms[5]);
+        // shader.set("u7", uniforms[6]);
+        // shader.set("u8", uniforms[7]);
         shader.set("time", sync.getUnit());
         shader.set("res", float(width), float(height));
     }

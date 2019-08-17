@@ -84,6 +84,26 @@ class FloatSmoother {
   }
 }
 
+class DampFloat {
+    float value;
+    float target;
+    float factor;
+    float eps = 0.0000001;
+    public DampFloat(float _value, float _factor){
+        value = _value;
+        factor = _factor;
+    }
+    public float feed(float _f) {
+        target = _f;
+        return get();
+    }
+    public float get(){
+        value += (target-value)/factor;
+        if(abs(value - target) < eps) value = target;
+        return value;
+    }
+}
+
 /**
  * Method to manipulate values by increment or asbolute
  * if the new value is >= 0 it will simply return this.
