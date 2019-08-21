@@ -522,12 +522,12 @@ class Gui implements FreelinerConfig {
      */
     public boolean doDraw() {
         // scuff added
-        return true;
+        // return true;
 
-            // if (guiTimer > 0 && (mouse.useGrid() || focused)) { // recently added window focus
-            //     guiTimer--;
-            //     return true;
-            // } else return false;
+        if (guiTimer > 0 && (mouse.useGrid() || focused)) { // recently added window focus
+            guiTimer--;
+            return true;
+        } else return false;
     }
 
     public PGraphics getCanvas() {

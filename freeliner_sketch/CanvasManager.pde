@@ -147,12 +147,15 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer secondShader shaderLayer");
         layerCreator("layer mergeB mergeLayer");
 
-        layerCreator("layer beamrender renderLayer");
+        layerCreator("layer otherRender renderLayer");
         layerCreator("layer thirdShader shaderLayer");
         layerCreator("layer mergeC mergeLayer");
 
         layerCreator("layer mergeOutput mergeOutput");
         layerCreator("layer fourthShader shaderLayer");
+        layerCreator("layer maskit maskLayer");
+        layerCreator("layer beams renderLayer");
+
         // led/dmx layer
         layerCreator("layer fix fixtureLayer");
         // layerCreator("layer cap captureLayer");

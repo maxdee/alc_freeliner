@@ -20,12 +20,12 @@ import netP5.*;
 // for loading configuration
 // false -> use following parameters
 // true -> use the configuration saved in data/userdata/configuration.xml
-boolean fetchConfig = false; // set to true for #packaging
-int configuredWidth = 1024;///3;//640;
-int configuredHeight = 768;///3;//480;
-int useFullscreen = 1;
-int useDisplay = 2; // SPAN is 0
-int usePipeline = 1;
+// boolean fetchConfig = false; // set to true for #packaging
+// int configuredWidth = 1024;///3;//640;
+// int configuredHeight = 768;///3;//480;
+// int useFullscreen = 1;
+// int useDisplay = 3; // SPAN is 0
+// int usePipeline = 1;
 
 // set the working directory of your project, folder must have all the freeliner files
 String workingDirectory = null;
@@ -54,34 +54,19 @@ int[] gammatable = new int[256];
 float gamma = 3.2; // 3.2 seems to be nice
 
 void settings(){
-    if( fetchConfig ) fetchConfiguration();
-    if(useFullscreen == 1){
-        fullScreen(P2D,useDisplay);
+    if(FreelinerConfig.USE_FULLSCREEN == true){
+        fullScreen(P2D, FreelinerConfig.FULLSCREEN_DISPLAY);
     }
     else {
-        size(configuredWidth, configuredHeight, P2D);
+        size(
+            FreelinerConfig.CONFIGURED_WIDTH,
+            FreelinerConfig.CONFIGURED_HEIGHT,
+            P2D
+        );
     }
     // needed for syphon!
     PJOGL.profile=1;
     smooth(FreelinerConfig.SMOOTH_LEVEL);
-}
-
-// single configuration file for the moment.
-void fetchConfiguration(){
-    XML _file = null;
-    try{
-        _file = loadXML(sketchPath()+"/data/userdata/configuration.xml");
-    }
-    catch(Exception e) {
-        println("No configuration.xml file found.");
-    }
-    if(_file != null) {
-        configuredWidth = _file.getInt("width");
-        configuredHeight = _file.getInt("height");
-        useFullscreen = _file.getInt("fullscreen");
-        useDisplay = _file.getInt("display");
-        usePipeline = _file.getInt("pipeline");
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

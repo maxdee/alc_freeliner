@@ -774,7 +774,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         shader.set("u6", dampFloats[5].get());
         shader.set("u7", dampFloats[6].get());
         shader.set("u8", dampFloats[7].get());
-        println(dampFloats[1].value);
+        // println(dampFloats[1].value);
         // shader.set("u1", uniforms[0]);
         // shader.set("u2", uniforms[1]);
         // shader.set("u3", uniforms[2]);
