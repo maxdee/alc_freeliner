@@ -90,6 +90,7 @@ class OSCCommunicator extends FreelinerCommunicator implements OscEventListener 
     } else if (_mess.checkTypetag("")) {
       _cmd = _mess.addrPattern().replaceAll("/", " ").replaceFirst(" ", "");
     }
+    // println(_cmd);
     // proceed to process the command
     receive(_cmd);
   }

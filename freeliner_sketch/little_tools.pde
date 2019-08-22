@@ -28,6 +28,12 @@ int stringInt(String _str){
     return Integer.parseInt(_str);
   }
   catch (Exception e){
+      try {
+          return (int)Float.parseFloat(_str);
+      }
+      catch (Exception f) {
+
+      }
     //println("Bad number string");
     return -42;
   }

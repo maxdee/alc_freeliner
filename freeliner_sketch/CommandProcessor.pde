@@ -1106,6 +1106,7 @@ class CommandProcessor implements FreelinerConfig {
      * @return boolean was used
      */
     public void tweakTemplates(String[] _args) {
+        println(_args);
         if(_args.length < 4) return;
         //if(_args[3] == "-3") return;
         ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
