@@ -21,7 +21,7 @@ class SyphonLayer extends Layer{
     enabled = false;
     //  syphonServer = new SyphonServer(_pa, "alcFreeliner");
     //  enabled = true;
-    name = "SyphonLayer";
+    name = "syphonLayer";
     id = name;
     description = "Output layer to other software, only on osx, requires SyphonLibrary, and uncoment code in SyphonLayer.pde";
   }

@@ -491,7 +491,6 @@ class LayeredCanvasManager extends CanvasManager {
             _xml.setString("type", _layer.getName());
             _xml.setString("id", _layer.getID());
             _xml.setString("option", _layer.getSelectedOption());
-
         }
         saveXML(_layersXML, dataDirectory(PATH_TO_LAYERS)+"/"+_fn);
     }
