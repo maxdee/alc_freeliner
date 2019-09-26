@@ -1114,6 +1114,7 @@ class CommandProcessor implements FreelinerConfig {
         if(_args[2].length() == 0) return;
         char _k = _args[2].charAt(0);
         int _v = stringInt(_args[3]);
+        println(_v);
         for(TweakableTemplate _tp : _tmps) templateDispatch(_tp, _k, _v);
 
     }

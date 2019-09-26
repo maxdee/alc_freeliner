@@ -97,6 +97,7 @@ class DampFloat {
     float eps = 0.0000001;
     public DampFloat(float _value, float _factor){
         value = _value;
+        target = value;
         factor = _factor;
     }
     public float feed(float _f) {

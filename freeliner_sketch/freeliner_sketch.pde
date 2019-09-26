@@ -17,16 +17,6 @@ import netP5.*;
  * webGUI: http://localhost:8000/index.html
  **/
 
-// for loading configuration
-// false -> use following parameters
-// true -> use the configuration saved in data/userdata/configuration.xml
-// boolean fetchConfig = false; // set to true for #packaging
-// int configuredWidth = 1024;///3;//640;
-// int configuredHeight = 768;///3;//480;
-// int useFullscreen = 1;
-// int useDisplay = 3; // SPAN is 0
-// int usePipeline = 1;
-
 // set the working directory of your project, folder must have all the freeliner files
 String workingDirectory = null;
 

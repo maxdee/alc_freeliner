@@ -196,6 +196,8 @@ class Layer extends Mode {
 ///////    subaclasses
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
+
+// ContainerLayer is used to to have a layer in two places
 class ContainerLayer extends Layer {
     Layer containedLayer = null;
     public ContainerLayer() {
