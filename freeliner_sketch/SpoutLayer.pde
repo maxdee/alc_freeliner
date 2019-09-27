@@ -28,7 +28,7 @@ class SpoutLayer extends Layer{
 
   public PGraphics apply(PGraphics _pg){
     if(!enabled || _pg == null) return _pg;
-    spout.sendTexture(_pg);
+    // spout.sendTexture(_pg);
     return _pg;
   }
 }
