@@ -283,6 +283,12 @@ class MetaFreelining extends PerSegment {
         description = "Use freeliner to automate itself.";
         if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "MetaModes");
     }
+    // 
+    //
+    // public void doRender(RenderableTemplate _event) {
+    //     super.doRender(_event);
+    // }
+
     public SegmentPainter getPainter(int _index) {
         if(_index >= painterCount) _index = painterCount - 1;
         return segmentPainters[_index];

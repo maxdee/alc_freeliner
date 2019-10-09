@@ -127,6 +127,7 @@ class TemplateRenderer extends Mode{
         // }
 
         metaFreeliner.setCommandSegments(groupManager.getCommandSegments());
+        _rt.getSourceTemplate().flagClearMarkers = true;
 
 
         // check the enabler, it may modify the unitInterval

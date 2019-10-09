@@ -87,10 +87,25 @@ class GroupManager implements FreelinerConfig{
     public void cloneGeometries(TweakableTemplate tpPositions, SegmentGroup source){
         ArrayList<PVector> positions = tpPositions.getMetaPoisitionMarkers();
         println(positions);
+        // remove any clones of sourceGeom
+        clearClonesOf(source);
         for(PVector pos : positions) {
             SegmentGroup clone = newClone();
             println("cloning "+source.getID()+" to "+clone.getID()+" "+pos);
             cloneTransform(source, clone, pos);
+        }
+    }
+
+    public void clearClonesOf(SegmentGroup _sg) {
+        String cloneID = "clone of "+_sg.getID();
+        ArrayList<SegmentGroup> toClear =  new ArrayList<SegmentGroup>();
+        for(SegmentGroup cl : clones) {
+            if(cl.groupText.equals(cloneID)) {
+                toClear.add(cl);
+            }
+        }
+        for(SegmentGroup sg : toClear) {
+            clearClone(sg);
         }
     }
 
@@ -107,7 +122,9 @@ class GroupManager implements FreelinerConfig{
         }
         PVector newCenter = rotateTranslate(sourceGroup.getCenter(), position);
         clone.placeCenter(newCenter);
-
+        if(!sourceGroup.isCentered()) clone.unCenter();
+        clone.templateList.copy(sourceGroup.templateList);
+        clone.setText("clone of "+sourceGroup.getID());
     }
 
     public PVector rotateTranslate(PVector pos, PVector target) {
