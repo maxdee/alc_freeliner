@@ -32,6 +32,8 @@ class GroupManager implements FreelinerConfig{
     Segment snappedSegment;
 
     ArrayList<Segment> commandSegments;
+    ArrayList<SegmentGroup> clones;
+    ArrayList<SegmentGroup> freeClones;
 
     int testChannel = -1;
     int ledStart = 0;
@@ -58,6 +60,10 @@ class GroupManager implements FreelinerConfig{
         // reselect group 0 to begin
         selectedIndex = 0;
         commandSegments = null;
+
+        clones = new ArrayList<SegmentGroup>();
+        freeClones = new ArrayList<SegmentGroup>();
+
     }
 
 
@@ -72,40 +78,73 @@ class GroupManager implements FreelinerConfig{
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    // geom clone 12 A
+    // geom clone 2 A
     // clone the shape that is 12 into all the positions that is A
     // geom clone clear 12
-    // ArrayList<SegmentGroup> clones;
-    // ArrayList<SegmentGroup> freeClones;
-    // public void cloneGeometries(){
-    //
-    // }
-    // for(PVector _marker :_event.getSourceTemplate().getMetaPoisitionMarkers()){
-    //
-    //
-    // public SegmentGroup newClone(SegmentGroup _sg) {
-    //     SegmentGroup cl;
-    //     if(freeClones.size() > 0) {
-    //         cl = freeClones.get(freeClones.size()-1);
-    //         freeClones.remove(cl);
-    //     }
-    //     else {
-    //         cl = groups.get(newGroup());
-    //     }
-    //
-    //
-    //     clones.add(cl);
-    // }
-    //
-    // public void clearAllClones(){
-    //
-    // }
-    //
-    // public void clearClone(SegmentGroup _sg){
-    //     _sg.clear();
-    //     freeClones.add(_sg);
-    //     clones.remove();
-    // }
+
+
+    // for all positions in TweakableTemplate, create transformed SegmentGroup clone
+    public void cloneGeometries(TweakableTemplate tpPositions, SegmentGroup source){
+        ArrayList<PVector> positions = tpPositions.getMetaPoisitionMarkers();
+        println(positions);
+        for(PVector pos : positions) {
+            SegmentGroup clone = newClone();
+            println("cloning "+source.getID()+" to "+clone.getID()+" "+pos);
+            cloneTransform(source, clone, pos);
+        }
+    }
+
+
+    public void cloneTransform(SegmentGroup sourceGroup, SegmentGroup clone, PVector position){
+        // clear segments
+        clone.clear();
+        for(Segment seg : sourceGroup.getSegments()) {
+            Segment newseg = new Segment(
+                    rotateTranslate(seg.getPointA(), position),
+                    rotateTranslate(seg.getPointB(), position)
+                );
+            clone.addSegment( newseg );
+        }
+        PVector newCenter = rotateTranslate(sourceGroup.getCenter(), position);
+        clone.placeCenter(newCenter);
+
+    }
+
+    public PVector rotateTranslate(PVector pos, PVector target) {
+        PVector c = new PVector(width/2, height/2);
+        PVector p = pos.copy();
+        p.sub(c);
+        float sinAngle = sin(target.z);
+        float cosAngle = cos(target.z);
+        p.set(p.x * cosAngle - p.y * sinAngle, p.x * sinAngle + p.y * cosAngle, 0);
+        p.add(target);
+        p.z = 0;
+        return p;
+    }
+
+
+    public SegmentGroup newClone() {
+        SegmentGroup cl;
+        if(freeClones.size() > 0) {
+            cl = freeClones.get(freeClones.size()-1);
+            freeClones.remove(cl);
+        }
+        else {
+            cl = groups.get(newGroup());
+        }
+        clones.add(cl);
+        return cl;
+    }
+
+    public void clearAllClones(){
+
+    }
+
+    public void clearClone(SegmentGroup _sg){
+        _sg.clear();
+        freeClones.add(_sg);
+        clones.remove(_sg);
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////

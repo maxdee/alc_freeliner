@@ -548,6 +548,27 @@ class MetaPoint extends SegmentPainter {
     }
 }
 
+class PositionCollector extends BrushPutter {
+    public PositionCollector() {}
+    public PositionCollector(int _mi) {
+        modeIndex = _mi;
+        name = "PositionCollector";
+        description = "Store all previous positions in template itself";
+        // modeIndex = _mi;
+    }
+
+    public void paintSegment(Segment _seg, RenderableTemplate _event) {
+        super.paintSegment(_seg, _event);
+
+        PVector _pos = getPosition(_seg);
+        _pos.z = getAngle(_seg, _event);
+        _event.getSourceTemplate().addMetaPositionMarker(_pos);
+        // println(_pos);
+        putShape(_pos, _pos.z);
+    }
+}
+
+
 class MetaMarkerMaker extends BrushPutter {
     public MetaMarkerMaker() {}
     public MetaMarkerMaker(int _mi) {

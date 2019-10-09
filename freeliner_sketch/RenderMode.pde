@@ -260,7 +260,7 @@ class FeatheredRender extends PerSegment {
 // Make lines on segments
 class MetaFreelining extends PerSegment {
     SegmentPainter[] segmentPainters;
-    int painterCount = 4;
+    int painterCount = 5;
     SegmentCommandParser segmentCommandParser;
     StrokeColorPicker strokeColorPicker;
     FillColorPicker fillColorPicker;
@@ -277,6 +277,7 @@ class MetaFreelining extends PerSegment {
         fillColorPicker = new FillColorPicker(2);
         segmentPainters[2] = fillColorPicker;
         segmentPainters[3] = new MetaMarkerMaker(3);
+        segmentPainters[4] = new PositionCollector(4);
 
         name = "MetaFreelining";
         description = "Use freeliner to automate itself.";

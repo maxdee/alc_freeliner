@@ -844,8 +844,8 @@
     {
       "max": -42,
       "name": "macro1",
-      "description": "macro1  tp translate $ 0.0 0.0, tw $ p 0",
-      "cmd": " tp translate $ 0.0 0.0, tw $ p 0",
+      "description": "macro1  geom clone 2 A",
+      "cmd": " geom clone 2 A",
       "type": 7,
       "ascii": 49,
       "key": "1"

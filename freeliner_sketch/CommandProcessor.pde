@@ -98,6 +98,7 @@ class CommandProcessor implements FreelinerConfig {
         "geom priority (ABC|4) 3",
         "geom clear 4",
         "geom updatemap",
+        "geom clone 2 A",
         ///////////////////  Post processing
         "post tracers (alpha)", // to be deprecated
         // "post shader (coolfrag.glsl)", // to be deprecated
@@ -662,6 +663,7 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[1].equals("priority")) priorityGeometryCMD(_args);
         else if(_args[1].equals("clear")) geomClearCMD(_args);
         else if(_args[1].equals("updatemap")) canvasManager.passOutputMappingGeometry(groupManager.getOutputMappingGroup());
+        else if(_args[1].equals("clone")) geomCloneCMD(_args);
 
         else return false;
         return true;
@@ -678,6 +680,22 @@ class CommandProcessor implements FreelinerConfig {
             groupManager.clear();
         }
     }
+
+
+    public void geomCloneCMD(String[] _args){
+        println("clone?");
+        if(_args.length > 3){
+            ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs( _args);
+            ArrayList<TweakableTemplate> tps = templateManager.getTemplates(_args[3]);
+            println("cloning?");
+            if(_groups.size() > 0 && tps.size() > 0) {
+                println("clonging!");
+                groupManager.cloneGeometries(tps.get(0), _groups.get(0));
+            }
+        }
+    }
+
+
 
     // geom center (3 x y)
     public void centerCMD(String[] _args){
@@ -747,7 +765,7 @@ class CommandProcessor implements FreelinerConfig {
     // geom txt yes no
     // #needstesting
     public boolean textCMD(String[] _args) {
-        println(_args);
+        // println(_args);
         if(_args.length == 3) groupManager.setText(_args[2]);
         else if(_args.length == 4) groupManager.setText(_args[2]+" "+_args[3]);
         else if(_args.length > 3) {
@@ -1106,7 +1124,7 @@ class CommandProcessor implements FreelinerConfig {
      * @return boolean was used
      */
     public void tweakTemplates(String[] _args) {
-        println(_args);
+        // println(_args);
         if(_args.length < 4) return;
         //if(_args[3] == "-3") return;
         ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
@@ -1114,7 +1132,7 @@ class CommandProcessor implements FreelinerConfig {
         if(_args[2].length() == 0) return;
         char _k = _args[2].charAt(0);
         int _v = stringInt(_args[3]);
-        println(_v);
+        // println(_v);
         for(TweakableTemplate _tp : _tmps) templateDispatch(_tp, _k, _v);
 
     }
