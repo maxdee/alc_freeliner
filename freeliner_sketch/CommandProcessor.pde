@@ -747,7 +747,7 @@ class CommandProcessor implements FreelinerConfig {
     // geom txt yes no
     // #needstesting
     public boolean textCMD(String[] _args) {
-        println(_args);
+        // println(_args);
         if(_args.length == 3) groupManager.setText(_args[2]);
         else if(_args.length == 4) groupManager.setText(_args[2]+" "+_args[3]);
         else if(_args.length > 3) {
@@ -1106,7 +1106,7 @@ class CommandProcessor implements FreelinerConfig {
      * @return boolean was used
      */
     public void tweakTemplates(String[] _args) {
-        println(_args);
+        // println(_args);
         if(_args.length < 4) return;
         //if(_args[3] == "-3") return;
         ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
@@ -1114,7 +1114,7 @@ class CommandProcessor implements FreelinerConfig {
         if(_args[2].length() == 0) return;
         char _k = _args[2].charAt(0);
         int _v = stringInt(_args[3]);
-        println(_v);
+        // println(_v);
         for(TweakableTemplate _tp : _tmps) templateDispatch(_tp, _k, _v);
 
     }

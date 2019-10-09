@@ -971,6 +971,7 @@ class ImageLayer extends CanvasLayer {
 class CaptureLayer extends CanvasLayer {
     Capture cam;
     PApplet applet;
+    String[] cameras;
 
     public CaptureLayer(PApplet _ap) {
         super();
@@ -979,7 +980,11 @@ class CaptureLayer extends CanvasLayer {
         id = name;
         description = "webcams and capture cards";
         applet = _ap;
-        options = Capture.list();
+        cameras = Capture.list();
+        options = new String[cameras.length];
+        for(int i = 0; i < cameras.length; i++) {
+            options[i] = cameras[i].replaceAll(" ", "~").replaceAll("-","~");
+        }
     }
 
     public PGraphics apply(PGraphics _pg) {
@@ -1002,7 +1007,14 @@ class CaptureLayer extends CanvasLayer {
     public void selectOption(String _opt) {
         selectedOption = _opt;
         if(cam != null) cam.stop();
-        cam = new Capture(applet, _opt);
+        int index = 0;
+        for(int i = 0; i < cameras.length; i++) {
+            if(options[i].equals(_opt)) {
+                index = i;
+            }
+        }
+        println("loading camera :"+cameras[index]);
+        cam = new Capture(applet, cameras[index]);
         cam.start();
     }
 }
