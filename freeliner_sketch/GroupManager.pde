@@ -8,7 +8,6 @@
  */
 
 
-
 /**
  * Manage segmentGroups!
  *
@@ -66,6 +65,47 @@ class GroupManager implements FreelinerConfig{
         templateManager = _tm;
         commandProcessor = _cp;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////     cloning!
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    // geom clone 12 A
+    // clone the shape that is 12 into all the positions that is A
+    // geom clone clear 12
+    // ArrayList<SegmentGroup> clones;
+    // ArrayList<SegmentGroup> freeClones;
+    // public void cloneGeometries(){
+    //
+    // }
+    // for(PVector _marker :_event.getSourceTemplate().getMetaPoisitionMarkers()){
+    //
+    //
+    // public SegmentGroup newClone(SegmentGroup _sg) {
+    //     SegmentGroup cl;
+    //     if(freeClones.size() > 0) {
+    //         cl = freeClones.get(freeClones.size()-1);
+    //         freeClones.remove(cl);
+    //     }
+    //     else {
+    //         cl = groups.get(newGroup());
+    //     }
+    //
+    //
+    //     clones.add(cl);
+    // }
+    //
+    // public void clearAllClones(){
+    //
+    // }
+    //
+    // public void clearClone(SegmentGroup _sg){
+    //     _sg.clear();
+    //     freeClones.add(_sg);
+    //     clones.remove();
+    // }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
