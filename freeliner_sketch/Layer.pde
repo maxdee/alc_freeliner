@@ -1013,7 +1013,6 @@ class CaptureLayer extends CanvasLayer {
                 index = i;
             }
         }
-        println("loading camera :"+cameras[index]);
         cam = new Capture(applet, cameras[index]);
         cam.start();
     }
