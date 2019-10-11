@@ -3,7 +3,7 @@ interface FreelinerConfig {
     // windowed mode width and height
     final int CONFIGURED_WIDTH = 720;
     final int CONFIGURED_HEIGHT = 480;
-    final boolean USE_FULLSCREEN = false;//false;
+    final boolean USE_FULLSCREEN = true;//false;
     // which screen is used for fullscreen
     final int FULLSCREEN_DISPLAY = 2;
 
@@ -41,7 +41,7 @@ interface FreelinerConfig {
     final int CURSOR_GAP_SIZE = 10;
     final int CURSOR_STROKE_WIDTH = 2;
     final int GUI_TIMEOUT = 10000;
-    final int GUI_FONT_SIZE = 15;
+    final int GUI_FONT_SIZE = 36;
     // final int DEFAULT_GRID_SIZE = 32; // used by mouse too
     final int NODE_STROKE_WEIGTH = 5;
     final int NODE_COLOR = #989898;
