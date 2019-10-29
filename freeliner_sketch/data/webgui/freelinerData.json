@@ -1,0 +1,1349 @@
+{
+  "modes": {
+    "a_b1": [
+      {
+        "name": "FunLine",
+        "index": 0,
+        "description": "Makes a line between pointA and a position.",
+        "key": "a"
+      },
+      {
+        "name": "FullLine",
+        "index": 1,
+        "description": "Draws a line on a segment, not animated.",
+        "key": "a"
+      },
+      {
+        "name": "MiddleLine",
+        "index": 2,
+        "description": "line that expands from the middle of a segment.",
+        "key": "a"
+      },
+      {
+        "name": "TrainLine",
+        "index": 3,
+        "description": "Line that comes out of point A and exits through pointB",
+        "key": "a"
+      },
+      {
+        "name": "Maypole",
+        "index": 4,
+        "description": "Draw a line from center to position.",
+        "key": "a"
+      },
+      {
+        "name": "SegToSeg",
+        "index": 5,
+        "description": "Draws a line from a point on a segment to a point on a different segment. Affected by `e`",
+        "key": "a"
+      },
+      {
+        "name": "AlphaLine",
+        "index": 6,
+        "description": "modulates alpha channel, made for LEDs",
+        "key": "a"
+      },
+      {
+        "name": "GradientLine",
+        "index": 7,
+        "description": "Stroke to fill gradient",
+        "key": "a"
+      }
+    ],
+    "a_b0": [
+      {
+        "name": "PointBrush",
+        "index": 0,
+        "description": "Adjust its size with `w`.",
+        "key": "a"
+      },
+      {
+        "name": "line",
+        "index": 1,
+        "description": "Perpendicular line brush",
+        "key": "a"
+      },
+      {
+        "name": "circle",
+        "index": 2,
+        "description": "Brush witha circular appearance.",
+        "key": "a"
+      },
+      {
+        "name": "chevron",
+        "index": 3,
+        "description": "Chevron v shaped style brush",
+        "key": "a"
+      },
+      {
+        "name": "square",
+        "index": 4,
+        "description": "Square shaped brush",
+        "key": "a"
+      },
+      {
+        "name": "+",
+        "index": 5,
+        "description": "+ shaped brush",
+        "key": "a"
+      },
+      {
+        "name": "triangle",
+        "index": 6,
+        "description": "Triangular brush.",
+        "key": "a"
+      },
+      {
+        "name": "sprinkle",
+        "index": 7,
+        "description": "ms paint grafiti style",
+        "key": "a"
+      },
+      {
+        "name": "leaf",
+        "index": 8,
+        "description": "legalize it",
+        "key": "a"
+      },
+      {
+        "name": "custom",
+        "index": 9,
+        "description": "Template custom shape, add template to geometryGroup and press `ctrl-d` to set as custom shape.",
+        "key": "a"
+      }
+    ],
+    "a_b3": [
+      {
+        "name": "InterpolatorShape",
+        "index": 0,
+        "description": "shape delimited by positions determined by the interpolator",
+        "key": "a"
+      },
+      {
+        "name": "Filler",
+        "index": 1,
+        "description": "make a filled shape, for nice color fill",
+        "key": "a"
+      }
+    ],
+    "b": [
+      {
+        "name": "BrushSegment",
+        "index": 0,
+        "description": "Render mode for drawing with brushes",
+        "key": "b"
+      },
+      {
+        "name": "LineSegment",
+        "index": 1,
+        "description": "Draw lines related to segments",
+        "key": "b"
+      },
+      {
+        "name": "WrapLine",
+        "index": 2,
+        "description": "line from segment to segment",
+        "key": "b"
+      },
+      {
+        "name": "GeometryRender",
+        "index": 3,
+        "description": "RenderModes that involve all segments.",
+        "key": "b"
+      },
+      {
+        "name": "TextRenderMode",
+        "index": 4,
+        "description": "Stuff that draws text",
+        "key": "b"
+      },
+      {
+        "name": "CircularSegment",
+        "index": 5,
+        "description": "Circles and stuff",
+        "key": "b"
+      },
+      {
+        "name": "FadedRenders",
+        "index": 6,
+        "description": "Render options with feathered edges, good for LEDs",
+        "key": "b"
+      },
+      {
+        "name": "MetaFreelining",
+        "index": 7,
+        "description": "Use freeliner to automate itself.",
+        "key": "b"
+      }
+    ],
+    "e": [
+      {
+        "name": "Interpolator",
+        "index": 0,
+        "description": "Pics a position in relation to a segment",
+        "key": "e"
+      },
+      {
+        "name": "CenterSender",
+        "index": 1,
+        "description": "Moves between pointA and center",
+        "key": "e"
+      },
+      {
+        "name": "CenterSender",
+        "index": 2,
+        "description": "Moves between pointA and center",
+        "key": "e"
+      },
+      {
+        "name": "HalfWayInterpolator",
+        "index": 3,
+        "description": "Moves along segment, but halfway to center.",
+        "key": "e"
+      },
+      {
+        "name": "RandomExpandingInterpolator",
+        "index": 4,
+        "description": "Provides an expanding random position between segment and center.",
+        "key": "e"
+      },
+      {
+        "name": "RandomInterpolator",
+        "index": 5,
+        "description": "Provides random position between segment and center.",
+        "key": "e"
+      },
+      {
+        "name": "DiameterInterpolator",
+        "index": 6,
+        "description": "Rotates with segments as diameter.",
+        "key": "e"
+      },
+      {
+        "name": "RadiusInterpolator",
+        "index": 7,
+        "description": "Rotates with segments as Radius.",
+        "key": "e"
+      },
+      {
+        "name": "SegmentOffsetInterpolator",
+        "index": 8,
+        "description": "Prototype thing that offsets the position according to segments X position.",
+        "key": "e"
+      },
+      {
+        "name": "OppositInterpolator",
+        "index": 9,
+        "description": "invert direction every segment",
+        "key": "e"
+      },
+      {
+        "name": "NoisyInterpolator",
+        "index": 10,
+        "description": "noise along segment",
+        "key": "e"
+      },
+      {
+        "name": "RandomRadiusInterpolator",
+        "index": 11,
+        "description": "Rotates with segments as diameter.",
+        "key": "e"
+      }
+    ],
+    "h": [
+      {
+        "name": "linear",
+        "index": 0,
+        "description": "Linear movement",
+        "key": "h"
+      },
+      {
+        "name": "square",
+        "index": 1,
+        "description": "Power of 2.",
+        "key": "h"
+      },
+      {
+        "name": "cubic",
+        "index": 2,
+        "description": "Power of 3.",
+        "key": "h"
+      },
+      {
+        "name": "cosine",
+        "index": 3,
+        "description": "cosine",
+        "key": "h"
+      },
+      {
+        "name": "boost",
+        "index": 4,
+        "description": "half a sine",
+        "key": "h"
+      },
+      {
+        "name": "smoothstep",
+        "index": 5,
+        "description": "classic smoothstep",
+        "key": "h"
+      },
+      {
+        "name": "smootherstep",
+        "index": 6,
+        "description": "smoother smoothstep",
+        "key": "h"
+      },
+      {
+        "name": "doublesmootherstep",
+        "index": 7,
+        "description": "double smoother smoothstep",
+        "key": "h"
+      },
+      {
+        "name": "random",
+        "index": 8,
+        "description": "random unitInterval every frame",
+        "key": "h"
+      },
+      {
+        "name": "targetNoise",
+        "index": 9,
+        "description": "fake audio response",
+        "key": "h"
+      },
+      {
+        "name": "fixed",
+        "index": 10,
+        "description": "fixed at 1.0",
+        "key": "h"
+      },
+      {
+        "name": "fixed",
+        "index": 11,
+        "description": "fixed at 0.5",
+        "key": "h"
+      },
+      {
+        "name": "fixed",
+        "index": 12,
+        "description": "fixed at 0.0",
+        "key": "h"
+      },
+      {
+        "name": "EaseInOut",
+        "index": 13,
+        "description": "Linera eas in and out",
+        "key": "h"
+      },
+      {
+        "name": "fixLerp",
+        "index": 14,
+        "description": "is set to template's tp lerp AB 0.5",
+        "key": "h"
+      }
+    ],
+    "i": [
+      {
+        "name": "single",
+        "index": 0,
+        "description": "only draw template once",
+        "key": "i"
+      },
+      {
+        "name": "EvenlySpaced",
+        "index": 1,
+        "description": "Render things evenly spaced",
+        "key": "i"
+      },
+      {
+        "name": "EvenlySpacedWithZero",
+        "index": 2,
+        "description": "Render things evenly spaced with a fixed one at the begining and end",
+        "key": "i"
+      },
+      {
+        "name": "ExpoSpaced",
+        "index": 3,
+        "description": "RenderMultiples but make em go faster",
+        "key": "i"
+      },
+      {
+        "name": "TwoFull",
+        "index": 4,
+        "description": "Render twice in opposite directions",
+        "key": "i"
+      },
+      {
+        "name": "TwoFull",
+        "index": 5,
+        "description": "Render twice in opposite directions",
+        "key": "i"
+      }
+    ],
+    "j": [
+      {
+        "name": "NotReverse",
+        "index": 0,
+        "description": "Goes forward",
+        "key": "j"
+      },
+      {
+        "name": "Reverse",
+        "index": 1,
+        "description": "Goes reverse",
+        "key": "j"
+      },
+      {
+        "name": "mode",
+        "index": 2,
+        "description": "abstract",
+        "key": "j"
+      },
+      {
+        "name": "TwoTwoReverse",
+        "index": 3,
+        "description": "Goes twice forward then twice in reverse",
+        "key": "j"
+      },
+      {
+        "name": "RandomReverse",
+        "index": 4,
+        "description": "Might go forward, might go backwards",
+        "key": "j"
+      }
+    ],
+    "q": [
+      {
+        "name": "#000000",
+        "index": 0,
+        "description": "None",
+        "key": "q"
+      },
+      {
+        "name": "#FFFFFF",
+        "index": 1,
+        "description": "white",
+        "key": "q"
+      },
+      {
+        "name": "#FF0000",
+        "index": 2,
+        "description": "red",
+        "key": "q"
+      },
+      {
+        "name": "#00FF00",
+        "index": 3,
+        "description": "green",
+        "key": "q"
+      },
+      {
+        "name": "#0000FF",
+        "index": 4,
+        "description": "blue",
+        "key": "q"
+      },
+      {
+        "name": "#000000",
+        "index": 5,
+        "description": "black",
+        "key": "q"
+      },
+      {
+        "name": "pallette 0",
+        "index": 6,
+        "description": "Color of 0 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 1",
+        "index": 7,
+        "description": "Color of 1 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 2",
+        "index": 8,
+        "description": "Color of 2 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 3",
+        "index": 9,
+        "description": "Color of 3 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 4",
+        "index": 10,
+        "description": "Color of 4 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 5",
+        "index": 11,
+        "description": "Color of 5 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 6",
+        "index": 12,
+        "description": "Color of 6 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 7",
+        "index": 13,
+        "description": "Color of 7 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 8",
+        "index": 14,
+        "description": "Color of 8 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 9",
+        "index": 15,
+        "description": "Color of 9 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 10",
+        "index": 16,
+        "description": "Color of 10 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "pallette 11",
+        "index": 17,
+        "description": "Color of 11 index in colorPalette",
+        "key": "q"
+      },
+      {
+        "name": "RepetitionColor",
+        "index": 18,
+        "description": "Cycles through colors of the pallette",
+        "key": "q"
+      },
+      {
+        "name": "RandomPrimaryColor",
+        "index": 19,
+        "description": "Primary color that should change every beat.",
+        "key": "q"
+      },
+      {
+        "name": "PrimaryBeatColor",
+        "index": 20,
+        "description": "Cycles through primary colors on beat.",
+        "key": "q"
+      },
+      {
+        "name": "HSBFade",
+        "index": 21,
+        "description": "HSBFade stored on template/event.",
+        "key": "q"
+      },
+      {
+        "name": "FlashyPrimaryColor",
+        "index": 22,
+        "description": "Random primary color every frame.",
+        "key": "q"
+      },
+      {
+        "name": "FlashyGray",
+        "index": 23,
+        "description": "Random shades of gray.",
+        "key": "q"
+      },
+      {
+        "name": "RGB",
+        "index": 24,
+        "description": "Random red green and blue value every frame.",
+        "key": "q"
+      },
+      {
+        "name": "Strobe",
+        "index": 25,
+        "description": "Strobes white",
+        "key": "q"
+      },
+      {
+        "name": "Flash",
+        "index": 26,
+        "description": "Flashes once per beat.",
+        "key": "q"
+      },
+      {
+        "name": "JahColor",
+        "index": 27,
+        "description": "Red Green Yellow",
+        "key": "q"
+      },
+      {
+        "name": "CustomStrokeColor",
+        "index": 28,
+        "description": "Custom stroke color for template.",
+        "key": "q"
+      },
+      {
+        "name": "CustomColor",
+        "index": 29,
+        "description": "Custom fill color for template.",
+        "key": "q"
+      },
+      {
+        "name": "MillisFade",
+        "index": 30,
+        "description": "HSB fade goes along with millis.",
+        "key": "q"
+      },
+      {
+        "name": "HSBLerp",
+        "index": 31,
+        "description": "HSB fade through beat.",
+        "key": "q"
+      }
+    ],
+    "u": [
+      {
+        "name": "Disabler",
+        "index": 0,
+        "description": "Never render",
+        "key": "u"
+      },
+      {
+        "name": "loop",
+        "index": 1,
+        "description": "always render",
+        "key": "u"
+      },
+      {
+        "name": "Triggerable",
+        "index": 2,
+        "description": "only render if triggered",
+        "key": "u"
+      },
+      {
+        "name": "Triggerable",
+        "index": 3,
+        "description": "only render if triggered",
+        "key": "u"
+      },
+      {
+        "name": "SweepingEnabler",
+        "index": 4,
+        "description": "render per geometry from left to right",
+        "key": "u"
+      },
+      {
+        "name": "SwoopingEnabler",
+        "index": 5,
+        "description": "render per geometry from right to left",
+        "key": "u"
+      },
+      {
+        "name": "EveryX",
+        "index": 6,
+        "description": "happens every x, set by miscValue",
+        "key": "u"
+      },
+      {
+        "name": "RandomEnabler",
+        "index": 7,
+        "description": "Maybe render",
+        "key": "u"
+      },
+      {
+        "name": "strobe enable",
+        "index": 8,
+        "description": "very crunchy render, affected by miscValue",
+        "key": "u"
+      },
+      {
+        "name": "MarkerEnabler",
+        "index": 9,
+        "description": "Use meta points to enablestuff",
+        "key": "u"
+      }
+    ],
+    "v": [
+      {
+        "name": "AllSegments",
+        "index": 0,
+        "description": "Renders all segments",
+        "key": "v"
+      },
+      {
+        "name": "SequentialSegments",
+        "index": 1,
+        "description": "Renders one segment per beat in order.",
+        "key": "v"
+      },
+      {
+        "name": "RunThroughSegments",
+        "index": 2,
+        "description": "Render all segments in order in one beat.",
+        "key": "v"
+      },
+      {
+        "name": "RandomSegment",
+        "index": 3,
+        "description": "Render a random segment per beat.",
+        "key": "v"
+      },
+      {
+        "name": "FastRandomSegment",
+        "index": 4,
+        "description": "Render a different segment per frame",
+        "key": "v"
+      },
+      {
+        "name": "SegmentBranch",
+        "index": 5,
+        "description": "Renders segment in branch level augmenting every beat",
+        "key": "v"
+      },
+      {
+        "name": "RunThroughBranches",
+        "index": 6,
+        "description": "Render throught all the branch levels in one beat.",
+        "key": "v"
+      },
+      {
+        "name": "ConstantSpeed",
+        "index": 7,
+        "description": "Runs through segments at a consistant speed.",
+        "key": "v"
+      },
+      {
+        "name": "MetaSegmentSelector",
+        "index": 8,
+        "description": "Use metapoints to select segments",
+        "key": "v"
+      }
+    ],
+    "a_b5": [{
+      "name": "Elliptic",
+      "index": 0,
+      "description": "Makes a expanding circle with segment as final radius.",
+      "key": "a"
+    }],
+    "a_b4": [
+      {
+        "name": "TextWritter",
+        "index": 0,
+        "description": "Fit a bunch of text on a segment",
+        "key": "a"
+      },
+      {
+        "name": "ScrollingText",
+        "index": 1,
+        "description": "Scrolls text, acording to enterpolator",
+        "key": "a"
+      },
+      {
+        "name": "LeftAlignedText",
+        "index": 2,
+        "description": "Aligns text to the left",
+        "key": "a"
+      },
+      {
+        "name": "CenterAlignedText",
+        "index": 3,
+        "description": "Aligns text to center",
+        "key": "a"
+      },
+      {
+        "name": "RightAlignedText",
+        "index": 4,
+        "description": "Aligns text to right",
+        "key": "a"
+      }
+    ],
+    "a_b6": [
+      {
+        "name": "FadedBrusher",
+        "index": 3,
+        "description": "same as brush but adds a faded edge",
+        "key": "a"
+      },
+      {
+        "name": "FadedBrusher",
+        "index": 4,
+        "description": "same as brush but adds a faded edge",
+        "key": "a"
+      }
+    ]
+  },
+  "keys": [
+    {
+      "max": -42,
+      "name": "testChannel",
+      "description": "set the test channel, must use a fixture layer called fix",
+      "cmd": "fixtures testchan",
+      "type": 2,
+      "ascii": 40,
+      "key": "("
+    },
+    {
+      "max": -42,
+      "name": "setChannel",
+      "description": "set the start led of a fixture, if snapped to segment middle, sets the end of fixture on that segment",
+      "cmd": "fixtures setchan",
+      "type": 0,
+      "ascii": 41,
+      "key": ")"
+    },
+    {
+      "max": -42,
+      "name": "showTags",
+      "description": "showTags of all groups",
+      "cmd": "tools tags",
+      "type": 1,
+      "ascii": 44,
+      "key": ","
+    },
+    {
+      "max": -42,
+      "name": "decrease",
+      "description": "Decrease value of selectedKey.",
+      "cmd": "nope",
+      "type": 0,
+      "ascii": 45,
+      "key": "-"
+    },
+    {
+      "max": 255,
+      "name": "snapping",
+      "description": "enable/disable snapping or set the snapping distance",
+      "cmd": "tools snap",
+      "type": 2,
+      "ascii": 46,
+      "key": "."
+    },
+    {
+      "max": -42,
+      "name": "showLines",
+      "description": "Showlines of all geometry.",
+      "cmd": "tools lines",
+      "type": 1,
+      "ascii": 47,
+      "key": "/"
+    },
+    {
+      "max": -42,
+      "name": "macro0",
+      "description": "macro 0: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 48,
+      "key": "0"
+    },
+    {
+      "max": -42,
+      "name": "macro1",
+      "description": "macro1  geom clone 2 A",
+      "cmd": " geom clone 2 A",
+      "type": 7,
+      "ascii": 49,
+      "key": "1"
+    },
+    {
+      "max": -42,
+      "name": "macro2",
+      "description": "macro2  tp translate $ 0.5 0.0, tw $ p 1",
+      "cmd": " tp translate $ 0.5 0.0, tw $ p 1",
+      "type": 7,
+      "ascii": 50,
+      "key": "2"
+    },
+    {
+      "max": -42,
+      "name": "macro3",
+      "description": "macro3  tw $ b 1, tw $ q 8",
+      "cmd": " tw $ b 1, tw $ q 8",
+      "type": 7,
+      "ascii": 51,
+      "key": "3"
+    },
+    {
+      "max": -42,
+      "name": "macro4",
+      "description": "macro 4: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 52,
+      "key": "4"
+    },
+    {
+      "max": -42,
+      "name": "macro5",
+      "description": "macro 5: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 53,
+      "key": "5"
+    },
+    {
+      "max": -42,
+      "name": "macro6",
+      "description": "macro 6: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 54,
+      "key": "6"
+    },
+    {
+      "max": -42,
+      "name": "macro7",
+      "description": "macro 7: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 55,
+      "key": "7"
+    },
+    {
+      "max": -42,
+      "name": "macro8",
+      "description": "macro 8: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 56,
+      "key": "8"
+    },
+    {
+      "max": -42,
+      "name": "macro9",
+      "description": "macro 9: ",
+      "cmd": "",
+      "type": 7,
+      "ascii": 57,
+      "key": "9"
+    },
+    {
+      "max": 16,
+      "name": "sequencer",
+      "description": "select sequencer steps to add or remove templates",
+      "cmd": "seq select",
+      "type": 3,
+      "ascii": 60,
+      "key": "<"
+    },
+    {
+      "max": -42,
+      "name": "increase",
+      "description": "Increase value of selectedKey.",
+      "cmd": "nope",
+      "type": 0,
+      "ascii": 61,
+      "key": "="
+    },
+    {
+      "max": -42,
+      "name": "play",
+      "description": "toggle auto loops and sequencer",
+      "cmd": "seq play",
+      "type": 1,
+      "ascii": 62,
+      "key": ">"
+    },
+    {
+      "max": -42,
+      "name": "???",
+      "description": "~:)",
+      "cmd": "fl random",
+      "type": 0,
+      "ascii": 63,
+      "key": "?"
+    },
+    {
+      "max": -42,
+      "name": "selectAll",
+      "description": "Select ALL the templates.",
+      "cmd": "tp select *",
+      "type": 0,
+      "ascii": 65,
+      "key": "A"
+    },
+    {
+      "max": -42,
+      "name": "add",
+      "description": "Toggle second template on all geometry with first template.",
+      "cmd": "tp groupadd $",
+      "type": 0,
+      "ascii": 66,
+      "key": "B"
+    },
+    {
+      "max": -42,
+      "name": "copy",
+      "description": "Copy first selected template into second selected.",
+      "cmd": "tp copy $",
+      "type": 0,
+      "ascii": 67,
+      "key": "C"
+    },
+    {
+      "max": 1000,
+      "name": "customShape",
+      "description": "Set a template's customShape.",
+      "cmd": "tp shape $",
+      "type": 3,
+      "ascii": 68,
+      "key": "D"
+    },
+    {
+      "max": -42,
+      "name": "revMouseX",
+      "description": "Reverse the X axis of mouse, trust me its handy.",
+      "cmd": "tools revx",
+      "type": 1,
+      "ascii": 73,
+      "key": "I"
+    },
+    {
+      "max": -42,
+      "name": "link",
+      "description": "Link one template to an other unidirectionaly, used for meta freelining.",
+      "cmd": "tp link $",
+      "type": 0,
+      "ascii": 76,
+      "key": "L"
+    },
+    {
+      "max": -42,
+      "name": "open",
+      "description": "Open stuff",
+      "cmd": "fl open",
+      "type": 6,
+      "ascii": 79,
+      "key": "O"
+    },
+    {
+      "max": -42,
+      "name": "priority",
+      "description": "Change the geometry render order, if a group is selected, changes this groups render priority, or all groups with selected template.",
+      "cmd": "geom priority $",
+      "type": 3,
+      "ascii": 80,
+      "key": "P"
+    },
+    {
+      "max": -42,
+      "name": "quit",
+      "description": "quit freeliner!",
+      "cmd": "fl quit",
+      "type": 0,
+      "ascii": 81,
+      "key": "Q"
+    },
+    {
+      "max": -42,
+      "name": "reset",
+      "description": "Reset template.",
+      "cmd": "tp reset $",
+      "type": 0,
+      "ascii": 82,
+      "key": "R"
+    },
+    {
+      "max": -42,
+      "name": "save",
+      "description": "Save stuff.",
+      "cmd": "fl save",
+      "type": 0,
+      "ascii": 83,
+      "key": "S"
+    },
+    {
+      "max": -42,
+      "name": "paste",
+      "description": "Paste copied template into selected template.",
+      "cmd": "tp paste $",
+      "type": 0,
+      "ascii": 86,
+      "key": "V"
+    },
+    {
+      "max": -42,
+      "name": "swap",
+      "description": "Completely swap template tag, with `AB` A becomes B and B becomes A.",
+      "cmd": "tp swap $",
+      "type": 0,
+      "ascii": 88,
+      "key": "X"
+    },
+    {
+      "max": 360,
+      "name": "fixedAngle",
+      "description": "enable/disable fixed angles for the mouse",
+      "cmd": "tools angle",
+      "type": 2,
+      "ascii": 91,
+      "key": "["
+    },
+    {
+      "max": 5000,
+      "name": "fixedLength",
+      "description": "enable/disable fixed length for the mouse",
+      "cmd": "tools ruler",
+      "type": 2,
+      "ascii": 93,
+      "key": "]"
+    },
+    {
+      "max": -42,
+      "name": "clear",
+      "description": "clear sequencer",
+      "cmd": "seq clear $",
+      "type": 0,
+      "ascii": 94,
+      "key": "^"
+    },
+    {
+      "max": 10,
+      "name": "animation",
+      "description": "animate stuff",
+      "cmd": "tw $ a",
+      "type": 5,
+      "ascii": 97,
+      "key": "a"
+    },
+    {
+      "max": 8,
+      "name": "renderMode",
+      "description": "picks the renderMode",
+      "cmd": "tw $ b",
+      "type": 5,
+      "ascii": 98,
+      "key": "b"
+    },
+    {
+      "max": -42,
+      "name": "placeCenter",
+      "description": "Place the center of geometry on next left click, right click uncenters the geometry, middle click sets scene center.",
+      "cmd": "geom center",
+      "type": 0,
+      "ascii": 99,
+      "key": "c"
+    },
+    {
+      "max": -42,
+      "name": "breakline",
+      "description": "Detach line to new starting position.",
+      "cmd": "geom breakline",
+      "type": 0,
+      "ascii": 100,
+      "key": "d"
+    },
+    {
+      "max": 12,
+      "name": "enterpolator",
+      "description": "Enterpolator picks a position along a segment",
+      "cmd": "tw $ e",
+      "type": 5,
+      "ascii": 101,
+      "key": "e"
+    },
+    {
+      "max": 32,
+      "name": "fill",
+      "description": "Pick fill color",
+      "cmd": "tw $ f",
+      "type": 5,
+      "ascii": 102,
+      "key": "f"
+    },
+    {
+      "max": 255,
+      "name": "grid",
+      "description": "use snappable grid",
+      "cmd": "tools grid",
+      "type": 2,
+      "ascii": 103,
+      "key": "g"
+    },
+    {
+      "max": 15,
+      "name": "easing",
+      "description": "Set the easing mode.",
+      "cmd": "tw $ h",
+      "type": 5,
+      "ascii": 104,
+      "key": "h"
+    },
+    {
+      "max": 6,
+      "name": "iteration",
+      "description": "Iterate animation in different ways, `r` sets the amount.",
+      "cmd": "tw $ i",
+      "type": 5,
+      "ascii": 105,
+      "key": "i"
+    },
+    {
+      "max": 5,
+      "name": "reverse",
+      "description": "Pick different reverse modes",
+      "cmd": "tw $ j",
+      "type": 5,
+      "ascii": 106,
+      "key": "j"
+    },
+    {
+      "max": 256,
+      "name": "strokeAlpha",
+      "description": "Alpha value of stroke.",
+      "cmd": "tw $ k",
+      "type": 4,
+      "ascii": 107,
+      "key": "k"
+    },
+    {
+      "max": 256,
+      "name": "fillAlpha",
+      "description": "Alpha value of fill.",
+      "cmd": "tw $ l",
+      "type": 4,
+      "ascii": 108,
+      "key": "l"
+    },
+    {
+      "max": 1000,
+      "name": "miscValue",
+      "description": "A extra value that can be used by modes.",
+      "cmd": "tw $ m",
+      "type": 3,
+      "ascii": 109,
+      "key": "m"
+    },
+    {
+      "max": -42,
+      "name": "new",
+      "description": "make a new geometry group",
+      "cmd": "geom new",
+      "type": 0,
+      "ascii": 110,
+      "key": "n"
+    },
+    {
+      "max": 12,
+      "name": "rotation",
+      "description": "Rotate stuff.",
+      "cmd": "tw $ o",
+      "type": 5,
+      "ascii": 111,
+      "key": "o"
+    },
+    {
+      "max": 5,
+      "name": "layer",
+      "description": "Pick which layer to render on.",
+      "cmd": "tw $ p",
+      "type": 3,
+      "ascii": 112,
+      "key": "p"
+    },
+    {
+      "max": 32,
+      "name": "strokeColor",
+      "description": "Pick the stroke Color.",
+      "cmd": "tw $ q",
+      "type": 5,
+      "ascii": 113,
+      "key": "q"
+    },
+    {
+      "max": 1000,
+      "name": "polka",
+      "description": "Number of iterations for the iterator, related to `i`.",
+      "cmd": "tw $ r",
+      "type": 3,
+      "ascii": 114,
+      "key": "r"
+    },
+    {
+      "max": 100000,
+      "name": "size",
+      "description": "Sets the brush size for `b-0`",
+      "cmd": "tw $ s",
+      "type": 3,
+      "ascii": 115,
+      "key": "s"
+    },
+    {
+      "max": 1000,
+      "name": "tap",
+      "description": "Tap tempo, tweaking nudges time.",
+      "cmd": "seq tap",
+      "type": 0,
+      "ascii": 116,
+      "key": "t"
+    },
+    {
+      "max": 10,
+      "name": "enabler",
+      "description": "Enablers decide if a render happens or not.",
+      "cmd": "tw $ u",
+      "type": 5,
+      "ascii": 117,
+      "key": "u"
+    },
+    {
+      "max": 9,
+      "name": "segSelect",
+      "description": "Picks which segments get rendered.",
+      "cmd": "tw $ v",
+      "type": 5,
+      "ascii": 118,
+      "key": "v"
+    },
+    {
+      "max": 420,
+      "name": "strokeWeight",
+      "description": "Stroke weight.",
+      "cmd": "tw $ w",
+      "type": 3,
+      "ascii": 119,
+      "key": "w"
+    },
+    {
+      "max": 5000,
+      "name": "beatMultiplier",
+      "description": "Set how many beats the animation will take.",
+      "cmd": "tw $ x",
+      "type": 3,
+      "ascii": 120,
+      "key": "x"
+    },
+    {
+      "max": 256,
+      "name": "tracers",
+      "description": "Set tracer level for tracer layer.",
+      "cmd": "post tracers",
+      "type": 4,
+      "ascii": 121,
+      "key": "y"
+    },
+    {
+      "max": 5000,
+      "name": "looper",
+      "description": "Set how many beats the loop will be.",
+      "cmd": "loop",
+      "type": 3,
+      "ascii": 122,
+      "key": "z"
+    },
+    {
+      "max": -42,
+      "name": "enterText",
+      "description": "enable text entry, type text and press return",
+      "cmd": "text",
+      "type": 1,
+      "ascii": 124,
+      "key": "|"
+    }
+  ]
+}

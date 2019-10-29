@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title> aziz!Light Crew FREELINER webgui launcher </title>
+  <!-- css -->
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+  <style>
+    a {
+      color: white;
+      font-size: 20pt;
+      font-weight: bold;
+      text-align:center
+    }
+    div {
+      background-color: #1D1D1D;
+      align-content: center;
+      padding: 24px;
+      margin: 24px;
+      width: auto;
+      float: left;
+    }
+    div:hover {
+      background-color: #333333;
+    }
+  </style>
+  <div>
+    <a id="standard" href="">STANDARD</a>
+  </div>
+  <div>
+    <a id="advanced" href="">ADVANCED</a>
+  </div>
+  <div>
+    <a href="https://github.com/maxdee/alc_freeliner" style="align:">SOURCE</a>
+  </div>
+
+  <script>
+    document.getElementById("standard").onclick = function(){
+      window.open("standardWebGUI.html", "Freeliner WEBGUI", "width=1000,height=700");
+    }
+    document.getElementById("advanced").onclick = function(){
+      window.open("advancedWebGUI.html", "Freeliner WEBGUI", "width=1000,height=700");
+    }
+  </script>
+</body>
+</html>
