@@ -220,6 +220,82 @@ class RGBWStrip extends RGBStrip {
 }
 
 
+class SingleColorStrip extends RGBStrip {
+
+    int theColor = 0;
+    public SingleColorStrip(int _adr, int _cnt, int _ax, int _ay, int _bx, int _by, int _col) {
+        super(_adr, _cnt, _ax, _ay, _bx, _by);
+        theColor = _col;
+        name = "SingleColorStrip";
+        description = "A series of single color Fixtures";
+        ledCount = _cnt;
+        ledChannels = 1;
+        channelCount = ledCount * ledChannels;
+        buffer = new byte[channelCount];
+        position = new PVector(_ax, _ay);
+
+        subFixtures = new ArrayList<Fixture>();
+        addFixtures(ledCount, _ax, _ay, _bx, _by);
+    }
+
+    protected void addFixtures(int _cnt, float _ax, float _ay, float _bx, float _by) {
+        float gap = 1.0/(_cnt+1);
+        int ind;
+        int x;
+        int y;
+        SingleColorFixture _fix;
+        int _adr = 0;
+        for(int i = 0; i < _cnt; i++) {
+            ind = int(lerp(0, _cnt, i*gap));
+            x = int(lerp(_ax, _bx, (i+1)*gap));
+            y = int(lerp(_ay, _by, (i+1)*gap));
+            // _fix = new RGBFixture(address+(i*ledChannels));
+            _adr = i;
+            _adr += address;
+            _fix = new SingleColorFixture(_adr, theColor);
+            _fix.setPosition(x,y);
+            subFixtures.add(_fix);
+        }
+    }
+}
+
+class SingleColorFixture extends RGBFixture {
+    // boolean correctGamma = true;
+    color col;
+    int theColor = 0;
+    public SingleColorFixture(int _adr, int _col) {
+        super(_adr);
+        theColor = _col;
+        name = "SingleColorFixture";
+        description = "a light fixture";
+        channelCount = 1;
+        address = _adr;
+        buffer = new byte[channelCount];
+        position = new PVector(0,0);
+    }
+
+    // RGBFixture specific
+    public void setColor(color _c) {
+        col = _c;
+        int value = 0;
+        switch(theColor) {
+            case 0:
+                value = (col >> 16) & 0xFF;
+                break;
+            case 1:
+                value = (col >> 8) & 0xFF;
+                break;
+            case 2:
+                value = col & 0xFF;
+                break;
+        }
+        buffer[0] = byte(FIXTURE_CORRECT_GAMMA ? value : gammatable[value]);
+    }
+}
+
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     RGBFixture
@@ -285,6 +361,16 @@ class RGBFixture extends Fixture {
         return int(position.y);
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 // for other light channels
 class ColorFlexWAUV extends RGBFixture {
