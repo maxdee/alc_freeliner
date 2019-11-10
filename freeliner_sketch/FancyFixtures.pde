@@ -347,6 +347,11 @@ class FancyFixtures implements FreelinerConfig {
         if(byteBuffer.length > 0) {
             byteSender.sendData(byteBuffer);
             if(recording) record(byteBuffer);
+            // for(byte b : byteBuffer) {
+            //
+            // }
+            byte b = 0;
+            Arrays.fill(byteBuffer, b);
         }
     }
 

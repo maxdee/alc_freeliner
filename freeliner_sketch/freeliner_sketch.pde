@@ -95,7 +95,7 @@ void setup() {
     // perhaps use -> PApplet.platform == MACOSX
     background(0);
     splash();
-    frameRate(30);
+    frameRate(60);
     makeGammaTable();
 }
 
