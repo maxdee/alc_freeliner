@@ -35,8 +35,8 @@ class CommandProcessor implements FreelinerConfig {
         // for adressing templates use ABCD, or * for all, or $ for selected
         "tw AB q 3",
         "tr AB (3 4 5)",
-        "tp stroke AB #ff0000",
-        "tp fill AB #ff0000",
+        "tp stroke AB (#ff0000, R G B)",
+        "tp fill AB (#ff0000, R G B)",
         "tp copy (AB)",
         "tp paste (AB)",
         "tp groupadd (AB)",
@@ -1042,18 +1042,32 @@ class CommandProcessor implements FreelinerConfig {
         else templateManager.groupAddTemplate();
     }
 
+    // tp stroke D R G B
     public void strokeColorCMD(String[] _args) {
         if(_args.length < 4) return;
-        String _hex = _args[3];
-        int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
-        if(_v != -3) templateManager.setCustomStrokeColor(_args[2], _v);
+        if(_args.length < 5) {
+            String _hex = _args[3];
+            int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
+            if(_v != -3) templateManager.setCustomStrokeColor(_args[2], _v);
+        }
+        else if(_args.length == 6) {
+            String _hex = _args[3];
+            color c = color(stringInt(_args[3]), stringInt(_args[4]), stringInt(_args[5]));
+            templateManager.setCustomStrokeColor(_args[2], c);
+        }
     }
 
     public void fillColorCMD(String[] _args) {
-        if(_args.length < 4) return;
-        String _hex = _args[3];
-        int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
-        if(_v != -3) templateManager.setCustomFillColor(_args[2], _v);
+        if(_args.length < 5) {
+            String _hex = _args[3];
+            int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
+            if(_v != -3) templateManager.setCustomFillColor(_args[2], _v);
+        }
+        else if(_args.length == 6) {
+            String _hex = _args[3];
+            color c = color(stringInt(_args[3]), stringInt(_args[4]), stringInt(_args[5]));
+            templateManager.setCustomFillColor(_args[2], c);
+        }
     }
 
     // could be in tm
