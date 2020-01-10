@@ -95,7 +95,7 @@ void setup() {
     // perhaps use -> PApplet.platform == MACOSX
     background(0);
     splash();
-    frameRate(60);
+    frameRate(FreelinerConfig.CONFIGURED_FPS);
     makeGammaTable();
 }
 

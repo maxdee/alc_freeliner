@@ -99,6 +99,8 @@ class CommandProcessor implements FreelinerConfig {
         "geom clear 4",
         "geom updatemap",
         "geom clone 2 A",
+        "geom cloneseg 2 A",
+
         ///////////////////  Post processing
         "post tracers (alpha)", // to be deprecated
         // "post shader (coolfrag.glsl)", // to be deprecated
@@ -664,6 +666,8 @@ class CommandProcessor implements FreelinerConfig {
         else if(_args[1].equals("clear")) geomClearCMD(_args);
         else if(_args[1].equals("updatemap")) canvasManager.passOutputMappingGeometry(groupManager.getOutputMappingGroup());
         else if(_args[1].equals("clone")) geomCloneCMD(_args);
+        else if(_args[1].equals("cloneseg")) geomCloneSegmentCMD(_args);
+
 
         else return false;
         return true;
@@ -695,7 +699,18 @@ class CommandProcessor implements FreelinerConfig {
         }
     }
 
-
+    public void geomCloneSegmentCMD(String[] _args){
+        println("clone?");
+        if(_args.length > 3){
+            ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs( _args);
+            ArrayList<TweakableTemplate> tps = templateManager.getTemplates(_args[3]);
+            println("cloningSegments?");
+            if(_groups.size() > 0 && tps.size() > 0) {
+                println("clongingSegments!");
+                groupManager.cloneSegments(tps.get(0), _groups.get(0));
+            }
+        }
+    }
 
     // geom center (3 x y)
     public void centerCMD(String[] _args){
@@ -1042,7 +1057,7 @@ class CommandProcessor implements FreelinerConfig {
         else templateManager.groupAddTemplate();
     }
 
-    // tp stroke D R G B
+    // tp stroke DA (byte R G B | float R G B | #ffffff)
     public void strokeColorCMD(String[] _args) {
         if(_args.length < 4) return;
         if(_args.length < 5) {
@@ -1050,7 +1065,7 @@ class CommandProcessor implements FreelinerConfig {
             int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
             if(_v != -3) templateManager.setCustomStrokeColor(_args[2], _v);
         }
-        else if(_args.length == 6) {
+        else if(_args.length >= 6) {
             String _hex = _args[3];
             color c = color(stringInt(_args[3]), stringInt(_args[4]), stringInt(_args[5]));
             templateManager.setCustomStrokeColor(_args[2], c);

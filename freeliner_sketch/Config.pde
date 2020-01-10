@@ -1,11 +1,12 @@
 
 interface FreelinerConfig {
     // windowed mode width and height
-    final int CONFIGURED_WIDTH = 960;
-    final int CONFIGURED_HEIGHT = 640;
-    final boolean USE_FULLSCREEN = false;
+    final int CONFIGURED_WIDTH = 1280;
+    final int CONFIGURED_HEIGHT = 480;
+    final boolean USE_FULLSCREEN = false;//true;
     // which screen is used for fullscreen
     final int FULLSCREEN_DISPLAY = 2;
+    final int CONFIGURED_FPS = 60;
 
     // UDP Port for incomming OSC messages
     final int OSC_IN_PORT = 6667;
@@ -89,7 +90,7 @@ interface FreelinerConfig {
     final boolean FIXTURE_CORRECT_GAMMA = false;
     final boolean DRAW_FIXTURE_ADDRESS = false;
 
-
+    final boolean EASE_SHADER_UNIFORMS = true;
 
     final String PATH_TO_SHADERS = "userdata/shaders/";
     final String PATH_TO_IMAGES = "userdata/images/";

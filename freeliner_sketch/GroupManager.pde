@@ -86,7 +86,6 @@ class GroupManager implements FreelinerConfig{
     // for all positions in TweakableTemplate, create transformed SegmentGroup clone
     public void cloneGeometries(TweakableTemplate tpPositions, SegmentGroup source){
         ArrayList<PVector> positions = tpPositions.getMetaPoisitionMarkers();
-        println(positions);
         // remove any clones of sourceGeom
         clearClonesOf(source);
         for(PVector pos : positions) {
@@ -94,6 +93,34 @@ class GroupManager implements FreelinerConfig{
             println("cloning "+source.getID()+" to "+clone.getID()+" "+pos);
             cloneTransform(source, clone, pos);
         }
+    }
+
+    public void cloneSegments(TweakableTemplate tpPositions, SegmentGroup source){
+        ArrayList<PVector> positions = tpPositions.getMetaPoisitionMarkers();
+        // remove any clones of sourceGeom
+        clearClonesOf(source);
+        SegmentGroup clone = newClone();
+        clone.clear();
+        for(PVector pos : positions) {
+            println("cloning "+source.getID()+" to "+clone.getID()+" "+pos);
+            cloneTransformSegments(source, clone, pos);
+            println(clone.segments.size());
+        }
+    }
+
+    public void cloneTransformSegments(SegmentGroup sourceGroup, SegmentGroup clone, PVector position){
+        for(Segment seg : sourceGroup.getSegments()) {
+            Segment newseg = new Segment(
+                rotateTranslate(seg.getPointA(), position),
+                rotateTranslate(seg.getPointB(), position)
+            );
+            clone.addSegment( newseg );
+        }
+        PVector newCenter = rotateTranslate(sourceGroup.getCenter(), position);
+        clone.placeCenter(newCenter);
+        if(!sourceGroup.isCentered()) clone.unCenter();
+        clone.templateList.copy(sourceGroup.templateList);
+        clone.setText("clone of "+sourceGroup.getID());
     }
 
     public void clearClonesOf(SegmentGroup _sg) {
@@ -126,6 +153,8 @@ class GroupManager implements FreelinerConfig{
         clone.templateList.copy(sourceGroup.templateList);
         clone.setText("clone of "+sourceGroup.getID());
     }
+
+
 
     public PVector rotateTranslate(PVector pos, PVector target) {
         PVector c = new PVector(width/2, height/2);
