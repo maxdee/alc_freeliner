@@ -342,19 +342,19 @@
         "key": "h"
       },
       {
-        "name": "fixed",
+        "name": "fixed-1.0",
         "index": 15,
         "description": "fixed at 1.0",
         "key": "h"
       },
       {
-        "name": "fixed",
+        "name": "fixed-0.5",
         "index": 16,
         "description": "fixed at 0.5",
         "key": "h"
       },
       {
-        "name": "fixed",
+        "name": "fixed-0.0",
         "index": 17,
         "description": "fixed at 0.0",
         "key": "h"
@@ -789,6 +789,38 @@
         "name": "RightAlignedText",
         "index": 4,
         "description": "Aligns text to right",
+        "key": "a"
+      }
+    ],
+    "a_b7": [
+      {
+        "name": "SegmentCommand",
+        "index": 0,
+        "description": "MetaFreelining, execute commands of commandSegments",
+        "key": "a"
+      },
+      {
+        "name": "StrokeColorPicker",
+        "index": 1,
+        "description": "MetaFreelining, pick a stroke color from colorMap, load one with colormap colorMap.png",
+        "key": "a"
+      },
+      {
+        "name": "FillColorPicker",
+        "index": 2,
+        "description": "MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png",
+        "key": "a"
+      },
+      {
+        "name": "MetaMarkerMaker",
+        "index": 3,
+        "description": "Generate points into the linked template",
+        "key": "a"
+      },
+      {
+        "name": "PositionCollector",
+        "index": 4,
+        "description": "Store all previous positions in template itself",
         "key": "a"
       }
     ],

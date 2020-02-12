@@ -249,7 +249,7 @@ class FeatheredRender extends PerSegment {
 
         name = "FadedRenders";
         description = "Render options with feathered edges, good for LEDs";
-        if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "MetaModes");
+        if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "FeatherModes");
     }
     public SegmentPainter getPainter(int _index) {
         if(_index >= painterCount) _index = painterCount - 1;
@@ -284,7 +284,9 @@ class MetaFreelining extends PerSegment {
 
         name = "MetaFreelining";
         description = "Use freeliner to automate itself.";
+
         if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "MetaModes");
+
     }
     //
     //

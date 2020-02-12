@@ -109,7 +109,7 @@ class Documenter implements FreelinerConfig {
         // int _index = 0;
         JSONArray modeArray = new JSONArray();
         for(Mode _m : _modes) {
-            println(_m.getName());
+            // println(_m.getName());
             JSONObject mode = new JSONObject();
             mode.setInt("index", _m.getIndex());
             mode.setString("key", str(_key));
