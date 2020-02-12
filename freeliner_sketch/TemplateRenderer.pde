@@ -25,7 +25,7 @@ class TemplateRenderer extends Mode{
     // PVector[] translations;
 
     // easer and reversers count in Config.pde
-    int easingModeCount = 15;
+    int easingModeCount = 20;
     int reverseModeCount = 5;
     int renderModeCount = 8;
     int repetitionModeCount = 6;
@@ -78,22 +78,32 @@ class TemplateRenderer extends Mode{
 
     description = "how to darw multiples of one template";
 	easers = new Easing[easingModeCount];
-	easers[0] = new NoEasing(0);
-	easers[1] = new SquareEasing(1);
-	easers[2] = new CubeEasing(2);
-	easers[3] = new CosineEasing(3);
-	easers[4] = new Boost(4);
-    easers[5] = new SmoothStep(5);
-    easers[6] = new SmootherStep(6);
-    easers[7] = new DoubleSmootherStep(7);
+	easers[0] = new LinearEasing(0);
+	easers[1] = new EaseInQuad(1);
+	easers[2] = new EaseOutQuad(2);
+	easers[3] = new EaseInOutQuad(3);
 
-	easers[8] = new RandomUnit(8);
-	easers[9] = new TargetNoise(9);
-	easers[10] = new Fixed(1.0, 10);
-	easers[11] = new Fixed(0.5, 11);
-	easers[12] = new Fixed(0.0, 12);
-	easers[13] = new EaseInOut(13);
-    easers[14] = new FixLerp(14);
+	easers[4] = new EaseInCubic(4);
+    easers[5] = new EaseOutCubic(5);
+    easers[6] = new EaseInOutCubic(6);
+
+    easers[7] = new EaseInQuart(7);
+    easers[8] = new EaseOutQuart(8);
+    easers[9] = new EaseInOutQuart(9);
+
+    easers[10] = new EaseSpringIn(10);
+    easers[11] = new EaseSpringOut(11);
+    easers[12] = new EaseSpringInOut(12);
+
+    easers[13] = new RandomUnit(13);
+    easers[14] = new TargetNoise(14);
+
+    easers[15] = new Fixed(1.0, 15);
+    easers[16] = new Fixed(0.5, 16);
+    easers[17] = new Fixed(0.0, 17);
+
+	easers[18] = new EaseInOut(18);
+    easers[19] = new CustomLerp(19);
 
 	if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])easers, 'h', this, "EasingModes");
 

@@ -258,87 +258,117 @@
         "key": "h"
       },
       {
-        "name": "square",
+        "name": "EaseInQuad",
         "index": 1,
-        "description": "Power of 2.",
+        "description": "quad acceleration",
         "key": "h"
       },
       {
-        "name": "cubic",
+        "name": "EaseOutQuad",
         "index": 2,
-        "description": "Power of 3.",
+        "description": "quad deceleration",
         "key": "h"
       },
       {
-        "name": "cosine",
+        "name": "EaseInOutQuad",
         "index": 3,
-        "description": "cosine",
+        "description": "quad acceleration & deceleration",
         "key": "h"
       },
       {
-        "name": "boost",
+        "name": "EaseInCubic",
         "index": 4,
-        "description": "half a sine",
+        "description": "cubic acceleration",
         "key": "h"
       },
       {
-        "name": "smoothstep",
+        "name": "EaseOutCubic",
         "index": 5,
-        "description": "classic smoothstep",
+        "description": "cubic deceleration",
         "key": "h"
       },
       {
-        "name": "smootherstep",
+        "name": "EaseInOutCubic",
         "index": 6,
-        "description": "smoother smoothstep",
+        "description": "cubic acceleration & deceleration",
         "key": "h"
       },
       {
-        "name": "doublesmootherstep",
+        "name": "EaseInQuart",
         "index": 7,
-        "description": "double smoother smoothstep",
+        "description": "quart acceleration",
+        "key": "h"
+      },
+      {
+        "name": "EaseOutQuart",
+        "index": 8,
+        "description": "quart acceleration",
+        "key": "h"
+      },
+      {
+        "name": "EaseInOutQuart",
+        "index": 9,
+        "description": "quart acceleration and deceleration",
+        "key": "h"
+      },
+      {
+        "name": "EaseSpringIn",
+        "index": 10,
+        "description": "like a reverse door stopper spring",
+        "key": "h"
+      },
+      {
+        "name": "EaseSpringOut",
+        "index": 11,
+        "description": "like a door stopper spring",
+        "key": "h"
+      },
+      {
+        "name": "EaseSpringInOut",
+        "index": 12,
+        "description": "like a weird door stopper spring",
         "key": "h"
       },
       {
         "name": "random",
-        "index": 8,
+        "index": 13,
         "description": "random unitInterval every frame",
         "key": "h"
       },
       {
         "name": "targetNoise",
-        "index": 9,
+        "index": 14,
         "description": "fake audio response",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 10,
+        "index": 15,
         "description": "fixed at 1.0",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 11,
+        "index": 16,
         "description": "fixed at 0.5",
         "key": "h"
       },
       {
         "name": "fixed",
-        "index": 12,
+        "index": 17,
         "description": "fixed at 0.0",
         "key": "h"
       },
       {
         "name": "EaseInOut",
-        "index": 13,
+        "index": 18,
         "description": "Linera eas in and out",
         "key": "h"
       },
       {
-        "name": "fixLerp",
-        "index": 14,
-        "description": "is set to template's tp lerp AB 0.5",
+        "name": "custom",
+        "index": 19,
+        "description": "is set to template's with this command tp lerp AB 0.5",
         "key": "h"
       }
     ],
@@ -1166,7 +1196,7 @@
       "key": "g"
     },
     {
-      "max": 15,
+      "max": 20,
       "name": "easing",
       "description": "Set the easing mode.",
       "cmd": "tw $ h",

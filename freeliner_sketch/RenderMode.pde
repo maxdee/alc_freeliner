@@ -270,10 +270,13 @@ class MetaFreelining extends PerSegment {
         super();
         modeIndex = _ind;
         segmentPainters = new SegmentPainter[painterCount];
+
         segmentCommandParser = new SegmentCommandParser(0);
         segmentPainters[0] = segmentCommandParser;
+
         strokeColorPicker = new StrokeColorPicker(1);
         segmentPainters[1] = strokeColorPicker;
+
         fillColorPicker = new FillColorPicker(2);
         segmentPainters[2] = fillColorPicker;
         segmentPainters[3] = new MetaMarkerMaker(3);
@@ -283,7 +286,7 @@ class MetaFreelining extends PerSegment {
         description = "Use freeliner to automate itself.";
         if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "MetaModes");
     }
-    // 
+    //
     //
     // public void doRender(RenderableTemplate _event) {
     //     super.doRender(_event);
