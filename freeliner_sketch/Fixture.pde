@@ -407,7 +407,7 @@ class RGBPar extends Fixture {
         super(_adr);
         name = "RGBAWPar";
         description = "a RGB light fixture";
-        channelCount = 3;
+        channelCount = 4;
         address = _adr;
         buffer = new byte[channelCount];
         position = new PVector(0,0);
@@ -425,9 +425,10 @@ class RGBPar extends Fixture {
         int red = (col >> 16) & 0xFF;
         int green = (col >> 8) & 0xFF;
         int blue = col & 0xFF;
-        buffer[0] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        buffer[3] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        buffer[0] = byte(255);
     }
     // override
     void drawFixtureOverlay(PGraphics _pg) {
