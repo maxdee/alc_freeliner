@@ -164,6 +164,7 @@ class TemplateRenderer extends Mode{
             flt *= _rev;
             // Repition object return arrayList of unit intervals.
             // negative values indicates going in reverse
+            // THIS IS NOT GOOD
             if(flt < 0){
                 _rt.setLerp(flt+1);
                 _rt.setDirection(true);

@@ -135,7 +135,7 @@ class CommandProcessor implements FreelinerConfig {
         "hid kbd 'keyCode' 'char'",
         "setosc 127.0.0.1 6666",
         "colormap (file|0-1)",
-        "colors set 1 #202020",
+        "colors set 1 (#ff0000, R G B)",
         "fl directory"
     };
 
@@ -361,17 +361,27 @@ class CommandProcessor implements FreelinerConfig {
         return false;
     }
 
+
     public boolean colorsCMD(String[] _args){
-        // "colors set 1 #202020"
+        // "colors set 1 (#ff0000, R G B)",
         if(_args.length < 4) return false;
         else if(_args[1].equals("set")){
             int _index = stringInt(_args[2]);
             _index %= PALLETTE_COUNT;
             if(_index < 0) _index = 0;
-            int _v = unhex(_args[3].replaceAll("#","FF").toUpperCase());
+
+            String _hex = _args[3];
+            int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
+
+            if(_args.length == 6) {
+                color c = color(stringInt(_args[3]), stringInt(_args[4]), stringInt(_args[5]));
+                _v = c;
+            }
+
             userPallet[_index] = _v;
             return true;
         }
+
         return false;
     }
     // info 1 text
