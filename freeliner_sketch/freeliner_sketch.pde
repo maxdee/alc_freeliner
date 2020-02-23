@@ -97,7 +97,13 @@ void setup() {
     splash();
     frameRate(FreelinerConfig.CONFIGURED_FPS);
     makeGammaTable();
+    // selectInput("working dir", "setWorkingDir");
 }
+// 
+// void setWorkingDir(File selected){
+//     println(selected);
+//     println(" ==================================== ");
+// }
 
 // splash screen!
 void splash(){

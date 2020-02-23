@@ -2,7 +2,7 @@
 interface FreelinerConfig {
     // windowed mode width and height
     final int CONFIGURED_WIDTH = 960;
-    final int CONFIGURED_HEIGHT = 720;
+    final int CONFIGURED_HEIGHT = 640;
     final boolean USE_FULLSCREEN = false;
     // which screen is used for fullscreen
     final int FULLSCREEN_DISPLAY = 2;
