@@ -6,6 +6,8 @@
  * @version   0.4
  * @since     2014-12-01
  */
+ import java.util.Arrays;
+
 
 /**
  * Main class for alc_freeliner
@@ -208,18 +210,50 @@ class FreeLiner implements FreelinerConfig {
     public ArrayList<String> getFilesFrom(String _dir, String _type){
         ArrayList<String> _files = new ArrayList<String>();
         File _directory = new File(dataDirectory(_dir));
+        recursiveFind(_files, "", _directory, _type);
+
+        ArrayList<String> subDirectoryFiles = new ArrayList<String>();
+        ArrayList<String> regularFiles =  new ArrayList<String>();
+        for(String _s : _files){
+            if(_s.contains("/")) {
+                subDirectoryFiles.add(_s);
+            }
+            else {
+                regularFiles.add(_s);
+            }
+        }
+        String[] _reg = regularFiles.toArray(new String[regularFiles.size()]);
+        String[] _sub = subDirectoryFiles.toArray(new String[subDirectoryFiles.size()]);
+
+        Arrays.sort(_reg);
+        Arrays.sort(_sub);
+        _files.clear();
+        for(String _s : _sub) {
+            _files.add(_s);
+        }
+        for(String _s : _reg) {
+            _files.add(_s);
+        }
+        return _files;
+    }
+
+    public void recursiveFind(ArrayList<String> _files, String _root, File _directory, String _type){
         File[] _list = _directory.listFiles();
         if(_list != null){
             for (File _file : _list) {
                 if (_file.isFile()) {
                     if(_file.getName().contains(_type)){
-                        _files.add(_file.getName());
+                        String _new = _root+_file.getName();
+                        _files.add(_new);
                     }
+                }
+                else if(_file.isDirectory()) {
+                    recursiveFind(_files, _root+_file.getName()+"/", _file, _type);
                 }
             }
         }
-        return _files;
     }
+
 
     public KeyMap getKeyMap() {
         return keyMap;

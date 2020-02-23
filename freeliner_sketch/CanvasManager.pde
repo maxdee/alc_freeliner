@@ -8,7 +8,8 @@
  * @since     2015-01-22
  */
 import java.util.Collections;
-import java.util.Arrays;
+
+
 
 
 /**
@@ -364,17 +365,13 @@ class LayeredCanvasManager extends CanvasManager {
         ArrayList<String> _images = freeliner.getFilesFrom(PATH_TO_IMAGES, ".png");
         _images.addAll(freeliner.getFilesFrom(PATH_TO_IMAGES, ".png"));
         for(Layer _lyr : layers) {
-            if(_lyr instanceof ImageLayer) _lyr.setOptions(sortAndArray(_images));
-            else if(_lyr instanceof ShaderLayer) _lyr.setOptions(sortAndArray(_shaders));
-            else if(_lyr instanceof FixtureLayer) _lyr.setOptions(sortAndArray(_fixtures));
+            if(_lyr instanceof ImageLayer) _lyr.setOptions(_images.toArray(new String[_images.size()]));
+            else if(_lyr instanceof ShaderLayer) _lyr.setOptions(_shaders.toArray(new String[_shaders.size()]));
+            else if(_lyr instanceof FixtureLayer) _lyr.setOptions(_fixtures.toArray(new String[_fixtures.size()]));
         }
     }
 
-    private String[] sortAndArray(ArrayList<String> _in){
-        String[] _out = _in.toArray(new String[_in.size()]);
-        Arrays.sort(_out);
-        return _out;
-    }
+
 
     public void printLayers() {
         println("+--------Layers--------+");
