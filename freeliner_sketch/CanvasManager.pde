@@ -488,6 +488,12 @@ class LayeredCanvasManager extends CanvasManager {
             _xml.setString("type", _layer.getName());
             _xml.setString("id", _layer.getID());
             _xml.setString("option", _layer.getSelectedOption());
+            if(_layer instanceof ShaderLayer) {
+                ShaderLayer _sl = (ShaderLayer)_layer;
+                for(int i = 0; i < _sl.UNIFORM_FLOAT_COUNT; i++) {
+                    _xml.setFloat("u"+i, _sl.uniforms[i]);
+                }
+            }
         }
         saveXML(_layersXML, dataDirectory(PATH_TO_LAYERS)+"/"+_fn);
     }
@@ -515,6 +521,14 @@ class LayeredCanvasManager extends CanvasManager {
                 if(!_option.equals("null") || !_option.equals("none")) {
                     String _cmd = "layer "+_id+" option "+_option;
                     parseCMD(split(_cmd, ' '));
+                }
+                Layer _l = getLayer(_id);
+                if(_l instanceof ShaderLayer) {
+                    ShaderLayer _sl = (ShaderLayer)_l;
+                    for(int i = 0; i < _sl.UNIFORM_FLOAT_COUNT; i++){
+                        String _cmd = "layer "+_id+" uniforms "+i+" "+_layer.getFloat("u"+i);
+                        parseCMD(split(_cmd, ' '));
+                    }
                 }
             }
         }
