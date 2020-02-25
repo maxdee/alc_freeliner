@@ -506,6 +506,11 @@ class TemplateManager implements FreelinerConfig{
         for(TweakableTemplate _tp : templates) {
             templateToXML(_tp, _xmlTemplates);
         }
+        XML colors =  _xmlTemplates.addChild("pallette");
+        for(int i = 0; i < PALLETTE_COUNT; i++) {
+            String tk = "p"+i;
+            colors.addChild(tk).setInt("color", userPallet[i]);
+        }
         saveXML(_xmlTemplates, dataDirectory(PATH_TO_TEMPLATES)+"/"+_fn);
     }
 
@@ -566,6 +571,12 @@ class TemplateManager implements FreelinerConfig{
         for(XML _tp : _templateData) {
             _tmp = getTemplate(_tp.getString("ID").charAt(0));
             xmlToTemplate(_tp, _tmp);
+        }
+
+        XML pal =  file.getChild("pallette");
+        for(int i = 0; i < PALLETTE_COUNT; i++) {
+            String tk = "p"+i;
+            userPallet[i] = pal.getChild(tk).getInt("color");
         }
     }
 
