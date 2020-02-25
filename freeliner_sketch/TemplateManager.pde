@@ -535,6 +535,11 @@ class TemplateManager implements FreelinerConfig{
         _tmp.setInt("miscValue", _tp.getMiscValue());
         _tmp.setInt("enablerMode", _tp.getEnablerMode());
         _tmp.setInt("renderLayer", _tp.getRenderLayer());
+
+        _tmp.setInt("customStroke", _tp.getCustomStrokeColor());
+        _tmp.setInt("customFill", _tp.getCustomFillColor());
+
+
         XML _geoms = _tmp.addChild("groups");
         for( int i = 0; i < _tp.getGeometries().size(); i++){
             XML _g = _geoms.addChild("g");
@@ -585,6 +590,9 @@ class TemplateManager implements FreelinerConfig{
         _tp.setMiscValue(_templateData.getInt("miscValue"), 50000);
         _tp.setEnablerMode(_templateData.getInt("enablerMode"), 50000);
         _tp.setRenderLayer(_templateData.getInt("renderLayer"), 50000);
+        _tp.setCustomStrokeColor(_templateData.getInt("customStroke"));
+        _tp.setCustomFillColor(_templateData.getInt("customFill"));
+
         String _linked = _templateData.getString("linked");
         if(_linked != null){
             _tp.setLinkTemplate(getTemplate(_linked.charAt(0)));
