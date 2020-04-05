@@ -668,10 +668,10 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         description = "a layer with a fragment shader";
 
         shader = null;
-        uniforms = new float[] {0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5};
+        uniforms = new float[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         dampFloats = new DampFloat[UNIFORM_FLOAT_COUNT];
         for(int i = 0; i < UNIFORM_FLOAT_COUNT; i++) {
-            dampFloats[i] = new DampFloat(0.5, 10);
+            dampFloats[i] = new DampFloat(0.0, 10);
         }
     }
 

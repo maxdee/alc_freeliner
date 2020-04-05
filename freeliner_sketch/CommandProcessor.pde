@@ -55,7 +55,7 @@ class CommandProcessor implements FreelinerConfig {
         "tp remove A geom",
 
         "tp lerp A 0.5",
-        "tp rotate ???",
+        "tp rotate A 0.5 0.5 0.5",
         "tp translate AB 0.5 0.5 0.5",
         "tp random",
 
