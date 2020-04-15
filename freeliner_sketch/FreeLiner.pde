@@ -35,8 +35,6 @@ class FreeLiner implements FreelinerConfig {
     boolean windowFocus;
     PApplet applet;
 
-    PShader fisheye;
-
     public FreeLiner(PApplet _pa, int _pipeline) {
         applet = _pa;
         // instantiate
@@ -56,7 +54,7 @@ class FreeLiner implements FreelinerConfig {
         commandProcessor = new CommandProcessor();
         guiWebServer = new GUIWebServer(applet);
         // osc + webSocket
-        if(OSC_USE_TCP) oscComs = new TCPOSCCommunicator(applet, commandProcessor);
+        if(projectConfig.oscUseTCP) oscComs = new TCPOSCCommunicator(applet, commandProcessor);
         else oscComs = new UDPOSCCommunicator(applet, commandProcessor);
         webComs = new WebSocketCommunicator(applet, commandProcessor);
 
@@ -84,11 +82,7 @@ class FreeLiner implements FreelinerConfig {
 
         keyMap.setLimits(documenter.modeLimits);
         documenter.doDocumentation(keyMap);
-        if(DOME_MODE) {
-            fisheye = loadShader(dataDirectory(PATH_TO_SHADERS)+"/"+"fisheye.glsl");
-            fisheye.set("aperture", 180.0);
-            shader(fisheye);
-        }
+
         // commandProcessor.queueCMD("colormap colorMap.png");
 
         // up commands

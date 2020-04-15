@@ -470,19 +470,21 @@ class CommandProcessor implements FreelinerConfig {
     }
 
     public void saveCMD(String[] _args) {
-        processCMD("tp save");
-        processCMD("geom save");
-        processCMD("layer save");
+        saveProject();
+        // processCMD("tp save");
+        // processCMD("geom save");
+        // processCMD("layer save");
         gui.updateReference();
         valueGiven = "sure";
     }
 
     public void openCMD(String[] _args) {
-        processCMD("tp load");
-        processCMD("geom load");
-        processCMD("layer load");
-        processCMD("fetch-ws layers");
-        //
+        openProject();
+        // processCMD("tp load");
+        // processCMD("geom load");
+        // processCMD("layer load");
+        // processCMD("fetch-ws layers");
+        // //
         valueGiven = "sure";
     }
     ////////////////////////////////////////////////////////////////////////////////////

@@ -38,25 +38,51 @@ boolean WIN = false;
 
 // documentation compiler, has to be super global
 Documenter documenter;
-
+// this object has the defaults
+FreelinerProject projectConfig =  new FreelinerProject();
 // no other way to make a global gammatable...
 int[] gammatable = new int[256];
 float gamma = 3.2; // 3.2 seems to be nice
 
 void settings(){
-    if(FreelinerConfig.USE_FULLSCREEN == true){
-        fullScreen(P2D, FreelinerConfig.FULLSCREEN_DISPLAY);
+    String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
+    projectConfig.load(lastProjectPath[0]);
+
+    if(projectConfig.fullscreen == true){
+        fullScreen(P2D, projectConfig.fullscreenDisplay);
     }
     else {
         size(
-            FreelinerConfig.CONFIGURED_WIDTH,
-            FreelinerConfig.CONFIGURED_HEIGHT,
+            projectConfig.width,
+            projectConfig.height,
             P2D
         );
     }
     // needed for syphon!
     PJOGL.profile=1;
     smooth(FreelinerConfig.SMOOTH_LEVEL);
+    projectConfig.save();
+}
+boolean canReset = false;
+void loadProjectPath(File _file){
+    projectConfig.load(_file.getAbsolutePath());
+    // save in case new project
+    saveProject();
+    if(canReset) {
+        canReset = false;
+        reset();
+    }
+}
+
+void openProject(){
+    selectFolder("load project or empty dir", "loadProjectPath");
+    // canReset = true;
+}
+
+void saveProject(){
+    projectConfig.save();
+    String[] _dir = {projectConfig.fullPath};
+    saveStrings(dataPath("last_project_path"), _dir);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -66,8 +92,25 @@ void settings(){
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-    // surface.setResizable(true);
-    //  surface.setSize(configuredWidth, configuredHeight);
+    String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
+    projectConfig.load(lastProjectPath[0]);
+    reset();
+}
+void reset(){
+    surface.setResizable(true);
+    // maybe add fullscreen
+    surface.setSize(projectConfig.width, projectConfig.height);
+    surface.setResizable(false);
+    surface.setTitle("freeliner");
+    frameRate(projectConfig.maxfps);
+
+    // load fonts
+    introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");
+    font = loadFont("fonts/Monospaced.bold-64.vlw");
+
+    background(0);
+    doSplash = projectConfig.splash;
+    splash();
     // removeBorder();
     if(workingDirectory != null) println(" *** CUSTOM WORKING DIRECTORY :\n"+workingDirectory);
     documenter = new Documenter();
@@ -81,25 +124,18 @@ void setup() {
     // init freeliner
     freeliner = new FreeLiner(this, FreelinerConfig.RENDERING_PIPELINE);
 
-    surface.setResizable(false);
-    surface.setTitle("freeliner");
     noCursor();
     // add in keyboard, as hold - or = to repeat. beginners tend to hold keys down which is problematic
     if(FreelinerConfig.ENABLE_KEY_REPEAT) hint(ENABLE_KEY_REPEAT); // usefull for performance
 
-    // load fonts
-    introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");
-    font = loadFont("fonts/Monospaced.bold-64.vlw");
 
 
     // perhaps use -> PApplet.platform == MACOSX
-    background(0);
-    splash();
-    frameRate(FreelinerConfig.CONFIGURED_FPS);
+
     makeGammaTable();
     // selectInput("working dir", "setWorkingDir");
 }
-// 
+//
 // void setWorkingDir(File selected){
 //     println(selected);
 //     println(" ==================================== ");
