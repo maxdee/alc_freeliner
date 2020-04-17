@@ -15,9 +15,6 @@ class Colorizer extends Mode{
   }
 
 	// need to multiplex alpha value for fill & stroke, just fill, or just stroke.
-  public color alphaMod(color  _c, int _alpha){
-  	return color(red(_c), green(_c), blue(_c), _alpha);
-  }
 
   public color HSBtoRGB(float _h, float _s, float _b){
   	return java.awt.Color.HSBtoRGB(_h, _s, _b);

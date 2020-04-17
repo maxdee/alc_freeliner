@@ -41,11 +41,11 @@ class Gui implements FreelinerConfig {
     boolean viewCursor;
 
     // reference gridSize and grid canvas, gets updated if the mouse gridSize changes.
-    int gridSize = DEFAULT_GRID_SIZE;
+    int gridSize = projectConfig.gridSize;
     PShape grid;
 
     // for auto hiding the GUI
-    int guiTimer = GUI_TIMEOUT;
+    int guiTimer = projectConfig.guiTimeout;
 
     //ui strings
     // keyString is the parameter associated with lowercase keys, i.e. "q   strokeMode", "g   gridSize".
@@ -64,7 +64,7 @@ class Gui implements FreelinerConfig {
      */
     public Gui() {
         // init canvas, P2D significantly faster
-        canvas = createGraphics(width, height, P2D);//, FX2D)
+        canvas = createGraphics(width, height, P2D);
         canvas.smooth(0);
         // make grid
         generateGrid(gridSize);
@@ -78,7 +78,6 @@ class Gui implements FreelinerConfig {
         viewCursor = true;
         colorMap = null;
     }
-
 
     /**
      * Depends on a groupManager to display all the segment groups and a mouse to draw the cursor.
@@ -193,7 +192,7 @@ class Gui implements FreelinerConfig {
         int sz = int(guiSegments.getBrushScaler()*20);
         if(segs != null)
             for(Segment seg : segs)
-                simpleText(seg, GUI_FONT_SIZE);
+                simpleText(seg, projectConfig.guiFontSize);
     }
 
 
@@ -213,16 +212,27 @@ class Gui implements FreelinerConfig {
      */
     private void putCrosshair(PVector _pos, boolean _snap) {
         // if snapped, make cursor green, white otherwise
-        if(_snap && !BW_BEAMER) crosshair.setStroke(SNAPPED_CURSOR_COLOR);
-        else crosshair.setStroke(CURSOR_COLOR);
-        crosshair.setStrokeWeight(CURSOR_STROKE_WIDTH);
+        if(_snap) {
+            crosshair.setStroke(
+                alphaMod(
+                    projectConfig.cursorColorSnapped,
+                    projectConfig.cursorAlphaSnapped
+                )
+            );
+        }
+        else {
+            crosshair.setStroke(
+                alphaMod(
+                    projectConfig.cursorColor,
+                    projectConfig.cursorAlpha
+                )
+            );
+        }
+        crosshair.setStrokeWeight(projectConfig.cursorStrokeWeight);
         canvas.pushMatrix();
         canvas.translate(_pos.x, _pos.y);
         // if dual projectors rotate the cursor by 45 when on second projector
-        if(DUAL_HEAD && _pos.x > width/2) {
-            canvas.rotate(QUARTER_PI);
-        }
-        if(_snap && BW_BEAMER) canvas.rotate(QUARTER_PI);
+        if(_snap && projectConfig.rotateCursorOnSnap) canvas.rotate(QUARTER_PI);
         canvas.shape(crosshair);
         canvas.popMatrix();
     }
@@ -234,8 +244,11 @@ class Gui implements FreelinerConfig {
     private void previewLine(SegmentGroup _sg) {
         PVector pos = _sg.getSegmentStart();
         if (pos.x > 0) {
-            canvas.stroke(PREVIEW_LINE_COLOR);
-            canvas.strokeWeight(PREVIEW_LINE_STROKE_WIDTH);
+            canvas.stroke(alphaMod(
+                projectConfig.previewLineColor,
+                projectConfig.previewLineAlpha
+            ));
+            canvas.strokeWeight(projectConfig.previewLineStrokeWeight);
             vecLine(canvas, pos, mouse.getPosition());
         }
     }
@@ -244,8 +257,8 @@ class Gui implements FreelinerConfig {
      * Create the PShape for the cursor.
      */
     private void makecrosshair() {
-        int out = CURSOR_SIZE;
-        int in = CURSOR_GAP_SIZE;
+        int out = projectConfig.cursorSize;
+        int in = projectConfig.cursorGapSize;
         crosshair = createShape();
         crosshair.beginShape(LINES);
         //if(INVERTED_COLOR) crosshair.stroke(0);
@@ -270,7 +283,10 @@ class Gui implements FreelinerConfig {
         int sz = 5;
         arrow = createShape();
         arrow.beginShape(LINES);
-        arrow.stroke(ARROW_COLOR);
+        arrow.stroke(alphaMod(
+            projectConfig.arrowColor,
+            projectConfig.arrowAlpha
+        ));
         arrow.vertex(sz, -sz);
         arrow.vertex(0,0);
         arrow.vertex(0,0);
@@ -302,7 +318,10 @@ class Gui implements FreelinerConfig {
         // Get center if centered or last point made
         PVector pos = _sg.getTagPosition();//_sg.isCentered() ? _sg.getCenter() : _sg.getSegmentStart();
         canvas.noStroke();
-        canvas.fill(TEXT_COLOR);
+        canvas.fill(alphaMod(
+            projectConfig.guiTextColor,
+            projectConfig.guiTextAlpha
+        ));
         // group ID and template tags
         int id = _sg.getID();
         String idTag = str(id);
@@ -316,7 +335,10 @@ class Gui implements FreelinerConfig {
         canvas.text(idTag, pos.x - fset, pos.y+6);
         canvas.text(tTags, pos.x + 6, pos.y+6);
         canvas.noFill();
-        canvas.stroke(TEXT_COLOR);
+        canvas.stroke(alphaMod(
+            projectConfig.guiTextColor,
+            projectConfig.guiTextAlpha
+        ));
         canvas.strokeWeight(1);
         // ellipse showing center or last point
         canvas.ellipse(pos.x, pos.y, 10, 10);
@@ -346,11 +368,17 @@ class Gui implements FreelinerConfig {
     public void showCmdSegment(Segment _seg) {
         PVector pos = _seg.getPointA();
         canvas.noStroke();
-        canvas.fill(TEXT_COLOR);
+        canvas.fill(alphaMod(
+            projectConfig.guiTextColor,
+            projectConfig.guiTextAlpha
+        ));
         String cmd = _seg.getText();
         canvas.text(cmd, pos.x + 6, pos.y+6);
         canvas.noFill();
-        canvas.stroke(TEXT_COLOR);
+        canvas.stroke(alphaMod(
+            projectConfig.guiTextColor,
+            projectConfig.guiTextAlpha
+        ));
         canvas.strokeWeight(1);
         canvas.ellipse(pos.x, pos.y, 10, 10);
     }
@@ -361,17 +389,40 @@ class Gui implements FreelinerConfig {
      * @param Segment segment to draw
      */
     public void showSegmentLines(Segment _s, SegmentGroup _sg) {
-        if(groupManager.getSnappedSegment() == _s) canvas.stroke(SNAPPED_CURSOR_COLOR);
-        else if(_sg == groupManager.getSelectedGroup()) canvas.stroke(SEGMENT_COLOR);
-        else canvas.stroke(SEGMENT_COLOR_UNSELECTED);
-        canvas.strokeWeight(1);
+        if(groupManager.getSnappedSegment() == _s) {
+            canvas.fill(alphaMod(
+                projectConfig.cursorColorSnapped,
+                projectConfig.cursorAlphaSnapped
+            ));
+        }
+        else if(_sg == groupManager.getSelectedGroup()){
+            canvas.stroke(alphaMod(
+                projectConfig.lineSegmentColor,
+                projectConfig.lineSegmentAlpha
+            ));
+        }
+        else {
+            canvas.stroke(alphaMod(
+                projectConfig.lineSegmentColorUnselected,
+                projectConfig.lineSegmentAlphaUnselected
+            ));
+        }
+        canvas.strokeWeight(projectConfig.lineSegmentStrokeWeight);
         vecLine(canvas, _s.getPointA(), _s.getPointB());
-        //canvas.stroke(100);
-        //if(_s.isCentered()) vecLine(g, _s.getOffA(), _s.getOffB());
-        canvas.stroke(NODE_COLOR);
-        if(_sg == groupManager.getSelectedGroup()) canvas.stroke(NODE_COLOR);
-        else canvas.stroke(SEGMENT_COLOR_UNSELECTED);
-        canvas.strokeWeight(NODE_STROKE_WEIGTH);
+
+        if(_sg == groupManager.getSelectedGroup()) {
+            canvas.stroke(alphaMod(
+                projectConfig.nodeColor,
+                projectConfig.nodeAlpha
+            ));
+        }
+        else {
+            canvas.stroke(alphaMod(
+                projectConfig.lineSegmentColorUnselected,
+                projectConfig.lineSegmentAlphaUnselected
+            ));
+        }
+        canvas.strokeWeight(projectConfig.nodeStrokeWeigth);
         canvas.point(_s.getPointA().x, _s.getPointA().y);
         canvas.point(_s.getPointB().x, _s.getPointB().y);
         PVector midpoint = _s.getMidPoint();
@@ -379,8 +430,6 @@ class Gui implements FreelinerConfig {
             canvas.pushMatrix();
             canvas.translate(midpoint.x, midpoint.y);
             canvas.rotate(_s.getAngle(false));
-            // if(_sg == groupManager.getSelectedGroup()) canvas.ti(NODE_COLOR);
-            // else canvas.stroke(SEGMENT_COLOR_UNSELECTED);
             canvas.shape(arrow);
             canvas.popMatrix();
         }
@@ -396,7 +445,10 @@ class Gui implements FreelinerConfig {
         int l = txt.length();
         PVector pos = new PVector(0,0);
         canvas.pushStyle();
-        canvas.fill(TEXT_COLOR);
+        canvas.fill(alphaMod(
+            projectConfig.guiTextColor,
+            projectConfig.guiTextAlpha
+        ));
         canvas.noStroke();
         canvas.textFont(font);
         canvas.textSize(_size);
@@ -459,13 +511,15 @@ class Gui implements FreelinerConfig {
      * @param int resolution
      */
     private void generateGrid(int _sz) {
+        projectConfig.gridSize = _sz;
         gridSize = _sz;
         //PShape grd;
         grid = createShape(GROUP);
         PShape _grd = createShape();
         _grd.beginShape(LINES);
-        _grd.stroke(GRID_COLOR);
-        _grd.strokeWeight(GRID_STROKE_WEIGHT);
+        _grd.stroke(alphaMod(projectConfig.gridColor, projectConfig.gridAlpha));
+        _grd.strokeWeight(projectConfig.gridStrokeWeight);
+
         for (int x = 0; x < width/2; x+=gridSize) {
             for (int y = 0; y < height/2; y+=gridSize) {
                 _grd.vertex(width/2 + x, 0);
@@ -508,7 +562,7 @@ class Gui implements FreelinerConfig {
      * Reset the time of the GUI auto hiding
      */
     public void resetTimeOut() {
-        guiTimer = GUI_TIMEOUT;
+        guiTimer = projectConfig.guiTimeout;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -521,10 +575,7 @@ class Gui implements FreelinerConfig {
      * Check if GUI needs to be drawn and update the GUI timeout for auto hiding.
      */
     public boolean doDraw() {
-        // scuff added
-        // return true;
-
-        if (guiTimer > 0 && (mouse.useGrid() || focused)) { // recently added window focus
+        if (guiTimer > 0 && (mouse.useGrid() || focused)) {
             guiTimer--;
             return true;
         } else return false;
@@ -537,6 +588,7 @@ class Gui implements FreelinerConfig {
     public String[] getAllInfo() {
         return allInfo;
     }
+
     public String getInfo() {
         return allInfo[0]+allInfo[1]+allInfo[2]+allInfo[3]+allInfo[4];
     }

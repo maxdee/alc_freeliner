@@ -147,12 +147,14 @@ class FreelinerProject {
     int cursorStrokeWeight = 2;
     int guiTimeout = 10000;
     int guiFontSize = 20;
-    // int DEFAULT_GRID_SIZE = 32; // used by mouse too
     int nodeSize = 5;
     int nodeColor = #989898;
+    int nodeAlpha = 100;
+    int nodeStrokeWeigth = 5;
     int previewLineStrokeWeight = 1;
     color previewLineColor = #ffffff;
     int previewLineAlpha = 100;
+
     color cursorColor = #FFFFFF;
     int cursorAlpha = 100;
     color cursorColorSnapped = #00FF00;
@@ -164,9 +166,13 @@ class FreelinerProject {
     int gridAlpha = 100;
     int gridStrokeWeight = 1;//9696;
     color lineSegmentColor = #BEBEBE;
+    int lineSegmentAlpha = 100;
+    int lineSegmentStrokeWeight = 1;
+    color lineSegmentColorUnselected = #2D2D2D;
+    int lineSegmentAlphaUnselected = 100;
     color arrowColor = #5D5D5D;
     int arrowAlpha = 100;
-    color segmentColor = #2D2D2D;
+
 
     boolean rotateCursorOnSnap = false;
     // invert colors
@@ -251,6 +257,45 @@ class FreelinerProject {
             this.httpServerPort = _renderConfig.getInt("httpServerPort", this.httpServerPort);
         }
 
+        JSONObject _guiConfig = _config.getJSONObject("gui");
+        if(_guiConfig != null) {
+            this.cursorSize = _guiConfig.getInt("cursorSize", this.cursorSize);
+            this.cursorGapSize = _guiConfig.getInt("cursorGapSize", this.cursorGapSize);
+            this.cursorStrokeWeight = _guiConfig.getInt("cursorStrokeWeight", this.cursorStrokeWeight);
+            this.guiTimeout = _guiConfig.getInt("guiTimeout", this.guiTimeout);
+            this.guiFontSize = _guiConfig.getInt("guiFontSize", this.guiFontSize);
+            this.nodeSize = _guiConfig.getInt("nodeSize", this.nodeSize);
+            this.nodeColor = strToCol(_guiConfig.getString("nodeColor", hex(this.nodeColor)));
+            this.nodeAlpha = _guiConfig.getInt("nodeAlpha", this.nodeAlpha);
+            this.nodeStrokeWeigth = _guiConfig.getInt("nodeStrokeWeigth", this.nodeStrokeWeigth);
+
+            this.previewLineStrokeWeight = _guiConfig.getInt("previewLineStrokeWeight", this.previewLineStrokeWeight);
+            this.previewLineColor = strToCol(_guiConfig.getString("previewLineColor", hex(this.previewLineColor)));
+            this.previewLineAlpha = _guiConfig.getInt("previewLineAlpha", this.previewLineAlpha);
+            this.cursorColor = strToCol(_guiConfig.getString("cursorColor", hex(this.cursorColor)));
+            this.cursorAlpha = _guiConfig.getInt("cursorAlpha", this.cursorAlpha);
+            this.cursorColorSnapped = strToCol(_guiConfig.getString("cursorColorSnapped", hex(this.cursorColorSnapped)));
+            this.cursorAlphaSnapped = _guiConfig.getInt("cursorAlphaSnapped", this.cursorAlphaSnapped);
+            this.enableSnapeToLines = _guiConfig.getBoolean("enableSnapeToLines", this.enableSnapeToLines);
+            this.guiTextColor = strToCol(_guiConfig.getString("guiTextColor", hex(this.guiTextColor)));
+            this.guiTextAlpha = _guiConfig.getInt("guiTextAlpha", this.guiTextAlpha);
+            this.gridColor = strToCol(_guiConfig.getString("gridColor", hex(this.gridColor)));
+            this.gridAlpha = _guiConfig.getInt("gridAlpha", this.gridAlpha);
+            this.gridStrokeWeight = _guiConfig.getInt("gridStrokeWeight", this.gridStrokeWeight);
+            this.lineSegmentColor = strToCol(_guiConfig.getString("lineSegmentColor", hex(this.lineSegmentColor)));
+            this.arrowColor = strToCol(_guiConfig.getString("arrowColor", hex(this.arrowColor)));
+            this.arrowAlpha = _guiConfig.getInt("arrowAlpha", this.arrowAlpha);
+            this.lineSegmentColor = strToCol(_guiConfig.getString("lineSegmentColor", hex(this.lineSegmentColor)));
+            this.lineSegmentColorUnselected = strToCol(_guiConfig.getString("lineSegmentColorUnselected", hex(this.lineSegmentColorUnselected)));
+            this.lineSegmentAlpha = _guiConfig.getInt("lineSegmentAlpha", this.lineSegmentAlpha);
+            this.lineSegmentAlphaUnselected = _guiConfig.getInt("lineSegmentAlphaUnselected", this.lineSegmentAlphaUnselected);
+
+            this.rotateCursorOnSnap = _guiConfig.getBoolean("rotateCursorOnSnap", this.rotateCursorOnSnap);
+        }
+    }
+
+    color strToCol(String _hex) {
+        return unhex(_hex.replaceAll("#","FF").toUpperCase());
     }
 
     JSONObject makeJson(){
@@ -273,9 +318,42 @@ class FreelinerProject {
         _networkConfig.setBoolean("serveHTTP", this.serveHTTP);
         _networkConfig.setInt("httpServerPort", this.httpServerPort);
 
+        JSONObject _guiConfig = new JSONObject();
+        _guiConfig.setInt("cursorSize", this.cursorSize);
+        _guiConfig.setInt("cursorGapSize", this.cursorGapSize);
+        _guiConfig.setInt("cursorStrokeWeight", this.cursorStrokeWeight);
+        _guiConfig.setInt("guiTimeout", this.guiTimeout);
+        _guiConfig.setInt("guiFontSize", this.guiFontSize);
+        _guiConfig.setInt("nodeSize", this.nodeSize);
+        _guiConfig.setString("nodeColor", hex(this.nodeColor));
+        _guiConfig.setInt("nodeAlpha", this.nodeAlpha);
+        _guiConfig.setInt("nodeStrokeWeigth", this.nodeStrokeWeigth);
+
+        _guiConfig.setInt("previewLineStrokeWeight", this.previewLineStrokeWeight);
+        _guiConfig.setString("previewLineColor", hex(this.previewLineColor));
+        _guiConfig.setInt("previewLineAlpha", this.previewLineAlpha);
+        _guiConfig.setString("cursorColor", hex(this.cursorColor));
+        _guiConfig.setInt("cursorAlpha", cursorAlpha);
+        _guiConfig.setString("cursorColorSnapped", hex(this.cursorColorSnapped));
+        _guiConfig.setInt("cursorAlphaSnapped", cursorAlphaSnapped);
+        _guiConfig.setBoolean("enableSnapeToLines", enableSnapeToLines);
+        _guiConfig.setString("guiTextColor", hex(this.guiTextColor));
+        _guiConfig.setInt("guiTextAlpha", guiTextAlpha);
+        _guiConfig.setString("gridColor", hex(this.gridColor));
+        _guiConfig.setInt("gridAlpha", gridAlpha);
+        _guiConfig.setInt("gridStrokeWeight", gridStrokeWeight);
+        _guiConfig.setString("lineSegmentColor", hex(this.lineSegmentColor));
+        _guiConfig.setString("arrowColor", hex(this.arrowColor));
+        _guiConfig.setInt("arrowAlpha", arrowAlpha);
+        _guiConfig.setString("lineSegmentColor", hex(this.lineSegmentColor));
+        _guiConfig.setBoolean("rotateCursorOnSnap", rotateCursorOnSnap);
+
+
         JSONObject _config = new JSONObject();//.getJSONObject("config");
         _config.setJSONObject("render", _renderConfig);
         _config.setJSONObject("network", _networkConfig);
+        _config.setJSONObject("gui", _guiConfig);
+
 
         return _config;
     }

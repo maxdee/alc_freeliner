@@ -155,13 +155,13 @@ class Painter extends Mode {
 
         if (fillMode != 0) {
             _s.setFill(true);
-            _s.setFill(getFillColor());//getColorizer(fillMode).get(event, fillAlpha));
+            _s.setFill(getFillColor());
         }
         else _s.setFill(false);
 
         if(strokeMode != 0 && strokeAlpha != 0) {
             _s.setStroke(true);
-            _s.setStroke(getStrokeColor());//getColorizer(strokeMode).get(event, strokeAlpha)); // _s.getStyle().stroke = getColorizer(strokeMode).get(event);//
+            _s.setStroke(getStrokeColor());
         }
     }
 
@@ -178,12 +178,12 @@ class Painter extends Mode {
         int fillAlpha = event.getFillAlpha();
 
         if(fillMode != 0) {
-            _g.fill(getFillColor());//getColorizer(fillMode).get(event, fillAlpha));
+            _g.fill(getFillColor());
         }
         else _g.noFill();
 
         if(strokeMode != 0 && strokeAlpha != 0) {
-            _g.stroke(getStrokeColor());//getColorizer(strokeMode).get(event, strokeAlpha));
+            _g.stroke(getStrokeColor());
         }
         else _g.noStroke();
     }

@@ -226,6 +226,10 @@ PShape cloneShape(PShape _source, float _scale){
   return cloneShape(_source, _scale, new PVector(0,0));
 }
 
+color alphaMod(color  _c, int _alpha){
+  return color(red(_c), green(_c), blue(_c), _alpha);
+}
+
 /**
  * PShape clone/resize/center, the centerPosition will translate everything making it 0,0
  * @param  String directory
