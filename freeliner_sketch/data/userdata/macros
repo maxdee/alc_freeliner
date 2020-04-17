@@ -5,4 +5,4 @@
 # 1= tp translate $ 0.0 0.0
 # 2= tp translate $ 0.5 0.0
 3= tw $ b 1, tw $ q 8
-D
+4= tp copy $, tp groupadd $

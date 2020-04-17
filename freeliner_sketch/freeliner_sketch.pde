@@ -38,6 +38,8 @@ boolean WIN = false;
 
 // documentation compiler, has to be super global
 Documenter documenter;
+boolean MAKE_DOCUMENTATION = true;
+
 // this object has the defaults
 FreelinerProject projectConfig =  new FreelinerProject();
 // no other way to make a global gammatable...
@@ -60,10 +62,14 @@ void settings(){
     }
     // needed for syphon!
     PJOGL.profile=1;
-    smooth(FreelinerConfig.SMOOTH_LEVEL);
+    smooth(projectConfig.smoothLevel);
+
+    //
     projectConfig.save();
 }
+
 boolean canReset = false;
+
 void loadProjectPath(File _file){
     projectConfig.load(_file.getAbsolutePath());
     // save in case new project
@@ -96,6 +102,7 @@ void setup() {
     projectConfig.load(lastProjectPath[0]);
     reset();
 }
+
 void reset(){
     surface.setResizable(true);
     // maybe add fullscreen

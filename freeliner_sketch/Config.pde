@@ -1,12 +1,12 @@
 
 interface FreelinerConfig {
     // windowed mode width and height
-    final int WIDTH = 1024;
-    final int HEIGHT = 768;
-    final boolean FULLSCREEN = false;
-    // which screen is used for fullscreen
-    final int FULLSCREEN_DISPLAY = 2;
-    final int CONFIGURED_FPS = 60;
+    // final int WIDTH = 1024;
+    // final int HEIGHT = 768;
+    // final boolean FULLSCREEN = false;
+    // // which screen is used for fullscreen
+    // final int FULLSCREEN_DISPLAY = 2;
+    // final int CONFIGURED_FPS = 60;
 
     // UDP Port for incomming OSC messages
     // final int OSC_IN_PORT = 6667;
@@ -24,7 +24,7 @@ interface FreelinerConfig {
     // final int HTTPSERVER_PORT = 8000;
 
     // very beta
-    final boolean DOME_MODE = true;
+    // final boolean DOME_MODE = true;
 
     // bad for beginners but crucial
     boolean ENABLE_KEY_REPEAT = true;
@@ -115,6 +115,12 @@ class FreelinerProject {
     int maxfps = 60;
     int smoothLevel = 2;
     boolean splash = true;
+    // Rendering options
+    color BACKGROUND_COLOR = #000000;
+    int STROKE_CAP = ROUND;//PROJECT;//SQUARE; // or ROUND
+    int STROKE_JOIN = ROUND;//MITER; // or BEVEL or ROUND
+    boolean BRUSH_SCALING = false;
+
     // network
     int oscInPort = 6667;
     int oscOutPort = 6668;
@@ -124,79 +130,53 @@ class FreelinerProject {
     boolean serveHTTP = true;
     int httpServerPort = 8000;
 
+    // ui options
 
-    // UDP Port for incomming OSC messages
-    // UDP Port for outgoing OSC message
-    // int OSC_OUT_PORT = 6668;
-    // IP address to send sync messages to
-    // use TCP or UDP
-    // Websocket port
-    // Disbale Webserving
-    // HTTP server port
-
-    // very beta
-    boolean DOME_MODE = false;
-
-    // bad for beginners but crucial
-    boolean ENABLE_KEY_REPEAT = true;
-
+    boolean keyRepeat = true;
+    int mouseDebounce = 100;
     // Mouse options
-    int DEFAULT_GRID_SIZE = 64;
-    int DEFAULT_LINE_ANGLE = 30;
-    int DEFAULT_LINE_LENGTH = 128;
-    int MOUSE_DEBOUNCE = 100;
+    int gridSize = 64;
+    int lineToolFixedAngle = 30;
+    int lineToolFixedLength = 128;
     // use scrollwheel as - +
-    boolean SCROLLWHEEL_SELECTOR = false;
+    boolean scrollWheelTweaker = false;
 
     // GUI options
-    int CURSOR_SIZE = 15;
-    int CURSOR_GAP_SIZE = 10;
-    int CURSOR_STROKE_WIDTH = 2;
-    int GUI_TIMEOUT = 10000;
-    int GUI_FONT_SIZE = 20;
+    int cursorSize = 15;
+    int cursorGapSize = 10;
+    int cursorStrokeWeight = 2;
+    int guiTimeout = 10000;
+    int guiFontSize = 20;
     // int DEFAULT_GRID_SIZE = 32; // used by mouse too
-    int NODE_STROKE_WEIGTH = 5;
-    int NODE_COLOR = #989898;
-    int PREVIEW_LINE_STROKE_WIDTH = 1;
-    color PREVIEW_LINE_COLOR = #ffffff;
-    color CURSOR_COLOR = #FFFFFF;
-    color SNAPPED_CURSOR_COLOR = #00FF00;
-    boolean ENABLE_SNAP_MIDDLE = true;
-    color TEXT_COLOR = #FFFFFF;
-    color GRID_COLOR = #969696;//9696;
-    int GRID_STROKE_WEIGHT = 1;//9696;
-    color SEGMENT_COLOR = #BEBEBE;
-    color ARROW_COLOR = #5D5D5D;
+    int nodeSize = 5;
+    int nodeColor = #989898;
+    int previewLineStrokeWeight = 1;
+    color previewLineColor = #ffffff;
+    int previewLineAlpha = 100;
+    color cursorColor = #FFFFFF;
+    int cursorAlpha = 100;
+    color cursorColorSnapped = #00FF00;
+    int cursorAlphaSnapped = 200;
+    boolean enableSnapeToLines = true;
+    color guiTextColor = #FFFFFF;
+    int guiTextAlpha = 100;
+    color gridColor = #969696;//9696;
+    int gridAlpha = 100;
+    int gridStrokeWeight = 1;//9696;
+    color lineSegmentColor = #BEBEBE;
+    color arrowColor = #5D5D5D;
+    int arrowAlpha = 100;
+    color segmentColor = #2D2D2D;
 
-    color SEGMENT_COLOR_UNSELECTED = #2D2D2D;
-
-    // If you are using a DLP with no colour wheel
-    boolean BW_BEAMER = false;
-    // If you are using a dual head setup
-    boolean DUAL_HEAD = false;
+    boolean rotateCursorOnSnap = false;
     // invert colors
-    boolean INVERTED_COLOR = true;
-
-    // Rendering options
-    color BACKGROUND_COLOR = #000000;
-    int STROKE_CAP = ROUND;//PROJECT;//SQUARE; // or ROUND
-    int STROKE_JOIN = ROUND;//MITER; // or BEVEL or ROUND
-    boolean BRUSH_SCALING = false;
+    boolean invertedColor = true;
 
     // Timing and stuff
-    int DEFAULT_TEMPO = 1300;
-    int SEQ_STEP_COUNT = 16; // change not recommended, there in spirit
-
-    // Pick your rendering pipeline,
-    // 0 is lightest, best for older hardware
-    // 1 is fancy, but only good with newer hardware
-    int RENDERING_PIPELINE = 1;
-    int SMOOTH_LEVEL = 2;
-    // to enable / disable experimental parts.
-    boolean EXPERIMENTAL = false;
+    int tempo = 1300;
+    int seqStepCount = 16;
 
     // generate documentation on startup, pretty much mandatory now.
-    boolean MAKE_DOCUMENTATION = true;
 
     boolean FIXTURE_CORRECT_GAMMA = false;
     boolean DRAW_FIXTURE_ADDRESS = false;

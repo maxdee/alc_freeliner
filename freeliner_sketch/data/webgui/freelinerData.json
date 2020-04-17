@@ -933,8 +933,8 @@
     {
       "max": -42,
       "name": "macro4",
-      "description": "macro 4: ",
-      "cmd": "",
+      "description": "macro4  tp copy $, tp groupadd $",
+      "cmd": " tp copy $, tp groupadd $",
       "type": 7,
       "ascii": 52,
       "key": "4"
