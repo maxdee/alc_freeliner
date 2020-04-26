@@ -553,10 +553,53 @@ class GroupManager implements FreelinerConfig{
 
     // argumentless
     public void saveGroups() {
-        saveGroups("geometry.xml");
+        // saveGroupsJSON("geometry.json");
     }
 
-    public void saveGroups(String _fn) {
+    public JSONObject getGroupsJSON() {
+        JSONObject groupData = new JSONObject();
+        groupData.setInt("width", width);
+        groupData.setInt("height", height);
+
+        JSONArray groupJSONArray = new JSONArray();
+        int groupIdx = 0;
+        for(SegmentGroup grp : groups) {
+            if(grp.isEmpty()) continue;
+
+            // XML xgroup = groupData.addChild("group");
+            JSONObject grpJSON = new JSONObject();
+            grpJSON.setInt("ID", grp.getID());
+            grpJSON.setString("text", grp.getText());
+
+            if(grp.getID() == 0) grpJSON.setString("type", "gui");
+            else if(grp.getID() == 1) grpJSON.setString("type", "ref");
+            else grpJSON.setString("type", "map");
+
+            grpJSON.setFloat("centerX", grp.getCenter().x);
+            grpJSON.setFloat("centerY", grp.getCenter().y);
+            grpJSON.setInt("centered", int(grp.isCentered()));
+            grpJSON.setString("tags", grp.getTemplateList().getTags());
+            JSONArray segs = new JSONArray();
+            int segIdx = 0;
+            for(Segment seg : grp.getSegmentsUnsorted()) {
+                JSONObject s = new JSONObject();
+                s.setFloat("aX",seg.getPointA().x);
+                s.setFloat("aY",seg.getPointA().y);
+                s.setFloat("bX",seg.getPointB().x);
+                s.setFloat("bY",seg.getPointB().y);
+                // for leds and such
+                s.setString("txt",seg.getText());
+                segs.setJSONObject(segIdx++, s);
+            }
+            grpJSON.setJSONArray("segments", segs);
+            groupJSONArray.setJSONObject(groupIdx++, grpJSON);
+        }
+        groupData.setJSONArray("groups", groupJSONArray);
+        return groupData;
+    }
+
+
+    public void saveGroupsXML(String _fn) {
         XML groupData = new XML("groups");
         groupData.setInt("width", width);
         groupData.setInt("height", height);

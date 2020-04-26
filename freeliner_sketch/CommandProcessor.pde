@@ -470,16 +470,16 @@ class CommandProcessor implements FreelinerConfig {
     }
 
     public void saveCMD(String[] _args) {
-        saveProject();
-        // processCMD("tp save");
+        freeliner.saveProject();
         // processCMD("geom save");
+        // processCMD("tp save");
         // processCMD("layer save");
         gui.updateReference();
         valueGiven = "sure";
     }
 
     public void openCMD(String[] _args) {
-        openProject();
+        freeliner.openProject();
         // processCMD("tp load");
         // processCMD("geom load");
         // processCMD("layer load");
@@ -775,8 +775,8 @@ class CommandProcessor implements FreelinerConfig {
     }
 
     public boolean saveGeometryCMD(String[] _args) {
-        if(_args.length == 2) groupManager.saveGroups();
-        else if(_args.length == 3) groupManager.saveGroups(_args[2]);
+        if(_args.length == 2) freeliner.saveGroups();
+        else if(_args.length == 3) freeliner.saveGroups(_args[2]);
         else return false;
         return true;
     }

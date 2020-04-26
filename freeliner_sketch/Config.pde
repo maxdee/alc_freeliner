@@ -219,7 +219,7 @@ class FreelinerProject {
 
     void save(){
         JSONObject _cfg =  new JSONObject();
-        _cfg.setJSONObject("config",makeJson());
+        _cfg.setJSONObject("config",makeJSON());
         saveJSONObject(_cfg, fullPath+"/config.json");
     }
 
@@ -298,7 +298,7 @@ class FreelinerProject {
         return unhex(_hex.replaceAll("#","FF").toUpperCase());
     }
 
-    JSONObject makeJson(){
+    JSONObject makeJSON(){
         JSONObject _renderConfig = new JSONObject();
         _renderConfig.setInt("width", this.width);
         _renderConfig.setInt("height", this.height);

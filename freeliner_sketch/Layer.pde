@@ -735,9 +735,9 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
 
     public void reloadShader() {
         try {
-            shader = loadShader(dataDirectory(PATH_TO_SHADERS)+"/"+fileName);
+            shader = loadShader(projectConfig.fullPath+"/shaders/"+fileName);
             println("Loaded shader "+fileName);
-            File _file = new File(dataDirectory(PATH_TO_SHADERS)+"/"+fileName);
+            File _file = new File(projectConfig.fullPath+"/shaders/"+fileName);
             timeStamp = _file.lastModified();
         } catch(Exception _e) {
             println("Could not load shader... "+fileName);
@@ -748,7 +748,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
 
     public void checkForUpdate() {
         try {
-            File _file = new File(dataDirectory(PATH_TO_SHADERS)+"/"+fileName);
+            File _file = new File(projectConfig.fullPath+"/shaders/"+fileName);
             if(timeStamp != _file.lastModified()) {
                 reloadShader();
             }

@@ -73,22 +73,11 @@ boolean canReset = false;
 void loadProjectPath(File _file){
     projectConfig.load(_file.getAbsolutePath());
     // save in case new project
-    saveProject();
+    // saveProject();
     if(canReset) {
         canReset = false;
         reset();
     }
-}
-
-void openProject(){
-    selectFolder("load project or empty dir", "loadProjectPath");
-    // canReset = true;
-}
-
-void saveProject(){
-    projectConfig.save();
-    String[] _dir = {projectConfig.fullPath};
-    saveStrings(dataPath("last_project_path"), _dir);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

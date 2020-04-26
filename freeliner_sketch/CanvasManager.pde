@@ -360,7 +360,8 @@ class LayeredCanvasManager extends CanvasManager {
     ////////////////////////////////////////////////////////////////////////////////////
 
     public void updateOptions() {
-        ArrayList<String> _shaders = freeliner.getFilesFrom(PATH_TO_SHADERS, ".glsl");
+        // ArrayList<String> _shaders = freeliner.getFilesFrom(PATH_TO_SHADERS, ".glsl");
+        ArrayList<String> _shaders = freeliner.getFilesFrom(projectConfig.fullPath+"/shaders", ".glsl");
         ArrayList<String> _fixtures = freeliner.getFilesFrom(PATH_TO_FIXTURES, ".xml");
         ArrayList<String> _images = freeliner.getFilesFrom(PATH_TO_IMAGES, ".png");
         _images.addAll(freeliner.getFilesFrom(PATH_TO_IMAGES, ".png"));

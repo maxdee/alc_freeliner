@@ -142,9 +142,6 @@ class FreeLiner implements FreelinerConfig {
     // need to make this better.
     private void autoSave() {
         if(frameCount % 1000 == 1) {
-            // commandProcessor.processCMD("geom save userdata/autoSaveGeometry.xml");
-            // commandProcessor.processCMD("tp save userdata/autoSaveTemplates.xml");
-            // println("Autot saved");
         }
     }
 
@@ -192,6 +189,50 @@ class FreeLiner implements FreelinerConfig {
         // }
         // _file.setInt(_param, _v);
         // saveXML(_file, sketchPath()+"/data/userdata/configuration.xml");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
+    ///////    save/load files
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    // void saveProject(){
+    //     // projectConfig.save();
+    //     // save(projectConfig.fullPath+"/session.json");
+    // }
+
+
+    void saveProject(){
+        JSONObject _session = new JSONObject();
+        JSONObject _cfg = projectConfig.makeJSON();
+        JSONObject _geom = groupManager.getGroupsJSON();
+        _session.setJSONObject("config", _cfg);
+        _session.setJSONObject("geometry", _geom);
+        saveJSONObject(_session, projectConfig.fullPath+"/config.json");
+
+
+
+        String[] _dir = {projectConfig.fullPath};
+        saveStrings(dataPath("last_project_path"), _dir);
+    }
+
+
+    void openProject(){
+        selectFolder("load project or empty dir", "loadProjectPath");
+        // canReset = true;
+    }
+
+
+    void saveGroups(){
+        saveGroups("geom.json");
+    }
+
+    void saveGroups(String _fn) {
+        JSONObject _session = new JSONObject();
+        JSONObject _geom = groupManager.getGroupsJSON();
+        _session.setJSONObject("geometry", _geom);
+        saveJSONObject(_session, projectConfig.fullPath+"/"+_fn);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////
