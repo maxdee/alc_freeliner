@@ -421,11 +421,11 @@ class CommandProcessor implements FreelinerConfig {
         if(_args.length < 2) return false;
         int _v = stringInt(_args[2]);
         if(_v == -42) return false;
-        else if(_args[1].equals("width")) freeliner.configure(_args[1], _v);
-        else if(_args[1].equals("height")) freeliner.configure(_args[1], _v);
-        else if(_args[1].equals("fullscreen")) freeliner.configure(_args[1], _v);
-        else if(_args[1].equals("display")) freeliner.configure(_args[1], _v);
-        else if(_args[1].equals("pipeline")) freeliner.configure(_args[1], _v);
+        else if(_args[1].equals("width")) projectConfig.width = _v;
+        else if(_args[1].equals("height")) projectConfig.height = _v;
+        else if(_args[1].equals("fullscreen")) projectConfig.fullscreen = (_v == 1);
+        else if(_args[1].equals("display")) projectConfig.fullscreenDisplay = _v;
+        else if(_args[1].equals("pipeline")) projectConfig.layers = (_v == 1);
         // else if(_args[1].equals("open")) openCMD(_args);
         else return false;
         return true;
@@ -479,7 +479,9 @@ class CommandProcessor implements FreelinerConfig {
     }
 
     public void openCMD(String[] _args) {
-        freeliner.openProject();
+        // freeliner.openProject(); // turn into open dir
+        freeliner.loadBasics();
+
         // processCMD("tp load");
         // processCMD("geom load");
         // processCMD("layer load");
@@ -775,8 +777,8 @@ class CommandProcessor implements FreelinerConfig {
     }
 
     public boolean saveGeometryCMD(String[] _args) {
-        if(_args.length == 2) freeliner.saveGroups();
-        else if(_args.length == 3) freeliner.saveGroups(_args[2]);
+        if(_args.length == 2) freeliner.saveGeometry();
+        else if(_args.length == 3) freeliner.saveGeometry(_args[2]);
         else return false;
         return true;
     }

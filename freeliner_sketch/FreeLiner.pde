@@ -173,23 +173,6 @@ class FreeLiner implements FreelinerConfig {
         return _cmd;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////
-    ///////    Configure stuff
-    ///////
-    ////////////////////////////////////////////////////////////////////////////////////
-
-    public void configure(String _param, int _v) {
-        println("CONFIGURNING NOT ENABLED");
-        // XML _file;
-        // try {
-        //     _file = loadXML(sketchPath()+"/data/userdata/configuration.xml");
-        // } catch(Exception e) {
-        //     _file = new XML("freelinerConfiguration");
-        // }
-        // _file.setInt(_param, _v);
-        // saveXML(_file, sketchPath()+"/data/userdata/configuration.xml");
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
@@ -197,42 +180,65 @@ class FreeLiner implements FreelinerConfig {
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    // void saveProject(){
-    //     // projectConfig.save();
-    //     // save(projectConfig.fullPath+"/session.json");
-    // }
-
-
     void saveProject(){
+        saveConfig();
+        saveGeometry();
+    }
+
+    void saveConfig(){
+        saveConfig("config.json");
+    }
+
+    void saveConfig(String _fn){
         JSONObject _session = new JSONObject();
         JSONObject _cfg = projectConfig.makeJSON();
-        JSONObject _geom = groupManager.getGroupsJSON();
         _session.setJSONObject("config", _cfg);
-        _session.setJSONObject("geometry", _geom);
-        saveJSONObject(_session, projectConfig.fullPath+"/config.json");
-
-
+        saveJSONObject(_session, projectConfig.fullPath+"/"+_fn);
 
         String[] _dir = {projectConfig.fullPath};
         saveStrings(dataPath("last_project_path"), _dir);
     }
 
+    void saveGeometry(){
+        saveGeometry("geometry.json");
+    }
+
+    void saveGeometry(String _fn){
+        JSONObject _obj = new JSONObject();
+        JSONObject _geom = groupManager.getGroupsJSON();
+        _obj.setJSONObject("geometry", _geom);
+        saveJSONObject(_obj, projectConfig.fullPath+"/"+_fn);
+    }
+
+
+    void loadBasics(){
+        loadFile("geometry.json");
+    }
+    //
+    void loadFile(String _fn){
+        JSONObject _json = null;
+        try {
+            _json = loadJSONObject(projectConfig.fullPath+"/"+_fn);
+        }
+        catch (Exception e) {
+            println("[ERROR] could not load : " + _fn+"\n");
+            return;
+        }
+        JSONObject _config = _json.getJSONObject("config");
+        if(_config != null) {
+            projectConfig.loadJSON(_config);
+        }
+        JSONObject _geom = _json.getJSONObject("geometry");
+        if(_geom != null) {
+            groupManager.loadJSON(_geom);
+        }
+
+        // loadJSON(_json);
+    }
 
     void openProject(){
         selectFolder("load project or empty dir", "loadProjectPath");
         // canReset = true;
-    }
-
-
-    void saveGroups(){
-        saveGroups("geom.json");
-    }
-
-    void saveGroups(String _fn) {
-        JSONObject _session = new JSONObject();
-        JSONObject _geom = groupManager.getGroupsJSON();
-        _session.setJSONObject("geometry", _geom);
-        saveJSONObject(_session, projectConfig.fullPath+"/"+_fn);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////

@@ -189,14 +189,14 @@ class FreelinerProject {
 
     boolean EASE_SHADER_UNIFORMS = true;
 
-    String PATH_TO_SHADERS = "userdata/shaders/";
-    String PATH_TO_IMAGES = "userdata/images/";
-    String PATH_TO_FIXTURES = "userdata/fixtures/";
-    String PATH_TO_GEOMETRY = "userdata/geometry/";
-    String PATH_TO_TEMPLATES = "userdata/template/";
-    String PATH_TO_VECTOR_GRAPHICS = "userdata/svg/";
-    String PATH_TO_CAPTURE_FILES = "userdata/capture/";
-    String PATH_TO_LAYERS = "userdata/layerSetups/";
+    // String PATH_TO_SHADERS = "userdata/shaders/";
+    // String PATH_TO_IMAGES = "userdata/images/";
+    // String PATH_TO_FIXTURES = "userdata/fixtures/";
+    // String PATH_TO_GEOMETRY = "userdata/geometry/";
+    // String PATH_TO_TEMPLATES = "userdata/template/";
+    // String PATH_TO_VECTOR_GRAPHICS = "userdata/svg/";
+    // String PATH_TO_CAPTURE_FILES = "userdata/capture/";
+    // String PATH_TO_LAYERS = "userdata/layerSetups/";
 
     public FreelinerProject(){}
     // this basicaly mutates it

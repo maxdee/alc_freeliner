@@ -598,38 +598,91 @@ class GroupManager implements FreelinerConfig{
         return groupData;
     }
 
+    public void loadJSON(JSONObject _geomJSON){
+        int sourceWidth = _geomJSON.getInt("width");
+        int sourceHeight = _geomJSON.getInt("height");
+        // println("ahhahah "+sourceWidth+ " "+sourceHeight);
 
-    public void saveGroupsXML(String _fn) {
-        XML groupData = new XML("groups");
-        groupData.setInt("width", width);
-        groupData.setInt("height", height);
-        for(SegmentGroup grp : groups) {
-
-            if(grp.isEmpty()) continue;
-            XML xgroup = groupData.addChild("group");
-            xgroup.setInt("ID", grp.getID());
-            xgroup.setString("text", grp.getText());
-
-            if(grp.getID() == 0) xgroup.setString("type", "gui");
-            else if(grp.getID() == 1) xgroup.setString("type", "ref");
-            else xgroup.setString("type", "map");
-
-            xgroup.setFloat("centerX", grp.getCenter().x);
-            xgroup.setFloat("centerY", grp.getCenter().y);
-            xgroup.setInt("centered", int(grp.isCentered()));
-            xgroup.setString("tags", grp.getTemplateList().getTags());
-            for(Segment seg : grp.getSegmentsUnsorted()) {
-                XML xseg = xgroup.addChild("segment");
-                xseg.setFloat("aX",seg.getPointA().x);
-                xseg.setFloat("aY",seg.getPointA().y);
-                xseg.setFloat("bX",seg.getPointB().x);
-                xseg.setFloat("bY",seg.getPointB().y);
-                // for leds and such
-                xseg.setString("txt",seg.getText());
-            }
-            saveXML(groupData, dataDirectory(PATH_TO_GEOMETRY)+"/"+_fn);
+        JSONArray _groups = _geomJSON.getJSONArray("groups");
+        PVector posA = new PVector(0,0);
+        PVector posB = new PVector(0,0);
+        PVector _offset = new PVector(0,0);
+        if(sourceWidth != 0 && sourceHeight != 0) {
+            _offset.sub(new PVector(sourceWidth/2, sourceHeight/2));
+            _offset.add(new PVector(width/2, height/2));
         }
+
+        for(int i = 0; i < _groups.size(); i++) {
+            JSONObject xgroup = _groups.getJSONObject(i);
+            if(xgroup.getString("type").equals("gui")) selectedIndex = 0;
+            else if(xgroup.getString("type").equals("ref")) selectedIndex = 1;
+            else newGroup();
+
+            JSONArray segs = xgroup.getJSONArray("segments");
+            Segment _seg;
+            for(int j = 0; j < segs.size(); j++) {
+                JSONObject seg = segs.getJSONObject(j);
+                posA.set(seg.getFloat("aX"), seg.getFloat("aY"));
+                posB.set(seg.getFloat("bX"), seg.getFloat("bY"));
+                posA.add(_offset);
+                posB.add(_offset);
+                _seg = new Segment(posA.get(), posB.get());
+                _seg.setText(seg.getString("txt"));
+                getSelectedGroup().addSegment(_seg);
+            }
+            getSelectedGroup().mouseInput(LEFT, posB);
+            // //getSelectedGroup().setNeighbors();
+            // getSelectedGroup().updateGeometry();
+            posA.set(xgroup.getFloat("centerX"), xgroup.getFloat("centerY"));
+            posA.add(_offset);
+            String _tags = xgroup.getString("tags");
+            if(_tags.length()>0) {
+                for(int k = 0; k < _tags.length(); k++) {
+                    getSelectedGroup().getTemplateList().toggle(templateManager.getTemplate(_tags.charAt(k)));
+                }
+            }
+            String _txt = xgroup.getString("text");
+            if(_txt != null) getSelectedGroup().setText(_txt);
+            // bug with centering? seems ok...
+            //println(getSelectedGroup().sortedSegments.size());
+            if(abs(posA.x - getSelectedGroup().getSegment(0).getPointB().x) > 2) getSelectedGroup().placeCenter(posA);
+            if(!boolean(xgroup.getInt("centered"))) getSelectedGroup().unCenter();
+        }
+        updateCmdSegments();
     }
+
+    //
+    // public void saveGroupsXML(String _fn) {
+    //     XML _groups = new XML("groups");
+    //     groupData.getInt("width", width);
+    //     groupData.setInt("height", height);
+    //     for(SegmentGroup grp : groups) {
+    //
+    //         if(grp.isEmpty()) continue;
+    //         XML xgroup = groupData.addChild("group");
+    //         xgroup.setInt("ID", grp.getID());
+    //         xgroup.setString("text", grp.getText());
+    //
+    //         if(grp.getID() == 0) xgroup.setString("type", "gui");
+    //         else if(grp.getID() == 1) xgroup.setString("type", "ref");
+    //         else xgroup.setString("type", "map");
+    //
+    //         xgroup.setFloat("centerX", grp.getCenter().x);
+    //         xgroup.setFloat("centerY", grp.getCenter().y);
+    //         xgroup.setInt("centered", int(grp.isCentered()));
+    //         xgroup.setString("tags", grp.getTemplateList().getTags());
+    //         for(Segment seg : grp.getSegmentsUnsorted()) {
+    //             XML xseg = xgroup.addChild("segment");
+    //             xseg.setFloat("aX",seg.getPointA().x);
+    //             xseg.setFloat("aY",seg.getPointA().y);
+    //             xseg.setFloat("bX",seg.getPointB().x);
+    //             xseg.setFloat("bY",seg.getPointB().y);
+    //             // for leds and such
+    //             xseg.setString("txt",seg.getText());
+    //         }
+    //         saveXML(groupData, dataDirectory(PATH_TO_GEOMETRY)+"/"+_fn);
+    //     }
+    // }
 
     public void loadGeometry() {
         loadGeometry("geometry.xml");
