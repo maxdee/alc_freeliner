@@ -199,65 +199,65 @@ class FreelinerProject {
     // String PATH_TO_LAYERS = "userdata/layerSetups/";
 
     public FreelinerProject(){}
-    // this basicaly mutates it
+
     void load(String path){
         fullPath = path;
         //extract project name
         String[] splt = path.split("/");
         projectName = splt[splt.length-1];
         println("[freeliner] loading project : "+projectName);
-        JSONObject _json = null;
+        XML _xml = null;
         try {
-            _json = loadJSONObject(fullPath+"/config.json");
+            _xml = loadXML(fullPath+"/config.xml");
         }
         catch (Exception e) {
             println("[ERROR] could not load : \n" + path);
             return;
         }
-        loadJSON(_json);
+        loadConfigXML(_xml);
     }
 
     void save(){
-        JSONObject _cfg =  new JSONObject();
-        _cfg.setJSONObject("config",makeJSON());
-        saveJSONObject(_cfg, fullPath+"/config.json");
+        XML _thing =  new XML("freeliner-data");
+        _thing.addChild(makeXML());
+        saveXML(_thing, fullPath+"/config.xml");
     }
 
-    void loadJSON(JSONObject _json) {
-        JSONObject _config = _json.getJSONObject("config");
-        if(_config == null) {
+    void loadConfigXML(XML _xml) {
+        // JSONObject _config = _json.getJSONObject("config");
+        if(_xml == null) {
             // println("[ERROR] no config : \n" + _json);
             return;
         }
 
-        JSONObject _renderConfig = _config.getJSONObject("render");
+        XML _renderConfig = _xml.getChild("render");
         if(_renderConfig != null) {
             this.width = _renderConfig.getInt("width", this.width);
             this.height = _renderConfig.getInt("height", this.height);
-            this.fullscreen = _renderConfig.getBoolean("fullscreen", this.fullscreen);
+            this.fullscreen = _renderConfig.getInt("fullscreen", this.fullscreen ? 0 : 1) == 1;
             this.fullscreenDisplay = _renderConfig.getInt("fullscreenDisplay", this.fullscreenDisplay);
-            this.layers = _renderConfig.getBoolean("layers", this.layers);
+            this.layers = _renderConfig.getInt("layers", this.layers ? 0 : 1) == 1;
             this.maxfps = _renderConfig.getInt("maxfps", this.maxfps);
             this.smoothLevel = _renderConfig.getInt("smoothLevel", this.smoothLevel);
-            this.splash = _renderConfig.getBoolean("splash", this.splash);
+            this.splash = _renderConfig.getInt("splash", this.splash ? 0 : 1) == 1;
             if(!this.splash) {
                 println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                 println("$$$  I see you disabled splash, consider donating $$$");
                 println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             }
         }
-        JSONObject _networkConfig = _config.getJSONObject("network");
+        XML _networkConfig = _xml.getChild("network");
         if(_networkConfig != null) {
             this.oscInPort = _renderConfig.getInt("oscInPort", this.oscInPort);
             this.oscOutPort = _renderConfig.getInt("oscOutPort", this.oscOutPort);
             this.oscOutIP = _renderConfig.getString("oscOutIP", this.oscOutIP);
-            this.oscUseTCP = _renderConfig.getBoolean("oscUseTCP", this.oscUseTCP);
+            this.oscUseTCP = _renderConfig.getInt("oscUseTCP", this.oscUseTCP ? 0 : 1) == 1;
             this.websocketPort = _renderConfig.getInt("websocketPort", this.websocketPort);
-            this.serveHTTP = _renderConfig.getBoolean("serveHTTP", this.serveHTTP);
+            this.serveHTTP = _renderConfig.getInt("serveHTTP", this.serveHTTP ? 0 : 1) == 1;
             this.httpServerPort = _renderConfig.getInt("httpServerPort", this.httpServerPort);
         }
 
-        JSONObject _guiConfig = _config.getJSONObject("gui");
+        XML _guiConfig = _xml.getChild("gui");
         if(_guiConfig != null) {
             this.cursorSize = _guiConfig.getInt("cursorSize", this.cursorSize);
             this.cursorGapSize = _guiConfig.getInt("cursorGapSize", this.cursorGapSize);
@@ -276,7 +276,7 @@ class FreelinerProject {
             this.cursorAlpha = _guiConfig.getInt("cursorAlpha", this.cursorAlpha);
             this.cursorColorSnapped = strToCol(_guiConfig.getString("cursorColorSnapped", hex(this.cursorColorSnapped)));
             this.cursorAlphaSnapped = _guiConfig.getInt("cursorAlphaSnapped", this.cursorAlphaSnapped);
-            this.enableSnapeToLines = _guiConfig.getBoolean("enableSnapeToLines", this.enableSnapeToLines);
+            this.enableSnapeToLines = _guiConfig.getInt("enableSnapeToLines", this.enableSnapeToLines ? 0 : 1) == 1;
             this.guiTextColor = strToCol(_guiConfig.getString("guiTextColor", hex(this.guiTextColor)));
             this.guiTextAlpha = _guiConfig.getInt("guiTextAlpha", this.guiTextAlpha);
             this.gridColor = strToCol(_guiConfig.getString("gridColor", hex(this.gridColor)));
@@ -290,7 +290,7 @@ class FreelinerProject {
             this.lineSegmentAlpha = _guiConfig.getInt("lineSegmentAlpha", this.lineSegmentAlpha);
             this.lineSegmentAlphaUnselected = _guiConfig.getInt("lineSegmentAlphaUnselected", this.lineSegmentAlphaUnselected);
 
-            this.rotateCursorOnSnap = _guiConfig.getBoolean("rotateCursorOnSnap", this.rotateCursorOnSnap);
+            this.rotateCursorOnSnap = _guiConfig.getInt("rotateCursorOnSnap", this.rotateCursorOnSnap ? 0 : 1) == 1;
         }
     }
 
@@ -298,27 +298,29 @@ class FreelinerProject {
         return unhex(_hex.replaceAll("#","FF").toUpperCase());
     }
 
-    JSONObject makeJSON(){
-        JSONObject _renderConfig = new JSONObject();
+    XML makeXML(){
+        XML _config = new XML("config");
+
+        XML _renderConfig = _config.addChild("render");
         _renderConfig.setInt("width", this.width);
         _renderConfig.setInt("height", this.height);
-        _renderConfig.setBoolean("fullscreen", this.fullscreen);
+        _renderConfig.setInt("fullscreen", this.fullscreen ? 0 : 1);
         _renderConfig.setInt("fullscreenDisplay", this.fullscreenDisplay);
-        _renderConfig.setBoolean("layers", this.layers);
+        _renderConfig.setInt("layers", this.layers ? 0 : 1);
         _renderConfig.setInt("maxfps", this.maxfps);
         _renderConfig.setInt("smoothLevel", this.smoothLevel);
-        _renderConfig.setBoolean("splash", this.splash);
+        _renderConfig.setInt("splash", this.splash ? 0 : 1);
 
-        JSONObject _networkConfig =  new JSONObject();
+        XML _networkConfig =  _config.addChild("network");
         _networkConfig.setInt("oscInPort", this.oscInPort);
         _networkConfig.setInt("oscOutPort", this.oscOutPort);
         _networkConfig.setString("oscOutIP", this.oscOutIP);
-        _networkConfig.setBoolean("oscUseTCP", this.oscUseTCP);
+        _networkConfig.setInt("oscUseTCP", this.oscUseTCP ? 0 : 1);
         _networkConfig.setInt("websocketPort", this.websocketPort);
-        _networkConfig.setBoolean("serveHTTP", this.serveHTTP);
+        _networkConfig.setInt("serveHTTP", this.serveHTTP ? 0 : 1);
         _networkConfig.setInt("httpServerPort", this.httpServerPort);
 
-        JSONObject _guiConfig = new JSONObject();
+        XML _guiConfig = _config.addChild("gui");
         _guiConfig.setInt("cursorSize", this.cursorSize);
         _guiConfig.setInt("cursorGapSize", this.cursorGapSize);
         _guiConfig.setInt("cursorStrokeWeight", this.cursorStrokeWeight);
@@ -336,7 +338,7 @@ class FreelinerProject {
         _guiConfig.setInt("cursorAlpha", cursorAlpha);
         _guiConfig.setString("cursorColorSnapped", hex(this.cursorColorSnapped));
         _guiConfig.setInt("cursorAlphaSnapped", cursorAlphaSnapped);
-        _guiConfig.setBoolean("enableSnapeToLines", enableSnapeToLines);
+        _guiConfig.setInt("enableSnapeToLines", enableSnapeToLines ? 0 : 1);
         _guiConfig.setString("guiTextColor", hex(this.guiTextColor));
         _guiConfig.setInt("guiTextAlpha", guiTextAlpha);
         _guiConfig.setString("gridColor", hex(this.gridColor));
@@ -346,14 +348,14 @@ class FreelinerProject {
         _guiConfig.setString("arrowColor", hex(this.arrowColor));
         _guiConfig.setInt("arrowAlpha", arrowAlpha);
         _guiConfig.setString("lineSegmentColor", hex(this.lineSegmentColor));
-        _guiConfig.setBoolean("rotateCursorOnSnap", rotateCursorOnSnap);
+        _guiConfig.setInt("rotateCursorOnSnap", rotateCursorOnSnap ? 0 : 1);
 
 
-        JSONObject _config = new JSONObject();//.getJSONObject("config");
-        _config.setJSONObject("render", _renderConfig);
-        _config.setJSONObject("network", _networkConfig);
-        _config.setJSONObject("gui", _guiConfig);
-
+        // JSONObject _config = new JSONObject();//.getJSONObject("config");
+        // _config.setJSONObject("render", _renderConfig);
+        // _config.setJSONObject("network", _networkConfig);
+        // _config.setJSONObject("gui", _guiConfig);
+        //
 
         return _config;
     }

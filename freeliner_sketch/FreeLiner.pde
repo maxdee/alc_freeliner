@@ -187,67 +187,73 @@ class FreeLiner implements FreelinerConfig {
     }
 
     void saveConfig(){
-        saveConfig("config.json");
+        saveConfig("config.xml");
     }
 
     void saveConfig(String _fn){
-        JSONObject _session = new JSONObject();
-        JSONObject _cfg = projectConfig.makeJSON();
-        _session.setJSONObject("config", _cfg);
-        saveJSONObject(_session, projectConfig.fullPath+"/"+_fn);
+        XML _session = new XML("freeliner-data");
+
+        XML _cfg = projectConfig.makeXML();
+
+        _session.addChild(_cfg);
+        saveXML(_session, projectConfig.fullPath+"/"+_fn);
 
         String[] _dir = {projectConfig.fullPath};
         saveStrings(dataPath("last_project_path"), _dir);
     }
 
     void saveGeometry(){
-        saveGeometry("geometry.json");
+        saveGeometry("geometry.xml");
     }
 
     void saveGeometry(String _fn){
-        JSONObject _obj = new JSONObject();
-        JSONObject _geom = groupManager.getGroupsJSON();
-        _obj.setJSONObject("geometry", _geom);
-        saveJSONObject(_obj, projectConfig.fullPath+"/"+_fn);
+        XML _obj = new XML("freeliner-data");
+        XML _geom = groupManager.getXML();
+        _obj.addChild(_geom);
+        saveXML(_obj, projectConfig.fullPath+"/"+_fn);
     }
 
     void saveTemplates(){
-        saveTemplates("templates.json");
+        saveTemplates("templates.xml");
     }
 
     void saveTemplates(String _fn){
-        JSONObject _obj = new JSONObject();
-        JSONObject _tps = templateManager.getTemplatesJSON();
-        _obj.setJSONObject("templates", _tps);
-        saveJSONObject(_obj, projectConfig.fullPath+"/"+_fn);
+        XML _obj = new XML("freeliner-data");
+        XML _tps = templateManager.getXML();
+        _obj.addChild(_tps);
+        saveXML(_obj, projectConfig.fullPath+"/"+_fn);
     }
 
 
     void loadBasics(){
-        loadFile("geometry.json");
-        loadFile("templates.json");
+        loadFile("geometry.xml");
+        loadFile("templates.xml");
     }
     //
     void loadFile(String _fn){
-        JSONObject _json = null;
+        XML _xml = null;
         try {
-            _json = loadJSONObject(projectConfig.fullPath+"/"+_fn);
+            _xml = loadXML(projectConfig.fullPath+"/"+_fn);
         }
         catch (Exception e) {
             println("[ERROR] could not load : " + _fn+"\n");
             return;
         }
-        JSONObject _config = _json.getJSONObject("config");
-        if(_config != null) {
-            projectConfig.loadJSON(_config);
+        // _xml = _xml.getChild("freeliner-data");
+        XML[] _config = _xml.getChildren("config");
+        if(_config.length != 0) {
+            println("config");
+            projectConfig.loadConfigXML(_config[0]);
         }
-        JSONObject _geom = _json.getJSONObject("geometry");
-        if(_geom != null) {
-            groupManager.loadJSON(_geom);
+        XML[] _geom = _xml.getChildren("geometry");
+        if(_geom.length != 0) {
+            println("geom");
+            groupManager.loadGeometryXML(_geom[0]);
         }
-        JSONObject _tp = _json.getJSONObject("templates");
-        if(_tp != null) {
-            templateManager.loadJSON(_tp);
+        XML[] _tp = _xml.getChildren("templates");
+        if(_tp.length != 0) {
+            println("temps");
+            templateManager.loadTemplatesXML(_tp[0]);
         }
 
         // loadJSON(_json);

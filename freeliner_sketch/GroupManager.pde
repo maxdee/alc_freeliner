@@ -659,29 +659,22 @@ class GroupManager implements FreelinerConfig{
         String[] _fn = split(_file, '.');
         if(_fn.length < 2) println("I dont know what kind of file this is : "+_file);
         else if(_fn[1].equals("svg")) loadGeometrySVG(_file);
-        else if(_fn[1].equals("xml")) loadGeometryXML(_file);
+        // else if(_fn[1].equals("xml")) loadGeometryXML(_file);
     }
 
     // what a mess what a mess
     // we cant have that we cant have that
     // clean it up clean it up
-    public void loadGeometryXML(String _fn) {
-        XML file;
-        try {
-            file = loadXML(dataDirectory(PATH_TO_GEOMETRY)+"/"+_fn);
-        } catch (Exception e) {
-            println(_fn+" cant be loaded");
+    public void loadGeometryXML(XML _xml) {
+        if(_xml == null) {
+            println("null geometry xml");
             return;
         }
-        if(file == null) {
-            println("problem with : "+_fn);
-            return;
-        }
-        int sourceWidth = file.getInt("width");
-        int sourceHeight = file.getInt("height");
+        int sourceWidth = _xml.getInt("width");
+        int sourceHeight = _xml.getInt("height");
         // println("ahhahah "+sourceWidth+ " "+sourceHeight);
 
-        XML[] groupData = file.getChildren("group");
+        XML[] groupData = _xml.getChildren("group");
         PVector posA = new PVector(0,0);
         PVector posB = new PVector(0,0);
         PVector _offset = new PVector(0,0);
@@ -727,10 +720,43 @@ class GroupManager implements FreelinerConfig{
         updateCmdSegments();
     }
 
+
+
+
+    public XML getXML() {
+        XML groupData = new XML("geometry");
+        groupData.setInt("width", width);
+        groupData.setInt("height", height);
+        for(SegmentGroup grp : groups) {
+
+            if(grp.isEmpty()) continue;
+            XML xgroup = groupData.addChild("group");
+            xgroup.setInt("ID", grp.getID());
+            xgroup.setString("text", grp.getText());
+
+            if(grp.getID() == 0) xgroup.setString("type", "gui");
+            else if(grp.getID() == 1) xgroup.setString("type", "ref");
+            else xgroup.setString("type", "map");
+
+            xgroup.setFloat("centerX", grp.getCenter().x);
+            xgroup.setFloat("centerY", grp.getCenter().y);
+            xgroup.setInt("centered", int(grp.isCentered()));
+            xgroup.setString("tags", grp.getTemplateList().getTags());
+            for(Segment seg : grp.getSegmentsUnsorted()) {
+                XML xseg = xgroup.addChild("segment");
+                xseg.setFloat("aX",seg.getPointA().x);
+                xseg.setFloat("aY",seg.getPointA().y);
+                xseg.setFloat("bX",seg.getPointB().x);
+                xseg.setFloat("bY",seg.getPointB().y);
+                // for leds and such
+                xseg.setString("txt",seg.getText());
+            }
+        }
+        return groupData;
+    }
+
+
 //////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
 
     ///////////////////////// SVG

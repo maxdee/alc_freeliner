@@ -457,7 +457,6 @@ class LayeredCanvasManager extends CanvasManager {
         return null;
     }
 
-    // seem to work!
     public void swapOrder(String _id, int _dir) {
         for(int i = 0; i < layers.size(); i++) {
             if(layers.get(i).getID().equals(_id)) {
