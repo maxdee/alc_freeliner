@@ -60,8 +60,12 @@ abstract class CanvasManager implements FreelinerConfig {
     public void saveSettings(XML _xml){
 
     }
-    public void loadSettings(XML _xml){
+    public void loadLayersXML(XML _xml){
 
+    }
+    public XML getLayersXML(){
+        XML _layersXML = new XML("layers");
+        return _layersXML;
     }
 
     public void passOutputMappingGeometry(SegmentGroup _sg) {
@@ -419,14 +423,14 @@ class LayeredCanvasManager extends CanvasManager {
     ////////////////////////////////////////////////////////////////////////////////////
 
     public boolean parseCMD(String[] _args) {
-        if(_args.length == 2){
-            if(_args[1].equals("save")){
-                saveSetup("layerSetup.xml");
-            }
-            else if(_args[1].equals("load")){
-                loadSetup("layerSetup.xml");
-            }
-        }
+        // if(_args.length == 2){
+        //     if(_args[1].equals("save")){
+        //         saveSetup("layerSetup.xml");
+        //     }
+        //     else if(_args[1].equals("load")){
+        //         loadSetup("layerSetup.xml");
+        //     }
+        // }
         if(_args.length < 3) return false;
         else if(_args[2].equals("swap") ) {
             swapOrder(_args[1], stringInt(_args[3]));
@@ -436,14 +440,14 @@ class LayeredCanvasManager extends CanvasManager {
             return deleteLayer(getLayer(_args[1]));
         }
 
-        if(_args[1].equals("save")){
-            saveSetup(_args[2]);
-            return true;
-        }
-        else if(_args[1].equals("load")){
-            loadSetup(_args[2]);
-            return true;
-        }
+        // if(_args[1].equals("save")){
+        //     saveSetup(_args[2]);
+        //     return true;
+        // }
+        // else if(_args[1].equals("load")){
+        //     loadSetup(_args[2]);
+        //     return true;
+        // }
 
         Layer _lyr = getLayer(_args[1]);
         if(_lyr == null) return layerCreator(_args);
@@ -481,7 +485,7 @@ class LayeredCanvasManager extends CanvasManager {
     /**
      * Save layer setup into configuration.xml
      */
-    public void saveSetup(String _fn){
+    public XML getLayersXML(){
         XML _layersXML = new XML("layers");
         for(Layer _layer : layers){
             XML _xml = _layersXML.addChild("layer");
@@ -495,22 +499,22 @@ class LayeredCanvasManager extends CanvasManager {
                 }
             }
         }
-        saveXML(_layersXML, dataDirectory(PATH_TO_LAYERS)+"/"+_fn);
+        return _layersXML;
     }
 
-    public void loadSetup(String _fn){
-        println("loading layers from "+_fn);
-        XML file;
-        try {
-            file = loadXML(dataDirectory(PATH_TO_LAYERS)+"/"+_fn);
-        } catch (Exception e) {
-            println(_fn+" cant be loaded");
-            return;
-        }
+    public void loadLayersXML(XML _layersXML){
+        // println("loading layers from "+_fn);
+        // XML _layersXML;
+        // try {
+        //     _layersXML = loadXML(dataDirectory(PATH_TO_LAYERS)+"/"+_fn);
+        // } catch (Exception e) {
+        //     println(_fn+" cant be loaded");
+        //     return;
+        // }
         int _nullID = 0;
         layers.clear();
         renderLayers.clear();
-        for(XML _layer : file.getChildren("layer")){
+        for(XML _layer : _layersXML.getChildren("layer")){
             String _option = _layer.getString("option");
             String _type = _layer.getString("type");
             String _id = _layer.getString("id");

@@ -184,6 +184,7 @@ class FreeLiner implements FreelinerConfig {
         saveConfig();
         saveGeometry();
         saveTemplates();
+        saveLayers();
     }
 
     void saveConfig(){
@@ -224,10 +225,22 @@ class FreeLiner implements FreelinerConfig {
         saveXML(_obj, projectConfig.fullPath+"/"+_fn);
     }
 
+    void saveLayers(){
+        saveLayers("layers.xml");
+    }
+
+    void saveLayers(String _fn){
+        XML _obj = new XML("freeliner-data");
+        XML _tps = canvasManager.getLayersXML();
+        _obj.addChild(_tps);
+        saveXML(_obj, projectConfig.fullPath+"/"+_fn);
+    }
+
 
     void loadBasics(){
         loadFile("geometry.xml");
         loadFile("templates.xml");
+        loadFile("layers.xml");
     }
     //
     void loadFile(String _fn){
@@ -242,21 +255,20 @@ class FreeLiner implements FreelinerConfig {
         // _xml = _xml.getChild("freeliner-data");
         XML[] _config = _xml.getChildren("config");
         if(_config.length != 0) {
-            println("config");
             projectConfig.loadConfigXML(_config[0]);
         }
         XML[] _geom = _xml.getChildren("geometry");
         if(_geom.length != 0) {
-            println("geom");
             groupManager.loadGeometryXML(_geom[0]);
         }
         XML[] _tp = _xml.getChildren("templates");
         if(_tp.length != 0) {
-            println("temps");
             templateManager.loadTemplatesXML(_tp[0]);
         }
-
-        // loadJSON(_json);
+        XML[] _layers = _xml.getChildren("layers");
+        if(_layers.length != 0) {
+            canvasManager.loadLayersXML(_layers[0]);
+        }
     }
 
     void openProject(){
