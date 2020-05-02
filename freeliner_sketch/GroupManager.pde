@@ -551,11 +551,6 @@ class GroupManager implements FreelinerConfig{
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    // argumentless
-    public void saveGroups() {
-        // saveGroupsJSON("geometry.json");
-    }
-
     public JSONObject getGroupsJSON() {
         JSONObject groupData = new JSONObject();
         groupData.setInt("width", width);
@@ -566,7 +561,6 @@ class GroupManager implements FreelinerConfig{
         for(SegmentGroup grp : groups) {
             if(grp.isEmpty()) continue;
 
-            // XML xgroup = groupData.addChild("group");
             JSONObject grpJSON = new JSONObject();
             grpJSON.setInt("ID", grp.getID());
             grpJSON.setString("text", grp.getText());
@@ -651,38 +645,11 @@ class GroupManager implements FreelinerConfig{
         updateCmdSegments();
     }
 
-    //
-    // public void saveGroupsXML(String _fn) {
-    //     XML _groups = new XML("groups");
-    //     groupData.getInt("width", width);
-    //     groupData.setInt("height", height);
-    //     for(SegmentGroup grp : groups) {
-    //
-    //         if(grp.isEmpty()) continue;
-    //         XML xgroup = groupData.addChild("group");
-    //         xgroup.setInt("ID", grp.getID());
-    //         xgroup.setString("text", grp.getText());
-    //
-    //         if(grp.getID() == 0) xgroup.setString("type", "gui");
-    //         else if(grp.getID() == 1) xgroup.setString("type", "ref");
-    //         else xgroup.setString("type", "map");
-    //
-    //         xgroup.setFloat("centerX", grp.getCenter().x);
-    //         xgroup.setFloat("centerY", grp.getCenter().y);
-    //         xgroup.setInt("centered", int(grp.isCentered()));
-    //         xgroup.setString("tags", grp.getTemplateList().getTags());
-    //         for(Segment seg : grp.getSegmentsUnsorted()) {
-    //             XML xseg = xgroup.addChild("segment");
-    //             xseg.setFloat("aX",seg.getPointA().x);
-    //             xseg.setFloat("aY",seg.getPointA().y);
-    //             xseg.setFloat("bX",seg.getPointB().x);
-    //             xseg.setFloat("bY",seg.getPointB().y);
-    //             // for leds and such
-    //             xseg.setString("txt",seg.getText());
-    //         }
-    //         saveXML(groupData, dataDirectory(PATH_TO_GEOMETRY)+"/"+_fn);
-    //     }
-    // }
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
 
     public void loadGeometry() {
         loadGeometry("geometry.xml");
@@ -759,6 +726,12 @@ class GroupManager implements FreelinerConfig{
         }
         updateCmdSegments();
     }
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
 
     ///////////////////////// SVG
 

@@ -183,6 +183,7 @@ class FreeLiner implements FreelinerConfig {
     void saveProject(){
         saveConfig();
         saveGeometry();
+        saveTemplates();
     }
 
     void saveConfig(){
@@ -210,9 +211,21 @@ class FreeLiner implements FreelinerConfig {
         saveJSONObject(_obj, projectConfig.fullPath+"/"+_fn);
     }
 
+    void saveTemplates(){
+        saveTemplates("templates.json");
+    }
+
+    void saveTemplates(String _fn){
+        JSONObject _obj = new JSONObject();
+        JSONObject _tps = templateManager.getTemplatesJSON();
+        _obj.setJSONObject("templates", _tps);
+        saveJSONObject(_obj, projectConfig.fullPath+"/"+_fn);
+    }
+
 
     void loadBasics(){
         loadFile("geometry.json");
+        loadFile("templates.json");
     }
     //
     void loadFile(String _fn){
@@ -231,6 +244,10 @@ class FreeLiner implements FreelinerConfig {
         JSONObject _geom = _json.getJSONObject("geometry");
         if(_geom != null) {
             groupManager.loadJSON(_geom);
+        }
+        JSONObject _tp = _json.getJSONObject("templates");
+        if(_tp != null) {
+            templateManager.loadJSON(_tp);
         }
 
         // loadJSON(_json);

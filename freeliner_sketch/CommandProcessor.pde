@@ -1030,17 +1030,13 @@ class CommandProcessor implements FreelinerConfig {
     }
 
     public void saveTemplateCMD(String[] _args) {
-        if(_args.length == 2) templateManager.saveTemplates();
-        else if(_args.length == 3) templateManager.saveTemplates(_args[2]);
-        else if(_args.length == 4) templateManager.saveTemplateTeam(_args[2], _args[3]);
-
+        if(_args.length == 2) freeliner.saveTemplates();
+        else if(_args.length == 3) freeliner.saveTemplates(_args[2]);
     }
 
     public void loadTemplateCMD(String[] _args) {
-        if(_args.length == 2) templateManager.loadTemplates();
-        else if(_args.length == 3) templateManager.loadTemplates(_args[2]);
-        else if(_args.length == 4) templateManager.loadTemplateTeam(_args[2], _args[3]);
-
+        if(_args.length == 2) freeliner.loadFile("templates.json");
+        else if(_args.length == 3) freeliner.loadFile(_args[2]);
     }
 
     public void linkTemplateCMD(String[] _args) {

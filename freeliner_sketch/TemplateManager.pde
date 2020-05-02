@@ -457,66 +457,74 @@ class TemplateManager implements FreelinerConfig{
     ////////////////////////////////////////////////////////////////////////////////////
 
 
-    public void saveTemplateTeamToXML(String _filename){
-        println("saving template teams to "+_filename);
-        XML _xmlTeams = new XML("teams");
-        for(TemplateTeam _team : templateTeams) {
-            XML _xml = _xmlTeams.addChild("team");
-            _xml.setString("name", _team.getName());
-            for(TweakableTemplate _tp : _team.getTemplates()){
-                templateToXML(_tp, _xml);
-            }
-        }
-        saveXML(_xmlTeams, dataDirectory(PATH_TO_TEMPLATES)+"/"+_filename);
-    }
+    // public void saveTemplateTeamToXML(String _filename){
+    //     println("saving template teams to "+_filename);
+    //     XML _xmlTeams = new XML("teams");
+    //     for(TemplateTeam _team : templateTeams) {
+    //         XML _xml = _xmlTeams.addChild("team");
+    //         _xml.setString("name", _team.getName());
+    //         for(TweakableTemplate _tp : _team.getTemplates()){
+    //             templateToXML(_tp, _xml);
+    //         }
+    //     }
+    //     saveXML(_xmlTeams, dataDirectory(PATH_TO_TEMPLATES)+"/"+_filename);
+    // }
+    //
+    // public void loadTemplateTeams(String _filename){
+    //     XML file;
+    //     try {
+    //         file = loadXML(dataDirectory(PATH_TO_TEMPLATES)+"/"+_filename);
+    //     } catch (Exception e) {
+    //         println(_filename+" cant be loaded");
+    //         return;
+    //     }
+    //     XML[] _teams = file.getChildren("team");
+    //     for(XML _team : _teams) {
+    //         XML[] _templates = _team.getChildren("template");
+    //         ArrayList<TweakableTemplate> _array = new ArrayList();
+    //         for(XML _template : _templates){
+    //             TweakableTemplate _tmp = new TweakableTemplate(_template.getString("ID").charAt(0));
+    //             xmlToTemplate(_template, _tmp);
+    //             _array.add(_tmp);
+    //         }
+    //         TemplateTeam _new = new TemplateTeam(_team.getString("name"));
+    //         _new.addTemplates(_array);
+    //         templateTeams.add(_new);
+    //     }
+    // }
 
-    public void loadTemplateTeams(String _filename){
-        XML file;
-        try {
-            file = loadXML(dataDirectory(PATH_TO_TEMPLATES)+"/"+_filename);
-        } catch (Exception e) {
-            println(_filename+" cant be loaded");
-            return;
-        }
-        XML[] _teams = file.getChildren("team");
-        for(XML _team : _teams) {
-            XML[] _templates = _team.getChildren("template");
-            ArrayList<TweakableTemplate> _array = new ArrayList();
-            for(XML _template : _templates){
-                TweakableTemplate _tmp = new TweakableTemplate(_template.getString("ID").charAt(0));
-                xmlToTemplate(_template, _tmp);
-                _array.add(_tmp);
-            }
-            TemplateTeam _new = new TemplateTeam(_team.getString("name"));
-            _new.addTemplates(_array);
-            templateTeams.add(_new);
-        }
-    }
-
-    public void saveTemplates() {
-        saveTemplates("templates.xml");
-        saveTemplateTeamToXML("teams.xml");
-    }
+    // public void saveTemplates() {
+    //     saveTemplates("templates.xml");
+    //     saveTemplateTeamToXML("teams.xml");
+    // }
 
     /**
      * Simple save templates to xml file.
      */
-    public void saveTemplates(String _fn) {
-        XML _xmlTemplates = new XML("templates");
+    public JSONObject getTemplatesJSON() {
+        JSONArray _templates = new JSONArray();
+        int _idx = 0;
         for(TweakableTemplate _tp : templates) {
-            templateToXML(_tp, _xmlTemplates);
+            _templates.setJSONObject(_idx++, templateToJSON(_tp));
+            // _templatestemplateToXML(_tp, _xmlTemplates);
         }
-        XML colors =  _xmlTemplates.addChild("pallette");
+
+        JSONArray _colors =  new JSONArray();
         for(int i = 0; i < PALLETTE_COUNT; i++) {
-            String tk = "p"+i;
-            colors.addChild(tk).setInt("color", userPallet[i]);
+            // String tk = "p"+i;
+            JSONObject _c = new JSONObject();
+            _c.setInt("color", userPallet[i]);
+            _colors.setJSONObject(i, _c);
         }
-        saveXML(_xmlTemplates, dataDirectory(PATH_TO_TEMPLATES)+"/"+_fn);
+        JSONObject _thing = new JSONObject();
+        _thing.setJSONArray("templates", _templates);
+        _thing.setJSONArray("pallette", _colors);
+        return _thing;
     }
 
-    public void templateToXML(TweakableTemplate _tp, XML _xml){
-        if(_tp == null) return;
-        XML _tmp = _xml.addChild("template");
+    public JSONObject templateToJSON(TweakableTemplate _tp){
+        JSONObject _tmp = new JSONObject();// _xml.addChild("template");
+        if(_tp == null) return _tmp;
         _tmp.setString("ID", str(_tp.getTemplateID()));
         if(_tp.getLinkedTemplate() != null){
             _tmp.setString("linked", str(_tp.getLinkedTemplate().getTemplateID()));
@@ -545,42 +553,68 @@ class TemplateManager implements FreelinerConfig{
         _tmp.setInt("customFill", _tp.getCustomFillColor());
 
 
-        XML _geoms = _tmp.addChild("groups");
+        JSONArray _geoms = new JSONArray();
         for( int i = 0; i < _tp.getGeometries().size(); i++){
-            XML _g = _geoms.addChild("g");
+            JSONObject _g = new JSONObject();
             _g.setInt("id", _tp.getGeometries().get(i));
+            _geoms.setJSONObject(i, _g);
         }
+        _tmp.setJSONArray("groups", _geoms);
+        return _tmp;
     }
 
-    public void loadTemplates() {
-        loadTemplates("templates.xml");
-        loadTemplateTeams("teams.xml");
+    // public void loadTemplates() {
+    //     loadTemplates("templates.xml");
+    //     loadTemplateTeams("teams.xml");
+    //
+    // }
 
-    }
-
-    public void loadTemplates(String _fn) {
-        XML file;
-        try {
-            file = loadXML(dataDirectory(PATH_TO_TEMPLATES)+"/"+_fn);
-        } catch (Exception e) {
-            println(_fn+" cant be loaded");
-            return;
-        }
-        XML[] _templateData = file.getChildren("template");
+    // public void loadTemplates(String _fn) {
+    //     XML file;
+    //     try {
+    //         file = loadXML(dataDirectory(PATH_TO_TEMPLATES)+"/"+_fn);
+    //     } catch (Exception e) {
+    //         println(_fn+" cant be loaded");
+    //         return;
+    //     }
+    //     XML[] _templateData = file.getChildren("template");
+    //     TweakableTemplate _tmp;
+    //     for(XML _tp : _templateData) {
+    //         _tmp = getTemplate(_tp.getString("ID").charAt(0));
+    //         xmlToTemplate(_tp, _tmp);
+    //     }
+    //
+    //     XML pal =  file.getChild("pallette");
+    //     for(int i = 0; i < PALLETTE_COUNT; i++) {
+    //         String tk = "p"+i;
+    //         userPallet[i] = pal.getChild(tk).getInt("color");
+    //     }
+    // }
+    void loadJSON(JSONObject _obj){
+        JSONArray _templates = _obj.getJSONArray("templates");
         TweakableTemplate _tmp;
-        for(XML _tp : _templateData) {
+        for(int i = 0; i < _templates.size(); i++){
+            JSONObject _tp = _templates.getJSONObject(i);
             _tmp = getTemplate(_tp.getString("ID").charAt(0));
-            xmlToTemplate(_tp, _tmp);
+            jsonToTemplate(_tp, _tmp);
         }
 
-        XML pal =  file.getChild("pallette");
+        //
+        // XML[] _templateData = file.getChildren("template");
+        // TweakableTemplate _tmp;
+        // for(XML _tp : _templateData) {
+        // }
+        //
+        JSONArray pal =  _obj.getJSONArray("pallette");
         for(int i = 0; i < PALLETTE_COUNT; i++) {
-            String tk = "p"+i;
-            userPallet[i] = pal.getChild(tk).getInt("color");
+            // String tk = "p"+i;
+            userPallet[i] = pal.getJSONObject(i).getInt("color");
         }
     }
 
-    void xmlToTemplate(XML _templateData, TweakableTemplate _tp){
+
+
+    void jsonToTemplate(JSONObject _templateData, TweakableTemplate _tp){
         if(_tp == null || _templateData == null) return;
         _tp.setRenderMode(_templateData.getInt("renderMode"), 50000);
         _tp.setSegmentMode(_templateData.getInt("segmentMode"), 50000);
@@ -608,10 +642,11 @@ class TemplateManager implements FreelinerConfig{
         if(_linked != null){
             _tp.setLinkTemplate(getTemplate(_linked.charAt(0)));
         }
-        XML _grps = _templateData.getChild("groups");
+        JSONArray _grps = _templateData.getJSONArray("groups");
+        // XML _grps = _templateData.getChild("groups");
         if(_grps != null){
-            for(XML _grp : _grps.getChildren("g")){
-                _tp.addGeometry(_grp.getInt("id"));
+            for(int i = 0; i < _grps.size(); i++){
+                _tp.addGeometry(_grps.getJSONObject(i).getInt("id"));
             }
         }
     }
