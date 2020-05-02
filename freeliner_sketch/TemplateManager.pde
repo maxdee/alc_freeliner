@@ -43,7 +43,7 @@
  * Manage all the templates
  *
  */
-class TemplateManager implements FreelinerConfig{
+class TemplateManager /**tagtagtag**/{
     //selects templates to control
     TemplateList templateList;
 

@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 /**
  * The FreelinerCommunicator handles communication with other programs over various protocols.
  */
-class Documenter implements FreelinerConfig {
+class Documenter /**tagtagtag**/ {
     ArrayList<ArrayList<Mode>> docBuffer;
     ArrayList<String> sections;
     PrintWriter markDown;
@@ -191,6 +191,6 @@ class Documenter implements FreelinerConfig {
 }
 
 
-class Dummy implements FreelinerConfig {
+class Dummy /**tagtagtag**/ {
     public Dummy() {}
 }

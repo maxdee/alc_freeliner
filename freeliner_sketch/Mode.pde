@@ -15,7 +15,7 @@
  *
  */
 
-abstract class Mode implements FreelinerConfig{
+abstract class Mode /**tagtagtag**/{
   int modeIndex;
   String name = "mode";
   String description = "abstract";

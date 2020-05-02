@@ -30,7 +30,7 @@
  *
  *
  */
-class Mouse implements FreelinerConfig{
+class Mouse /**tagtagtag**/{
   // other mouse buttons than LEFT and RIGHT
   final int MIDDLE = 3;
   final int FOURTH_BUTTON = 0;
@@ -47,9 +47,9 @@ class Mouse implements FreelinerConfig{
   boolean invertMouse;
   boolean grid;
   boolean hasMoved;
-  int lineLenght = DEFAULT_LINE_LENGTH;
-  int lineAngle = DEFAULT_LINE_ANGLE;
-  int gridSize = DEFAULT_GRID_SIZE;
+  int lineLenght = projectConfig.lineToolFixedLength;
+  int lineAngle = projectConfig.lineToolFixedAngle;
+  int gridSize = projectConfig.gridSize;
   int debounceTimer = 0;
   //mouse crosshair stuff
   PVector position;
@@ -91,7 +91,7 @@ class Mouse implements FreelinerConfig{
    * @param int mouseButton
    */
   public void press(int mb) { // perhaps move to GroupManager
-    if(debounceTimer > millis()-MOUSE_DEBOUNCE) {
+    if(debounceTimer > millis()-projectConfig.mouseDebounce) {
       println("Mouse Bounce!");
       return;
     }
@@ -161,7 +161,8 @@ class Mouse implements FreelinerConfig{
    * @param int positive or negative value depending on direction
    */
   public void wheeled(int _n) {
-    if(SCROLLWHEEL_SELECTOR){
+      println(_n);
+    if(projectConfig.scrollWheelTweaker){
       if(_n == -1) keyboard.keyPressed(45, char(45));
       else keyboard.keyPressed(61, char(61));
     }

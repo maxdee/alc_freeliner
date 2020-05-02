@@ -8,7 +8,7 @@
  */
 
 
-class Looper implements FreelinerConfig{
+class Looper /**tagtagtag**/{
 	Synchroniser synchroniser;
 	CommandProcessor commandProcessor;
 	ArrayList<Loop> loops;
@@ -98,7 +98,7 @@ class Looper implements FreelinerConfig{
 }
 
 
-class Loop implements FreelinerConfig{
+class Loop /**tagtagtag**/{
 	ArrayList<TimedCommand> commands;
 	ArrayList<TimedCommand> queue;
 
@@ -147,7 +147,7 @@ class Loop implements FreelinerConfig{
 }
 
 // for now essentialy a time tagged cmd string
-class TimedCommand implements FreelinerConfig{
+class TimedCommand /**tagtagtag**/{
 	float timeStamp;
 	String commandString;
 	public TimedCommand(String _cmd, float _t){

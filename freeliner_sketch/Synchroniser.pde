@@ -12,7 +12,7 @@
  * The synchroniser is in charge of the timing. Tap tempo with compensation for render time.
  */
 
-class Synchroniser implements FreelinerConfig{
+class Synchroniser /**tagtagtag**/{
 
     // millis to render one frame
     int renderTime = 0;
@@ -22,7 +22,7 @@ class Synchroniser implements FreelinerConfig{
     int lastTap = 0;
     int lastTime = 0;
     FloatSmoother tapTimer;
-    int tempo = DEFAULT_TEMPO/4;
+    int tempo = projectConfig.tempo/4;
 
     boolean steadyFrameRate;
 

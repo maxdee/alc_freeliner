@@ -17,7 +17,7 @@
  * @see SegmentGroup
  */
 
-class Gui implements FreelinerConfig {
+class Gui /**tagtagtag**/ {
 
     // depends on a group manager and a mouse
     GroupManager groupManager;

@@ -13,7 +13,7 @@
  * Main class for alc_freeliner
  * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
  */
-class FreeLiner implements FreelinerConfig {
+class FreeLiner /**tagtagtag**/ {
     // model
     GroupManager groupManager;
     TemplateManager templateManager;
@@ -35,7 +35,7 @@ class FreeLiner implements FreelinerConfig {
     boolean windowFocus;
     PApplet applet;
 
-    public FreeLiner(PApplet _pa, int _pipeline) {
+    public FreeLiner(PApplet _pa) {
         applet = _pa;
         // instantiate
         // model
@@ -45,9 +45,8 @@ class FreeLiner implements FreelinerConfig {
         templateRenderer = new TemplateRenderer();
         gui = new Gui();
         // pick a rendering system
-        println("PIPELINE : "+_pipeline);
-        if(_pipeline == 0) canvasManager = new ClassicCanvasManager(applet, gui.getCanvas());
-        else if(_pipeline == 1) canvasManager = new LayeredCanvasManager(applet, gui.getCanvas());
+        if(!projectConfig.layers) canvasManager = new ClassicCanvasManager(applet, gui.getCanvas());
+        else if(projectConfig.layers) canvasManager = new LayeredCanvasManager(applet, gui.getCanvas());
         // control
         mouse = new Mouse();
         keyboard = new Keyboard();
@@ -86,7 +85,7 @@ class FreeLiner implements FreelinerConfig {
         // commandProcessor.queueCMD("colormap colorMap.png");
 
         // up commands
-        String _file = dataDirectory("userdata/startup");
+        String _file = projectConfig.fullPath+"startup";
         String[] _lines = loadStrings(_file);
         if(_lines!=null){
             println("Startup commands:");
@@ -285,7 +284,7 @@ class FreeLiner implements FreelinerConfig {
     // getFilesFrom("/shaders", ".glsl");
     public ArrayList<String> getFilesFrom(String _dir, String _type){
         ArrayList<String> _files = new ArrayList<String>();
-        File _directory = new File(dataDirectory(_dir));
+        File _directory = new File(projectConfig.fullPath+_dir);
         recursiveFind(_files, "", _directory, _type);
 
         ArrayList<String> subDirectoryFiles = new ArrayList<String>();

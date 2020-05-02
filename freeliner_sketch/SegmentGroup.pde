@@ -17,7 +17,7 @@
  * @see Renderer
  */
 
-class SegmentGroup implements FreelinerConfig {
+class SegmentGroup /**tagtagtag**/ {
     final int ID;
     float brushScaler = 1.0;
     int sizer = 10;
@@ -243,8 +243,8 @@ class SegmentGroup implements FreelinerConfig {
         itemShape = createShape();
         itemShape.textureMode(NORMAL);
         itemShape.beginShape();
-        itemShape.strokeJoin(STROKE_JOIN);
-        itemShape.strokeCap(STROKE_CAP);
+        itemShape.strokeJoin(projectConfig.STROKE_JOIN);
+        itemShape.strokeCap(projectConfig.STROKE_CAP);
         float _x = 0;
         float _y = 0;
         if(segCount!=0) {

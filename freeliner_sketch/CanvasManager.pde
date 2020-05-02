@@ -16,7 +16,7 @@ import java.util.Collections;
  * Manage the drawing buffer.
  * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
  */
-abstract class CanvasManager implements FreelinerConfig {
+abstract class CanvasManager /**tagtagtag**/ {
     // Template renderer needed to do the rendering
     TemplateRenderer templateRenderer;
     public PGraphics guiCanvas;
@@ -366,9 +366,9 @@ class LayeredCanvasManager extends CanvasManager {
     public void updateOptions() {
         // ArrayList<String> _shaders = freeliner.getFilesFrom(PATH_TO_SHADERS, ".glsl");
         ArrayList<String> _shaders = freeliner.getFilesFrom(projectConfig.fullPath+"/shaders", ".glsl");
-        ArrayList<String> _fixtures = freeliner.getFilesFrom(PATH_TO_FIXTURES, ".xml");
-        ArrayList<String> _images = freeliner.getFilesFrom(PATH_TO_IMAGES, ".png");
-        _images.addAll(freeliner.getFilesFrom(PATH_TO_IMAGES, ".png"));
+        ArrayList<String> _fixtures = freeliner.getFilesFrom(projectConfig.fullPath+"/fixtures", ".xml");
+        ArrayList<String> _images = freeliner.getFilesFrom(projectConfig.fullPath+"/images", ".png");
+        _images.addAll(freeliner.getFilesFrom(projectConfig.fullPath+"/images", ".png"));
         for(Layer _lyr : layers) {
             if(_lyr instanceof ImageLayer) _lyr.setOptions(_images.toArray(new String[_images.size()]));
             else if(_lyr instanceof ShaderLayer) _lyr.setOptions(_shaders.toArray(new String[_shaders.size()]));
@@ -506,7 +506,6 @@ class LayeredCanvasManager extends CanvasManager {
         // println("loading layers from "+_fn);
         // XML _layersXML;
         // try {
-        //     _layersXML = loadXML(dataDirectory(PATH_TO_LAYERS)+"/"+_fn);
         // } catch (Exception e) {
         //     println(_fn+" cant be loaded");
         //     return;

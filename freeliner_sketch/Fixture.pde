@@ -8,7 +8,7 @@
  */
 
 // DMX fixture objects
-class Fixture implements FreelinerConfig {
+class Fixture /**tagtagtag**/ {
     String name;
     String description;
     int address;
@@ -294,7 +294,7 @@ class SingleColorFixture extends RGBFixture {
                 value = col & 0xFF;
                 break;
         }
-        buffer[0] = byte(FIXTURE_CORRECT_GAMMA ? value : gammatable[value]);
+        buffer[0] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? value : gammatable[value]);
     }
 }
 
@@ -336,7 +336,7 @@ class RGBFixture extends Fixture {
         _pg.noFill();
         _pg.ellipseMode(CENTER);
         _pg.ellipse(position.x, position.y, 10, 10);
-        if(DRAW_FIXTURE_ADDRESS){
+        if(projectConfig.DRAW_FIXTURE_ADDRESS){
             _pg.textSize(10);
             _pg.fill(255);
             _pg.text(str(address), position.x, position.y);
@@ -349,9 +349,9 @@ class RGBFixture extends Fixture {
         int red = (col >> 16) & 0xFF;
         int green = (col >> 8) & 0xFF;
         int blue = col & 0xFF;
-        buffer[0] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        buffer[0] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[1] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        buffer[2] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
         // println(buffer[0]+" "+buffer[1]+" "+buffer[2]);
     }
 
@@ -425,9 +425,9 @@ class RGBPar extends Fixture {
         int red = (col >> 16) & 0xFF;
         int green = (col >> 8) & 0xFF;
         int blue = col & 0xFF;
-        buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        buffer[3] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        buffer[1] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[2] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        buffer[3] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
         buffer[0] = byte(255);
     }
     // override
@@ -467,9 +467,9 @@ class AWPar extends Fixture {
         int red = (col >> 16) & 0xFF;
         int green = (col >> 8) & 0xFF;
         // int blue = col & 0xFF;
-        buffer[0] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        // buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        buffer[0] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[1] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        // buffer[2] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
     }
     // override
     void drawFixtureOverlay(PGraphics _pg) {
@@ -595,11 +595,11 @@ class NetoParFive extends Fixture {
             buffer[1] = 0;
             buffer[2] = 0;
             buffer[3] = 0;
-            buffer[4] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+            buffer[4] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
         } else {
-            buffer[1] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-            buffer[2] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-            buffer[3] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+            buffer[1] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+            buffer[2] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+            buffer[3] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
             buffer[4] = 0;
         }
     }
@@ -732,9 +732,9 @@ class OrionOrcan extends Fixture {
         buffer[effectChannel]  = byte(0);
         buffer[effectSpeedChannel]  = byte(0);
 
-        buffer[redChannel] = byte(FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[greenChannel] = byte(FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        buffer[blueChannel] = byte(FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        buffer[redChannel] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+        buffer[greenChannel] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
+        buffer[blueChannel] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
 
 
     }

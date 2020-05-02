@@ -10,7 +10,7 @@
 /**
  * This distributes events to templates and stuff.
  */
-class CommandProcessor implements FreelinerConfig {
+class CommandProcessor /**tagtagtag**/ {
     TemplateManager templateManager;
     TemplateRenderer templateRenderer;
     CanvasManager canvasManager;
@@ -1228,7 +1228,7 @@ class CommandProcessor implements FreelinerConfig {
 
 // idea for a command class
 //
-class Cmd implements FreelinerConfig {
+class Cmd /**tagtagtag**/ {
     String[] args;
     //
     public Cmd(String[] _args) {

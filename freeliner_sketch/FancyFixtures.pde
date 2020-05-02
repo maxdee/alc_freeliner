@@ -12,7 +12,7 @@
 // packet size should be implemented in serial specificaly, pushing only the buffer size.
 // mode artnet universe
 
-class FancyFixtures implements FreelinerConfig {
+class FancyFixtures /**tagtagtag**/ {
     PApplet applet;
     int channelCount;
     byte[] byteBuffer;
@@ -404,7 +404,7 @@ class FancyFixtures implements FreelinerConfig {
             for(int i = 0; i < ha.length; i++) {
                 ha[i] = recordingBuffer.get(i);
             }
-            saveBytes(dataDirectory(PATH_TO_CAPTURE_FILES)+"/fixture_animations/"+String.format("ani_%02d.bin", clipCount++), ha);
+            saveBytes(projectConfig.fullPath+"/fixture_animations/"+String.format("ani_%02d.bin", clipCount++), ha);
             println("Saved led animation");
         }
     }
@@ -464,7 +464,7 @@ class FancyFixtures implements FreelinerConfig {
     public XML getXML(String _file) {
         XML _xml = null;
         try {
-            _xml = loadXML(dataDirectory(PATH_TO_FIXTURES)+"/"+_file);
+            _xml = loadXML(projectConfig.fullPath+"/fixtures/"+_file);
         } catch(Exception e) {
             println("FixtureMap XML file "+_file+" not found");
         }

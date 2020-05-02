@@ -110,19 +110,19 @@ void reset(){
     // removeBorder();
     if(workingDirectory != null) println(" *** CUSTOM WORKING DIRECTORY :\n"+workingDirectory);
     documenter = new Documenter();
-    strokeCap(FreelinerConfig.STROKE_CAP);
-    strokeJoin(FreelinerConfig.STROKE_JOIN);
+    strokeCap(projectConfig.STROKE_CAP);
+    strokeJoin(projectConfig.STROKE_JOIN);
     // detect OS
     if(System.getProperty("os.name").charAt(0) == 'M') OSX = true;
     else if(System.getProperty("os.name").charAt(0) == 'L') WIN = false;
     else WIN = true;
 
     // init freeliner
-    freeliner = new FreeLiner(this, FreelinerConfig.RENDERING_PIPELINE);
+    freeliner = new FreeLiner(this);
 
     noCursor();
     // add in keyboard, as hold - or = to repeat. beginners tend to hold keys down which is problematic
-    if(FreelinerConfig.ENABLE_KEY_REPEAT) hint(ENABLE_KEY_REPEAT); // usefull for performance
+    if(projectConfig.keyRepeat) hint(ENABLE_KEY_REPEAT); // usefull for performance
 
 
 

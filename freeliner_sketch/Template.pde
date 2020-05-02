@@ -12,7 +12,7 @@
   * Templates hold all the parameters for the renderer.
   *
   */
-class Template implements FreelinerConfig{
+class Template /**tagtagtag**/{
 /*
  * First tier, data that dosent change unless told to
  */

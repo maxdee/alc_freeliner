@@ -12,7 +12,7 @@
  * Manage segmentGroups!
  *
  */
-class GroupManager implements FreelinerConfig{
+class GroupManager /**tagtagtag**/{
 
     // guess we will add this too.
     TemplateManager templateManager;
@@ -363,7 +363,7 @@ class GroupManager implements FreelinerConfig{
                     _snapped = true;
                 }
                 if (!_snapped && _pos.dist(seg.getMidPoint()) < snapDist) {
-                    if(ENABLE_SNAP_MIDDLE){
+                    if(true){//projectConfig.ENABLE_SNAP_MIDDLE){
                         snappedSegment = seg;
                         snap = seg.getMidPoint();
                         snappedIndex = i;
@@ -764,10 +764,10 @@ class GroupManager implements FreelinerConfig{
     public void loadGeometrySVG(String _fn) {
         PShape _shp;
         try {
-            _shp = loadShape(dataDirectory(PATH_TO_VECTOR_GRAPHICS)+"/"+_fn);
+            _shp = loadShape(projectConfig.fullPath+"/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
-            println(dataDirectory(PATH_TO_VECTOR_GRAPHICS)+"/"+_fn);
+            println(projectConfig.fullPath+"/"+_fn);
             return;
         }
         // PVector _offset = getInkscapeTransform(sketchPath()+"/data/userdata/"+_fn);

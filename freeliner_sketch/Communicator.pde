@@ -14,7 +14,7 @@ import websockets.*;
 /**
  * The FreelinerCommunicator handles communication with other programs over various protocols.
  */
-class FreelinerCommunicator implements FreelinerConfig {
+class FreelinerCommunicator /**tagtagtag**/ {
 
     CommandProcessor commandProcessor;
     PApplet applet;

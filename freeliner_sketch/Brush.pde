@@ -76,8 +76,8 @@ class PointBrush extends Brush {
 
 	public PShape generateBrush(){
 		PShape shp = createShape();
-		shp.strokeJoin(STROKE_JOIN);
-		shp.strokeCap(STROKE_CAP);
+		shp.strokeJoin(projectConfig.STROKE_JOIN);
+		shp.strokeCap(projectConfig.STROKE_CAP);
 		shp.beginShape(POINTS);
     shp.vertex(0,0);
 		shp.endShape();

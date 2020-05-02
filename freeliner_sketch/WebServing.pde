@@ -1,6 +1,6 @@
 import http.*;
 
-class GUIWebServer implements FreelinerConfig {
+class GUIWebServer /**tagtagtag**/ {
 
     SimpleHTTPServer server;
 
