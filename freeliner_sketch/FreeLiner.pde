@@ -13,7 +13,7 @@
  * Main class for alc_freeliner
  * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
  */
-class FreeLiner /**tagtagtag**/ {
+class FreeLiner  {
     // model
     GroupManager groupManager;
     TemplateManager templateManager;

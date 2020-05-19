@@ -15,7 +15,7 @@
  *
  */
 
-abstract class Mode /**tagtagtag**/{
+abstract class Mode {
   int modeIndex;
   String name = "mode";
   String description = "abstract";

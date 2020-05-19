@@ -8,7 +8,7 @@
  */
 
 // DMX fixture objects
-class Fixture /**tagtagtag**/ {
+class Fixture  {
     String name;
     String description;
     int address;

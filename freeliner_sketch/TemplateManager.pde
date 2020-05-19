@@ -43,7 +43,7 @@
  * Manage all the templates
  *
  */
-class TemplateManager /**tagtagtag**/{
+class TemplateManager {
     //selects templates to control
     TemplateList templateList;
 

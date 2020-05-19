@@ -11,7 +11,7 @@
  /**
   * A sequencer inspired by electronic music instruments, particularly after hands on experience with korg volca beats and bass.
   */
-class Sequencer /**tagtagtag**/{
+class Sequencer {
 
   TemplateList[] lists; // should have an array of lists
   TemplateList selectedList;

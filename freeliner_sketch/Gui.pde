@@ -17,7 +17,7 @@
  * @see SegmentGroup
  */
 
-class Gui /**tagtagtag**/ {
+class Gui  {
 
     // depends on a group manager and a mouse
     GroupManager groupManager;

@@ -16,7 +16,7 @@ import java.util.Collections;
  * Manage the drawing buffer.
  * Perhaps subclass features such as OSC, dedicated mouse device, slave mode...
  */
-abstract class CanvasManager /**tagtagtag**/ {
+abstract class CanvasManager  {
     // Template renderer needed to do the rendering
     TemplateRenderer templateRenderer;
     public PGraphics guiCanvas;

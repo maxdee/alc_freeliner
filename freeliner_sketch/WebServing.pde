@@ -1,6 +1,6 @@
 import http.*;
 
-class GUIWebServer /**tagtagtag**/ {
+class GUIWebServer  {
 
     SimpleHTTPServer server;
 

@@ -12,7 +12,7 @@
  * Manage segmentGroups!
  *
  */
-class GroupManager /**tagtagtag**/{
+class GroupManager {
 
     // guess we will add this too.
     TemplateManager templateManager;

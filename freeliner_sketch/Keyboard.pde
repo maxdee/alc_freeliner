@@ -39,7 +39,7 @@ import java.awt.event.KeyEvent;
  * TAB tab through segmentGroups, SHIFT to reverse
  * BACKSPACE remove selected segment
  */
-class Keyboard /**tagtagtag**/ {
+class Keyboard  {
 
     // dependecy injection
     GroupManager groupManager;

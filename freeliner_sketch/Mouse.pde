@@ -30,7 +30,7 @@
  *
  *
  */
-class Mouse /**tagtagtag**/{
+class Mouse {
   // other mouse buttons than LEFT and RIGHT
   final int MIDDLE = 3;
   final int FOURTH_BUTTON = 0;

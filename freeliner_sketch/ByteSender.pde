@@ -14,7 +14,7 @@ import processing.serial.*;
 
 // A class to send byte arrays to lighting stuff.
 
-public class ByteSender /**tagtagtag**/ {
+public class ByteSender  {
 
     public ByteSender() {
 

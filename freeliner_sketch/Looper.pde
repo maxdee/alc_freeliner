@@ -8,7 +8,7 @@
  */
 
 
-class Looper /**tagtagtag**/{
+class Looper {
 	Synchroniser synchroniser;
 	CommandProcessor commandProcessor;
 	ArrayList<Loop> loops;
@@ -98,7 +98,7 @@ class Looper /**tagtagtag**/{
 }
 
 
-class Loop /**tagtagtag**/{
+class Loop {
 	ArrayList<TimedCommand> commands;
 	ArrayList<TimedCommand> queue;
 
@@ -147,7 +147,7 @@ class Loop /**tagtagtag**/{
 }
 
 // for now essentialy a time tagged cmd string
-class TimedCommand /**tagtagtag**/{
+class TimedCommand {
 	float timeStamp;
 	String commandString;
 	public TimedCommand(String _cmd, float _t){

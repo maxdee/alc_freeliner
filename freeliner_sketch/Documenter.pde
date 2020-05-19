@@ -14,7 +14,7 @@ import java.lang.reflect.Field;
 /**
  * The FreelinerCommunicator handles communication with other programs over various protocols.
  */
-class Documenter /**tagtagtag**/ {
+class Documenter  {
     ArrayList<ArrayList<Mode>> docBuffer;
     ArrayList<String> sections;
     PrintWriter markDown;
@@ -37,7 +37,7 @@ class Documenter /**tagtagtag**/ {
         freelinerModes = new XML("freelinerModes");
         modeLimits = new IntDict();
         markDown = createWriter(sketchPath()+"/data/doc/autodoc.md");
-        markDown.println("Generated on "+year()+"/"+month()+"/"+day()+" with freeliner version "+VERSION);
+        markDown.println("Generated on with freeliner version "+VERSION);
     }
 
     /**
@@ -191,6 +191,6 @@ class Documenter /**tagtagtag**/ {
 }
 
 
-class Dummy /**tagtagtag**/ {
+class Dummy  {
     public Dummy() {}
 }

@@ -12,7 +12,7 @@
  * The synchroniser is in charge of the timing. Tap tempo with compensation for render time.
  */
 
-class Synchroniser /**tagtagtag**/{
+class Synchroniser {
 
     // millis to render one frame
     int renderTime = 0;

@@ -17,7 +17,7 @@
  * @see Renderer
  */
 
-class SegmentGroup /**tagtagtag**/ {
+class SegmentGroup  {
     final int ID;
     float brushScaler = 1.0;
     int sizer = 10;

@@ -12,7 +12,7 @@
 // packet size should be implemented in serial specificaly, pushing only the buffer size.
 // mode artnet universe
 
-class FancyFixtures /**tagtagtag**/ {
+class FancyFixtures  {
     PApplet applet;
     int channelCount;
     byte[] byteBuffer;

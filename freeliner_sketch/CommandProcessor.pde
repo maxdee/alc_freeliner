@@ -10,7 +10,7 @@
 /**
  * This distributes events to templates and stuff.
  */
-class CommandProcessor /**tagtagtag**/ {
+class CommandProcessor  {
     TemplateManager templateManager;
     TemplateRenderer templateRenderer;
     CanvasManager canvasManager;
@@ -1228,7 +1228,7 @@ class CommandProcessor /**tagtagtag**/ {
 
 // idea for a command class
 //
-class Cmd /**tagtagtag**/ {
+class Cmd  {
     String[] args;
     //
     public Cmd(String[] _args) {
