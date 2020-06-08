@@ -131,11 +131,6 @@ void reset(){
     makeGammaTable();
     // selectInput("working dir", "setWorkingDir");
 }
-//
-// void setWorkingDir(File selected){
-//     println(selected);
-//     println(" ==================================== ");
-// }
 
 // splash screen!
 void splash(){

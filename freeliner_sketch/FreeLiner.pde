@@ -284,9 +284,9 @@ class FreeLiner  {
     // getFilesFrom("/shaders", ".glsl");
     public ArrayList<String> getFilesFrom(String _dir, String _type){
         ArrayList<String> _files = new ArrayList<String>();
-        File _directory = new File(projectConfig.fullPath+_dir);
+        println(_dir);
+        File _directory = new File(_dir);
         recursiveFind(_files, "", _directory, _type);
-
         ArrayList<String> subDirectoryFiles = new ArrayList<String>();
         ArrayList<String> regularFiles =  new ArrayList<String>();
         for(String _s : _files){

@@ -25,7 +25,6 @@ abstract class CanvasManager  {
     PApplet applet;
     // shaders need to know whats up with time.
     Synchroniser sync;
-    // boolean makeMaskFlag = false;
 
     //  abstract methods
     abstract void render(ArrayList<RenderableTemplate> _toRender);
@@ -139,7 +138,6 @@ class LayeredCanvasManager extends CanvasManager {
         renderLayers = new ArrayList();
         // mergeLayer = new MergeLayer();
         mergeCanvas = createGraphics(width, height, P2D);
-
     }
 
     public void setup() {
@@ -152,30 +150,20 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer secondShader shaderLayer");
         layerCreator("layer mergeB mergeLayer");
 
-        layerCreator("layer otherRender renderLayer");
-        layerCreator("layer thirdShader shaderLayer");
-        layerCreator("layer mergeC mergeLayer");
-
         layerCreator("layer mergeOutput mergeOutput");
+        layerCreator("layer thirdShader shaderLayer");
         layerCreator("layer fourthShader shaderLayer");
-        layerCreator("layer maskit maskLayer");
-        layerCreator("layer beams renderLayer");
 
         // led/dmx layer
         layerCreator("layer fix fixtureLayer");
         // layerCreator("layer cap captureLayer");
         layerCreator("layer gui guiLayer");
-
-
         // DONT COMMENT THE NEXT ONES!!!
         // add frame sharing layers by default, they get deleted if they are not enabled.
         layerCreator("layer syphon syphonLayer");
         layerCreator("layer spout spoutLayer");
-        // layerCreator("layer screenshot screenshotLayer");
-        // layerCreator("layer screenMap mappedOutput");
+        layerCreator("layer screenshot screenshotLayer");
         layerCreator("layer screen outputLayer");
-
-
         // printLayers();
     }
 
@@ -190,9 +178,6 @@ class LayeredCanvasManager extends CanvasManager {
     public Layer addLayer(Layer _lr) {
         if(_lr == null) return null;
         layers.add(_lr);
-        //if(_lr instanceof VertexShaderLayer)
-        //  renderLayers.add((RenderLayer)_lr);
-        //else
         if(_lr instanceof RenderLayer && !(_lr instanceof ShaderLayer))
             renderLayers.add((RenderLayer)_lr);
         return _lr;
@@ -243,9 +228,6 @@ class LayeredCanvasManager extends CanvasManager {
         case "shaderLayer":
             _lyr = new ShaderLayer(sync);
             break;
-        // case "vertexShaderLayer":
-        //   _lyr = new VertexShaderLayer();
-        //   break;
         case "imageLayer":
             _lyr = new ImageLayer();
             break;
@@ -364,11 +346,10 @@ class LayeredCanvasManager extends CanvasManager {
     ////////////////////////////////////////////////////////////////////////////////////
 
     public void updateOptions() {
-        // ArrayList<String> _shaders = freeliner.getFilesFrom(PATH_TO_SHADERS, ".glsl");
-        ArrayList<String> _shaders = freeliner.getFilesFrom(projectConfig.fullPath+"/shaders", ".glsl");
-        ArrayList<String> _fixtures = freeliner.getFilesFrom(projectConfig.fullPath+"/fixtures", ".xml");
-        ArrayList<String> _images = freeliner.getFilesFrom(projectConfig.fullPath+"/images", ".png");
-        _images.addAll(freeliner.getFilesFrom(projectConfig.fullPath+"/images", ".png"));
+        ArrayList<String> _shaders = freeliner.getFilesFrom(projectConfig.fullPath+"shaders", ".glsl");
+        ArrayList<String> _fixtures = freeliner.getFilesFrom(projectConfig.fullPath+"fixtures", ".xml");
+        ArrayList<String> _images = freeliner.getFilesFrom(projectConfig.fullPath+"images", ".png");
+        _images.addAll(freeliner.getFilesFrom(projectConfig.fullPath+"images", ".png"));
         for(Layer _lyr : layers) {
             if(_lyr instanceof ImageLayer) _lyr.setOptions(_images.toArray(new String[_images.size()]));
             else if(_lyr instanceof ShaderLayer) _lyr.setOptions(_shaders.toArray(new String[_shaders.size()]));

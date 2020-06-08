@@ -11,6 +11,7 @@
 
 class KeyMap {
     ParameterKey[] keymap;
+    // enum for key type
     final int KEYTYPE_TRIGGER = 0;
     final int KEYTYPE_TOGGLE = 1;
     final int KEYTYPE_TOGGLE_VALUE = 2;
@@ -20,11 +21,8 @@ class KeyMap {
     final int KEYTYPE_FILE_OPEN = 6;
     final int KEYTYPE_MACRO = 7;
 
-
-
     public KeyMap() {
         keymap = new ParameterKey[255];
-        // animationMode
         loadKeys();
         loadMacros();
     }
@@ -38,7 +36,6 @@ class KeyMap {
             keymap[_s.charAt(0)].setMax(_limits.get(_s));
         }
         keymap['f'].setMax(keymap['q'].getMax());
-        // for(ParameterKey _pk : keymap) if(_pk != null) println(_pk.getKey()+" "+_pk.getMax());
     }
 
     public void loadKeys() {

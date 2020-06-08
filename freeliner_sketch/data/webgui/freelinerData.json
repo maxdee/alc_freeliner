@@ -906,8 +906,8 @@
     {
       "max": -42,
       "name": "macro1",
-      "description": "macro1  geom clone 2 A",
-      "cmd": " geom clone 2 A",
+      "description": "macro 1: ",
+      "cmd": "",
       "type": 7,
       "ascii": 49,
       "key": "1"
@@ -915,8 +915,8 @@
     {
       "max": -42,
       "name": "macro2",
-      "description": "macro2  tp translate $ 0.5 0.0, tw $ p 1",
-      "cmd": " tp translate $ 0.5 0.0, tw $ p 1",
+      "description": "macro 2: ",
+      "cmd": "",
       "type": 7,
       "ascii": 50,
       "key": "2"
@@ -924,8 +924,8 @@
     {
       "max": -42,
       "name": "macro3",
-      "description": "macro3  tw $ b 1, tw $ q 8",
-      "cmd": " tw $ b 1, tw $ q 8",
+      "description": "macro 3: ",
+      "cmd": "",
       "type": 7,
       "ascii": 51,
       "key": "3"
@@ -933,8 +933,8 @@
     {
       "max": -42,
       "name": "macro4",
-      "description": "macro4  tp copy $, tp groupadd $",
-      "cmd": " tp copy $, tp groupadd $",
+      "description": "macro 4: ",
+      "cmd": "",
       "type": 7,
       "ascii": 52,
       "key": "4"

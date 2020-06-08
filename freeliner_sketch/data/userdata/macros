@@ -1,8 +1,0 @@
-# macros for freeliner, put a number and a command or two or three!
-1= geom clone 2 A
-# tp translate $ 0.0 0.0, tw $ p 0
-2= tp translate $ 0.5 0.0, tw $ p 1
-# 1= tp translate $ 0.0 0.0
-# 2= tp translate $ 0.5 0.0
-3= tw $ b 1, tw $ q 8
-4= tp copy $, tp groupadd $

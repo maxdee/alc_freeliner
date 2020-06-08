@@ -237,6 +237,7 @@ class Keyboard  {
     public void modCommands(int _kc) {
         ParameterKey _pk = keyMap.getKey(_kc);
         if(_pk == null) return;
+        // this is here because ctrl-p is the only one that modifies the editkey
         if(_pk.getKey() == 'P') {
             setEditKey('P');
             commandMaker(editKey, -3);

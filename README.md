@@ -22,6 +22,9 @@ Here are some instructions on how to get started with freeliner.
 3. Open and run `alc_freeliner/freeliner_sketch` with Processing
 4. Once running you can point your browser to `http://localhost:8000/index.html` to access the browser interface
 
+### New Project Directory System
+
+
 ### What is? ###
 
 Also known as a!LcFreeliner. This software is feature-full geometric animation software built for live projection mapping. Development started in fall 2013.
