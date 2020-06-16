@@ -93,38 +93,52 @@ class FreelinerProject {
     // String PATH_TO_VECTOR_GRAPHICS = "userdata/svg/";
     // String PATH_TO_CAPTURE_FILES = "userdata/capture/";
     // String PATH_TO_LAYERS = "userdata/layerSetups/";
-
+    boolean makeNewProjectFlag = false;
     public FreelinerProject(){}
 
+    // first thing that gets called when starting freeliner
     void load(String path){
-        fullPath = path;
-        //extract project name
-        String[] splt = path.split("/");
-        projectName = splt[splt.length-1];
-        println("[freeliner] loading project : "+projectName);
-        XML _xml = null;
-        try {
-            _xml = loadXML(fullPath+"/config.xml");
+        File f = new File(path);
+        if(f.isFile() == false){
+            makeNewProjectFlag = true;
         }
-        catch (Exception e) {
-            println("[ERROR] could not load : \n" + path);
-            return;
+        else {
+            //extract project name
+            fullPath = path;
+            String[] splt = fullPath.split("/");
+            projectName = splt[splt.length-1];
+            println("[freeliner] loading project : "+projectName);
+            XML _xml = null;
+            try {
+                _xml = loadXML(fullPath+"/config.xml");
+            }
+            catch (Exception e) {
+                println("[ERROR] could not load : \n" + path);
+                return;
+            }
+            loadConfigXML(_xml);
         }
-        loadConfigXML(_xml);
     }
 
-    void newProject(String path){
-        fullPath = path;
 
-        File f = new File(path+"shaders");
-        f.mkdirs();
-        f = new File(path+"stuffing");
-        f.mkdirs();
-        f = new File(path+"yas");
+
+    void newProject(String path){
+        println("making new project : "+path);
+        fullPath = path;
+        File f = new File(fullPath);
+        if(f.mkdirs()) save();
+        makeDir(fullPath+"/shaders");
+        makeDir(fullPath+"/images");
+        makeDir(fullPath+"/fixtures");
+    }
+
+    void makeDir(String _dir){
+        File f = new File(_dir);
         f.mkdirs();
     }
 
     void save(){
+        println("save called");
         XML _thing =  new XML("freeliner-data");
         _thing.addChild(makeXML());
         saveXML(_thing, fullPath+"/config.xml");

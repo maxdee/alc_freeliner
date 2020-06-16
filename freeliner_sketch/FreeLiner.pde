@@ -113,7 +113,10 @@ class FreeLiner  {
      */
     public void update() {
         //autoSave();
-
+        if(projectConfig.makeNewProjectFlag) {
+            projectConfig.makeNewProjectFlag = false;
+            commandProcessor.queueCMD("fl new");
+        }
         // windowFocus
         if(windowFocus != focused) {
             windowFocus = focused;

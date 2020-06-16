@@ -65,7 +65,7 @@ void settings(){
     smooth(projectConfig.smoothLevel);
 
     //
-    projectConfig.save();
+    // projectConfig.save();
 }
 
 boolean canReset = false;
@@ -79,6 +79,7 @@ void loadProjectPath(File _file){
         reset();
     }
 }
+
 public void newWithDir(File selection){
     println("selceted dir"+selection.getPath());
     projectConfig.newProject(selection.getPath());
@@ -91,12 +92,14 @@ public void newWithDir(File selection){
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-    String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
-    projectConfig.load(lastProjectPath[0]);
+    // String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
+    // println("loading once ");
+    // projectConfig.load(lastProjectPath[0]);
     reset();
 }
 
 void reset(){
+    println("running reset with : "+projectConfig.fullPath);
     surface.setResizable(true);
     // maybe add fullscreen
     surface.setSize(projectConfig.width, projectConfig.height);
