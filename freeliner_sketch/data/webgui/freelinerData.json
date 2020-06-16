@@ -1076,6 +1076,15 @@
     },
     {
       "max": -42,
+      "name": "newproject",
+      "description": "Set the directory for a new project",
+      "cmd": "fl new",
+      "type": 6,
+      "ascii": 78,
+      "key": "N"
+    },
+    {
+      "max": -42,
       "name": "open",
       "description": "Open stuff",
       "cmd": "fl open",

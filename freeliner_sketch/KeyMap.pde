@@ -282,6 +282,12 @@ class KeyMap {
         keymap['L'].setName("link");
         keymap['L'].setDescription("Link one template to an other unidirectionaly, used for meta freelining.");
         keymap['L'].setCMD("tp link $"); //
+        // new project
+        keymap['N'] = new ParameterKey('N');
+        keymap['N'].setType(KEYTYPE_FILE_OPEN);
+        keymap['N'].setName("newproject");
+        keymap['N'].setDescription("Set the directory for a new project");
+        keymap['N'].setCMD("fl new"); //
         // open
         keymap['O'] = new ParameterKey('O');
         keymap['O'].setType(KEYTYPE_FILE_OPEN);

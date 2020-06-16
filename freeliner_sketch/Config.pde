@@ -113,6 +113,17 @@ class FreelinerProject {
         loadConfigXML(_xml);
     }
 
+    void newProject(String path){
+        fullPath = path;
+
+        File f = new File(path+"shaders");
+        f.mkdirs();
+        f = new File(path+"stuffing");
+        f.mkdirs();
+        f = new File(path+"yas");
+        f.mkdirs();
+    }
+
     void save(){
         XML _thing =  new XML("freeliner-data");
         _thing.addChild(makeXML());

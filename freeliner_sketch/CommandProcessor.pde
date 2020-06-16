@@ -136,7 +136,13 @@ class CommandProcessor  {
         "setosc 127.0.0.1 6666",
         "colormap (file|0-1)",
         "colors set 1 (#ff0000, R G B)",
-        "fl directory"
+        // "fl directory",
+        "fl new (path)",
+        "fl save",
+        "fl open",
+        "fl quit",
+        "fl random"
+
     };
 
     /**
@@ -452,42 +458,59 @@ class CommandProcessor  {
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
+    // fl new (path)
+    // fl save
+    // fl open
+    // fl random
+    // fl quit
     public boolean flCMD(String[] _args) {
+
         if(_args.length < 2) return false;
+        else if(_args[1].equals("new")) newCMD(_args);
         else if(_args[1].equals("save")) saveCMD(_args);
         else if(_args[1].equals("open")) openCMD(_args);
         else if(_args[1].equals("random")) valueGiven = freeliner.randomAction();
-        else if(_args[1].equals("quit")) exit(); // via ctrl-q
-        else if(_args[1].equals("directory") && _args.length > 2) workingDirectory = _args[2]; //perhaps reload font?? or add a setfont
+        else if(_args[1].equals("quit")) quitCMD(); // via ctrl-q
+        // else if(_args[1].equals("directory") && _args.length > 2) workingDirectory = _args[2]; //perhaps reload font?? or add a setfont
         else return false;
         return true;
     }
 
-    public void quitCMD() {
-        // do a backup save?
-        println("Freeliner quit via ctrl-Q, goodbye!");
-        exit();
+    public void newCMD(String[] _args){
+        println(_args);
+        if(_args.length == 2) {
+            selectFolder("pick directory for new project", "newWithDir");
+        }
+        else if(_args.length == 3) {
+            File f = new File(_args[2]);
+            f.mkdirs();
+            newWithDir(f);
+        }
     }
+
+    // public void newWithDir(File selection){
+    //     println("selceted dir"+selection.path());
+    // }
 
     public void saveCMD(String[] _args) {
         freeliner.saveProject();
-        // processCMD("geom save");
-        // processCMD("tp save");
-        // processCMD("layer save");
         gui.updateReference();
         valueGiven = "sure";
     }
 
     public void openCMD(String[] _args) {
-        // freeliner.openProject(); // turn into open dir
         freeliner.loadBasics();
-
         // processCMD("tp load");
         // processCMD("geom load");
         // processCMD("layer load");
         // processCMD("fetch-ws layers");
         // //
         valueGiven = "sure";
+    }
+    public void quitCMD() {
+        // do a backup save?
+        println("Freeliner quit via ctrl-Q, goodbye!");
+        exit();
     }
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
