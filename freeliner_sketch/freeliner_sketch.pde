@@ -81,7 +81,7 @@ void loadProjectPath(File _file){
 }
 
 public void newWithDir(File selection){
-    println("selceted dir"+selection.getPath());
+    println("selected dir"+selection.getPath());
     projectConfig.newProject(selection.getPath());
 }
 

@@ -346,10 +346,12 @@ class LayeredCanvasManager extends CanvasManager {
     ////////////////////////////////////////////////////////////////////////////////////
 
     public void updateOptions() {
-        ArrayList<String> _shaders = freeliner.getFilesFrom(projectConfig.fullPath+"shaders", ".glsl");
-        ArrayList<String> _fixtures = freeliner.getFilesFrom(projectConfig.fullPath+"fixtures", ".xml");
-        ArrayList<String> _images = freeliner.getFilesFrom(projectConfig.fullPath+"images", ".png");
-        _images.addAll(freeliner.getFilesFrom(projectConfig.fullPath+"images", ".png"));
+        ArrayList<String> _shaders = freeliner.getFilesFrom(projectConfig.fullPath+"/shaders", ".glsl");
+        ArrayList<String> _fixtures = freeliner.getFilesFrom(projectConfig.fullPath+"/fixtures", ".xml");
+        ArrayList<String> _images = freeliner.getFilesFrom(projectConfig.fullPath+"/images", ".png");
+        _images.addAll(freeliner.getFilesFrom(projectConfig.fullPath+"/images", ".jpg"));
+        _images.addAll(freeliner.getFilesFrom(projectConfig.fullPath+"/images", ".jpeg"));
+
         for(Layer _lyr : layers) {
             if(_lyr instanceof ImageLayer) _lyr.setOptions(_images.toArray(new String[_images.size()]));
             else if(_lyr instanceof ShaderLayer) _lyr.setOptions(_shaders.toArray(new String[_shaders.size()]));

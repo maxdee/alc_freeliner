@@ -273,11 +273,6 @@ class FreeLiner  {
         }
     }
 
-    void openProject(){
-        selectFolder("load project or empty dir", "loadProjectPath");
-        // canReset = true;
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////    Accessors
@@ -286,6 +281,8 @@ class FreeLiner  {
 
     // getFilesFrom("/shaders", ".glsl");
     public ArrayList<String> getFilesFrom(String _dir, String _type){
+        println(_dir+" "+_type);
+
         ArrayList<String> _files = new ArrayList<String>();
         File _directory = new File(_dir);
         recursiveFind(_files, "", _directory, _type);
@@ -311,6 +308,7 @@ class FreeLiner  {
         for(String _s : _reg) {
             _files.add(_s);
         }
+        println(_files);
         return _files;
     }
 
