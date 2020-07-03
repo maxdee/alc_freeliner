@@ -493,9 +493,9 @@ class KeyMap {
 
     public void loadMacros() {
         // startup commands
-        String[] _lines = loadStrings("data/userdata/"+"macros");
-        println("------ Loading macros ----------------------------------");
+        String[] _lines = loadStrings(projectConfig.fullPath+"/macros");
         if(_lines!=null){
+            println("------ Loading macros ----------------------------------");
             println("macros :");
             if(_lines.length > 0){
                 for (String _s : _lines) {
@@ -507,8 +507,8 @@ class KeyMap {
                     }
                 }
             }
+            println("-------------------------------------------------------");
         }
-        println("-------------------------------------------------------");
     }
 
     public void setMacro(char _key, String _str) {

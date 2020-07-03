@@ -88,7 +88,7 @@ class FreeLiner  {
         String _file = projectConfig.fullPath+"/startup";
         String[] _lines = loadStrings(_file);
         if(_lines!=null){
-            println("Startup commands:");
+            println("------ Startup Commands ----------------------------------");
             if(_lines.length > 0){
                 for (String _s : _lines) {
                     if(_s.length() > 0){
@@ -99,6 +99,7 @@ class FreeLiner  {
                     }
                 }
             }
+            println("----------------------------------------------------------");
         }
 
     }
@@ -255,6 +256,10 @@ class FreeLiner  {
             return;
         }
         // _xml = _xml.getChild("freeliner-data");
+        if(_xml == null) {
+            println("[load file] no xml for file : \n"+_fn);
+            return;
+        }
         XML[] _config = _xml.getChildren("config");
         if(_config.length != 0) {
             projectConfig.loadConfigXML(_config[0]);

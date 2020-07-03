@@ -1,0 +1,5 @@
+# you can assign commands to [ctrl]+(0-9)
+# the following macro adds to [ctrl]-1 the command 'tw A q 2'
+#1=tw A q 2
+# multiple commands supported
+#2=tw A f 7, tw A a 2
