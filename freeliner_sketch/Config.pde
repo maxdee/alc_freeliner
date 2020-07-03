@@ -1,10 +1,10 @@
 
 class FreelinerProject {
-    String fullPath = "data/default_project/";
+    String fullPath = "";
     String projectName = "project";
-    // windowed mode width and height
-    int width = 1024;
-    int height = 768;
+    // windowed mode windowWidth and windowHeight
+    int windowWidth = 1024;
+    int windowHeight = 768;
     boolean fullscreen = false;
     boolean layers = true;
     int fullscreenDisplay = 2;
@@ -96,11 +96,15 @@ class FreelinerProject {
     boolean makeNewProjectFlag = false;
     public FreelinerProject(){}
 
+
     // first thing that gets called when starting freeliner
+    // pass a directory, exisiting or to be created
+    // will only load the config portion
     void load(String path){
         File f = new File(path);
-        if(f.isFile() == false){
+        if(f.isDirectory() != true){
             makeNewProjectFlag = true;
+            // will trigger file dialog
         }
         else {
             //extract project name
@@ -113,14 +117,22 @@ class FreelinerProject {
                 _xml = loadXML(fullPath+"/config.xml");
             }
             catch (Exception e) {
-                println("[ERROR] could not load : \n" + path);
+                println("[config] ERROR could not load : \n" + path);
                 return;
             }
             loadConfigXML(_xml);
         }
     }
 
-
+    boolean checkMakeNewProjectFlag(){
+        if(makeNewProjectFlag){
+            makeNewProjectFlag = false;
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
 
     void newProject(String path){
         println("making new project : "+path);
@@ -145,40 +157,46 @@ class FreelinerProject {
     }
 
     void loadConfigXML(XML _xml) {
-        // JSONObject _config = _json.getJSONObject("config");
         if(_xml == null) {
-            // println("[ERROR] no config : \n" + _json);
+            println("[config] ERROR : null config");
             return;
         }
 
-        XML _renderConfig = _xml.getChild("render");
+        XML _config = _xml.getChild("config");
+        if(_config == null) {
+            println("[config] not a valid file");
+            return;
+        }
+
+        XML _renderConfig = _config.getChild("render");
         if(_renderConfig != null) {
-            this.width = _renderConfig.getInt("width", this.width);
-            this.height = _renderConfig.getInt("height", this.height);
-            this.fullscreen = _renderConfig.getInt("fullscreen", this.fullscreen ? 0 : 1) == 1;
+            this.windowWidth = _renderConfig.getInt("windowWidth", this.windowWidth);
+            this.windowHeight = _renderConfig.getInt("windowHeight", this.windowHeight);
+            println("FUFLALFL "+ _renderConfig.getInt("fullscreen"));
+            this.fullscreen = _renderConfig.getInt("fullscreen", this.fullscreen ? 1 : 0) == 1;
             this.fullscreenDisplay = _renderConfig.getInt("fullscreenDisplay", this.fullscreenDisplay);
-            this.layers = _renderConfig.getInt("layers", this.layers ? 0 : 1) == 1;
+            this.layers = _renderConfig.getInt("layers", this.layers ? 1 : 0) == 1;
             this.maxfps = _renderConfig.getInt("maxfps", this.maxfps);
             this.smoothLevel = _renderConfig.getInt("smoothLevel", this.smoothLevel);
-            this.splash = _renderConfig.getInt("splash", this.splash ? 0 : 1) == 1;
+            this.splash = _renderConfig.getInt("splash", this.splash ? 1 : 0) == 1;
             if(!this.splash) {
                 println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
                 println("$$$  I see you disabled splash, consider donating $$$");
                 println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
             }
         }
-        XML _networkConfig = _xml.getChild("network");
+        XML _networkConfig = _config.getChild("network");
         if(_networkConfig != null) {
             this.oscInPort = _renderConfig.getInt("oscInPort", this.oscInPort);
             this.oscOutPort = _renderConfig.getInt("oscOutPort", this.oscOutPort);
             this.oscOutIP = _renderConfig.getString("oscOutIP", this.oscOutIP);
-            this.oscUseTCP = _renderConfig.getInt("oscUseTCP", this.oscUseTCP ? 0 : 1) == 1;
+            this.oscUseTCP = _renderConfig.getInt("oscUseTCP", this.oscUseTCP ? 1 : 0) == 1;
             this.websocketPort = _renderConfig.getInt("websocketPort", this.websocketPort);
-            this.serveHTTP = _renderConfig.getInt("serveHTTP", this.serveHTTP ? 0 : 1) == 1;
+            this.serveHTTP = _renderConfig.getInt("serveHTTP", this.serveHTTP ? 1 : 0) == 1;
             this.httpServerPort = _renderConfig.getInt("httpServerPort", this.httpServerPort);
         }
 
-        XML _guiConfig = _xml.getChild("gui");
+        XML _guiConfig = _config.getChild("gui");
         if(_guiConfig != null) {
             this.cursorSize = _guiConfig.getInt("cursorSize", this.cursorSize);
             this.cursorGapSize = _guiConfig.getInt("cursorGapSize", this.cursorGapSize);
@@ -197,7 +215,7 @@ class FreelinerProject {
             this.cursorAlpha = _guiConfig.getInt("cursorAlpha", this.cursorAlpha);
             this.cursorColorSnapped = strToCol(_guiConfig.getString("cursorColorSnapped", hex(this.cursorColorSnapped)));
             this.cursorAlphaSnapped = _guiConfig.getInt("cursorAlphaSnapped", this.cursorAlphaSnapped);
-            this.enableSnapeToLines = _guiConfig.getInt("enableSnapeToLines", this.enableSnapeToLines ? 0 : 1) == 1;
+            this.enableSnapeToLines = _guiConfig.getInt("enableSnapeToLines", this.enableSnapeToLines ? 1 : 0) == 1;
             this.guiTextColor = strToCol(_guiConfig.getString("guiTextColor", hex(this.guiTextColor)));
             this.guiTextAlpha = _guiConfig.getInt("guiTextAlpha", this.guiTextAlpha);
             this.gridColor = strToCol(_guiConfig.getString("gridColor", hex(this.gridColor)));
@@ -211,8 +229,11 @@ class FreelinerProject {
             this.lineSegmentAlpha = _guiConfig.getInt("lineSegmentAlpha", this.lineSegmentAlpha);
             this.lineSegmentAlphaUnselected = _guiConfig.getInt("lineSegmentAlphaUnselected", this.lineSegmentAlphaUnselected);
 
-            this.rotateCursorOnSnap = _guiConfig.getInt("rotateCursorOnSnap", this.rotateCursorOnSnap ? 0 : 1) == 1;
+            this.rotateCursorOnSnap = _guiConfig.getInt("rotateCursorOnSnap", this.rotateCursorOnSnap ? 1 : 0) == 1;
         }
+
+
+
     }
 
     color strToCol(String _hex) {
@@ -223,22 +244,22 @@ class FreelinerProject {
         XML _config = new XML("config");
 
         XML _renderConfig = _config.addChild("render");
-        _renderConfig.setInt("width", this.width);
-        _renderConfig.setInt("height", this.height);
-        _renderConfig.setInt("fullscreen", this.fullscreen ? 0 : 1);
+        _renderConfig.setInt("windowWidth", this.windowWidth);
+        _renderConfig.setInt("windowHeight", this.windowHeight);
+        _renderConfig.setInt("fullscreen", this.fullscreen ? 1 : 0);
         _renderConfig.setInt("fullscreenDisplay", this.fullscreenDisplay);
-        _renderConfig.setInt("layers", this.layers ? 0 : 1);
+        _renderConfig.setInt("layers", this.layers ? 1 : 0);
         _renderConfig.setInt("maxfps", this.maxfps);
         _renderConfig.setInt("smoothLevel", this.smoothLevel);
-        _renderConfig.setInt("splash", this.splash ? 0 : 1);
+        _renderConfig.setInt("splash", this.splash ? 1 : 0);
 
         XML _networkConfig =  _config.addChild("network");
         _networkConfig.setInt("oscInPort", this.oscInPort);
         _networkConfig.setInt("oscOutPort", this.oscOutPort);
         _networkConfig.setString("oscOutIP", this.oscOutIP);
-        _networkConfig.setInt("oscUseTCP", this.oscUseTCP ? 0 : 1);
+        _networkConfig.setInt("oscUseTCP", this.oscUseTCP ? 1 : 0);
         _networkConfig.setInt("websocketPort", this.websocketPort);
-        _networkConfig.setInt("serveHTTP", this.serveHTTP ? 0 : 1);
+        _networkConfig.setInt("serveHTTP", this.serveHTTP ? 1 : 0);
         _networkConfig.setInt("httpServerPort", this.httpServerPort);
 
         XML _guiConfig = _config.addChild("gui");
@@ -259,7 +280,7 @@ class FreelinerProject {
         _guiConfig.setInt("cursorAlpha", cursorAlpha);
         _guiConfig.setString("cursorColorSnapped", hex(this.cursorColorSnapped));
         _guiConfig.setInt("cursorAlphaSnapped", cursorAlphaSnapped);
-        _guiConfig.setInt("enableSnapeToLines", enableSnapeToLines ? 0 : 1);
+        _guiConfig.setInt("enableSnapeToLines", enableSnapeToLines ? 1 : 0);
         _guiConfig.setString("guiTextColor", hex(this.guiTextColor));
         _guiConfig.setInt("guiTextAlpha", guiTextAlpha);
         _guiConfig.setString("gridColor", hex(this.gridColor));
@@ -269,7 +290,7 @@ class FreelinerProject {
         _guiConfig.setString("arrowColor", hex(this.arrowColor));
         _guiConfig.setInt("arrowAlpha", arrowAlpha);
         _guiConfig.setString("lineSegmentColor", hex(this.lineSegmentColor));
-        _guiConfig.setInt("rotateCursorOnSnap", rotateCursorOnSnap ? 0 : 1);
+        _guiConfig.setInt("rotateCursorOnSnap", rotateCursorOnSnap ? 1 : 0);
 
 
         // JSONObject _config = new JSONObject();//.getJSONObject("config");

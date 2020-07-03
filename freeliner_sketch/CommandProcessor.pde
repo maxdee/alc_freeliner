@@ -1,4 +1,4 @@
- /**
+/**
  * ##copyright##
  * See LICENSE.md
  *
@@ -427,8 +427,8 @@ class CommandProcessor  {
         if(_args.length < 2) return false;
         int _v = stringInt(_args[2]);
         if(_v == -42) return false;
-        else if(_args[1].equals("width")) projectConfig.width = _v;
-        else if(_args[1].equals("height")) projectConfig.height = _v;
+        else if(_args[1].equals("width")) projectConfig.windowWidth = _v;
+        else if(_args[1].equals("height")) projectConfig.windowHeight = _v;
         else if(_args[1].equals("fullscreen")) projectConfig.fullscreen = (_v == 1);
         else if(_args[1].equals("display")) projectConfig.fullscreenDisplay = _v;
         else if(_args[1].equals("pipeline")) projectConfig.layers = (_v == 1);
@@ -471,7 +471,6 @@ class CommandProcessor  {
         else if(_args[1].equals("open")) openCMD(_args);
         else if(_args[1].equals("random")) valueGiven = freeliner.randomAction();
         else if(_args[1].equals("quit")) quitCMD(); // via ctrl-q
-        // else if(_args[1].equals("directory") && _args.length > 2) workingDirectory = _args[2]; //perhaps reload font?? or add a setfont
         else return false;
         return true;
     }

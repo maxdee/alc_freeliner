@@ -17,9 +17,6 @@ import netP5.*;
  * webGUI: http://localhost:8000/index.html
  **/
 
-// set the working directory of your project, folder must have all the freeliner files
-String workingDirectory = null;
-
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     Not Options
@@ -27,9 +24,7 @@ String workingDirectory = null;
 ////////////////////////////////////////////////////////////////////////////////////
 
 FreeLiner freeliner;
-// fonts
-PFont font;
-PFont introFont;
+
 
 final String VERSION = "0.4.8";
 boolean doSplash = true;
@@ -45,18 +40,28 @@ FreelinerProject projectConfig =  new FreelinerProject();
 // no other way to make a global gammatable...
 int[] gammatable = new int[256];
 float gamma = 3.2; // 3.2 seems to be nice
+// fonts
+PFont font;
+PFont introFont;
 
 void settings(){
     String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
     projectConfig.load(lastProjectPath[0]);
+    // loadProjectPath(lastProjectPath[0]);
+    println("[config] window height "+projectConfig.windowHeight);
+    // // check if directory exists
+    // File f = new File(lastProjectPath[0]);
+    // if(f.isDirectory()){
+    // }
+
 
     if(projectConfig.fullscreen == true){
         fullScreen(P2D, projectConfig.fullscreenDisplay);
     }
     else {
         size(
-            projectConfig.width,
-            projectConfig.height,
+            projectConfig.windowWidth,
+            projectConfig.windowHeight,
             P2D
         );
     }
@@ -68,21 +73,15 @@ void settings(){
     // projectConfig.save();
 }
 
-boolean canReset = false;
-
-void loadProjectPath(File _file){
-    projectConfig.load(_file.getAbsolutePath());
-    // save in case new project
-    // saveProject();
-    if(canReset) {
-        canReset = false;
-        reset();
-    }
-}
+// void loadProjectPath(String _folderName){
+//     projectConfig.load(_folderName);
+// }
 
 public void newWithDir(File selection){
     println("selected dir"+selection.getPath());
     projectConfig.newProject(selection.getPath());
+    String[] _dir = {projectConfig.fullPath};
+    saveStrings(dataPath("last_project_path"), _dir);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -102,7 +101,7 @@ void reset(){
     println("running reset with : "+projectConfig.fullPath);
     surface.setResizable(true);
     // maybe add fullscreen
-    surface.setSize(projectConfig.width, projectConfig.height);
+    surface.setSize(projectConfig.windowWidth, projectConfig.windowHeight);
     surface.setResizable(false);
     surface.setTitle("freeliner");
     frameRate(projectConfig.maxfps);
@@ -115,7 +114,6 @@ void reset(){
     doSplash = projectConfig.splash;
     splash();
     // removeBorder();
-    if(workingDirectory != null) println(" *** CUSTOM WORKING DIRECTORY :\n"+workingDirectory);
     documenter = new Documenter();
     strokeCap(projectConfig.STROKE_CAP);
     strokeJoin(projectConfig.STROKE_JOIN);
@@ -136,7 +134,6 @@ void reset(){
     // perhaps use -> PApplet.platform == MACOSX
 
     makeGammaTable();
-    // selectInput("working dir", "setWorkingDir");
 }
 
 // splash screen!
@@ -149,11 +146,6 @@ void splash(){
   textSize(24);
   fill(255);
   text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
-}
-
-String dataDirectory(String _thing) {
-    if(workingDirectory == null) return dataPath(_thing);
-    else return workingDirectory+"/"+_thing;
 }
 
 void makeGammaTable(){

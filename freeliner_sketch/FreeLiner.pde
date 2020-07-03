@@ -85,7 +85,7 @@ class FreeLiner  {
         // commandProcessor.queueCMD("colormap colorMap.png");
 
         // up commands
-        String _file = projectConfig.fullPath+"startup";
+        String _file = projectConfig.fullPath+"/startup";
         String[] _lines = loadStrings(_file);
         if(_lines!=null){
             println("Startup commands:");
@@ -113,9 +113,9 @@ class FreeLiner  {
      */
     public void update() {
         //autoSave();
-        if(projectConfig.makeNewProjectFlag) {
-            projectConfig.makeNewProjectFlag = false;
+        if(projectConfig.checkMakeNewProjectFlag()) {
             commandProcessor.queueCMD("fl new");
+            println("[config] caught make new project flag");
         }
         // windowFocus
         if(windowFocus != focused) {
