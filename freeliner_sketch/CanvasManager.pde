@@ -147,6 +147,7 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer mergeA mergeLayer");
 
         layerCreator("layer untraced renderLayer");
+        layerCreator("layer cust customDrawLayer");
         layerCreator("layer secondShader shaderLayer");
         layerCreator("layer mergeB mergeLayer");
 
@@ -251,6 +252,9 @@ class LayeredCanvasManager extends CanvasManager {
             break;
         case "associateLayer":
             _lyr = new AssociateLayer();
+            break;
+        case "customDrawLayer":
+            _lyr = new CustomDrawLayer();
             break;
         case "dualInputShader":
             _lyr = new DualInputShaderLayer(sync);

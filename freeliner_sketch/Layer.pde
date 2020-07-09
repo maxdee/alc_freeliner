@@ -1238,3 +1238,40 @@ class FixtureLayer extends Layer {
         }
     }
 }
+
+
+/**
+ * customDraw layer
+ */
+class CustomDrawLayer extends RenderLayer {
+    public CustomDrawLayer() {
+        super();
+        // commandList.add("layer name setTracers 30");
+        name = "customDrawLayer";
+        id = name;
+        description = "a layer with a callback to 'customDraw(PGraphics)' in 'freeliner_sketch.pde'";
+    }
+
+    /**
+     * Override parent's
+     */
+    public boolean parseCMD(String[] _args) {
+        // boolean _parsed = super.parseCMD(_args);
+        // if(_parsed) return true;
+        // else if(_args.length > 3) {
+        //     if(_args[2].equals("setTracers")) setTrails(stringInt(_args[3]), 255);
+        //     else return false;
+        // } else return false;
+        // return true;
+        return false;
+    }
+    /**
+     * Override parent's beginDrawing to draw a transparent background.
+     */
+    public void beginDrawing() {
+        if(canvas != null) {
+            canvas.beginDraw();
+            canvas = customDraw(canvas);
+        }
+    }
+}

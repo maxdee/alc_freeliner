@@ -203,3 +203,15 @@ void mouseMoved() {
 void mouseWheel(MouseEvent event) {
     freeliner.getMouse().wheeled(event.getCount());
 }
+
+////////////////////////////////////////////////////////////////////////////////////
+///////
+///////    Custom Draw (called by customDrawLayer)
+///////
+////////////////////////////////////////////////////////////////////////////////////
+
+PGraphics customDraw(PGraphics _input){
+    _input.clear();
+    _input.background(255,0,0);
+    return _input;
+}
