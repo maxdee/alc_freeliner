@@ -101,7 +101,8 @@ class FancyFixtures  {
     }
 
     public void parseGroups(XML _xml) {
-        XML[] groupData = _xml.getChildren("group");
+        XML geom = _xml.getChild("geometry");
+        XML[] groupData = geom.getChildren("group");
         for(XML xgroup : groupData) {
             XML[] xseg = xgroup.getChildren("segment");
             Segment _seg;
@@ -212,6 +213,7 @@ class FancyFixtures  {
     // in this case its /led START_ADR LED_COUNT
     void segmentStrip(XML _seg) {
         String[] cmd = split(_seg.getString("txt"), " ");
+        println(cmd);
         if(cmd[0].equals("/rgb") && cmd.length>1) {
             // println(cmd[1]);
             int addr = int(cmd[1]);

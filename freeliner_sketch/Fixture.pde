@@ -618,7 +618,7 @@ class NetoParFive extends Fixture {
 
 ///////////////////////////////////////////////////////////////////////////////////
 ///////
-///////     WS2812 8X32 zigzag
+///////     WS2812 zigzag
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -637,11 +637,11 @@ class ZigZagMatrix extends Fixture {
         address = _adr;
         matrixWidth = _width;
         matrixHeight = _height;
-        matrixSpacing = _spacing;
+        matrixSpacing = _spacing/_height;
         buffer = new byte[channelCount];
         position = new PVector(0,0);
         subFixtures = new ArrayList<Fixture>();
-
+        println("makeing matrix\naddr: "+address+" "+_width+" "+_height+" "+_spacing);
     }
 
     public void init(){
