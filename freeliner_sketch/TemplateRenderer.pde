@@ -143,7 +143,6 @@ class TemplateRenderer extends Mode{
         // check the enabler, it may modify the unitInterval
         if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
 
-
         // translate, beta...
         _pg.pushMatrix(); // new
         PVector _trans = _rt.getTranslation();
@@ -183,7 +182,6 @@ class TemplateRenderer extends Mode{
                 .doRender(_rt);
         }
         _pg.popMatrix();
-        // once rendered clear templates
   }
 
   //needs work

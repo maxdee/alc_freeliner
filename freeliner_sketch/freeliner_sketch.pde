@@ -100,6 +100,12 @@ void reset(){
     println("running reset with : "+projectConfig.fullPath);
     surface.setResizable(true);
     // maybe add fullscreen
+    if(projectConfig.fullscreen) {
+        println("fullllscreen");
+        projectConfig.windowWidth = displayWidth;
+        projectConfig.windowHeight = displayHeight;
+    }
+
     surface.setSize(projectConfig.windowWidth, projectConfig.windowHeight);
     surface.setResizable(false);
     surface.setTitle("freeliner");

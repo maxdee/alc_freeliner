@@ -313,7 +313,6 @@ class FreeLiner  {
         for(String _s : _reg) {
             _files.add(_s);
         }
-        println(_files);
         return _files;
     }
 
