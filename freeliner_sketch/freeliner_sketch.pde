@@ -25,7 +25,6 @@ import netP5.*;
 
 FreeLiner freeliner;
 
-
 final String VERSION = "0.4.8";
 boolean doSplash = true;
 boolean OSX = false;

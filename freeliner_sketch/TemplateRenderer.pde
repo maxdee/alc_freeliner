@@ -155,27 +155,32 @@ class TemplateRenderer extends Mode{
         _pg.translate(-width/2, -height/2);
 
         // get multiple unit intervals to use
-        float _eased = getEaser(_rt.getEasingMode()).ease(_rt.getUnitInterval(), _rt);
-        FloatList flts = getRepeater(_rt.getRepetitionMode()).getFloats(_rt, _eased);
-        float _rev = getReverser(_rt.getReverseMode()).getDirection(_rt);
+        float _eased = getEaser(_rt.getEasingMode())
+                           .ease(_rt.getUnitInterval(), _rt);
+        FloatList flts = getRepeater(_rt.getRepetitionMode())
+                            .getFloats(_rt, _eased);
+        boolean _rev = getReverser(_rt.getReverseMode())
+                            .getDirection(_rt);
         int repetitionCount = 0;
 
         for(float flt : flts){
-            if(_rev < 0){
-                _rt.setLerp(1.0-flt);
-                _rt.setDirection(true);
+            // _rt.setLerp(1.0-flt);
+            if(flt < 0.0) {
+                flt = abs(flt);
+                _rev = !_rev;
             }
-            else {
-                _rt.setLerp(flt);
-                _rt.setDirection(false);
-            }
+
+            _rt.setDirection(_rev);
+            _rt.setLerp(_rev ? (1.0-flt) : flt);
+
             // push the repetition count to template
             _rt.setRepetition(repetitionCount);
             repetitionCount++;
             // modify angle modifier
             tweakAngle(_rt);
             // pass template to renderer
-            getRenderer(_rt.getRenderMode()).doRender(_rt);
+            getRenderer(_rt.getRenderMode())
+                .doRender(_rt);
         }
         _pg.popMatrix();
         // once rendered clear templates

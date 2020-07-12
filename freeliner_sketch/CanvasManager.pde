@@ -147,7 +147,7 @@ class LayeredCanvasManager extends CanvasManager {
         layerCreator("layer mergeA mergeLayer");
 
         layerCreator("layer untraced renderLayer");
-        layerCreator("layer cust customDrawLayer");
+        // layerCreator("layer cust customDrawLayer");
         layerCreator("layer secondShader shaderLayer");
         layerCreator("layer mergeB mergeLayer");
 
