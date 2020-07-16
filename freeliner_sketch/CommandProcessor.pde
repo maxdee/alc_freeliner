@@ -139,7 +139,7 @@ class CommandProcessor  {
         // "fl directory",
         "fl new (path)",
         "fl save",
-        "fl open",
+        "fl open (file)",
         "fl quit",
         "fl random"
 
@@ -498,12 +498,12 @@ class CommandProcessor  {
     }
 
     public void openCMD(String[] _args) {
-        freeliner.loadBasics();
-        // processCMD("tp load");
-        // processCMD("geom load");
-        // processCMD("layer load");
-        // processCMD("fetch-ws layers");
-        // //
+        if(_args.length > 2) {
+            freeliner.loadFile(_args[2]);
+        }
+        else {
+            freeliner.loadBasics();
+        }
         valueGiven = "sure";
     }
     public void quitCMD() {
