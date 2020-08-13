@@ -405,7 +405,7 @@ class Keyboard  {
      */
     private void returnWord() {
         if(groupManager.getSnappedSegment() != null || groupManager.getSelectedGroup() != null){
-            makeCMD("geom text"+" "+wordMaker);
+            makeCMD("geom text "+wordMaker);
         }
         else {
             makeCMD(wordMaker);

@@ -87,7 +87,7 @@ class CommandProcessor  {
         "tools ruler (length)",
         "tools angle (angle)",
         ///////////////////  Geometry
-        "geom txt (2 3) bunch of words",
+        "geom text (2 3) bunch of words",
         "geom save (coolMap.xml)",
         "geom load (coolMap.xml)",
         // "geom toggle ABC (2 3 4)", // not implemented yet use tp toggle A 3
@@ -812,18 +812,20 @@ class CommandProcessor  {
         return true;
     }
 
-    // geom txt (2 3) ahah yes
-    // geom txt yes no
+    // geom text (2 3) ahah yes
+    // geom text yes no
     // #needstesting
     public boolean textCMD(String[] _args) {
-        // println(_args);
         if(_args.length == 3) groupManager.setText(_args[2]);
-        else if(_args.length == 4) groupManager.setText(_args[2]+" "+_args[3]);
+        // else if(_args.length == 4) groupManager.setText(_args[2]+" "+_args[3]);
         else if(_args.length > 3) {
             ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(_args[2]);
             int _seg = stringInt(_args[3]);
+            println(_groups+"  "+_seg);
+            boolean used = false;
             if(_groups != null) {
                 if(_groups.size() > 0) {
+                    used = true;
                     if(_seg != -42) {
                         groupManager.setText(_groups.get(0).getID(), _seg, remainingText(4, _args));
                     }
@@ -831,8 +833,11 @@ class CommandProcessor  {
                         groupManager.setText(_groups.get(0).getID(), remainingText(3, _args));
                     }
                 }
-            } else {
-                groupManager.setText(remainingText(2, _args));
+            }
+            if(!used) {
+                String txt = remainingText(2, _args);
+                println(txt);
+                groupManager.setText(txt);
             }
         } else return false;
         return true;
