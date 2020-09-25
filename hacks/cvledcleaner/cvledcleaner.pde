@@ -13,9 +13,13 @@ float minDistanceRatio = 2.0;
 float startStopMultiplier = 1.8;
 int lineCounter = 0;
 
+String sourceFileName = "p-ice_cloud_raw.xml";
+int LEDS_PER_STRIP = 550;
+
+
 void setup() {
   // set up window
-  size(800, 800);
+  size(1500, 768);
   background(0);
   stroke(255);
   doShabang();
@@ -70,8 +74,8 @@ void doShabang () {
   background(0);
   stroke(0, 255, 255);
   // read xml and write into arraylist
-  println("Loading XML...");
-  xml = loadXML("haha.xml");
+  println("Loading XML : "+sourceFileName);
+  xml = loadXML(sourceFileName);
   XML[] children = xml.getChildren("xyled");
   for (int i = 0; i < children.length; i++) {
     float x = children[i].getFloat("x");

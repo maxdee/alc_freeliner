@@ -296,7 +296,7 @@ class CommandProcessor  {
             int _v = stringInt(_args[2]);
             if(_v == -42) return false;
             int _ha = groupManager.setTestChannel(_v);
-            processCMD("layer fix testchan "+_ha+" 255");
+            processCMD("layer fix testchan "+_ha+" 50");
             valueGiven = str(_ha);
         } else return false;
         return true;

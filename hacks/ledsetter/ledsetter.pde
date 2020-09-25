@@ -10,14 +10,26 @@ NetAddress address;
 boolean redraw = true;
 
 String project_name = "maptest";
+// String sourceFileName = "p-ice_cloud_raw.xml";
+String sourceFileName = "haha.xml";
 
 LEDcloud cloud;
-
+int LED_PER_STRIP = 550;
+color[] stripColors = {
+    color(255,0,0),
+    color(255,0,255),
+    color(0,0,255),
+    color(0,255,255),
+    color(0,255,0),
+    color(255,255,255),
+    color(0,0,0),
+    color(255,255,0)
+};
 void setup(){
-    size(720, 480, P2D);
+    size(1500, 720, P2D);
     background(0);
     frameRate(20);
-
+hint(ENABLE_KEY_REPEAT);
     oscP5 = new OscP5(this,6670);
     address = new NetAddress("127.0.0.1", 6667);
     // selectInput("Select a file to process:", "fileDialogCallback");
@@ -25,7 +37,7 @@ void setup(){
     // doThing(loadFile("harhar_mess.xml"));
     // doThing(loadFile("space_pubes_raw.xml"));
     // cloud = new LEDcloud(loadFile("space_pubes_raw_thursday.xml"));
-    cloud = new LEDcloud(loadFile("haha.xml"));
+    cloud = new LEDcloud(loadFile(sourceFileName));
     cloud.findMedian();
     cloud.fixOutliers(1.5, 2.2);
     // cloud.makeSegments();/
@@ -119,7 +131,9 @@ void draw(){
     //
     background(40);
     cloud.display();
-
+    fill(255);
+    String t = "inpsector : "+inspectorIndex;
+    text(t,10,10);
 
     // cloud.applyMatrix();
     // translate(0, width/2);
@@ -151,29 +165,118 @@ void closeCluster(){
     clusterIndex++;
     clusterNext();
 }
+int inspectorIndex = 0;
 void keyPressed(){
-    if(key == '-') clusterPrevious();
-    if(key == '=') clusterNext();
-    if(key == ' ') closeCluster();
+    // if(key == '-') clusterPrevious();
+    // if(key == '=') clusterNext();
+    // if(key == ' ') closeCluster();
+    if(key == '=') inspectorIndex+=3;
+    if(key == '-') inspectorIndex-=3;
+    if(key == '0') inspectorIndex+=30;
+    if(key == '9') inspectorIndex-=30;
+
+    if(inspectorIndex<0)inspectorIndex = 0;
+
     else if(key == 27){
         stop();
     }
 }
 void stop() {
     println("saving and quitting");
-    XML fixtures = new XML("fixture");
-    for(LED led : cloud.leds) {
-        XML xyled = new XML("xyled");
-        xyled.setFloat("a", led.address);
-        xyled.setFloat("x", led.pos.x);
-        xyled.setFloat("y", led.pos.y);
-        xyled.setFloat("c", led.clusterIndex);
-        fixtures.addChild(xyled);
-        // point(_x, _y);
-    }
-    saveXML(fixtures, "clustered.xml");
-    saveGroups(cloud.segments);
+    saveShadelLEDFile();
+    // XML fixtures = new XML("fixture");
+    // for(LED led : cloud.leds) {
+    //     XML xyled = new XML("xyled");
+    //     xyled.setFloat("a", led.address);
+    //     xyled.setFloat("x", led.pos.x);
+    //     xyled.setFloat("y", led.pos.y);
+    //     xyled.setFloat("c", led.clusterIndex);
+    //     fixtures.addChild(xyled);
+    //     // point(_x, _y);
+    // }
+    // saveXML(fixtures, "fixed.xml");
+    // saveGroups(cloud.segments);
     // saveXML(fixtures, "hihi.xml");
+}
+
+void saveShadelLEDFile(){
+    // do normalise
+    float maxX = 0;
+    float minX = 10000000.0;
+    float maxY = 0;
+    float minY = 10000000.0;
+    for(LED led : cloud.leds) {
+        if(led.pos.y < minY) minY = led.pos.y;
+        if(led.pos.x < minX) minX = led.pos.x;
+
+        if(led.pos.y > maxY) maxY = led.pos.y;
+        if(led.pos.x > maxX) maxX = led.pos.x;
+    }
+    PVector lowest = new PVector(minX, minY);
+    // PVector highest = new PVector(maxX, maxY);
+    maxX-=minX;
+    maxY-=minY;
+    float saclar = (maxX>maxY) ? maxX:maxY;
+
+    PVector center = new PVector(0.5,0.5);
+    for(LED led : cloud.leds) {
+        led.pos.sub(lowest);
+        led.pos.div(saclar);
+        led.pos.sub(center);
+        led.pos.mult(2.0);
+    }
+
+
+    ArrayList<String> strs = new ArrayList<String>();
+    if(false) {
+        strs.add("static Pixel pixelBuffer["+cloud.leds.size()+"] = {");
+        for(LED led : cloud.leds) {
+            // if(led.address < 2){
+            //     // dont add
+            // }
+            // else {
+            XML xyled = new XML("xyled");
+            String e = "{";
+            e+= "CRGB::Black, ";
+            e+= led.address/3;//(led.address/3) - 1; // off by one correction
+            e+=", {";
+            e+= led.pos.x;
+            e+=", ";
+            e+= led.pos.y;
+            e+="}},";
+            println(e);
+            strs.add(e);
+            // }
+        }
+        strs.add("};");
+    }
+    else {
+        strs.add("static MappedLED ledMapping["+cloud.leds.size()+"] = {");
+        for(LED led : cloud.leds) {
+            // if(led.address < 2){
+            //     // dont add
+            // }
+            // else {
+            XML xyled = new XML("xyled");
+            String e = "{";
+            e+= led.address/3;//(led.address/3) - 1; // off by one correction
+            e+=", ";
+            e+= led.pos.x;
+            e+=", ";
+            e+= led.pos.y;
+            e+="},";
+            println(e);
+            strs.add(e);
+            // }
+        }
+        strs.add("};");
+    }
+
+    String[] arr = new String[strs.size()];
+    for(int i = 0; i < strs.size(); i++){
+        arr[i] = strs.get(i);
+    }
+    saveStrings("shadelMap.txt", arr);
 }
 
 void mousePressed(){
@@ -185,15 +288,16 @@ void mouseDragged(){
     PVector _c = new PVector(mouseX, mouseY);
     cloud.drag(_c);
 }
-
-void drawLEDs(ArrayList<LED> _leds) {
-    strokeWeight(1);
-    stroke(200,10,0);
-    noFill();
-    for(LED led : _leds){
-        ellipse(led.pos.x, led.pos.y, 5, 5);
-    }
-}
+//
+// void drawLEDs(ArrayList<LED> _leds) {
+//     strokeWeight(2);
+//     noFill();
+//     for(LED led : _leds){
+//         int stripNum = led.address/LED_PER_STRIP;
+//         stroke(stripColors[stripNum]);
+//         ellipse(led.pos.x, led.pos.y, 5, 5);
+//     }
+// }
 
 void drawSegments(ArrayList<Segment> _segs) {
     stroke(255,100);
@@ -205,6 +309,7 @@ void drawSegments(ArrayList<Segment> _segs) {
 
 
 public void saveGroups(ArrayList<Segment> _segs) {
+    if(_segs == null) return;
     XML groupData = new XML("groups");
     groupData.setInt("width", width);
     groupData.setInt("height", height);
@@ -254,10 +359,14 @@ class LED extends Handle{
         return pos.dist(_other.pos);
     }
     public void display(){
-        stroke(col);
+        // stroke(col);
         strokeWeight(1);
+        selected = address == inspectorIndex;
         if(selected) fill(0,255,0);
         else noFill();
+
+        int stripNum = address/(LED_PER_STRIP*3);
+        stroke(stripColors[stripNum]);
         ellipse(pos.x, pos.y, size, size);
     }
 }

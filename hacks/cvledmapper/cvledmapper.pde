@@ -14,14 +14,14 @@ Capture video;
 int ledCount = 0;
 byte buffer[];
 PImage diff;
-int contrast = 0;
-int brightness = 0;
+int contrast = -20;
+int brightness = -100;
 int selectedLED = 0;
-int blur_amount = 5;
+int blur_amount = 4;
 XML fixtures;
 
 int index = 0;
-int LED_PER_STRIP = 300;
+int LED_PER_STRIP = 550;
 int END_INDEX = LED_PER_STRIP*8;
 ArrayList<PVector> list;
 PVector position;
@@ -30,10 +30,12 @@ boolean go = false;
 
 void setup(){
 
-    size(640,480,P2D);
-    video = new Capture(this, 640, 480, "/dev/video0");
+    // size(640,480,P2D);
+    size(1280,720,P2D);
+
+    video = new Capture(this, width, height, "/dev/video2");
     video.start();
-    opencv = new OpenCV(this, 640, 480);
+    opencv = new OpenCV(this, width, height);
     // opencv.useColor();
 
     oscP5 = new OscP5(this,6670);
@@ -56,11 +58,12 @@ void stop() {
 void draw(){
     background(0);
     basicProcess();
-    int modu = 10;
+    int modu = 15;
 
+
+    position = opencv.max();
 
     if(go) {
-        position = opencv.max();
         if(frameCount % modu == modu-1){
             if(index < END_INDEX){
                 addLEDtoXML((int) position.x, (int)position.y, index);
@@ -80,7 +83,7 @@ void draw(){
     }
 
     blendMode(SCREEN);
-    image(opencv.getOutput(), 0,0,640,480);
+    image(opencv.getOutput(), 0,0,width,height);
 
     noFill();
     blendMode(INVERT);
@@ -101,7 +104,7 @@ void basicProcess(){
     opencv.blur(blur_amount);
     // opencv.adaptiveThreshold(591, 1);
     // opencv.setGray(opencv.getB());
-    // opencv.brightness(brightness);
+    opencv.brightness(brightness);
     // opencv.contrast(contrast);
 }
 /**
@@ -155,7 +158,6 @@ void keyPressed(){
 void setChannel(int _c, int _v) {
     OscMessage myMessage = new OscMessage("/fixtures/setchan/"+_c+"/"+_v);
     send(myMessage);
-
 }
 void setChan(int _i){
     OscMessage myMessage = new OscMessage("/fixtures/testchan/"+_i);

@@ -671,7 +671,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         uniforms = new float[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         dampFloats = new DampFloat[UNIFORM_FLOAT_COUNT];
         for(int i = 0; i < UNIFORM_FLOAT_COUNT; i++) {
-            dampFloats[i] = new DampFloat(0.0, 10);
+            dampFloats[i] = new DampFloat(0.0, 30);
         }
     }
 

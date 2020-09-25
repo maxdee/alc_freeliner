@@ -9,6 +9,11 @@ class LEDcloud {
 
     public LEDcloud(ArrayList<LED> _leds) {
         leds = _leds;
+        for(int i = 1; i < leds.size(); i++){
+            _leds.get(i).address -= 3;
+            // if(_leds.get(i).address > 550*3) {
+            // }
+        }
         box = new BoundingBox(this);
         clusterIndex = 0;
     }
