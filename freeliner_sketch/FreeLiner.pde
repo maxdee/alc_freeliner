@@ -135,6 +135,7 @@ class FreeLiner  {
         _toRender.addAll(templateManager.getEvents());
 
         canvasManager.render(_toRender);
+        groupManager.updateLinkedSvgs();
     }
 
     // its a dummy for FreelinerLED

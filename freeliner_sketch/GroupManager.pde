@@ -39,6 +39,8 @@ class GroupManager {
     int ledStart = 0;
     SegmentGroup referenceGroup;
     CommandProcessor commandProcessor;
+    ArrayList<LinkedSvgFile> linkedSvgFiles;
+
     /**
      * Constructor, inits default values
      */
@@ -47,6 +49,7 @@ class GroupManager {
         sortedGroups = new ArrayList();
         groupHashMap = new HashMap<String, SegmentGroup>();
         snappedList = new ArrayList();
+        linkedSvgFiles = new ArrayList<LinkedSvgFile>();
         groupCount = 0;
         selectedIndex = -1;
         lastSelectedIndex = -1;
@@ -650,7 +653,6 @@ class GroupManager {
 ///////////////////////////////////////////////////////////////////////////////
 
 
-
     public void loadGeometry() {
         loadGeometry("geometry.xml");
     }
@@ -658,7 +660,7 @@ class GroupManager {
     public void loadGeometry(String _file) {
         String[] _fn = split(_file, '.');
         if(_fn.length < 2) println("I dont know what kind of file this is : "+_file);
-        else if(_fn[1].equals("svg")) loadGeometrySVG(_file);
+        else if(_fn[1].equals("svg")) loadGeometrySVG(_file, new ArrayList<SegmentGroup>());
         // else if(_fn[1].equals("xml")) loadGeometryXML(_file);
     }
 
@@ -757,17 +759,45 @@ class GroupManager {
 
 
 //////////////////////////////////////////////////////////////////////////////////////////
+    public void linkSvgFile(String _fn){
+        boolean found = false;
+        for(LinkedSvgFile lf : linkedSvgFiles){
+            if(_fn.equals(lf.fileName)){
+                found = true;
+            }
+        }
+        if(!found){
+            linkedSvgFiles.add(new LinkedSvgFile(_fn));
+        }
+    }
+    public void updateLinkedSvgs(){
+        for(LinkedSvgFile _ln : linkedSvgFiles){
+            updateLinkedFile(_ln);
+        }
+    }
 
+    public void updateLinkedFile(LinkedSvgFile _lf){
+        if(_lf.checkForUpdate()){
+            loadGeometrySVG(_lf.fileName, _lf.groups);
+        }
+    }
 
     ///////////////////////// SVG
+    ArrayList<SegmentGroup> currentSvgGroupList;
 
-    public void loadGeometrySVG(String _fn) {
+    public void loadGeometrySVG(String _fn, ArrayList<SegmentGroup> _groupList) {
         PShape _shp;
+        currentSvgGroupList = _groupList;
+        for(SegmentGroup _sg : currentSvgGroupList){
+            _sg.segments.clear();
+            _sg.segCount = 0;
+            _sg.updateGeometry();
+        }
         try {
-            _shp = loadShape(projectConfig.fullPath+"/"+_fn);
+            _shp = loadShape(projectConfig.fullPath+"/svg/"+_fn);
         } catch (Exception e) {
             println(_fn+" cant be loaded");
-            println(projectConfig.fullPath+"/"+_fn);
+            println(projectConfig.fullPath+"/svg/"+_fn);
             return;
         }
         // PVector _offset = getInkscapeTransform(sketchPath()+"/data/userdata/"+_fn);
@@ -778,12 +808,11 @@ class GroupManager {
     }
 
     // recursively add children
-    int haha = 0;
     void addSvgShapes(PShape _shp, PVector _offset) {
         for(PShape _child : _shp.getChildren()) {
             if(_child.getVertexCount() != 0)
                 if(_child.getFamily() == PShape.PATH)
-                    if(_child.getKind() == 0)// && (haha++)%8 == 1)
+                    if(_child.getKind() == 0)
                         shapeToGroup(_child, _offset);
 
             if(_child.getChildCount() != 0) addSvgShapes(_child, _offset);
@@ -791,29 +820,33 @@ class GroupManager {
     }
 
     void shapeToGroup(PShape _shp, PVector _offset) {
-        newGroup();
-        println("------------addingShape with "+_shp.getVertexCount()+" vertices------------");
+        SegmentGroup _new = null;
+        for(SegmentGroup _sg : currentSvgGroupList){
+            if(_sg.segments.size() == 0){
+                _new = _sg;
+            }
+        }
+        if(_new == null) {
+            newGroup();
+            _new = groups.get(groups.size()-1);
+            currentSvgGroupList.add(_new);
+            if(currentSvgGroupList.size() > 1){
+                _new.templateList.copy(currentSvgGroupList.get(0).templateList);
+            }
+        }
         Segment _seg;
         ArrayList<PVector> _vertices = new ArrayList();
         PVector posA = new PVector(0,0);
         PVector posB = new PVector(0,0);
 
-
-//int[] getVertexCodes()[]
         for(int i = 0; i < _shp.getVertexCount()-1; i++) {
-            // if(_shp.getVertexCodes()[i] == BREAK){
-            //     println("BREAK");
-            // }
-            // else{
-                posA = _shp.getVertex(i).get();
-                posB = _shp.getVertex(i+1).get();
-                posA.add(_offset);
-                posB.add(_offset);
-                _vertices.add(posA);
-                _seg = new Segment(posA.get(), posB.get());
-                getSelectedGroup().addSegment(_seg);
-                print(posA.x+","+posA.y+" to "+posB.x+","+posB.y);
-            // }
+            posA = _shp.getVertex(i).get();
+            posB = _shp.getVertex(i+1).get();
+            posA.add(_offset);
+            posB.add(_offset);
+            _vertices.add(posA);
+            _seg = new Segment(posA.get(), posB.get());
+            _new.addSegment(_seg);
         }
         _vertices.add(posB);
 
@@ -822,14 +855,14 @@ class GroupManager {
             posB = _shp.getVertex(0).get();
             posB.add(_offset);
             _seg = new Segment(posA.get(), posB.get());
-            getSelectedGroup().addSegment(_seg);
-            // getSelectedGroup().placeCenter(posB);
+            _new.addSegment(_seg);
         }
         //place center
-        getSelectedGroup().placeCenter(shapeCenter(_vertices));
-        if(!_shp.isClosed()) getSelectedGroup().unCenter();
-        getSelectedGroup().getTemplateList().toggle(templateManager.getTemplate('Z'));
-        println();
+        _new.placeCenter(shapeCenter(_vertices));
+        if(!_shp.isClosed()) _new.unCenter();
+        if(_new.getTemplateList().templates.size() == 0) {
+            _new.getTemplateList().toggle(templateManager.getTemplate('Z'));
+        }
     }
 
     PVector shapeCenter(ArrayList<PVector> _vertices) {
@@ -1092,5 +1125,30 @@ class GroupManager {
 
     public ArrayList<Segment> getCommandSegments() {
         return commandSegments;
+    }
+}
+
+
+class LinkedSvgFile {
+    long timeStamp;
+
+    String fileName;
+    ArrayList<SegmentGroup> groups;
+
+    public LinkedSvgFile(String _fn){
+        fileName = _fn;
+        groups = new ArrayList<SegmentGroup>();
+    }
+
+    public boolean checkForUpdate() {
+        try {
+            File _file = new File(projectConfig.fullPath+"/svg/"+fileName);
+            if(timeStamp != _file.lastModified()) {
+                return true;
+            }
+        } catch(Exception _e) {
+            println("Could not find file "+fileName);
+        }
+        return false;
     }
 }

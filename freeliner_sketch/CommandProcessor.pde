@@ -90,6 +90,8 @@ class CommandProcessor  {
         "geom text (2 3) bunch of words",
         "geom save (coolMap.xml)",
         "geom load (coolMap.xml)",
+        "geom link plainsvgfile.svg",
+
         // "geom toggle ABC (2 3 4)", // not implemented yet use tp toggle A 3
         "geom webref",
         "geom new",
@@ -330,6 +332,8 @@ class CommandProcessor  {
 
 
     public boolean picturePalletteCMD(String[] _args){
+        looper.receive(join(_args, " "));
+
         if(_args.length < 2) return false;
         int _v = stringInt(_args[1]);
         if(_v == -42) {
@@ -369,6 +373,8 @@ class CommandProcessor  {
 
 
     public boolean colorsCMD(String[] _args){
+        looper.receive(join(_args, " "));
+
         // "colors set 1 (#ff0000, R G B)",
         if(_args.length < 4) return false;
         else if(_args[1].equals("set")){
@@ -703,6 +709,9 @@ class CommandProcessor  {
         else if(_args[1].equals("updatemap")) canvasManager.passOutputMappingGeometry(groupManager.getOutputMappingGroup());
         else if(_args[1].equals("clone")) geomCloneCMD(_args);
         else if(_args[1].equals("cloneseg")) geomCloneSegmentCMD(_args);
+
+        else if(_args[1].equals("link") && _args.length>2) groupManager.linkSvgFile(_args[2]);
+
 
 
         else return false;
@@ -1096,6 +1105,8 @@ class CommandProcessor  {
 
     // tp stroke DA (byte R G B | float R G B | #ffffff)
     public void strokeColorCMD(String[] _args) {
+        looper.receive(join(_args, " "));
+
         if(_args.length < 4) return;
         if(_args.length < 5) {
             String _hex = _args[3];
@@ -1110,6 +1121,8 @@ class CommandProcessor  {
     }
 
     public void fillColorCMD(String[] _args) {
+        looper.receive(join(_args, " "));
+
         if(_args.length < 5) {
             String _hex = _args[3];
             int _v = unhex(_hex.replaceAll("#","FF").toUpperCase());
