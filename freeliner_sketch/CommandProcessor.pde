@@ -898,7 +898,11 @@ class CommandProcessor  {
             valueGiven = looper.setTimeDivider(_v, keyMap.getMax('z'));
             return true;
         }
-        return false;
+        else {
+            valueGiven = looper.setTimeDivider(-1, 0);
+            return true;
+        }
+        // return false;
     }
 
 

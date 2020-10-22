@@ -1128,7 +1128,7 @@ class GroupManager {
     }
 }
 
-
+// used to watch and mannage a SVG file
 class LinkedSvgFile {
     long timeStamp;
 
