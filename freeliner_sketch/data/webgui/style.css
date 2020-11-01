@@ -73,14 +73,15 @@ input[type=checkbox] {
 }
 
 .layerwidget:hover {
-  background-color: #642758;
+  border: 1px solid grey;
 }
 
 .selectedLayerWidget {
   margin: 4px;
   min-height: 24px;
+  border: 2px solid white;
   /*background-color: #1D1D1D;*/
-  background-color: #381973;
+  background-color: #381932;
   color: #FFFFFF;
   font-size: 10pt;
   padding: 2px;
@@ -91,7 +92,7 @@ input[type=checkbox] {
   overflow: auto;
 }
 .selectedLayerWidget:hover {
-  background-color: #642758;
+  /* background-color: #642758; */
 }
 
 .selecta {

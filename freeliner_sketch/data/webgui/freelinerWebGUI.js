@@ -385,9 +385,16 @@ function makeLayerDiv(_params) {
     _layerDiv.innerHTML = _params[0];
     if(_params[1] == "mergeLayer") {
         _layerDiv.innerHTML = "+++ "+_params[0]+" +++";
-        _layerDiv.style.backgroundColor = "#800067";
+        _layerDiv.style.backgroundColor = "#1B132C";
     }
-
+    else if(_params[1] == "shaderLayer") {
+        // _layerDiv.innerHTML = "+++ "+_params[0]+" +++";
+        _layerDiv.style.backgroundColor = "#290A6C";
+    }
+    else if(_params[1] == "renderLayer" || _params[1] == "tracerLayer") {
+        // _layerDiv.innerHTML = "+++ "+_params[0]+" +++";
+        _layerDiv.style.backgroundColor = "#39148B";
+    }
     // enable checkbox
     _layerDiv.appendChild(layerEnableCheckBox(_params));
     _layerDiv.appendChild(layerDeleteButton(_params));
