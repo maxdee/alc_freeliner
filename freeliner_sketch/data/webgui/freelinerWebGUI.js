@@ -486,7 +486,6 @@ function popupCallbacks() {
     _element = document.getElementById("saveConfig");
     if(_element) _element.onclick = function () {
         var _width, _height, _fullscreen, _display, _pipeline;
-
         _width = document.getElementById("configWidth").value;
         _height = document.getElementById("configHeight").value;
         if(_width > 10) sendCMD("config width "+_width);
@@ -496,17 +495,19 @@ function popupCallbacks() {
         if(document.getElementById("fullscreenCheckBox").checked) _fullscreen = 1;
         sendCMD("config fullscreen "+ _fullscreen);
 
-        _pipeline = 0;
-        if(document.getElementById("pipelineCheckBox").checked) _pipeline = 1;
+        _pipeline = 1;
+        if(document.getElementById("pipelineCheckBox").checked) _pipeline = 0;
         sendCMD("config pipeline "+ _pipeline);
 
         _display = 1;
-        if(document.getElementById("displaySpan").checked) _display = 0;
-        else if(document.getElementById("displayOne").checked) _display = 1;
-        else if(document.getElementById("displayTwo").checked) _display = 2;
+        if(document.getElementById("fullscreenType").value == "displaySpan") _display = 0;
+        else if(document.getElementById("fullscreenType").value == "displayOne") _display = 1;
+        else if(document.getElementById("fullscreenType").value == "displayTwo") _display = 2;
         sendCMD("config display "+ _display);
         document.getElementById("configPopup").style.display = 'none';
+        sendCMD("fl save");
         alert("restart freeliner!");
+
     }
     _element = document.getElementById("cancelConfig");
     if(_element) _element.onclick = function () {

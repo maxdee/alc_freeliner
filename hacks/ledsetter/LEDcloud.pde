@@ -63,7 +63,7 @@ class LEDcloud {
         noFill();
         for(LED led : leds){
             led.display();
-            ellipse(led.pos.x, led.pos.y, 5, 5);
+            // ellipse(led.pos.x, led.pos.y, 5, 5);
             // if(led.address %2==0){
             //     text( led.clusterIndex, led.pos.x+2, led.pos.y);
             // }

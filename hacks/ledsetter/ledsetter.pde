@@ -367,7 +367,12 @@ class LED extends Handle{
 
         int stripNum = address/(LED_PER_STRIP*3);
         stroke(stripColors[stripNum]);
-        ellipse(pos.x, pos.y, size, size);
+        noFill();
+        // ellipse(pos.x, pos.y, size, size);
+        pushStyle();
+        fill(255);
+        text(stripNum, pos.x,pos.y);
+        popStyle();
     }
 }
 
