@@ -48,7 +48,7 @@ void settings(){
     if(lastProjectPath != null){
         if(lastProjectPath.length > 0){
             projectConfig.load(lastProjectPath[0]);
-            createNewProject = true;
+            createNewProject = false;
         }
     }
 

@@ -80,12 +80,6 @@ class Template {
 		templateID = _id;
 		reset();
 	}
-	//
-	// public Template(Template _source){
-	// 	templateID = 'z';
-	// 	reset();
-	// 	copy(_source);
-	// }
 
 	/**
 	 * Copy a Template
@@ -229,14 +223,10 @@ class Template {
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
 
-	// public boolean equals(Object _obj){
-	// 	println(templateID+" "+((Template)_obj).getTemplateID());
-	// 	return (templateID == ((Template)_obj).getTemplateID());
-	// }
 
-  public PShape getCustomShape(){
-    return customShape;
-  }
+	public PShape getCustomShape(){
+		return customShape;
+	}
 
 	public final char getTemplateID(){
 		return templateID;

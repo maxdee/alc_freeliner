@@ -490,11 +490,6 @@ class Gui  {
      * This is helpfull to have a reference as to what is what when rocking out.
      * Gets called everytime a new group is create.
      */
-    // disable cause too slooooow?
-    private void updateReference() {
-        updateReference(sketchPath()+"/data/userdata/reference.jpg");
-    }
-
     private void updateReference(String _file) {
         boolean tgs = viewTags;
         boolean lns = viewLines;

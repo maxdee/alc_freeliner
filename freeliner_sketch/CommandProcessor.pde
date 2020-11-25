@@ -44,10 +44,6 @@ class CommandProcessor  {
         "tp save (cooleffects.xml)",
         "tp load (coolstuff.xml)",
         "tp free",
-        // template teams
-        "tp save AB fun_effect",
-        "tp load fun_effect CD",
-        // "tp bank "
         "tp swap AB",
         "tp select AB*",
         "tp toggle A 3 4 5",
@@ -209,18 +205,12 @@ class CommandProcessor  {
             processCMD(_cmd);
             commandQueue.remove(_cmd);
         }
-        // commandQueue.clear();
-        //gui.setValueGiven(getValueGiven());
     }
 
     /**
      * First level of command parsing, redistributes according to first argument of command.
      * @param String command
      */
-    // public void processCMD(String _cmd){
-    //
-    // }
-
     public void processCMD(String _cmd) {
         if(_cmd == null) return;
         if(_cmd.contains(",")) {
@@ -231,9 +221,7 @@ class CommandProcessor  {
             return;
         }
         valueGiven = "_";
-
         String[] _args = split(_cmd, ' ');
-        // println(_args);
         boolean _used = false;
         if(_args.length == 0) return;
         // first the ones that get filtered out of the looper
@@ -263,7 +251,6 @@ class CommandProcessor  {
         else if(_args[0].equals("colors")) _used = colorsCMD(_args);
         else if(_args[0].equals("info")) _used = extraInfoCMD(_args);
 
-        // else if(_args[0].equals("fixture")) _used = fixtureCMD(_args);
         if(!_used) println("CMD fail : "+join(_args, ' '));
 
     }
@@ -273,16 +260,6 @@ class CommandProcessor  {
         // add to stack
         processCMD(_cmd);
     }
-
-    public boolean setOsc(String[] _args) {
-        if(_args.length < 3) return false;
-        int _port = stringInt(_args[2]);
-        if(_port > 1)
-            oscComs.setSyncAddress(_args[1], _port);
-        else return false;
-        return true;
-    }
-
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
@@ -321,10 +298,10 @@ class CommandProcessor  {
                 _map = loadImage("userdata/images/"+_args[1]);
                 templateRenderer.setColorMap(_map);
                 gui.setColorMap(_map);
-                println("loaded colormap "+_args[1]);
+                println("[meta] loaded colormap "+_args[1]);
                 return true;
             } catch(Exception e) {
-                println("Error : could not load colormap "+_args[1]);
+                println("[meta] Error : could not load colormap "+_args[1]);
             }
         }
         return false;
@@ -362,10 +339,10 @@ class CommandProcessor  {
                 }
                 userPallet = _pal;
                 for(color c : userPallet) print(c+", ");
-                println("  loaded pallette "+_args[1]+" "+userPallet);
+                println("[color] loaded pallette "+_args[1]+" "+userPallet);
                 return true;
             } catch(Exception e) {
-                println("Error : could not load colormap "+_args[1]);
+                println("[color] Error : could not load colormap "+_args[1]);
             }
         }
         return false;
@@ -443,12 +420,21 @@ class CommandProcessor  {
         return true;
     }
 
+    public boolean setOsc(String[] _args) {
+        if(_args.length < 3) return false;
+        int _port = stringInt(_args[2]);
+        if(_port > 1)
+            oscComs.setSyncAddress(_args[1], _port);
+        else return false;
+        return true;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
     ///////     layer
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
+
     public boolean layerCMD(String[] _args) {
         if(_args.length > 3) {
             if(_args[2].equals("uniforms")) {
@@ -482,7 +468,6 @@ class CommandProcessor  {
     }
 
     public void newCMD(String[] _args){
-        println(_args);
         if(_args.length == 2) {
             selectFolder("[project] pick directory for new project", "newWithDir");
         }
@@ -495,7 +480,7 @@ class CommandProcessor  {
 
     public void saveCMD(String[] _args) {
         freeliner.saveProject();
-        gui.updateReference();
+        gui.updateReference(projectConfig.fullPath+"/reference.jpeg");
         valueGiven = "sure";
     }
 
@@ -510,7 +495,7 @@ class CommandProcessor  {
     }
     public void quitCMD() {
         // do a backup save?
-        println("Freeliner quit via ctrl-Q, goodbye!");
+        println("Freeliner closing, goodbye!");
         exit();
     }
     ////////////////////////////////////////////////////////////////////////////////////
@@ -524,10 +509,8 @@ class CommandProcessor  {
         if(_args[1].equals("infoline")) infoLineCMD(_args);
         else if(_args[1].equals("template")) templateStatCMD(_args);
         else if(_args[1].equals("tpcmd")) tpcmdCMD(_args);
-
         else if(_args[1].equals("tracker")) trackerCMD(_args);
         else if(_args[1].equals("seq")) seqStatCMD(_args);
-        // else if(_args[1].equals("files")) fileListCMD(_args);
         else if(_args[1].equals("layers")) layerInfoCMD(_args);
 
         else return false;
@@ -578,11 +561,6 @@ class CommandProcessor  {
         String _stps = templateManager.getSequencer().getStatusString();
         fetchSend(_args, "seq "+_stps);
     }
-
-    // void fileListCMD(String[] _args){
-    //   String _files = freeliner.getFileNames();
-    //   fetchSend(_args, "files "+_files);
-    // }
 
     void layerInfoCMD(String[] _args) {
         String _info = canvasManager.getLayerInfo();
@@ -728,26 +706,20 @@ class CommandProcessor  {
 
 
     public void geomCloneCMD(String[] _args){
-        println("clone?");
         if(_args.length > 3){
             ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs( _args);
             ArrayList<TweakableTemplate> tps = templateManager.getTemplates(_args[3]);
-            println("cloning?");
             if(_groups.size() > 0 && tps.size() > 0) {
-                println("clonging!");
                 groupManager.cloneGeometries(tps.get(0), _groups.get(0));
             }
         }
     }
 
     public void geomCloneSegmentCMD(String[] _args){
-        println("clone?");
         if(_args.length > 3){
             ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs( _args);
             ArrayList<TweakableTemplate> tps = templateManager.getTemplates(_args[3]);
-            println("cloningSegments?");
             if(_groups.size() > 0 && tps.size() > 0) {
-                println("clongingSegments!");
                 groupManager.cloneSegments(tps.get(0), _groups.get(0));
             }
         }
@@ -1203,17 +1175,13 @@ class CommandProcessor  {
      * @return boolean was used
      */
     public void tweakTemplates(String[] _args) {
-        // println(_args);
         if(_args.length < 4) return;
-        //if(_args[3] == "-3") return;
         ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
         if(_tmps == null) return;
         if(_args[2].length() == 0) return;
         char _k = _args[2].charAt(0);
         int _v = stringInt(_args[3]);
-        // println(_v);
         for(TweakableTemplate _tp : _tmps) templateDispatch(_tp, _k, _v);
-
     }
 
     /**
@@ -1224,7 +1192,6 @@ class CommandProcessor  {
      * @return boolean value used
      */
     public void templateDispatch(TweakableTemplate _template, char _k, int _n) {
-        //println(_template.getID()+" "+_k+" ("+int(_k)+") "+n);
         if(_template == null) return;
         // mod commands
         else if (_k == 'a') valueGiven = str(_template.setAnimationMode(_n, keyMap.getMax('a')));
@@ -1262,42 +1229,5 @@ class CommandProcessor  {
 
     public String getValueGiven() {
         return valueGiven;
-    }
-}
-
-
-// idea for a command class
-//
-class Cmd  {
-    String[] args;
-    //
-    public Cmd(String[] _args) {
-        args = _args;
-    }
-
-    public Cmd(String _cmd) {
-        args = split(_cmd, ' ');
-    }
-
-    public void append(String _arg) {
-        //
-    }
-
-    public int getInt(int _i) {
-        return 0;
-    }
-    public float gettFloat(float _flt) {
-        return 0.0;
-    }
-
-    public int length() {
-        return args.length;
-    }
-
-    // is index equal to string
-    public boolean is(int _i, String _s) {
-        if(_i < args.length) {
-            return args[_i].equals(_s);
-        } else return false;
     }
 }
