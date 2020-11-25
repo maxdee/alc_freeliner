@@ -53,7 +53,7 @@ class Sequencer {
   /**
    * Toggle template for selectedlist
    */
-  public void toggle(TweakableTemplate _tw){
+  public void toggle(Template _tw){
     selectedList.toggle(_tw);
   }
 
@@ -74,9 +74,9 @@ class Sequencer {
 
   /**
    * Clear a specific Template
-   * @param TweakableTemplate template to clear
+   * @param Template template to clear
    */
-  public void clear(TweakableTemplate _tw){
+  public void clear(Template _tw){
     for(TemplateList _tl : lists) _tl.remove(_tw);
   }
 

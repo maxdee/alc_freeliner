@@ -33,7 +33,7 @@ It is made with Processing. It is licensed as GNU Lesser General Public License.
 
 Using a computer mouse cursor the user can create geometric forms composed of line segments. These can be created in groups, also known as segmentGroup. To facilitate this task the software has features such as centering, snapping, nudging, fixed length segments, fixed angles, grids, and mouse sensitivity adjustment.
 
-Templates hold data related to how a segmentGroup will be rendered. There is 26 TweakableTemplates, one per uppercase letter. The parameters are configurable via keys like ‘s’ for size, they can be set by typing a new numerical value or pressing ‘-‘ and ‘+’ (actually ‘-‘ and ‘=’).
+Templates hold data related to how a segmentGroup will be rendered. There is 26 Templates, one per uppercase letter. The parameters are configurable via keys like ‘s’ for size, they can be set by typing a new numerical value or pressing ‘-‘ and ‘+’ (actually ‘-‘ and ‘=’).
 
 Each segmentGroup can have multiple templates. The templateManager then combines segmentGroups with their templates to create RenderableTemplates which then get rendered.
 

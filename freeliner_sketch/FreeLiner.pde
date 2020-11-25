@@ -159,7 +159,7 @@ class FreeLiner  {
 
 
     public String randomAction() {
-        ArrayList<TweakableTemplate> active = templateManager.getActive();
+        ArrayList<Template> active = templateManager.getActive();
         if(active.size() == 0 ) return "";
         char _tp = active.get((int)random(active.size())).getTemplateID();
         char[] options = {'a', 'q', 'f', 'e', 'v', 'o', 'w', 's', 'r', 'y', 'i', 'p', 'h', 'h', 'j', 'k', 'l', 'x', 'b'};

@@ -86,8 +86,8 @@ class GroupManager {
     // geom clone clear 12
 
 
-    // for all positions in TweakableTemplate, create transformed SegmentGroup clone
-    public void cloneGeometries(TweakableTemplate tpPositions, SegmentGroup source){
+    // for all positions in Template, create transformed SegmentGroup clone
+    public void cloneGeometries(Template tpPositions, SegmentGroup source){
         ArrayList<PVector> positions = tpPositions.getMetaPoisitionMarkers();
         // remove any clones of sourceGeom
         clearClonesOf(source);
@@ -98,7 +98,7 @@ class GroupManager {
         }
     }
 
-    public void cloneSegments(TweakableTemplate tpPositions, SegmentGroup source){
+    public void cloneSegments(Template tpPositions, SegmentGroup source){
         ArrayList<PVector> positions = tpPositions.getMetaPoisitionMarkers();
         // remove any clones of sourceGeom
         clearClonesOf(source);
@@ -256,7 +256,7 @@ class GroupManager {
      * @param renderer to add
      * @param renderer to match
      */
-    public void groupAddTemplate(TweakableTemplate _toMatch, TweakableTemplate _toAdd) {
+    public void groupAddTemplate(Template _toMatch, Template _toAdd) {
         if(groups.size() > 0 && _toAdd != null && _toMatch != null) {
             for (SegmentGroup sg : groups) {
                 TemplateList _tl = sg.getTemplateList();
@@ -273,7 +273,7 @@ class GroupManager {
      * @param Template to swap
      * @param renderer to swap with
      */
-    public void groupSwapTemplate(TweakableTemplate _a, TweakableTemplate _b) {
+    public void groupSwapTemplate(Template _a, Template _b) {
         if(groups.size() > 0 && _a != null && _b != null) {
             for (SegmentGroup sg : groups) {
                 TemplateList tl = sg.getTemplateList();
@@ -287,7 +287,7 @@ class GroupManager {
         }
     }
 
-    public void groupRemoveTemplate(TweakableTemplate _tp){
+    public void groupRemoveTemplate(Template _tp){
         if(groups.size() > 0 && _tp != null) {
             for (SegmentGroup sg : groups) {
                 TemplateList tl = sg.getTemplateList();
@@ -300,7 +300,7 @@ class GroupManager {
         }
     }
 
-    public void addTemplateToGroups(TweakableTemplate _tp){
+    public void addTemplateToGroups(Template _tp){
         IntList _list = _tp.getGeometries();
         if(_list != null) {
             for(int i = 0; i < _list.size(); i++){
@@ -309,21 +309,21 @@ class GroupManager {
         }
     }
 
-    public void toggleTemplate(TweakableTemplate _tp, int _ind) {
+    public void toggleTemplate(Template _tp, int _ind) {
         SegmentGroup _sg = getGroup(_ind);
         if(_sg != null && _tp != null) {
             _sg.getTemplateList().toggle(_tp);
         }
     }
 
-    public void addTemplate(TweakableTemplate _tp, int _ind) {
+    public void addTemplate(Template _tp, int _ind) {
         SegmentGroup _sg = getGroup(_ind);
         if(_sg != null && _tp != null) {
             _sg.getTemplateList().add(_tp);
         }
     }
 
-    public void removeTemplate(TweakableTemplate _tp, int _ind) {
+    public void removeTemplate(Template _tp, int _ind) {
         SegmentGroup _sg = getGroup(_ind);
         if(_sg != null && _tp != null) {
             _sg.getTemplateList().remove(_tp);
@@ -470,7 +470,7 @@ class GroupManager {
     }
 
     public int geometryPriority(String _tags, int _order){
-        ArrayList<TweakableTemplate> _temps = templateManager.getTemplates(_tags);
+        ArrayList<Template> _temps = templateManager.getTemplates(_tags);
         // println(_tags+" "+_temps.size());
         int _val = 0;
         if(_temps == null){
@@ -482,7 +482,7 @@ class GroupManager {
         else {
             for(SegmentGroup _sg : groups){
                 TemplateList _list = _sg.getTemplateList();
-                for(TweakableTemplate _tp : _temps){
+                for(Template _tp : _temps){
                     if(_list.contains(_tp)){
                         _val = geometryPriority(_sg, _order);
                     }
@@ -1097,7 +1097,7 @@ class GroupManager {
      * Get groups with a certain template
      * @return SegmentGroup arrayList
      */
-    public ArrayList<SegmentGroup> getGroups(TweakableTemplate _tp) {
+    public ArrayList<SegmentGroup> getGroups(Template _tp) {
         ArrayList<SegmentGroup> _groups = new ArrayList();
         for(SegmentGroup _sg : groups) {
             if(_sg.getTemplateList().contains(_tp)) _groups.add(_sg);

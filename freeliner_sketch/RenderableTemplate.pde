@@ -8,9 +8,9 @@
  */
 
 // the data structure shared between a SegmentGroup and Renderer
-class RenderableTemplate extends TweakableTemplate{
+class RenderableTemplate extends Template{
 	//
-	TweakableTemplate sourceTemplate;
+	Template sourceTemplate;
 
 	SegmentGroup segmentGroup;
 
@@ -74,7 +74,7 @@ class RenderableTemplate extends TweakableTemplate{
  * Constructor
  * @param SegmentGroup in question
  */
-	public RenderableTemplate(TweakableTemplate _te, SegmentGroup _sg){
+	public RenderableTemplate(Template _te, SegmentGroup _sg){
 		super(_te.getTemplateID());
 		//println(_te.getStrokeMode());
 		sourceTemplate = _te;
@@ -287,7 +287,7 @@ class RenderableTemplate extends TweakableTemplate{
 		return executedSegments;
 	}
 
-	public TweakableTemplate getSourceTemplate(){
+	public Template getSourceTemplate(){
 		return sourceTemplate;
 	}
 	// // ask if the brush needs updating
@@ -312,7 +312,7 @@ class KillableTemplate extends RenderableTemplate{
 	 * Constructor
 	 * @param SegmentGroup in question
 	 */
-	public KillableTemplate(TweakableTemplate _te, SegmentGroup _sg){
+	public KillableTemplate(Template _te, SegmentGroup _sg){
 		super(_te.getTemplateID());
 		sourceTemplate = _te;
 		copy(_te);
@@ -324,7 +324,7 @@ class KillableTemplate extends RenderableTemplate{
 	}
 
 
-	public void copy(TweakableTemplate _te){
+	public void copy(Template _te){
 		super.copy(_te);
 		launchCount = _te.getLaunchCount();
 	}

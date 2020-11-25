@@ -129,7 +129,7 @@ class TemplateRenderer extends Mode{
         if(_rt.getSegmentGroup().isEmpty()) return;
         _rt.setCanvas(_pg);
         // whipe meta points
-        // TweakableTemplate _linked = _rt.getLinkedTemplate();
+        // Template _linked = _rt.getLinkedTemplate();
         // if(_linked != null){
         //     if(_linked.getMetaPoisitionMarkers().size()> 3000){
         //         _linked.clearMarkers();

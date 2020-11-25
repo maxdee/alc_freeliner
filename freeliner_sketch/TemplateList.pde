@@ -24,16 +24,16 @@
 
 
 /**
- * TemplateList is a class that contains TweakableTemplate references
+ * TemplateList is a class that contains Template references
  * <p>
- * Add and remove TweakableTemplates
+ * Add and remove Templates
  * </p>
  *
- * @see TweakableTemplate
+ * @see Template
  */
 class TemplateList {
-  // TweakableTemplate references
-  ArrayList<TweakableTemplate> templates;
+  // Template references
+  ArrayList<Template> templates;
   String tags = "";
   int geometry;
 
@@ -60,7 +60,7 @@ class TemplateList {
     if(_tl == null) return;
     if(_tl.getAll() == null) return;
     if(!_tl.getAll().isEmpty())
-      for(TweakableTemplate tt : _tl.getAll())
+      for(Template tt : _tl.getAll())
         toggle(tt);
     updateString();
   }
@@ -78,9 +78,9 @@ class TemplateList {
 
   /**
    * Toggle a Template
-   * @param TweakableTemplate template to toggle
+   * @param Template template to toggle
    */
-  public void toggle(TweakableTemplate _tp) {
+  public void toggle(Template _tp) {
     if(_tp == null) return;
     if(!templates.remove(_tp)) {
         templates.add(_tp);
@@ -96,9 +96,9 @@ class TemplateList {
 
   /**
    * Add a template
-   * @param TweakableTemplate template to toggle
+   * @param Template template to toggle
    */
-  public void add(TweakableTemplate _te){
+  public void add(Template _te){
     if(_te == null) return;
     if(contains(_te)) return;
     else templates.add(_te);
@@ -107,9 +107,9 @@ class TemplateList {
 
   /**
    * Remove a specific template
-   * @param TweakableTemplate template to toggle
+   * @param Template template to toggle
    */
-  public void remove(TweakableTemplate _te){
+  public void remove(Template _te){
     if(_te == null) return;
     if(contains(_te)) templates.remove(_te);
     updateString();
@@ -120,7 +120,7 @@ class TemplateList {
    */
   public void updateString(){
     tags = "";
-    for(TweakableTemplate _ten : templates){
+    for(Template _ten : templates){
       tags += _ten.getTemplateID();
     }
   }
@@ -131,16 +131,16 @@ class TemplateList {
   ///////
   ////////////////////////////////////////////////////////////////////////////////////
 
-  public boolean contains(TweakableTemplate _te){
+  public boolean contains(Template _te){
     return templates.contains(_te);
   }
 
-  public ArrayList<TweakableTemplate> getAll(){
+  public ArrayList<Template> getAll(){
     if(templates.size() == 0) return null;
     else return templates;
   }
 
-  public TweakableTemplate getIndex(int _index){
+  public Template getIndex(int _index){
     if(_index < templates.size()) return templates.get(_index);
     else return null;
   }

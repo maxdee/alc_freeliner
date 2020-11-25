@@ -52,7 +52,7 @@ class Gui  {
     String keyString = "derp";
     // value given to recently modified parameter
     String valueGiven = "__";
-    // The TweakableTemplate tags of templates selected by the TemplateManager
+    // The Template tags of templates selected by the TemplateManager
     String renderString = "_";
 
     String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS", "info1", "info2"};

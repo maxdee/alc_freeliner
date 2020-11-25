@@ -579,7 +579,7 @@ class MetaMarkerMaker extends BrushPutter {
     }
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
-        TweakableTemplate _linked = _event.getLinkedTemplate();
+        Template _linked = _event.getLinkedTemplate();
         if(_linked != null) {
             PVector _pos = getPosition(_seg);
             _pos.z = _event.getBrushSize();

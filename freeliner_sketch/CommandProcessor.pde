@@ -524,7 +524,7 @@ class CommandProcessor  {
 
     public void templateStatCMD(String[] _args) {
         if(_args.length < 3) return;
-        TweakableTemplate _tp = templateManager.getTemplate(_args[2].charAt(0));
+        Template _tp = templateManager.getTemplate(_args[2].charAt(0));
         if(_tp == null) return;
         String _info = _tp.getStatusString();
         fetchSend(_args, "template "+_info);
@@ -533,7 +533,7 @@ class CommandProcessor  {
     public void tpcmdCMD(String[] _args) {
         if(_args.length < 3) return;
         char _tpchar = _args[2].charAt(0);
-        TweakableTemplate _tp = templateManager.getTemplate(_tpchar);
+        Template _tp = templateManager.getTemplate(_tpchar);
         if(_tp == null) return;
         String[] _params = _tp.getStatusString().split(" ");
         String _output = "";
@@ -551,7 +551,7 @@ class CommandProcessor  {
 
     public void trackerCMD(String[] _args) {
         if(_args.length < 3) return;
-        TweakableTemplate _tp = templateManager.getTemplate(_args[2].charAt(0));
+        Template _tp = templateManager.getTemplate(_args[2].charAt(0));
         if(_tp == null) return;
         PVector _pos = _tp.getLastPosition();
         fetchSend(_args, "tracker "+_tp.getTemplateID()+" "+_pos.x/width+" "+_pos.y/height);
@@ -708,7 +708,7 @@ class CommandProcessor  {
     public void geomCloneCMD(String[] _args){
         if(_args.length > 3){
             ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs( _args);
-            ArrayList<TweakableTemplate> tps = templateManager.getTemplates(_args[3]);
+            ArrayList<Template> tps = templateManager.getTemplates(_args[3]);
             if(_groups.size() > 0 && tps.size() > 0) {
                 groupManager.cloneGeometries(tps.get(0), _groups.get(0));
             }
@@ -718,7 +718,7 @@ class CommandProcessor  {
     public void geomCloneSegmentCMD(String[] _args){
         if(_args.length > 3){
             ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs( _args);
-            ArrayList<TweakableTemplate> tps = templateManager.getTemplates(_args[3]);
+            ArrayList<Template> tps = templateManager.getTemplates(_args[3]);
             if(_groups.size() > 0 && tps.size() > 0) {
                 groupManager.cloneSegments(tps.get(0), _groups.get(0));
             }
@@ -908,9 +908,9 @@ class CommandProcessor  {
     public void clearSeq(String[] _args) {
         if(_args.length == 2) sequencer.clear();
         if(_args.length > 2) {
-            ArrayList<TweakableTemplate> _tps =  templateManager.getTemplates(_args[2]);
+            ArrayList<Template> _tps =  templateManager.getTemplates(_args[2]);
             if(_tps != null) {
-                for(TweakableTemplate _tw : _tps)
+                for(Template _tw : _tps)
                     sequencer.clear(_tw);
             } else {
                 int _v = stringInt(_args[2]);
@@ -922,9 +922,9 @@ class CommandProcessor  {
 
     public void toggleStep(String[] _args) {
         if(_args.length > 2) {
-            ArrayList<TweakableTemplate> _tp = templateManager.getTemplates(_args[2]);
+            ArrayList<Template> _tp = templateManager.getTemplates(_args[2]);
             if(_tp == null) return;
-            for(TweakableTemplate _tw : _tp)
+            for(Template _tw : _tp)
                 sequencer.toggle(_tw);
         }
         gui.setTemplateString(sequencer.getStepToEdit().getTags());
@@ -977,24 +977,24 @@ class CommandProcessor  {
 
     public void listFreeCMD() {
         String _free = "";
-        for(TweakableTemplate tp : templateManager.getInactive()) {
+        for(Template tp : templateManager.getInactive()) {
             _free += tp.getTemplateID();
         }
         valueGiven = _free;
     }
 
     public void lerpCMD(String[] _args) {
-        ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+        ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
         float _lrp = stringFloat(_args[3]);
-        for(TweakableTemplate _tp : _tmps) _tp.setFixLerp(_lrp);
+        for(Template _tp : _tmps) _tp.setFixLerp(_lrp);
     }
 
     // tp toggle
     public void toggleCMD(String[] _args) {
-        ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+        ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
         ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(remainingText(3, _args));
         for(SegmentGroup _sg : _groups){
-             for(TweakableTemplate _tp : _tmps) {
+             for(Template _tp : _tmps) {
                  groupManager.toggleTemplate(_tp, _sg.getID());
                  _tp.toggleGeometry(_sg.getID());
              }
@@ -1003,11 +1003,11 @@ class CommandProcessor  {
 
     // tp toggle
     public void addRemoveCMD(String[] _args) {
-        ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+        ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
         ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(remainingText(3, _args));
         if(_args[1].equals("add")) {
             for(SegmentGroup _sg : _groups){
-                for(TweakableTemplate _tp : _tmps) {
+                for(Template _tp : _tmps) {
                     groupManager.addTemplate(_tp, _sg.getID());
                     _tp.addGeometry(_sg.getID());
                 }
@@ -1015,7 +1015,7 @@ class CommandProcessor  {
         }
         else if(_args[1].equals("remove")) {
             for(SegmentGroup _sg : _groups){
-                for(TweakableTemplate _tp : _tmps) {
+                for(Template _tp : _tmps) {
                     groupManager.removeTemplate(_tp, _sg.getID());
                     _tp.removeGeometry(_sg.getID());
                 }
@@ -1132,16 +1132,16 @@ class CommandProcessor  {
         float z = 0;
         if(_args.length > 5) z = stringFloat(_args[5]);
         PVector _translate = new PVector(x,y,z);
-        ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+        ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
         if(_tmps == null) return;
-        for(TweakableTemplate _rt : _tmps) {
+        for(Template _rt : _tmps) {
             _rt.setTranslation(_translate);
         }
 
         // scuff mixer info
         String below = "";
         String above = "";
-        for(TweakableTemplate _tp : templateManager.getTemplates()) {
+        for(Template _tp : templateManager.getTemplates()) {
             if(_tp.translation.x == 0) {
                 above += _tp.getTemplateID();
             }
@@ -1161,9 +1161,9 @@ class CommandProcessor  {
         float z = stringFloat(_args[5]);
         // if(_args.length > 5) z = stringFloat(_args[5]);
         PVector _rotate = new PVector(x,y,z);
-        ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[2]);
+        ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
         if(_tmps == null) return;
-        for(TweakableTemplate _rt : _tmps) {
+        for(Template _rt : _tmps) {
             _rt.setRotation(_rotate);
         }
     }
@@ -1176,22 +1176,22 @@ class CommandProcessor  {
      */
     public void tweakTemplates(String[] _args) {
         if(_args.length < 4) return;
-        ArrayList<TweakableTemplate> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
+        ArrayList<Template> _tmps = templateManager.getTemplates(_args[1]); // does handle wildcard
         if(_tmps == null) return;
         if(_args[2].length() == 0) return;
         char _k = _args[2].charAt(0);
         int _v = stringInt(_args[3]);
-        for(TweakableTemplate _tp : _tmps) templateDispatch(_tp, _k, _v);
+        for(Template _tp : _tmps) templateDispatch(_tp, _k, _v);
     }
 
     /**
      * Change the parameters of a template.
-     * @param TweakableTemplate template to modify
+     * @param Template template to modify
      * @param char editKey
      * @param int value
      * @return boolean value used
      */
-    public void templateDispatch(TweakableTemplate _template, char _k, int _n) {
+    public void templateDispatch(Template _template, char _k, int _n) {
         if(_template == null) return;
         // mod commands
         else if (_k == 'a') valueGiven = str(_template.setAnimationMode(_n, keyMap.getMax('a')));
@@ -1213,8 +1213,6 @@ class CommandProcessor  {
         else if (_k == 'v') valueGiven = str(_template.setSegmentMode(_n, keyMap.getMax('v')));
         else if (_k == 'w') valueGiven = str(_template.setStrokeWidth(_n, keyMap.getMax('w')));
         else if (_k == 'x') valueGiven = str(_template.setBeatDivider(_n, keyMap.getMax('x')));
-        // else if (_k == '%') valueGiven = str(_template.setBankIndex(_n));
-        // else if (_k == '$') valueGiven = str(_template.saveToBank()); // could take an _n to set bank index?
         if (int(_k) == 518) _template.reset();
         else if(_n != -3) looper.receive("tw "+_template.getTemplateID()+" "+_k+" "+valueGiven);
 

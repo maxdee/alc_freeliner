@@ -11,20 +11,20 @@
 
  class TemplateTeam {
      String name;
-     ArrayList<TweakableTemplate> templates;
+     ArrayList<Template> templates;
 
      TemplateTeam(String _name){
          name = _name;
          templates = new ArrayList();
      }
 
-     void addTemplate(TweakableTemplate _tp){
+     void addTemplate(Template _tp){
          templates.add(_tp);
      }
 
-     void addTemplates(ArrayList<TweakableTemplate> _tps){
-         for(TweakableTemplate _tp : _tps){
-             TweakableTemplate _new = new TweakableTemplate();
+     void addTemplates(ArrayList<Template> _tps){
+         for(Template _tp : _tps){
+             Template _new = new Template();
              _new.copy(_tp);
              templates.add(_new);
          }
@@ -34,7 +34,7 @@
          return name;
      }
 
-     ArrayList<TweakableTemplate> getTemplates(){
+     ArrayList<Template> getTemplates(){
          return templates;
      }
  }
@@ -48,10 +48,10 @@ class TemplateManager {
     TemplateList templateList;
 
     //templates all the basic templates
-    ArrayList<TweakableTemplate> templates;
+    ArrayList<Template> templates;
     ArrayList<TemplateTeam> templateTeams;
 
-    TweakableTemplate copyedTemplate;
+    Template copyedTemplate;
     final int N_TEMPLATES = 26;
 
     // events to render
@@ -81,7 +81,7 @@ class TemplateManager {
     private void init() {
         templates = new ArrayList();
         for (int i = 0; i < N_TEMPLATES; i++) {
-            TweakableTemplate te = new TweakableTemplate(char(65+i));
+            Template te = new Template(char(65+i));
             templates.add(te);
         }
     }
@@ -138,9 +138,9 @@ class TemplateManager {
 
         //check to add new loops
         for(SegmentGroup sg : _groups) {
-            ArrayList<TweakableTemplate> tmps = sg.getTemplateList().getAll();
+            ArrayList<Template> tmps = sg.getTemplateList().getAll();
             if(tmps != null) {
-                for(TweakableTemplate te : tmps) {
+                for(Template te : tmps) {
                     RenderableTemplate rt = getByIDandGroup(loops, te.getTemplateID(), sg);
                     if(rt != null) toKeep.add(rt);
                     else toKeep.add(loopFactory(te, sg));
@@ -158,12 +158,12 @@ class TemplateManager {
     ////////////////////////////////////////////////////////////////////////////////////
 
     // set size as per scalar
-    public RenderableTemplate loopFactory(TweakableTemplate _te, SegmentGroup _sg) {
+    public RenderableTemplate loopFactory(Template _te, SegmentGroup _sg) {
         return new RenderableTemplate(_te, _sg);
     }
 
     // set size as per scalar
-    public RenderableTemplate eventFactory(TweakableTemplate _te, SegmentGroup _sg) {
+    public RenderableTemplate eventFactory(Template _te, SegmentGroup _sg) {
         RenderableTemplate _rt = new KillableTemplate(_te, _sg);
         ((KillableTemplate) _rt).setOffset(sync.getLerp(_rt.getBeatDivider()));
         return _rt;
@@ -177,13 +177,13 @@ class TemplateManager {
     ////////////////////////////////////////////////////////////////////////////////////
     // trigger but catch with synchroniser
     public void trigger(char _c) {
-        TweakableTemplate _tp = getTemplate(_c);
+        Template _tp = getTemplate(_c);
         if(_tp == null) return;
         trigger(_tp);
         // sync.templateInput(_tp);
     }
 
-    public void trigger(TweakableTemplate _tp) {
+    public void trigger(Template _tp) {
         if(_tp == null) return;
         _tp.launch(); // increments the launchCount
         // get groups with template
@@ -199,7 +199,7 @@ class TemplateManager {
     public void trigger(char _c, int _id) {
         SegmentGroup _sg = groupManager.getGroup(_id);
         if(_sg == null) return;
-        TweakableTemplate _tp = getTemplate(_c);
+        Template _tp = getTemplate(_c);
         if(_tp == null) return;
         _tp.launch();
         eventList.add(eventFactory(_tp, _sg));
@@ -208,10 +208,10 @@ class TemplateManager {
     // trigger a templateList, in this case via the
     public void trigger(TemplateList _tl) {
         if(_tl == null) return;
-        ArrayList<TweakableTemplate> _tp = _tl.getAll();
+        ArrayList<Template> _tp = _tl.getAll();
         if(_tp == null) return;
         if(_tp.size() > 0) {
-            for(TweakableTemplate tw : _tp) {
+            for(Template tw : _tp) {
                 if(tw.getEnablerMode() != 3) trigger(tw); // check if is in the right enabler mode
             }
         }
@@ -236,7 +236,7 @@ class TemplateManager {
      */
     public void focusAll() {
         templateList.clear();
-        for (TweakableTemplate r_ : templates) {
+        for (Template r_ : templates) {
             templateList.toggle(r_);
         }
     }
@@ -269,14 +269,14 @@ class TemplateManager {
      * Copy a template and maybe paste it automaticaly. Triggered by ctrl-c with 2 templates selected.
      */
     public void copyTemplate() {
-        TweakableTemplate toCopy = templateList.getIndex(0);
-        TweakableTemplate pasteInto = templateList.getIndex(1);
+        Template toCopy = templateList.getIndex(0);
+        Template pasteInto = templateList.getIndex(1);
         copyTemplate(toCopy, pasteInto);
     }
 
     // for ABCD (A->BCD)
     public void copyTemplate(String _tags) {
-        ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+        ArrayList<Template> _tmps = getTemplates(_tags);
         if(_tmps == null) return;
         if(_tmps.size() == 1) copyTemplate(_tmps.get(0), null);
         else
@@ -284,7 +284,7 @@ class TemplateManager {
                 copyTemplate(_tmps.get(0), _tmps.get(i));
     }
 
-    public void copyTemplate(TweakableTemplate _toCopy, TweakableTemplate _toPaste) {
+    public void copyTemplate(Template _toCopy, Template _toPaste) {
         copyedTemplate = _toCopy;
         if(copyedTemplate != null && _toPaste != null) _toPaste.copyParameters(copyedTemplate);
     }
@@ -297,7 +297,7 @@ class TemplateManager {
     }
 
     public void pasteTemplate(String _tags) {
-        ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+        ArrayList<Template> _tmps = getTemplates(_tags);
         if(_tmps == null) return;
         if(_tmps.size() == 1) pasteTemplate(_tmps.get(0));
         else
@@ -305,7 +305,7 @@ class TemplateManager {
                 pasteTemplate(_tmps.get(i));
     }
 
-    public void pasteTemplate(TweakableTemplate _pasteInto) {
+    public void pasteTemplate(Template _pasteInto) {
         if(copyedTemplate != null && _pasteInto != null) _pasteInto.copyParameters(copyedTemplate);
     }
 
@@ -317,7 +317,7 @@ class TemplateManager {
     }
 
     public void groupAddTemplate(String _tags) {
-        ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+        ArrayList<Template> _tmps = getTemplates(_tags);
         if(_tmps == null) return;
         if(_tmps.size() < 2) return;
         else
@@ -325,7 +325,7 @@ class TemplateManager {
             groupAddTemplate(_tmps.get(0), _tmps.get(1));
     }
 
-    public void groupAddTemplate(TweakableTemplate _a, TweakableTemplate _b) {
+    public void groupAddTemplate(Template _a, Template _b) {
         if(_a != null && _b !=null) groupManager.groupAddTemplate(_a, _b);
     }
 
@@ -333,22 +333,22 @@ class TemplateManager {
      * Swap Templates (AB), swaps their related geometry also
      */
     public void swapTemplates(String _tags) {
-        ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+        ArrayList<Template> _tmps = getTemplates(_tags);
         if(_tmps == null) return;
         if(_tmps.size() < 2) return;
         else swapTemplates(_tmps.get(0), _tmps.get(1));
     }
 
     // might remove the copy? not sure.
-    public void swapTemplates(TweakableTemplate _a, TweakableTemplate _b) {
-        TweakableTemplate _c = new TweakableTemplate();
+    public void swapTemplates(Template _a, Template _b) {
+        Template _c = new Template();
         _c.copyParameters(_a);
         _a.copyParameters(_b);
         _b.copyParameters(_c);
         groupSwapTemplate(_a, _b);
     }
 
-    public void groupSwapTemplate(TweakableTemplate _a, TweakableTemplate _b) {
+    public void groupSwapTemplate(Template _a, Template _b) {
         if(_a != null && _b !=null) groupManager.groupSwapTemplate(_a, _b);
     }
 
@@ -362,25 +362,25 @@ class TemplateManager {
     public void resetTemplate(String _tags) {
         if(_tags == null) return;
         else if(_tags.length() > 0) {
-            ArrayList<TweakableTemplate> _tps = getTemplates(_tags);
-            if(_tps != null) for(TweakableTemplate _tp : _tps) _tp.reset();
+            ArrayList<Template> _tps = getTemplates(_tags);
+            if(_tps != null) for(Template _tp : _tps) _tp.reset();
         }
     }
     /**
      * Set a template's custom color, this is done with OSC.
      */
     public void setCustomStrokeColor(String _tags, color _c) {
-        ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+        ArrayList<Template> _tmps = getTemplates(_tags);
         if(_tmps == null) return;
-        for(TweakableTemplate _tp : _tmps) {
+        for(Template _tp : _tmps) {
             if(_tp != null) _tp.setCustomStrokeColor(_c);
         }
     }
 
     public void setCustomFillColor(String _tags, color _c) {
-        ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+        ArrayList<Template> _tmps = getTemplates(_tags);
         if(_tmps == null) return;
-        for(TweakableTemplate _tp : _tmps) {
+        for(Template _tp : _tmps) {
             if(_tp != null) _tp.setCustomFillColor(_c);
         }
     }
@@ -389,12 +389,12 @@ class TemplateManager {
      * Link Templates (AB)
      */
     public void linkTemplates(String _tags) {
-        ArrayList<TweakableTemplate> _tmps = getTemplates(_tags);
+        ArrayList<Template> _tmps = getTemplates(_tags);
         if(_tmps.size() < 2) return;
         else linkTemplates(_tmps.get(0), _tmps.get(1));
     }
 
-    public void linkTemplates(TweakableTemplate _tp, TweakableTemplate _link) {
+    public void linkTemplates(Template _tp, Template _link) {
         if(_tp != null && _link != null) {
             _tp.setLinkTemplate(_link);
         }
@@ -410,10 +410,10 @@ class TemplateManager {
 
     public void loadTemplateTeam(String _key, String _tags){
 
-        ArrayList<TweakableTemplate> _templates = getTemplates(_tags);
+        ArrayList<Template> _templates = getTemplates(_tags);
         TemplateTeam _team = getTemplateTeam(_key);
         if(_team != null && _templates != null){
-            ArrayList<TweakableTemplate> _teamTemplates =_team.getTemplates();
+            ArrayList<Template> _teamTemplates =_team.getTemplates();
             if(_teamTemplates != null){
                 if(_teamTemplates.size() == _templates.size()){
                     for(int i = 0; i < _templates.size(); i++){
@@ -437,13 +437,13 @@ class TemplateManager {
         return null;
     }
 
-    // public void clearTemplateFromGeom(TweakableTemplate _tp){
+    // public void clearTemplateFromGeom(Template _tp){
     //
     // }
 
     public void saveTemplateTeam(String _tags, String _key){
         println("saving template team "+_tags+" "+_key);
-        ArrayList<TweakableTemplate> _templates = getTemplates(_tags);
+        ArrayList<Template> _templates = getTemplates(_tags);
         if(_templates == null) return;
         TemplateTeam _team = new TemplateTeam(_key);
         _team.addTemplates(_templates);
@@ -459,7 +459,7 @@ class TemplateManager {
     // public JSONObject getTemplatesJSON() {
     //     JSONArray _templates = new JSONArray();
     //     int _idx = 0;
-    //     for(TweakableTemplate _tp : templates) {
+    //     for(Template _tp : templates) {
     //         _templates.setJSONObject(_idx++, templateToJSON(_tp));
     //         // _templatestemplateToXML(_tp, _xmlTemplates);
     //     }
@@ -477,7 +477,7 @@ class TemplateManager {
     //     return _thing;
     // }
     //
-    // public JSONObject templateToJSON(TweakableTemplate _tp){
+    // public JSONObject templateToJSON(Template _tp){
     //     JSONObject _tmp = new JSONObject();// _xml.addChild("template");
     //     if(_tp == null) return _tmp;
     //     _tmp.setString("ID", str(_tp.getTemplateID()));
@@ -520,7 +520,7 @@ class TemplateManager {
     //
     // void loadJSON(JSONObject _obj){
     //     JSONArray _templates = _obj.getJSONArray("templates");
-    //     TweakableTemplate _tmp;
+    //     Template _tmp;
     //     for(int i = 0; i < _templates.size(); i++){
     //         JSONObject _tp = _templates.getJSONObject(i);
     //         _tmp = getTemplate(_tp.getString("ID").charAt(0));
@@ -529,7 +529,7 @@ class TemplateManager {
     //
     //     //
     //     // XML[] _templateData = file.getChildren("template");
-    //     // TweakableTemplate _tmp;
+    //     // Template _tmp;
     //     // for(XML _tp : _templateData) {
     //     // }
     //     //
@@ -540,7 +540,7 @@ class TemplateManager {
     //     }
     // }
     //
-    // void jsonToTemplate(JSONObject _templateData, TweakableTemplate _tp){
+    // void jsonToTemplate(JSONObject _templateData, Template _tp){
     //     if(_tp == null || _templateData == null) return;
     //     _tp.setRenderMode(_templateData.getInt("renderMode"), 50000);
     //     _tp.setSegmentMode(_templateData.getInt("segmentMode"), 50000);
@@ -580,7 +580,7 @@ class TemplateManager {
 
     public XML getXML() {
         XML _xmlTemplates = new XML("templates");
-        for(TweakableTemplate _tp : templates) {
+        for(Template _tp : templates) {
             templateToXML(_tp, _xmlTemplates);
         }
         XML colors =  _xmlTemplates.addChild("pallette");
@@ -591,7 +591,7 @@ class TemplateManager {
         return _xmlTemplates;
     }
 
-    public void templateToXML(TweakableTemplate _tp, XML _xml){
+    public void templateToXML(Template _tp, XML _xml){
         if(_tp == null) return;
         XML _tmp = _xml.addChild("template");
         _tmp.setString("ID", str(_tp.getTemplateID()));
@@ -633,7 +633,7 @@ class TemplateManager {
     public void loadTemplatesXML(XML _xml) {
         XML[] _templateData = _xml.getChildren("template");
         if(_templateData.length == 0) return;
-        TweakableTemplate _tmp;
+        Template _tmp;
         for(XML _tp : _templateData) {
             _tmp = getTemplate(_tp.getString("ID").charAt(0));
             xmlToTemplate(_tp, _tmp);
@@ -646,7 +646,7 @@ class TemplateManager {
         }
     }
 
-    void xmlToTemplate(XML _templateData, TweakableTemplate _tp){
+    void xmlToTemplate(XML _templateData, Template _tp){
         if(_tp == null || _templateData == null) return;
         _tp.setRenderMode(_templateData.getInt("renderMode"), 50000);
         _tp.setSegmentMode(_templateData.getInt("segmentMode"), 50000);
@@ -692,7 +692,7 @@ class TemplateManager {
     // set a decorator's shape
     private void setCustomShape(SegmentGroup _sg) {
         if(_sg == null) return;
-        ArrayList<TweakableTemplate> temps = _sg.getTemplateList().getAll();
+        ArrayList<Template> temps = _sg.getTemplateList().getAll();
 
         if(_sg.getShape() == null) return;
 
@@ -717,7 +717,7 @@ class TemplateManager {
             float baseSize = (float)new PointBrush(0).BASE_BRUSH_SIZE;
             PShape cust = cloneShape(sourceShape, baseSize/(maxX+abs(minX)), new PVector(0,0));
             if(temps != null)
-                for(TweakableTemplate temp : temps)
+                for(Template temp : temps)
                     if(temp != null)
                         temp.setCustomShape(cust);
         }
@@ -730,7 +730,7 @@ class TemplateManager {
     ////////////////////////////////////////////////////////////////////////////////////
 
 
-    public ArrayList<TweakableTemplate> getActive() {
+    public ArrayList<Template> getActive() {
         ArrayList active = new ArrayList();
         for(Template _t : loops) {
             active.add(getTemplate(_t.getTemplateID()));
@@ -738,7 +738,7 @@ class TemplateManager {
         return active;
     }
 
-    public ArrayList<TweakableTemplate> getInactive() {
+    public ArrayList<Template> getInactive() {
         ArrayList copy = new ArrayList(templates);
         for(Template _t : loops) {
             copy.remove(getTemplate(_t.getTemplateID()));
@@ -773,7 +773,7 @@ class TemplateManager {
         return templateList.getIndex(0) != null;
     }
 
-    public TweakableTemplate getTemplate(char _c) {
+    public Template getTemplate(char _c) {
         if(_c >= 'A' && _c <= 'Z') return templates.get(int(_c)-'A');
         else return null;
     }
@@ -789,21 +789,21 @@ class TemplateManager {
         return templateList;
     }
 
-    public ArrayList<TweakableTemplate> getTemplates() {
+    public ArrayList<Template> getTemplates() {
         return templates;
     }
 
-    public ArrayList<TweakableTemplate> getSelected() {
-        ArrayList<TweakableTemplate> _tmps = new ArrayList();
+    public ArrayList<Template> getSelected() {
+        ArrayList<Template> _tmps = new ArrayList();
         if(templateList.getAll() == null) return null;
         if(templateList.getAll().size() == 0) return null;
-        for(TweakableTemplate _tw : templateList.getAll()) {
+        for(Template _tw : templateList.getAll()) {
             if(_tw != null) _tmps.add(_tw);
         }
         return _tmps;
     }
 
-    public ArrayList<TweakableTemplate> getGroupTemplates() {
+    public ArrayList<Template> getGroupTemplates() {
         TemplateList _tl = groupManager.getTemplateList();
         if(_tl == null) return null;
         return _tl.getAll();
@@ -811,9 +811,9 @@ class TemplateManager {
 
 
     // a fancier accessor, supports "ANCD" "*" "$" "$$"
-    public ArrayList<TweakableTemplate> getTemplates(String _tags) {
+    public ArrayList<Template> getTemplates(String _tags) {
         if(_tags.length() < 1) return null;
-        ArrayList<TweakableTemplate> _tmps = new ArrayList();
+        ArrayList<Template> _tmps = new ArrayList();
         if(_tags.length() == 0) return null;
         else if(_tags.charAt(0) == '$') {
             if(_tags.length() > 1) return getGroupTemplates();
@@ -821,7 +821,7 @@ class TemplateManager {
         } else if(_tags.charAt(0) == '*') return getTemplates();
         else {
             for(int i = 0; i < _tags.length(); i++) {
-                TweakableTemplate _tw = getTemplate(_tags.charAt(i));
+                Template _tw = getTemplate(_tags.charAt(i));
                 // println(_tw);
                 if( _tw != null) _tmps.add(_tw);
             }

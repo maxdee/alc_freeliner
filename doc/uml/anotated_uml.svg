@@ -1167,7 +1167,7 @@
            y="219"
            x="732.79999"
            style="font-size:16px;font-style:normal;font-weight:700;text-anchor:middle;fill:#000000;font-family:sans-serif"
-           font-size="16">TweakableTemplate</text>
+           font-size="16">Template</text>
         <rect
            id="rect37132"
            height="20"
@@ -3095,7 +3095,7 @@
            y="278"
            x="183"
            style="font-size:12.80000019px;font-style:normal;font-weight:normal;text-anchor:start;fill:#000000;font-family:monospace"
-           font-size="12.8">+templates: ArrayList&lt;TweakableTemplates&gt;</text>
+           font-size="12.8">+templates: ArrayList&lt;Templates&gt;</text>
         <text
            id="text37784"
            y="294"
@@ -3275,7 +3275,7 @@
            y="62"
            x="623"
            style="font-size:12.80000019px;font-style:normal;font-weight:normal;text-anchor:start;fill:#000000;font-family:monospace"
-           font-size="12.8">+templates: ArrayList&lt;TweakableTemplate&gt;</text>
+           font-size="12.8">+templates: ArrayList&lt;Template&gt;</text>
         <text
            id="text37858"
            y="78"
@@ -3301,7 +3301,7 @@
            y="98"
            x="623"
            style="font-size:12.80000019px;font-style:normal;font-weight:normal;text-anchor:start;fill:#000000;font-family:monospace"
-           font-size="12.8">+toggle(TweakableTemplate)</text>
+           font-size="12.8">+toggle(Template)</text>
         <text
            id="text37866"
            y="114"
@@ -3313,7 +3313,7 @@
            y="130"
            x="623"
            style="font-size:12.80000019px;font-style:normal;font-weight:normal;text-anchor:start;fill:#000000;font-family:monospace"
-           font-size="12.8">+contains(TweakableTemplate): boolean</text>
+           font-size="12.8">+contains(Template): boolean</text>
         <text
            id="text37870"
            y="146"
