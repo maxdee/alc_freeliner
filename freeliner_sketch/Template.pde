@@ -110,53 +110,53 @@ class Template {
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    public int saveToBank(){
-      Template _tp = new Template();
-      _tp.copy(this);
-      bank.add(_tp);
-      return bank.size()-1;
-    }
+	public int saveToBank(){
+		Template _tp = new Template();
+		_tp.copy(this);
+		bank.add(_tp);
+		return bank.size()-1;
+	}
 
-    public void loadFromBank(int _index){
-      if(_index < bank.size()){
-        copy(bank.get(_index));
-      }
-    }
+	public void loadFromBank(int _index){
+		if(_index < bank.size()){
+			copy(bank.get(_index));
+		}
+	}
 
 	public void launch(){
-	  launchCount++;
+		launchCount++;
 	}
 
 	public int getLaunchCount(){
-	  return launchCount;
+		return launchCount;
 	}
 
 	public String getStatusString(){
-	  String _stat = str(templateID);
-	  _stat += " a-"+animationMode;
-	  _stat += " b-"+renderMode;
-	  _stat += " j-"+reverseMode;
-	  _stat += " e-"+interpolateMode;
-	  _stat += " f-"+fillMode;
-	  _stat += " h-"+easingMode;
-	  _stat += " i-"+repetitionMode;
-	  _stat += " j-"+reverseMode;
-	  _stat += " k-"+strokeAlpha;
-	  _stat += " l-"+fillAlpha;
-	  _stat += " m-"+miscValue;
-	  _stat += " j-"+reverseMode;
-	  _stat += " j-"+reverseMode;
-	  _stat += " j-"+reverseMode;
-	  _stat += " o-"+rotationMode;
-	  _stat += " p-"+renderLayer;
-	  _stat += " q-"+strokeMode;
-	  _stat += " r-"+repetitionCount;
-	  _stat += " s-"+brushSize;
-	  _stat += " u-"+enablerMode;
-	  _stat += " v-"+segmentMode;
-	  _stat += " w-"+strokeWidth;
-	  _stat += " x-"+beatDivider;
-	  return _stat;
+		String _stat = str(templateID);
+		_stat += " a-"+animationMode;
+		_stat += " b-"+renderMode;
+		_stat += " j-"+reverseMode;
+		_stat += " e-"+interpolateMode;
+		_stat += " f-"+fillMode;
+		_stat += " h-"+easingMode;
+		_stat += " i-"+repetitionMode;
+		_stat += " j-"+reverseMode;
+		_stat += " k-"+strokeAlpha;
+		_stat += " l-"+fillAlpha;
+		_stat += " m-"+miscValue;
+		_stat += " j-"+reverseMode;
+		_stat += " j-"+reverseMode;
+		_stat += " j-"+reverseMode;
+		_stat += " o-"+rotationMode;
+		_stat += " p-"+renderLayer;
+		_stat += " q-"+strokeMode;
+		_stat += " r-"+repetitionCount;
+		_stat += " s-"+brushSize;
+		_stat += " u-"+enablerMode;
+		_stat += " v-"+segmentMode;
+		_stat += " w-"+strokeWidth;
+		_stat += " x-"+beatDivider;
+		return _stat;
 	}
 
 	/**
@@ -414,8 +414,6 @@ class Template {
 	///////
 	////////////////////////////////////////////////////////////////////////////////////
 
-
-
 	public int setReverseMode(int _v, int _max){
 		reverseMode = numTweaker(_v, reverseMode);
 		if(reverseMode >= _max) reverseMode = _max - 1;
@@ -539,6 +537,7 @@ class Template {
 	public void setTranslation(PVector _pv){
 		translation.set(_pv);
 	}
+
 	public void setRotation(PVector _pv){
 		rotation.set(_pv);
 	}
@@ -570,8 +569,6 @@ class Template {
 	public final PVector getLastPosition(){
 		return lastPosition.get();
 	}
-
-
 
 	public void addMetaPositionMarker(PVector _pv){
 		markersUpdated = true;

@@ -410,14 +410,6 @@ class LayeredCanvasManager extends CanvasManager {
     ////////////////////////////////////////////////////////////////////////////////////
 
     public boolean parseCMD(String[] _args) {
-        // if(_args.length == 2){
-        //     if(_args[1].equals("save")){
-        //         saveSetup("layerSetup.xml");
-        //     }
-        //     else if(_args[1].equals("load")){
-        //         loadSetup("layerSetup.xml");
-        //     }
-        // }
         if(_args.length < 3) return false;
         else if(_args[2].equals("swap") ) {
             swapOrder(_args[1], stringInt(_args[3]));
@@ -426,15 +418,6 @@ class LayeredCanvasManager extends CanvasManager {
         else if(_args[2].equals("delete") ) {
             return deleteLayer(getLayer(_args[1]));
         }
-
-        // if(_args[1].equals("save")){
-        //     saveSetup(_args[2]);
-        //     return true;
-        // }
-        // else if(_args[1].equals("load")){
-        //     loadSetup(_args[2]);
-        //     return true;
-        // }
 
         Layer _lyr = getLayer(_args[1]);
         if(_lyr == null) return layerCreator(_args);
@@ -490,13 +473,6 @@ class LayeredCanvasManager extends CanvasManager {
     }
 
     public void loadLayersXML(XML _layersXML){
-        // println("loading layers from "+_fn);
-        // XML _layersXML;
-        // try {
-        // } catch (Exception e) {
-        //     println(_fn+" cant be loaded");
-        //     return;
-        // }
         int _nullID = 0;
         layers.clear();
         renderLayers.clear();

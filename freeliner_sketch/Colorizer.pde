@@ -14,7 +14,7 @@ class Colorizer extends Mode{
   	return alphaMod(color(255), _alpha);
   }
 
-	// need to multiplex alpha value for fill & stroke, just fill, or just stroke.
+  // need to multiplex alpha value for fill & stroke, just fill, or just stroke.
 
   public color HSBtoRGB(float _h, float _s, float _b){
   	return java.awt.Color.HSBtoRGB(_h, _s, _b);
@@ -148,28 +148,6 @@ class FlashyPrimaryColor extends PrimaryColor {
 /**
  * Per Repetition
  */
-class JahColor extends Colorizer {
-
-	color[] jah = {#CE000E,#E9FF00,#268E01};
-	final int JAH_COUNT = 3;
-	public JahColor(int _ind){
-    modeIndex = _ind;
-		name = "JahColor";
-		description = "Red Green Yellow";
-	}
-
-	public color get(RenderableTemplate _event, int _alpha){
-		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % JAH_COUNT;
-		index %= JAH_COUNT;
-		if(index < 0) index = 0;
-		color c = jah[index];
-		return alphaMod(c , _alpha);
-	}
-}
-
-/**
- * JahColor
- */
 class RepetitionColor extends Colorizer {
 
 	public RepetitionColor(int _ind){
@@ -253,8 +231,6 @@ class Flash extends Colorizer {
 	}
 }
 
-
-
 /**
  * Fade through the HUE
  */
@@ -264,8 +240,8 @@ class MillisFade extends Colorizer {
 		name = "MillisFade";
 		description = "HSB fade goes along with millis.";
 	}
-	public color get(RenderableTemplate _event, int _alpha){
 
+	public color get(RenderableTemplate _event, int _alpha){
 		color c = HSBtoRGB(float(millis()%10000)/10000.0, 1.0, 1.0);
 		return alphaMod(c , _alpha);
 	}
@@ -316,9 +292,9 @@ class CustomStrokeColor extends Colorizer {
 	}
 	public color get(RenderableTemplate _event, int _alpha){
     if(_alpha >= 255)
-      return _event.getCustomStrokeColor();
+        return _event.getCustomStrokeColor();
     else
-      return alphaMod(_event.getCustomStrokeColor(), _alpha);
+        return alphaMod(_event.getCustomStrokeColor(), _alpha);
 	}
 }
 
@@ -333,8 +309,8 @@ class CustomFillColor extends Colorizer {
 	}
 	public color get(RenderableTemplate _event, int _alpha){
     if(_alpha >= 255)
-      return _event.getCustomFillColor();
+        return _event.getCustomFillColor();
     else
-      return alphaMod(_event.getCustomFillColor(), _alpha);
+        return alphaMod(_event.getCustomFillColor(), _alpha);
 	}
 }

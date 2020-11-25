@@ -7,8 +7,6 @@
  * @since     2014-12-01
  */
 
-
-
  class TemplateTeam {
      String name;
      ArrayList<Template> templates;
@@ -255,16 +253,6 @@ class TemplateManager {
         templateList.toggle(getTemplate(_c));
     }
 
-
-    /**
-     * Copy one template into an other. Triggered by ctrl-c with 2 templates selected.
-     */
-    // public void copyPaste(){
-    //   Template a = templateList.getIndex(0);
-    //   Template b = templateList.getIndex(1);
-    //   if(a != null && b !=null) b.copyParameters(a);
-    // }
-
     /**
      * Copy a template and maybe paste it automaticaly. Triggered by ctrl-c with 2 templates selected.
      */
@@ -279,9 +267,11 @@ class TemplateManager {
         ArrayList<Template> _tmps = getTemplates(_tags);
         if(_tmps == null) return;
         if(_tmps.size() == 1) copyTemplate(_tmps.get(0), null);
-        else
-            for(int i = 1; i < _tmps.size(); i++)
+        else {
+            for(int i = 1; i < _tmps.size(); i++) {
                 copyTemplate(_tmps.get(0), _tmps.get(i));
+            }
+        }
     }
 
     public void copyTemplate(Template _toCopy, Template _toPaste) {
@@ -409,7 +399,6 @@ class TemplateManager {
 
 
     public void loadTemplateTeam(String _key, String _tags){
-
         ArrayList<Template> _templates = getTemplates(_tags);
         TemplateTeam _team = getTemplateTeam(_key);
         if(_team != null && _templates != null){
@@ -427,7 +416,6 @@ class TemplateManager {
         }
     }
 
-
     public TemplateTeam getTemplateTeam(String _key){
         if(templateTeams.size() > 0){
             for(TemplateTeam _team : templateTeams){
@@ -436,10 +424,6 @@ class TemplateManager {
         }
         return null;
     }
-
-    // public void clearTemplateFromGeom(Template _tp){
-    //
-    // }
 
     public void saveTemplateTeam(String _tags, String _key){
         println("saving template team "+_tags+" "+_key);
@@ -455,128 +439,6 @@ class TemplateManager {
     ///////     Saving and loading with XML
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
-    //
-    // public JSONObject getTemplatesJSON() {
-    //     JSONArray _templates = new JSONArray();
-    //     int _idx = 0;
-    //     for(Template _tp : templates) {
-    //         _templates.setJSONObject(_idx++, templateToJSON(_tp));
-    //         // _templatestemplateToXML(_tp, _xmlTemplates);
-    //     }
-    //
-    //     JSONArray _colors =  new JSONArray();
-    //     for(int i = 0; i < PALLETTE_COUNT; i++) {
-    //         // String tk = "p"+i;
-    //         JSONObject _c = new JSONObject();
-    //         _c.setInt("color", userPallet[i]);
-    //         _colors.setJSONObject(i, _c);
-    //     }
-    //     JSONObject _thing = new JSONObject();
-    //     _thing.setJSONArray("templates", _templates);
-    //     _thing.setJSONArray("pallette", _colors);
-    //     return _thing;
-    // }
-    //
-    // public JSONObject templateToJSON(Template _tp){
-    //     JSONObject _tmp = new JSONObject();// _xml.addChild("template");
-    //     if(_tp == null) return _tmp;
-    //     _tmp.setString("ID", str(_tp.getTemplateID()));
-    //     if(_tp.getLinkedTemplate() != null){
-    //         _tmp.setString("linked", str(_tp.getLinkedTemplate().getTemplateID()));
-    //     }
-    //     _tmp.setInt("renderMode", _tp.getRenderMode());
-    //     _tmp.setInt("segmentMode", _tp.getSegmentMode());
-    //     _tmp.setInt("animationMode", _tp.getAnimationMode());
-    //     _tmp.setInt("interpolateMode", _tp.getInterpolateMode());
-    //     _tmp.setInt("strokeMode", _tp.getStrokeMode());
-    //     _tmp.setInt("fillMode", _tp.getFillMode());
-    //     _tmp.setInt("strokeAlpha", _tp.getStrokeAlpha());
-    //     _tmp.setInt("fillAlpha", _tp.getFillAlpha());
-    //     _tmp.setInt("rotationMode", _tp.getRotationMode());
-    //     _tmp.setInt("easingMode", _tp.getEasingMode());
-    //     _tmp.setInt("reverseMode", _tp.getReverseMode());
-    //     _tmp.setInt("repetitionMode", _tp.getRepetitionMode());
-    //     _tmp.setInt("repetitionCount", _tp.getRepetitionCount());
-    //     _tmp.setInt("beatDivider", _tp.getBeatDivider());
-    //     _tmp.setInt("strokeWidth", _tp.getStrokeWeight());
-    //     _tmp.setInt("brushSize", _tp.getBrushSize());
-    //     _tmp.setInt("miscValue", _tp.getMiscValue());
-    //     _tmp.setInt("enablerMode", _tp.getEnablerMode());
-    //     _tmp.setInt("renderLayer", _tp.getRenderLayer());
-    //
-    //     _tmp.setInt("customStroke", _tp.getCustomStrokeColor());
-    //     _tmp.setInt("customFill", _tp.getCustomFillColor());
-    //
-    //
-    //     JSONArray _geoms = new JSONArray();
-    //     for( int i = 0; i < _tp.getGeometries().size(); i++){
-    //         JSONObject _g = new JSONObject();
-    //         _g.setInt("id", _tp.getGeometries().get(i));
-    //         _geoms.setJSONObject(i, _g);
-    //     }
-    //     _tmp.setJSONArray("groups", _geoms);
-    //     return _tmp;
-    // }
-    //
-    // void loadJSON(JSONObject _obj){
-    //     JSONArray _templates = _obj.getJSONArray("templates");
-    //     Template _tmp;
-    //     for(int i = 0; i < _templates.size(); i++){
-    //         JSONObject _tp = _templates.getJSONObject(i);
-    //         _tmp = getTemplate(_tp.getString("ID").charAt(0));
-    //         jsonToTemplate(_tp, _tmp);
-    //     }
-    //
-    //     //
-    //     // XML[] _templateData = file.getChildren("template");
-    //     // Template _tmp;
-    //     // for(XML _tp : _templateData) {
-    //     // }
-    //     //
-    //     JSONArray pal =  _obj.getJSONArray("pallette");
-    //     for(int i = 0; i < PALLETTE_COUNT; i++) {
-    //         // String tk = "p"+i;
-    //         userPallet[i] = pal.getJSONObject(i).getInt("color");
-    //     }
-    // }
-    //
-    // void jsonToTemplate(JSONObject _templateData, Template _tp){
-    //     if(_tp == null || _templateData == null) return;
-    //     _tp.setRenderMode(_templateData.getInt("renderMode"), 50000);
-    //     _tp.setSegmentMode(_templateData.getInt("segmentMode"), 50000);
-    //     _tp.setAnimationMode(_templateData.getInt("animationMode"), 50000);
-    //     _tp.setInterpolateMode(_templateData.getInt("interpolateMode"), 50000);
-    //     _tp.setStrokeMode(_templateData.getInt("strokeMode"), 50000);
-    //     _tp.setFillMode(_templateData.getInt("fillMode"), 50000);
-    //     _tp.setStrokeAlpha(_templateData.getInt("strokeAlpha"), 50000);
-    //     _tp.setFillAlpha(_templateData.getInt("fillAlpha"), 50000);
-    //     _tp.setRotationMode(_templateData.getInt("rotationMode"), 50000);
-    //     _tp.setEasingMode(_templateData.getInt("easingMode"), 50000);
-    //     _tp.setReverseMode(_templateData.getInt("reverseMode"), 50000);
-    //     _tp.setRepetitionMode(_templateData.getInt("repetitionMode"), 50000);
-    //     _tp.setRepetitionCount(_templateData.getInt("repetitionCount"), 50000);
-    //     _tp.setBeatDivider(_templateData.getInt("beatDivider"), 50000);
-    //     _tp.setStrokeWidth(_templateData.getInt("strokeWidth"), 50000);
-    //     _tp.setBrushSize(_templateData.getInt("brushSize"), 50000);
-    //     _tp.setMiscValue(_templateData.getInt("miscValue"), 50000);
-    //     _tp.setEnablerMode(_templateData.getInt("enablerMode"), 50000);
-    //     _tp.setRenderLayer(_templateData.getInt("renderLayer"), 50000);
-    //     _tp.setCustomStrokeColor(_templateData.getInt("customStroke"));
-    //     _tp.setCustomFillColor(_templateData.getInt("customFill"));
-    //
-    //     String _linked = _templateData.getString("linked");
-    //     if(_linked != null){
-    //         _tp.setLinkTemplate(getTemplate(_linked.charAt(0)));
-    //     }
-    //     JSONArray _grps = _templateData.getJSONArray("groups");
-    //     // XML _grps = _templateData.getChild("groups");
-    //     if(_grps != null){
-    //         for(int i = 0; i < _grps.size(); i++){
-    //             _tp.addGeometry(_grps.getJSONObject(i).getInt("id"));
-    //         }
-    //     }
-    // }
-
 
     public XML getXML() {
         XML _xmlTemplates = new XML("templates");
@@ -808,7 +670,6 @@ class TemplateManager {
         if(_tl == null) return null;
         return _tl.getAll();
     }
-
 
     // a fancier accessor, supports "ANCD" "*" "$" "$$"
     public ArrayList<Template> getTemplates(String _tags) {

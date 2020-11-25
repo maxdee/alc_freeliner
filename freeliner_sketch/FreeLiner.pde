@@ -374,12 +374,15 @@ class FreeLiner  {
     public PGraphics getCanvas() {
         return canvasManager.getCanvas();
     }
+
     public OSCCommunicator getOscCommunicator() {
         return oscComs;
     }
+
     public WebSocketCommunicator getWebCommunicator() {
         return webComs;
     }
+
     public GUIWebServer getGUIWebServer() {
         return guiWebServer;
     }

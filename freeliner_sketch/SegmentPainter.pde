@@ -189,7 +189,6 @@ class SegToSeg extends LinePainter {
         super.paintSegment(_seg, _event);
         Segment secondSeg = getNextSegment(_seg, _event.getMiscValue());
         vecLine(event.getCanvas(), getPosition(_seg), getPosition(secondSeg));
-        //vecLine(event.getCanvas(), _seg.getStrokePos(_event.getLerp()), secondSeg.getStrokePos(_event.getLerp()));
     }
 
     public Segment getNextSegment(Segment _seg, int _iter) {
@@ -230,16 +229,14 @@ class GradientLine extends LinePainter {
 
 // base brush putter
 class BrushPutter extends SegmentPainter {
-    final int BRUSH_COUNT = 10;
+    final int BRUSH_COUNT = 9;
     Brush[] brushes;
     // brush count in Config.pde
-
     public BrushPutter() {
         loadBrushes();
         name = "BrushPainter";
         description = "Place brush onto segment. Affected by `e`.";
     }
-
     public void loadBrushes() {
         brushes = new Brush[BRUSH_COUNT];
         brushes[0] = new PointBrush(0);
@@ -250,8 +247,7 @@ class BrushPutter extends SegmentPainter {
         brushes[5] = new XBrush(5);
         brushes[6] = new TriangleBrush(6);
         brushes[7] = new SprinkleBrush(7);
-        brushes[8] = new LeafBrush(8);
-        brushes[9] = new CustomBrush(9);
+        brushes[8] = new CustomBrush(8);
         if(MAKE_DOCUMENTATION) documenter.documentModes(brushes,'a', this, "Brushes");
     }
 
@@ -259,7 +255,6 @@ class BrushPutter extends SegmentPainter {
         if(_index >= BRUSH_COUNT) _index = BRUSH_COUNT - 1;
         return brushes[_index];
     }
-
 
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
@@ -285,11 +280,9 @@ class BrushPutter extends SegmentPainter {
 }
 
 class SimpleBrusher extends BrushPutter {
-
     public SimpleBrusher(int _ind) {
         modeIndex = _ind;
     }
-
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
         putShape(getPosition(_seg), getAngle(_seg, _event));
@@ -305,8 +298,6 @@ class FadedPointBrusher extends BrushPutter {
 
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
-        //putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
-        //PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
         putShape(getPosition(_seg), getAngle(_seg, _event));
     }
 
@@ -340,8 +331,6 @@ class FadedLineBrusher extends BrushPutter {
 
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
-        //putShape(_seg.getBrushPos(_event.getLerp()), _seg.getAngle(_event.getDirection()) + _event.getAngleMod());
-        //PVector pos = getInterpolator(_event.getInterpolateMode()).getPosition(_seg,_event,this);
         putShape(getPosition(_seg), getAngle(_seg, _event));
     }
 
@@ -604,12 +593,6 @@ class MetaMarkerMaker extends BrushPutter {
         canvas.shape(shape_);
         canvas.popMatrix();
     }
-    // public void putShape(PVector _pos, float _a){
-    // 	canvas.noFill();
-    // 	canvas.stroke(255);
-    // 	canvas.strokeWeight(1);
-    // 	canvas.ellipse(_pos.x, _pos.y, event.getBrushSize(),event.getBrushSize());
-    // }
 }
 
 // base brush putter

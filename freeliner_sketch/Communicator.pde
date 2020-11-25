@@ -92,7 +92,6 @@ class OSCCommunicator extends FreelinerCommunicator implements OscEventListener 
         } else if (_mess.checkTypetag("")) {
             _cmd = _mess.addrPattern().replaceAll("/", " ").replaceFirst(" ", "");
         }
-        // println(_cmd);
         // proceed to process the command
         receive(_cmd);
     }
@@ -149,7 +148,6 @@ class WebSocketCommunicator extends FreelinerCommunicator {
         webSock = new WebsocketServer(applet,
                                       projectConfig.websocketPort,
                                       "/freeliner");
-        //webSock.setNewCallback(this);
     }
 
     public void send(String _s) {
@@ -157,7 +155,6 @@ class WebSocketCommunicator extends FreelinerCommunicator {
     }
 
     public void webSocketServerEvent(String _cmd) {
-        // it
         receive(_cmd);
     }
 }

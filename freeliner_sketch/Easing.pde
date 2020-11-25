@@ -176,88 +176,6 @@ class EaseSpringInOut extends Easing {
 	}
 }
 
-//
-// class SineEasing extends Easing{
-// 	public Sine(int _ind){
-// 		modeIndex = _ind;
-// 		name = "sine";
-// 		description = "Sine ish";
-// 	}
-//
-// 	public float ease(float _lrp, RenderableTemplate _rt){
-// 		return (sin((_lrp+PI)*TWO_PI)+1.0)/2.0;
-// 	}
-// }
-//
-// class CosineEasing extends Easing{
-// 	public CosineEasing(int _ind){
-// 		modeIndex = _ind;
-// 		name = "cosine";
-// 		description = "cosine";
-// 	}
-//
-// 	public float ease(float _lrp, RenderableTemplate _rt){
-// 		return (cos(_lrp*TWO_PI)+1.0)/2.0;
-// 	}
-// }
-//
-// class Boost extends Easing{
-// 	public Boost(int _ind){
-// 		modeIndex = _ind;
-// 		name = "boost";
-// 		description = "half a sine";
-// 	}
-//
-// 	public float ease(float _lrp, RenderableTemplate _rt){
-// 		return sin((_lrp)*HALF_PI);
-// 	}
-// }
-//
-// class SmoothStep extends Easing{
-// 	public SmoothStep(int _ind){
-// 		modeIndex = _ind;
-// 		name = "smoothstep";
-// 		description = "classic smoothstep";
-// 	}
-//
-// 	public float ease(float _lrp, RenderableTemplate _rt){
-// 		return (_lrp * _lrp * (3 - 2 * _lrp));
-// 	}
-// }
-//
-// class SmootherStep extends Easing{
-// 	public SmootherStep(int _ind){
-// 		modeIndex = _ind;
-// 		name = "smootherstep";
-// 		description = "smoother smoothstep";
-// 	}
-//
-// 	public float ease(float _lrp, RenderableTemplate _rt){
-// 		return smootherStep(_lrp);
-// 	}
-//
-// 	float smootherStep(float _lrp){
-// 		return (pow(_lrp,3) *(_lrp * (_lrp * 6 - 15) + 10));
-// 	}
-// }
-//
-// class DoubleSmootherStep extends Easing{
-// 	public DoubleSmootherStep(int _ind){
-// 		modeIndex = _ind;
-// 		name = "doublesmootherstep";
-// 		description = "double smoother smoothstep";
-// 	}
-//
-// 	public float ease(float _lrp, RenderableTemplate _rt){
-// 		return smootherStep(smootherStep(_lrp));
-// 	}
-//
-// 	float smootherStep(float _lrp){
-// 		return (pow(_lrp,3) *(_lrp * (_lrp * 6 - 15) + 10));
-// 	}
-// }
-// class
-
 class RandomUnit extends Easing{
 	public RandomUnit(int _ind){
 		modeIndex = _ind;
@@ -346,7 +264,6 @@ class CustomLerp extends Easing{
 		return _rt.getFixLerp();
 	}
 }
-
 
 class SpringEasing extends Easing {
 	public SpringEasing(int _ind) {
