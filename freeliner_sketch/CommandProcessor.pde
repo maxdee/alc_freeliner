@@ -484,7 +484,7 @@ class CommandProcessor  {
     public void newCMD(String[] _args){
         println(_args);
         if(_args.length == 2) {
-            selectFolder("pick directory for new project", "newWithDir");
+            selectFolder("[project] pick directory for new project", "newWithDir");
         }
         else if(_args.length == 3) {
             File f = new File(_args[2]);
@@ -492,10 +492,6 @@ class CommandProcessor  {
             newWithDir(f);
         }
     }
-
-    // public void newWithDir(File selection){
-    //     println("selceted dir"+selection.path());
-    // }
 
     public void saveCMD(String[] _args) {
         freeliner.saveProject();

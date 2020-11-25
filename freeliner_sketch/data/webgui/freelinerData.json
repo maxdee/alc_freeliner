@@ -906,8 +906,8 @@
     {
       "max": -42,
       "name": "macro1",
-      "description": "macro1 tw A q 2",
-      "cmd": "tw A q 2",
+      "description": "macro 1: ",
+      "cmd": "",
       "type": 7,
       "ascii": 49,
       "key": "1"
@@ -915,8 +915,8 @@
     {
       "max": -42,
       "name": "macro2",
-      "description": "macro2 tw A f 7, tw A a 2",
-      "cmd": "tw A f 7, tw A a 2",
+      "description": "macro 2: ",
+      "cmd": "",
       "type": 7,
       "ascii": 50,
       "key": "2"

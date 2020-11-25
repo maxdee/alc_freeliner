@@ -43,7 +43,7 @@ class Looper {
 			if(_ha < 0.0) _ha += 1.0;
 			if(_ha < lastUnitInterval) {
 				recording = false;
-				println("stopped loop");
+				println("[looper] stopped loop");
 			}
 			lastUnitInterval = _ha;
 		}
@@ -57,6 +57,7 @@ class Looper {
 			loops.add(currentLoop);
 			primed = false;
 			recording = true;
+			println("[looper] loop started");
 		}
 		if(recording){
 			currentLoop.addCMD(_cmd, synchroniser.getLerp(currentTimeDiv));
@@ -80,6 +81,7 @@ class Looper {
 			}
 			else if(loops.size() > 0) {
 				loops.remove(loops.size()-1);
+				println("[looper] deleted loop");
 				return "delete";
 			}
 		}
@@ -91,6 +93,7 @@ class Looper {
 		if(currentTimeDiv >= _max) currentTimeDiv = _max - 1;
 		if(currentTimeDiv >= 1) {
 			primed = true;
+			println("[looper] loop ready "+currentTimeDiv);
 			return "ready "+currentTimeDiv;
 		}
 		return "ready "+currentTimeDiv;
@@ -111,13 +114,11 @@ class Loop {
 		timeOffset = _f;
 		commands = new ArrayList<TimedCommand>();
 		queue = new ArrayList<TimedCommand>();
-
-		println("new Loop "+this);
 	}
 
 	public void addCMD(String _cmd, float _t){
 		commands.add(new TimedCommand(_cmd, _t));
-		println("adding "+_cmd);
+		println("[looper] adding : "+_cmd);
 	}
 
 	public ArrayList<String> update(float _time){

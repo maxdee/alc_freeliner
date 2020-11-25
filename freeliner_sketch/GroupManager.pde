@@ -778,6 +778,7 @@ class GroupManager {
 
     public void updateLinkedFile(LinkedSvgFile _lf){
         if(_lf.checkForUpdate()){
+            println("[svg] reloading : "+_lf.fileName);
             loadGeometrySVG(_lf.fileName, _lf.groups);
         }
     }
@@ -1144,6 +1145,7 @@ class LinkedSvgFile {
         try {
             File _file = new File(projectConfig.fullPath+"/svg/"+fileName);
             if(timeStamp != _file.lastModified()) {
+                timeStamp = _file.lastModified();
                 return true;
             }
         } catch(Exception _e) {

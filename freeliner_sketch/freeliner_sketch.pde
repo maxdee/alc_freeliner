@@ -42,16 +42,15 @@ float gamma = 3.2; // 3.2 seems to be nice
 // fonts
 PFont font;
 PFont introFont;
-
+boolean createNewProject = true;
 void settings(){
     String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
-    projectConfig.load(lastProjectPath[0]);
-    // loadProjectPath(lastProjectPath[0]);
-    println("[config] window height "+projectConfig.windowHeight);
-    // // check if directory exists
-    // File f = new File(lastProjectPath[0]);
-    // if(f.isDirectory()){
-    // }
+    if(lastProjectPath != null){
+        if(lastProjectPath.length > 0){
+            projectConfig.load(lastProjectPath[0]);
+            createNewProject = true;
+        }
+    }
 
 
     if(projectConfig.fullscreen == true){
@@ -68,16 +67,11 @@ void settings(){
     PJOGL.profile=1;
     smooth(projectConfig.smoothLevel);
 
-    //
-    // projectConfig.save();
 }
 
-// void loadProjectPath(String _folderName){
-//     projectConfig.load(_folderName);
-// }
-
+// todo add default files
 public void newWithDir(File selection){
-    println("selected dir"+selection.getPath());
+    println("[project] selected dir "+selection.getPath());
     projectConfig.newProject(selection.getPath());
     String[] _dir = {projectConfig.fullPath};
     saveStrings(dataPath("last_project_path"), _dir);
@@ -90,18 +84,14 @@ public void newWithDir(File selection){
 ////////////////////////////////////////////////////////////////////////////////////
 
 void setup() {
-    // String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
-    // println("loading once ");
-    // projectConfig.load(lastProjectPath[0]);
     reset();
 }
 
 void reset(){
-    println("running reset with : "+projectConfig.fullPath);
+    println("[init] running reset with : "+projectConfig.fullPath);
     surface.setResizable(true);
     // maybe add fullscreen
     if(projectConfig.fullscreen) {
-        println("fullllscreen");
         projectConfig.windowWidth = displayWidth;
         projectConfig.windowHeight = displayHeight;
     }
@@ -129,16 +119,15 @@ void reset(){
 
     // init freeliner
     freeliner = new FreeLiner(this);
-
     noCursor();
+
     // add in keyboard, as hold - or = to repeat. beginners tend to hold keys down which is problematic
     if(projectConfig.keyRepeat) hint(ENABLE_KEY_REPEAT); // usefull for performance
-
-
-
     // perhaps use -> PApplet.platform == MACOSX
-
     makeGammaTable();
+    if(createNewProject){
+        selectFolder("pick directory for new project", "newWithDir");
+    }
 }
 
 // splash screen!
