@@ -606,7 +606,7 @@
         "key": "q"
       },
       {
-        "name": "CustomColor",
+        "name": "CustomFillColor",
         "index": 28,
         "description": "Custom fill color for template.",
         "key": "q"
@@ -894,8 +894,8 @@
     {
       "max": -42,
       "name": "macro1",
-      "description": "macro1 tw A q 2, tw AB w 20",
-      "cmd": "tw A q 2, tw AB w 20",
+      "description": "macro1 tw A q 2",
+      "cmd": "tw A q 2",
       "type": 7,
       "ascii": 49,
       "key": "1"

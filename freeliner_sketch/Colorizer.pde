@@ -291,10 +291,10 @@ class CustomStrokeColor extends Colorizer {
 		description = "Custom stroke color for template.";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
-    if(_alpha >= 255)
-        return _event.getCustomStrokeColor();
-    else
-        return alphaMod(_event.getCustomStrokeColor(), _alpha);
+        if(_alpha >= 255)
+            return _event.getCustomStrokeColor();
+        else
+            return alphaMod(_event.getCustomStrokeColor(), _alpha);
 	}
 }
 
@@ -304,13 +304,13 @@ class CustomStrokeColor extends Colorizer {
 class CustomFillColor extends Colorizer {
 	public CustomFillColor(int _ind){
     modeIndex = _ind;
-		name = "CustomColor";
+		name = "CustomFillColor";
 		description = "Custom fill color for template.";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
-    if(_alpha >= 255)
-        return _event.getCustomFillColor();
-    else
-        return alphaMod(_event.getCustomFillColor(), _alpha);
+        if(_alpha >= 255)
+            return _event.getCustomFillColor();
+        else
+            return alphaMod(_event.getCustomFillColor(), _alpha);
 	}
 }

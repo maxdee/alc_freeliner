@@ -16,7 +16,9 @@
 class Documenter  {
     ArrayList<ArrayList<Mode>> docBuffer;
     ArrayList<String> sections;
-    PrintWriter markDown;
+    PrintWriter keyMapMarkdown;
+    PrintWriter modesMarkdown;
+
     XML freelinerModes;
     IntDict modeLimits;
 
@@ -35,8 +37,8 @@ class Documenter  {
 
         freelinerModes = new XML("freelinerModes");
         modeLimits = new IntDict();
-        markDown = createWriter(sketchPath()+"/data/doc/autodoc.md");
-        markDown.println("Generated on with freeliner version "+VERSION);
+        keyMapMarkdown = createWriter(sketchPath()+"/data/generated_doc/keymap.md");
+        modesMarkdown = createWriter(sketchPath()+"/data/generated_doc/modes.md");
     }
 
     /**
@@ -51,6 +53,7 @@ class Documenter  {
             // addModesToMarkDown(_modes,_key,_parent);
             storeLimits(_key, _modes.length);
             addModesToJSON(_modes,_key,_parent);
+            addModesToMarkDown(_modes, _key, _parent);
         }
     }
 
@@ -81,8 +84,8 @@ class Documenter  {
         freelinerJSON.setJSONObject("modes", modesJSON);
         saveJSONObject(freelinerJSON, sketchPath()+"/data/webgui/freelinerData.json");
         println("**** Documentation Updated ****");
-        markDown.flush();
-        markDown.close();
+        keyMapMarkdown.flush();
+        keyMapMarkdown.close();
     }
 
     // add modes to JSON data
@@ -137,16 +140,16 @@ class Documenter  {
         freelinerJSON.setJSONArray("keys", jsonKeyMap);
     }
 
-    // void addModesToMarkDown(Mode[] _modes, char _key, Mode _parent) {
-    //     // markDown.println("| "+_key+" |  for : "+_parent.getName()+" | Description |");
-    //     // markDown.println("|:---:|---|---|");
-    //     // int _index = 0;
-    //     // for(Mode _m : _modes){
-    //     //   markDown.println("| `"+_index+"` | "+_m.getName()+" | "+_m.getDescription()+" |");
-    //     //   _index++;
-    //     // }
-    //     // markDown.println(" ");
-    // }
+    void addModesToMarkDown(Mode[] _modes, char _key, Mode _parent) {
+        modesMarkdown.println("| "+_key+" |  for : "+_parent.getName()+" | Description |");
+        modesMarkdown.println("|:---:|---|---|");
+        int _index = 0;
+        for(Mode _m : _modes){
+          modesMarkdown.println("| `"+_index+"` | "+_m.getName()+" | "+_m.getDescription()+" |");
+          _index++;
+        }
+        modesMarkdown.println(" ");
+    }
 
 
     /**
@@ -155,20 +158,20 @@ class Documenter  {
     void keyMapToMarkDown(KeyMap _km) {
         String[] typeStrings = {"action","on off","on off + value","value","value","value","action", "macro"};
         // print keyboard type, osx? azerty?
-        markDown.println("### keys ###");
-        markDown.println("| key | parameter | type | description | cmd |");
-        markDown.println("|:---:|---|---|---|---|");
+        keyMapMarkdown.println("### keys ###");
+        keyMapMarkdown.println("| key | parameter | type | description | cmd |");
+        keyMapMarkdown.println("|:---:|---|---|---|---|");
         for(ParameterKey _pk : _km.getKeyMap()) {
             if(_pk != null) {
                 int _k = (int)_pk.getKey();
                 String _ctrlkey = (_k >= 65 && _k <=90) ? "ctrl-"+char(_k+32) : str(_pk.getKey());
-                markDown.println("| `"+_ctrlkey+"` | "+
+                keyMapMarkdown.println("| `"+_ctrlkey+"` | "+
                                  _pk.getName()+" |"+
                                  typeStrings[_pk.getType()]+" |"+
                                  _pk.getDescription()+" | `"+
                                  _pk.getCMD()+"` |");
             }
         }
-        markDown.println(" ");
+        keyMapMarkdown.println(" ");
     }
 }
