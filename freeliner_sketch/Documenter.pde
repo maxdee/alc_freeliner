@@ -14,12 +14,10 @@
  * The FreelinerCommunicator handles communication with other programs over various protocols.
  */
 class Documenter  {
-    ArrayList<ArrayList<Mode>> docBuffer;
     ArrayList<String> sections;
     PrintWriter keyMapMarkdown;
     PrintWriter modesMarkdown;
 
-    XML freelinerModes;
     IntDict modeLimits;
 
     JSONObject freelinerJSON;
@@ -29,13 +27,11 @@ class Documenter  {
      * Constructor
      */
     public Documenter() {
-        docBuffer = new ArrayList();
         sections = new ArrayList();
         // sections.add("First");
         freelinerJSON = new JSONObject();
         modesJSON = new JSONObject();
 
-        freelinerModes = new XML("freelinerModes");
         modeLimits = new IntDict();
         keyMapMarkdown = createWriter(sketchPath()+"/data/generated_doc/keymap.md");
         modesMarkdown = createWriter(sketchPath()+"/data/generated_doc/modes.md");

@@ -128,13 +128,6 @@ class TemplateRenderer extends Mode{
         if(_rt.getSegmentGroup() == null) return;
         if(_rt.getSegmentGroup().isEmpty()) return;
         _rt.setCanvas(_pg);
-        // whipe meta points
-        // Template _linked = _rt.getLinkedTemplate();
-        // if(_linked != null){
-        //     if(_linked.getMetaPoisitionMarkers().size()> 3000){
-        //         _linked.clearMarkers();
-        //     }
-        // }
 
         metaFreeliner.setCommandSegments(groupManager.getCommandSegments());
         _rt.getSourceTemplate().flagClearMarkers = true;
@@ -201,7 +194,7 @@ class TemplateRenderer extends Mode{
             }
             else if(rotMode == 4) _ang = -_rt.getLerp()*PI;
             else if(rotMode == 5) _ang = _rt.getLerp()*PI;
-            else if(rotMode == 6) _ang = random(1.0);
+            else if(rotMode == 6) _ang = random(TWO_PI);
 
             if(_rt.getDirection()) _ang -= PI;
                 _rt.setAngleMod(_ang);

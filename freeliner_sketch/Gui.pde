@@ -55,7 +55,7 @@ class Gui  {
     // The Template tags of templates selected by the TemplateManager
     String renderString = "_";
 
-    String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS", "info1", "info2"};
+    String[] allInfo = {"Geom", "Rndr", "Key", "Time", "FPS","project", "info", "info", "info", "info"};
 
     PImage colorMap;
     /**
@@ -172,12 +172,14 @@ class Gui  {
         allInfo[3] = "["+getTimeRunning()+"]";
         // framerate ish
         allInfo[4] = "["+(int)frameRate+"]";
+        allInfo[5] = "["+projectConfig.projectName+"]";
+
         // 5 6 reserved for now
     }
 
     public void setInfo(int _index, String _text){
-        if(_index >= 0 && _index < allInfo.length-5){
-            allInfo[5+_index] = _text;
+        if(_index >= 0 && _index < allInfo.length-6){
+            allInfo[6+_index] = _text;
         }
     }
 
