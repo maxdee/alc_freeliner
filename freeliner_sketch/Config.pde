@@ -45,29 +45,29 @@ class FreelinerProject {
     int guiFontSize = 20;
     int nodeSize = 5;
     int nodeColor = #989898;
-    int nodeAlpha = 100;
+    int nodeAlpha = 200;
     int nodeStrokeWeigth = 5;
     int previewLineStrokeWeight = 1;
     color previewLineColor = #ffffff;
-    int previewLineAlpha = 100;
+    int previewLineAlpha = 200;
 
     color cursorColor = #FFFFFF;
-    int cursorAlpha = 100;
+    int cursorAlpha = 200;
     color cursorColorSnapped = #00FF00;
-    int cursorAlphaSnapped = 200;
+    int cursorAlphaSnapped = 255;
     boolean enableSnapeToLines = true;
     color guiTextColor = #FFFFFF;
-    int guiTextAlpha = 100;
+    int guiTextAlpha = 200;
     color gridColor = #969696;//9696;
-    int gridAlpha = 100;
+    int gridAlpha = 150;
     int gridStrokeWeight = 1;//9696;
     color lineSegmentColor = #BEBEBE;
-    int lineSegmentAlpha = 100;
+    int lineSegmentAlpha = 150;
     int lineSegmentStrokeWeight = 1;
     color lineSegmentColorUnselected = #2D2D2D;
-    int lineSegmentAlphaUnselected = 100;
+    int lineSegmentAlphaUnselected = 150;
     color arrowColor = #5D5D5D;
-    int arrowAlpha = 100;
+    int arrowAlpha = 150;
 
 
     boolean rotateCursorOnSnap = false;
@@ -87,7 +87,6 @@ class FreelinerProject {
 
     boolean makeNewProjectFlag = false;
     public FreelinerProject(){}
-
 
     // first thing that gets called when starting freeliner
     // pass a directory, exisiting or to be created
