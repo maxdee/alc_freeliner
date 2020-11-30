@@ -615,23 +615,16 @@ function otherInputCallbacks() {
     _element = document.getElementById("strokePicker");
     if(_element) _element.oninput = function () {
         var _c = document.getElementById("strokePicker").value;
-        sendCMD('tw '+selectedTemplate+' q 28');
+        sendCMD('tw '+selectedTemplate+' q 27');
         sendCMD('tp stroke '+selectedTemplate+' '+_c);
     }
 
     _element = document.getElementById("fillPicker");
     if(_element) _element.oninput = function () {
         var _c = document.getElementById("fillPicker").value;
-        sendCMD('tw '+selectedTemplate+' f 29');
+        sendCMD('tw '+selectedTemplate+' f 28');
         sendCMD('tp fill '+selectedTemplate+' '+_c);
     }
-
-    // _element = document.getElementById("fillPicker");
-    // if(_element) _element.onchange = function (){
-    //   var _c = document.getElementById("fillPicker").value;
-    //   sendCMD('tw '+selectedTemplate+' f 29');
-    //   sendCMD('tp fill '+selectedTemplate+' '+_c);
-    // }
 
     _element = document.getElementById("interfaceColor");
     if(_element) _element.onchange = function () {
