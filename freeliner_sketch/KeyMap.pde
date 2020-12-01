@@ -273,7 +273,7 @@ class KeyMap {
         // reverseMouse
         keymap['I'] = new ParameterKey('I');
         keymap['I'].setType(KEYTYPE_TOGGLE);
-        keymap['I'].setName("revMouseX");
+        keymap['I'].setName("reverseMouseX");
         keymap['I'].setDescription("Reverse the X axis of mouse, trust me its handy.");
         keymap['I'].setCMD("tools revx"); //
         // link
@@ -286,7 +286,7 @@ class KeyMap {
         keymap['N'] = new ParameterKey('N');
         keymap['N'].setType(KEYTYPE_FILE_OPEN);
         keymap['N'].setName("newproject");
-        keymap['N'].setDescription("Set the directory for a new project");
+        keymap['N'].setDescription("Set the directory for a new project or an existing project.");
         keymap['N'].setCMD("fl new"); //
         // open
         keymap['O'] = new ParameterKey('O');

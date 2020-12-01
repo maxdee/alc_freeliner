@@ -25,9 +25,9 @@
 | `ctrl-b` | add |action |Toggle second template on all geometry with first template. | `tp groupadd $` |
 | `ctrl-c` | copy |action |Copy first selected template into second selected. | `tp copy $` |
 | `ctrl-d` | customShape |value |Set a template's customShape. | `tp shape $` |
-| `ctrl-i` | revMouseX |on off |Reverse the X axis of mouse, trust me its handy. | `tools revx` |
+| `ctrl-i` | reverseMouseX |on off |Reverse the X axis of mouse, trust me its handy. | `tools revx` |
 | `ctrl-l` | link |action |Link one template to an other unidirectionaly, used for meta freelining. | `tp link $` |
-| `ctrl-n` | newproject |action |Set the directory for a new project | `fl new` |
+| `ctrl-n` | newproject |action |Set the directory for a new project or an existing project. | `fl new` |
 | `ctrl-o` | open |action |Open stuff | `fl open` |
 | `ctrl-p` | priority |value |Change the geometry render order, if a group is selected, changes this groups render priority, or all groups with selected template. | `geom priority $` |
 | `ctrl-q` | quit |action |quit freeliner! | `fl quit` |

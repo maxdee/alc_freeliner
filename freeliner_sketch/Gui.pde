@@ -39,6 +39,7 @@ class Gui  {
     boolean viewLines;
     boolean viewTags;
     boolean viewCursor;
+    boolean reverseX;
 
     // reference gridSize and grid canvas, gets updated if the mouse gridSize changes.
     int gridSize = projectConfig.gridSize;

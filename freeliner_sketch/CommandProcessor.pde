@@ -77,11 +77,11 @@ class CommandProcessor  {
         ///////////////////  Tools
         "tools lines 0|1|-3",
         "tools tags 0|1|-3",
-        "tools capture", // not implemented should be in post????
         "tools snap (dist)",
         "tools grid (size)",
         "tools ruler (length)",
         "tools angle (angle)",
+        "tools revx",
         ///////////////////  Geometry
         "geom text (2 3) bunch of words",
         "geom save (coolMap.xml)",
@@ -600,11 +600,11 @@ class CommandProcessor  {
     ////////////////////////////////////////////////////////////////////////////////////
     // * tools lines
     // * tools tags
-    // * tools capture
     // * tools snap (dist)
     // * tools grid (size)
     // * tools ruler (length)
     // * tools angle (angle)
+    // * tools revx
 
     public boolean toolsCMD(String[] _args) {
         if(_args.length < 2) return false;
@@ -615,6 +615,10 @@ class CommandProcessor  {
         else if(_args[1].equals("grid")) return gridCMD(_args);
         else if(_args[1].equals("ruler")) return rulerCMD(_args);
         else if(_args[1].equals("angle")) return angleCMD(_args);
+        else if(_args[1].equals("revx")) {
+            valueGiven = str(gui.mouse.toggleInvertMouse());
+            return true;
+        }
         else return false;
         return true;
     }

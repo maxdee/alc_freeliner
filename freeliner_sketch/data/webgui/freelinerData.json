@@ -1046,7 +1046,7 @@
     },
     {
       "max": -42,
-      "name": "revMouseX",
+      "name": "reverseMouseX",
       "description": "Reverse the X axis of mouse, trust me its handy.",
       "cmd": "tools revx",
       "type": 1,
@@ -1065,7 +1065,7 @@
     {
       "max": -42,
       "name": "newproject",
-      "description": "Set the directory for a new project",
+      "description": "Set the directory for a new project or an existing project.",
       "cmd": "fl new",
       "type": 6,
       "ascii": 78,
