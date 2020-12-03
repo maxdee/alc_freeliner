@@ -542,58 +542,65 @@ class PositionCollector extends BrushPutter {
     public PositionCollector(int _mi) {
         modeIndex = _mi;
         name = "PositionCollector";
-        description = "Store all previous positions in template itself";
-        // modeIndex = _mi;
+        description = "Save position markers into template, for use use with meta-freelining.";
     }
 
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
-
         PVector _pos = getPosition(_seg);
-        _pos.z = getAngle(_seg, _event);
-        _event.getSourceTemplate().addMetaPositionMarker(_pos);
-        // println(_pos);
-        putShape(_pos, _pos.z);
+        float _a = getAngle(_seg, _event);
+        _event.getSourceTemplate().addMetaPositionMarker(_pos, _a, _event.getBrushSize());
+        putShape(_pos, _a);
     }
 }
 
-
-class MetaMarkerMaker extends BrushPutter {
-    public MetaMarkerMaker() {}
-    public MetaMarkerMaker(int _mi) {
-        modeIndex = _mi;
-        name = "MetaMarkerMaker";
-        description = "Generate points into the linked template";
-        // modeIndex = _mi;
-    }
-    public void paintSegment(Segment _seg, RenderableTemplate _event) {
-        super.paintSegment(_seg, _event);
-        Template _linked = _event.getLinkedTemplate();
-        if(_linked != null) {
-            PVector _pos = getPosition(_seg);
-            _pos.z = _event.getBrushSize();
-            _linked.addMetaPositionMarker(_pos);
-            putShape(_pos, 0);
-        }
-    }
-
-    // regular putShape
-    public void putShape(PVector _p, float _a) {
-        PShape shape_;
-        shape_ = getBrush(4).getShape(event);
-        if(shape_ == null) return;
-        applyStyle(shape_);
-        applyColor(shape_);
-        float scale = event.getBrushSize() / 20.0; // devided by base brush size
-        shape_.setStrokeWeight(event.getStrokeWeight()/scale);
-        canvas.pushMatrix();
-        canvas.translate(_p.x, _p.y);
-        canvas.rotate(_a+ HALF_PI);
-        canvas.scale(scale);
-        canvas.shape(shape_);
-        canvas.popMatrix();
+class PositionMarker {
+    PVector pos;
+    float angle;
+    int size;
+    PositionMarker(PVector _p, float _a, int _s){
+        pos = _p.get();
+        angle = _a;
+        size = _s;
     }
 }
+//
+// class PositionProvider extends BrushPutter {
+//     public PositionProvider() {}
+//     public PositionProvider(int _mi) {
+//         modeIndex = _mi;
+//         name = "PositionProvider";
+//         description = "Save points into the linked template";
+//         // modeIndex = _mi;
+//     }
+//     public void paintSegment(Segment _seg, RenderableTemplate _event) {
+//         super.paintSegment(_seg, _event);
+//         Template _linked = _event.getLinkedTemplate();
+//         if(_linked != null) {
+//             PVector _pos = getPosition(_seg);
+//             _pos.z = _event.getBrushSize();
+//             _linked.addMetaPositionMarker(_pos);
+//             putShape(_pos, 0);
+//         }
+//     }
+//
+//     // // regular putShape
+//     // public void putShape(PVector _p, float _a) {
+//     //     PShape shape_;
+//     //     shape_ = getBrush(4).getShape(event);
+//     //     if(shape_ == null) return;
+//     //     applyStyle(shape_);
+//     //     applyColor(shape_);
+//     //     float scale = event.getBrushSize() / 20.0; // devided by base brush size
+//     //     shape_.setStrokeWeight(event.getStrokeWeight()/scale);
+//     //     canvas.pushMatrix();
+//     //     canvas.translate(_p.x, _p.y);
+//     //     canvas.rotate(_a+ HALF_PI);
+//     //     canvas.scale(scale);
+//     //     canvas.shape(shape_);
+//     //     canvas.popMatrix();
+//     // }
+// }
 
 // base brush putter
 class SegmentCommandParser extends MetaPoint {

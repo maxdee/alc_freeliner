@@ -136,6 +136,7 @@ class FreeLiner  {
 
         canvasManager.render(_toRender);
         groupManager.updateLinkedSvgs();
+        // clear markers?
     }
 
     // its a dummy for FreelinerLED

@@ -109,8 +109,7 @@
 | `0` | SegmentCommand | MetaFreelining, execute commands of commandSegments |
 | `1` | StrokeColorPicker | MetaFreelining, pick a stroke color from colorMap, load one with colormap colorMap.png |
 | `2` | FillColorPicker | MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png |
-| `3` | MetaMarkerMaker | Generate points into the linked template |
-| `4` | PositionCollector | Store all previous positions in template itself |
+| `3` | PositionCollector | Save position markers into template, for use use with meta-freelining. |
  
 | b |  for : TemplateRenderer | Description |
 |:---:|---|---|
@@ -164,4 +163,5 @@
 | `14` | targetNoise | fake audio response |
 | `15` | fixed-1.0 | fixed at 1.0 |
 | `16` | fixed-0.5 | fixed at 0.5 |
-| `
+| `17` | fixed-0.0 | fixed at 0.0 |
+| `18` | Ease

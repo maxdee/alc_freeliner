@@ -56,8 +56,11 @@ class Template {
 
 	// custom shape
   	PShape customShape;
+	// rotation / translate / scale
 	PVector translation;
-	PVector rotation;
+	PVector scale;
+	float rotation;
+
 
 
   	// custom color
@@ -75,7 +78,7 @@ class Template {
 	// moved from tweakable
 	int bankIndex;
 	ArrayList<Template> bank;
-	ArrayList<PVector> metaPositionMarkers;
+	ArrayList<PositionMarker> metaPositionMarkers;
 	boolean flagClearMarkers = false;
 	PVector lastPosition;
 	boolean markersUpdated = false;
@@ -87,7 +90,7 @@ class Template {
 	public Template(){
 		reset();
 		bank = new ArrayList();
-		metaPositionMarkers = new ArrayList();
+		metaPositionMarkers = new ArrayList<PositionMarker>();
 		bankIndex = 0;
 		launchCount = 0;
 		lastPosition = new PVector(0,0);
@@ -97,7 +100,7 @@ class Template {
 		templateID = _id;
 		reset();
 		bank = new ArrayList();
-		metaPositionMarkers = new ArrayList();
+		metaPositionMarkers = new ArrayList<PositionMarker>();
 		bankIndex = 0;
 		launchCount = 0;
 		lastPosition = new PVector(0,0);
@@ -200,6 +203,7 @@ class Template {
 		linkedTemplate = _tp.getLinkedTemplate();
 		fixLerp = _tp.getFixLerp();
 		translation = _tp.getTranslation();
+		scale = _tp.getScale();
 		rotation = _tp.getRotation();
 
 		geometries = _tp.getGeometries().copy();
@@ -232,8 +236,10 @@ class Template {
 		renderLayer = 1;
 		customStrokeColor = color(0,0,50,255);
 		customFillColor = color(50,50,50,255);
-		translation = new PVector(0,0,0);
-		rotation = new PVector(0,0,0);
+		translation = new PVector(0,0);
+		scale = new PVector(1,1);
+		rotation = 0;
+		miscValue = 4;
 		linkedTemplate = null;
 		geometries = new IntList();
  	}
@@ -402,9 +408,12 @@ class Template {
 		return fixLerp;
 	}
 	public PVector getTranslation(){
-		return translation;
+		return translation.get();
 	}
-	public PVector getRotation(){
+	public PVector getScale(){
+		return scale.get();
+	}
+	public float getRotation(){
 		return rotation;
 	}
 
@@ -538,8 +547,11 @@ class Template {
 		translation.set(_pv);
 	}
 
-	public void setRotation(PVector _pv){
-		rotation.set(_pv);
+	public void setRotation(float _f){
+		rotation = _f;
+	}
+	public void setScale(PVector _pv){
+		scale.set(_pv);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////
@@ -570,19 +582,19 @@ class Template {
 		return lastPosition.get();
 	}
 
-	public void addMetaPositionMarker(PVector _pv){
+	public void addMetaPositionMarker(PVector _pv, float _a, int _s){
 		markersUpdated = true;
 		if(flagClearMarkers){
 			clearMarkers();
 			flagClearMarkers = false;
 		}
-		metaPositionMarkers.add(_pv);
+		metaPositionMarkers.add(new PositionMarker(_pv, _a, _s));
 	}
 
-	public ArrayList<PVector> getMetaPoisitionMarkers(){
-		flagClearMarkers = true;
-		if(!markersUpdated) clearMarkers();
-		markersUpdated = false;
+	public ArrayList<PositionMarker> getMetaPoisitionMarkers(){
+		// flagClearMarkers = true;
+		// if(!markersUpdated) clearMarkers();
+		// markersUpdated = false;
 		return metaPositionMarkers;
 	}
 

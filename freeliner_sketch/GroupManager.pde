@@ -88,25 +88,25 @@ class GroupManager {
 
     // for all positions in Template, create transformed SegmentGroup clone
     public void cloneGeometries(Template tpPositions, SegmentGroup source){
-        ArrayList<PVector> positions = tpPositions.getMetaPoisitionMarkers();
+        ArrayList<PositionMarker> _markers = tpPositions.getMetaPoisitionMarkers();
         // remove any clones of sourceGeom
         clearClonesOf(source);
-        for(PVector pos : positions) {
+        for(PositionMarker _m : _markers) {
             SegmentGroup clone = newClone();
-            println("cloning "+source.getID()+" to "+clone.getID()+" "+pos);
-            cloneTransform(source, clone, pos);
+            println("cloning "+source.getID()+" to "+clone.getID()+" "+_m.pos);
+            cloneTransform(source, clone, _m.pos);
         }
     }
 
     public void cloneSegments(Template tpPositions, SegmentGroup source){
-        ArrayList<PVector> positions = tpPositions.getMetaPoisitionMarkers();
+        ArrayList<PositionMarker> _markers = tpPositions.getMetaPoisitionMarkers();
         // remove any clones of sourceGeom
         clearClonesOf(source);
         SegmentGroup clone = newClone();
         clone.clear();
-        for(PVector pos : positions) {
-            println("cloning "+source.getID()+" to "+clone.getID()+" "+pos);
-            cloneTransformSegments(source, clone, pos);
+        for(PositionMarker _m : _markers) {
+            println("cloning "+source.getID()+" to "+clone.getID()+" "+_m.pos);
+            cloneTransformSegments(source, clone, _m.pos);
             println(clone.segments.size());
         }
     }

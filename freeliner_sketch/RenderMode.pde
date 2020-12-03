@@ -260,11 +260,11 @@ class FeatheredRender extends PerSegment {
 // Make lines on segments
 class MetaFreelining extends PerSegment {
     SegmentPainter[] segmentPainters;
-    int painterCount = 5;
+    int painterCount = 4;
     SegmentCommandParser segmentCommandParser;
     StrokeColorPicker strokeColorPicker;
     FillColorPicker fillColorPicker;
-    // MetaMarkerMaker metaMarkerMaker;
+    // PositionProvider PositionProvider;
 
     public MetaFreelining(int _ind) {
         super();
@@ -279,8 +279,8 @@ class MetaFreelining extends PerSegment {
 
         fillColorPicker = new FillColorPicker(2);
         segmentPainters[2] = fillColorPicker;
-        segmentPainters[3] = new MetaMarkerMaker(3);
-        segmentPainters[4] = new PositionCollector(4);
+        // segmentPainters[3] = new PositionProvider(3);
+        segmentPainters[3] = new PositionCollector(3);
 
         name = "MetaFreelining";
         description = "Use freeliner to automate itself.";
@@ -288,11 +288,6 @@ class MetaFreelining extends PerSegment {
         if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "MetaModes");
 
     }
-    //
-    //
-    // public void doRender(RenderableTemplate _event) {
-    //     super.doRender(_event);
-    // }
 
     public SegmentPainter getPainter(int _index) {
         if(_index >= painterCount) _index = painterCount - 1;

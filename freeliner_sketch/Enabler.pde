@@ -57,9 +57,6 @@ class EveryX extends Enabler{
 	}
 }
 
-
-
-
 class RandomEnabler extends Enabler{
 	public RandomEnabler(int _ind){
 		modeIndex = _ind;
@@ -126,32 +123,33 @@ class StrobeEnabler extends Enabler{
 	}
 }
 
-class MetaEnabler extends Enabler{
-	final float DIST = 200.0;//float(width)/4.0;
+// class MetaEnabler extends Enabler{
+// 	final float DIST = 200.0;//float(width)/4.0;
+//
+// 	public MetaEnabler(){}
+// 	public MetaEnabler(int _ind){
+// 		modeIndex = _ind;
+// 		name = "meta enable";
+// 		description = "use other template with meta mode to enable through movement";
+// 	}
+//
+// 	public boolean enable(RenderableTemplate _rt){
+// 		float pos = _rt.getSegmentGroup().getCenter().x - DIST/2.0;
+// 		float tracker = (-_rt.getUnitInterval()+1)*float(width);
+// 		float diff = pos - tracker;
+// 		if(diff < DIST && diff > 0){
+// 			//println();
+// 			_rt.setUnitInterval(diff/DIST);
+// 			return true;
+// 		}
+// 		else return false;
+// 	}
+// }
 
-	public MetaEnabler(){}
-	public MetaEnabler(int _ind){
-		modeIndex = _ind;
-		name = "meta enable";
-		description = "use other template with meta mode to enable through movement";
-	}
-
-	public boolean enable(RenderableTemplate _rt){
-		float pos = _rt.getSegmentGroup().getCenter().x - DIST/2.0;
-		float tracker = (-_rt.getUnitInterval()+1)*float(width);
-		float diff = pos - tracker;
-		if(diff < DIST && diff > 0){
-			//println();
-			_rt.setUnitInterval(diff/DIST);
-			return true;
-		}
-		else return false;
-	}
-}
-
+//
 class MarkerEnabler extends Enabler{
 	// final float DIST = 200.0;//float(width)/4.0;
-
+	int warnCount = 0;
 	public MarkerEnabler(){
 	}
 	public MarkerEnabler(int _ind){
@@ -160,23 +158,32 @@ class MarkerEnabler extends Enabler{
 		description = "Use meta points to enablestuff";
 	}
 	public boolean enable(RenderableTemplate _rt){
-		PVector _pos = null;
-		for(PVector _marker :_rt.getSourceTemplate().getMetaPoisitionMarkers()){
-			if(_marker != null){
-				_pos = _marker;
+		PositionMarker _marker = null;
+		Template linked = _rt.getLinkedTemplate();
+		if(linked == null){
+			println("[meta-freelining] WARNING : template "+_rt.getTemplateID()+" has no linked template");
+			return false;
+		}
+		for(PositionMarker _m : linked.getMetaPoisitionMarkers()){
+			if(_m != null){
+				_marker = _m;
 			}
 		}
-		if(_pos != null){
+		if(_marker == null){
+			println("[meta-freelining] WARNING : template "+linked.getTemplateID()+
+					" has no position to provide to template "+_rt.getTemplateID()
+				);
+		}
+		else {
+			println("yes: "+_marker.pos);
 			PVector _center = _rt.getSegmentGroup().getCenter();
-			float _s = _pos.z;
-			float _d = _pos.dist(_center)-_s;
+			float _s = float(_marker.size);
+			float _d = _marker.pos.dist(_center) - _s;
 			if(_d < _s && _d > 0){
 				_rt.setUnitInterval(_d/_s);
 				return true;
 			}
-			else return false;
 		}
-		// else return false;
 		return false;
 	}
 }

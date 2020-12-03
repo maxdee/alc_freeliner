@@ -28,7 +28,7 @@
 | `ctrl-i` | reverseMouseX |on off |Reverse the X axis of mouse, trust me its handy. | `tools revx` |
 | `ctrl-l` | link |action |Link one template to an other unidirectionaly, used for meta freelining. | `tp link $` |
 | `ctrl-n` | newproject |action |Set the directory for a new project or an existing project. | `fl new` |
-| `ctrl-o` | open |action |Open stuff | `fl open` |
+| `ctrl-o` | open |action |Open/load files from project. | `fl open` |
 | `ctrl-p` | priority |value |Change the geometry render order, if a group is selected, changes this groups render priority, or all groups with selected template. | `geom priority $` |
 | `ctrl-q` | quit |action |quit freeliner! | `fl quit` |
 | `ctrl-r` | reset |action |Reset template. | `tp reset $` |

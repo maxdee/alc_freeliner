@@ -800,15 +800,9 @@
         "key": "a"
       },
       {
-        "name": "MetaMarkerMaker",
-        "index": 3,
-        "description": "Generate points into the linked template",
-        "key": "a"
-      },
-      {
         "name": "PositionCollector",
-        "index": 4,
-        "description": "Store all previous positions in template itself",
+        "index": 3,
+        "description": "Save position markers into template, for use use with meta-freelining.",
         "key": "a"
       }
     ],
@@ -1074,7 +1068,7 @@
     {
       "max": -42,
       "name": "open",
-      "description": "Open stuff",
+      "description": "Open/load files from project.",
       "cmd": "fl open",
       "type": 6,
       "ascii": 79,
@@ -1144,7 +1138,7 @@
       "key": "["
     },
     {
-      "max": 5000,
+      "max": 10000,
       "name": "fixedLength",
       "description": "enable/disable fixed length for the mouse",
       "cmd": "tools ruler",

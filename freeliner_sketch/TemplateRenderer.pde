@@ -121,8 +121,11 @@ class TemplateRenderer extends Mode{
 
   /**
    * Render a renderable template.
+   * Each RenderableTemplate has a single geometry attached to it.
    * @param RenderableTemplate to render.
+   * @param PGraphics texture
    */
+
    public void render(RenderableTemplate _rt, PGraphics _pg){
         if(_rt == null) return;
         if(_rt.getSegmentGroup() == null) return;
@@ -130,21 +133,24 @@ class TemplateRenderer extends Mode{
         _rt.setCanvas(_pg);
 
         metaFreeliner.setCommandSegments(groupManager.getCommandSegments());
+        // position markers get cleared before re-freshing
         _rt.getSourceTemplate().flagClearMarkers = true;
 
 
         // check the enabler, it may modify the unitInterval
         if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
 
-        // translate, beta...
+        // translate rotate and scale
         _pg.pushMatrix(); // new
         PVector _trans = _rt.getTranslation();
+        PVector _scale = _rt.getScale();
+        PVector _center = _rt.getSegmentGroup().getCenter();
         _pg.translate(_trans.x*width, _trans.y*height);
-        // rotate beta
-        _pg.translate(width/2, height/2);
-        PVector _rot = _rt.getRotation();
-        _pg.rotate(_rot.z*TWO_PI);
-        _pg.translate(-width/2, -height/2);
+        _pg.translate(_center.x, _center.y);
+        float _rot = _rt.getRotation();
+        _pg.rotate(_rot*TWO_PI);
+        _pg.scale(_scale.x, _scale.y);
+        _pg.translate(-_center.x, -_center.y);
 
         // get multiple unit intervals to use
         float _eased = getEaser(_rt.getEasingMode())
@@ -175,6 +181,7 @@ class TemplateRenderer extends Mode{
                 .doRender(_rt);
         }
         _pg.popMatrix();
+
   }
 
   //needs work

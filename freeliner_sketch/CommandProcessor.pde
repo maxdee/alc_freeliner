@@ -51,13 +51,11 @@ class CommandProcessor  {
         "tp remove A geom",
 
         "tp lerp A 0.5",
-        "tp rotate A 0.5 0.5 0.5",
-        "tp translate AB 0.5 0.5 0.5",
+        "tp rotate A 0.5",
+        "tp translate AB 0.5 0.5",
+        "tp scale AB 0.5 0.5",
         "tp random",
 
-        // "tps AB fun_effect",
-        // "tpl fun_effect AB",
-        // "tp rotate"
         // add tp setshape (geometryIndex | char | .svg)
         /////////////////// Sequencer
         "seq tap (offset)",
@@ -937,18 +935,9 @@ class CommandProcessor  {
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
-    ///////     Template commands ********TESTED********
+    ///////     Template commands
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
-    // * tw AB q 3
-    // * tr AB (geometry)
-    // * tp copy (AB)
-    // * tp paste (AB)
-    // * tp share (AB)
-    // * tp reset (AB)
-    // * tp save (cooleffects.xml)
-    // * tp load (coolstuff.xml)
-    // * tp color AB r g b a
 
     public boolean templateCMD(String[] _args) {
         if(_args[0].equals("tw")) tweakTemplates(_args);
@@ -969,12 +958,12 @@ class CommandProcessor  {
             else if(_args[1].equals("select")) tpSelectCMD(_args);
             else if(_args[1].equals("translate")) tpTranslateCMD(_args);
             else if(_args[1].equals("rotate")) tpRotateCMD(_args);
+            else if(_args[1].equals("scale")) tpScaleCMD(_args);
+
             else if(_args[1].equals("toggle")) toggleCMD(_args);
             else if(_args[1].equals("add") || _args[1].equals("remove")) addRemoveCMD(_args);
             else if(_args[1].equals("lerp")) lerpCMD(_args);
             else if(_args[1].equals("free")) listFreeCMD();
-
-
         } else return false;
         return true;
     }
@@ -1127,48 +1116,56 @@ class CommandProcessor  {
         }
     }
 
-// tp translate AB 0.5 0.5 0.5
+// tp translate AB 0.5 0.5
     public void tpTranslateCMD(String[] _args) {
         looper.receive(join(_args, " "));
         if(_args.length < 5) return;
         float x = stringFloat(_args[3]);
         float y = stringFloat(_args[4]);
-        float z = 0;
-        if(_args.length > 5) z = stringFloat(_args[5]);
-        PVector _translate = new PVector(x,y,z);
+        PVector _translate = new PVector(x,y);
         ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
         if(_tmps == null) return;
         for(Template _rt : _tmps) {
             _rt.setTranslation(_translate);
         }
-
-        // scuff mixer info
-        String below = "";
-        String above = "";
-        for(Template _tp : templateManager.getTemplates()) {
-            if(_tp.translation.x == 0) {
-                above += _tp.getTemplateID();
-            }
-            else {
-                below += _tp.getTemplateID();
-            }
-        }
-        queueCMD("info 0 ["+above+"]");
-        queueCMD("info 1 ["+below+"]");
+        // // scuff mixer info
+        // String below = "";
+        // String above = "";
+        // for(Template _tp : templateManager.getTemplates()) {
+        //     if(_tp.translation.x == 0) {
+        //         above += _tp.getTemplateID();
+        //     }
+        //     else {
+        //         below += _tp.getTemplateID();
+        //     }
+        // }
+        // queueCMD("info 0 ["+above+"]");
+        // queueCMD("info 1 ["+below+"]");
     }
 
-    public void tpRotateCMD(String[] _args) {
+    public void tpScaleCMD(String[] _args) {
         looper.receive(join(_args, " "));
-        if(_args.length < 6) return;
+        if(_args.length < 5) return;
         float x = stringFloat(_args[3]);
         float y = stringFloat(_args[4]);
-        float z = stringFloat(_args[5]);
-        // if(_args.length > 5) z = stringFloat(_args[5]);
-        PVector _rotate = new PVector(x,y,z);
+        PVector _scale = new PVector(x,y);
         ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
         if(_tmps == null) return;
         for(Template _rt : _tmps) {
-            _rt.setRotation(_rotate);
+            _rt.setScale(_scale);
+        }
+    }
+
+    // tp rotate AB 0.5
+    public void tpRotateCMD(String[] _args) {
+        looper.receive(join(_args, " "));
+        if(_args.length < 4) return;
+        float _angle = stringFloat(_args[3]);
+        // if(_args.length > 5) z = stringFloat(_args[5]);
+        ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
+        if(_tmps == null) return;
+        for(Template _rt : _tmps) {
+            _rt.setRotation(_angle);
         }
     }
 

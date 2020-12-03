@@ -1,3 +1,4 @@
+        // modeIndex = _mi;
 
 
 // Segment Selector take a segmentGroup and returns segments to render
@@ -204,14 +205,19 @@ class MetaSegmentSelector extends SegmentSelector{
 	public ArrayList<LerpSegment> getSegments(RenderableTemplate _event){
 		ArrayList<LerpSegment> _segs = new ArrayList();
 
-		PVector _pos = null;
-		for(PVector _marker :_event.getSourceTemplate().getMetaPoisitionMarkers()){
+		Template linked = _event.getLinkedTemplate();
+		if(linked == null){
+			println("[meta-freelining] WARNING : template "+_event.getTemplateID()+" has no linked template");
+			return _segs;
+		}
+
+		for(PositionMarker _marker : linked.getMetaPoisitionMarkers()){
 			if(_marker != null){
 				for(Segment _seg : _event.segmentGroup.getSegments()){
 					if(_seg != null) {
 						PVector _center = _seg.getMidPoint();
-						float _s = _marker.z;
-						float _d = _marker.dist(_center)-_s;
+						float _s = _marker.size;
+						float _d = _marker.pos.dist(_center)-_s;
 						if(_d < _s && _d > 0){
 							_segs.add(new LerpSegment(_seg, _d/_s));
 						}
@@ -222,35 +228,3 @@ class MetaSegmentSelector extends SegmentSelector{
 		return _segs;
 	}
 }
-
-
-
-//
-//
-//
-// class MarkerEnabler extends Enabler{
-// 	// final float DIST = 200.0;//float(width)/4.0;
-//
-// 	public MarkerEnabler(){
-// 	}
-// 	public MarkerEnabler(int _ind){
-// 		modeIndex = _ind;
-// 		name = "MarkerEnabler";
-// 		description = "Use meta points to enablestuff";
-// 	}
-// 	public boolean enable(RenderableTemplate _rt){
-//
-// 		if(_pos != null){
-// 			PVector _center = _rt.getSegmentGroup().getCenter();
-// 			float _s = _pos.z;
-// 			float _d = _pos.dist(_center)-_s;
-// 			if(_d < _s && _d > 0){
-// 				_rt.setUnitInterval(_d/_s);
-// 				return true;
-// 			}
-// 			else return false;
-// 		}
-// 		// else return false;
-// 		return false;
-// 	}
-// }

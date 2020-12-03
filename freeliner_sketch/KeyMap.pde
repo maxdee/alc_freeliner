@@ -64,14 +64,14 @@ class KeyMap {
         keymap['d'].setType(0);
         keymap['d'].setName("breakline");
         keymap['d'].setDescription("Detach line to new starting position.");
-        keymap['d'].setCMD("geom breakline"); //
+        keymap['d'].setCMD("geom breakline");
 
         // enterpolator
         keymap['e'] = new ParameterKey('e');
         keymap['e'].setType(KEYTYPE_VALUE);
         keymap['e'].setName("enterpolator");
         keymap['e'].setDescription("Enterpolator picks a position along a segment");
-        keymap['e'].setCMD("tw $ e"); //
+        keymap['e'].setCMD("tw $ e");
 
         // fillColor
         keymap['f'] = new ParameterKey('f');
@@ -85,7 +85,7 @@ class KeyMap {
         keymap['g'].setType(KEYTYPE_TOGGLE_VALUE);
         keymap['g'].setName("grid");
         keymap['g'].setDescription("use snappable grid");
-        keymap['g'].setCMD("tools grid"); // argument
+        keymap['g'].setCMD("tools grid");
         keymap['g'].setMax(255);
 
         // easing
@@ -107,14 +107,14 @@ class KeyMap {
         keymap['j'].setType(KEYTYPE_VALUE);
         keymap['j'].setName("reverse");
         keymap['j'].setDescription("Pick different reverse modes");
-        keymap['j'].setCMD("tw $ j"); //
+        keymap['j'].setCMD("tw $ j");
 
         // strokeAlpha
         keymap['k'] = new ParameterKey('k');
         keymap['k'].setType(KEYTYPE_VALUE_SLIDER);
         keymap['k'].setName("strokeAlpha");
         keymap['k'].setDescription("Alpha value of stroke.");
-        keymap['k'].setCMD("tw $ k"); //
+        keymap['k'].setCMD("tw $ k");
         keymap['k'].setMax(256); //
 
 
@@ -123,7 +123,7 @@ class KeyMap {
         keymap['l'].setType(KEYTYPE_VALUE_SLIDER);
         keymap['l'].setName("fillAlpha");
         keymap['l'].setDescription("Alpha value of fill.");
-        keymap['l'].setCMD("tw $ l"); //
+        keymap['l'].setCMD("tw $ l");
         keymap['l'].setMax(256); //
 
 
@@ -132,7 +132,7 @@ class KeyMap {
         keymap['m'].setType(KEYTYPE_VALUE_NUMBER);
         keymap['m'].setName("miscValue");
         keymap['m'].setDescription("A extra value that can be used by modes.");
-        keymap['m'].setCMD("tw $ m"); //
+        keymap['m'].setCMD("tw $ m");
         keymap['m'].setMax(1000); //
 
 
@@ -148,7 +148,7 @@ class KeyMap {
         keymap['o'].setType(KEYTYPE_VALUE);
         keymap['o'].setName("rotation");
         keymap['o'].setDescription("Rotate stuff.");
-        keymap['o'].setCMD("tw $ o"); //
+        keymap['o'].setCMD("tw $ o");
         keymap['o'].setMax(12);
 
         // layer
@@ -164,14 +164,14 @@ class KeyMap {
         keymap['q'].setType(KEYTYPE_VALUE);
         keymap['q'].setName("strokeColor");
         keymap['q'].setDescription("Pick the stroke Color.");
-        keymap['q'].setCMD("tw $ q"); //
+        keymap['q'].setCMD("tw $ q");
 
         // polka
         keymap['r'] = new ParameterKey('r');
         keymap['r'].setType(KEYTYPE_VALUE_NUMBER);
         keymap['r'].setName("polka");
         keymap['r'].setDescription("Number of iterations for the iterator, related to `i`.");
-        keymap['r'].setCMD("tw $ r"); //
+        keymap['r'].setCMD("tw $ r");
         keymap['r'].setMax(1000); //
 
 
@@ -180,7 +180,7 @@ class KeyMap {
         keymap['s'].setType(KEYTYPE_VALUE_NUMBER);
         keymap['s'].setName("size");
         keymap['s'].setDescription("Sets the brush size for `b-0`");
-        keymap['s'].setCMD("tw $ s"); //
+        keymap['s'].setCMD("tw $ s");
         keymap['s'].setMax(100000);
 
 
@@ -197,30 +197,29 @@ class KeyMap {
         keymap['u'].setType(KEYTYPE_VALUE);
         keymap['u'].setName("enabler");
         keymap['u'].setDescription("Enablers decide if a render happens or not.");
-        keymap['u'].setCMD("tw $ u"); //
+        keymap['u'].setCMD("tw $ u");
 
         // segmentSelcetor
         keymap['v'] = new ParameterKey('v');
         keymap['v'].setType(KEYTYPE_VALUE);
         keymap['v'].setName("segSelect");
         keymap['v'].setDescription("Picks which segments get rendered.");
-        keymap['v'].setCMD("tw $ v"); //
+        keymap['v'].setCMD("tw $ v");
 
         // strokeWeight
         keymap['w'] = new ParameterKey('w');
         keymap['w'].setType(KEYTYPE_VALUE_NUMBER);
         keymap['w'].setName("strokeWeight");
         keymap['w'].setDescription("Stroke weight.");
-        keymap['w'].setCMD("tw $ w"); //
+        keymap['w'].setCMD("tw $ w");
         keymap['w'].setMax(420);
-
 
         // beatDivider
         keymap['x'] = new ParameterKey('x');
         keymap['x'].setType(KEYTYPE_VALUE_NUMBER);
         keymap['x'].setName("beatMultiplier");
         keymap['x'].setDescription("Set how many beats the animation will take.");
-        keymap['x'].setCMD("tw $ x"); //
+        keymap['x'].setCMD("tw $ x");
         keymap['x'].setMax(5000);
 
         // tracers
@@ -228,7 +227,7 @@ class KeyMap {
         keymap['y'].setType(KEYTYPE_VALUE_SLIDER);
         keymap['y'].setName("tracers");
         keymap['y'].setDescription("Set tracer level for tracer layer.");
-        keymap['y'].setCMD("post tracers"); //
+        keymap['y'].setCMD("post tracers");
         keymap['y'].setMax(256);
 
         // z looping
@@ -236,7 +235,7 @@ class KeyMap {
         keymap['z'].setType(KEYTYPE_VALUE_NUMBER);
         keymap['z'].setName("looper");
         keymap['z'].setDescription("Set how many beats the loop will be.");
-        keymap['z'].setCMD("loop"); //
+        keymap['z'].setCMD("loop");
         keymap['z'].setMax(5000);
 
         ////////////////////////////////////////////////////////////////////////////////////
@@ -250,68 +249,68 @@ class KeyMap {
         keymap['A'].setType(0);
         keymap['A'].setName("selectAll");
         keymap['A'].setDescription("Select ALL the templates.");
-        keymap['A'].setCMD("tp select *"); //
+        keymap['A'].setCMD("tp select *");
         // share
         keymap['B'] = new ParameterKey('B');
         keymap['B'].setType(0);
         keymap['B'].setName("add");
         keymap['B'].setDescription("Toggle second template on all geometry with first template.");
-        keymap['B'].setCMD("tp groupadd $"); //
+        keymap['B'].setCMD("tp groupadd $");
         // copy
         keymap['C'] = new ParameterKey('C');
         keymap['C'].setType(0);
         keymap['C'].setName("copy");
         keymap['C'].setDescription("Copy first selected template into second selected.");
-        keymap['C'].setCMD("tp copy $"); //
+        keymap['C'].setCMD("tp copy $");
         // customShape
         keymap['D'] = new ParameterKey('D');
         keymap['D'].setType(KEYTYPE_VALUE_NUMBER);
         keymap['D'].setName("customShape");
         keymap['D'].setDescription("Set a template's customShape.");
-        keymap['D'].setCMD("tp shape $"); //
+        keymap['D'].setCMD("tp shape $");
         keymap['D'].setMax(1000);
         // reverseMouse
         keymap['I'] = new ParameterKey('I');
         keymap['I'].setType(KEYTYPE_TOGGLE);
         keymap['I'].setName("reverseMouseX");
         keymap['I'].setDescription("Reverse the X axis of mouse, trust me its handy.");
-        keymap['I'].setCMD("tools revx"); //
+        keymap['I'].setCMD("tools revx");
         // link
         keymap['L'] = new ParameterKey('L');
         keymap['L'].setType(0);
         keymap['L'].setName("link");
         keymap['L'].setDescription("Link one template to an other unidirectionaly, used for meta freelining.");
-        keymap['L'].setCMD("tp link $"); //
+        keymap['L'].setCMD("tp link $");
         // new project
         keymap['N'] = new ParameterKey('N');
         keymap['N'].setType(KEYTYPE_FILE_OPEN);
         keymap['N'].setName("newproject");
         keymap['N'].setDescription("Set the directory for a new project or an existing project.");
-        keymap['N'].setCMD("fl new"); //
+        keymap['N'].setCMD("fl new");
         // open
         keymap['O'] = new ParameterKey('O');
         keymap['O'].setType(KEYTYPE_FILE_OPEN);
         keymap['O'].setName("open");
-        keymap['O'].setDescription("Open stuff");
-        keymap['O'].setCMD("fl open"); //
+        keymap['O'].setDescription("Open/load files from project.");
+        keymap['O'].setCMD("fl open");
         // geometry layer
         keymap['P'] = new ParameterKey('P');
         keymap['P'].setType(KEYTYPE_VALUE_NUMBER);
         keymap['P'].setName("priority");
         keymap['P'].setDescription("Change the geometry render order, if a group is selected, changes this groups render priority, or all groups with selected template.");
-        keymap['P'].setCMD("geom priority $"); //
-        // enterpolator
+        keymap['P'].setCMD("geom priority $");
+        // quit
         keymap['Q'] = new ParameterKey('Q');
         keymap['Q'].setType(0);
         keymap['Q'].setName("quit");
         keymap['Q'].setDescription("quit freeliner!");
-        keymap['Q'].setCMD("fl quit"); //
+        keymap['Q'].setCMD("fl quit");
         // resetTamplate
         keymap['R'] = new ParameterKey('R');
         keymap['R'].setType(0);
         keymap['R'].setName("reset");
         keymap['R'].setDescription("Reset template.");
-        keymap['R'].setCMD("tp reset $"); //
+        keymap['R'].setCMD("tp reset $");
         // saveStuff
         keymap['S'] = new ParameterKey('S');
         keymap['S'].setType(0);
@@ -360,15 +359,15 @@ class KeyMap {
         keymap['['].setType(KEYTYPE_TOGGLE_VALUE);
         keymap['['].setName("fixedAngle");
         keymap['['].setDescription("enable/disable fixed angles for the mouse");
-        keymap['['].setCMD("tools angle"); // then check for selected segment, or execute cmd
+        keymap['['].setCMD("tools angle");
         keymap['['].setMax(360);
         // fixed length
         keymap[']'] = new ParameterKey(']');
         keymap[']'].setType(KEYTYPE_TOGGLE_VALUE);
         keymap[']'].setName("fixedLength");
         keymap[']'].setDescription("enable/disable fixed length for the mouse");
-        keymap[']'].setCMD("tools ruler"); // then check for selected segment, or execute cmd
-        keymap[']'].setMax(5000);
+        keymap[']'].setCMD("tools ruler");
+        keymap[']'].setMax(10000);
         // showLines
         keymap['/'] = new ParameterKey('/');
         keymap['/'].setType(KEYTYPE_TOGGLE);
@@ -381,7 +380,6 @@ class KeyMap {
         keymap[','].setName("showTags");
         keymap[','].setDescription("showTags of all groups");
         keymap[','].setCMD("tools tags");
-
 
         // text entry
         keymap['|'] = new ParameterKey('|');
