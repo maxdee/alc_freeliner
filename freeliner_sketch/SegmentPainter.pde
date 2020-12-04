@@ -510,35 +510,44 @@ class RightAlignedText extends BasicText {
     }
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Meta Freelining
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
 
-class MetaPoint extends SegmentPainter {
-    CommandProcessor commandProcessor;
-    public MetaPoint(int _mi) {
+class MetaBrush extends BrushPutter {
+    public MetaBrush() {}
+
+    public MetaBrush(int _mi) {
         modeIndex = _mi;
-        name = "MetaPoint";
+        name = "MetaBrush";
         description = "A simple dot that is used to do stuff!";
     }
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
-        putShape(getPosition(_seg), 0);
+        putShape(getPosition(_seg), getAngle(_seg, _event));
     }
-    // regular putShape
+    // overide and force chevron
     public void putShape(PVector _p, float _a) {
-        canvas.point(_p.x, _p.y);
+        PShape shape_;
+        shape_ = getBrush(3).getShape(event);
+        if(shape_ == null) return;
+        // applyStyle(shape_);
+        applyColor(shape_);
+        float scale = event.getBrushSize() / 20.0; // devided by base brush size
+        shape_.setStrokeWeight(event.getStrokeWeight()/scale);
+        canvas.pushMatrix();
+        canvas.translate(_p.x, _p.y);
+        canvas.rotate(_a+ HALF_PI);
+        canvas.scale(scale);
+        canvas.shape(shape_);
+        canvas.popMatrix();
     }
-    public void setCommandProcessor(CommandProcessor _cp) {
-        commandProcessor = _cp;
-    }
+
 }
 
-class PositionCollector extends BrushPutter {
-    public PositionCollector() {}
+class PositionCollector extends MetaBrush {
     public PositionCollector(int _mi) {
         modeIndex = _mi;
         name = "PositionCollector";
@@ -550,7 +559,6 @@ class PositionCollector extends BrushPutter {
         PVector _pos = getPosition(_seg);
         float _a = getAngle(_seg, _event);
         _event.getSourceTemplate().addMetaPositionMarker(_pos, _a, _event.getBrushSize());
-        putShape(_pos, _a);
     }
 }
 
@@ -566,8 +574,10 @@ class PositionMarker {
 }
 
 // base brush putter
-class SegmentCommandParser extends MetaPoint {
+class SegmentCommandParser extends MetaBrush {
     ArrayList<Segment> commandSegments;
+    CommandProcessor commandProcessor;
+
     public SegmentCommandParser(int _mi) {
         super(_mi);
         name = "SegmentCommand";
@@ -577,8 +587,9 @@ class SegmentCommandParser extends MetaPoint {
 
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
-        PVector pos = getPosition(_seg);
-        putShape(pos, 0);
+        // PVector pos = getPosition(_seg);
+        // float _a = getAngle(_seg, _event);
+        // putShape(pos, _a);
         if(commandSegments != null) {
             for(Segment _s : commandSegments) {
                 if(_s.getPointA().dist(_seg.getPointA()) < 0.0001) {
@@ -594,5 +605,8 @@ class SegmentCommandParser extends MetaPoint {
 
     public void setCommandSegments(ArrayList<Segment> _cmdSegs) {
         commandSegments = _cmdSegs;
+    }
+    public void setCommandProcessor(CommandProcessor _cp) {
+        commandProcessor = _cp;
     }
 }

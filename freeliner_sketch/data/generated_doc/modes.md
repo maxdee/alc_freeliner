@@ -107,10 +107,8 @@
  
 | a |  for : MetaFreelining | Description |
 |:---:|---|---|
-| `0` | SegmentCommand | MetaFreelining, execute commands of commandSegments |
-| `1` | StrokeColorPicker | MetaFreelining, pick a stroke color from colorMap, load one with colormap colorMap.png |
-| `2` | FillColorPicker | MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png |
-| `3` | PositionCollector | Save position markers into template, for use use with meta-freelining. |
+| `0` | PositionCollector | Save position markers into template, for use use with meta-freelining. |
+| `1` | SegmentCommand | MetaFreelining, execute commands of commandSegments |
  
 | b |  for : TemplateRenderer | Description |
 |:---:|---|---|
@@ -161,4 +159,9 @@
 | `11` | EaseSpringOut | like a door stopper spring |
 | `12` | EaseSpringInOut | like a weird door stopper spring |
 | `13` | random | random unitInterval every frame |
-| `14` | targetNoise | f
+| `14` | targetNoise | fake audio response |
+| `15` | fixed-1.0 | fixed at 1.0 |
+| `16` | fixed-0.5 | fixed at 0.5 |
+| `17` | fixed-0.0 | fixed at 0.0 |
+| `18` | EaseInOut | Linera eas in and out |
+| `19` | custom | is set to template's with this command

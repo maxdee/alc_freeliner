@@ -788,27 +788,15 @@
     ],
     "a_b7": [
       {
-        "name": "SegmentCommand",
-        "index": 0,
-        "description": "MetaFreelining, execute commands of commandSegments",
-        "key": "a"
-      },
-      {
-        "name": "StrokeColorPicker",
-        "index": 1,
-        "description": "MetaFreelining, pick a stroke color from colorMap, load one with colormap colorMap.png",
-        "key": "a"
-      },
-      {
-        "name": "FillColorPicker",
-        "index": 2,
-        "description": "MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png",
-        "key": "a"
-      },
-      {
         "name": "PositionCollector",
-        "index": 3,
+        "index": 0,
         "description": "Save position markers into template, for use use with meta-freelining.",
+        "key": "a"
+      },
+      {
+        "name": "SegmentCommand",
+        "index": 1,
+        "description": "MetaFreelining, execute commands of commandSegments",
         "key": "a"
       }
     ],

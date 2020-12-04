@@ -163,9 +163,6 @@ class TextRenderMode extends PerSegment {
         segmentPainters[3] = new CenterAlignedText(3);
         segmentPainters[4] = new RightAlignedText(4);
 
-
-
-
         name = "TextRenderMode";
         description = "Stuff that draws text";
         if(MAKE_DOCUMENTATION) documenter.documentModes((Mode[])segmentPainters, 'a', this, "TextModes");
@@ -262,16 +259,12 @@ class MetaFreelining extends PerSegment {
     SegmentPainter[] segmentPainters;
     int painterCount = 2;
     SegmentCommandParser segmentCommandParser;
-    StrokeColorPicker strokeColorPicker;
-    FillColorPicker fillColorPicker;
-    // PositionProvider PositionProvider;
 
     public MetaFreelining(int _ind) {
         super();
         modeIndex = _ind;
         segmentPainters = new SegmentPainter[painterCount];
         segmentPainters[0] = new PositionCollector(0);
-
         segmentCommandParser = new SegmentCommandParser(1);
         segmentPainters[1] = segmentCommandParser;
 
@@ -291,17 +284,11 @@ class MetaFreelining extends PerSegment {
     }
     public void setCommandProcessor(CommandProcessor _cp) {
         segmentCommandParser.setCommandProcessor(_cp);
-        strokeColorPicker.setCommandProcessor(_cp);
-        fillColorPicker.setCommandProcessor(_cp);
     }
     public void setColorMap(PImage _im) {
         _im.loadPixels();
-        strokeColorPicker.setColorMap(_im);
-        fillColorPicker.setColorMap(_im);
     }
 }
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
