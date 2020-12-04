@@ -1116,17 +1116,28 @@ class CommandProcessor  {
     }
 
 // tp translate AB 0.5 0.5
-    public void tpTranslateCMD(String[] _args) {
+    public boolean tpTranslateCMD(String[] _args) {
         looper.receive(join(_args, " "));
-        if(_args.length < 5) return;
-        float x = stringFloat(_args[3]);
-        float y = stringFloat(_args[4]);
-        PVector _translate = new PVector(x,y);
-        ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
-        if(_tmps == null) return;
-        for(Template _rt : _tmps) {
-            _rt.setTranslation(_translate);
+        if(_args.length == 3) {
+            ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
+            if(_tmps.size()<2) return false;
+            for(int i = 0; i < _tmps.size()-1; i++){
+                _tmps.get(i).setTranslationTemplate(_tmps.get(_tmps.size()-1));
+            }
+            return true;
         }
+        else if(_args.length >= 5){
+            float x = stringFloat(_args[3]);
+            float y = stringFloat(_args[4]);
+            PVector _translate = new PVector(x,y);
+            ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
+            if(_tmps == null) return false;
+            for(Template _rt : _tmps) {
+                _rt.setTranslation(_translate);
+            }
+            return true;
+        }
+        return false;
         // // scuff mixer info
         // String below = "";
         // String above = "";

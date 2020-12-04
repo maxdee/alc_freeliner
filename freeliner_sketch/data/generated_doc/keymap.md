@@ -33,6 +33,7 @@
 | `ctrl-q` | quit |action |quit freeliner! | `fl quit` |
 | `ctrl-r` | reset |action |Reset template. | `tp reset $` |
 | `ctrl-s` | save |action |Save stuff. | `fl save` |
+| `ctrl-t` | autoTranslate |action |Meta freelining, like linking a template, but used for translation. | `tp translate $` |
 | `ctrl-v` | paste |action |Paste copied template into selected template. | `tp paste $` |
 | `ctrl-x` | swap |action |Completely swap template tag, with `AB` A becomes B and B becomes A. | `tp swap $` |
 | `[` | fixedAngle |on off + value |enable/disable fixed angles for the mouse | `tools angle` |

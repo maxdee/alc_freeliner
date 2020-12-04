@@ -1106,6 +1106,15 @@
     },
     {
       "max": -42,
+      "name": "autoTranslate",
+      "description": "Meta freelining, like linking a template, but used for translation.",
+      "cmd": "tp translate $",
+      "type": 0,
+      "ascii": 84,
+      "key": "T"
+    },
+    {
+      "max": -42,
       "name": "paste",
       "description": "Paste copied template into selected template.",
       "cmd": "tp paste $",

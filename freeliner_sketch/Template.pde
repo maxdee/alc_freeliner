@@ -69,6 +69,8 @@ class Template {
 
 	char templateID;
 	Template linkedTemplate;
+	Template translationTemplate;
+
 
 	IntList geometries;
 
@@ -201,6 +203,8 @@ class Template {
 
 		renderLayer = _tp.getRenderLayer();
 		linkedTemplate = _tp.getLinkedTemplate();
+		translationTemplate = _tp.getTranslationTemplate();
+
 		fixLerp = _tp.getFixLerp();
 		translation = _tp.getTranslation();
 		scale = _tp.getScale();
@@ -241,6 +245,7 @@ class Template {
 		rotation = 0;
 		miscValue = 4;
 		linkedTemplate = null;
+		translationTemplate = null;
 		geometries = new IntList();
  	}
 
@@ -272,8 +277,12 @@ class Template {
 
 	public void setLinkTemplate(Template _tp){
 		linkedTemplate = _tp;
-		// linkedTemplateID = _id;
 	}
+
+	public void setTranslationTemplate(Template _tp){
+		translationTemplate = _tp;
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////
 	///////
 	///////    Debug
@@ -403,6 +412,9 @@ class Template {
 	}
 	public final Template getLinkedTemplate(){
 		return linkedTemplate;
+	}
+	public final Template getTranslationTemplate(){
+		return translationTemplate;
 	}
 	public float getFixLerp(){
 		return fixLerp;

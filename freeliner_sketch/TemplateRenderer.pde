@@ -140,48 +140,69 @@ class TemplateRenderer extends Mode{
         // check the enabler, it may modify the unitInterval
         if(!enablers[_rt.getEnablerMode()%enablerModeCount].enable(_rt)) return;
 
-        // translate rotate and scale
-        _pg.pushMatrix(); // new
-        PVector _trans = _rt.getTranslation();
-        PVector _scale = _rt.getScale();
-        PVector _center = _rt.getSegmentGroup().getCenter();
-        _pg.translate(_trans.x*width, _trans.y*height);
-        _pg.translate(_center.x, _center.y);
-        float _rot = _rt.getRotation();
-        _pg.rotate(_rot*TWO_PI);
-        _pg.scale(_scale.x, _scale.y);
-        _pg.translate(-_center.x, -_center.y);
-
-        // get multiple unit intervals to use
-        float _eased = getEaser(_rt.getEasingMode())
-                           .ease(_rt.getUnitInterval(), _rt);
-        FloatList flts = getRepeater(_rt.getRepetitionMode())
-                            .getFloats(_rt, _eased);
-        boolean _rev = getReverser(_rt.getReverseMode())
-                            .getDirection(_rt);
-        int repetitionCount = 0;
-
-        for(float flt : flts){
-            // _rt.setLerp(1.0-flt);
-            if(flt < 0.0) {
-                flt = abs(flt);
-                _rev = !_rev;
+        if(_rt.getTranslationTemplate() != null){
+            ArrayList<PositionMarker> _markers = _rt.getTranslationTemplate().getMetaPoisitionMarkers();
+            if(_markers.size() > 0){
+                // ArrayList<PositionMarker> _clone = new ArrayList<PositionMarker>(_markers);
+                for(PositionMarker _marker : _markers) {
+                    PVector p = _marker.pos.get();
+                    p.set(p.x/width, p.y/height-0.5);
+                    _rt.setTranslation(p);
+                    _rt.setRotation(_marker.angle);
+                    translateAndRender(_rt, _pg);
+                }
             }
-
-            _rt.setDirection(_rev);
-            _rt.setLerp(_rev ? (1.0-flt) : flt);
-
-            // push the repetition count to template
-            _rt.setRepetition(repetitionCount);
-            repetitionCount++;
-            // modify angle modifier
-            tweakAngle(_rt);
-            // pass template to renderer
-            getRenderer(_rt.getRenderMode())
-                .doRender(_rt);
+            else {
+                translateAndRender(_rt, _pg);
+            }
         }
-        _pg.popMatrix();
+        else {
+            translateAndRender(_rt, _pg);
+        }
+  }
 
+  private void translateAndRender(RenderableTemplate _rt, PGraphics _pg){
+      // translate rotate and scale
+      _pg.pushMatrix(); // new
+      PVector _trans = _rt.getTranslation();
+      PVector _scale = _rt.getScale();
+      PVector _center = _rt.getSegmentGroup().getCenter();
+      _pg.translate(_trans.x*width, _trans.y*height);
+      _pg.translate(_center.x, _center.y);
+      float _rot = _rt.getRotation();
+      _pg.rotate(_rot*TWO_PI);
+      _pg.scale(_scale.x, _scale.y);
+      _pg.translate(-_center.x, -_center.y);
+
+      // get multiple unit intervals to use
+      float _eased = getEaser(_rt.getEasingMode())
+                         .ease(_rt.getUnitInterval(), _rt);
+      FloatList flts = getRepeater(_rt.getRepetitionMode())
+                          .getFloats(_rt, _eased);
+      boolean _rev = getReverser(_rt.getReverseMode())
+                          .getDirection(_rt);
+      int repetitionCount = 0;
+
+      for(float flt : flts){
+          // _rt.setLerp(1.0-flt);
+          if(flt < 0.0) {
+              flt = abs(flt);
+              _rev = !_rev;
+          }
+
+          _rt.setDirection(_rev);
+          _rt.setLerp(_rev ? (1.0-flt) : flt);
+
+          // push the repetition count to template
+          _rt.setRepetition(repetitionCount);
+          repetitionCount++;
+          // modify angle modifier
+          tweakAngle(_rt);
+          // pass template to renderer
+          getRenderer(_rt.getRenderMode())
+              .doRender(_rt);
+      }
+      _pg.popMatrix();
   }
 
   //needs work

@@ -317,6 +317,12 @@ class KeyMap {
         keymap['S'].setName("save");
         keymap['S'].setDescription("Save stuff.");
         keymap['S'].setCMD("fl save");
+        // autoTranslate
+        keymap['T'] = new ParameterKey('T');
+        keymap['T'].setType(0);
+        keymap['T'].setName("autoTranslate");
+        keymap['T'].setDescription("Meta freelining, like linking a template, but used for translation.");
+        keymap['T'].setCMD("tp translate $");
         // Paste
         keymap['V'] = new ParameterKey('V');
         keymap['V'].setType(0);
