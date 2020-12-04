@@ -175,7 +175,6 @@ class MarkerEnabler extends Enabler{
 				);
 		}
 		else {
-			println("yes: "+_marker.pos);
 			PVector _center = _rt.getSegmentGroup().getCenter();
 			float _s = float(_marker.size);
 			float _d = _marker.pos.dist(_center) - _s;

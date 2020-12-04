@@ -347,6 +347,7 @@ class GuiLayer extends Layer {
         else if(_pg == null) return canvas;
         else if(canvas == null) return _pg;
         _pg.beginDraw();
+        _pg.blendMode(LIGHTEST);
         _pg.image(canvas,0,0);
         _pg.endDraw();
         return _pg;

@@ -314,3 +314,45 @@ class CustomFillColor extends Colorizer {
             return alphaMod(_event.getCustomFillColor(), _alpha);
 	}
 }
+
+
+
+
+/**
+ * ColorMap color picker
+ */
+class ColorMapColorizer extends Colorizer {
+
+	public ColorMapColorizer(int _ind){
+        modeIndex = _ind;
+		name = "ColorMap";
+		description = "Meta-freelining - use linked template position markers to pick colors from the colormap, set one with: colormap map.png";
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+		int _index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex());
+
+		Template linked = _event.getLinkedTemplate();
+		if(linked == null){
+			println("[meta-freelining] WARNING : template "+_event.getTemplateID()+" has no linked template");
+            return color(255,0,0);
+		}
+
+        if(linked.getMetaPoisitionMarkers().size() > 0 && freeliner.colorMapImage != null){
+            _index %= linked.getMetaPoisitionMarkers().size();
+            PositionMarker _marker = linked.getMetaPoisitionMarkers().get(_index);
+            int _x = (int)_marker.pos.x;
+            int _y = (int)_marker.pos.y;
+
+            if(_x < freeliner.colorMapImage.width && _y < freeliner.colorMapImage.height && _x >= 0 && _y >= 0) {
+                return freeliner.colorMapImage.pixels[_y*freeliner.colorMapImage.width+_x];
+            }
+        }
+        return color(255,0,0);
+        //
+        // index %= PALLETTE_COUNT;
+		// if(index < 0) index = 0;
+		// color c = userPallet[index];
+		// return alphaMod(c , _alpha);
+	}
+}

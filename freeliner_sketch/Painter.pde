@@ -80,7 +80,7 @@ class Painter extends Mode {
 
     // color stuffs
     public void initColorizers() {
-        colorizerCount = 31;
+        colorizerCount = 32;
         colorizers = new Colorizer[colorizerCount];
         // basic colors
         colorizers[0] = new SimpleColor(color(0), 0);
@@ -122,6 +122,8 @@ class Painter extends Mode {
         colorizers[28] = new CustomFillColor(28);
         colorizers[29] = new MillisFade(29);
         colorizers[30] = new HSBLerp(30);
+        colorizers[31] = new ColorMapColorizer(31);
+
         if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])colorizers, 'q', this, "Colorizers");
     }
 

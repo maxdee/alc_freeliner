@@ -291,11 +291,10 @@ class CommandProcessor  {
         if(_args.length < 2) return false;
         int _v = stringInt(_args[1]);
         if(_v == -42) {
-            PImage _map;
+            // PImage _map;
             try {
-                _map = loadImage("userdata/images/"+_args[1]);
-                templateRenderer.setColorMap(_map);
-                gui.setColorMap(_map);
+                freeliner.colorMapImage = loadImage(projectConfig.fullPath+"/images/"+_args[1]);
+                gui.setColorMap(freeliner.colorMapImage);
                 println("[meta] loaded colormap "+_args[1]);
                 return true;
             } catch(Exception e) {

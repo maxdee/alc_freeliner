@@ -98,7 +98,7 @@ void reset(){
 
     surface.setSize(projectConfig.windowWidth, projectConfig.windowHeight);
     surface.setResizable(false);
-    surface.setTitle("freeliner");
+    surface.setTitle("freeliner - "+projectConfig.projectName);
     frameRate(projectConfig.maxfps);
 
     // load fonts

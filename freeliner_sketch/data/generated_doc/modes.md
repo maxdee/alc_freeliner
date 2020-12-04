@@ -43,6 +43,7 @@
 | `28` | CustomFillColor | Custom fill color for template. |
 | `29` | MillisFade | HSB fade goes along with millis. |
 | `30` | HSBLerp | HSB fade through beat. |
+| `31` | ColorMap | Meta-freelining - use linked template position markers to pick colors from the colormap, set one with: colormap map.png |
  
 | e |  for : Painter | Description |
 |:---:|---|---|
@@ -160,8 +161,4 @@
 | `11` | EaseSpringOut | like a door stopper spring |
 | `12` | EaseSpringInOut | like a weird door stopper spring |
 | `13` | random | random unitInterval every frame |
-| `14` | targetNoise | fake audio response |
-| `15` | fixed-1.0 | fixed at 1.0 |
-| `16` | fixed-0.5 | fixed at 0.5 |
-| `17` | fixed-0.0 | fixed at 0.0 |
-| `18` | Ease
+| `14` | targetNoise | f

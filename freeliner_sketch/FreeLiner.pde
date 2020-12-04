@@ -30,7 +30,8 @@ class FreeLiner  {
     CommandProcessor commandProcessor;
     OSCCommunicator oscComs;
     WebSocketCommunicator webComs;
-
+    // oof deep global
+    PImage colorMapImage;
     // misc
     boolean windowFocus;
     PApplet applet;

@@ -622,6 +622,12 @@
         "index": 30,
         "description": "HSB fade through beat.",
         "key": "q"
+      },
+      {
+        "name": "ColorMap",
+        "index": 31,
+        "description": "Meta-freelining - use linked template position markers to pick colors from the colormap, set one with: colormap map.png",
+        "key": "q"
       }
     ],
     "u": [
@@ -1201,7 +1207,7 @@
       "key": "e"
     },
     {
-      "max": 31,
+      "max": 32,
       "name": "fill",
       "description": "Pick fill color",
       "cmd": "tw $ f",
@@ -1300,7 +1306,7 @@
       "key": "p"
     },
     {
-      "max": 31,
+      "max": 32,
       "name": "strokeColor",
       "description": "Pick the stroke Color.",
       "cmd": "tw $ q",

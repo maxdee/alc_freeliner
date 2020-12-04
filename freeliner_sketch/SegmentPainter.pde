@@ -564,43 +564,6 @@ class PositionMarker {
         size = _s;
     }
 }
-//
-// class PositionProvider extends BrushPutter {
-//     public PositionProvider() {}
-//     public PositionProvider(int _mi) {
-//         modeIndex = _mi;
-//         name = "PositionProvider";
-//         description = "Save points into the linked template";
-//         // modeIndex = _mi;
-//     }
-//     public void paintSegment(Segment _seg, RenderableTemplate _event) {
-//         super.paintSegment(_seg, _event);
-//         Template _linked = _event.getLinkedTemplate();
-//         if(_linked != null) {
-//             PVector _pos = getPosition(_seg);
-//             _pos.z = _event.getBrushSize();
-//             _linked.addMetaPositionMarker(_pos);
-//             putShape(_pos, 0);
-//         }
-//     }
-//
-//     // // regular putShape
-//     // public void putShape(PVector _p, float _a) {
-//     //     PShape shape_;
-//     //     shape_ = getBrush(4).getShape(event);
-//     //     if(shape_ == null) return;
-//     //     applyStyle(shape_);
-//     //     applyColor(shape_);
-//     //     float scale = event.getBrushSize() / 20.0; // devided by base brush size
-//     //     shape_.setStrokeWeight(event.getStrokeWeight()/scale);
-//     //     canvas.pushMatrix();
-//     //     canvas.translate(_p.x, _p.y);
-//     //     canvas.rotate(_a+ HALF_PI);
-//     //     canvas.scale(scale);
-//     //     canvas.shape(shape_);
-//     //     canvas.popMatrix();
-//     // }
-// }
 
 // base brush putter
 class SegmentCommandParser extends MetaPoint {
@@ -631,59 +594,5 @@ class SegmentCommandParser extends MetaPoint {
 
     public void setCommandSegments(ArrayList<Segment> _cmdSegs) {
         commandSegments = _cmdSegs;
-    }
-}
-
-// base brush putter
-class StrokeColorPicker extends MetaPoint {
-    PImage colorMap;
-
-    public StrokeColorPicker(int _mi) {
-        super(_mi);
-        name = "StrokeColorPicker";
-        description = "MetaFreelining, pick a stroke color from colorMap, load one with colormap colorMap.png";
-        colorMap = null;
-    }
-
-    public void paintSegment(Segment _seg, RenderableTemplate _event) {
-        super.paintSegment(_seg, _event);
-        PVector pos = getPosition(_seg);
-        // putShape(pos, getAngle(_seg, _event));
-        if(colorMap != null) {
-            int _x = (int)pos.x;
-            int _y = (int)pos.y;
-            if(_x < colorMap.width && _y < colorMap.height && _x >= 0 && _y >= 0) {
-                setColor(colorMap.pixels[_y*colorMap.width+_x]);
-                _event.getCanvas().fill(colorMap.pixels[_y*colorMap.width+_x]);
-            }
-            else {
-                setColor(color(0,0,0,0));
-                _event.getCanvas().fill(0);
-            }
-        }
-        _event.getCanvas().strokeWeight(2);
-        _event.getCanvas().ellipse(pos.x,pos.y,10,10);
-    }
-
-    public void setColor(int _c) {
-        if(event.getLinkedTemplate() != null){
-            commandProcessor.queueCMD("tp stroke "+event.getLinkedTemplate().getTemplateID()+" "+hex(_c));
-        }
-    }
-    public void setColorMap(PImage _im) {
-        colorMap = _im;
-    }
-}
-
-class FillColorPicker extends StrokeColorPicker {
-    public FillColorPicker(int _mi) {
-        super(_mi);
-        name = "FillColorPicker";
-        description = "MetaFreelining, pick a fill color from colorMap, load one with colormap colorMap.png";
-    }
-    public void setColor(int _c) {
-        if(event.getLinkedTemplate() != null){
-            commandProcessor.queueCMD("tp fill "+event.getLinkedTemplate().getTemplateID()+" "+hex(_c));
-        }
     }
 }
