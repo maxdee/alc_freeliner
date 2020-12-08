@@ -654,7 +654,6 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     long timeStamp;
     PVector center;// implements this (connect to some sort of geometry thingy)
     // uniforms to control shader params
-    // float[] uniforms;
     DampFloat[] dampFloats;
     Synchroniser sync;
     final int UNIFORM_FLOAT_COUNT = 8;
@@ -671,7 +670,6 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         description = "a layer with a fragment shader";
 
         shader = null;
-        // uniforms = new float[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         dampFloats = new DampFloat[UNIFORM_FLOAT_COUNT];
         for(int i = 0; i < UNIFORM_FLOAT_COUNT; i++) {
             dampFloats[i] = new DampFloat(0.0, 10);
@@ -766,6 +764,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     public boolean isNull() {
         return (shader == null);
     }
+
     // parse `//*** damp u1 0.1`
     public void parseShaderNotes(){
         // reset the factors to default
@@ -807,18 +806,6 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         shader.set("u8", dampFloats[7].get());
         shader.set("time", sync.getUnit());
         shader.set("res", float(width), float(height));
-        // if(projectConfig.EASE_SHADER_UNIFORMS) {
-        // }
-        // else {
-        //     shader.set("u1", uniforms[0]);
-        //     shader.set("u2", uniforms[1]);
-        //     shader.set("u3", uniforms[2]);
-        //     shader.set("u4", uniforms[3]);
-        //     shader.set("u5", uniforms[4]);
-        //     shader.set("u6", uniforms[5]);
-        //     shader.set("u7", uniforms[6]);
-        //     shader.set("u8", uniforms[7]);
-        // }
     }
 }
 
