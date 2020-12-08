@@ -654,7 +654,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     long timeStamp;
     PVector center;// implements this (connect to some sort of geometry thingy)
     // uniforms to control shader params
-    float[] uniforms;
+    // float[] uniforms;
     DampFloat[] dampFloats;
     Synchroniser sync;
     final int UNIFORM_FLOAT_COUNT = 8;
@@ -662,14 +662,16 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         super();
         sync = _s;
         commandList.add("layer name uniforms 0 0.5");
-        commandList.add("layer name loadFile fragShader.glsl");
+        commandList.add("layer name option fragShader.glsl");
+        // commandList.add("layer name option fragShader.glsl");
+
         enabled = true;
         name = "shaderLayer";
         id = name;
         description = "a layer with a fragment shader";
 
         shader = null;
-        uniforms = new float[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+        // uniforms = new float[] {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
         dampFloats = new DampFloat[UNIFORM_FLOAT_COUNT];
         for(int i = 0; i < UNIFORM_FLOAT_COUNT; i++) {
             dampFloats[i] = new DampFloat(0.0, 10);
@@ -745,6 +747,9 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
             println(_e);
             shader = null;
         }
+        if(shader!=null) {
+            parseShaderNotes();
+        }
     }
 
     public void checkForUpdate() {
@@ -761,36 +766,59 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     public boolean isNull() {
         return (shader == null);
     }
+    // parse `//*** damp u1 0.1`
+    public void parseShaderNotes(){
+        // reset the factors to default
+        for(DampFloat df : dampFloats){
+            df.setFactor(1.0);
+        }
+        String[] _lines = loadStrings(projectConfig.fullPath+"/shaders/"+fileName);
+        for(String _s : _lines){
+            String[] tokens = splitTokens(_s);
+            if(tokens.length > 3){
+                if(tokens[0].equals("//***") && tokens[1].equals("damp")){
+                    int idx = stringInt(tokens[2].replaceAll("u", ""))-1;
+                    if(idx >= 0 && idx < 8){
+                        float f = stringFloat(tokens[3]);
+                        if(f >= 1.0){
+                            dampFloats[idx].setFactor(f);
+                            println("[shader] "+fileName+" set damping : "+idx+" -> "+f);
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     public void setUniforms(int _i, float _val) {
-        if(_i < 0) return;
-        uniforms[_i % 8] = _val;
-        dampFloats[_i % 8].feed(_val);
+        if(_i < 0 || _i >= 8) return;
+        // uniforms[_i % 8] = _val;
+        dampFloats[_i].feed(_val);
     }
 
     public void passUniforms() {
-        if(projectConfig.EASE_SHADER_UNIFORMS) {
-            shader.set("u1", dampFloats[0].get());
-            shader.set("u2", dampFloats[1].get());
-            shader.set("u3", dampFloats[2].get());
-            shader.set("u4", dampFloats[3].get());
-            shader.set("u5", dampFloats[4].get());
-            shader.set("u6", dampFloats[5].get());
-            shader.set("u7", dampFloats[6].get());
-            shader.set("u8", dampFloats[7].get());
-        }
-        else {
-            shader.set("u1", uniforms[0]);
-            shader.set("u2", uniforms[1]);
-            shader.set("u3", uniforms[2]);
-            shader.set("u4", uniforms[3]);
-            shader.set("u5", uniforms[4]);
-            shader.set("u6", uniforms[5]);
-            shader.set("u7", uniforms[6]);
-            shader.set("u8", uniforms[7]);
-        }
-	shader.set("time", sync.getUnit());
-    shader.set("res", float(width), float(height));
+        shader.set("u1", dampFloats[0].get());
+        shader.set("u2", dampFloats[1].get());
+        shader.set("u3", dampFloats[2].get());
+        shader.set("u4", dampFloats[3].get());
+        shader.set("u5", dampFloats[4].get());
+        shader.set("u6", dampFloats[5].get());
+        shader.set("u7", dampFloats[6].get());
+        shader.set("u8", dampFloats[7].get());
+        shader.set("time", sync.getUnit());
+        shader.set("res", float(width), float(height));
+        // if(projectConfig.EASE_SHADER_UNIFORMS) {
+        // }
+        // else {
+        //     shader.set("u1", uniforms[0]);
+        //     shader.set("u2", uniforms[1]);
+        //     shader.set("u3", uniforms[2]);
+        //     shader.set("u4", uniforms[3]);
+        //     shader.set("u5", uniforms[4]);
+        //     shader.set("u6", uniforms[5]);
+        //     shader.set("u7", uniforms[6]);
+        //     shader.set("u8", uniforms[7]);
+        // }
     }
 }
 

@@ -83,8 +83,6 @@ class FreelinerProject {
     boolean FIXTURE_CORRECT_GAMMA = false;
     boolean DRAW_FIXTURE_ADDRESS = false;
 
-    boolean EASE_SHADER_UNIFORMS = true;
-
     boolean makeNewProjectFlag = false;
     public FreelinerProject(){}
 

@@ -466,7 +466,7 @@ class LayeredCanvasManager extends CanvasManager {
             if(_layer instanceof ShaderLayer) {
                 ShaderLayer _sl = (ShaderLayer)_layer;
                 for(int i = 0; i < _sl.UNIFORM_FLOAT_COUNT; i++) {
-                    _xml.setFloat("u"+i, _sl.uniforms[i]);
+                    _xml.setFloat("u"+i, _sl.dampFloats[i].target);
                 }
             }
         }
