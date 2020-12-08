@@ -462,6 +462,7 @@ class LayeredCanvasManager extends CanvasManager {
             _xml.setString("type", _layer.getName());
             _xml.setString("id", _layer.getID());
             _xml.setString("option", _layer.getSelectedOption());
+            _xml.setInt("enabled", _layer.useLayer() ? 1 : 0);
             if(_layer instanceof ShaderLayer) {
                 ShaderLayer _sl = (ShaderLayer)_layer;
                 for(int i = 0; i < _sl.UNIFORM_FLOAT_COUNT; i++) {
@@ -480,6 +481,7 @@ class LayeredCanvasManager extends CanvasManager {
             String _option = _layer.getString("option");
             String _type = _layer.getString("type");
             String _id = _layer.getString("id");
+            int _enabled = _layer.getInt("enabled");
             if(!_type.equals("null")){
                 if(_id.equals("null"))_id += "name"+_nullID++;
                 layerCreator("layer "+_id+" "+_type);
@@ -488,7 +490,9 @@ class LayeredCanvasManager extends CanvasManager {
                     String _cmd = "layer "+_id+" option "+_option;
                     parseCMD(split(_cmd, ' '));
                 }
+
                 Layer _l = getLayer(_id);
+                _l.setEnable(_enabled);
                 if(_l instanceof ShaderLayer) {
                     ShaderLayer _sl = (ShaderLayer)_l;
                     for(int i = 0; i < _sl.UNIFORM_FLOAT_COUNT; i++){
