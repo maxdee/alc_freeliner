@@ -7,8 +7,6 @@
  * @since     2014-12-01
  */
 
-import oscP5.*;
-import netP5.*;
 
 /**
  * HELLO THERE! WELCOME to FREELINER
@@ -35,13 +33,13 @@ boolean MAKE_DOCUMENTATION = true;
 
 // this object has the defaults
 FreelinerProject projectConfig =  new FreelinerProject();
-// no other way to make a global gammatable...
-int[] gammatable = new int[256];
-float gamma = 3.2; // 3.2 seems to be nice
+
 // fonts
 PFont font;
 PFont introFont;
+
 boolean createNewProject = true;
+
 void settings(){
     String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
     if(lastProjectPath != null){
@@ -121,7 +119,6 @@ void reset(){
     // add in keyboard, as hold - or = to repeat. beginners tend to hold keys down which is problematic
     if(projectConfig.keyRepeat) hint(ENABLE_KEY_REPEAT); // usefull for performance
     // perhaps use -> PApplet.platform == MACOSX
-    makeGammaTable();
     if(createNewProject){
         selectFolder("pick directory for new project", "newWithDir");
     }
@@ -137,12 +134,6 @@ void splash(){
   textSize(24);
   fill(255);
   text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
-}
-
-void makeGammaTable(){
-    for (int i=0; i < 256; i++) {
-        gammatable[i] = (int)(pow((float)i / 255.0, gamma) * 255.0 + 0.5);
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

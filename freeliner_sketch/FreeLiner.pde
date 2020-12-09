@@ -117,7 +117,7 @@ class FreeLiner  {
         //autoSave();
         if(projectConfig.checkMakeNewProjectFlag()) {
             commandProcessor.queueCMD("fl new");
-            println("[config] caught make new project flag");
+            // println("[config] caught make new project flag");
         }
         // windowFocus
         if(windowFocus != focused) {
@@ -140,11 +140,6 @@ class FreeLiner  {
         // clear markers?
     }
 
-    // its a dummy for FreelinerLED
-    public void reParse() { }
-    // its a dummy for others
-    public void toggleExtraGraphics() {}
-
     // need to make this better.
     private void autoSave() {
         if(frameCount % 1000 == 1) {
@@ -160,6 +155,7 @@ class FreeLiner  {
     }
 
 
+    // ????? ~:)
     public String randomAction() {
         ArrayList<Template> active = templateManager.getActive();
         if(active.size() == 0 ) return "";
@@ -199,12 +195,9 @@ class FreeLiner  {
 
     void saveConfig(String _fn){
         XML _session = new XML("freeliner-data");
-
         XML _cfg = projectConfig.makeXML();
-
         _session.addChild(_cfg);
         saveXML(_session, projectConfig.fullPath+"/"+_fn);
-
         String[] _dir = {projectConfig.fullPath};
         saveStrings(dataPath("last_project_path"), _dir);
     }
@@ -336,7 +329,6 @@ class FreeLiner  {
         }
     }
 
-
     public KeyMap getKeyMap() {
         return keyMap;
     }
@@ -388,13 +380,5 @@ class FreeLiner  {
     public GUIWebServer getGUIWebServer() {
         return guiWebServer;
     }
-    ////////////////////////////////////////////////////////////////////////////////////
-    ///////
-    ///////    Debug
-    ///////
-    ////////////////////////////////////////////////////////////////////////////////////
 
-    private void printStatus() {
-        //merp
-    }
 }

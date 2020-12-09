@@ -889,54 +889,6 @@ class AssociateLayer extends Layer {
 }
 
 
-// only going to work with P3D :/
-// class VertexShaderLayer extends ShaderLayer{
-//   public VertexShaderLayer(){
-//     super();
-//     name = "VertexShaderLayer";
-//     id = name;
-//     description = "a layer which can be rendered to and has a vertex shader";
-//     loadFile("aVertexShader.glsl");
-//   }
-//
-//   public void beginDrawing(){
-//     if(canvas != null){
-//       canvas.beginDraw();rh
-//       canvas.clear();
-//       try {
-//         canvas.shader(shader);
-//       }
-//       catch(RuntimeException _e){
-//         println("vertex shader no good");
-//         canvas.resetShader();
-//       }
-//     }
-//   }
-//
-//   public PGraphics apply(PGraphics _pg){
-//     if(!enabled) return _pg;
-//     if(_pg == null) return canvas;
-//     _pg.beginDraw();
-//     _pg.clear();
-//     _pg.image(canvas,0,0);
-//     _pg.endDraw();
-//     return _pg;
-//   }
-//
-//   public void reloadShader(){
-//     try{
-//       shader = loadShader( sketchPath()+"/data/userdata/defaultFrag.glsl", sketchPath()+"/data/userdata/"+fileName);
-//       println("Loaded vertex shader "+fileName);
-//     }
-//     catch(Exception _e){
-//       println("Could not load vertex shader... "+fileName);
-//       println(_e);
-//       shader = null;
-//     }
-//   }
-// }
-
-
 /**
  * Just draw a image, like a background Image to draw.
  *
@@ -1262,7 +1214,6 @@ class FixtureLayer extends Layer {
 class CustomDrawLayer extends RenderLayer {
     public CustomDrawLayer() {
         super();
-        // commandList.add("layer name setTracers 30");
         name = "customDrawLayer";
         id = name;
         description = "a layer with a callback to 'customDraw(PGraphics)' in 'freeliner_sketch.pde'";
@@ -1272,14 +1223,9 @@ class CustomDrawLayer extends RenderLayer {
      * Override parent's
      */
     public boolean parseCMD(String[] _args) {
-        // boolean _parsed = super.parseCMD(_args);
-        // if(_parsed) return true;
-        // else if(_args.length > 3) {
-        //     if(_args[2].equals("setTracers")) setTrails(stringInt(_args[3]), 255);
-        //     else return false;
-        // } else return false;
-        // return true;
-        return false;
+        boolean _parsed = super.parseCMD(_args);
+        if(_parsed) return true;
+        else return false;
     }
     /**
      * Override parent's beginDrawing to draw a transparent background.

@@ -1,4 +1,5 @@
 # add commands you want to run on startup
+# remove # to enable
 #tw A q 24
 #tw A a 2
 #geom load my_map.xml

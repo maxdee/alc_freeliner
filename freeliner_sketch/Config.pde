@@ -1,3 +1,14 @@
+/**
+ * ##copyright##
+ * See LICENSE.md
+ *
+ * @author    Maxime Damecour (http://nnvtn.ca)
+ * @version   0.4
+ * @since     2020-09-01
+ */
+
+ import java.io.*;
+ import java.nio.file.*;
 
 class FreelinerProject {
     String fullPath = "";
@@ -71,7 +82,7 @@ class FreelinerProject {
 
 
     boolean rotateCursorOnSnap = false;
-    // invert colors
+// invert color
     boolean invertedColor = true;
 
     // Timing and stuff
@@ -79,8 +90,6 @@ class FreelinerProject {
     int seqStepCount = 16;
 
     // generate documentation on startup, pretty much mandatory now.
-
-    boolean FIXTURE_CORRECT_GAMMA = false;
     boolean DRAW_FIXTURE_ADDRESS = false;
 
     boolean makeNewProjectFlag = false;
@@ -124,13 +133,30 @@ class FreelinerProject {
     }
 
     void newProject(String path){
-        println("making new project : "+path);
+        println("[project] making new project : "+path);
         fullPath = path;
-        File f = new File(fullPath);
-        if(f.mkdirs()) save();
+        File newProject = new File(fullPath);
+        if(newProject.mkdirs()) save();
+
+        // File defaultProject = new File(dataPath("default_project"));
         makeDir(fullPath+"/shaders");
         makeDir(fullPath+"/images");
         makeDir(fullPath+"/fixtures");
+        copyFile(dataPath("defaultProject")+"/macros", fullPath+"/macros");
+    }
+
+    void copyFile(String src, String dst){
+        println(src+"  "+dst);
+        Path sourceFile = Paths.get(src);
+        Path targetDir = Paths.get(dst);
+        Path targetFile = targetDir.resolve(sourceFile.getFileName());
+        try {
+            Files.copy(sourceFile, targetFile);
+        } catch (FileAlreadyExistsException ex) {
+            println("----------- File already exists.");
+        } catch (IOException ex) {
+            println("----------- I/O Error when copying file");
+        }
     }
 
     void makeDir(String _dir){
@@ -139,7 +165,7 @@ class FreelinerProject {
     }
 
     void save(){
-        println("save called");
+        println("[project] save called");
         XML _thing =  new XML("freeliner-data");
         _thing.addChild(makeXML());
         saveXML(_thing, fullPath+"/config.xml");
@@ -147,13 +173,13 @@ class FreelinerProject {
 
     void loadConfigXML(XML _xml) {
         if(_xml == null) {
-            println("[config] ERROR : null config");
+            println("[config] no config to load");
             return;
         }
 
         XML _config = _xml.getChild("config");
         if(_config == null) {
-            println("[config] not a valid file");
+            println("[config] not a valid config file");
             return;
         }
 
@@ -161,7 +187,6 @@ class FreelinerProject {
         if(_renderConfig != null) {
             this.windowWidth = _renderConfig.getInt("windowWidth", this.windowWidth);
             this.windowHeight = _renderConfig.getInt("windowHeight", this.windowHeight);
-            println("FUFLALFL "+ _renderConfig.getInt("fullscreen"));
             this.fullscreen = _renderConfig.getInt("fullscreen", this.fullscreen ? 1 : 0) == 1;
             this.fullscreenDisplay = _renderConfig.getInt("fullscreenDisplay", this.fullscreenDisplay);
             this.layers = _renderConfig.getInt("layers", this.layers ? 1 : 0) == 1;
@@ -220,8 +245,6 @@ class FreelinerProject {
 
             this.rotateCursorOnSnap = _guiConfig.getInt("rotateCursorOnSnap", this.rotateCursorOnSnap ? 1 : 0) == 1;
         }
-
-
 
     }
 

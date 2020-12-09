@@ -457,9 +457,6 @@ class TemplateManager {
         if(_tp == null) return;
         XML _tmp = _xml.addChild("template");
         _tmp.setString("ID", str(_tp.getTemplateID()));
-        if(_tp.getLinkedTemplate() != null){
-            _tmp.setString("linked", str(_tp.getLinkedTemplate().getTemplateID()));
-        }
         _tmp.setInt("renderMode", _tp.getRenderMode());
         _tmp.setInt("segmentMode", _tp.getSegmentMode());
         _tmp.setInt("animationMode", _tp.getAnimationMode());
@@ -482,7 +479,13 @@ class TemplateManager {
 
         _tmp.setInt("customStroke", _tp.getCustomStrokeColor());
         _tmp.setInt("customFill", _tp.getCustomFillColor());
+        String _l = "";
+        String _t = "";
+        if(_tp.getLinkedTemplate() != null) _l += _tp.getLinkedTemplate().getTemplateID();
+        if(_tp.getTranslationTemplate() != null) _t += _tp.getTranslationTemplate().getTemplateID();
 
+        _tmp.setString("linkedTemplate", _l);
+        _tmp.setString("translationTemplate", _t);
 
         XML _geoms = _tmp.addChild("groups");
         for( int i = 0; i < _tp.getGeometries().size(); i++){
@@ -532,10 +535,16 @@ class TemplateManager {
         _tp.setCustomStrokeColor(_templateData.getInt("customStroke"));
         _tp.setCustomFillColor(_templateData.getInt("customFill"));
 
-        String _linked = _templateData.getString("linked");
-        if(_linked != null){
+        String _linked = _templateData.getString("linkedTemplate");
+        String _translated = _templateData.getString("translationTemplate");
+
+        if(_linked.length() > 0){
             _tp.setLinkTemplate(getTemplate(_linked.charAt(0)));
         }
+        if(_translated.length() > 0){
+            _tp.setTranslationTemplate(getTemplate(_translated.charAt(0)));
+        }
+
         XML _grps = _templateData.getChild("groups");
         if(_grps != null){
             for(XML _grp : _grps.getChildren("g")){

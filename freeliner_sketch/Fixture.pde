@@ -76,6 +76,15 @@ class Fixture  {
     ArrayList<Fixture> getSubFixtures() {
         return subFixtures;
     }
+    byte getRed(color c) {
+        return (byte)((c >> 16) & 0xFF);
+    }
+    byte getGreen(color c) {
+        return (byte)((c >> 8) & 0xFF);
+    }
+    byte getBlue(color c) {
+        return (byte)(c & 0xFF);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +250,6 @@ class SingleColorStrip extends RGBStrip {
 }
 
 class SingleColorFixture extends RGBFixture {
-    // boolean correctGamma = true;
     color col;
     int theColor = 0;
     public SingleColorFixture(int _adr, int _col) {
@@ -258,19 +266,19 @@ class SingleColorFixture extends RGBFixture {
     // RGBFixture specific
     public void setColor(color _c) {
         col = _c;
-        int value = 0;
+        byte value = 0;
         switch(theColor) {
             case 0:
-                value = (col >> 16) & 0xFF;
+                value = getRed(col);
                 break;
             case 1:
-                value = (col >> 8) & 0xFF;
+                value = getGreen(col);
                 break;
             case 2:
-                value = col & 0xFF;
+                value = getBlue(col);
                 break;
         }
-        buffer[0] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? value : gammatable[value]);
+        buffer[0] = (byte)value;
     }
 }
 
@@ -285,7 +293,6 @@ class SingleColorFixture extends RGBFixture {
 
 // a base class for RGB fixture.
 class RGBFixture extends Fixture {
-    // boolean correctGamma = true;
     color col;
     public RGBFixture(int _adr) {
         super(_adr);
@@ -322,13 +329,9 @@ class RGBFixture extends Fixture {
     // RGBFixture specific
     public void setColor(color _c) {
         col = _c;
-        int red = (col >> 16) & 0xFF;
-        int green = (col >> 8) & 0xFF;
-        int blue = col & 0xFF;
-        buffer[0] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[1] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        buffer[2] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
-        // println(buffer[0]+" "+buffer[1]+" "+buffer[2]);
+        buffer[0] = getRed(col);
+        buffer[1] = getGreen(col);
+        buffer[2] = getBlue(col);
     }
 
     public color getColor() {
@@ -368,7 +371,6 @@ class ColorFlexWAUV extends RGBFixture {
 ///////////////////////////////////////////////////////
 // a base class for RGB fixture.
 class RGBPar extends Fixture {
-    // boolean correctGamma = true;
     color col;
     public RGBPar(int _adr) {
         super(_adr);
@@ -389,12 +391,10 @@ class RGBPar extends Fixture {
     // RGBFixture specific
     public void setColor(color _c) {
         col = _c;
-        int red = (col >> 16) & 0xFF;
-        int green = (col >> 8) & 0xFF;
-        int blue = col & 0xFF;
-        buffer[1] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[2] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        buffer[3] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        int green = getGreen(col);
+        buffer[1] = getRed(col);
+        buffer[2] = getGreen(col);
+        buffer[3] = getBlue(col);
         buffer[0] = byte(255);
     }
     // override
@@ -411,7 +411,6 @@ class RGBPar extends Fixture {
 }
 
 class AWPar extends Fixture {
-    // boolean correctGamma = true;
     color col;
     public AWPar(int _adr) {
         super(_adr);
@@ -431,12 +430,10 @@ class AWPar extends Fixture {
     // RGBFixture specific
     public void setColor(color _c) {
         col = _c;
-        int red = (col >> 16) & 0xFF;
-        int green = (col >> 8) & 0xFF;
-        // int blue = col & 0xFF;
-        buffer[0] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[1] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        // buffer[2] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        int green = getGreen(col);
+        buffer[0] = getRed(col);
+        buffer[1] = getGreen(col);
+        // buffer[2] = getBlue(col);
     }
     // override
     void drawFixtureOverlay(PGraphics _pg) {
@@ -532,7 +529,6 @@ class MPanel extends Fixture {
 
 
 class NetoParFive extends Fixture {
-    // boolean correctGamma = true;
     color col;
 
     public NetoParFive(int _adr) {
@@ -554,19 +550,17 @@ class NetoParFive extends Fixture {
     // RGBFixture specific
     public void setColor(color _c) {
         col = _c;
-        int red = (col >> 16) & 0xFF;
-        int green = (col >> 8) & 0xFF;
-        int blue = col & 0xFF;
         buffer[0] = byte(255);
-        if(red == green && green == blue) {
+
+        if(getRed(col) == getGreen(col) && getGreen(col) == getBlue(col)) {
             buffer[1] = 0;
             buffer[2] = 0;
             buffer[3] = 0;
-            buffer[4] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
+            buffer[4] = getRed(col);
         } else {
-            buffer[1] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-            buffer[2] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-            buffer[3] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+            buffer[1] = getRed(col);
+            buffer[2] = getGreen(col);
+            buffer[3] = getBlue(col);
             buffer[4] = 0;
         }
     }
@@ -590,7 +584,6 @@ class NetoParFive extends Fixture {
 ////////////////////////////////////////////////////////////////////////////////////
 
 class ZigZagMatrix extends Fixture {
-    // boolean correctGamma = true;
     color col;
     int matrixSpacing = 16;
     int matrixWidth = 0;
@@ -661,7 +654,6 @@ class ZigZagMatrix extends Fixture {
 ////////////////////////////////////////////////////////////////////////////////////
 
 class OrionOrcan extends Fixture {
-    // boolean correctGamma = true;
     color col;
     final int masterBrightChannel = 0;
     final int strobeChannel = 1;
@@ -692,16 +684,13 @@ class OrionOrcan extends Fixture {
     // RGBFixture specific
     public void setColor(color _c) {
         col = _c;
-        int red = (col >> 16) & 0xFF;
-        int green = (col >> 8) & 0xFF;
-        int blue = col & 0xFF;
         buffer[masterBrightChannel]  = byte(255);
         buffer[effectChannel]  = byte(0);
         buffer[effectSpeedChannel]  = byte(0);
 
-        buffer[redChannel] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? red : gammatable[red]);
-        buffer[greenChannel] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? green : gammatable[green]);
-        buffer[blueChannel] = byte(projectConfig.FIXTURE_CORRECT_GAMMA ? blue : gammatable[blue]);
+        buffer[redChannel] = getRed(col);
+        buffer[greenChannel] = getGreen(col);
+        buffer[blueChannel] = getBlue(col);
 
 
     }
