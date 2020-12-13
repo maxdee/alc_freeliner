@@ -52,7 +52,7 @@ class CommandProcessor  {
 
         "tp lerp A 0.5",
         "tp rotate A 0.5",
-        "tp translate AB 0.5 0.5",
+        "tp translate AB 100 200",
         "tp scale AB 0.5 0.5",
         "tp random",
 
@@ -1115,7 +1115,7 @@ class CommandProcessor  {
         }
     }
 
-// tp translate AB 0.5 0.5
+// tp translate AB 100 100
     public boolean tpTranslateCMD(String[] _args) {
         looper.receive(join(_args, " "));
         if(_args.length == 3) {

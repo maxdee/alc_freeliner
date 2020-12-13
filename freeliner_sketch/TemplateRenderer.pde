@@ -149,7 +149,7 @@ class TemplateRenderer extends Mode{
                 for(PositionMarker _marker : _markers) {
                     p = _marker.pos.get();
                     p.sub(_rt.getSegmentGroup().getCenter());
-                    p.set(p.x/width, p.y/height);
+                    p.set(p.x, p.y);
                     _rt.setTranslation(p);
                     float f = _rt.getTranslationTemplate().getBrushSize()/20.0;
                     s.set(f,f);
@@ -173,7 +173,8 @@ class TemplateRenderer extends Mode{
       PVector _trans = _rt.getTranslation();
       PVector _scale = _rt.getScale();
       PVector _center = _rt.getSegmentGroup().getCenter();
-      _pg.translate(_trans.x*width, _trans.y*height);
+      _pg.translate(_trans.x, _trans.y);
+      // do rotation and scale
       _pg.translate(_center.x, _center.y);
       float _rot = _rt.getRotation();
       _pg.rotate(_rot);
