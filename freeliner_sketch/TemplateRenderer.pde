@@ -146,7 +146,8 @@ class TemplateRenderer extends Mode{
                 // ArrayList<PositionMarker> _clone = new ArrayList<PositionMarker>(_markers);
                 for(PositionMarker _marker : _markers) {
                     PVector p = _marker.pos.get();
-                    p.set(p.x/width, p.y/height-0.5);
+                    p.sub(_rt.getSegmentGroup().getCenter());
+                    p.set(p.x/width, p.y/height);
                     _rt.setTranslation(p);
                     _rt.setRotation(_marker.angle);
                     translateAndRender(_rt, _pg);
@@ -170,7 +171,7 @@ class TemplateRenderer extends Mode{
       _pg.translate(_trans.x*width, _trans.y*height);
       _pg.translate(_center.x, _center.y);
       float _rot = _rt.getRotation();
-      _pg.rotate(_rot*TWO_PI);
+      _pg.rotate(_rot);
       _pg.scale(_scale.x, _scale.y);
       _pg.translate(-_center.x, -_center.y);
 
