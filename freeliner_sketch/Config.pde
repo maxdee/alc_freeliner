@@ -90,19 +90,73 @@ class FreelinerProject {
     // generate documentation on startup, pretty much mandatory now.
     boolean DRAW_FIXTURE_ADDRESS = false;
 
-    boolean makeNewProjectFlag = false;
     public FreelinerProject(){}
+
+    boolean valideProjectFile = false;
+    void loadLastProject(){
+        String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
+        if(lastProjectPath != null){
+            if(lastProjectPath.length > 0){
+                valideProjectFile = loadProject(lastProjectPath[0]);
+            }
+        }
+    }
+
+    // either create directory, or just set the last project path.
+    void setNewProjectPath(String _path){
+        println("[project] making new project : "+_path);
+        // check if it exists
+        File f = new File(_path);
+        if(f.isDirectory() != true){
+            if(f.mkdirs()) {
+                println("[project] created dir : "+_path);
+            }
+            else {
+                println("[project] failed to create dir : "+_path);
+            }
+        }
+        fullPath = _path;
+        // now check which files are present, if none are create basic ones.
+        File cfgFile = dataFile(_path+"/config.xml");
+        if(!f.isFile()) {
+            // save a new config and add relevant directories
+            saveConfig();
+            makeDir(fullPath+"/shaders");
+            makeDir(fullPath+"/images");
+            makeDir(fullPath+"/fixtures");
+        }
+        // File defaultProject = new File(dataPath("default_project"));
+        // copyFile(dataPath("defaultProject")+"/macros", fullPath+"/macros");
+        String[] _dir = {fullPath};
+        saveStrings(dataPath("last_project_path"), _dir);
+    }
+
+    void makeDir(String _dir){
+        File f = new File(_dir);
+        f.mkdirs();
+    }
+    // void copyFile(String src, String dst){
+    //     println(src+"  "+dst);
+    //     Path sourceFile = Paths.get(src);
+    //     Path targetDir = Paths.get(dst);
+    //     Path targetFile = targetDir.resolve(sourceFile.getFileName());
+    //     try {
+    //         Files.copy(sourceFile, targetFile);
+    //     }
+    //     catch (FileAlreadyExistsException ex) {
+    //         println("----------- File already exists.");
+    //     }
+    //     catch (IOException ex) {
+    //             println("----------- I/O Error when copying file");
+    //     }
+    // }
 
     // first thing that gets called when starting freeliner
     // pass a directory, exisiting or to be created
     // will only load the config portion
-    void load(String path){
+    boolean loadProject(String path){
         File f = new File(path);
-        if(f.isDirectory() != true){
-            // makeNewProjectFlag = true;
-            // will trigger file dialog
-        }
-        else {
+        if(f.isDirectory()) {
             //extract project name
             fullPath = path;
             String[] splt = fullPath.split("/");
@@ -114,57 +168,19 @@ class FreelinerProject {
             }
             catch (Exception e) {
                 println("[config] ERROR could not load : \n" + path);
-                return;
+                return false;
             }
             loadConfigXML(_xml);
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
-    // boolean checkMakeNewProjectFlag(){
-    //     if(makeNewProjectFlag){
-    //         makeNewProjectFlag = false;
-    //         return true;
-    //     }
-    //     else {
-    //         return false;
-    //     }
-    // }
-
-    //
-    // void newProject(String path){
-    //     println("[project] making new project : "+path);
-    //     fullPath = path;
-    //     File newProject = new File(fullPath);
-    //     if(newProject.mkdirs()) save();
-    //
-    //     // File defaultProject = new File(dataPath("default_project"));
-    //     makeDir(fullPath+"/shaders");
-    //     makeDir(fullPath+"/images");
-    //     makeDir(fullPath+"/fixtures");
-    //     copyFile(dataPath("defaultProject")+"/macros", fullPath+"/macros");
-    // }
-
-    void copyFile(String src, String dst){
-        println(src+"  "+dst);
-        Path sourceFile = Paths.get(src);
-        Path targetDir = Paths.get(dst);
-        Path targetFile = targetDir.resolve(sourceFile.getFileName());
-        try {
-            Files.copy(sourceFile, targetFile);
-        } catch (FileAlreadyExistsException ex) {
-            println("----------- File already exists.");
-        } catch (IOException ex) {
-            println("----------- I/O Error when copying file");
-        }
-    }
-
-    void makeDir(String _dir){
-        File f = new File(_dir);
-        f.mkdirs();
-    }
-
-    void save(){
-        println("[project] save called");
+    // saveConfig
+    void saveConfig(){
+        println("[project] saving config to : "+fullPath);
         XML _thing =  new XML("freeliner-data");
         _thing.addChild(makeXML());
         saveXML(_thing, fullPath+"/config.xml");

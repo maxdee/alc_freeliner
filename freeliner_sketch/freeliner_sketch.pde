@@ -19,7 +19,6 @@
 ///////     Not Options
 ///////
 ////////////////////////////////////////////////////////////////////////////////////
-import static javax.swing.JOptionPane.*;
 FreeLiner freeliner;
 
 final String VERSION = "0.4.8";
@@ -38,23 +37,8 @@ FreelinerProject projectConfig =  new FreelinerProject();
 PFont font;
 PFont introFont;
 
-
-boolean createNewProject = true;
 void settings(){
-    String[] lastProjectPath = loadStrings(dataPath("last_project_path"));
-    if(lastProjectPath != null){
-        if(lastProjectPath.length > 0){
-            projectConfig.load(lastProjectPath[0]);
-            createNewProject = false;
-        }
-    }
-    else {
-        // make a small window to dissuade from using.
-        projectConfig.windowWidth = 200;
-        projectConfig.windowHeight = 100;
-        projectConfig.fullscreen = false;
-        println("-------------- YES");
-    }
+    projectConfig.loadLastProject();
     // setup screen
     if(projectConfig.fullscreen == true){
         fullScreen(P2D, projectConfig.fullscreenDisplay);
@@ -74,12 +58,8 @@ void settings(){
 // callback for the file browser invoked with "fl new"
 public void newWithDir(File selection){
     println("[project] selected dir and RESTART "+selection.getPath());
-    projectConfig.newProject(selection.getPath());
-    String[] _dir = {projectConfig.fullPath};
-    saveStrings(dataPath("last_project_path"), _dir);
+    projectConfig.setNewProjectPath(selection.getPath());
     exit();
-    // createNewProject = false;
-    // reset();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -90,21 +70,16 @@ public void newWithDir(File selection){
 
 void setup() {
     reset();
-  // final String id = showInputDialog("Please enter new ID");
 }
 
 void reset(){
-    println("[project] running reset with : "+projectConfig.fullPath);
     surface.setResizable(false);
     if(projectConfig.fullscreen) {
         projectConfig.windowWidth = displayWidth;
         projectConfig.windowHeight = displayHeight;
     }
-    // surface.setSize(projectConfig.windowWidth, projectConfig.windowHeight);
-    // surface.setResizable(false);
     surface.setTitle("freeliner - "+projectConfig.projectName);
     frameRate(projectConfig.maxfps);
-
     // load fonts
     introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");
     font = loadFont("fonts/Monospaced.bold-64.vlw");
@@ -127,21 +102,27 @@ void reset(){
 
     // add in keyboard, as hold - or = to repeat. beginners tend to hold keys down which is problematic
     if(projectConfig.keyRepeat) hint(ENABLE_KEY_REPEAT); // usefull for performance
-    if(createNewProject){
+    if(projectConfig.valideProjectFile == false){
         selectFolder("pick directory for new project", "newWithDir");
     }
 }
 
 // splash screen!
 void splash(){
-    stroke(100);
-    fill(150);
-    //setText(CENTER);
     textFont(introFont);
-    text("a!Lc freeLiner", 10, height/2);
-    textSize(24);
-    fill(255);
-    text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
+    if(projectConfig.valideProjectFile == true){
+        stroke(100);
+        fill(150);
+        text("a!Lc freeLiner", 10, height/2);
+        textSize(24);
+        fill(255);
+        text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
+    }
+    else {
+        textSize(42);
+        fill((millis()%1500<900) ? 255 : 50);
+        text("SELECT PROJECT FOLDER AND RESTART", 10,  height/2);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
