@@ -535,7 +535,7 @@ class MetaBrush extends BrushPutter {
         if(shape_ == null) return;
         // applyStyle(shape_);
         applyColor(shape_);
-        float scale = event.getBrushSize() / 20.0; // devided by base brush size
+        float scale = event.getBrushSize() / 20.0;
         shape_.setStrokeWeight(event.getStrokeWeight()/scale);
         canvas.pushMatrix();
         canvas.translate(_p.x, _p.y);

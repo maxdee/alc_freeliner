@@ -163,6 +163,7 @@ class Painter extends Mode {
             _s.setStroke(true);
             _s.setStroke(getStrokeColor());
         }
+        else _s.setStroke(false);
     }
 
     //apply settings to a canvas
