@@ -104,7 +104,6 @@ class FreelinerProject {
 
     // either create directory, or just set the last project path.
     void setNewProjectPath(String _path){
-        println("[project] making new project : "+_path);
         // check if it exists
         File f = new File(_path);
         if(f.isDirectory() != true){
@@ -117,8 +116,16 @@ class FreelinerProject {
         }
         fullPath = _path;
         // now check which files are present, if none are create basic ones.
-        File cfgFile = dataFile(_path+"/config.xml");
-        if(!f.isFile()) {
+        XML _xml = null;
+        try {
+            _xml = loadXML(fullPath+"/config.xml");
+        }
+        catch (Exception e) {
+        }
+        // if no config file found, create all the basic files needed
+        if(_xml == null) {
+            println("[project] no config file, creating one : ");
+            println(fullPath);
             // save a new config and add relevant directories
             saveConfig();
             makeDir(fullPath+"/shaders");

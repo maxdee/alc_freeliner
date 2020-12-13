@@ -500,7 +500,6 @@ class KeyMap {
         String[] _lines = loadStrings(projectConfig.fullPath+"/macros");
         if(_lines!=null){
             println("------ Loading macros ----------------------------------");
-            println("macros :");
             if(_lines.length > 0){
                 for (String _s : _lines) {
                     if(_s.charAt(0) != '#'){

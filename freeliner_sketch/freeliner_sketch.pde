@@ -57,8 +57,8 @@ void settings(){
 
 // callback for the file browser invoked with "fl new"
 public void newWithDir(File selection){
-    println("[project] selected dir and RESTART "+selection.getPath());
     projectConfig.setNewProjectPath(selection.getPath());
+    println("[project] please restart freeliner to open project ");
     exit();
 }
 
@@ -109,16 +109,19 @@ void reset(){
 
 // splash screen!
 void splash(){
-    textFont(introFont);
     if(projectConfig.valideProjectFile == true){
-        stroke(100);
-        fill(150);
-        text("a!Lc freeLiner", 10, height/2);
-        textSize(24);
-        fill(255);
-        text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
+        if(doSplash){
+            textFont(introFont);
+            stroke(100);
+            fill(150);
+            text("a!Lc freeLiner", 10, height/2);
+            textSize(24);
+            fill(255);
+            text("V"+VERSION+" - made with PROCESSING", 10, (height/2)+20);
+        }
     }
     else {
+        textFont(introFont);
         textSize(42);
         fill((millis()%1500<900) ? 255 : 50);
         text("SELECT PROJECT FOLDER AND RESTART", 10,  height/2);
@@ -135,7 +138,7 @@ void splash(){
 void draw() {
     background(0);
     freeliner.update();
-    if(doSplash) splash();
+    splash();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////

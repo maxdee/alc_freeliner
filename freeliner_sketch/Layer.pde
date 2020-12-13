@@ -723,9 +723,10 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
     }
 
     public void selectOption(String _opt) {
-        println("hahaha "+_opt);
-        selectedOption = _opt;
-        loadFile(_opt);
+        if(_opt.equals("none") == false) {
+            selectedOption = _opt;
+            loadFile(_opt);
+        }
     }
 
     public Layer loadFile(String _file) {
