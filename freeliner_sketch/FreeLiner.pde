@@ -115,10 +115,10 @@ class FreeLiner  {
      */
     public void update() {
         //autoSave();
-        if(projectConfig.checkMakeNewProjectFlag()) {
-            commandProcessor.queueCMD("fl new");
-            // println("[config] caught make new project flag");
-        }
+        // if(projectConfig.checkMakeNewProjectFlag()) {
+        //     commandProcessor.queueCMD("fl new");
+        //     // println("[config] caught make new project flag");
+        // }
         // windowFocus
         if(windowFocus != focused) {
             windowFocus = focused;
@@ -282,8 +282,6 @@ class FreeLiner  {
 
     // getFilesFrom("/shaders", ".glsl");
     public ArrayList<String> getFilesFrom(String _dir, String _type){
-        println(_dir+" "+_type);
-
         ArrayList<String> _files = new ArrayList<String>();
         File _directory = new File(_dir);
         recursiveFind(_files, "", _directory, _type);

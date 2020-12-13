@@ -82,8 +82,6 @@ class FreelinerProject {
 
 
     boolean rotateCursorOnSnap = false;
-// invert color
-    boolean invertedColor = true;
 
     // Timing and stuff
     int tempo = 1300;
@@ -101,7 +99,7 @@ class FreelinerProject {
     void load(String path){
         File f = new File(path);
         if(f.isDirectory() != true){
-            makeNewProjectFlag = true;
+            // makeNewProjectFlag = true;
             // will trigger file dialog
         }
         else {
@@ -122,28 +120,29 @@ class FreelinerProject {
         }
     }
 
-    boolean checkMakeNewProjectFlag(){
-        if(makeNewProjectFlag){
-            makeNewProjectFlag = false;
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
+    // boolean checkMakeNewProjectFlag(){
+    //     if(makeNewProjectFlag){
+    //         makeNewProjectFlag = false;
+    //         return true;
+    //     }
+    //     else {
+    //         return false;
+    //     }
+    // }
 
-    void newProject(String path){
-        println("[project] making new project : "+path);
-        fullPath = path;
-        File newProject = new File(fullPath);
-        if(newProject.mkdirs()) save();
-
-        // File defaultProject = new File(dataPath("default_project"));
-        makeDir(fullPath+"/shaders");
-        makeDir(fullPath+"/images");
-        makeDir(fullPath+"/fixtures");
-        copyFile(dataPath("defaultProject")+"/macros", fullPath+"/macros");
-    }
+    //
+    // void newProject(String path){
+    //     println("[project] making new project : "+path);
+    //     fullPath = path;
+    //     File newProject = new File(fullPath);
+    //     if(newProject.mkdirs()) save();
+    //
+    //     // File defaultProject = new File(dataPath("default_project"));
+    //     makeDir(fullPath+"/shaders");
+    //     makeDir(fullPath+"/images");
+    //     makeDir(fullPath+"/fixtures");
+    //     copyFile(dataPath("defaultProject")+"/macros", fullPath+"/macros");
+    // }
 
     void copyFile(String src, String dst){
         println(src+"  "+dst);
