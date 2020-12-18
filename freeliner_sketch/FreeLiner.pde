@@ -35,9 +35,13 @@ class FreeLiner  {
     // misc
     boolean windowFocus;
     PApplet applet;
+    ScriptHandler scriptHandler;
 
     public FreeLiner(PApplet _pa) {
         applet = _pa;
+        // scriptHandler = new ScriptHandler("tw ABC q #beat%5");
+        scriptHandler = new ScriptHandler("tw ABC s #(Math.sin(time)+1)*10.0");
+
         // instantiate
         // model
         groupManager = new GroupManager();
@@ -113,7 +117,12 @@ class FreeLiner  {
     /**
      * It all starts here...
      */
+     int tracker = 0;
     public void update() {
+        if(tracker != templateManager.getSynchroniser().getPeriodCount()){
+            tracker = templateManager.getSynchroniser().getPeriodCount();
+        }
+
         //autoSave();
         // if(projectConfig.checkMakeNewProjectFlag()) {
         //     commandProcessor.queueCMD("fl new");
@@ -126,6 +135,7 @@ class FreeLiner  {
             groupManager.unSnap();
         }
         gui.update();
+        scriptHandler.evaluate(tracker,templateManager.getSynchroniser().getTime());
         commandProcessor.update();
         // update template models
         templateManager.update();
