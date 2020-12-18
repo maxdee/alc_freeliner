@@ -544,46 +544,24 @@ function colorsCallbacks() {
     for(i = 0; i < 12; i++){
         _element = document.getElementById("colorPicker"+i);
         _element.oninput = makeColorCMD(_element, i);
-        // _element.onchange = makeColorCMD(_element, i);
-    }
-    for(i = 0; i < 4; i++){
-        _element = document.getElementById("fourColor"+i);
-        _element.oninput = fourcallback(_element, i);
-        // _element.onchange = fourcallback(_element, i);
     }
     for(i = 0; i < 2; i++){
         _element = document.getElementById("twoColor"+i);
         _element.oninput = twocallback(_element, i);
-        // _element.onchange = fourcallback(_element, i);
     }
 }
+
 function twocallback(_element, index) {
-    var p1, p2;
-    index*=2;
-    p1 = document.getElementById("fourColor"+index);
-    p2 = document.getElementById("fourColor"+(index+1));
     return function() {
-        p1.value = _element.value;
-        p1.oninput();
-        p2.value = _element.value;
-        p2.oninput();
+        var p, i;//, p3, p4, p5, p6;
+        for(i = 0; i < 6; i++){
+            p =  document.getElementById("colorPicker"+(index+i*2));
+            p.value = _element.value;
+            p.oninput();
+        }
     }
 }
-function fourcallback(_element, index) {
-    var p1, p2, p3;
-    index*=3;
-    p1 = document.getElementById("colorPicker"+index);
-    p2 = document.getElementById("colorPicker"+(index+1));
-    p3 = document.getElementById("colorPicker"+(index+2));
-    return function() {
-        p1.value = _element.value;
-        p1.oninput();
-        p2.value = _element.value;
-        p2.oninput();
-        p3.value = _element.value;
-        p3.oninput();
-    }
-}
+
 
 function makeColorCMD(_element, _index){
     return function() {
@@ -735,6 +713,7 @@ document.addEventListener("keydown", function(e) {
     if ((navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) e.preventDefault();
     // prevent default for tab key
     else if(e.keyCode == 9) e.preventDefault();
+    else if(e.keyCode == 17) e.preventDefault();
     if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
     else if (document.activeElement != document.getElementById("layerNameInput")) {
         blurAll();

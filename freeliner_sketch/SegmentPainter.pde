@@ -557,7 +557,7 @@ class PositionCollector extends MetaBrush {
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
         PVector _pos = getPosition(_seg);
-        float _a = getAngle(_seg, _event);
+        float _a = getAngle(_seg, _event)+HALF_PI;
         // apply translations to _pos and angle...
         _pos.add(_event.getTranslation());
         _event.getSourceTemplate().addMetaPositionMarker(_pos, _a, _event.getBrushSize());

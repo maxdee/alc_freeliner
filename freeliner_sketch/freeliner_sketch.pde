@@ -74,10 +74,10 @@ void setup() {
 
 void reset(){
     surface.setResizable(false);
-    if(projectConfig.fullscreen) {
-        projectConfig.windowWidth = displayWidth;
-        projectConfig.windowHeight = displayHeight;
-    }
+    // if(projectConfig.fullscreen) {
+    //     projectConfig.windowWidth = displayWidth;
+    //     projectConfig.windowHeight = displayHeight;
+    // }
     surface.setTitle("freeliner - "+projectConfig.projectName);
     frameRate(projectConfig.maxfps);
     // load fonts
