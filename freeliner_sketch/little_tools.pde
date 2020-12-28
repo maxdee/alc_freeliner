@@ -141,9 +141,7 @@ class FileWatcher {
                     println("Could not find file "+filePath);
             }
         }
-        else {
-            timeStamp = System.currentTimeMillis();
-        }
+        
         return false;
     }
     String getPath(){

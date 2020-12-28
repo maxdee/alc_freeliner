@@ -1131,26 +1131,17 @@ class GroupManager {
 
 // used to watch and mannage a SVG file
 class LinkedSvgFile {
-    long timeStamp;
-
     String fileName;
+    FileWatcher fileWatcher;
     ArrayList<SegmentGroup> groups;
 
     public LinkedSvgFile(String _fn){
         fileName = _fn;
+        fileWatcher = new FileWatcher(projectConfig.fullPath+"/svg/"+fileName);
         groups = new ArrayList<SegmentGroup>();
     }
 
     public boolean checkForUpdate() {
-        try {
-            File _file = new File(projectConfig.fullPath+"/svg/"+fileName);
-            if(timeStamp != _file.lastModified()) {
-                timeStamp = _file.lastModified();
-                return true;
-            }
-        } catch(Exception _e) {
-            println("Could not find file "+fileName);
-        }
-        return false;
+        return fileWatcher.hasChanged();
     }
 }
