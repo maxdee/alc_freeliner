@@ -1120,6 +1120,7 @@ class CommandProcessor  {
         looper.receive(join(_args, " "));
         if(_args.length == 3) {
             ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
+            if(_tmps == null) return false;
             if(_tmps.size()<2) return false;
             for(int i = 0; i < _tmps.size()-1; i++){
                 _tmps.get(i).setTranslationTemplate(_tmps.get(_tmps.size()-1));

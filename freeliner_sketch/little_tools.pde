@@ -115,6 +115,45 @@ class DampFloat {
     }
 }
 
+// keep an eye on a file and raise a flag if it changes
+//
+class FileWatcher {
+    String filePath;
+    long timeStamp;
+    int delay = 2000;
+    public FileWatcher(){
+        filePath = "";
+    }
+    public FileWatcher(String p){
+        filePath = p;
+        timeStamp = 0;
+    }
+    public boolean hasChanged(){
+        if(filePath.equals("")) return false;
+        if(timeStamp+delay < System.currentTimeMillis()){
+            try {
+                File _file = new File(filePath);
+                if(timeStamp != _file.lastModified()) {
+                    timeStamp = _file.lastModified();
+                    return true;
+                }
+            } catch(Exception _e) {
+                    println("Could not find file "+filePath);
+            }
+        }
+        else {
+            timeStamp = System.currentTimeMillis();
+        }
+        return false;
+    }
+    String getPath(){
+        return filePath;
+    }
+    void setDelay(int d){
+        delay = d;
+    }
+}
+
 /**
 * Method to manipulate values by increment or asbolute
 * if the new value is >= 0 it will simply return this.
@@ -234,15 +273,8 @@ color alphaMod(color  _c, int _alpha){
     return color(red(_c), green(_c), blue(_c), _alpha);
 }
 
-/**
-* PShape clone/resize/center, the centerPosition will translate everything making it 0,0
-* @param  String directory
-* @param String file extention
-* @return String[] fileNames
-*/
-// String[] parseDirectory(String _dir, String _ext){
-//
-// }
+
+
 
 final int PALLETTE_COUNT = 12;
 color[] userPallet = {

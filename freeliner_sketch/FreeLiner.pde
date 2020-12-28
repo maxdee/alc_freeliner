@@ -40,7 +40,7 @@ class FreeLiner  {
     public FreeLiner(PApplet _pa) {
         applet = _pa;
         // scriptHandler = new ScriptHandler("tw ABC q #beat%5");
-        scriptHandler = new ScriptHandler("tw ABC s #(Math.sin(time)+1)*10.0");
+        // scriptHandler = new ScriptHandler("tw ABC s #(Math.sin(time)+1)*10.0");
 
         // instantiate
         // model
@@ -135,7 +135,7 @@ class FreeLiner  {
             groupManager.unSnap();
         }
         gui.update();
-        scriptHandler.evaluate(tracker,templateManager.getSynchroniser().getTime());
+        // scriptHandler.evaluate(tracker,templateManager.getSynchroniser().getTime());
         commandProcessor.update();
         // update template models
         templateManager.update();
