@@ -19,6 +19,7 @@ class ScriptHandler{
     CompiledScript compiled;
     String exp;
     String cmd;
+    ArrayList<String> expressionList;
     ArrayList<String> cmdBuffer;
     // add commands
 
@@ -30,7 +31,7 @@ class ScriptHandler{
         evalJS(engine, "function r(v){return Math.random()*v}");
         evalJS(engine, "function s(v){return Math.sin(v)}");
         evalJS(engine, "function i(v){return Math.round(v)}");
-        evalJS(engine, "function cmd(a){return String(a)}")
+        evalJS(engine, "function cmd(a){return String(a)}");
 
 
         // globals = compileJS(engine, "w = "+width+", h = "+height);
@@ -41,12 +42,12 @@ class ScriptHandler{
     public void evaluate(int beat, float time){
         engine.put("time", time);
         engine.put("beat", beat);
-
-        // double res = (double)runJS(compiled);
-        String c = (String)runJS(compiled);
-        // int r = (int)(res);
-        println(c);//cmd+" "+r);
-        cmdBuffer.add(c);//cmd+""+r);
+        engine.put("millis", millis());
+        if(compiled != null){
+            String c = (String)runJS(compiled);
+            println(c);
+            cmdBuffer.add(c);
+        }
     }
 }
 
@@ -60,7 +61,8 @@ class ScriptHandler{
     catch (final ScriptException cause) {
         PApplet.println(cause);
         System.err.println(expression);
-        throw new RuntimeException(cause);
+        // throw new RuntimeException(cause);
+        return null;
     }
 }
 
@@ -73,7 +75,8 @@ class ScriptHandler{
     catch (final ScriptException cause) {
         PApplet.println(cause);
         System.err.println(expression);
-        throw new RuntimeException(cause);
+        // throw new RuntimeException(cause);
+        return null;
     }
 }
 
@@ -84,6 +87,7 @@ static final Object runJS
     }
     catch (final ScriptException cause) {
         PApplet.println(cause);
-        throw new RuntimeException(cause);
+        // throw new RuntimeException(cause);
+        return null;
     }
 }

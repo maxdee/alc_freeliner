@@ -673,6 +673,31 @@ cmdPrompt = (function () {
     }
 })();
 
+//
+scriptPrompt = (function () {
+    var cmdIndex, scrptHist, scriptPrompt;
+    scrptHist = ["no previous cmd"];
+    prompt = document.getElementById("scripting");
+    return function (e) {
+        if(e.keyCode == 13) {
+            sendCMD("oneliner "+prompt.value);
+            scrptHist.push(prompt.value);
+            // prompt.value = "";
+            cmdIndex = 0;
+        }
+        else if(e.keyCode == 38) {
+            cmdIndex++;
+            if(cmdIndex >= scrptHist.length) cmdIndex = scrptHist.length-1;
+            prompt.value = scrptHist[scrptHist.length-1];
+            prompt.value = scrptHist[scrptHist.length - cmdIndex];
+        }
+        else if(e.keyCode == 40) {
+            cmdIndex--;
+            if(cmdIndex < 1) cmdIndex = 1;
+            prompt.value = scrptHist[scrptHist.length - cmdIndex];
+        }
+    }
+})();
 
 /*
  * /////////////////////////////////////////////////////////////
@@ -715,6 +740,8 @@ document.addEventListener("keydown", function(e) {
     else if(e.keyCode == 9) e.preventDefault();
     else if(e.keyCode == 17) e.preventDefault();
     if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
+    if (document.activeElement == document.getElementById("scripting")) scriptPrompt(e);
+
     else if (document.activeElement != document.getElementById("layerNameInput")) {
         blurAll();
         actualySendCMD('hid press '+kbdRules(e)+" "+e.key);
