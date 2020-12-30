@@ -35,16 +35,18 @@ class FreeLiner  {
     // misc
     boolean windowFocus;
     PApplet applet;
+    ScriptHandler scriptHandler;
 
     public FreeLiner(PApplet _pa) {
         applet = _pa;
-        // instantiate
-        // model
+        // scriptHandler = new ScriptHandler("tw ABC q #beat%5");
+        // scriptHandler = new ScriptHandler("tw ABC s #((time*.3)%10)*10.0");
+
         groupManager = new GroupManager();
         templateManager =  new TemplateManager();
-        // view
         templateRenderer = new TemplateRenderer();
         gui = new Gui();
+
         // pick a rendering system
         if(!projectConfig.layers) canvasManager = new ClassicCanvasManager(applet, gui.getCanvas());
         else if(projectConfig.layers) canvasManager = new LayeredCanvasManager(applet, gui.getCanvas());
@@ -113,7 +115,12 @@ class FreeLiner  {
     /**
      * It all starts here...
      */
+     int tracker = 0;
     public void update() {
+        if(tracker != templateManager.getSynchroniser().getPeriodCount()){
+            tracker = templateManager.getSynchroniser().getPeriodCount();
+        }
+
         //autoSave();
         // if(projectConfig.checkMakeNewProjectFlag()) {
         //     commandProcessor.queueCMD("fl new");
@@ -126,6 +133,7 @@ class FreeLiner  {
             groupManager.unSnap();
         }
         gui.update();
+        // scriptHandler.evaluate(tracker,templateManager.getSynchroniser().getTime());
         commandProcessor.update();
         // update template models
         templateManager.update();
