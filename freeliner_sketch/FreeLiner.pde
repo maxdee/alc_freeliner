@@ -40,7 +40,8 @@ class FreeLiner  {
     public FreeLiner(PApplet _pa) {
         applet = _pa;
         // scriptHandler = new ScriptHandler("tw ABC q #beat%5");
-        scriptHandler = null;//new ScriptHandler("'tw ABC s '+i(r(40))+', tw ABC q '+beat%4+5");
+        scriptHandler = new ScriptHandler(applet);
+        scriptHandler.setScriptFile(projectConfig.fullPath+"/script.js");
 
         groupManager = new GroupManager();
         templateManager =  new TemplateManager();
@@ -135,7 +136,8 @@ class FreeLiner  {
         gui.update();
         if(scriptHandler != null){
             scriptHandler.cmdBuffer.clear();
-            scriptHandler.evaluate(tracker, templateManager.getSynchroniser().getTime());
+            scriptHandler.updateScriptVariables(tracker, templateManager.getSynchroniser().getTime());
+            scriptHandler.evaluate();
             commandProcessor.looper.lock = true;
             commandProcessor.queueCMD(scriptHandler.cmdBuffer);
             commandProcessor.looper.lock = false;

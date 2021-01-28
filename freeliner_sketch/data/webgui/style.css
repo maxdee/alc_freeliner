@@ -128,9 +128,6 @@ input[type=checkbox] {
     box-sizing: border-box;
 }
 
-#prompt {
-  width:80%;
-}
 
 #templateSelector {
   width:100%;

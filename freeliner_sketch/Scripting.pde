@@ -16,14 +16,18 @@ import javax.script.CompiledScript;
 class ScriptHandler{
     ScriptEngine engine = new ScriptEngineManager().getEngineByName("Nashorn");
     CompiledScript globals;
-    CompiledScript compiled;
+    CompiledScript compiledOneLiner;
+    CompiledScript compiledScriptFile;
     String exp;
     String cmd;
     ArrayList<String> expressionList;
     ArrayList<String> cmdBuffer;
-    // add commands
 
-    public ScriptHandler(String s){
+    FileWatcher scriptFile;
+    // ScriptEngineFactory sef;
+    int beatTracker = 0;
+    boolean newBeat = false;
+    public ScriptHandler(PApplet _pa){
         // cmd = split(s,'#')[0];
         // exp = split(s,'#')[1];
         engine.put("width", width);
@@ -32,22 +36,64 @@ class ScriptHandler{
         evalJS(engine, "function s(v){return Math.sin(v)}");
         evalJS(engine, "function i(v){return Math.round(v)}");
         evalJS(engine, "function cmd(a){return String(a)}");
-
-
-        // globals = compileJS(engine, "w = "+width+", h = "+height);
-        compiled = compileJS(engine,"cmd("+s+")");// exp);
+        evalJS(engine, "var PApplet = Java.type('processing.core.PApplet');");
+        engine.put("pa", _pa);
+        evalJS(engine, "function println(s){pa.println(s);}");
+        // sef = engine.getFactory();
         cmdBuffer = new ArrayList<String>();
+        scriptFile = new FileWatcher();
+
+    }
+    // void println(String s){
+    //     println(s);
+    // }
+    public void setOneLiner(String s){
+        compiledOneLiner = compileJS(engine,"cmd("+s+")");// exp);
     }
 
-    public void evaluate(int beat, float time){
+    public void updateScriptVariables(int beat, float time){
         engine.put("time", time);
-        engine.put("beat", beat);
-        engine.put("millis", millis());
-        if(compiled != null){
-            String c = (String)runJS(compiled);
-            println(c);
-            cmdBuffer.add(c);
+        if(beatTracker != beat){
+            beatTracker = beat;
+            engine.put("beat", beat);
+            newBeat = true;
         }
+        else {
+            newBeat = false;
+        }
+        engine.put("millis", millis());
+        if(scriptFile.hasChanged()){
+            String[] lines = loadStrings(projectConfig.fullPath+"/script.js");
+            String l = join(lines, "\n");
+            println(l);
+            evalJS(engine, l);
+        }
+    }
+
+    public void evaluate(){
+        if(compiledOneLiner != null){
+            String c = (String)runJS(compiledOneLiner);
+            addCommand(c);
+        }
+        if(scriptFile.filePath.equals("") != true){
+            String c = (String)evalJS(engine, "onFrame();");
+            addCommand(c);
+            String b = (String)evalJS(engine, "onBeat();");
+            addCommand(b);
+        }
+
+    }
+    public void addCommand(String s){
+        if(s != null){
+            if(s.length() > 2){
+                cmdBuffer.add(s);
+                // println("[scripting] "+s);
+            }
+        }
+    }
+    public void setScriptFile(String s){
+        scriptFile = new FileWatcher(s);
+        scriptFile.setDelay(500);
     }
 }
 

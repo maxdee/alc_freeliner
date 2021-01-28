@@ -876,7 +876,7 @@ class CommandProcessor  {
         a = a.replaceAll("oneliner ", "");
         println("[script] adding new expression : ");
         println(a);
-        freeliner.scriptHandler = new ScriptHandler(a);
+        freeliner.scriptHandler.setOneLiner(a);
         return true;
     }
 
