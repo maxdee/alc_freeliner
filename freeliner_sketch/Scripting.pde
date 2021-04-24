@@ -8,7 +8,8 @@ import javax.script.Compilable;
 import javax.script.CompiledScript;
 // struct of data needed to make stuff happen.
 // public class DataBroker{
-//     public int beat()
+//     public int beat
+//     public float unitinterval
 // }
 
 // tw ABC q #beat%5
@@ -26,6 +27,7 @@ class ScriptHandler{
     FileWatcher scriptFile;
     // ScriptEngineFactory sef;
     int beatTracker = 0;
+    boolean validScriptfile = false;
     boolean newBeat = false;
     public ScriptHandler(PApplet _pa){
         // cmd = split(s,'#')[0];
@@ -65,7 +67,9 @@ class ScriptHandler{
         if(scriptFile.hasChanged()){
             String[] lines = loadStrings(projectConfig.fullPath+"/script.js");
             String l = join(lines, "\n");
-            println(l);
+            //  :S :S
+            if(l.length() > 2) validScriptfile = true;
+            else  validScriptfile = false;
             evalJS(engine, l);
         }
     }
@@ -75,11 +79,16 @@ class ScriptHandler{
             String c = (String)runJS(compiledOneLiner);
             addCommand(c);
         }
-        if(scriptFile.filePath.equals("") != true){
+        if(validScriptfile){
             String c = (String)evalJS(engine, "onFrame();");
             addCommand(c);
-            String b = (String)evalJS(engine, "onBeat();");
-            addCommand(b);
+            if(newBeat){
+                String b = (String)evalJS(engine, "onBeat();");
+                // shady hack, we should check on pilation
+                if(c == null || b == null) validScriptfile =false;
+                addCommand(b);
+                newBeat = false;
+            }
         }
 
     }

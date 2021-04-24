@@ -867,7 +867,7 @@ class CommandProcessor  {
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
-    ///////     LooperCMD
+    ///////     scriptingCMD
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
@@ -886,6 +886,7 @@ class CommandProcessor  {
     ///////     LooperCMD
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
+
     public boolean loopCMD(String[] _args) {
         if(_args.length > 1) {
             int _v = stringInt(_args[1]);
@@ -1129,15 +1130,23 @@ class CommandProcessor  {
         looper.receive(join(_args, " "));
 
         if(_args.length == 2) {
-            for(int i = 0; i < _args[1].length(); i++) templateManager.trigger(_args[1].charAt(i));
-        } else if(_args.length > 2) {
+            ArrayList<Template> _tps = templateManager.getTemplates(_args[1]);
+            if(_tps != null){
+                for(Template _tp : _tps) templateManager.trigger(_tp.getTemplateID());
+            }
+        }
+        else if(_args.length > 2) {
             ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(_args);
-            for(int i = 0; i < _args[1].length(); i++){
-                for(SegmentGroup _sg : _groups){
-                     templateManager.trigger(_args[1].charAt(i), _sg.getID());
+            ArrayList<Template> _tps = templateManager.getTemplates(_args[1]);
+            if(_tps != null && _groups != null){
+                for(Template _tp : _tps){
+                    for(SegmentGroup _sg : _groups){
+                        templateManager.trigger(_tp.getTemplateID(), _sg.getID());
+                    }
                 }
             }
         }
+
     }
 
 // tp translate AB 100 100

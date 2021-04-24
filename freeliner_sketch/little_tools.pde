@@ -121,13 +121,16 @@ class FileWatcher {
     String filePath;
     long timeStamp;
     int delay = 2000;
+
     public FileWatcher(){
         filePath = "";
     }
+
     public FileWatcher(String p){
         filePath = p;
         timeStamp = 0;
     }
+
     public boolean hasChanged(){
         if(filePath.equals("")) return false;
         if(timeStamp+delay < System.currentTimeMillis()){
@@ -141,12 +144,25 @@ class FileWatcher {
                     println("Could not find file "+filePath);
             }
         }
-        
+
         return false;
     }
+    // not sure if this works
+    public boolean isValid(){
+        File f = new File(filePath);
+        try {
+           f.getCanonicalPath();
+           return true;
+        }
+        catch (IOException e) {
+           return false;
+        }
+    }
+
     String getPath(){
         return filePath;
     }
+
     void setDelay(int d){
         delay = d;
     }

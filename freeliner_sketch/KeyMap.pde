@@ -342,6 +342,7 @@ class KeyMap {
         ///////
         ////////////////////////////////////////////////////////////////////////////////////
 
+        // no cmd for increase decrease???
         // increase
         keymap['='] = new ParameterKey('=');
         keymap['='].setType(0);
@@ -360,6 +361,7 @@ class KeyMap {
         keymap['.'].setDescription("enable/disable snapping or set the snapping distance");
         keymap['.'].setCMD("tools snap"); // then check for selected segment, or execute cmd
         keymap['.'].setMax(255);
+
         // fixed angle
         keymap['['] = new ParameterKey('[');
         keymap['['].setType(KEYTYPE_TOGGLE_VALUE);

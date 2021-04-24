@@ -396,43 +396,43 @@ class TemplateManager {
     ///////     Saving and loading to bank
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
-
-
-    public void loadTemplateTeam(String _key, String _tags){
-        ArrayList<Template> _templates = getTemplates(_tags);
-        TemplateTeam _team = getTemplateTeam(_key);
-        if(_team != null && _templates != null){
-            ArrayList<Template> _teamTemplates =_team.getTemplates();
-            if(_teamTemplates != null){
-                if(_teamTemplates.size() == _templates.size()){
-                    for(int i = 0; i < _templates.size(); i++){
-                        // println("load template team "+i);
-                        groupManager.groupRemoveTemplate(_templates.get(i));
-                        _templates.get(i).copyParameters(_teamTemplates.get(i));
-                        groupManager.addTemplateToGroups(_templates.get(i));
-                    }
-                }
-            }
-        }
-    }
-
-    public TemplateTeam getTemplateTeam(String _key){
-        if(templateTeams.size() > 0){
-            for(TemplateTeam _team : templateTeams){
-                if(_team.getName().equals(_key)) return _team;
-            }
-        }
-        return null;
-    }
-
-    public void saveTemplateTeam(String _tags, String _key){
-        println("saving template team "+_tags+" "+_key);
-        ArrayList<Template> _templates = getTemplates(_tags);
-        if(_templates == null) return;
-        TemplateTeam _team = new TemplateTeam(_key);
-        _team.addTemplates(_templates);
-        templateTeams.add(_team);
-    }
+    //
+    //
+    // public void loadTemplateTeam(String _key, String _tags){
+    //     ArrayList<Template> _templates = getTemplates(_tags);
+    //     TemplateTeam _team = getTemplateTeam(_key);
+    //     if(_team != null && _templates != null){
+    //         ArrayList<Template> _teamTemplates =_team.getTemplates();
+    //         if(_teamTemplates != null){
+    //             if(_teamTemplates.size() == _templates.size()){
+    //                 for(int i = 0; i < _templates.size(); i++){
+    //                     // println("load template team "+i);
+    //                     groupManager.groupRemoveTemplate(_templates.get(i));
+    //                     _templates.get(i).copyParameters(_teamTemplates.get(i));
+    //                     groupManager.addTemplateToGroups(_templates.get(i));
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    // public TemplateTeam getTemplateTeam(String _key){
+    //     if(templateTeams.size() > 0){
+    //         for(TemplateTeam _team : templateTeams){
+    //             if(_team.getName().equals(_key)) return _team;
+    //         }
+    //     }
+    //     return null;
+    // }
+    //
+    // public void saveTemplateTeam(String _tags, String _key){
+    //     println("saving template team "+_tags+" "+_key);
+    //     ArrayList<Template> _templates = getTemplates(_tags);
+    //     if(_templates == null) return;
+    //     TemplateTeam _team = new TemplateTeam(_key);
+    //     _team.addTemplates(_templates);
+    //     templateTeams.add(_team);
+    // }
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
