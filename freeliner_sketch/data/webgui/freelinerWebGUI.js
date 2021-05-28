@@ -739,9 +739,10 @@ document.addEventListener("keydown", function(e) {
     // prevent default for tab key
     else if(e.keyCode == 9) e.preventDefault();
     else if(e.keyCode == 17) e.preventDefault();
+    // else if(e.keyCode == 84) e.preventDefault();
+    // console.log(e.keycode);
     if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
-    if (document.activeElement == document.getElementById("scripting")) scriptPrompt(e);
-
+    // if (document.activeElement == document.getElementById("scripting")) scriptPrompt(e);
     else if (document.activeElement != document.getElementById("layerNameInput")) {
         blurAll();
         actualySendCMD('hid press '+kbdRules(e)+" "+e.key);
@@ -749,6 +750,24 @@ document.addEventListener("keydown", function(e) {
 
     //send keyPress to freeliner
 }, false);
+
+// window.addEventListener("keydown", function(e) {
+//     // catch ctrlKey
+//     if ((navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) e.preventDefault();
+//     // prevent default for tab key
+//     else if(e.keyCode == 9) e.preventDefault();
+//     else if(e.keyCode == 17) e.preventDefault();
+//     else if(e.keyCode == 84) e.preventDefault();
+//     // console.log(e.keycode);
+//     if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
+//     // if (document.activeElement == document.getElementById("scripting")) scriptPrompt(e);
+//     else if (document.activeElement != document.getElementById("layerNameInput")) {
+//         blurAll();
+//         actualySendCMD('hid press '+kbdRules(e)+" "+e.key);
+//     }
+//     //send keyPress to freeliner
+// }, false);
+
 
 document.addEventListener("keyup", function(e) {
     // catch ctrlKey
@@ -759,7 +778,7 @@ document.addEventListener("keyup", function(e) {
     actualySendCMD('hid release '+kbdRules(e)+" "+e.key);
 }, false);
 
-// autofocus on ranges
+// autofocus on ranges for scroll wheel action
 document.addEventListener("mouseover", function(e){
     if(e.target.type == "range") {
         e.target.focus();

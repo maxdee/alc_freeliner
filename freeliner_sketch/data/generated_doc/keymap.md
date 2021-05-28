@@ -8,8 +8,8 @@
 | `.` | snapping |on off + value |enable/disable snapping or set the snapping distance | `tools snap` |
 | `/` | showLines |on off |Showlines of all geometry. | `tools lines` |
 | `0` | macro0 |macro |macro 0:  | `` |
-| `1` | macro1 |macro |macro1 tw $ q 2, tr $ | `tw $ q 2, tr $` |
-| `2` | macro2 |macro |macro2 tw $ q 1, tr $ | `tw $ q 1, tr $` |
+| `1` | macro1 |macro |macro1 tw A q 2 | `tw A q 2` |
+| `2` | macro2 |macro |macro2 tw A f 7, tw A a 2 | `tw A f 7, tw A a 2` |
 | `3` | macro3 |macro |macro 3:  | `` |
 | `4` | macro4 |macro |macro 4:  | `` |
 | `5` | macro5 |macro |macro 5:  | `` |

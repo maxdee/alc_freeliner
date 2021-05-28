@@ -139,7 +139,7 @@ class CommandProcessor  {
         "fl quit",
         "fl random",
         /////////////////// Scripting
-        "oneliner 'tw A q '+beat%5"
+        // "oneliner 'tw A q '+beat%5",
 
     };
 
@@ -214,16 +214,16 @@ class CommandProcessor  {
     public void processCMD(String _cmd) {
         if(_cmd == null) return;
         if(_cmd.contains(",")) {
-            if(_cmd.contains("oneliner")){
-                processCMD(_cmd);
+            // if(_cmd.contains("oneliner")){
+            //     processCMD(_cmd);
+            // }
+            // else {
+            String[] _split = split(_cmd, ',');
+            for(String _str : _split){
+                processCMD(trim(_str));
             }
-            else {
-                String[] _split = split(_cmd, ',');
-                for(String _str : _split){
-                    processCMD(trim(_str));
-                }
-                return;
-            }
+            //     return;
+            // }
         }
         valueGiven = "_";
         String[] _args = split(_cmd, ' ');
@@ -256,7 +256,7 @@ class CommandProcessor  {
         else if(_args[0].equals("colors")) _used = colorsCMD(_args);
         else if(_args[0].equals("info")) _used = extraInfoCMD(_args);
 
-        else if(_args[0].equals("oneliner")) _used = scriptingCMD(_args);
+        // else if(_args[0].equals("oneliner")) _used = scriptingCMD(_args);
 
         if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -871,14 +871,14 @@ class CommandProcessor  {
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
 
-    public boolean scriptingCMD(String[] _args){
-        String a = join(_args, " ");
-        a = a.replaceAll("oneliner ", "");
-        println("[script] adding new expression : ");
-        println(a);
-        freeliner.scriptHandler.setOneLiner(a);
-        return true;
-    }
+    // public boolean scriptingCMD(String[] _args){
+    //     String a = join(_args, " ");
+    //     a = a.replaceAll("oneliner ", "");
+    //     println("[script] adding new expression : ");
+    //     println(a);
+    //     freeliner.scriptHandler.setOneLiner(a);
+    //     return true;
+    // }
 
 
     ////////////////////////////////////////////////////////////////////////////////////
