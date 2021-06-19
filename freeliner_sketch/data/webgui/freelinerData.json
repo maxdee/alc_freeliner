@@ -570,63 +570,75 @@
         "key": "q"
       },
       {
-        "name": "FlashyPrimaryColor",
-        "index": 22,
-        "description": "Random primary color every frame.",
-        "key": "q"
-      },
-      {
-        "name": "FlashyGray",
-        "index": 23,
-        "description": "Random shades of gray.",
-        "key": "q"
-      },
-      {
-        "name": "RGB",
-        "index": 24,
-        "description": "Random red green and blue value every frame.",
-        "key": "q"
-      },
-      {
-        "name": "Strobe",
-        "index": 25,
-        "description": "Strobes white",
-        "key": "q"
-      },
-      {
-        "name": "Flash",
-        "index": 26,
-        "description": "Flashes once per beat.",
-        "key": "q"
-      },
-      {
         "name": "CustomStrokeColor",
-        "index": 27,
+        "index": 22,
         "description": "Custom stroke color for template.",
         "key": "q"
       },
       {
         "name": "CustomFillColor",
-        "index": 28,
+        "index": 23,
         "description": "Custom fill color for template.",
         "key": "q"
       },
       {
         "name": "MillisFade",
-        "index": 29,
+        "index": 24,
         "description": "HSB fade goes along with millis.",
         "key": "q"
       },
       {
         "name": "HSBLerp",
-        "index": 30,
+        "index": 25,
         "description": "HSB fade through beat.",
         "key": "q"
       },
       {
         "name": "ColorMap",
-        "index": 31,
+        "index": 26,
         "description": "Meta-freelining - use linked template position markers to pick colors from the colormap, set one with: colormap map.png",
+        "key": "q"
+      },
+      {
+        "name": "FlashyPrimaryColor",
+        "index": 27,
+        "description": "Random primary color every frame.",
+        "key": "q"
+      },
+      {
+        "name": "FlashyGray",
+        "index": 28,
+        "description": "Random shades of gray.",
+        "key": "q"
+      },
+      {
+        "name": "RGB",
+        "index": 29,
+        "description": "Random red green and blue value every frame.",
+        "key": "q"
+      },
+      {
+        "name": "Strobe",
+        "index": 30,
+        "description": "Strobes white",
+        "key": "q"
+      },
+      {
+        "name": "Flash",
+        "index": 31,
+        "description": "Flashes once per beat.",
+        "key": "q"
+      },
+      {
+        "name": "superflash",
+        "index": 32,
+        "description": "super version of the flash",
+        "key": "q"
+      },
+      {
+        "name": "moduloStrobe",
+        "index": 33,
+        "description": "strobe with a time modulo thing, use m misc value to adjust",
         "key": "q"
       }
     ],
@@ -1204,7 +1216,7 @@
       "key": "e"
     },
     {
-      "max": 32,
+      "max": 34,
       "name": "fill",
       "description": "Pick fill color",
       "cmd": "tw $ f",
@@ -1303,7 +1315,7 @@
       "key": "p"
     },
     {
-      "max": 32,
+      "max": 34,
       "name": "strokeColor",
       "description": "Pick the stroke Color.",
       "cmd": "tw $ q",

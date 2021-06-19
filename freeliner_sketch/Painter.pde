@@ -47,8 +47,6 @@ class Painter extends Mode {
         posGetters[10] = new NoisyInterpolator(10);
         posGetters[11] = new RandomRadiusInterpolator(11);
 
-
-
         if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])posGetters, 'e', this, "Enterpolator");
     }
 
@@ -80,7 +78,7 @@ class Painter extends Mode {
 
     // color stuffs
     public void initColorizers() {
-        colorizerCount = 32;
+        colorizerCount = 34;
         colorizers = new Colorizer[colorizerCount];
         // basic colors
         colorizers[0] = new SimpleColor(color(0), 0);
@@ -113,16 +111,22 @@ class Painter extends Mode {
         colorizers[19] = new RandomPrimaryColor(19);
         colorizers[20] = new PrimaryBeatColor(20);
         colorizers[21] = new HSBFade(21);
-        colorizers[22] = new FlashyPrimaryColor(22);
-        colorizers[23] = new FlashyGray(23);
-        colorizers[24] = new RandomRGB(24);
-        colorizers[25] = new Strobe(25);
-        colorizers[26] = new Flash(26);
-        colorizers[27] = new CustomStrokeColor(27);
-        colorizers[28] = new CustomFillColor(28);
-        colorizers[29] = new MillisFade(29);
-        colorizers[30] = new HSBLerp(30);
-        colorizers[31] = new ColorMapColorizer(31);
+
+        colorizers[22] = new CustomStrokeColor(22);
+        colorizers[23] = new CustomFillColor(23);
+        colorizers[24] = new MillisFade(24);
+        colorizers[25] = new HSBLerp(25);
+        colorizers[26] = new ColorMapColorizer(26);
+
+        colorizers[27] = new FlashyPrimaryColor(27);
+        colorizers[28] = new FlashyGray(28);
+        colorizers[29] = new RandomRGB(29);
+        colorizers[30] = new Strobe(30);
+        colorizers[31] = new Flash(31);
+        colorizers[32] = new SuperFlash(32);
+        colorizers[33] = new ModuloStrobe(33);
+
+
 
         if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])colorizers, 'q', this, "Colorizers");
     }

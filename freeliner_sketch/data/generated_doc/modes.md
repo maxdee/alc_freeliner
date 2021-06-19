@@ -34,16 +34,18 @@
 | `19` | RandomPrimaryColor | Primary color that should change every beat. |
 | `20` | PrimaryBeatColor | Cycles through primary colors on beat. |
 | `21` | HSBFade | HSBFade stored on template/event. |
-| `22` | FlashyPrimaryColor | Random primary color every frame. |
-| `23` | FlashyGray | Random shades of gray. |
-| `24` | RGB | Random red green and blue value every frame. |
-| `25` | Strobe | Strobes white |
-| `26` | Flash | Flashes once per beat. |
-| `27` | CustomStrokeColor | Custom stroke color for template. |
-| `28` | CustomFillColor | Custom fill color for template. |
-| `29` | MillisFade | HSB fade goes along with millis. |
-| `30` | HSBLerp | HSB fade through beat. |
-| `31` | ColorMap | Meta-freelining - use linked template position markers to pick colors from the colormap, set one with: colormap map.png |
+| `22` | CustomStrokeColor | Custom stroke color for template. |
+| `23` | CustomFillColor | Custom fill color for template. |
+| `24` | MillisFade | HSB fade goes along with millis. |
+| `25` | HSBLerp | HSB fade through beat. |
+| `26` | ColorMap | Meta-freelining - use linked template position markers to pick colors from the colormap, set one with: colormap map.png |
+| `27` | FlashyPrimaryColor | Random primary color every frame. |
+| `28` | FlashyGray | Random shades of gray. |
+| `29` | RGB | Random red green and blue value every frame. |
+| `30` | Strobe | Strobes white |
+| `31` | Flash | Flashes once per beat. |
+| `32` | superflash | super version of the flash |
+| `33` | moduloStrobe | strobe with a time modulo thing, use m misc value to adjust |
  
 | e |  for : Painter | Description |
 |:---:|---|---|
@@ -162,6 +164,3 @@
 | `14` | targetNoise | fake audio response |
 | `15` | fixed-1.0 | fixed at 1.0 |
 | `16` | fixed-0.5 | fixed at 0.5 |
-| `17` | fixed-0.0 | fixed at 0.0 |
-| `18` | EaseInOut | Linera eas in and out |
-| `19` | custom | is set to template's with this command

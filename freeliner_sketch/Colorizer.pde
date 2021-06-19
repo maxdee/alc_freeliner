@@ -225,11 +225,55 @@ class Flash extends Colorizer {
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
-		if(_event.getUnitInterval()<0.01) return color(255, 255);
-		else if(_event.getUnitInterval()>0.1) return color(0,0);
-		else return color(0, 255);
+		if(_event.getUnitInterval()<0.05) return color(255, 255);
+        else return color(0,0);
+
+		// else if(_event.getUnitInterval()>0.05) return color(0,0);
+		// else return color(0, 255);
 	}
 }
+/**
+ * superflash
+ */
+class SuperFlash extends Colorizer {
+	public SuperFlash(int _ind){
+    modeIndex = _ind;
+		name = "superflash";
+		description = "super version of the flash";
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+        float f = _event.getUnitInterval();
+        f = fltMod(f*2.0);
+        if(f<0.05) return color(255, 255);
+        else return color(0,0);
+
+		// else if(f>0.05) return color(0,0);
+		// else return color(0, 255);
+	}
+}
+/**
+ * modStrobe
+ */
+class ModuloStrobe extends Colorizer {
+	public ModuloStrobe(int _ind){
+    modeIndex = _ind;
+		name = "moduloStrobe";
+		description = "strobe with a time modulo thing, use m misc value to adjust";
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+        float _f = _event.getUnitInterval();
+        int _m = _event.getMiscValue();
+        // println((_f*2000)%_m);
+        if((_f*2000)%_m < 2) return color(255, 255);
+        else return color(0,0);
+
+		// else if(f>0.05) return color(0,0);
+		// else return color(0, 255);
+	}
+}
+
 
 /**
  * Fade through the HUE
