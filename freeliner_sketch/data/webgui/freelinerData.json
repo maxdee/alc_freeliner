@@ -48,6 +48,12 @@
         "index": 7,
         "description": "Stroke to fill gradient",
         "key": "a"
+      },
+      {
+        "name": "MovingGradientLine",
+        "index": 8,
+        "description": "Moving Stroke to fill gradient",
+        "key": "a"
       }
     ],
     "a_b0": [
@@ -118,6 +124,12 @@
         "index": 1,
         "description": "make a filled shape, for nice color fill",
         "key": "a"
+      },
+      {
+        "name": "DashedLines",
+        "index": 2,
+        "description": "Dashing",
+        "key": "a"
       }
     ],
     "b": [
@@ -140,7 +152,7 @@
         "key": "b"
       },
       {
-        "name": "GeometryRender",
+        "name": "MultiLineRender",
         "index": 3,
         "description": "RenderModes that involve all segments.",
         "key": "b"

@@ -101,7 +101,7 @@ class BrushSegment extends PerSegment {
 // Make lines on segments
 class LineSegment extends PerSegment {
     SegmentPainter[] segmentPainters;
-    int painterCount = 8;
+    int painterCount = 9;
 
     public LineSegment(int _ind) {
         super();
@@ -115,6 +115,7 @@ class LineSegment extends PerSegment {
         segmentPainters[5] = new SegToSeg(5);
         segmentPainters[6] = new AlphaLine(6);
         segmentPainters[7] = new GradientLine(7);
+        segmentPainters[8] = new MovingGradientLine(8);
 
 
         name = "LineSegment";
@@ -232,7 +233,6 @@ class WrapLine extends PerSegment {
 
 }
 
-
 class FeatheredRender extends PerSegment {
     SegmentPainter[] segmentPainters;
     int painterCount = 2;
@@ -299,23 +299,24 @@ class MetaFreelining extends PerSegment {
 /**
  * Parent class for all rendering that happens with all segments.
  */
-class Geometry extends RenderMode {
+class MultiLineRender extends RenderMode {
     GroupPainter[] groupPainters;
-    int painterCount = 2;
+    int painterCount = 3;
 
-    public Geometry(int _ind) {
+    public MultiLineRender(int _ind) {
         modeIndex = _ind;
-        name = "GeometryRender";
+        name = "MultiLineRender";
         description = "RenderModes that involve all segments.";
         groupPainters = new GroupPainter[painterCount];
         groupPainters[0] = new InterpolatorShape(0);
         groupPainters[1] = new Filler(1);
+        groupPainters[2] = new DashedLines(2);
+
         if(MAKE_DOCUMENTATION) documenter.documentModes(groupPainters, 'a', this, "FillModes");
         //groupPainters[2] = new FlashFiller();
     }
 
     public void doRender(RenderableTemplate _event) {
-
         getPainter(_event.getAnimationMode()).paintGroup(_event);
     }
 

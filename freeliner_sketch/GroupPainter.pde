@@ -71,3 +71,49 @@ class InterpolatorShape extends GroupPainter{
 		canvas.endShape(CLOSE);
 	}
 }
+
+
+class DashedLines extends GroupPainter {
+    public DashedLines(int _ind){
+        modeIndex = _ind;
+        name = "DashedLines";
+        description = "Dashing";
+    }
+    public void paintGroup(RenderableTemplate _event) {
+		super.paintGroup(_event);
+		float lerp = event.getLerp();
+		int dashCount = _event.getRepetitionCount();
+		float dashSize = _event.getBrushSize()/40.0;
+		// PVector center = event.getSegmentGroup().getCenter();
+		applyStyle(canvas);
+		canvas.beginShape(LINES);
+		// canvas.strokeWeight(_event.getStrokeWeight());
+		// canvas.stroke(_event.getStrokeColor());
+		Segment segA;
+		Segment segB;
+		float gap = 1.0/float(dashCount);
+		PVector pos;
+		lerp *= dashCount;
+		// for(int i = 0; i < dashCount; i++){
+			float fa = lerp;//+i*gap;
+			float fb = fa+0.2;
+			// fa-=0.2;
+			fa = fltMod(fa);
+			fb = fltMod(fb);
+
+			segA = _event.getSegmentGroup().getSegmentByTotalLength(fa);
+			segB = _event.getSegmentGroup().getSegmentByTotalLength(fb);
+			if(segA != null && segB != null){
+				pos = segA.getStrokePos(segA.getLerp());
+				canvas.vertex(pos.x, pos.y);
+				if(segA!=segB){
+					pos = segA.getPointB();
+					canvas.vertex(pos.x, pos.y);
+				}
+				pos = segB.getStrokePos(segB.getLerp());
+				canvas.vertex(pos.x, pos.y);
+			}
+		// }
+		canvas.endShape();
+    }
+}

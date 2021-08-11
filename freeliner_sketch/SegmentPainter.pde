@@ -221,6 +221,67 @@ class GradientLine extends LinePainter {
     }
 }
 
+
+class MovingGradientLine extends LinePainter {
+
+    public MovingGradientLine(int _ind){
+        modeIndex = _ind;
+        name = "MovingGradientLine";
+        description = "Moving Stroke to fill gradient";
+    }
+    public void paintSegment(Segment _seg, RenderableTemplate _event) {
+        super.paintSegment(_seg, _event);
+        PGraphics _pg = event.getCanvas();
+        float gradientSize = 1.0;
+        float edgeA = gradientSize / 2.0 * _event.getLerp();
+        float edgeB = gradientSize / 2.0 * (1.0-_event.getLerp());
+        PVector _a = getPosition(_seg, 0.0);
+        PVector _b = getPosition(_seg, _event.getLerp());
+        PVector _c = getPosition(_seg, 1.0);
+        color colorA = colorLerp(getStrokeColor(), getFillColor(), edgeA);
+        color colorB = getFillColor();
+        color colorC = colorLerp(getStrokeColor(), getFillColor(), edgeB);
+        _pg.beginShape(LINES);
+        _pg.strokeWeight(_event.getStrokeWeight());
+        _pg.stroke(colorA);
+        _pg.vertex(_a.x, _a.y);
+        _pg.stroke(colorB);
+        _pg.vertex(_b.x, _b.y);
+        _pg.stroke(colorC);
+        _pg.vertex(_c.x, _c.y);
+        _pg.endShape();
+    }
+}
+
+
+
+
+
+
+// class DashedSegments extends LinePainter {
+//
+//     public DashedSegments(int _ind){
+//         modeIndex = _ind;
+//         name = "GradientLine";
+//         description = "Stroke to fill gradient";
+//     }
+//     public void paintSegment(Segment _seg, RenderableTemplate _event) {
+//         super.paintSegment(_seg, _event);
+//         PGraphics _pg = event.getCanvas();
+//
+//         PVector _a = getPosition(_seg, 0.0);
+//         PVector _b =  getPosition(_seg, 1.0);
+//         _pg.beginShape(LINES);
+//         _pg.strokeWeight(_event.getStrokeWeight());
+//         _pg.stroke(getStrokeColor());
+//         _pg.vertex(_a.x, _a.y);
+//         _pg.stroke(getFillColor());
+//         _pg.vertex(_b.x, _b.y);
+//         _pg.endShape();
+//     }
+// }
+
+
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////    Brush System

@@ -84,11 +84,13 @@
 | `5` | SegToSeg | Draws a line from a point on a segment to a point on a different segment. Affected by `e` |
 | `6` | AlphaLine | modulates alpha channel, made for LEDs |
 | `7` | GradientLine | Stroke to fill gradient |
+| `8` | MovingGradientLine | Moving Stroke to fill gradient |
  
-| a |  for : GeometryRender | Description |
+| a |  for : MultiLineRender | Description |
 |:---:|---|---|
 | `0` | InterpolatorShape | shape delimited by positions determined by the interpolator |
 | `1` | Filler | make a filled shape, for nice color fill |
+| `2` | DashedLines | Dashing |
  
 | a |  for : TextRenderMode | Description |
 |:---:|---|---|
@@ -117,7 +119,7 @@
 | `0` | BrushSegment | Render mode for drawing with brushes |
 | `1` | LineSegment | Draw lines related to segments |
 | `2` | WrapLine | line from segment to segment |
-| `3` | GeometryRender | RenderModes that involve all segments. |
+| `3` | MultiLineRender | RenderModes that involve all segments. |
 | `4` | TextRenderMode | Stuff that draws text |
 | `5` | CircularSegment | Circles and stuff |
 | `6` | FadedRenders | Render options with feathered edges, good for LEDs |
@@ -161,6 +163,4 @@
 | `11` | EaseSpringOut | like a door stopper spring |
 | `12` | EaseSpringInOut | like a weird door stopper spring |
 | `13` | random | random unitInterval every frame |
-| `14` | targetNoise | fake audio response |
-| `15` | fixed-1.0 | fixed at 1.0 |
-| `16` | fixed-0.5 | fixed at 0.5 |
+| `14` | targetNoise 

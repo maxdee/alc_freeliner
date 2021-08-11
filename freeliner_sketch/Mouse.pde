@@ -116,7 +116,7 @@ class Mouse {
    */
   void fakeMouse(int mb, PVector p) {
     position = p.get();
-    //mousePress(mb);
+    press(mb);
   }
 
   /**

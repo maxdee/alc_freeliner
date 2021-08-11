@@ -593,14 +593,14 @@ function otherInputCallbacks() {
     _element = document.getElementById("strokePicker");
     if(_element) _element.oninput = function () {
         var _c = document.getElementById("strokePicker").value;
-        sendCMD('tw '+selectedTemplate+' q 27');
+        sendCMD('tw '+selectedTemplate+' q 22');
         sendCMD('tp stroke '+selectedTemplate+' '+_c);
     }
 
     _element = document.getElementById("fillPicker");
     if(_element) _element.oninput = function () {
         var _c = document.getElementById("fillPicker").value;
-        sendCMD('tw '+selectedTemplate+' f 28');
+        sendCMD('tw '+selectedTemplate+' f 23');
         sendCMD('tp fill '+selectedTemplate+' '+_c);
     }
 

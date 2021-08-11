@@ -44,7 +44,7 @@ class TemplateRenderer extends Mode{
     renderModes[0] = new BrushSegment(0);
     renderModes[1] = new LineSegment(1);
     renderModes[2] = new WrapLine(2);
-    renderModes[3] = new Geometry(3);
+    renderModes[3] = new MultiLineRender(3);
     renderModes[4] = new TextRenderMode(4);
     renderModes[5] = new CircularSegment(5);
     renderModes[6] = new FeatheredRender(6);

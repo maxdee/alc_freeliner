@@ -26,7 +26,7 @@ class FreeLiner  {
     Mouse mouse;
     Keyboard keyboard;
     KeyMap keyMap;
-    // new parts
+    // new part
     CommandProcessor commandProcessor;
     OSCCommunicator oscComs;
     WebSocketCommunicator webComs;

@@ -288,7 +288,10 @@ color alphaMod(color  _c, int _alpha){
 }
 
 
-
+color colorLerp(color a, color b, float l){
+    // l = fract(l)
+    return color(lerp(red(a), red(b), l), lerp(green(a), green(b), l), lerp(blue(a), blue(b), l));
+}
 
 final int PALLETTE_COUNT = 12;
 color[] userPallet = {
