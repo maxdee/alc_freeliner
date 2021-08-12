@@ -236,7 +236,9 @@ float fltMod(float f) {
     else if (f<0) f+=1;
     return f;
 }
-
+// float fract(float f){
+//
+// }
 //wrap around
 static int wrap(int v, int n) {
     if (v<0) v = n;

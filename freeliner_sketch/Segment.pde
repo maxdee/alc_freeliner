@@ -99,6 +99,12 @@ class Segment {
         neighbB = b;
         findOffset();
     }
+    public void setNeighborA(Segment s){
+        neighbA = s;
+    }
+    public void setNeighborB(Segment s){
+        neighbB = s;
+    }
 
     private void findOffset() {
         if(neighbA == null || neighbB == null) return;

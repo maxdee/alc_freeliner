@@ -83,37 +83,58 @@ class DashedLines extends GroupPainter {
 		super.paintGroup(_event);
 		float lerp = event.getLerp();
 		int dashCount = _event.getRepetitionCount();
-		float dashSize = _event.getBrushSize()/40.0;
-		// PVector center = event.getSegmentGroup().getCenter();
+		float dashSize = _event.getBrushSize()/1000.0;
 		applyStyle(canvas);
-		canvas.beginShape(LINES);
-		// canvas.strokeWeight(_event.getStrokeWeight());
-		// canvas.stroke(_event.getStrokeColor());
-		Segment segA;
-		Segment segB;
-		float gap = 1.0/float(dashCount);
-		PVector pos;
-		lerp *= dashCount;
-		// for(int i = 0; i < dashCount; i++){
-			float fa = lerp;//+i*gap;
-			float fb = fa+0.2;
-			// fa-=0.2;
-			fa = fltMod(fa);
-			fb = fltMod(fb);
+		canvas.noFill();
 
-			segA = _event.getSegmentGroup().getSegmentByTotalLength(fa);
-			segB = _event.getSegmentGroup().getSegmentByTotalLength(fb);
-			if(segA != null && segB != null){
-				pos = segA.getStrokePos(segA.getLerp());
-				canvas.vertex(pos.x, pos.y);
-				if(segA!=segB){
-					pos = segA.getPointB();
-					canvas.vertex(pos.x, pos.y);
+		float gap = 1.0/float(dashCount);
+		// float fakeLerp = mouseX/float(width);
+		// println(lerp);
+		for(int i = 0; i < dashCount; i++){
+			float ll = i*gap + lerp/dashCount;
+			float lerpA = fltMod(ll-dashSize);
+			float lerpB = fltMod(ll+dashSize);
+			Segment segA = _event.getSegmentGroup().getSegmentByTotalLength(lerpA);
+			if(segA != null){
+				PVector posA = getPosition(segA, segA.getLerp());
+				Segment segB = _event.getSegmentGroup().getSegmentByTotalLength(lerpB);
+				if(segB != null){
+					PVector posB = getPosition(segB, segB.getLerp());
+					PVector lastPoint = posB.get();
+					if(segA != segB){
+						canvas.beginShape();
+					}
+					else {
+						canvas.beginShape(LINES);
+					}
+					if(segB.getPrev() == null && segA != segB){
+						posA = getPosition(segB, 0.0);
+					}
+					canvas.vertex(posA.x, posA.y);
+					if(segA != segB && segA.getNext() == segB){
+						PVector pos = getPosition(segA, 1.0);
+						canvas.vertex(pos.x, pos.y);
+					}
+					else if(segA != segB){
+						Segment s = segA;
+						while(s != segB && s != null && s.getNext() != null){
+							PVector p = getPosition(s, 1.0);
+							canvas.vertex(p.x, p.y);
+							lastPoint = p.get();
+							s = s.getNext();
+						}
+					}
+					if(segB.getPrev() == null){
+						posB = lastPoint;
+					}
+
+					canvas.vertex(posB.x, posB.y);
+					canvas.endShape();
+
+					canvas.rect(posB.x, posB.y, 4,4);
+
 				}
-				pos = segB.getStrokePos(segB.getLerp());
-				canvas.vertex(pos.x, pos.y);
 			}
-		// }
-		canvas.endShape();
+		}
     }
 }

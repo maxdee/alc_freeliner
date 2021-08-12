@@ -81,7 +81,7 @@ class SegmentGroup  {
         updated = true;
         findRealNeighbors();
         sortSegments();
-        setNeighbors();
+        // updateNeighbors();
         updateAngles();
         clockwise = findDirection();
         if(centered) placeCenter(center);
@@ -301,6 +301,14 @@ class SegmentGroup  {
             if(next.size() > 0) treeBranches.add(next);
             else keepSearching = false;
         }
+
+        // now set neighbors
+        // for(ArrayList<Segment> branch : treeBranches){
+        //     for(Segment s : branch){
+        //
+        //     }
+        // }
+
     }
 
     /**
@@ -319,7 +327,11 @@ class SegmentGroup  {
                             if(next == se) duplicate = true;
                         }
                     }
-                    if(!duplicate) nextSegs.add(next);
+                    if(!duplicate) {
+                        nextSegs.add(next);
+                    }
+                    seg.setNeighborB(next);
+                    next.setNeighborA(seg);
                 }
             }
         }
@@ -356,23 +368,24 @@ class SegmentGroup  {
     /**
      * Set each segments direct neighbors
      */
-    private void setNeighbors() {
-        int v1 = 0;
-        int v2 = 0;
-        if (segCount>0) {
-            for (int i = 0; i < sortedSegCount; i++) {
-                v1 = i-1;
-                v2 = i+1;
-                if (i==0) v1 = sortedSegCount-1; // maybe wrong
-                if (i >= sortedSegCount-1) v2 = 0;
-                Segment s1 = getSegment(v1);
-                Segment s2 = getSegment(v2);
-                if(s1 != null && s2 != null)
-                    getSegment(i).setNeighbors(s1, s2);
-                //segments.get(i).setNeighbors(segments.get(v1), segments.get(v2));
-            }
-        }
-    }
+    // private void updateNeighbors() {
+    //
+    //     // int v1 = 0;
+    //     // int v2 = 0;
+    //     // if (segCount>0) {
+    //     //     for (int i = 0; i < sortedSegCount; i++) {
+    //     //         v1 = i-1;
+    //     //         v2 = i+1;
+    //     //         if (i==0) v1 = sortedSegCount-1; // maybe wrong
+    //     //         if (i >= sortedSegCount-1) v2 = 0;
+    //     //         Segment s1 = getSegment(v1);
+    //     //         Segment s2 = getSegment(v2);
+    //     //         if(s1 != null && s2 != null)
+    //     //             getSegment(i).setNeighbors(s1, s2);
+    //     //         //segments.get(i).setNeighbors(segments.get(v1), segments.get(v2));
+    //     //     }
+    //     // }
+    // }
 
     private boolean findDirection() {
         for(Segment seg : sortedSegments) {
@@ -430,6 +443,22 @@ class SegmentGroup  {
         }
         return null;
     }
+
+    // public PVector getPositionByTotalLength(float lerp){
+    //     float _totalLength = 0;
+    //     for(Segment _seg : segments) _totalLength += _seg.getLength();
+    //     float _target = _totalLength*_lerp;
+    //     float _tracker = 0;
+    //     for(Segment _seg : sortedSegments) {
+    //         _tracker += _seg.getLength();
+    //         if(_tracker >= _target) {
+    //             float _dst = _tracker - _target;
+    //             _seg.setLerp((_seg.getLength()-_dst)/_seg.getLength());
+    //             return _seg;
+    //         }
+    //     }
+    //     return null;
+    // }
 
     public ArrayList<ArrayList<Segment>> getBranches() {
         return treeBranches;
