@@ -329,12 +329,12 @@ class Gui  {
         int id = _sg.getID();
         String idTag = str(id);
         if(_sg == guiSegments) idTag = "info";
-        else if(_sg == refSegments) idTag = "ref";
+        // else if(_sg == refSegments) idTag = "ref";
         String tTags = _sg.getTemplateList().getTags();
         // display left and right of pos
         int fset = (16+int(id>9)*6);
         if(idTag == "info") fset = 35;
-        else if(idTag == "ref") fset = 28;
+        // else if(idTag == "ref") fset = 28;
         canvas.text(idTag, pos.x - fset, pos.y+6);
         canvas.text(tTags, pos.x + 6, pos.y+6);
         canvas.noFill();
@@ -345,6 +345,7 @@ class Gui  {
         canvas.strokeWeight(1);
         // ellipse showing center or last point
         canvas.ellipse(pos.x, pos.y, 10, 10);
+
     }
 
     /**
@@ -435,6 +436,11 @@ class Gui  {
             canvas.rotate(_s.getAngle(false));
             canvas.shape(arrow);
             canvas.popMatrix();
+        }
+        boolean GEOM_DEBUG_VIEW = true;
+        if(GEOM_DEBUG_VIEW){
+            PVector pos = _s.getStrokePos(0.5);
+            canvas.text(""+_s.getID(),pos.x, pos.y);
         }
     }
 

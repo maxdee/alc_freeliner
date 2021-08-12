@@ -103,7 +103,8 @@ class DashedLines extends GroupPainter {
 				Segment segB = _event.getSegmentGroup().getSegmentByTotalLength(lerpB);
 				if(segB != null){
 					lerpB = segB.getLerp();
-					if(segA == segB){
+					if(segA == segB){// && lerpA < lerpB){
+						// problem here with wrap around.
 						canvas.beginShape(LINES);
 						// canvas.stroke(0,255,0);
 						pos = getPosition(segA, lerpA);
@@ -112,6 +113,20 @@ class DashedLines extends GroupPainter {
 						canvas.vertex(pos.x, pos.y);
 						canvas.endShape();
 					}
+					// if(segA == segB && lerpA > lerpB){
+					// 	// problem here with wrap around.
+					// 	canvas.beginShape(LINES);
+					// 	// canvas.stroke(0,255,0);
+					// 	pos = getPosition(segA, lerpA);
+					// 	canvas.vertex(pos.x, pos.y);
+					// 	pos = getPosition(segA, 1.0);
+					// 	canvas.vertex(pos.x, pos.y);
+					// 	pos = getPosition(segB, 0.0);
+					// 	canvas.vertex(pos.x, pos.y);
+					// 	pos = getPosition(segB, lerpB);
+					// 	canvas.vertex(pos.x, pos.y);
+					// 	canvas.endShape();
+					// }
 					else if(segA.getNext() == segB) {
 						canvas.beginShape();
 						// canvas.stroke(255,0,0);

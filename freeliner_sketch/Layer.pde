@@ -298,8 +298,10 @@ class CanvasLayer extends Layer {
 
     public CanvasLayer() {
         canvas = createGraphics(width,height,P2D);
-        canvas.smooth(projectConfig.smoothLevel);
         canvas.beginDraw();
+        canvas.smooth(projectConfig.smoothLevel);
+        canvas.strokeCap(projectConfig.STROKE_CAP);
+        canvas.strokeJoin(projectConfig.STROKE_JOIN);
         canvas.background(0);
         canvas.endDraw();
         enabled = true;

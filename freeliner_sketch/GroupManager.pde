@@ -1145,3 +1145,8 @@ class LinkedSvgFile {
         return fileWatcher.hasChanged();
     }
 }
+
+// 
+// void segmentDebugView(GroupManager _gm){
+//
+// }

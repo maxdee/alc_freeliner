@@ -357,10 +357,11 @@ class SegmentGroup  {
         idx = 0;
         if(sortedSegCount != segCount) {
             sortedSegments.clear();
-            for(Segment seg : segments) {
-                sortedSegments.add(seg);
-                // seg.setText(""+idx++);
-            }
+
+            // for(Segment seg : segments) {
+            //     sortedSegments.add(seg);
+            //     // seg.setText(""+idx++);
+            // }
             sortedSegCount = sortedSegments.size();
         }
     }
