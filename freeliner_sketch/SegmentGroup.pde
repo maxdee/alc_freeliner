@@ -288,7 +288,12 @@ class SegmentGroup  {
             root = true;
             for(Segment seg : segments) {
                 if(toCheck.getPointA().dist(seg.getPointB()) < 1.2) {
-                    root = false;
+                    if(toCheck.getCreationId() < seg.getCreationId()){
+                        root = true;
+                    }
+                    else {
+                        root = false;
+                    }
                 }
             }
             if(toCheck == segments.get(0)) root = true; // added to force segment 0 as a root
@@ -374,12 +379,19 @@ class SegmentGroup  {
         }
 
         sortedSegments.clear();
-
+        // branch sort
         for(ArrayList<Segment> brnch : treeBranches) {
             for(Segment seg : brnch) {
                 _sortedIdx = recursiveSortId(sortedSegments, seg, _sortedIdx);
             }
         }
+        // simple sort
+        // for(ArrayList<Segment> brnch : treeBranches) {
+        //     for(Segment seg : brnch) {
+        //         seg.setSortedId(_sortedIdx++);
+        //         sortedSegments.add(seg);
+        //     }
+        // }
         sortedSegCount = sortedSegments.size();
         // for debug
         for(Segment _s : segments){
