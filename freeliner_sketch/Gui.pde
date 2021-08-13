@@ -437,11 +437,11 @@ class Gui  {
             canvas.shape(arrow);
             canvas.popMatrix();
         }
-        boolean GEOM_DEBUG_VIEW = true;
-        if(GEOM_DEBUG_VIEW){
-            PVector pos = _s.getStrokePos(0.5);
-            canvas.text(""+_s.getID(),pos.x, pos.y);
-        }
+        // boolean GEOM_DEBUG_VIEW = true;
+        // if(GEOM_DEBUG_VIEW){
+        //     PVector pos = _s.getStrokePos(0.5);
+        //     canvas.text(""+_s.getID(),pos.x, pos.y);
+        // }
     }
 
     /**

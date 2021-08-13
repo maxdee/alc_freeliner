@@ -29,6 +29,7 @@ class SegmentGroup  {
     ArrayList<Segment> sortedSegments;
     int sortedSegCount = 0;
     ArrayList<ArrayList<Segment>> treeBranches;
+    int segmentCreationId = 0;
 
     TemplateList templateList;
     PVector center;
@@ -79,7 +80,7 @@ class SegmentGroup  {
 
     public void updateGeometry() {
         updated = true;
-        findRealNeighbors();
+        makeTree();
         sortSegments();
         // updateNeighbors();
         updateAngles();
@@ -128,7 +129,9 @@ class SegmentGroup  {
      * @param PVector ending coordinate
      */
     public void addSegment(PVector _a, PVector _b) {
-        segments.add(new Segment(_a, _b));
+        Segment _s = new Segment(_a, _b);
+        _s.setCreationId(segmentCreationId++);
+        segments.add(_s);
         segCount++;
         updateGeometry();
     }
@@ -138,6 +141,7 @@ class SegmentGroup  {
      * @param Segment to add
      */
     public void addSegment(Segment _seg) {
+        _seg.setCreationId(segmentCreationId++);
         segments.add(_seg);
         segCount++;
         updateGeometry();
@@ -275,7 +279,7 @@ class SegmentGroup  {
     /**
      * Generate a 2D segment ArrayList starting from the first segment
      */
-    private void findRealNeighbors() {
+    private void makeTree() {
         if(segments.size() < 1) return;
         treeBranches = new ArrayList();
         ArrayList<Segment> roots = new ArrayList();
@@ -302,12 +306,24 @@ class SegmentGroup  {
             else keepSearching = false;
         }
 
-        // now set neighbors
-        // for(ArrayList<Segment> branch : treeBranches){
-        //     for(Segment s : branch){
-        //
-        //     }
-        // }
+        // now sort branches by creation order
+        for(ArrayList<Segment> branch : treeBranches){
+            ArrayList<Segment> sorted = new ArrayList<Segment>();
+            while(branch.size() >= sorted.size()){
+                Segment _smallest = null;
+                int min = 1000000;
+                for(Segment s : branch){
+                    if(s.getCreationId() < min){
+                        _smallest = s;
+                        min = s.getCreationId();
+                    }
+                }
+                if(_smallest != null){
+                    sorted.add(_smallest);
+                }
+            }
+            branch = sorted;
+        }
 
     }
 
@@ -319,13 +335,17 @@ class SegmentGroup  {
         boolean duplicate = false;
         for(Segment seg : _segs) {
             for(Segment next : segments) {
-                if(seg.getPointB().dist(next.getPointA()) < 0.1) {
+                if(seg.getPointB().dist(next.getPointA()) < 0.05) {
                     // check duplicates
                     duplicate = false;
                     for(ArrayList<Segment> br : treeBranches) {
-                        for(Segment se : br) {
-                            if(next == se) duplicate = true;
+                        if(br.contains(next)){
+                            duplicate = true;
+                            break;
                         }
+                        // for(Segment se : br) {
+                        //     if(next == se) duplicate = true;
+                        // }
                     }
                     if(!duplicate) {
                         nextSegs.add(next);
@@ -342,29 +362,71 @@ class SegmentGroup  {
      * segments need to be sorted if a segments gets deleted and remplaced by 2 or more new segments.
      */
     private void sortSegments() {
-        sortedSegments.clear();
-        int _index = 0;
-        int idx = 0;
+        int _branchLevel = 0;
+        int _sortedIdx = 0;
+        // set branch levels
         for(ArrayList<Segment> brnch : treeBranches) {
             for(Segment seg : brnch) {
-                sortedSegments.add(seg);
-                // seg.setText(""+idx++);
-                seg.setID(_index);
+                // seg.setText("B:"+idx++);
+                seg.setBranchLevel(_branchLevel);
             }
-            _index++;
+            _branchLevel++;
+        }
+
+        sortedSegments.clear();
+
+        if(treeBranches.size() > 0){
+            for(ArrayList<Segment> brnch : treeBranches) {
+                for(Segment seg : brnch) {
+                    _sortedIdx = recursiveSortId(sortedSegments, seg, _sortedIdx);
+                }
+            }
         }
         sortedSegCount = sortedSegments.size();
-        idx = 0;
-        if(sortedSegCount != segCount) {
-            sortedSegments.clear();
-
-            // for(Segment seg : segments) {
-            //     sortedSegments.add(seg);
-            //     // seg.setText(""+idx++);
-            // }
-            sortedSegCount = sortedSegments.size();
+        // for debug
+        for(Segment _s : segments){
+            _s.setText("S:"+_s.sortedId+" B:"+_s.branchLevel);
         }
     }
+
+    int recursiveSortId(ArrayList<Segment> _sorted, Segment _seg, int idx){
+        if(_sorted.contains(_seg) == false){
+            _seg.setSortedId(idx++);
+            _sorted.add(_seg);
+            if(_seg.neighbB != null){
+                idx = recursiveSortId(_sorted, _seg.neighbB, idx);
+            }
+        }
+        return idx;
+    }
+
+    // void sortInBranches(ArrayList<Segment> level)
+
+
+
+    // for(ArrayList<Segment> brnch : treeBranches) {
+
+    // for(Segment seg : brnch) {
+    //     sortedSegments.add(seg);
+    //     // seg.setText("B:"+idx++);
+    //     seg.setBranchLevel(_branchLevel);
+    // }
+    // _branchLevel++;
+    // }
+
+    // sortedSegCount = sortedSegments.size();
+    // // idx = 0;
+    // if(sortedSegCount != segCount) {
+    //     sortedSegments.clear();
+    //
+    //     // for(Segment seg : segments) {
+    //     //     sortedSegments.add(seg);
+    //     //     // seg.setText(""+idx++);
+    //     // }
+    //     sortedSegCount = sortedSegments.size();
+    // }
+
+
 
     /**
      * Set each segments direct neighbors
@@ -391,10 +453,6 @@ class SegmentGroup  {
     private boolean findDirection() {
         for(Segment seg : sortedSegments) {
             if(seg != null) return seg.isClockWise();
-            // int ax = int(seg.getPointA().x);
-            // int bx = int(seg.getPointB().x);
-            // if( ax > bx) return true;
-            // else if (ax < bx) return false;
         }
         return false;
     }
@@ -444,22 +502,6 @@ class SegmentGroup  {
         }
         return null;
     }
-
-    // public PVector getPositionByTotalLength(float lerp){
-    //     float _totalLength = 0;
-    //     for(Segment _seg : segments) _totalLength += _seg.getLength();
-    //     float _target = _totalLength*_lerp;
-    //     float _tracker = 0;
-    //     for(Segment _seg : sortedSegments) {
-    //         _tracker += _seg.getLength();
-    //         if(_tracker >= _target) {
-    //             float _dst = _tracker - _target;
-    //             _seg.setLerp((_seg.getLength()-_dst)/_seg.getLength());
-    //             return _seg;
-    //         }
-    //     }
-    //     return null;
-    // }
 
     public ArrayList<ArrayList<Segment>> getBranches() {
         return treeBranches;
@@ -610,3 +652,10 @@ class SegmentGroup  {
     }
 
 }
+
+// class SortByCreationId implements Comparator<Segment> {
+//     public int compare(Segment a, Segment b)
+//     {
+//         return (a.creationId > b.creationId ? 0 : 1);
+//     }
+// }

@@ -74,7 +74,7 @@ class OppositInterpolator extends Interpolator {
         description = "invert direction every segment";
     }
     public PVector findPosition(Segment _seg, RenderableTemplate _tp, float _lerp, Painter _painter) {
-        if(_seg.getID()%2 == 0){
+        if(_seg.getSortedId()%2 == 0){
              // _lerp = 1.0-_lerp;
              _tp.setDirection(!_tp.getDirection());
         }
@@ -83,7 +83,7 @@ class OppositInterpolator extends Interpolator {
     }
 
     public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter) {
-        return _seg.getAngle(_seg.getID()%2 == 0);
+        return _seg.getAngle(_seg.getSortedId()%2 == 0);
     }
 }
 

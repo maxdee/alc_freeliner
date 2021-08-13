@@ -41,16 +41,18 @@ class Segment {
     boolean centered;
     boolean clockWise;
     float ranFloat;
-    int id;
     float length;
     float lerp;
+    int creationId;
+    int branchLevel;
+    int sortedId;
+
 
     String segmentText;
 
     boolean hiddenSegment;
 
     public Segment(PVector pA, PVector pB) {
-
         pointA = pA.get();
         pointB = pB.get();
         center = new PVector(0, 0, 0);
@@ -152,9 +154,15 @@ class Segment {
     public void setText(String w) {
         segmentText = w;
     }
+    public void setCreationId(int _i){
+        creationId = _i;
+    }
+    public void setSortedId(int _id) {
+        sortedId =_id;
+    }
 
-    public void setID(int _id) {
-        id =_id;
+    public void setBranchLevel(int _l){
+        branchLevel = _l;
     }
 
     public void toggleHidden() {
@@ -360,9 +368,16 @@ class Segment {
     public final Segment getPrev() {
         return neighbA;
     }
-    public final int getID() {
-        return id;
+    public final int getCreationId() {
+        return creationId;
     }
+    public final int getSortedId() {
+        return sortedId;
+    }
+    public final int getBranchLevel() {
+        return branchLevel;
+    }
+
 }
 
 

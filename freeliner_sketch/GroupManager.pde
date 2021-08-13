@@ -1146,7 +1146,7 @@ class LinkedSvgFile {
     }
 }
 
-// 
+//
 // void segmentDebugView(GroupManager _gm){
 //
 // }
