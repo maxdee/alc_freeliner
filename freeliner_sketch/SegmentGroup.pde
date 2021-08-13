@@ -194,8 +194,7 @@ class SegmentGroup  {
     }
 
     /**
-     * Nudge the segmentStart.
-     * @param PVector ending coordinate
+     * remove last
      */
     private void undoSegment() {
         if (segCount > 0) {
@@ -298,8 +297,12 @@ class SegmentGroup  {
         if(roots.size() == 0) roots.add(segments.get(0));
         treeBranches.add(roots);
         // println(roots);
-        boolean keepSearching = true;
+        for(Segment _seg : segments){
+            _seg.neighbA = null;
+            _seg.neighbB = null;
+        }
         int ind = 0;
+        boolean keepSearching = true;
         while(keepSearching) {
             ArrayList<Segment> next = getNext(treeBranches.get(ind++));
             if(next.size() > 0) treeBranches.add(next);
@@ -343,9 +346,6 @@ class SegmentGroup  {
                             duplicate = true;
                             break;
                         }
-                        // for(Segment se : br) {
-                        //     if(next == se) duplicate = true;
-                        // }
                     }
                     if(!duplicate) {
                         nextSegs.add(next);
@@ -375,11 +375,9 @@ class SegmentGroup  {
 
         sortedSegments.clear();
 
-        if(treeBranches.size() > 0){
-            for(ArrayList<Segment> brnch : treeBranches) {
-                for(Segment seg : brnch) {
-                    _sortedIdx = recursiveSortId(sortedSegments, seg, _sortedIdx);
-                }
+        for(ArrayList<Segment> brnch : treeBranches) {
+            for(Segment seg : brnch) {
+                _sortedIdx = recursiveSortId(sortedSegments, seg, _sortedIdx);
             }
         }
         sortedSegCount = sortedSegments.size();
