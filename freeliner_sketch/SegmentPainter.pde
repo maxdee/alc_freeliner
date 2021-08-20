@@ -192,9 +192,12 @@ class SegToSeg extends LinePainter {
     }
 
     public Segment getNextSegment(Segment _seg, int _iter) {
-        Segment next = _seg.getNext();
-        if(_iter == 0) return next;
-        else return getNextSegment(next, _iter - 1);
+        if(_seg!=null){
+            Segment next = _seg.getNext();
+            if(_iter == 0) return next;
+            else return getNextSegment(next, _iter - 1);
+        }
+        return null;
     }
 }
 

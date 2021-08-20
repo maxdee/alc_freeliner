@@ -32,7 +32,6 @@ class Synchroniser {
     float unit = 0;
     int periodCount = 0;
 
-    // new time scaler!
     float timeScaler = 1.0;
 
     public Synchroniser(){
@@ -47,6 +46,8 @@ class Synchroniser {
             renderIncrement = intervalTimer.addF(float(millis()-lastRender))/tempo;
             lastRender = millis();
         }
+        // todo look into using a hybrid of millis() with a tracker thats affected by seq speed
+        // any time the speed changes the millis() offset value changes?
         lerper += renderIncrement*timeScaler;
         unit += renderIncrement*timeScaler;
         if(lerper > 1.0){

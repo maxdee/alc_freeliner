@@ -394,9 +394,9 @@ class SegmentGroup  {
         // }
         sortedSegCount = sortedSegments.size();
         // for debug
-        for(Segment _s : segments){
-            _s.setText("S:"+_s.sortedId+" B:"+_s.branchLevel);
-        }
+        // for(Segment _s : segments){
+        //     _s.setText("S:"+_s.sortedId+" B:"+_s.branchLevel);
+        // }
     }
 
     int recursiveSortId(ArrayList<Segment> _sorted, Segment _seg, int idx){

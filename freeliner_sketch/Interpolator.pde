@@ -41,6 +41,7 @@ class Interpolator extends Mode {
 
 
     public PVector findPosition(Segment _seg, RenderableTemplate _tp, float _lerp, Painter _painter) {
+        if(_seg == null) return new PVector(0,0,0);
         if(useOffset(_painter)) return _seg.getBrushPos(_lerp);
         else return _seg.getStrokePos(_lerp);
     }
