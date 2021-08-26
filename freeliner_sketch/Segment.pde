@@ -109,11 +109,24 @@ class Segment {
     }
 
     private void findOffset() {
-        if(neighbA == null || neighbB == null) return;
-        brushOffsetA = inset(pointA, neighbA.getPointA(), pointB, center, scaledSize + strokeWidth, neighbA.getPointB());
-        brushOffsetB = inset(pointB, pointA, neighbB.getPointB(), center, scaledSize + strokeWidth, neighbB.getPointA());
-        strokeOffsetA = inset(pointA, neighbA.getPointA(), pointB, center, strokeWidth, neighbA.getPointB());
-        strokeOffsetB = inset(pointB, pointA, neighbB.getPointB(), center, strokeWidth, neighbB.getPointA());
+        PVector aa,bb;
+
+        if(neighbA == null){
+            aa = null;//pointA.copy();
+        }
+        else {
+            aa = neighbA.getPointA();
+        }
+        if(neighbB == null){
+            bb = null;//pointB.copy();
+        }
+        else {
+            bb = neighbB.getPointB();
+        }
+        brushOffsetA = inset(pointA, aa, pointB, center, (scaledSize + strokeWidth/2));
+        brushOffsetB = inset(pointB, pointA, bb, center, (scaledSize + strokeWidth/2));
+        strokeOffsetA = inset(pointA, aa, pointB, center, strokeWidth);
+        strokeOffsetB = inset(pointB, pointA, bb, center, strokeWidth);
     }
 
     public void setPointA(PVector p) {
@@ -145,7 +158,7 @@ class Segment {
     }
 
     public void setStrokeWidth(float _w) {
-        if(_w != scaledSize && centered) {
+        if(_w != strokeWidth && centered) {
             strokeWidth = _w;
             findOffset();
         }
@@ -185,26 +198,24 @@ class Segment {
      * @param PVector an other to point to check if the offset should be perpendicular
      * @return PVector offseted vertex
      */
-    PVector inset(PVector p, PVector pA, PVector pB, PVector c, float d, PVector ot) {
-        float angleA = (atan2(p.y-pA.y, p.x-pA.x));
-        float angleB = (atan2(p.y-pB.y, p.x-pB.x));
-        float A = radianAbs(angleA);
-        float B = radianAbs(angleB);
-        float ang = abs(A-B)/2; //the shortest angle
+    PVector inset(PVector p, PVector pA, PVector pB, PVector c, float d){//}, PVector ot) {
         d = (d/2);
-        if(p.dist(ot) > 3.0) ang = HALF_PI + angle;
+        float ang = 0;
+        if(pA == null | pB == null){
+            ang = angle + HALF_PI;
+        }
         else {
+            float angleA = radianAbs(atan2(p.y-pA.y, p.x-pA.x));
+            float angleB = (atan2(p.y-pB.y, p.x-pB.x));
+            ang = abs(angleA-angleB)/2; //the shortest angle
             d = d/sin(ang);
-            if (A<B) ang = (ang+angleA);
+            if (angleA < angleB) ang = (ang+angleA);
             else ang = (ang+angleB);
         }
-
         PVector outA = new PVector(cos(ang)*d, sin(ang)*d, 0);
         PVector outB = new PVector(cos(ang+PI)*d, sin(ang+PI)*d, 0);
         outA.add(p);
         outB.add(p);
-
-        PVector offset;
         if (c.dist(outA) < c.dist(outB)) return outA;
         else  return outB;
     }
