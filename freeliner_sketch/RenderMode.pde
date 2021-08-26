@@ -186,49 +186,15 @@ class WrapLine extends PerSegment {
         description = "line from segment to segment";
         painter = new LineToLine(0);
     }
-    // public void doRender(RenderableTemplate _rt) {
-    //     //super.doRender(_rt);
-    //     ArrayList<LerpSegment> segList;
-    //     SegmentSelector selector = getSelector(_rt.getSegmentMode()); //constrain(_rt.getSegmentMode(), 4, 5);
-    //     // need to constrain to a few segmentSelectors...
-    //     if(selector instanceof SegmentBranch) {
-    //         segList = selector.getSegments(_rt);
-    //         painter.paint(segList, _rt);
-    //     }
-    //     else if(selector instanceof RunThroughBranches) {
-    //         segList = selector.getSegments(_rt);
-    //         painter.paint(segList, _rt);
-    //     }
-    //     else {
-    //         ArrayList<ArrayList<Segment>> trees = _rt.getSegmentGroup().getBranches();
-	// 		ArrayList<LerpSegment> _list = new ArrayList();
-	// 		for(ArrayList<Segment> branch : trees) {
-	// 			for(Segment _seg : branch){
-	// 				_list.add(new LerpSegment(_seg, _seg.getLerp()));
-	// 			}
-    //             painter.paint(_list, _rt);
-    //         }
-    //     }
-    // }
+    public SegmentSelector getSelector(int _index) {
+        return segmentSelectors[6];
+    }
 
     public void doRender(RenderableTemplate _rt) {
         ArrayList<LerpSegment> segList = getSelector(_rt.getSegmentMode()).getSegments(_rt);
         int index = 0;
         if(segList == null) return;
         painter.paint(segList, _rt);
-
-        // Segment _seg;
-        // for(LerpSegment _seglerp : segList) {
-        //     _seg = _seglerp.getSegment();
-        //     _rt.setSegmentIndex(index);
-        //     index++;
-        //     if(_seglerp != null && _seg != null) {
-        //         if(!_seg.isHidden()){
-        //             _rt.setLerp(_seg.getLerp());
-        //             getPainter(_rt.getAnimationMode()).paintSegment(_seg, _rt);
-        //         }
-        //     }
-        // }
     }
 
 }
