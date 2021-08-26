@@ -366,55 +366,100 @@ class FadedPointBrusher extends BrushPutter {
     }
 
     // make a strokeWeight gradient
-    public void putShape(PVector _p, float _a) {
-        color _col = getStrokeColor();
-        canvas.pushMatrix();
-        canvas.translate(_p.x, _p.y);
-        canvas.rotate(_a+ HALF_PI);
-        float stepSize = event.getScaledBrushSize()/16.0;
-        int weight = event.getStrokeWeight();
-        float steps = 16;
-        for(float i = 0; i < steps; i++) {
-            canvas.stroke(red(_col), green(_col), blue(_col), pow((steps-i)/steps, 4) * event.getStrokeAlpha());
-            canvas.strokeWeight(weight+(stepSize*i));
-            int _sz = 500;
-            canvas.point(0,0);
-        }
-
-        canvas.popMatrix();
-    }
+    // public void putShape(PVector _p, float _a) {
+    //     color _col = getStrokeColor();
+    //     canvas.pushMatrix();
+    //     canvas.translate(_p.x, _p.y);
+    //     canvas.rotate(_a+ HALF_PI);
+    //     float stepSize = event.getScaledBrushSize()/16.0;
+    //     int weight = event.getStrokeWeight();
+    //     float steps = 16;
+    //     for(float i = 0; i < steps; i++) {
+    //         canvas.stroke(red(_col), green(_col), blue(_col), pow((steps-i)/steps, 4) * event.getStrokeAlpha());
+    //         canvas.strokeWeight(weight+(stepSize*i));
+    //         int _sz = 500;
+    //         canvas.point(0,0);
+    //     }
+    //     canvas.popMatrix();
+    // }
 }
 
 
 class FadedLineBrusher extends BrushPutter {
+    PShape fadedLineShape;
     public FadedLineBrusher(int _ind) {
         modeIndex = _ind;
         name = "FadedBrusher";
         description = "same as brush but adds a faded edge";
     }
 
+    public void paint(RenderableTemplate _rt) {
+        event = _rt;
+        canvas = event.getCanvas();
+
+    }
+    public void makeShape(float _w, float _h){
+        // applyStyle(canvas);
+        fadedLineShape = createShape();
+        fadedLineShape.beginShape();
+        // 1____2____3
+
+
+        fadedLineShape.noStroke();
+        fadedLineShape.fill(getFillColor());
+        fadedLineShape.vertex(-_w, -_h);
+        fadedLineShape.fill(getStrokeColor());
+        fadedLineShape.vertex(0, -_h);
+        fadedLineShape.fill(getFillColor());
+        fadedLineShape.vertex(_w, -_h);
+        fadedLineShape.vertex(_w, _h);
+        fadedLineShape.fill(getStrokeColor());
+        fadedLineShape.vertex(0, _h);
+        fadedLineShape.fill(getFillColor());
+        fadedLineShape.vertex(-_w, _h);
+        fadedLineShape.vertex(-_w, -_h);
+
+        fadedLineShape.endShape(CLOSE);
+    }
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
         super.paintSegment(_seg, _event);
         putShape(getPosition(_seg), getAngle(_seg, _event));
     }
 
-    // make a strokeWeight gradient
     public void putShape(PVector _p, float _a) {
-        color _col = getStrokeColor();
+        // PShape shape_;
+        // shape_ = getBrush(event.getAnimationMode()).getShape(event);
+        // applyStyle(shape_);
+        // applyColor(fadedLineShape);
+        // if(fadedLineShape == null) makeShape(
+        float _w = event.getStrokeWeight();
+        float _h = event.getBrushSize();
+        float scale = event.getBrushSize() / 20.0; // devided by base brush size
+        // fadedLineShape.setStrokeWeight(event.getStrokeWeight()/scale);
         canvas.pushMatrix();
         canvas.translate(_p.x, _p.y);
-        canvas.rotate(_a+ HALF_PI);
-        float stepSize = event.getScaledBrushSize()/16.0;
-        int weight = event.getStrokeWeight();
-        float steps = 16;
-        for(float i = 0; i < steps; i++) {
-            canvas.stroke(red(_col), green(_col), blue(_col), pow((steps-i)/steps, 4) * event.getStrokeAlpha());
-            canvas.strokeWeight(weight+(stepSize*i));
-
-            int _sz = 500;
-            canvas.line(500,0,-500,0);
-        }
-
+        canvas.rotate(_a+ PI);
+        canvas.scale(scale);
+        ////////////////////////
+        canvas.beginShape();
+        canvas.noStroke();
+        color f = getFillColor();
+        f = alphaMod(f, event.getFillAlpha());
+        canvas.fill(f);//getFillColor());
+        canvas.vertex(-_w, -_h);
+        canvas.fill(getStrokeColor());
+        canvas.vertex(0, -_h);
+        canvas.fill(f);//getFillColor());
+        canvas.vertex(_w, -_h);
+        canvas.vertex(_w, _h);
+        canvas.fill(getStrokeColor());
+        canvas.vertex(0, _h);
+        canvas.fill(f);//getFillColor());
+        canvas.vertex(-_w, _h);
+        canvas.vertex(-_w, -_h);
+        canvas.endShape(CLOSE);
+        ///////////////////////
+        // canvas.shape(fadedLineShape);
         canvas.popMatrix();
     }
 }
