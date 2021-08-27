@@ -70,6 +70,9 @@ class Painter extends Mode {
     }
 
     public float getAngle(Segment _seg, RenderableTemplate _event) {
+        if(_event.getRotationMode() >= 7){
+            return _event.getAngleMod();
+        }
         float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
         if(_event.getDirection()) ang += PI;
         if(_seg.isClockWise()) return ang + _event.getAngleMod();
@@ -78,7 +81,7 @@ class Painter extends Mode {
 
     // color stuffs
     public void initColorizers() {
-        colorizerCount = 34;
+        colorizerCount = 35;
         colorizers = new Colorizer[colorizerCount];
         // basic colors
         colorizers[0] = new SimpleColor(color(0), 0);
@@ -106,25 +109,27 @@ class Painter extends Mode {
         colorizers[15] = new PalletteColor(9, 15);
         colorizers[16] = new PalletteColor(10, 16);
         colorizers[17] = new PalletteColor(11, 17);
+        
         // changing color modes
         colorizers[18] = new RepetitionColor(18);
-        colorizers[19] = new RandomPrimaryColor(19);
-        colorizers[20] = new PrimaryBeatColor(20);
-        colorizers[21] = new HSBFade(21);
+        colorizers[19] = new QuarterRepetitionColor(19);
+        colorizers[20] = new RandomPrimaryColor(20);
+        colorizers[21] = new PrimaryBeatColor(21);
 
         colorizers[22] = new CustomStrokeColor(22);
         colorizers[23] = new CustomFillColor(23);
         colorizers[24] = new MillisFade(24);
         colorizers[25] = new HSBLerp(25);
-        colorizers[26] = new ColorMapColorizer(26);
+        colorizers[26] = new HSBPhase(26);
+        colorizers[27] = new ColorMapColorizer(27);
 
-        colorizers[27] = new FlashyPrimaryColor(27);
-        colorizers[28] = new FlashyGray(28);
-        colorizers[29] = new RandomRGB(29);
-        colorizers[30] = new Strobe(30);
-        colorizers[31] = new Flash(31);
-        colorizers[32] = new SuperFlash(32);
-        colorizers[33] = new ModuloStrobe(33);
+        colorizers[28] = new FlashyPrimaryColor(28);
+        colorizers[29] = new FlashyGray(29);
+        colorizers[30] = new RandomRGB(30);
+        colorizers[31] = new Strobe(31);
+        colorizers[32] = new Flash(32);
+        colorizers[33] = new SuperFlash(33);
+        colorizers[34] = new ModuloStrobe(34);
 
 
 

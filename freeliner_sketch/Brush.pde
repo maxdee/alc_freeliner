@@ -265,9 +265,16 @@ class SprinkleBrush extends Brush {
 		PVector pnt;
 		PVector cent = new PVector(0,0);
 		float half = _sz/2.0;
-		for(int i = 0; i < _sz*3; i++){
+		int count = (int)(_sz*1.75);
+		if(count > 400) count = 400;
+		for(int i = 0; i < count; i++){
 			pnt = new PVector(random(_sz) - (half), random(_sz) - (half));
-			if(cent.dist(pnt) < half) shp.vertex(pnt.x, pnt.y);
+			if(cent.dist(pnt) < half){
+				shp.stroke(random(205)+50);
+				shp.strokeWeight(random(10));
+
+				shp.vertex(pnt.x, pnt.y);
+			}
 		}
 		shp.endShape();
 		return shp;

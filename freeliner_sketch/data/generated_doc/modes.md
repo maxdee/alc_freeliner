@@ -31,21 +31,22 @@
 | `16` | pallette 10 | Color of 10 index in colorPalette |
 | `17` | pallette 11 | Color of 11 index in colorPalette |
 | `18` | RepetitionColor | Cycles through colors of the pallette |
-| `19` | RandomPrimaryColor | Primary color that should change every beat. |
-| `20` | PrimaryBeatColor | Cycles through primary colors on beat. |
-| `21` | HSBFade | HSBFade stored on template/event. |
+| `19` | QuarterRepetitionColor | Cycles through first 4 colors of the pallette |
+| `20` | RandomPrimaryColor | Primary color that should change every beat. |
+| `21` | PrimaryBeatColor | Cycles through primary colors on beat. |
 | `22` | CustomStrokeColor | Custom stroke color for template. |
 | `23` | CustomFillColor | Custom fill color for template. |
 | `24` | MillisFade | HSB fade goes along with millis. |
 | `25` | HSBLerp | HSB fade through beat. |
-| `26` | ColorMap | Meta-freelining - use linked template position markers to pick colors from the colormap, set one with: colormap map.png |
-| `27` | FlashyPrimaryColor | Random primary color every frame. |
-| `28` | FlashyGray | Random shades of gray. |
-| `29` | RGB | Random red green and blue value every frame. |
-| `30` | Strobe | Strobes white |
-| `31` | Flash | Flashes once per beat. |
-| `32` | superflash | super version of the flash |
-| `33` | moduloStrobe | strobe with a time modulo thing, use m misc value to adjust |
+| `26` | HSBPhase | HSBFade with offset |
+| `27` | ColorMap | Meta-freelining - use linked template position markers to pick colors from the colormap, set one with: colormap map.png |
+| `28` | FlashyPrimaryColor | Random primary color every frame. |
+| `29` | FlashyGray | Random shades of gray. |
+| `30` | RGB | Random red green and blue value every frame. |
+| `31` | Strobe | Strobes white |
+| `32` | Flash | Flashes once per beat. |
+| `33` | superflash | super version of the flash |
+| `34` | moduloStrobe | strobe with a time modulo thing, use m misc value to adjust |
  
 | e |  for : Painter | Description |
 |:---:|---|---|
@@ -162,5 +163,4 @@
 | `10` | EaseSpringIn | like a reverse door stopper spring |
 | `11` | EaseSpringOut | like a door stopper spring |
 | `12` | EaseSpringInOut | like a weird door stopper spring |
-| `13` | random | random unitInterval every frame |
-| `14` | targetNoise 
+| `1

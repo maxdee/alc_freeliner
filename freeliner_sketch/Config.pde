@@ -74,7 +74,7 @@ class FreelinerProject {
     int gridStrokeWeight = 1;//9696;
     color lineSegmentColor = #BEBEBE;
     int lineSegmentAlpha = 150;
-    int lineSegmentStrokeWeight = 1;
+    int lineSegmentStrokeWeight = 2;
     color lineSegmentColorUnselected = #2D2D2D;
     int lineSegmentAlphaUnselected = 150;
     color arrowColor = #5D5D5D;
@@ -252,16 +252,20 @@ class FreelinerProject {
             this.cursorColorSnapped = strToCol(_guiConfig.getString("cursorColorSnapped", hex(this.cursorColorSnapped)));
             this.cursorAlphaSnapped = _guiConfig.getInt("cursorAlphaSnapped", this.cursorAlphaSnapped);
             this.enableSnapeToLines = _guiConfig.getInt("enableSnapeToLines", this.enableSnapeToLines ? 1 : 0) == 1;
+
             this.guiTextColor = strToCol(_guiConfig.getString("guiTextColor", hex(this.guiTextColor)));
             this.guiTextAlpha = _guiConfig.getInt("guiTextAlpha", this.guiTextAlpha);
+
             this.gridColor = strToCol(_guiConfig.getString("gridColor", hex(this.gridColor)));
             this.gridAlpha = _guiConfig.getInt("gridAlpha", this.gridAlpha);
             this.gridStrokeWeight = _guiConfig.getInt("gridStrokeWeight", this.gridStrokeWeight);
+
             this.lineSegmentColor = strToCol(_guiConfig.getString("lineSegmentColor", hex(this.lineSegmentColor)));
             this.arrowColor = strToCol(_guiConfig.getString("arrowColor", hex(this.arrowColor)));
             this.arrowAlpha = _guiConfig.getInt("arrowAlpha", this.arrowAlpha);
             this.lineSegmentColor = strToCol(_guiConfig.getString("lineSegmentColor", hex(this.lineSegmentColor)));
             this.lineSegmentColorUnselected = strToCol(_guiConfig.getString("lineSegmentColorUnselected", hex(this.lineSegmentColorUnselected)));
+            this.lineSegmentStrokeWeight = _guiConfig.getInt("lineSegmentStrokeWeight", this.lineSegmentStrokeWeight);
             this.lineSegmentAlpha = _guiConfig.getInt("lineSegmentAlpha", this.lineSegmentAlpha);
             this.lineSegmentAlphaUnselected = _guiConfig.getInt("lineSegmentAlphaUnselected", this.lineSegmentAlphaUnselected);
 
@@ -324,6 +328,11 @@ class FreelinerProject {
         _guiConfig.setString("arrowColor", hex(this.arrowColor));
         _guiConfig.setInt("arrowAlpha", arrowAlpha);
         _guiConfig.setString("lineSegmentColor", hex(this.lineSegmentColor));
+        _guiConfig.setString("lineSegmentColorUnselected", hex(this.lineSegmentColorUnselected));
+        _guiConfig.setInt("lineSegmentAlpha", this.lineSegmentAlpha);
+        _guiConfig.setInt("lineSegmentAlphaUnselected", this.lineSegmentAlphaUnselected);
+        _guiConfig.setInt("lineSegmentStrokeWeight", this.lineSegmentStrokeWeight);
+
         _guiConfig.setInt("rotateCursorOnSnap", rotateCursorOnSnap ? 1 : 0);
 
         return _config;

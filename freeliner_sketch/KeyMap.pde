@@ -149,7 +149,7 @@ class KeyMap {
         keymap['o'].setName("rotation");
         keymap['o'].setDescription("Rotate stuff.");
         keymap['o'].setCMD("tw $ o");
-        keymap['o'].setMax(12);
+        keymap['o'].setMax(368);
 
         // layer
         keymap['p'] = new ParameterKey('p');
