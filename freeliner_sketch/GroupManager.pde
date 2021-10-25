@@ -787,6 +787,7 @@ class GroupManager {
     ArrayList<SegmentGroup> currentSvgGroupList;
 
     public void loadGeometrySVG(String _fn, ArrayList<SegmentGroup> _groupList) {
+        println("loading "+_fn);
         PShape _shp;
         currentSvgGroupList = _groupList;
         for(SegmentGroup _sg : currentSvgGroupList){

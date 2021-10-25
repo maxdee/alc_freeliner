@@ -794,7 +794,7 @@ class CommandProcessor  {
 
     public boolean loadGeometryCMD(String[] _args) {
         if(_args.length == 2) groupManager.loadGeometry();
-        else if(_args.length == 3) groupManager.loadGeometry(_args[2]);
+        else if(_args.length == 3) freeliner.loadFile(_args[2]);
         else return false;
         return true;
     }

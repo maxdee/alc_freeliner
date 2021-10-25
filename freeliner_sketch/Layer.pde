@@ -972,6 +972,7 @@ class CaptureLayer extends CanvasLayer {
         }
     }
 
+
     public void selectOption(String _opt) {
         selectedOption = _opt;
         if(cam != null) cam.stop();
@@ -981,8 +982,9 @@ class CaptureLayer extends CanvasLayer {
                 index = i;
             }
         }
+        println(">>> "+selectedOption);
         cam = new Capture(applet, cameras[index]);
-        cam.start();
+        if(cam != null)  cam.start();
     }
 }
 

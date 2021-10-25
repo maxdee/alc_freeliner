@@ -82,8 +82,8 @@ void reset(){
     frameRate(projectConfig.maxfps);
     // load fonts
     introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");
-    // font = loadFont("fonts/Monospaced.bold-64.vlw");
-    font = loadFont("fonts/AcknowledgeTTBRK-128.vlw");
+    font = loadFont("fonts/Monospaced.bold-64.vlw");
+    // font = loadFont("fonts/AcknowledgeTTBRK-128.vlw");
 
 
     background(0);

@@ -105,7 +105,8 @@ class FreeLiner  {
             }
             println("----------------------------------------------------------");
         }
-
+        // we load the layers from the last save!
+        loadFile("layers.xml");
     }
 
     // sync message to other software

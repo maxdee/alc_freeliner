@@ -269,6 +269,7 @@ class NoisyInterpolator extends Interpolator {
     // interpolate to center
     public PVector findPosition(Segment _seg, RenderableTemplate _tp, float _lerp, Painter _painter) {
         PVector pos;
+        // if(seg == null) return null;
         if(useOffset(_painter)) pos = _seg.getBrushPos(_lerp);
         else pos = _seg.getStrokePos(_lerp);
         pos = angleMove(pos, _seg.getAngle(false)-HALF_PI, random(_tp.getMiscValue())-_tp.getMiscValue()/2);
