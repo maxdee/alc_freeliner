@@ -168,7 +168,8 @@ class RGBStripPad extends RGBStrip{
     }
 
     protected void addRGBFixtures(int _cnt, float _ax, float _ay, float _bx, float _by) {
-        float gap = 1.0/(_cnt+1);
+        int gapAm = 3;
+        float gap = 1.0/(_cnt+gapAm*2);
         int ind;
         int x;
         int y;
@@ -176,8 +177,8 @@ class RGBStripPad extends RGBStrip{
         int _adr = 0;
         for(int i = 0; i < _cnt; i++) {
             ind = int(lerp(0, _cnt, i*gap));
-            x = int(lerp(_ax, _bx, (i+1)*gap));
-            y = int(lerp(_ay, _by, (i+1)*gap));
+            x = int(lerp(_ax, _bx, (i+gapAm)*gap));
+            y = int(lerp(_ay, _by, (i+gapAm)*gap));
             // _fix = new RGBFixture(address+(i*ledChannels));
             _adr = i*ledChannels;
             _adr += address;
