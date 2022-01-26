@@ -40,12 +40,8 @@ class FreeLiner  {
     public FreeLiner(PApplet _pa) {
         applet = _pa;
         // scriptHandler = new ScriptHandler("tw ABC q #beat%5");
-<<<<<<< HEAD
-        // scriptHandler = new ScriptHandler("tw ABC s #((time*.3)%10)*10.0");
-=======
         scriptHandler = new ScriptHandler(applet);
         scriptHandler.setScriptFile(projectConfig.fullPath+"/script.js");
->>>>>>> expresss
 
         groupManager = new GroupManager();
         templateManager =  new TemplateManager();
@@ -139,9 +135,6 @@ class FreeLiner  {
             groupManager.unSnap();
         }
         gui.update();
-<<<<<<< HEAD
-        // scriptHandler.evaluate(tracker,templateManager.getSynchroniser().getTime());
-=======
         if(scriptHandler != null){
             scriptHandler.cmdBuffer.clear();
             scriptHandler.updateScriptVariables(tracker, templateManager.getSynchroniser().getTime());
@@ -151,7 +144,6 @@ class FreeLiner  {
             commandProcessor.looper.lock = false;
         }
 
->>>>>>> expresss
         commandProcessor.update();
         // update template models
         templateManager.update();
