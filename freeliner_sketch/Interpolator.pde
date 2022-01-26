@@ -41,6 +41,7 @@ class Interpolator extends Mode {
 
 
     public PVector findPosition(Segment _seg, RenderableTemplate _tp, float _lerp, Painter _painter) {
+        if(_seg == null) return new PVector(0,0,0);
         if(useOffset(_painter)) return _seg.getBrushPos(_lerp);
         else return _seg.getStrokePos(_lerp);
     }
@@ -74,7 +75,7 @@ class OppositInterpolator extends Interpolator {
         description = "invert direction every segment";
     }
     public PVector findPosition(Segment _seg, RenderableTemplate _tp, float _lerp, Painter _painter) {
-        if(_seg.getID()%2 == 0){
+        if(_seg.getSortedId()%2 == 0){
              // _lerp = 1.0-_lerp;
              _tp.setDirection(!_tp.getDirection());
         }
@@ -83,7 +84,7 @@ class OppositInterpolator extends Interpolator {
     }
 
     public float getAngle(Segment _seg, RenderableTemplate _tp, Painter _painter) {
-        return _seg.getAngle(_seg.getID()%2 == 0);
+        return _seg.getAngle(_seg.getSortedId()%2 == 0);
     }
 }
 
@@ -268,6 +269,7 @@ class NoisyInterpolator extends Interpolator {
     // interpolate to center
     public PVector findPosition(Segment _seg, RenderableTemplate _tp, float _lerp, Painter _painter) {
         PVector pos;
+        // if(seg == null) return null;
         if(useOffset(_painter)) pos = _seg.getBrushPos(_lerp);
         else pos = _seg.getStrokePos(_lerp);
         pos = angleMove(pos, _seg.getAngle(false)-HALF_PI, random(_tp.getMiscValue())-_tp.getMiscValue()/2);

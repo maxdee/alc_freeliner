@@ -101,7 +101,7 @@ class BrushSegment extends PerSegment {
 // Make lines on segments
 class LineSegment extends PerSegment {
     SegmentPainter[] segmentPainters;
-    int painterCount = 8;
+    int painterCount = 9;
 
     public LineSegment(int _ind) {
         super();
@@ -115,6 +115,7 @@ class LineSegment extends PerSegment {
         segmentPainters[5] = new SegToSeg(5);
         segmentPainters[6] = new AlphaLine(6);
         segmentPainters[7] = new GradientLine(7);
+        segmentPainters[8] = new MovingGradientLine(8);
 
 
         name = "LineSegment";
@@ -185,53 +186,18 @@ class WrapLine extends PerSegment {
         description = "line from segment to segment";
         painter = new LineToLine(0);
     }
-    // public void doRender(RenderableTemplate _rt) {
-    //     //super.doRender(_rt);
-    //     ArrayList<LerpSegment> segList;
-    //     SegmentSelector selector = getSelector(_rt.getSegmentMode()); //constrain(_rt.getSegmentMode(), 4, 5);
-    //     // need to constrain to a few segmentSelectors...
-    //     if(selector instanceof SegmentBranch) {
-    //         segList = selector.getSegments(_rt);
-    //         painter.paint(segList, _rt);
-    //     }
-    //     else if(selector instanceof RunThroughBranches) {
-    //         segList = selector.getSegments(_rt);
-    //         painter.paint(segList, _rt);
-    //     }
-    //     else {
-    //         ArrayList<ArrayList<Segment>> trees = _rt.getSegmentGroup().getBranches();
-	// 		ArrayList<LerpSegment> _list = new ArrayList();
-	// 		for(ArrayList<Segment> branch : trees) {
-	// 			for(Segment _seg : branch){
-	// 				_list.add(new LerpSegment(_seg, _seg.getLerp()));
-	// 			}
-    //             painter.paint(_list, _rt);
-    //         }
-    //     }
-    // }
+    public SegmentSelector getSelector(int _index) {
+        return segmentSelectors[6];
+    }
 
     public void doRender(RenderableTemplate _rt) {
         ArrayList<LerpSegment> segList = getSelector(_rt.getSegmentMode()).getSegments(_rt);
         int index = 0;
         if(segList == null) return;
         painter.paint(segList, _rt);
-
-        // Segment _seg;
-        // for(LerpSegment _seglerp : segList) {
-        //     _seg = _seglerp.getSegment();
-        //     _rt.setSegmentIndex(index);
-        //     index++;
-        //     if(_seglerp != null && _seg != null) {
-        //         if(!_seg.isHidden()){
-        //             _rt.setLerp(_seg.getLerp());
-        //             getPainter(_rt.getAnimationMode()).paintSegment(_seg, _rt);
-        //         }
-        //     }
-        // }
     }
 
 }
-
 
 class FeatheredRender extends PerSegment {
     SegmentPainter[] segmentPainters;
@@ -299,23 +265,24 @@ class MetaFreelining extends PerSegment {
 /**
  * Parent class for all rendering that happens with all segments.
  */
-class Geometry extends RenderMode {
+class MultiLineRender extends RenderMode {
     GroupPainter[] groupPainters;
-    int painterCount = 2;
+    int painterCount = 3;
 
-    public Geometry(int _ind) {
+    public MultiLineRender(int _ind) {
         modeIndex = _ind;
-        name = "GeometryRender";
+        name = "MultiLineRender";
         description = "RenderModes that involve all segments.";
         groupPainters = new GroupPainter[painterCount];
         groupPainters[0] = new InterpolatorShape(0);
         groupPainters[1] = new Filler(1);
+        groupPainters[2] = new DashedLines(2);
+
         if(MAKE_DOCUMENTATION) documenter.documentModes(groupPainters, 'a', this, "FillModes");
         //groupPainters[2] = new FlashFiller();
     }
 
     public void doRender(RenderableTemplate _event) {
-
         getPainter(_event.getAnimationMode()).paintGroup(_event);
     }
 

@@ -298,8 +298,10 @@ class CanvasLayer extends Layer {
 
     public CanvasLayer() {
         canvas = createGraphics(width,height,P2D);
-        canvas.smooth(projectConfig.smoothLevel);
         canvas.beginDraw();
+        canvas.smooth(projectConfig.smoothLevel);
+        canvas.strokeCap(projectConfig.STROKE_CAP);
+        canvas.strokeJoin(projectConfig.STROKE_JOIN);
         canvas.background(0);
         canvas.endDraw();
         enabled = true;
@@ -651,7 +653,7 @@ class MappedOutputLayer extends Layer {
 class ShaderLayer extends RenderLayer { //CanvasLayer{
     PShader shader;
     String fileName;
-    long timeStamp;
+    FileWatcher fileWatcher;
     PVector center;// implements this (connect to some sort of geometry thingy)
     // uniforms to control shader params
     DampFloat[] dampFloats;
@@ -705,7 +707,10 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         if(shader == null) return _pg;
         if(!enabled) return _pg;
         if(_pg == null) return null;
-        if(frameCount % 60 == 0) checkForUpdate();
+        if(fileWatcher.hasChanged()) {
+            reloadShader();
+        }
+
         try {
             canvas.shader(shader);
         } catch(RuntimeException _e) {
@@ -731,6 +736,7 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
 
     public Layer loadFile(String _file) {
         fileName = _file;
+        fileWatcher = new FileWatcher(projectConfig.fullPath+"/shaders/"+_file);
         reloadShader();
         return this;
     }
@@ -739,8 +745,6 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         try {
             shader = loadShader(projectConfig.fullPath+"/shaders/"+fileName);
             println("Loaded shader "+fileName);
-            File _file = new File(projectConfig.fullPath+"/shaders/"+fileName);
-            timeStamp = _file.lastModified();
         } catch(Exception _e) {
             println("Could not load shader... "+fileName);
             println(_e);
@@ -748,17 +752,6 @@ class ShaderLayer extends RenderLayer { //CanvasLayer{
         }
         if(shader!=null) {
             parseShaderNotes();
-        }
-    }
-
-    public void checkForUpdate() {
-        try {
-            File _file = new File(projectConfig.fullPath+"/shaders/"+fileName);
-            if(timeStamp != _file.lastModified()) {
-                reloadShader();
-            }
-        } catch(Exception _e) {
-            println("Could not find file "+fileName);
         }
     }
 
@@ -819,6 +812,7 @@ class DualInputShaderLayer extends ShaderLayer { //CanvasLayer{
 
     public DualInputShaderLayer(Synchroniser _s) {
         super(_s);
+        fileWatcher = new FileWatcher();
         commandList.add("layer name uniforms 0 0.5");
         commandList.add("layer name loadFile fragShader.glsl");
         enabled = true;
@@ -831,7 +825,9 @@ class DualInputShaderLayer extends ShaderLayer { //CanvasLayer{
         if(shader == null) return _pg;
         if(!enabled) return _pg;
         if(_pg == null) return null;
-        if(frameCount % 60 == 0) checkForUpdate();
+        if(fileWatcher.hasChanged()){
+            reloadShader();
+        }
         try {
             canvas.shader(shader);
         } catch(RuntimeException _e) {
@@ -976,6 +972,7 @@ class CaptureLayer extends CanvasLayer {
         }
     }
 
+
     public void selectOption(String _opt) {
         selectedOption = _opt;
         if(cam != null) cam.stop();
@@ -985,8 +982,9 @@ class CaptureLayer extends CanvasLayer {
                 index = i;
             }
         }
+        println(">>> "+selectedOption);
         cam = new Capture(applet, cameras[index]);
-        cam.start();
+        if(cam != null)  cam.start();
     }
 }
 

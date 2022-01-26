@@ -157,8 +157,28 @@ class RepetitionColor extends Colorizer {
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
-		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex()) % PALLETTE_COUNT;
+		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex());
 		index %= PALLETTE_COUNT;
+		if(index < 0) index = 0;
+		color c = userPallet[index];
+		return alphaMod(c , _alpha);
+	}
+}
+
+/**
+ * Per Repetition
+ */
+class QuarterRepetitionColor extends Colorizer {
+
+	public QuarterRepetitionColor(int _ind){
+        modeIndex = _ind;
+		name = "QuarterRepetitionColor";
+		description = "Cycles through first 4 colors of the pallette";
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+		int index = (_event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex());
+		index %= 4;
 		if(index < 0) index = 0;
 		color c = userPallet[index];
 		return alphaMod(c , _alpha);
@@ -225,11 +245,55 @@ class Flash extends Colorizer {
 	}
 
 	public color get(RenderableTemplate _event, int _alpha){
-		if(_event.getUnitInterval()<0.01) return color(255, 255);
-		else if(_event.getUnitInterval()>0.1) return color(0,0);
-		else return color(0, 255);
+		if(_event.getUnitInterval()<0.05) return color(255, 255);
+        else return color(0,0);
+
+		// else if(_event.getUnitInterval()>0.05) return color(0,0);
+		// else return color(0, 255);
 	}
 }
+/**
+ * superflash
+ */
+class SuperFlash extends Colorizer {
+	public SuperFlash(int _ind){
+    modeIndex = _ind;
+		name = "superflash";
+		description = "super version of the flash";
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+        float f = _event.getUnitInterval();
+        f = fltMod(f*2.0);
+        if(f<0.05) return color(255, 255);
+        else return color(0,0);
+
+		// else if(f>0.05) return color(0,0);
+		// else return color(0, 255);
+	}
+}
+/**
+ * modStrobe
+ */
+class ModuloStrobe extends Colorizer {
+	public ModuloStrobe(int _ind){
+    modeIndex = _ind;
+		name = "moduloStrobe";
+		description = "strobe with a time modulo thing, use m misc value to adjust";
+	}
+
+	public color get(RenderableTemplate _event, int _alpha){
+        float _f = _event.getUnitInterval();
+        int _m = _event.getMiscValue();
+        // println((_f*2000)%_m);
+        if((_f*2000)%_m < 2) return color(255, 255);
+        else return color(0,0);
+
+		// else if(f>0.05) return color(0,0);
+		// else return color(0, 255);
+	}
+}
+
 
 /**
  * Fade through the HUE
@@ -262,21 +326,27 @@ class HSBLerp extends Colorizer {
 	}
 }
 
+
 /**
  * HSB Lerp
  */
-class HSBFade extends Colorizer {
-	public HSBFade(int _ind){
+class HSBPhase extends Colorizer {
+	public HSBPhase(int _ind){
     modeIndex = _ind;
-		name = "HSBFade";
-		description = "HSBFade stored on template/event.";
+		name = "HSBPhase";
+		description = "HSBFade with offset";
 	}
 	public color get(RenderableTemplate _event, int _alpha){
-		float hue = _event.getHue();
-		color c = HSBtoRGB(hue, 1.0, 1.0);
-		hue+=0.001;
-		hue = fltMod(hue);
-		_event.setHue(hue);
+        float f = float(millis()%10000)/10000.0;
+        float i = _event.getBeatCount()-_event.getRepetition()+_event.getSegmentIndex();
+        f+= i*.1;
+        f = fltMod(f);
+        // no lerp?
+
+		color c = HSBtoRGB(f, 1.0, 1.0);
+		// hue+=0.001;
+		// hue = fltMod(hue);
+		// _event.setHue(hue);
 		return alphaMod(c , _alpha);
 	}
 }
@@ -334,7 +404,7 @@ class ColorMapColorizer extends Colorizer {
 
 		Template linked = _event.getLinkedTemplate();
 		if(linked == null){
-			println("[meta-freelining] WARNING : template "+_event.getTemplateID()+" has no linked template");
+			// println("[meta-freelining] WARNING : template "+_event.getTemplateID()+" has no linked template");
             return color(255,0,0);
 		}
 
@@ -349,10 +419,5 @@ class ColorMapColorizer extends Colorizer {
             }
         }
         return color(255,0,0);
-        //
-        // index %= PALLETTE_COUNT;
-		// if(index < 0) index = 0;
-		// color c = userPallet[index];
-		// return alphaMod(c , _alpha);
 	}
 }

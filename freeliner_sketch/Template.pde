@@ -529,7 +529,7 @@ class Template {
 	public int setBrushSize(int _v, int _max) {
 		brushSize = numTweaker(_v, brushSize);
 		if(brushSize >= _max) brushSize = _max - 1;
-		if(brushSize <= 0) brushSize = 1;
+		if(brushSize < 2) brushSize = 2;
 		return brushSize;
 	}
 

@@ -71,3 +71,110 @@ class InterpolatorShape extends GroupPainter{
 		canvas.endShape(CLOSE);
 	}
 }
+
+
+class DashedLines extends GroupPainter {
+    public DashedLines(int _ind){
+        modeIndex = _ind;
+        name = "DashedLines";
+        description = "Dashing";
+    }
+    public void paintGroup(RenderableTemplate _event) {
+		super.paintGroup(_event);
+		float lerp = event.getLerp();
+		int dashCount = _event.getRepetitionCount();
+		float dashSize = _event.getBrushSize()/1000.0;
+		applyStyle(canvas);
+		canvas.noFill();
+
+		float gap = 1.0/float(dashCount);
+		// float fakeLerp = mouseX/float(width);
+		// println(lerp);
+		ArrayList<Segment> dashBuff = new ArrayList<Segment>();
+		PVector pos;
+
+		for(int i = 0; i < dashCount; i++){
+			float ll = i*gap + lerp/dashCount;
+			float lerpA = fltMod(ll);//-dashSize);
+			float lerpB = fltMod(ll+dashSize);
+			Segment segA = _event.getSegmentGroup().getSegmentByTotalLength(lerpA);
+			if(segA != null){
+				lerpA = segA.getLerp();
+				Segment segB = _event.getSegmentGroup().getSegmentByTotalLength(lerpB);
+				if(segB != null){
+					lerpB = segB.getLerp();
+					if(segA == segB){// && lerpA < lerpB){
+						// problem here with wrap around.
+						canvas.beginShape(LINES);
+						// canvas.stroke(0,255,0);
+						pos = getPosition(segA, lerpA);
+						canvas.vertex(pos.x, pos.y);
+						pos = getPosition(segB, lerpB);
+						canvas.vertex(pos.x, pos.y);
+						canvas.endShape();
+					}
+					// if(segA == segB && lerpA > lerpB){
+					// 	// problem here with wrap around.
+					// 	canvas.beginShape(LINES);
+					// 	// canvas.stroke(0,255,0);
+					// 	pos = getPosition(segA, lerpA);
+					// 	canvas.vertex(pos.x, pos.y);
+					// 	pos = getPosition(segA, 1.0);
+					// 	canvas.vertex(pos.x, pos.y);
+					// 	pos = getPosition(segB, 0.0);
+					// 	canvas.vertex(pos.x, pos.y);
+					// 	pos = getPosition(segB, lerpB);
+					// 	canvas.vertex(pos.x, pos.y);
+					// 	canvas.endShape();
+					// }
+					else if(segA.getNext() == segB) {
+						canvas.beginShape();
+						// canvas.stroke(255,0,0);
+						pos = getPosition(segA, lerpA);
+						canvas.vertex(pos.x, pos.y);
+						pos = getPosition(segA, 1.0);
+						canvas.vertex(pos.x, pos.y);
+						pos = getPosition(segB, lerpB);
+						canvas.vertex(pos.x, pos.y);
+						canvas.endShape();
+					}
+					else {
+						// boolean break
+						// canvas.stroke(255);
+						if(segA.getNext() == null){
+							canvas.beginShape(LINES);
+							pos = getPosition(segA, lerpA);
+							canvas.vertex(pos.x, pos.y);
+							pos = getPosition(segA, 1.0);
+							canvas.vertex(pos.x, pos.y);
+							canvas.endShape();
+						}
+						if(segB.getPrev() == null){
+							canvas.beginShape(LINES);
+							pos = getPosition(segB, lerpB);
+							canvas.vertex(pos.x, pos.y);
+							pos = getPosition(segB, 0.0);
+							canvas.vertex(pos.x, pos.y);
+							canvas.endShape();
+						}
+						else {
+							canvas.beginShape();
+							pos = getPosition(segA, lerpA);
+							canvas.vertex(pos.x, pos.y);
+							Segment s = segA;
+							while(s != segB && s != null){
+								pos = getPosition(s, 1.0);
+								canvas.vertex(pos.x, pos.y);
+								s = s.getNext();
+							}
+							pos = getPosition(segB, lerpB);
+							canvas.vertex(pos.x, pos.y);
+							canvas.endShape();
+						}
+					}
+
+				}
+			}
+		}
+    }
+}

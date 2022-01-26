@@ -47,8 +47,6 @@ class Painter extends Mode {
         posGetters[10] = new NoisyInterpolator(10);
         posGetters[11] = new RandomRadiusInterpolator(11);
 
-
-
         if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])posGetters, 'e', this, "Enterpolator");
     }
 
@@ -72,6 +70,9 @@ class Painter extends Mode {
     }
 
     public float getAngle(Segment _seg, RenderableTemplate _event) {
+        if(_event.getRotationMode() >= 7){
+            return _event.getAngleMod();
+        }
         float ang = getInterpolator(_event.getInterpolateMode()).getAngle(_seg, _event, this);
         if(_event.getDirection()) ang += PI;
         if(_seg.isClockWise()) return ang + _event.getAngleMod();
@@ -80,7 +81,7 @@ class Painter extends Mode {
 
     // color stuffs
     public void initColorizers() {
-        colorizerCount = 32;
+        colorizerCount = 35;
         colorizers = new Colorizer[colorizerCount];
         // basic colors
         colorizers[0] = new SimpleColor(color(0), 0);
@@ -108,21 +109,29 @@ class Painter extends Mode {
         colorizers[15] = new PalletteColor(9, 15);
         colorizers[16] = new PalletteColor(10, 16);
         colorizers[17] = new PalletteColor(11, 17);
+        
         // changing color modes
         colorizers[18] = new RepetitionColor(18);
-        colorizers[19] = new RandomPrimaryColor(19);
-        colorizers[20] = new PrimaryBeatColor(20);
-        colorizers[21] = new HSBFade(21);
-        colorizers[22] = new FlashyPrimaryColor(22);
-        colorizers[23] = new FlashyGray(23);
-        colorizers[24] = new RandomRGB(24);
-        colorizers[25] = new Strobe(25);
-        colorizers[26] = new Flash(26);
-        colorizers[27] = new CustomStrokeColor(27);
-        colorizers[28] = new CustomFillColor(28);
-        colorizers[29] = new MillisFade(29);
-        colorizers[30] = new HSBLerp(30);
-        colorizers[31] = new ColorMapColorizer(31);
+        colorizers[19] = new QuarterRepetitionColor(19);
+        colorizers[20] = new RandomPrimaryColor(20);
+        colorizers[21] = new PrimaryBeatColor(21);
+
+        colorizers[22] = new CustomStrokeColor(22);
+        colorizers[23] = new CustomFillColor(23);
+        colorizers[24] = new MillisFade(24);
+        colorizers[25] = new HSBLerp(25);
+        colorizers[26] = new HSBPhase(26);
+        colorizers[27] = new ColorMapColorizer(27);
+
+        colorizers[28] = new FlashyPrimaryColor(28);
+        colorizers[29] = new FlashyGray(29);
+        colorizers[30] = new RandomRGB(30);
+        colorizers[31] = new Strobe(31);
+        colorizers[32] = new Flash(32);
+        colorizers[33] = new SuperFlash(33);
+        colorizers[34] = new ModuloStrobe(34);
+
+
 
         if(MAKE_DOCUMENTATION) documenter.documentModes( (Mode[])colorizers, 'q', this, "Colorizers");
     }
@@ -225,11 +234,12 @@ class LineToLine extends Painter {
     public LineToLine(int _ind) {
         modeIndex = _ind;
         name = "LineToLine";
-        description = "Draws a line from a point interpolated on a segment to a point interpolated on a different segment";
+        description = "Draws a line from a point interpolated on a segment to a point interpolated on a different segment, use with branch seg selector";
     }
 
     public void paint(ArrayList<LerpSegment> _segs, RenderableTemplate _rt) {
         super.paint(_rt);
+
         applyStyle(canvas);
         PVector pos = new PVector(-10,-10);
         PVector prev = new PVector(-10,-10);
@@ -239,8 +249,8 @@ class LineToLine extends Painter {
         for(LerpSegment _lseg : _segs) {
 			_seg = _lseg.getSegment();
             prev = pos.get();
-            // pos = getPosition(_seg, _seg.getLerp()).get();
-            pos = getPosition(_seg).get();
+            pos = getPosition(_seg, _seg.getLerp()).get();
+            // pos = getPosition(_seg).get();
 
             if(prev.x != -10 && pos.x != -10){
                 vecLine(canvas, pos, prev);

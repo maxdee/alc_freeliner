@@ -593,14 +593,14 @@ function otherInputCallbacks() {
     _element = document.getElementById("strokePicker");
     if(_element) _element.oninput = function () {
         var _c = document.getElementById("strokePicker").value;
-        sendCMD('tw '+selectedTemplate+' q 27');
+        sendCMD('tw '+selectedTemplate+' q 22');
         sendCMD('tp stroke '+selectedTemplate+' '+_c);
     }
 
     _element = document.getElementById("fillPicker");
     if(_element) _element.oninput = function () {
         var _c = document.getElementById("fillPicker").value;
-        sendCMD('tw '+selectedTemplate+' f 28');
+        sendCMD('tw '+selectedTemplate+' f 23');
         sendCMD('tp fill '+selectedTemplate+' '+_c);
     }
 
@@ -673,6 +673,31 @@ cmdPrompt = (function () {
     }
 })();
 
+//
+scriptPrompt = (function () {
+    var cmdIndex, scrptHist, scriptPrompt;
+    scrptHist = ["no previous cmd"];
+    prompt = document.getElementById("scripting");
+    return function (e) {
+        if(e.keyCode == 13) {
+            sendCMD("oneliner "+prompt.value);
+            scrptHist.push(prompt.value);
+            // prompt.value = "";
+            cmdIndex = 0;
+        }
+        else if(e.keyCode == 38) {
+            cmdIndex++;
+            if(cmdIndex >= scrptHist.length) cmdIndex = scrptHist.length-1;
+            prompt.value = scrptHist[scrptHist.length-1];
+            prompt.value = scrptHist[scrptHist.length - cmdIndex];
+        }
+        else if(e.keyCode == 40) {
+            cmdIndex--;
+            if(cmdIndex < 1) cmdIndex = 1;
+            prompt.value = scrptHist[scrptHist.length - cmdIndex];
+        }
+    }
+})();
 
 /*
  * /////////////////////////////////////////////////////////////
@@ -714,7 +739,10 @@ document.addEventListener("keydown", function(e) {
     // prevent default for tab key
     else if(e.keyCode == 9) e.preventDefault();
     else if(e.keyCode == 17) e.preventDefault();
+    // else if(e.keyCode == 84) e.preventDefault();
+    // console.log(e.keycode);
     if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
+    // if (document.activeElement == document.getElementById("scripting")) scriptPrompt(e);
     else if (document.activeElement != document.getElementById("layerNameInput")) {
         blurAll();
         actualySendCMD('hid press '+kbdRules(e)+" "+e.key);
@@ -722,6 +750,24 @@ document.addEventListener("keydown", function(e) {
 
     //send keyPress to freeliner
 }, false);
+
+// window.addEventListener("keydown", function(e) {
+//     // catch ctrlKey
+//     if ((navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) e.preventDefault();
+//     // prevent default for tab key
+//     else if(e.keyCode == 9) e.preventDefault();
+//     else if(e.keyCode == 17) e.preventDefault();
+//     else if(e.keyCode == 84) e.preventDefault();
+//     // console.log(e.keycode);
+//     if (document.activeElement == document.getElementById("prompt")) cmdPrompt(e);
+//     // if (document.activeElement == document.getElementById("scripting")) scriptPrompt(e);
+//     else if (document.activeElement != document.getElementById("layerNameInput")) {
+//         blurAll();
+//         actualySendCMD('hid press '+kbdRules(e)+" "+e.key);
+//     }
+//     //send keyPress to freeliner
+// }, false);
+
 
 document.addEventListener("keyup", function(e) {
     // catch ctrlKey
@@ -732,7 +778,7 @@ document.addEventListener("keyup", function(e) {
     actualySendCMD('hid release '+kbdRules(e)+" "+e.key);
 }, false);
 
-// autofocus on ranges
+// autofocus on ranges for scroll wheel action
 document.addEventListener("mouseover", function(e){
     if(e.target.type == "range") {
         e.target.focus();

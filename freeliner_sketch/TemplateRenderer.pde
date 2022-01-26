@@ -44,7 +44,7 @@ class TemplateRenderer extends Mode{
     renderModes[0] = new BrushSegment(0);
     renderModes[1] = new LineSegment(1);
     renderModes[2] = new WrapLine(2);
-    renderModes[3] = new Geometry(3);
+    renderModes[3] = new MultiLineRender(3);
     renderModes[4] = new TextRenderMode(4);
     renderModes[5] = new CircularSegment(5);
     renderModes[6] = new FeatheredRender(6);
@@ -218,6 +218,7 @@ class TemplateRenderer extends Mode{
    * @param RenderableTemplate to render.
    */
   // yes a mess!
+  // rotation! here!
     public void tweakAngle(RenderableTemplate _rt){
         int rotMode = _rt.getRotationMode();
         float _ang = 0;
@@ -230,10 +231,12 @@ class TemplateRenderer extends Mode{
             else if(rotMode == 4) _ang = -_rt.getLerp()*PI;
             else if(rotMode == 5) _ang = _rt.getLerp()*PI;
             else if(rotMode == 6) _ang = random(TWO_PI);
-
-            if(_rt.getDirection()) _ang -= PI;
-                _rt.setAngleMod(_ang);
+            else if(rotMode >= 7){
+                _ang = radians(rotMode-7);
             }
+            if(_rt.getDirection()) _ang -= PI;
+            _rt.setAngleMod(_ang);
+        }
     }
 
 

@@ -137,7 +137,9 @@ class CommandProcessor  {
         "fl save",
         "fl open (file)",
         "fl quit",
-        "fl random"
+        "fl random",
+        /////////////////// Scripting
+        // "oneliner 'tw A q '+beat%5",
 
     };
 
@@ -212,11 +214,16 @@ class CommandProcessor  {
     public void processCMD(String _cmd) {
         if(_cmd == null) return;
         if(_cmd.contains(",")) {
+            // if(_cmd.contains("oneliner")){
+            //     processCMD(_cmd);
+            // }
+            // else {
             String[] _split = split(_cmd, ',');
             for(String _str : _split){
                 processCMD(trim(_str));
             }
-            return;
+            //     return;
+            // }
         }
         valueGiven = "_";
         String[] _args = split(_cmd, ' ');
@@ -248,6 +255,8 @@ class CommandProcessor  {
 
         else if(_args[0].equals("colors")) _used = colorsCMD(_args);
         else if(_args[0].equals("info")) _used = extraInfoCMD(_args);
+
+        // else if(_args[0].equals("oneliner")) _used = scriptingCMD(_args);
 
         if(!_used) println("CMD fail : "+join(_args, ' '));
 
@@ -785,7 +794,7 @@ class CommandProcessor  {
 
     public boolean loadGeometryCMD(String[] _args) {
         if(_args.length == 2) groupManager.loadGeometry();
-        else if(_args.length == 3) groupManager.loadGeometry(_args[2]);
+        else if(_args.length == 3) freeliner.loadFile(_args[2]);
         else return false;
         return true;
     }
@@ -858,9 +867,26 @@ class CommandProcessor  {
 
     ////////////////////////////////////////////////////////////////////////////////////
     ///////
+    ///////     scriptingCMD
+    ///////
+    ////////////////////////////////////////////////////////////////////////////////////
+
+    // public boolean scriptingCMD(String[] _args){
+    //     String a = join(_args, " ");
+    //     a = a.replaceAll("oneliner ", "");
+    //     println("[script] adding new expression : ");
+    //     println(a);
+    //     freeliner.scriptHandler.setOneLiner(a);
+    //     return true;
+    // }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    ///////
     ///////     LooperCMD
     ///////
     ////////////////////////////////////////////////////////////////////////////////////
+
     public boolean loopCMD(String[] _args) {
         if(_args.length > 1) {
             int _v = stringInt(_args[1]);
@@ -1104,15 +1130,23 @@ class CommandProcessor  {
         looper.receive(join(_args, " "));
 
         if(_args.length == 2) {
-            for(int i = 0; i < _args[1].length(); i++) templateManager.trigger(_args[1].charAt(i));
-        } else if(_args.length > 2) {
+            ArrayList<Template> _tps = templateManager.getTemplates(_args[1]);
+            if(_tps != null){
+                for(Template _tp : _tps) templateManager.trigger(_tp.getTemplateID());
+            }
+        }
+        else if(_args.length > 2) {
             ArrayList<SegmentGroup> _groups = groupManager.getGroupsFromArgs(_args);
-            for(int i = 0; i < _args[1].length(); i++){
-                for(SegmentGroup _sg : _groups){
-                     templateManager.trigger(_args[1].charAt(i), _sg.getID());
+            ArrayList<Template> _tps = templateManager.getTemplates(_args[1]);
+            if(_tps != null && _groups != null){
+                for(Template _tp : _tps){
+                    for(SegmentGroup _sg : _groups){
+                        templateManager.trigger(_tp.getTemplateID(), _sg.getID());
+                    }
                 }
             }
         }
+
     }
 
 // tp translate AB 100 100
@@ -1120,6 +1154,7 @@ class CommandProcessor  {
         looper.receive(join(_args, " "));
         if(_args.length == 3) {
             ArrayList<Template> _tmps = templateManager.getTemplates(_args[2]);
+            if(_tmps == null) return false;
             if(_tmps.size()<2) return false;
             for(int i = 0; i < _tmps.size()-1; i++){
                 _tmps.get(i).setTranslationTemplate(_tmps.get(_tmps.size()-1));

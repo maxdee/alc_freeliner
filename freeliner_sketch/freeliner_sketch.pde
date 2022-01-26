@@ -83,6 +83,8 @@ void reset(){
     // load fonts
     introFont = loadFont("fonts/MiniKaliberSTTBRK-48.vlw");
     font = loadFont("fonts/Monospaced.bold-64.vlw");
+    // font = loadFont("fonts/AcknowledgeTTBRK-128.vlw");
+
 
     background(0);
     doSplash = projectConfig.splash;

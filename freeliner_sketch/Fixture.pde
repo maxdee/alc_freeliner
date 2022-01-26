@@ -168,7 +168,8 @@ class RGBStripPad extends RGBStrip{
     }
 
     protected void addRGBFixtures(int _cnt, float _ax, float _ay, float _bx, float _by) {
-        float gap = 1.0/(_cnt+1);
+        int gapAm = 3;
+        float gap = 1.0/(_cnt+gapAm*2);
         int ind;
         int x;
         int y;
@@ -176,8 +177,8 @@ class RGBStripPad extends RGBStrip{
         int _adr = 0;
         for(int i = 0; i < _cnt; i++) {
             ind = int(lerp(0, _cnt, i*gap));
-            x = int(lerp(_ax, _bx, (i+1)*gap));
-            y = int(lerp(_ay, _by, (i+1)*gap));
+            x = int(lerp(_ax, _bx, (i+gapAm)*gap));
+            y = int(lerp(_ay, _by, (i+gapAm)*gap));
             // _fix = new RGBFixture(address+(i*ledChannels));
             _adr = i*ledChannels;
             _adr += address;
@@ -647,6 +648,69 @@ class ZigZagMatrix extends Fixture {
 }
 
 
+
+class RegularMatrix extends Fixture {
+    color col;
+    int matrixSpacing = 16;
+    int matrixWidth = 0;
+    int matrixHeight = 0;
+
+    public RegularMatrix(int _adr, int _width, int _height, int _spacing) {
+        super(_adr);
+        name = "RegularMatrix";
+        description = "a RegularMatrix of RGB pixels";
+        channelCount = _width * _height * 3;
+        address = _adr;
+        matrixWidth = _width;
+        matrixHeight = _height;
+        matrixSpacing = _spacing/_height;
+        buffer = new byte[channelCount];
+        position = new PVector(0,0);
+        subFixtures = new ArrayList<Fixture>();
+        println("makeing matrix\naddr: "+address+" "+_width+" "+_height+" "+_spacing);
+    }
+
+    public void init(){
+        addMatrix();
+    }
+
+    private void addMatrix() {
+        RGBFixture _fix;
+        int _gap = matrixSpacing;
+        int _adr = 0;
+        PVector _start = new PVector(0,0);
+        PVector _end = new PVector(0,0);
+        for(int j = 0; j < matrixHeight; j++) {
+            for(int i = 0; i < matrixWidth; i++) {
+                _adr = address+(i*matrixHeight*3 + j*3);
+                _fix = new RGBFixture(_adr);
+                _fix.setPosition(int(position.x + i* _gap), int(position.y + matrixHeight*_gap - _gap - j* _gap));
+                // if(i % 2 == 1){
+                // }
+                // else {
+                //     _fix.setPosition(int(position.x + i* _gap), int(position.y + j* _gap));
+                // }
+                subFixtures.add(_fix);
+            }
+        }
+    }
+
+    public void parseGraphics(PGraphics _pg) {
+        for(Fixture _fix : subFixtures)
+            _fix.parseGraphics(_pg);
+    }
+
+    // override
+    void drawFixtureOverlay(PGraphics _pg) {
+        for(Fixture _fix : subFixtures)
+            _fix.drawFixtureOverlay(_pg);
+    }
+
+    public void bufferChannels(byte[] _buff) {
+        for(Fixture _fix : subFixtures)
+            _fix.bufferChannels(_buff);
+    }
+}
 ///////////////////////////////////////////////////////////////////////////////////
 ///////
 ///////     Orion Orcan2

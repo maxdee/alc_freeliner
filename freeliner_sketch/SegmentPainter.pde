@@ -192,9 +192,12 @@ class SegToSeg extends LinePainter {
     }
 
     public Segment getNextSegment(Segment _seg, int _iter) {
-        Segment next = _seg.getNext();
-        if(_iter == 0) return next;
-        else return getNextSegment(next, _iter - 1);
+        if(_seg!=null){
+            Segment next = _seg.getNext();
+            if(_iter == 0) return next;
+            else return getNextSegment(next, _iter - 1);
+        }
+        return null;
     }
 }
 
@@ -220,6 +223,67 @@ class GradientLine extends LinePainter {
         _pg.endShape();
     }
 }
+
+
+class MovingGradientLine extends LinePainter {
+
+    public MovingGradientLine(int _ind){
+        modeIndex = _ind;
+        name = "MovingGradientLine";
+        description = "Moving Stroke to fill gradient";
+    }
+    public void paintSegment(Segment _seg, RenderableTemplate _event) {
+        super.paintSegment(_seg, _event);
+        PGraphics _pg = event.getCanvas();
+        float gradientSize = 1.0;
+        float edgeA = gradientSize / 2.0 * _event.getLerp();
+        float edgeB = gradientSize / 2.0 * (1.0-_event.getLerp());
+        PVector _a = getPosition(_seg, 0.0);
+        PVector _b = getPosition(_seg, _event.getLerp());
+        PVector _c = getPosition(_seg, 1.0);
+        color colorA = colorLerp(getStrokeColor(), getFillColor(), edgeA);
+        color colorB = getFillColor();
+        color colorC = colorLerp(getStrokeColor(), getFillColor(), edgeB);
+        _pg.beginShape(LINES);
+        _pg.strokeWeight(_event.getStrokeWeight());
+        _pg.stroke(colorA);
+        _pg.vertex(_a.x, _a.y);
+        _pg.stroke(colorB);
+        _pg.vertex(_b.x, _b.y);
+        _pg.stroke(colorC);
+        _pg.vertex(_c.x, _c.y);
+        _pg.endShape();
+    }
+}
+
+
+
+
+
+
+// class DashedSegments extends LinePainter {
+//
+//     public DashedSegments(int _ind){
+//         modeIndex = _ind;
+//         name = "GradientLine";
+//         description = "Stroke to fill gradient";
+//     }
+//     public void paintSegment(Segment _seg, RenderableTemplate _event) {
+//         super.paintSegment(_seg, _event);
+//         PGraphics _pg = event.getCanvas();
+//
+//         PVector _a = getPosition(_seg, 0.0);
+//         PVector _b =  getPosition(_seg, 1.0);
+//         _pg.beginShape(LINES);
+//         _pg.strokeWeight(_event.getStrokeWeight());
+//         _pg.stroke(getStrokeColor());
+//         _pg.vertex(_a.x, _a.y);
+//         _pg.stroke(getFillColor());
+//         _pg.vertex(_b.x, _b.y);
+//         _pg.endShape();
+//     }
+// }
+
 
 ////////////////////////////////////////////////////////////////////////////////////
 ///////
@@ -301,32 +365,67 @@ class FadedPointBrusher extends BrushPutter {
         putShape(getPosition(_seg), getAngle(_seg, _event));
     }
 
-    // make a strokeWeight gradient
-    public void putShape(PVector _p, float _a) {
-        color _col = getStrokeColor();
-        canvas.pushMatrix();
-        canvas.translate(_p.x, _p.y);
-        canvas.rotate(_a+ HALF_PI);
-        float stepSize = event.getScaledBrushSize()/16.0;
-        int weight = event.getStrokeWeight();
-        float steps = 16;
-        for(float i = 0; i < steps; i++) {
-            canvas.stroke(red(_col), green(_col), blue(_col), pow((steps-i)/steps, 4) * event.getStrokeAlpha());
-            canvas.strokeWeight(weight+(stepSize*i));
-            int _sz = 500;
-            canvas.point(0,0);
-        }
 
-        canvas.popMatrix();
-    }
+        public void putShape(PVector _p, float _a) {
+            float _w = event.getStrokeWeight();
+            float _h = event.getBrushSize();
+            // float scale = event.getBrushSize() / 20.0; // devided by base brush size
+            canvas.pushMatrix();
+            canvas.translate(_p.x, _p.y);
+            canvas.rotate(_a+ PI);
+            // canvas.scale(scale);
+            ////////////////////////
+            canvas.beginShape();
+            canvas.noStroke();
+            PVector a = new PVector(-_h,0);
+            PVector b = new PVector(-_w,0);
+            PVector c = new PVector(0,0);
+
+            for(int i = 0; i < 361; i+= 10){
+                canvas.fill(getStrokeColor());
+                canvas.vertex(0,0);
+                canvas.vertex(b.x,b.y);
+                canvas.fill(getFillColor());
+                canvas.vertex(a.x, a.y);
+                a = angleMove(c, radians(i), _h);
+                b = angleMove(c, radians(i), _w);
+                canvas.vertex(a.x, a.y);
+                canvas.fill(getStrokeColor());
+                canvas.vertex(b.x,b.y);
+                canvas.vertex(0,0);
+
+
+                // a = angleMove(c, radians(i), _h);
+                // b = angleMove(c, radians(i), _w);
+                // canvas.fill(f);
+                // canvas.vertex(a.x, a.y);
+                // canvas.fill(getStrokeColor());
+                // canvas.vertex(b.x,b.y);
+                // canvas.vertex(0,0);
+                // canvas.vertex(b.x,b.y);
+                // canvas.fill(f);
+                // canvas.vertex(a.x, a.y);
+            }
+            canvas.endShape();//CLOSE);
+            ///////////////////////
+            // canvas.shape(fadedLineShape);
+            canvas.popMatrix();
+        }
 }
 
 
 class FadedLineBrusher extends BrushPutter {
+    PShape fadedLineShape;
     public FadedLineBrusher(int _ind) {
         modeIndex = _ind;
         name = "FadedBrusher";
         description = "same as brush but adds a faded edge";
+    }
+
+    public void paint(RenderableTemplate _rt) {
+        event = _rt;
+        canvas = event.getCanvas();
+
     }
 
     public void paintSegment(Segment _seg, RenderableTemplate _event) {
@@ -334,23 +433,34 @@ class FadedLineBrusher extends BrushPutter {
         putShape(getPosition(_seg), getAngle(_seg, _event));
     }
 
-    // make a strokeWeight gradient
     public void putShape(PVector _p, float _a) {
-        color _col = getStrokeColor();
+        float _w = event.getStrokeWeight();
+        float _h = event.getBrushSize();
+        // float scale = event.getBrushSize() / 20.0; // devided by base brush size
         canvas.pushMatrix();
         canvas.translate(_p.x, _p.y);
-        canvas.rotate(_a+ HALF_PI);
-        float stepSize = event.getScaledBrushSize()/16.0;
-        int weight = event.getStrokeWeight();
-        float steps = 16;
-        for(float i = 0; i < steps; i++) {
-            canvas.stroke(red(_col), green(_col), blue(_col), pow((steps-i)/steps, 4) * event.getStrokeAlpha());
-            canvas.strokeWeight(weight+(stepSize*i));
-
-            int _sz = 500;
-            canvas.line(500,0,-500,0);
-        }
-
+        canvas.rotate(_a+ PI);
+        // canvas.scale(scale);
+        ////////////////////////
+        canvas.beginShape();
+        canvas.noStroke();
+        color f = getFillColor();
+        f = alphaMod(f, event.getFillAlpha());
+        canvas.fill(f);//getFillColor());
+        canvas.vertex(-_w, -_h);
+        canvas.fill(getStrokeColor());
+        canvas.vertex(0, -_h);
+        canvas.fill(f);//getFillColor());
+        canvas.vertex(_w, -_h);
+        canvas.vertex(_w, _h);
+        canvas.fill(getStrokeColor());
+        canvas.vertex(0, _h);
+        canvas.fill(f);//getFillColor());
+        canvas.vertex(-_w, _h);
+        canvas.vertex(-_w, -_h);
+        canvas.endShape(CLOSE);
+        ///////////////////////
+        // canvas.shape(fadedLineShape);
         canvas.popMatrix();
     }
 }

@@ -26,7 +26,7 @@ class FreeLiner  {
     Mouse mouse;
     Keyboard keyboard;
     KeyMap keyMap;
-    // new parts
+    // new part
     CommandProcessor commandProcessor;
     OSCCommunicator oscComs;
     WebSocketCommunicator webComs;
@@ -40,7 +40,12 @@ class FreeLiner  {
     public FreeLiner(PApplet _pa) {
         applet = _pa;
         // scriptHandler = new ScriptHandler("tw ABC q #beat%5");
+<<<<<<< HEAD
         // scriptHandler = new ScriptHandler("tw ABC s #((time*.3)%10)*10.0");
+=======
+        scriptHandler = new ScriptHandler(applet);
+        scriptHandler.setScriptFile(projectConfig.fullPath+"/script.js");
+>>>>>>> expresss
 
         groupManager = new GroupManager();
         templateManager =  new TemplateManager();
@@ -104,7 +109,8 @@ class FreeLiner  {
             }
             println("----------------------------------------------------------");
         }
-
+        // we load the layers from the last save!
+        loadFile("layers.xml");
     }
 
     // sync message to other software
@@ -133,7 +139,19 @@ class FreeLiner  {
             groupManager.unSnap();
         }
         gui.update();
+<<<<<<< HEAD
         // scriptHandler.evaluate(tracker,templateManager.getSynchroniser().getTime());
+=======
+        if(scriptHandler != null){
+            scriptHandler.cmdBuffer.clear();
+            scriptHandler.updateScriptVariables(tracker, templateManager.getSynchroniser().getTime());
+            scriptHandler.evaluate();
+            commandProcessor.looper.lock = true;
+            commandProcessor.queueCMD(scriptHandler.cmdBuffer);
+            commandProcessor.looper.lock = false;
+        }
+
+>>>>>>> expresss
         commandProcessor.update();
         // update template models
         templateManager.update();
